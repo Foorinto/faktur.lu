@@ -1,0 +1,278 @@
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+    expenses: Object,
+    summary: Object,
+    filters: Object,
+    categories: Array,
+    years: Array,
+    months: Array,
+});
+
+const categoryFilter = ref(props.filters.category || '');
+const yearFilter = ref(props.filters.year || '');
+const monthFilter = ref(props.filters.month || '');
+
+const updateFilters = () => {
+    router.get(route('expenses.index'), {
+        category: categoryFilter.value || undefined,
+        year: yearFilter.value || undefined,
+        month: monthFilter.value || undefined,
+    }, {
+        preserveState: true,
+        replace: true,
+    });
+};
+
+watch([categoryFilter, yearFilter, monthFilter], updateFilters);
+
+const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+    }).format(amount);
+};
+
+const formatDate = (date) => {
+    if (!date) return '-';
+    return new Date(date).toLocaleDateString('fr-FR');
+};
+
+const getCategoryLabel = (category) => {
+    const found = props.categories.find(c => c.value === category);
+    return found ? found.label : category;
+};
+
+const deleteExpense = (expense) => {
+    if (confirm(`Supprimer la dépense "${expense.provider_name}" ?`)) {
+        router.delete(route('expenses.destroy', expense.id));
+    }
+};
+</script>
+
+<template>
+    <Head title="Dépenses" />
+
+    <AppLayout>
+        <template #header>
+            <div class="flex items-center justify-between">
+                <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Dépenses
+                </h1>
+                <div class="flex items-center space-x-3">
+                    <Link
+                        :href="route('expenses.summary')"
+                        class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                    >
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0016.5 2h-1zM9.5 6A1.5 1.5 0 008 7.5v9A1.5 1.5 0 009.5 18h1a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 6h-1zM3.5 10A1.5 1.5 0 002 11.5v5A1.5 1.5 0 003.5 18h1A1.5 1.5 0 006 16.5v-5A1.5 1.5 0 004.5 10h-1z" />
+                        </svg>
+                        Résumé
+                    </Link>
+                    <Link
+                        :href="route('expenses.create')"
+                        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                    >
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        Nouvelle dépense
+                    </Link>
+                </div>
+            </div>
+        </template>
+
+        <!-- Summary Cards -->
+        <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
+            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total HT</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+                    {{ formatCurrency(summary.total_ht) }}
+                </dd>
+            </div>
+            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">TVA récupérable</dt>
+                <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
+                    {{ formatCurrency(summary.total_vat) }}
+                </dd>
+            </div>
+            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total TTC</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+                    {{ formatCurrency(summary.total_ttc) }}
+                </dd>
+            </div>
+            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Nombre</dt>
+                <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+                    {{ summary.count }}
+                </dd>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="mb-6 flex flex-wrap gap-4">
+            <select
+                v-model="categoryFilter"
+                class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+            >
+                <option value="">Toutes les catégories</option>
+                <option v-for="cat in categories" :key="cat.value" :value="cat.value">
+                    {{ cat.label }}
+                </option>
+            </select>
+
+            <select
+                v-model="yearFilter"
+                class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+            >
+                <option value="">Toutes les années</option>
+                <option v-for="year in years" :key="year" :value="year">
+                    {{ year }}
+                </option>
+            </select>
+
+            <select
+                v-model="monthFilter"
+                class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+            >
+                <option value="">Tous les mois</option>
+                <option v-for="month in months" :key="month.value" :value="month.value">
+                    {{ month.label }}
+                </option>
+            </select>
+        </div>
+
+        <!-- Expenses list -->
+        <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
+                            Date
+                        </th>
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                            Fournisseur
+                        </th>
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white md:table-cell">
+                            Catégorie
+                        </th>
+                        <th class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                            HT
+                        </th>
+                        <th class="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 dark:text-white lg:table-cell">
+                            TVA
+                        </th>
+                        <th class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                            Pièce
+                        </th>
+                        <th class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+                    <tr v-if="expenses.data.length === 0">
+                        <td colspan="7" class="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                            </svg>
+                            <p class="mt-2">Aucune dépense trouvée.</p>
+                            <Link
+                                :href="route('expenses.create')"
+                                class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+                            >
+                                Enregistrer votre première dépense
+                            </Link>
+                        </td>
+                    </tr>
+                    <tr v-for="expense in expenses.data" :key="expense.id" class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 dark:text-gray-400 sm:pl-6">
+                            {{ formatDate(expense.date) }}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4">
+                            <Link
+                                :href="route('expenses.edit', expense.id)"
+                                class="font-medium text-gray-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400"
+                            >
+                                {{ expense.provider_name }}
+                            </Link>
+                            <p v-if="expense.description" class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-xs">
+                                {{ expense.description }}
+                            </p>
+                        </td>
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400 md:table-cell">
+                            <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                {{ getCategoryLabel(expense.category) }}
+                            </span>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-right text-sm font-medium text-gray-900 dark:text-white">
+                            {{ formatCurrency(expense.amount_ht) }}
+                        </td>
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-right text-sm text-gray-500 dark:text-gray-400 lg:table-cell">
+                            {{ formatCurrency(expense.amount_vat) }}
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-center text-sm">
+                            <a
+                                v-if="expense.attachment_url"
+                                :href="expense.attachment_url"
+                                target="_blank"
+                                class="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+                                title="Voir le justificatif"
+                            >
+                                <svg class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <span v-else class="text-gray-300 dark:text-gray-600">-</span>
+                        </td>
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                            <div class="flex items-center justify-end space-x-2">
+                                <Link
+                                    :href="route('expenses.edit', expense.id)"
+                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                >
+                                    Modifier
+                                </Link>
+                                <button
+                                    @click="deleteExpense(expense)"
+                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                >
+                                    Supprimer
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div v-if="expenses.links && expenses.links.length > 3" class="mt-6 flex items-center justify-between">
+            <div class="text-sm text-gray-700 dark:text-gray-400">
+                Affichage de {{ expenses.from }} à {{ expenses.to }} sur {{ expenses.total }} dépenses
+            </div>
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+                <template v-for="(link, index) in expenses.links" :key="index">
+                    <Link
+                        v-if="link.url"
+                        :href="link.url"
+                        :class="[
+                            link.active
+                                ? 'z-10 bg-indigo-600 text-white'
+                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-300 dark:ring-gray-600 dark:hover:bg-gray-700',
+                            'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
+                            index === 0 ? 'rounded-l-md' : '',
+                            index === expenses.links.length - 1 ? 'rounded-r-md' : '',
+                        ]"
+                        v-html="link.label"
+                        preserve-scroll
+                    />
+                </template>
+            </nav>
+        </div>
+    </AppLayout>
+</template>
