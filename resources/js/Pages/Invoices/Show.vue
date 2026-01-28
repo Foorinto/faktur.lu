@@ -1,13 +1,45 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
     invoice: Object,
 });
 
 const processing = ref(false);
+const showCreditNoteModal = ref(false);
+const creditNoteType = ref('full'); // 'full' or 'partial'
+const selectedItemIds = ref([]);
+
+const creditNoteForm = useForm({
+    reason: 'cancellation',
+    item_ids: null,
+});
+
+const creditNoteReasons = {
+    billing_error: 'Erreur de facturation',
+    return: 'Retour de marchandise',
+    commercial_discount: 'Remise commerciale',
+    cancellation: 'Annulation de la facture',
+    other: 'Autre',
+};
+
+// Compute if form can be submitted
+const canSubmitCreditNote = computed(() => {
+    if (creditNoteType.value === 'partial') {
+        return selectedItemIds.value.length > 0;
+    }
+    return true;
+});
+
+// Calculate partial credit note total
+const partialTotal = computed(() => {
+    if (!props.invoice.items) return 0;
+    return props.invoice.items
+        .filter(item => selectedItemIds.value.includes(item.id))
+        .reduce((sum, item) => sum + parseFloat(item.total_ttc || 0), 0);
+});
 
 const getStatusBadgeClass = (status) => {
     const classes = {
@@ -61,15 +93,42 @@ const markAsPaid = () => {
     });
 };
 
-const createCreditNote = () => {
-    if (processing.value) return;
-    if (!confirm('Créer un avoir pour cette facture ? Cette action créera une facture d\'avoir qui annulera les montants de cette facture.')) {
-        return;
+const openCreditNoteModal = () => {
+    creditNoteType.value = 'full';
+    selectedItemIds.value = [];
+    creditNoteForm.reason = 'cancellation';
+    creditNoteForm.item_ids = null;
+    showCreditNoteModal.value = true;
+};
+
+const closeCreditNoteModal = () => {
+    showCreditNoteModal.value = false;
+};
+
+const toggleItemSelection = (itemId) => {
+    const index = selectedItemIds.value.indexOf(itemId);
+    if (index === -1) {
+        selectedItemIds.value.push(itemId);
+    } else {
+        selectedItemIds.value.splice(index, 1);
     }
-    processing.value = true;
-    router.post(route('invoices.credit-note', props.invoice.id), {}, {
+};
+
+const submitCreditNote = () => {
+    if (!canSubmitCreditNote.value) return;
+
+    // Set item_ids based on type
+    if (creditNoteType.value === 'partial') {
+        creditNoteForm.item_ids = selectedItemIds.value;
+    } else {
+        creditNoteForm.item_ids = null;
+    }
+
+    creditNoteForm.post(route('invoices.credit-note', props.invoice.id), {
         preserveScroll: true,
-        onFinish: () => processing.value = false,
+        onSuccess: () => {
+            showCreditNoteModal.value = false;
+        },
     });
 };
 </script>
@@ -144,8 +203,8 @@ const createCreditNote = () => {
 
                     <!-- Create Credit Note -->
                     <button
-                        v-if="invoice.type === 'invoice' && ['finalized', 'sent', 'paid'].includes(invoice.status)"
-                        @click="createCreditNote"
+                        v-if="invoice.type === 'invoice' && ['finalized', 'sent', 'paid'].includes(invoice.status) && !invoice.credit_note"
+                        @click="openCreditNoteModal"
                         :disabled="processing"
                         class="inline-flex items-center rounded-md border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-700 dark:text-red-400 dark:hover:bg-gray-600"
                     >
@@ -232,11 +291,25 @@ const createCreditNote = () => {
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Avoir pour</dt>
                             <dd class="mt-1 text-sm text-gray-900 dark:text-white">
                                 <Link
+                                    v-if="invoice.original_invoice"
+                                    :href="route('invoices.show', invoice.credit_note_for)"
+                                    class="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+                                >
+                                    Facture {{ invoice.original_invoice.number }}
+                                </Link>
+                                <Link
+                                    v-else
                                     :href="route('invoices.show', invoice.credit_note_for)"
                                     class="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
                                 >
                                     Voir la facture originale
                                 </Link>
+                            </dd>
+                        </div>
+                        <div v-if="invoice.credit_note_reason">
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Motif</dt>
+                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">
+                                {{ creditNoteReasons[invoice.credit_note_reason] || invoice.credit_note_reason }}
                             </dd>
                         </div>
                     </dl>
@@ -349,6 +422,131 @@ const createCreditNote = () => {
                             </span>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Credit Note Modal -->
+        <div v-if="showCreditNoteModal" class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="closeCreditNoteModal"></div>
+
+                <div class="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                    <div class="px-4 pt-5 pb-4 sm:p-6">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">
+                            Créer un avoir pour {{ invoice.number }}
+                        </h3>
+
+                        <!-- Credit Note Type -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Type d'avoir
+                            </label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center">
+                                    <input
+                                        type="radio"
+                                        v-model="creditNoteType"
+                                        value="full"
+                                        class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                    />
+                                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Avoir total</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input
+                                        type="radio"
+                                        v-model="creditNoteType"
+                                        value="partial"
+                                        class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                    />
+                                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Avoir partiel</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Reason -->
+                        <div class="mb-4">
+                            <label for="credit_note_reason" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Motif de l'avoir
+                            </label>
+                            <select
+                                id="credit_note_reason"
+                                v-model="creditNoteForm.reason"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            >
+                                <option v-for="(label, value) in creditNoteReasons" :key="value" :value="value">
+                                    {{ label }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Item Selection for Partial -->
+                        <div v-if="creditNoteType === 'partial'" class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Lignes à annuler
+                            </label>
+                            <div class="border rounded-md divide-y dark:border-gray-600 dark:divide-gray-600 max-h-48 overflow-y-auto">
+                                <label
+                                    v-for="item in invoice.items"
+                                    :key="item.id"
+                                    class="flex items-center px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        :checked="selectedItemIds.includes(item.id)"
+                                        @change="toggleItemSelection(item.id)"
+                                        class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                    />
+                                    <span class="ml-3 flex-1 text-sm text-gray-700 dark:text-gray-300">
+                                        {{ item.title || item.description }}
+                                    </span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">
+                                        {{ formatCurrency(item.total_ttc, invoice.currency) }}
+                                    </span>
+                                </label>
+                            </div>
+                            <p v-if="selectedItemIds.length === 0" class="mt-2 text-sm text-red-600 dark:text-red-400">
+                                Veuillez sélectionner au moins une ligne.
+                            </p>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-md p-3 mb-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Montant de l'avoir :
+                                </span>
+                                <span class="text-lg font-bold text-red-600 dark:text-red-400">
+                                    {{ creditNoteType === 'partial'
+                                        ? formatCurrency(-partialTotal, invoice.currency)
+                                        : formatCurrency(-invoice.total_ttc, invoice.currency)
+                                    }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                            Un brouillon d'avoir sera créé. Vous pourrez le modifier avant de le finaliser.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 px-4 py-3 dark:bg-gray-700 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button
+                            type="button"
+                            @click="submitCreditNote"
+                            :disabled="!canSubmitCreditNote || creditNoteForm.processing"
+                            class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
+                        >
+                            {{ creditNoteForm.processing ? 'Création...' : 'Créer l\'avoir' }}
+                        </button>
+                        <button
+                            type="button"
+                            @click="closeCreditNoteModal"
+                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:ring-gray-500 sm:mt-0 sm:w-auto"
+                        >
+                            Annuler
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

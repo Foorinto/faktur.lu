@@ -48,8 +48,8 @@ class FinalizeInvoiceAction
             $this->calculateTotals->execute($invoice);
             $invoice->refresh();
 
-            // Generate the invoice number
-            $number = $this->generateNumber->execute();
+            // Generate the invoice/credit note number based on type
+            $number = $this->generateNumber->execute(null, $invoice->type ?? Invoice::TYPE_INVOICE);
 
             // Create snapshots
             $sellerSnapshot = $settings->toSnapshot();

@@ -31,6 +31,10 @@ class UpdateBusinessSettingsRequest extends FormRequest
             ],
             // Luxembourg matricule is 13 digits (11 digits + 2 check digits)
             'matricule' => ['required', 'string', 'regex:/^\d{11,13}$/'],
+            // RCS number: Letter + digits (ex: A12345, B98765)
+            'rcs_number' => ['nullable', 'string', 'max:20', 'regex:/^[A-Z]\d+$/'],
+            // Establishment authorization from Ministry of Economy
+            'establishment_authorization' => ['nullable', 'string', 'max:50'],
             // IBAN: 2 letter country code + 2 check digits + up to 30 alphanumeric (allows spaces)
             'iban' => ['required', 'string', 'max:42', function ($attribute, $value, $fail) {
                 // Remove spaces for validation
@@ -85,6 +89,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'matricule.regex' => 'Le matricule doit contenir entre 11 et 13 chiffres.',
             'vat_number.regex' => 'Le numéro de TVA doit être au format européen (ex: LU12345678, FR12345678901, DE123456789).',
             'vat_number.required_if' => 'Le numéro de TVA est obligatoire pour le régime assujetti.',
+            'rcs_number.regex' => 'Le numéro RCS doit commencer par une lettre suivie de chiffres (ex: A12345).',
         ];
     }
 
@@ -99,6 +104,8 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'country_code' => 'code pays',
             'vat_number' => 'numéro de TVA',
             'matricule' => 'matricule',
+            'rcs_number' => 'numéro RCS',
+            'establishment_authorization' => 'autorisation d\'établissement',
             'iban' => 'IBAN',
             'bic' => 'BIC',
             'vat_regime' => 'régime TVA',

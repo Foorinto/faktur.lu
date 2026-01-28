@@ -61,7 +61,7 @@ class FinalizeInvoiceActionTest extends TestCase
         $result = $this->action->execute($this->invoice);
 
         $year = now()->year;
-        $this->assertMatchesRegularExpression("/^$year-\d{3}$/", $result->number);
+        $this->assertMatchesRegularExpression("/^FAC-$year-\d{3}$/", $result->number);
     }
 
     public function test_creates_seller_snapshot(): void

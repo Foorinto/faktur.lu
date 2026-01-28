@@ -303,7 +303,7 @@ class InvoiceControllerTest extends TestCase
         $invoice2->refresh();
 
         $year = now()->year;
-        $this->assertEquals("$year-001", $invoice1->number);
-        $this->assertEquals("$year-002", $invoice2->number);
+        $this->assertEquals("FAC-$year-001", $invoice1->number);
+        $this->assertEquals("FAC-$year-002", $invoice2->number);
     }
 }

@@ -3,7 +3,9 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const props = defineProps({
     clients: Array,
@@ -11,9 +13,19 @@ const props = defineProps({
     units: Array,
     defaultClientId: [String, Number],
     isVatExempt: Boolean,
+    vatScenarios: Object,
 });
 
 const defaultVatRate = props.isVatExempt ? 0 : 17;
+
+// Get selected client's VAT scenario
+const selectedClient = computed(() => {
+    return props.clients?.find(c => c.id === form.client_id);
+});
+
+const clientVatScenario = computed(() => {
+    return selectedClient.value?.vat_scenario || null;
+});
 
 const form = useForm({
     client_id: props.defaultClientId || '',
@@ -90,6 +102,10 @@ if (form.items.length === 0) {
                                 </option>
                             </select>
                             <InputError :message="form.errors.client_id" class="mt-2" />
+                            <!-- VAT Scenario indicator -->
+                            <div v-if="clientVatScenario" class="mt-2">
+                                <VatScenarioIndicator :scenario="clientVatScenario" size="sm" />
+                            </div>
                         </div>
 
                         <div>

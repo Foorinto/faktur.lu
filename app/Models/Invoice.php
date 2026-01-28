@@ -24,6 +24,17 @@ class Invoice extends Model
     public const TYPE_INVOICE = 'invoice';
     public const TYPE_CREDIT_NOTE = 'credit_note';
 
+    /**
+     * Credit note reason constants.
+     */
+    public const CREDIT_NOTE_REASONS = [
+        'billing_error' => 'Erreur de facturation',
+        'return' => 'Retour de marchandise',
+        'commercial_discount' => 'Remise commerciale',
+        'cancellation' => 'Annulation de la facture',
+        'other' => 'Autre',
+    ];
+
     protected $fillable = [
         'client_id',
         'title',
@@ -31,6 +42,7 @@ class Invoice extends Model
         'status',
         'type',
         'credit_note_for',
+        'credit_note_reason',
         'seller_snapshot',
         'buyer_snapshot',
         'total_ht',

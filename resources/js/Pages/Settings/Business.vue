@@ -39,6 +39,8 @@ const form = useForm({
     country_code: props.settings?.country_code ?? 'LU',
     vat_number: props.settings?.vat_number ?? '',
     matricule: props.settings?.matricule ?? '',
+    rcs_number: props.settings?.rcs_number ?? '',
+    establishment_authorization: props.settings?.establishment_authorization ?? '',
     iban: props.settings?.iban ?? '',
     bic: props.settings?.bic ?? '',
     bank_name: props.settings?.bank_name ?? '',
@@ -355,7 +357,7 @@ const cancelLogoUpload = () => {
                     <div class="px-6 py-4 space-y-4">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <InputLabel for="matricule" value="Matricule (11-13 chiffres)" />
+                                <InputLabel for="matricule" value="Matricule national (11-13 chiffres)" />
                                 <TextInput
                                     id="matricule"
                                     v-model="form.matricule"
@@ -365,9 +367,33 @@ const cancelLogoUpload = () => {
                                     maxlength="13"
                                     placeholder="1234567890123"
                                 />
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Numéro d'identification national à 13 chiffres
+                                </p>
                                 <InputError :message="form.errors.matricule" class="mt-2" />
                             </div>
 
+                            <div>
+                                <InputLabel for="rcs_number">
+                                    N° RCS Luxembourg
+                                    <span class="text-gray-400 text-xs">(optionnel)</span>
+                                </InputLabel>
+                                <TextInput
+                                    id="rcs_number"
+                                    v-model="form.rcs_number"
+                                    type="text"
+                                    class="mt-1 block w-full font-mono uppercase"
+                                    maxlength="20"
+                                    placeholder="A12345"
+                                />
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Registre de Commerce et des Sociétés (ex: A12345, B98765)
+                                </p>
+                                <InputError :message="form.errors.rcs_number" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <InputLabel for="vat_number">
                                     N° TVA intracommunautaire
@@ -378,14 +404,36 @@ const cancelLogoUpload = () => {
                                     id="vat_number"
                                     v-model="form.vat_number"
                                     type="text"
-                                    class="mt-1 block w-full font-mono"
+                                    class="mt-1 block w-full font-mono uppercase"
                                     :required="isVatRequired"
                                     :disabled="!isVatRequired"
-                                    maxlength="14"
-                                    placeholder="LU12345678 ou FR12345678901"
+                                    maxlength="20"
+                                    placeholder="LU12345678"
                                     :class="{ 'bg-gray-100 dark:bg-gray-600': !isVatRequired }"
                                 />
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Format Luxembourg : LU + 8 chiffres
+                                </p>
                                 <InputError :message="form.errors.vat_number" class="mt-2" />
+                            </div>
+
+                            <div>
+                                <InputLabel for="establishment_authorization">
+                                    Autorisation d'établissement
+                                    <span class="text-gray-400 text-xs">(optionnel)</span>
+                                </InputLabel>
+                                <TextInput
+                                    id="establishment_authorization"
+                                    v-model="form.establishment_authorization"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    maxlength="50"
+                                    placeholder="N° d'autorisation"
+                                />
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Délivrée par le Ministère de l'Économie
+                                </p>
+                                <InputError :message="form.errors.establishment_authorization" class="mt-2" />
                             </div>
                         </div>
 

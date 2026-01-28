@@ -353,9 +353,12 @@
             @endif
         </div>
 
-        @if($isCreditNote && $invoice->original_invoice_id)
+        @if($isCreditNote && $invoice->credit_note_for)
             <div class="credit-note-reference">
-                Cet avoir annule la facture N° {{ $invoice->originalInvoice->number ?? 'N/A' }}
+                @if($invoice->credit_note_reason && isset(\App\Models\Invoice::CREDIT_NOTE_REASONS[$invoice->credit_note_reason]))
+                    <strong>Motif :</strong> {{ \App\Models\Invoice::CREDIT_NOTE_REASONS[$invoice->credit_note_reason] }}<br>
+                @endif
+                Cet avoir {{ $invoice->items->count() < ($invoice->originalInvoice->items->count() ?? 0) ? 'annule partiellement' : 'annule' }} la facture N° {{ $invoice->originalInvoice->number ?? 'N/A' }}
             </div>
         @endif
 
@@ -373,8 +376,14 @@
                 @if(!empty($seller['matricule']))
                     <div class="company-details">N° Matricule : {{ $seller['matricule'] }}</div>
                 @endif
+                @if(!empty($seller['rcs_number']))
+                    <div class="company-details">N° RCS : {{ $seller['rcs_number'] }}</div>
+                @endif
                 @if(($seller['vat_regime'] ?? '') === 'assujetti' && !empty($seller['vat_number']))
                     <div class="company-details">N° TVA : {{ $seller['vat_number'] }}</div>
+                @endif
+                @if(!empty($seller['establishment_authorization']))
+                    <div class="company-details">Autorisation : {{ $seller['establishment_authorization'] }}</div>
                 @endif
 
                 <div class="date-row">

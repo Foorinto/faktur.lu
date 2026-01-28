@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Api\V1\StoreClientRequest;
 use App\Http\Requests\Api\V1\UpdateClientRequest;
 use App\Models\Client;
+use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -86,7 +87,9 @@ class ClientController extends Controller
         $client->loadCount(['invoices', 'timeEntries']);
 
         return Inertia::render('Clients/Show', [
-            'client' => $client,
+            'client' => array_merge($client->toArray(), [
+                'vat_scenario' => $client->vat_scenario,
+            ]),
         ]);
     }
 
@@ -144,20 +147,51 @@ class ClientController extends Controller
      */
     private function getCountries(): array
     {
+        $euCountries = VatCalculationService::EU_COUNTRIES;
+
         return [
+            // Luxembourg first (home country)
             ['code' => 'LU', 'name' => 'Luxembourg', 'eu' => true],
+
+            // Major EU countries (frequent clients)
             ['code' => 'BE', 'name' => 'Belgique', 'eu' => true],
             ['code' => 'FR', 'name' => 'France', 'eu' => true],
             ['code' => 'DE', 'name' => 'Allemagne', 'eu' => true],
             ['code' => 'NL', 'name' => 'Pays-Bas', 'eu' => true],
+
+            // Other EU countries (alphabetical)
             ['code' => 'AT', 'name' => 'Autriche', 'eu' => true],
-            ['code' => 'IT', 'name' => 'Italie', 'eu' => true],
+            ['code' => 'BG', 'name' => 'Bulgarie', 'eu' => true],
+            ['code' => 'CY', 'name' => 'Chypre', 'eu' => true],
+            ['code' => 'CZ', 'name' => 'Tchéquie', 'eu' => true],
+            ['code' => 'DK', 'name' => 'Danemark', 'eu' => true],
+            ['code' => 'EE', 'name' => 'Estonie', 'eu' => true],
             ['code' => 'ES', 'name' => 'Espagne', 'eu' => true],
-            ['code' => 'PT', 'name' => 'Portugal', 'eu' => true],
+            ['code' => 'FI', 'name' => 'Finlande', 'eu' => true],
+            ['code' => 'GR', 'name' => 'Grèce', 'eu' => true],
+            ['code' => 'HR', 'name' => 'Croatie', 'eu' => true],
+            ['code' => 'HU', 'name' => 'Hongrie', 'eu' => true],
             ['code' => 'IE', 'name' => 'Irlande', 'eu' => true],
+            ['code' => 'IT', 'name' => 'Italie', 'eu' => true],
+            ['code' => 'LT', 'name' => 'Lituanie', 'eu' => true],
+            ['code' => 'LV', 'name' => 'Lettonie', 'eu' => true],
+            ['code' => 'MT', 'name' => 'Malte', 'eu' => true],
+            ['code' => 'PL', 'name' => 'Pologne', 'eu' => true],
+            ['code' => 'PT', 'name' => 'Portugal', 'eu' => true],
+            ['code' => 'RO', 'name' => 'Roumanie', 'eu' => true],
+            ['code' => 'SE', 'name' => 'Suède', 'eu' => true],
+            ['code' => 'SI', 'name' => 'Slovénie', 'eu' => true],
+            ['code' => 'SK', 'name' => 'Slovaquie', 'eu' => true],
+
+            // Non-EU countries
             ['code' => 'GB', 'name' => 'Royaume-Uni', 'eu' => false],
             ['code' => 'CH', 'name' => 'Suisse', 'eu' => false],
             ['code' => 'US', 'name' => 'États-Unis', 'eu' => false],
+            ['code' => 'CA', 'name' => 'Canada', 'eu' => false],
+            ['code' => 'AU', 'name' => 'Australie', 'eu' => false],
+            ['code' => 'JP', 'name' => 'Japon', 'eu' => false],
+            ['code' => 'CN', 'name' => 'Chine', 'eu' => false],
+            ['code' => 'OTHER', 'name' => 'Autre pays', 'eu' => false],
         ];
     }
 }

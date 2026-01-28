@@ -8,10 +8,12 @@ use App\Exceptions\ImmutableInvoiceException;
 use App\Http\Requests\Api\V1\StoreInvoiceRequest;
 use App\Http\Requests\Api\V1\UpdateInvoiceRequest;
 use App\Mail\InvoiceMail;
+use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Services\InvoicePdfService;
+use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
@@ -94,12 +96,24 @@ class InvoiceController extends Controller
      */
     public function create(Request $request): Response
     {
+        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number']);
+
+        // Add VAT scenario to each client
+        $vatService = app(VatCalculationService::class);
+        $clientsWithScenario = $clients->map(function ($client) use ($vatService) {
+            $scenario = $vatService->determineScenario($client);
+            return array_merge($client->toArray(), [
+                'vat_scenario' => $scenario,
+            ]);
+        });
+
         return Inertia::render('Invoices/Create', [
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency']),
+            'clients' => $clientsWithScenario,
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
             'defaultClientId' => $request->input('client_id'),
             'isVatExempt' => $this->isVatExempt(),
+            'vatScenarios' => VatCalculationService::getAllScenarios(),
         ]);
     }
 
@@ -144,10 +158,11 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): Response
     {
-        $invoice->load(['client', 'items', 'originalInvoice', 'creditNote']);
+        $invoice->load(['client', 'items', 'originalInvoice', 'creditNote', 'creditNotes']);
 
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
+            'creditNoteReasons' => Invoice::CREDIT_NOTE_REASONS,
         ]);
     }
 
@@ -162,18 +177,37 @@ class InvoiceController extends Controller
 
         $invoice->load(['client', 'items']);
 
-        $settings = \App\Models\BusinessSettings::getInstance();
+        $settings = BusinessSettings::getInstance();
+        $vatService = app(VatCalculationService::class);
+
+        // Get clients with VAT scenarios
+        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number']);
+        $clientsWithScenario = $clients->map(function ($client) use ($vatService) {
+            $scenario = $vatService->determineScenario($client);
+            return array_merge($client->toArray(), [
+                'vat_scenario' => $scenario,
+            ]);
+        });
+
+        // Get current client's VAT scenario
+        $clientVatScenario = $invoice->client ? $vatService->determineScenario($invoice->client) : null;
+
+        // Determine suggested VAT mention based on client
+        $suggestedVatMention = $this->getSuggestedVatMention($invoice->client, $settings);
 
         return Inertia::render('Invoices/Edit', [
             'invoice' => $invoice,
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency']),
-            'vatRates' => $this->getVatRates(),
+            'clients' => $clientsWithScenario,
+            'vatRates' => $this->getVatRates($invoice->client),
             'units' => $this->getUnits(),
             'isVatExempt' => $this->isVatExempt(),
             'defaultInvoiceFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
-            'vatMentionOptions' => \App\Models\BusinessSettings::getVatMentionOptions(),
+            'vatMentionOptions' => BusinessSettings::getVatMentionOptions(),
             'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
             'defaultCustomVatMention' => $settings?->default_custom_vat_mention,
+            'clientVatScenario' => $clientVatScenario,
+            'suggestedVatMention' => $suggestedVatMention,
+            'vatScenarios' => VatCalculationService::getAllScenarios(),
         ]);
     }
 
@@ -254,16 +288,38 @@ class InvoiceController extends Controller
     /**
      * Create a credit note for the invoice.
      */
-    public function createCreditNote(Invoice $invoice, CreateCreditNoteAction $action): RedirectResponse
+    public function createCreditNote(Request $request, Invoice $invoice, CreateCreditNoteAction $action): RedirectResponse
     {
+        $request->validate([
+            'reason' => 'nullable|string|in:' . implode(',', array_keys(Invoice::CREDIT_NOTE_REASONS)),
+            'item_ids' => 'nullable|array',
+            'item_ids.*' => 'exists:invoice_items,id',
+        ]);
+
         try {
-            $creditNote = $action->execute($invoice);
+            $reason = $request->input('reason', 'cancellation');
+            $itemIds = $request->input('item_ids');
+
+            $creditNote = $action->execute($invoice, $reason, $itemIds);
+
+            $message = $itemIds && count($itemIds) < $invoice->items->count()
+                ? 'Avoir partiel créé. Vérifiez et finalisez-le.'
+                : 'Note de crédit créée. Vérifiez et finalisez-la.';
+
             return redirect()
                 ->route('invoices.edit', $creditNote)
-                ->with('success', 'Note de crédit créée. Vérifiez et finalisez-la.');
+                ->with('success', $message);
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    /**
+     * Get credit note reasons for API.
+     */
+    public function getCreditNoteReasons(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(Invoice::CREDIT_NOTE_REASONS);
     }
 
     /**
@@ -378,21 +434,40 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Get available VAT rates.
+     * Get available VAT rates based on client scenario.
      */
-    private function getVatRates(): array
+    private function getVatRates(?Client $client = null): array
     {
-        $settings = \App\Models\BusinessSettings::getInstance();
+        $settings = BusinessSettings::getInstance();
         $isVatExempt = $settings?->isVatExempt() ?? true;
 
+        // If seller is VAT exempt (franchise), only 0%
         if ($isVatExempt) {
             return [
-                ['value' => 0, 'label' => '0% (Exonéré)'],
+                ['value' => 0, 'label' => '0% (Exonéré - Franchise)', 'default' => true],
             ];
         }
 
+        // If client provided, check their VAT scenario
+        if ($client) {
+            $vatService = app(VatCalculationService::class);
+            $scenario = $vatService->determineScenario($client);
+
+            // For intra-EU B2B with VAT number or export, suggest 0%
+            if (in_array($scenario['key'], ['B2B_INTRA_EU', 'EXPORT'])) {
+                return [
+                    ['value' => 0, 'label' => '0% (' . $scenario['label'] . ')', 'default' => true],
+                    ['value' => 17, 'label' => '17% (Standard)'],
+                    ['value' => 14, 'label' => '14% (Intermédiaire)'],
+                    ['value' => 8, 'label' => '8% (Réduit)'],
+                    ['value' => 3, 'label' => '3% (Super-réduit)'],
+                ];
+            }
+        }
+
+        // Standard Luxembourg rates
         return [
-            ['value' => 17, 'label' => '17% (Standard)'],
+            ['value' => 17, 'label' => '17% (Standard)', 'default' => true],
             ['value' => 14, 'label' => '14% (Intermédiaire)'],
             ['value' => 8, 'label' => '8% (Réduit)'],
             ['value' => 3, 'label' => '3% (Super-réduit)'],
@@ -402,8 +477,23 @@ class InvoiceController extends Controller
 
     private function isVatExempt(): bool
     {
-        $settings = \App\Models\BusinessSettings::getInstance();
+        $settings = BusinessSettings::getInstance();
         return $settings?->isVatExempt() ?? true;
+    }
+
+    /**
+     * Get suggested VAT mention based on client.
+     */
+    private function getSuggestedVatMention(?Client $client, ?BusinessSettings $settings): ?string
+    {
+        if (!$client) {
+            return $settings?->default_vat_mention;
+        }
+
+        $vatService = app(VatCalculationService::class);
+        $scenario = $vatService->determineScenario($client, $settings);
+
+        return $scenario['mention'];
     }
 
     /**

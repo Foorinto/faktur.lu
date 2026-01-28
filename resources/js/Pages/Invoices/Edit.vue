@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import axios from 'axios';
@@ -17,9 +18,27 @@ const props = defineProps({
     vatMentionOptions: Array,
     defaultVatMention: String,
     defaultCustomVatMention: String,
+    clientVatScenario: Object,
+    suggestedVatMention: String,
+    vatScenarios: Object,
 });
 
 const defaultVatRate = props.isVatExempt ? 0 : 17;
+
+// Get selected client's VAT scenario
+const selectedClient = computed(() => {
+    return props.clients?.find(c => c.id === form.client_id);
+});
+
+const clientVatScenario = computed(() => {
+    return selectedClient.value?.vat_scenario || null;
+});
+
+// Suggested VAT rate based on client scenario
+const suggestedVatRate = computed(() => {
+    if (!clientVatScenario.value) return defaultVatRate;
+    return clientVatScenario.value.rate ?? defaultVatRate;
+});
 
 const showFinalizeModal = ref(false);
 const showPreviewModal = ref(false);
@@ -87,6 +106,17 @@ watch(() => [form.client_id, form.title, form.due_at, form.notes, form.footer_me
     hasChanges.value = true;
     saveSuccess.value = false;
 }, { deep: true });
+
+// Auto-suggest VAT mention when client changes
+watch(() => form.client_id, (newClientId) => {
+    if (newClientId) {
+        const client = props.clients?.find(c => c.id === newClientId);
+        if (client?.vat_scenario?.mention && !form.vat_mention) {
+            // Only suggest if no mention is already set
+            form.vat_mention = client.vat_scenario.mention;
+        }
+    }
+});
 
 const updateInvoice = () => {
     form.put(route('invoices.update', props.invoice.id), {
@@ -292,6 +322,10 @@ const openPreview = () => {
                                     </option>
                                 </select>
                                 <InputError :message="form.errors.client_id" class="mt-2" />
+                                <!-- VAT Scenario indicator -->
+                                <div v-if="clientVatScenario" class="mt-2">
+                                    <VatScenarioIndicator :scenario="clientVatScenario" size="sm" />
+                                </div>
                             </div>
 
                             <div>

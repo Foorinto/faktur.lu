@@ -358,8 +358,14 @@
                 @if(!empty($seller['matricule']))
                     <div class="company-details">N° Matricule : {{ $seller['matricule'] }}</div>
                 @endif
+                @if(!empty($seller['rcs_number']))
+                    <div class="company-details">N° RCS : {{ $seller['rcs_number'] }}</div>
+                @endif
                 @if(($seller['vat_regime'] ?? '') === 'assujetti' && !empty($seller['vat_number']))
                     <div class="company-details">N° TVA : {{ $seller['vat_number'] }}</div>
+                @endif
+                @if(!empty($seller['establishment_authorization']))
+                    <div class="company-details">Autorisation : {{ $seller['establishment_authorization'] }}</div>
                 @endif
 
                 <div class="date-row">

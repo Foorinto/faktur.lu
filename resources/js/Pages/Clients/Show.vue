@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -153,6 +154,12 @@ const getTypeBadgeClass = (type) => {
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Devise</dt>
                             <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:mt-0">
                                 {{ client.currency }}
+                            </dd>
+                        </div>
+                        <div v-if="client.vat_scenario" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Scénario TVA</dt>
+                            <dd class="mt-1 sm:col-span-2 sm:mt-0">
+                                <VatScenarioIndicator :scenario="client.vat_scenario" size="sm" />
                             </dd>
                         </div>
                     </dl>

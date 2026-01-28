@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\VatCalculationService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,6 +56,8 @@ class Client extends Model
      */
     public function toSnapshot(): array
     {
+        $vatScenario = $this->vat_scenario;
+
         return [
             'name' => $this->name,
             'contact_name' => $this->contact_name,
@@ -67,6 +70,9 @@ class Client extends Model
             'registration_number' => $this->registration_number,
             'type' => $this->type,
             'phone' => $this->phone,
+            'vat_scenario' => $vatScenario['key'],
+            'suggested_vat_rate' => $vatScenario['rate'],
+            'suggested_vat_mention' => $vatScenario['mention'],
         ];
     }
 
@@ -105,13 +111,75 @@ class Client extends Model
      */
     public function isEuClient(): bool
     {
-        $euCountries = [
-            'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
-            'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
-            'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE',
-        ];
+        return in_array($this->country_code, VatCalculationService::EU_COUNTRIES);
+    }
 
-        return in_array($this->country_code, $euCountries);
+    /**
+     * Check if the client is from an EU country other than Luxembourg (intra-EU).
+     */
+    public function isIntraEuClient(): bool
+    {
+        return $this->country_code !== 'LU' && $this->isEuClient();
+    }
+
+    /**
+     * Check if the client is from outside the EU.
+     */
+    public function isNonEuClient(): bool
+    {
+        return !$this->isEuClient();
+    }
+
+    /**
+     * Check if the client is from Luxembourg.
+     */
+    public function isLuxembourgClient(): bool
+    {
+        return $this->country_code === 'LU';
+    }
+
+    /**
+     * Get the VAT scenario for this client.
+     */
+    public function getVatScenarioAttribute(): array
+    {
+        $service = app(VatCalculationService::class);
+        return $service->determineScenario($this);
+    }
+
+    /**
+     * Get the suggested VAT rate for this client.
+     */
+    public function getSuggestedVatRateAttribute(): float
+    {
+        return (float) $this->vat_scenario['rate'];
+    }
+
+    /**
+     * Get the suggested VAT mention for this client.
+     */
+    public function getSuggestedVatMentionAttribute(): ?string
+    {
+        return $this->vat_scenario['mention'];
+    }
+
+    /**
+     * Check if this client qualifies for reverse charge (autoliquidation).
+     */
+    public function qualifiesForReverseCharge(): bool
+    {
+        return $this->isIntraEuClient()
+            && $this->type === 'b2b'
+            && !empty($this->vat_number);
+    }
+
+    /**
+     * Check if VAT should be exempted for this client.
+     */
+    public function isVatExempt(): bool
+    {
+        $scenario = $this->vat_scenario;
+        return $scenario['rate'] === 0;
     }
 
     /**
