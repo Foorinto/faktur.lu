@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
@@ -81,6 +83,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
     Route::get('/reports/revenue-book/pdf', [RevenueBookController::class, 'exportPdf'])->name('reports.revenue-book.pdf');
     Route::get('/reports/revenue-book/csv', [RevenueBookController::class, 'exportCsv'])->name('reports.revenue-book.csv');
+
+    // Audit Export (FAIA)
+    Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');
+    Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
+    Route::post('/exports/audit', [AuditExportController::class, 'store'])->name('exports.audit.store');
+    Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
+    Route::delete('/exports/audit/{export}', [AuditExportController::class, 'destroy'])->name('exports.audit.destroy');
+
+    // Archive (PDF/A)
+    Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
+    Route::post('/invoices/{invoice}/archive', [ArchiveController::class, 'archive'])->name('invoices.archive');
+    Route::post('/archive/batch', [ArchiveController::class, 'archiveBatch'])->name('archive.batch');
+    Route::get('/invoices/{invoice}/archive/download', [ArchiveController::class, 'download'])->name('invoices.archive.download');
+    Route::get('/invoices/{invoice}/archive/verify', [ArchiveController::class, 'verify'])->name('invoices.archive.verify');
+    Route::get('/invoices/{invoice}/archive/info', [ArchiveController::class, 'info'])->name('invoices.archive.info');
 
     // Time Tracking
     Route::resource('time-entries', TimeEntryController::class)->except(['show', 'create', 'edit']);

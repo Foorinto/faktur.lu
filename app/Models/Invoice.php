@@ -53,6 +53,11 @@ class Invoice extends Model
         'finalized_at',
         'sent_at',
         'paid_at',
+        'archived_at',
+        'archive_format',
+        'archive_checksum',
+        'archive_path',
+        'archive_expires_at',
         'notes',
         'footer_message',
         'vat_mention',
@@ -69,6 +74,8 @@ class Invoice extends Model
         'finalized_at' => 'datetime',
         'sent_at' => 'datetime',
         'paid_at' => 'datetime',
+        'archived_at' => 'datetime',
+        'archive_expires_at' => 'datetime',
         'total_ht' => 'decimal:4',
         'total_vat' => 'decimal:4',
         'total_ttc' => 'decimal:4',
@@ -93,8 +100,11 @@ class Invoice extends Model
             if ($originalStatus !== self::STATUS_DRAFT) {
                 $changedAttributes = $invoice->getDirty();
 
-                // Only allow status changes
-                $allowedChanges = ['status', 'sent_at', 'paid_at', 'updated_at'];
+                // Only allow status changes and archive metadata
+                $allowedChanges = [
+                    'status', 'sent_at', 'paid_at', 'updated_at',
+                    'archived_at', 'archive_format', 'archive_checksum', 'archive_path', 'archive_expires_at',
+                ];
                 $disallowedChanges = array_diff(array_keys($changedAttributes), $allowedChanges);
 
                 if (!empty($disallowedChanges)) {
@@ -211,6 +221,32 @@ class Invoice extends Model
     public function hasCreditNote(): bool
     {
         return $this->creditNote()->exists();
+    }
+
+    /**
+     * Check if the invoice is archived.
+     */
+    public function isArchived(): bool
+    {
+        return $this->archived_at !== null;
+    }
+
+    /**
+     * Get archive status info.
+     */
+    public function getArchiveStatusAttribute(): ?array
+    {
+        if (!$this->isArchived()) {
+            return null;
+        }
+
+        return [
+            'archived_at' => $this->archived_at,
+            'format' => $this->archive_format,
+            'checksum' => $this->archive_checksum,
+            'expires_at' => $this->archive_expires_at,
+            'days_until_expiry' => $this->archive_expires_at?->diffInDays(now()),
+        ];
     }
 
     /**

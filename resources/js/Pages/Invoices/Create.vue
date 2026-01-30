@@ -38,6 +38,7 @@ const form = useForm({
 
 const addItem = () => {
     form.items.push({
+        title: '',
         description: '',
         quantity: 1,
         unit: 'hour',
@@ -147,19 +148,32 @@ if (form.items.length === 0) {
                         <div
                             v-for="(item, index) in form.items"
                             :key="index"
-                            class="flex flex-wrap gap-4 items-end p-4 rounded-lg border border-gray-200 dark:border-gray-700"
+                            class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 space-y-3"
                         >
-                            <div class="flex-1 min-w-[200px]">
-                                <InputLabel :for="`item-${index}-description`" value="Description" />
-                                <input
-                                    :id="`item-${index}-description`"
-                                    v-model="item.description"
-                                    type="text"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                                    placeholder="Développement API REST"
-                                    required
-                                />
+                            <div class="flex flex-wrap gap-4 items-end">
+                                <div class="flex-1 min-w-[200px]">
+                                    <InputLabel :for="`item-${index}-title`" value="Titre *" />
+                                    <input
+                                        :id="`item-${index}-title`"
+                                        v-model="item.title"
+                                        type="text"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                        placeholder="Développement API REST"
+                                        required
+                                    />
+                                </div>
                             </div>
+                            <div class="flex flex-wrap gap-4 items-end">
+                                <div class="flex-1 min-w-[200px]">
+                                    <InputLabel :for="`item-${index}-description`" value="Description (optionnel)" />
+                                    <input
+                                        :id="`item-${index}-description`"
+                                        v-model="item.description"
+                                        type="text"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                        placeholder="Détails supplémentaires..."
+                                    />
+                                </div>
 
                             <div class="w-24">
                                 <InputLabel :for="`item-${index}-quantity`" value="Qté" />
@@ -225,6 +239,7 @@ if (form.items.length === 0) {
                                     <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5z" clip-rule="evenodd" />
                                 </svg>
                             </button>
+                        </div>
                         </div>
 
                         <button
