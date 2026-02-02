@@ -5,7 +5,7 @@
  *
  * IMPORTANT: Supprimer ce fichier après utilisation !
  *
- * Accéder via: https://invoicy.foorintodev.com/deploy.php?key=VOTRE_CLE_SECRETE
+ * Accéder via: https://votre-domaine.com/deploy.php?key=VOTRE_CLE_SECRETE
  */
 
 // Clé secrète pour protéger ce script - À CHANGER !
@@ -23,7 +23,7 @@ ini_set('display_errors', 1);
 set_time_limit(300);
 
 echo "<pre style='font-family: monospace; background: #1a1a1a; color: #00ff00; padding: 20px; margin: 0;'>";
-echo "=== DEPLOIEMENT INVOICY ===\n\n";
+echo "=== DEPLOIEMENT FAKTUR.LU ===\n\n";
 
 // Charger l'autoloader
 require __DIR__ . '/vendor/autoload.php';

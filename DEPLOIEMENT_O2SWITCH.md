@@ -1,9 +1,9 @@
-# Guide de Déploiement Invoicy sur o2switch
+# Guide de Déploiement faktur.lu sur o2switch
 
 ## Prérequis
 
 - Accès cPanel o2switch
-- Domaine/sous-domaine configuré : `invoicy.foorintodev.com`
+- Domaine/sous-domaine configuré : `faktur.lu`
 - PHP 8.4 activé
 
 ---
@@ -12,12 +12,12 @@
 
 1. Connectez-vous à cPanel o2switch
 2. Allez dans **Bases de données MySQL**
-3. Créez une nouvelle base de données (ex: `foorinto_invoicy`)
-4. Créez un utilisateur MySQL (ex: `foorinto_invoicy_user`)
+3. Créez une nouvelle base de données (ex: `foorinto_fakturlu`)
+4. Créez un utilisateur MySQL (ex: `foorinto_fakturlu_user`)
 5. Associez l'utilisateur à la base avec **TOUS LES PRIVILÈGES**
 6. Notez les informations :
-   - Nom de la base : `foorinto_invoicy`
-   - Utilisateur : `foorinto_invoicy_user`
+   - Nom de la base : `foorinto_fakturlu`
+   - Utilisateur : `foorinto_fakturlu_user`
    - Mot de passe : `votre_mot_de_passe`
 
 ---
@@ -25,7 +25,7 @@
 ## Étape 2 : Configurer le sous-domaine
 
 1. Dans cPanel, allez dans **Sous-domaines** ou **Domaines**
-2. Vérifiez que `invoicy.foorintodev.com` pointe vers le bon dossier
+2. Vérifiez que `faktur.lu` pointe vers le bon dossier
 3. **Important** : Le document root doit pointer vers le dossier où vous uploadez l'application
 
 ---
@@ -57,18 +57,18 @@
 2. Éditez `.env` avec vos vraies informations :
 
 ```env
-APP_NAME=Invoicy
+APP_NAME=faktur.lu
 APP_ENV=production
 APP_KEY=
 APP_DEBUG=false
 APP_TIMEZONE=Europe/Luxembourg
-APP_URL=https://invoicy.foorintodev.com
+APP_URL=https://faktur.lu
 
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=foorinto_invoicy
-DB_USERNAME=foorinto_invoicy_user
+DB_DATABASE=foorinto_fakturlu
+DB_USERNAME=foorinto_fakturlu_user
 DB_PASSWORD=VOTRE_VRAI_MOT_DE_PASSE
 
 SESSION_DRIVER=database
@@ -97,22 +97,22 @@ Dans cPanel > Gestionnaire de fichiers, définissez les permissions :
 2. Accédez aux URLs suivantes dans l'ordre :
 
    ```
-   https://invoicy.foorintodev.com/deploy.php?key=VOTRE_CLE&action=key:generate
+   https://faktur.lu/deploy.php?key=VOTRE_CLE&action=key:generate
    ```
    → Génère la clé APP_KEY
 
    ```
-   https://invoicy.foorintodev.com/deploy.php?key=VOTRE_CLE&action=storage:link
+   https://faktur.lu/deploy.php?key=VOTRE_CLE&action=storage:link
    ```
    → Crée le lien symbolique storage
 
    ```
-   https://invoicy.foorintodev.com/deploy.php?key=VOTRE_CLE&action=migrate
+   https://faktur.lu/deploy.php?key=VOTRE_CLE&action=migrate
    ```
    → Crée les tables en base de données
 
    ```
-   https://invoicy.foorintodev.com/deploy.php?key=VOTRE_CLE&action=optimize
+   https://faktur.lu/deploy.php?key=VOTRE_CLE&action=optimize
    ```
    → Optimise l'application
 
@@ -122,7 +122,7 @@ Dans cPanel > Gestionnaire de fichiers, définissez les permissions :
 
 ## Étape 7 : Vérification
 
-1. Accédez à `https://invoicy.foorintodev.com`
+1. Accédez à `https://faktur.lu`
 2. Vous devriez voir la page de connexion
 3. Créez un compte utilisateur
 4. Testez les fonctionnalités
@@ -157,7 +157,7 @@ Dans cPanel > Gestionnaire de fichiers, définissez les permissions :
 ## Structure des fichiers sur o2switch
 
 ```
-/home/foorinto/invoicy.foorintodev.com/
+/home/foorinto/faktur.lu/
 ├── .env                    ← Configuration production
 ├── .htaccess               ← Redirection vers public
 ├── app/

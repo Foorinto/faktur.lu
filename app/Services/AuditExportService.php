@@ -266,8 +266,8 @@ class AuditExportService
         $header = $xml->addChild('Header');
         $header->addChild('AuditFileVersion', '1.0');
         $header->addChild('AuditFileDateCreated', now()->format('Y-m-d'));
-        $header->addChild('SoftwareCompanyName', 'Facturation Luxembourg');
-        $header->addChild('SoftwareID', 'FACTLU');
+        $header->addChild('SoftwareCompanyName', 'faktur.lu');
+        $header->addChild('SoftwareID', 'FAKTURLU');
         $header->addChild('SoftwareVersion', '1.0');
 
         // Company

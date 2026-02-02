@@ -54,7 +54,7 @@ const routeExists = (routeName) => {
                 <div class="flex h-16 items-center justify-between border-b border-gray-200 px-4 dark:border-gray-700">
                     <Link :href="route('dashboard')" class="flex items-center space-x-2">
                         <ApplicationLogo class="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
-                        <span class="text-lg font-semibold text-gray-900 dark:text-white">LuxDev Billing</span>
+                        <span class="text-lg font-semibold text-gray-900 dark:text-white">faktur.lu</span>
                     </Link>
                 </div>
 
