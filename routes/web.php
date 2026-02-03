@@ -89,7 +89,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Audit Logs (view)
         Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
-        Route::get('/audit-logs/{auditLog}', [AuditLogController::class, 'show'])->name('audit-logs.show');
     });
 
     // PDF generation - 10 requests/minute (expensive operations)
@@ -125,6 +124,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/audit-logs/export', [AuditLogController::class, 'export'])->name('audit-logs.export');
         Route::get('/reports/revenue-book/csv', [RevenueBookController::class, 'exportCsv'])->name('reports.revenue-book.csv');
     });
+
+    // Audit log detail (must be after /audit-logs/export to avoid route conflict)
+    Route::get('/audit-logs/{auditLog}', [AuditLogController::class, 'show'])->name('audit-logs.show');
 
     // Reports and audit export views (no special rate limit beyond auth)
     Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
