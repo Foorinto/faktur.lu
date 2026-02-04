@@ -56,14 +56,16 @@ if [ "$1" == "quick" ]; then
     # Déploiement rapide (git pull + cache)
     ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
         cd $REMOTE_PATH
+
+        echo "Nettoyage du cache avant pull..."
+        rm -f bootstrap/cache/*.php 2>/dev/null || true
+        php artisan cache:clear 2>/dev/null || true
+        php artisan config:clear 2>/dev/null || true
+        php artisan route:clear 2>/dev/null || true
+        php artisan view:clear 2>/dev/null || true
+
         echo "Pull des modifications..."
         git pull origin $BRANCH
-
-        echo "Nettoyage du cache..."
-        php artisan cache:clear
-        php artisan config:clear
-        php artisan route:clear
-        php artisan view:clear
 
         echo "Terminé!"
 EOF
@@ -72,17 +74,23 @@ else
     ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
         cd $REMOTE_PATH
 
-        echo "[2/5] Pull des modifications..."
+        echo "[2/6] Nettoyage du cache avant déploiement..."
+        rm -f bootstrap/cache/*.php 2>/dev/null || true
+        php artisan cache:clear 2>/dev/null || true
+        php artisan config:clear 2>/dev/null || true
+        php artisan route:clear 2>/dev/null || true
+        php artisan view:clear 2>/dev/null || true
+
+        echo "[3/6] Pull des modifications..."
         git pull origin $BRANCH
 
-        echo "[3/5] Installation des dépendances..."
+        echo "[4/6] Installation des dépendances..."
         composer install --no-dev --optimize-autoloader --no-interaction
 
-        echo "[4/5] Migrations de base de données..."
+        echo "[5/6] Migrations de base de données..."
         php artisan migrate --force
 
-        echo "[5/5] Optimisation pour la production..."
-        php artisan cache:clear
+        echo "[6/6] Reconstruction du cache pour la production..."
         php artisan config:cache
         php artisan route:cache
         php artisan view:cache
