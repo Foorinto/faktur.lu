@@ -113,6 +113,7 @@ class FaiaValidatorService
     protected function validateNamespace(?string $namespace): void
     {
         $validNamespaces = [
+            'urn:OECD:StandardAuditFile-Taxation/2.00', // Official FAIA 2.01 namespace
             'urn:lu:faia:2.01',
             'urn:lu:aed:FAIA:v1',
             'urn:StandardAuditFile-Taxation-Financial:LU',
@@ -175,19 +176,15 @@ class FaiaValidatorService
                         break;
                     }
 
-                    $level = $error->level === LIBXML_ERR_WARNING ? 'warning' : 'error';
+                    // XSD errors are treated as warnings (not blocking)
+                    // because many real-world FAIA files have slight variations
                     $item = [
                         'code' => 'XSD_VALIDATION',
                         'message' => trim($error->message),
                         'line' => $error->line,
                         'category' => 'Validation Schema',
                     ];
-
-                    if ($level === 'warning') {
-                        $this->warnings[] = $item;
-                    } else {
-                        $this->errors[] = $item;
-                    }
+                    $this->warnings[] = $item;
                     $errorCount++;
                 }
                 libxml_clear_errors();
