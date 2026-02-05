@@ -322,8 +322,9 @@ class FaiaValidatorService
             ];
         }
 
-        // VAT number (TaxRegistrationNumber)
+        // VAT number - check multiple possible locations
         $vatNumber = $this->getElementValue($company, 'TaxRegistrationNumber')
+            ?? $this->getElementValue($company, 'TaxRegistration/TaxRegistrationNumber')
             ?? $this->getElementValue($company, 'VATNumber');
 
         if ($vatNumber) {
@@ -569,11 +570,17 @@ class FaiaValidatorService
                 $issues++;
             }
 
-            // Validate amounts
+            // Validate amounts - check multiple possible locations
             $netTotal = (float) ($this->getElementValue($invoice, 'NetTotal')
                 ?? $this->getElementValue($invoice, 'DocumentTotals/NetTotal') ?? 0);
+
+            // Tax total can be in various places
             $taxTotal = (float) ($this->getElementValue($invoice, 'TaxTotal')
-                ?? $this->getElementValue($invoice, 'DocumentTotals/TaxTotal') ?? 0);
+                ?? $this->getElementValue($invoice, 'DocumentTotals/TaxTotal')
+                ?? $this->getElementValue($invoice, 'DocumentTotals/TaxInformationTotals/TaxAmount/Amount')
+                ?? $this->calculateTaxFromGrossNet($invoice, $netTotal)
+                ?? 0);
+
             $grossTotal = (float) ($this->getElementValue($invoice, 'GrossTotal')
                 ?? $this->getElementValue($invoice, 'DocumentTotals/GrossTotal') ?? 0);
 
@@ -581,25 +588,36 @@ class FaiaValidatorService
             $totalVat += $taxTotal;
             $totalTtc += $grossTotal;
 
-            // Validate totals coherence
-            $calculatedGross = round($netTotal + $taxTotal, 2);
-            if ($grossTotal > 0 && abs($grossTotal - $calculatedGross) > 0.01) {
-                $this->warnings[] = [
-                    'code' => 'INVOICE_TOTAL_MISMATCH',
-                    'message' => "Incohérence de totaux pour {$invoiceNo}: HT({$netTotal}) + TVA({$taxTotal}) ≠ TTC({$grossTotal})",
-                    'category' => 'Factures (SalesInvoices)',
-                ];
+            // Validate totals coherence (only if we have explicit tax total)
+            $explicitTaxTotal = $this->getElementValue($invoice, 'TaxTotal')
+                ?? $this->getElementValue($invoice, 'DocumentTotals/TaxTotal');
+
+            if ($explicitTaxTotal !== null) {
+                $calculatedGross = round($netTotal + (float)$explicitTaxTotal, 2);
+                if ($grossTotal > 0 && abs($grossTotal - $calculatedGross) > 0.01) {
+                    $this->warnings[] = [
+                        'code' => 'INVOICE_TOTAL_MISMATCH',
+                        'message' => "Incohérence de totaux pour {$invoiceNo}: HT({$netTotal}) + TVA({$explicitTaxTotal}) ≠ TTC({$grossTotal})",
+                        'category' => 'Factures (SalesInvoices)',
+                    ];
+                }
             }
 
-            // Customer reference
+            // Customer reference - check multiple possible locations
             $customerId = $this->getElementValue($invoice, 'CustomerID')
-                ?? $this->getElementValue($invoice, 'Customer/CustomerID');
+                ?? $this->getElementValue($invoice, 'Customer/CustomerID')
+                ?? $this->getElementValue($invoice, 'CustomerInfo/CustomerID');
             if (!$customerId) {
-                $this->warnings[] = [
-                    'code' => 'INVOICE_CUSTOMER_MISSING',
-                    'message' => "Référence client manquante pour facture {$invoiceNo}",
-                    'category' => 'Factures (SalesInvoices)',
-                ];
+                // Also check if there's a Name instead of CustomerID
+                $customerName = $this->getElementValue($invoice, 'CustomerInfo/Name')
+                    ?? $this->getElementValue($invoice, 'Customer/Name');
+                if (!$customerName) {
+                    $this->warnings[] = [
+                        'code' => 'INVOICE_CUSTOMER_MISSING',
+                        'message' => "Référence client manquante pour facture {$invoiceNo}",
+                        'category' => 'Factures (SalesInvoices)',
+                    ];
+                }
             }
         }
 
@@ -626,6 +644,21 @@ class FaiaValidatorService
                 'category' => 'Factures (SalesInvoices)',
             ];
         }
+    }
+
+    /**
+     * Calculate tax from gross and net totals when explicit tax is not available.
+     */
+    protected function calculateTaxFromGrossNet($invoice, float $netTotal): ?float
+    {
+        $grossTotal = (float) ($this->getElementValue($invoice, 'GrossTotal')
+            ?? $this->getElementValue($invoice, 'DocumentTotals/GrossTotal') ?? 0);
+
+        if ($grossTotal > 0 && $netTotal > 0) {
+            return round($grossTotal - $netTotal, 2);
+        }
+
+        return null;
     }
 
     /**
