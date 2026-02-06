@@ -152,6 +152,9 @@ class QuotePdfService
             ->values()
             ->toArray();
 
+        // Show branding for Starter (free) users
+        $showBranding = $quote->user ? $quote->user->isStarter() : true;
+
         return [
             'quote' => $quote,
             'seller' => $seller,
@@ -160,6 +163,7 @@ class QuotePdfService
             'isVatExempt' => $isVatExempt,
             'vatSummary' => $vatSummary,
             'logoPath' => $logoPath,
+            'showBranding' => $showBranding,
         ];
     }
 

@@ -135,4 +135,23 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(AuditExport::class);
     }
+
+    /**
+     * Check if user has an active Pro subscription.
+     * Returns false by default until FEAT-022 (Pricing) is implemented.
+     */
+    public function isPro(): bool
+    {
+        // TODO: Implement when FEAT-022 (Pricing/Subscriptions) is done
+        // return $this->subscription?->isActive() && $this->subscription?->plan === 'pro';
+        return false;
+    }
+
+    /**
+     * Check if user is on the free Starter plan.
+     */
+    public function isStarter(): bool
+    {
+        return !$this->isPro();
+    }
 }

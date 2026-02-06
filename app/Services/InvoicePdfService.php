@@ -173,6 +173,9 @@ class InvoicePdfService
         // Get PDF color from seller snapshot or default
         $pdfColor = $seller['pdf_color'] ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR;
 
+        // Show branding for Starter (free) users
+        $showBranding = $invoice->user ? $invoice->user->isStarter() : true;
+
         return [
             'invoice' => $invoice,
             'seller' => $seller,
@@ -184,6 +187,7 @@ class InvoicePdfService
             'paymentReference' => $this->generatePaymentReference($invoice),
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
+            'showBranding' => $showBranding,
         ];
     }
 
@@ -259,6 +263,9 @@ class InvoicePdfService
         // Get PDF color from settings
         $pdfColor = $settings?->getEffectivePdfColor() ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR;
 
+        // Show branding for Starter (free) users
+        $showBranding = $invoice->user ? $invoice->user->isStarter() : true;
+
         return [
             'invoice' => $invoice,
             'seller' => $seller,
@@ -270,6 +277,7 @@ class InvoicePdfService
             'paymentReference' => 'BROUILLON',
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
+            'showBranding' => $showBranding,
         ];
     }
 
