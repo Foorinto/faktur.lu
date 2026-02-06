@@ -33,6 +33,7 @@ class UpdateClientRequest extends FormRequest
             'currency' => ['required', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
             'phone' => ['nullable', 'string', 'max:20'],
             'notes' => ['nullable', 'string', 'max:2000'],
+            'locale' => ['nullable', 'string', Rule::in(['fr', 'de', 'en', 'lb'])],
         ];
     }
 

@@ -32,6 +32,7 @@ const form = useForm({
     currency: 'EUR',
     phone: '',
     notes: '',
+    locale: 'fr',
 });
 
 const submit = () => {

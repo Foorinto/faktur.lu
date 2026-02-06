@@ -30,6 +30,7 @@ class Client extends Model
         'phone',
         'notes',
         'default_hourly_rate',
+        'locale',
     ];
 
     protected $casts = [
@@ -72,6 +73,7 @@ class Client extends Model
             'registration_number' => $this->registration_number,
             'type' => $this->type,
             'phone' => $this->phone,
+            'locale' => $this->locale ?? 'fr',
             'vat_scenario' => $vatScenario['key'],
             'suggested_vat_rate' => $vatScenario['rate'],
             'suggested_vat_mention' => $vatScenario['mention'],

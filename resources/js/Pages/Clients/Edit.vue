@@ -36,6 +36,7 @@ const form = useForm({
     currency: props.client.currency,
     phone: props.client.phone ?? '',
     notes: props.client.notes ?? '',
+    locale: props.client.locale ?? 'fr',
 });
 
 const submit = () => {

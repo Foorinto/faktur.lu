@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ $locale ?? 'fr' }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>{{ $isCreditNote ? 'Avoir' : 'Facture' }} {{ $invoice->number }}</title>
+    <title>{{ $isCreditNote ? __('invoice.credit_note') : __('invoice.invoice') }} {{ $invoice->number }}</title>
     <style>
         * {
             margin: 0;
@@ -368,8 +368,8 @@
         <!-- Top Header with Title and Logo -->
         <div class="top-header">
             <div class="title-section">
-                <div class="document-title">{{ $isCreditNote ? 'Avoir' : 'Facture' }}</div>
-                <div class="document-number">N° {{ $invoice->number ?? $invoice->display_number }}</div>
+                <div class="document-title">{{ $isCreditNote ? __('invoice.credit_note') : __('invoice.invoice') }}</div>
+                <div class="document-number">{{ __('invoice.number') }} {{ $invoice->number ?? $invoice->display_number }}</div>
             </div>
             @if(!empty($logoPath))
                 <div class="logo-section">
@@ -381,9 +381,9 @@
         @if($isCreditNote && $invoice->credit_note_for)
             <div class="credit-note-reference">
                 @if($invoice->credit_note_reason && isset(\App\Models\Invoice::CREDIT_NOTE_REASONS[$invoice->credit_note_reason]))
-                    <strong>Motif :</strong> {{ \App\Models\Invoice::CREDIT_NOTE_REASONS[$invoice->credit_note_reason] }}<br>
+                    <strong>{{ __('invoice.credit_note_reason') }} :</strong> {{ \App\Models\Invoice::CREDIT_NOTE_REASONS[$invoice->credit_note_reason] }}<br>
                 @endif
-                Cet avoir {{ $invoice->items->count() < ($invoice->originalInvoice->items->count() ?? 0) ? 'annule partiellement' : 'annule' }} la facture N° {{ $invoice->originalInvoice->number ?? 'N/A' }}
+                {{ $invoice->items->count() < ($invoice->originalInvoice->items->count() ?? 0) ? __('invoice.credit_note_partial') : __('invoice.credit_note_cancels') }} {{ $invoice->originalInvoice->number ?? 'N/A' }}
             </div>
         @endif
 
@@ -399,10 +399,10 @@
                     {{ $seller['postal_code'] ?? '' }} {{ $seller['city'] ?? '' }} {{ $seller['country'] ?? '' }}
                 </div>
                 @if(!empty($seller['rcs_number']))
-                    <div class="company-details">N° RCS : {{ $seller['rcs_number'] }}</div>
+                    <div class="company-details">{{ __('invoice.rcs_number') }} {{ $seller['rcs_number'] }}</div>
                 @endif
                 @if(!empty($seller['vat_number']))
-                    <div class="company-details">N° TVA : {{ $seller['vat_number'] }}</div>
+                    <div class="company-details">{{ __('invoice.vat_number') }} {{ $seller['vat_number'] }}</div>
                 @endif
                 @if(!empty($seller['show_email_on_invoice']) && !empty($seller['email']))
                     <div class="company-details">{{ $seller['email'] }}</div>
@@ -412,11 +412,11 @@
                 @endif
 
                 <div class="date-row">
-                    <span class="date-label">Date d'émission</span>
+                    <span class="date-label">{{ __('invoice.issue_date') }}</span>
                     <span class="date-value">{{ $invoice->issued_at?->format('d/m/Y') ?? now()->format('d/m/Y') }}</span>
                 </div>
                 <div class="date-row">
-                    <span class="date-label">Date d'exigibilité du paiement</span>
+                    <span class="date-label">{{ __('invoice.due_date') }}</span>
                     <span class="date-value">{{ $invoice->due_at?->format('d/m/Y') ?? '-' }}</span>
                 </div>
             </div>
@@ -431,10 +431,10 @@
                     {{ $buyer['postal_code'] ?? '' }} {{ $buyer['city'] ?? '' }} {{ $buyer['country'] ?? '' }}
                 </div>
                 @if(!empty($buyer['registration_number']))
-                    <div class="company-details">N° RCS/SIRET : {{ $buyer['registration_number'] }}</div>
+                    <div class="company-details">{{ __('invoice.siret_number') }} {{ $buyer['registration_number'] }}</div>
                 @endif
                 @if(!empty($buyer['vat_number']))
-                    <div class="company-details">N° TVA : {{ $buyer['vat_number'] }}</div>
+                    <div class="company-details">{{ __('invoice.vat_number') }} {{ $buyer['vat_number'] }}</div>
                 @endif
             </div>
         </div>
@@ -444,11 +444,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th class="col-designation">Désignation et description</th>
-                    <th class="col-unit">Unité</th>
-                    <th class="col-qty">Quantité</th>
-                    <th class="col-price">Prix unitaire</th>
-                    <th class="col-total">Montant HT</th>
+                    <th class="col-designation">{{ __('invoice.description') }}</th>
+                    <th class="col-unit">{{ __('invoice.unit') }}</th>
+                    <th class="col-qty">{{ __('invoice.quantity') }}</th>
+                    <th class="col-price">{{ __('invoice.unit_price') }}</th>
+                    <th class="col-total">{{ __('invoice.amount_ht') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -469,7 +469,7 @@
                 @empty
                     <tr>
                         <td colspan="6" style="text-align: center; padding: 30px; color: #999;">
-                            Aucun article
+                            {{ __('invoice.no_items') }}
                         </td>
                     </tr>
                 @endforelse
@@ -487,48 +487,48 @@
                 @endphp
 
                 <div class="condition-item">
-                    <div class="condition-label">Délai de paiement</div>
-                    <div class="condition-value">{{ $paymentDays }} jours</div>
+                    <div class="condition-label">{{ __('invoice.payment_delay') }}</div>
+                    <div class="condition-value">{{ $paymentDays }} {{ __('invoice.days') }}</div>
                 </div>
 
                 <div class="condition-item">
-                    <div class="condition-label">Pénalité de retard</div>
-                    <div class="condition-value">3 fois le taux légal</div>
+                    <div class="condition-label">{{ __('invoice.late_penalty') }}</div>
+                    <div class="condition-value">{{ __('invoice.late_penalty_value') }}</div>
                 </div>
 
                 <div class="condition-item">
-                    <div class="condition-label">Indemnité forfaitaire pour frais de recouvrement</div>
+                    <div class="condition-label">{{ __('invoice.recovery_fee') }}</div>
                     <div class="condition-value">40 €</div>
                 </div>
 
                 <div class="condition-item">
-                    <div class="condition-label">Escompte</div>
-                    <div class="condition-value">Aucun</div>
+                    <div class="condition-label">{{ __('invoice.discount') }}</div>
+                    <div class="condition-value">{{ __('invoice.no_discount') }}</div>
                 </div>
 
                 <div class="condition-item">
-                    <div class="condition-label">Moyens de paiement</div>
-                    <div class="condition-value">Virement</div>
+                    <div class="condition-label">{{ __('invoice.payment_method') }}</div>
+                    <div class="condition-value">{{ __('invoice.bank_transfer') }}</div>
                 </div>
 
                 @if(!$isCreditNote && (!empty($seller['iban']) || !empty($seller['bic'])))
                     <div class="bank-section">
-                        <div class="bank-title">Relevé d'identité Bancaire</div>
+                        <div class="bank-title">{{ __('invoice.bank_details') }}</div>
                         @if(!empty($seller['bank_name']))
                             <div class="bank-row">
-                                <span class="bank-label">Banque</span>
+                                <span class="bank-label">{{ __('invoice.bank') }}</span>
                                 <span class="bank-value">{{ $seller['bank_name'] }}</span>
                             </div>
                         @endif
                         @if(!empty($seller['iban']))
                             <div class="bank-row">
-                                <span class="bank-label">IBAN</span>
+                                <span class="bank-label">{{ __('invoice.iban') }}</span>
                                 <span class="bank-value">{{ $seller['iban'] }}</span>
                             </div>
                         @endif
                         @if(!empty($seller['bic']))
                             <div class="bank-row">
-                                <span class="bank-label">BIC</span>
+                                <span class="bank-label">{{ __('invoice.bic') }}</span>
                                 <span class="bank-value">{{ $seller['bic'] }}</span>
                             </div>
                         @endif
@@ -539,13 +539,13 @@
             <div class="totals-column">
                 <div class="totals-box">
                     <div class="total-row">
-                        <span class="total-label">Total HT</span>
+                        <span class="total-label">{{ __('invoice.subtotal') }}</span>
                         <span class="total-value">{{ number_format($invoice->total_ht ?? 0, 2, ',', ' ') }} €</span>
                     </div>
                     @if(!$isVatExempt)
                         @foreach($vatSummary as $vat)
                             <div class="total-row">
-                                <span class="total-label">TVA {{ $vat['rate'] }}%</span>
+                                <span class="total-label">{{ __('invoice.vat') }} {{ $vat['rate'] }}%</span>
                                 <span class="total-value">{{ number_format($vat['vat'], 2, ',', ' ') }} €</span>
                             </div>
                         @endforeach
@@ -582,7 +582,7 @@
                     Créé avec <a href="https://faktur.lu">faktur.lu</a> — Facturation simplifiée pour le Luxembourg
                 </div>
             @endif
-            <div class="footer-page">1/1</div>
+            <div class="footer-page">{{ __('invoice.page') }} 1/1</div>
         </div>
     </div>
 </div>

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Invoice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class InvoicePdfService
@@ -148,6 +149,10 @@ class InvoicePdfService
         $seller = $invoice->seller_snapshot ?? [];
         $buyer = $invoice->buyer_snapshot ?? [];
 
+        // Set locale based on client's preference
+        $locale = $buyer['locale'] ?? 'fr';
+        $this->setLocale($locale);
+
         // Determine if VAT exempt (franchise regime)
         $isVatExempt = ($seller['vat_regime'] ?? '') === 'franchise';
 
@@ -188,6 +193,7 @@ class InvoicePdfService
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
             'showBranding' => $showBranding,
+            'locale' => $locale,
         ];
     }
 
@@ -231,6 +237,9 @@ class InvoicePdfService
 
         // Get current client data for buyer info
         $client = $invoice->client;
+        $locale = $client?->locale ?? 'fr';
+        $this->setLocale($locale);
+
         $buyer = $client ? [
             'company_name' => $client->name,
             'name' => $client->name,
@@ -242,6 +251,7 @@ class InvoicePdfService
             'vat_number' => $client->vat_number,
             'registration_number' => $client->registration_number,
             'email' => $client->email,
+            'locale' => $locale,
         ] : [];
 
         // Determine if VAT exempt (franchise regime)
@@ -278,6 +288,7 @@ class InvoicePdfService
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
             'showBranding' => $showBranding,
+            'locale' => $locale,
         ];
     }
 
@@ -336,6 +347,18 @@ class InvoicePdfService
             throw new \InvalidArgumentException(
                 'Impossible de générer un PDF pour une facture non finalisée.'
             );
+        }
+    }
+
+    /**
+     * Set application locale for PDF generation.
+     */
+    protected function setLocale(string $locale): void
+    {
+        $supportedLocales = ['fr', 'de', 'en', 'lb'];
+
+        if (in_array($locale, $supportedLocales)) {
+            App::setLocale($locale);
         }
     }
 }

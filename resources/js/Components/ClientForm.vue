@@ -4,8 +4,10 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
+
+const page = usePage();
 
 const props = defineProps({
     form: {
@@ -361,19 +363,38 @@ const submit = () => {
                 </h2>
             </div>
             <div class="px-6 py-4 space-y-4">
-                <div>
-                    <InputLabel for="currency" value="Devise par défaut" />
-                    <select
-                        id="currency"
-                        v-model="form.currency"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white sm:max-w-xs"
-                        required
-                    >
-                        <option v-for="currency in currencies" :key="currency.value" :value="currency.value">
-                            {{ currency.label }}
-                        </option>
-                    </select>
-                    <InputError :message="form.errors.currency" class="mt-2" />
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <InputLabel for="currency" value="Devise par défaut" />
+                        <select
+                            id="currency"
+                            v-model="form.currency"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            required
+                        >
+                            <option v-for="currency in currencies" :key="currency.value" :value="currency.value">
+                                {{ currency.label }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.currency" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="locale" value="Langue des documents" />
+                        <select
+                            id="locale"
+                            v-model="form.locale"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        >
+                            <option v-for="(label, code) in page.props.availableLocales" :key="code" :value="code">
+                                {{ label }}
+                            </option>
+                        </select>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                            Langue utilisée sur les factures et devis pour ce client.
+                        </p>
+                        <InputError :message="form.errors.locale" class="mt-2" />
+                    </div>
                 </div>
 
                 <div>
