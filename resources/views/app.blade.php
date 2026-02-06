@@ -15,6 +15,11 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+
+        {{-- TWIPLA Analytics - Privacy-friendly, GDPR compliant (no cookies with Maximum Privacy Mode) --}}
+        @if(config('analytics.enabled') && config('analytics.twipla.site_id'))
+        <script async src="https://a.twipla.com/v1/{{ config('analytics.twipla.site_id') }}.js"></script>
+        @endif
     </head>
     <body class="font-sans antialiased">
         @inertia
