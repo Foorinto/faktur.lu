@@ -22,7 +22,6 @@
 
         .page-wrapper {
             position: relative;
-            min-height: 297mm;
             padding-bottom: 40px;
         }
 
@@ -332,7 +331,7 @@
 
         /* Footer */
         .footer {
-            position: absolute;
+            position: fixed;
             bottom: 10px;
             left: 25px;
             right: 25px;
