@@ -22,6 +22,15 @@ class PeppolExportService
     protected const TYPE_INVOICE = '380';
     protected const TYPE_CREDIT_NOTE = '381';
 
+    // Tax exemption reasons
+    protected const TAX_EXEMPTION_REASONS = [
+        'K' => 'Intra-community supply',
+        'AE' => 'Reverse charge',
+        'G' => 'Export outside the EU',
+        'E' => 'Exempt from tax',
+        'O' => 'Services outside scope of tax',
+    ];
+
     /**
      * Generate Peppol BIS 3.0 XML for an invoice.
      */
@@ -41,10 +50,19 @@ class PeppolExportService
         $root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:cbc', self::NS_CBC);
         $doc->appendChild($root);
 
+        // Determine tax category for special handling
+        $taxCategoryCode = $this->getMainTaxCategoryCode($invoice);
+
         // Add document content
         $this->addDocumentHeader($doc, $root, $invoice, $isCreditNote);
         $this->addAccountingSupplierParty($doc, $root, $invoice);
         $this->addAccountingCustomerParty($doc, $root, $invoice);
+
+        // Add Delivery for intra-community supplies
+        if (in_array($taxCategoryCode, ['K', 'G'])) {
+            $this->addDelivery($doc, $root, $invoice);
+        }
+
         $this->addPaymentMeans($doc, $root, $invoice);
         $this->addTaxTotal($doc, $root, $invoice);
         $this->addLegalMonetaryTotal($doc, $root, $invoice, $isCreditNote);
@@ -70,8 +88,8 @@ class PeppolExportService
         // IssueDate
         $this->addCbcElement($doc, $root, 'IssueDate', $invoice->issued_at->format('Y-m-d'));
 
-        // DueDate (optional but recommended)
-        if ($invoice->due_at) {
+        // DueDate (only for invoices, NOT allowed in credit notes)
+        if (!$isCreditNote && $invoice->due_at) {
             $this->addCbcElement($doc, $root, 'DueDate', $invoice->due_at->format('Y-m-d'));
         }
 
@@ -83,10 +101,9 @@ class PeppolExportService
         // DocumentCurrencyCode
         $this->addCbcElement($doc, $root, 'DocumentCurrencyCode', $invoice->currency ?? 'EUR');
 
-        // BuyerReference (optional - could use PO number or client reference)
-        if ($invoice->payment_reference) {
-            $this->addCbcElement($doc, $root, 'BuyerReference', $invoice->payment_reference);
-        }
+        // BuyerReference (MANDATORY in Peppol) - use invoice number as fallback
+        $buyerRef = $invoice->payment_reference ?: $invoice->number;
+        $this->addCbcElement($doc, $root, 'BuyerReference', $buyerRef);
 
         // BillingReference for credit notes
         if ($isCreditNote && $invoice->credit_note_for) {
@@ -114,11 +131,12 @@ class PeppolExportService
         $supplierParty = $doc->createElementNS(self::NS_CAC, 'cac:AccountingSupplierParty');
         $party = $doc->createElementNS(self::NS_CAC, 'cac:Party');
 
-        // EndpointID (Peppol ID)
-        if (!empty($seller['peppol_endpoint_id']) && !empty($seller['peppol_endpoint_scheme'])) {
-            $endpoint = $this->addCbcElement($doc, $party, 'EndpointID', $seller['peppol_endpoint_id']);
-            $endpoint->setAttribute('schemeID', $seller['peppol_endpoint_scheme']);
-        }
+        // EndpointID (Peppol ID) - use VAT number with proper scheme
+        $endpointId = $this->getEndpointId($seller);
+        $endpointScheme = $this->getEndpointScheme($seller);
+
+        $endpoint = $this->addCbcElement($doc, $party, 'EndpointID', $endpointId);
+        $endpoint->setAttribute('schemeID', $endpointScheme);
 
         // PartyIdentification (additional IDs like RCS)
         if (!empty($seller['rcs_number'])) {
@@ -179,11 +197,12 @@ class PeppolExportService
         $customerParty = $doc->createElementNS(self::NS_CAC, 'cac:AccountingCustomerParty');
         $party = $doc->createElementNS(self::NS_CAC, 'cac:Party');
 
-        // EndpointID (Peppol ID)
-        if (!empty($buyer['peppol_endpoint_id']) && !empty($buyer['peppol_endpoint_scheme'])) {
-            $endpoint = $this->addCbcElement($doc, $party, 'EndpointID', $buyer['peppol_endpoint_id']);
-            $endpoint->setAttribute('schemeID', $buyer['peppol_endpoint_scheme']);
-        }
+        // EndpointID (Peppol ID) - use VAT number with proper scheme
+        $endpointId = $this->getEndpointId($buyer);
+        $endpointScheme = $this->getEndpointScheme($buyer);
+
+        $endpoint = $this->addCbcElement($doc, $party, 'EndpointID', $endpointId);
+        $endpoint->setAttribute('schemeID', $endpointScheme);
 
         // PartyIdentification
         if (!empty($buyer['registration_number'])) {
@@ -229,6 +248,31 @@ class PeppolExportService
 
         $customerParty->appendChild($party);
         $root->appendChild($customerParty);
+    }
+
+    /**
+     * Add Delivery element (required for intra-community supplies).
+     */
+    protected function addDelivery(DOMDocument $doc, DOMElement $root, Invoice $invoice): void
+    {
+        $buyer = $invoice->buyer;
+
+        $delivery = $doc->createElementNS(self::NS_CAC, 'cac:Delivery');
+
+        // ActualDeliveryDate - use invoice issue date as fallback
+        $deliveryDate = $invoice->issued_at->format('Y-m-d');
+        $this->addCbcElement($doc, $delivery, 'ActualDeliveryDate', $deliveryDate);
+
+        // DeliveryLocation with Country (required for intra-community)
+        $deliveryLocation = $doc->createElementNS(self::NS_CAC, 'cac:DeliveryLocation');
+        $address = $doc->createElementNS(self::NS_CAC, 'cac:Address');
+        $country = $doc->createElementNS(self::NS_CAC, 'cac:Country');
+        $this->addCbcElement($doc, $country, 'IdentificationCode', $buyer['country_code'] ?? 'LU');
+        $address->appendChild($country);
+        $deliveryLocation->appendChild($address);
+        $delivery->appendChild($deliveryLocation);
+
+        $root->appendChild($delivery);
     }
 
     /**
@@ -293,8 +337,14 @@ class PeppolExportService
 
             // TaxCategory
             $taxCategory = $doc->createElementNS(self::NS_CAC, 'cac:TaxCategory');
-            $this->addCbcElement($doc, $taxCategory, 'ID', $this->getTaxCategoryCode($rate, $invoice));
+            $categoryCode = $this->getTaxCategoryCode($rate, $invoice);
+            $this->addCbcElement($doc, $taxCategory, 'ID', $categoryCode);
             $this->addCbcElement($doc, $taxCategory, 'Percent', $rate);
+
+            // Add TaxExemptionReason for exempt categories
+            if (isset(self::TAX_EXEMPTION_REASONS[$categoryCode])) {
+                $this->addCbcElement($doc, $taxCategory, 'TaxExemptionReason', self::TAX_EXEMPTION_REASONS[$categoryCode]);
+            }
 
             // TaxScheme
             $taxScheme = $doc->createElementNS(self::NS_CAC, 'cac:TaxScheme');
@@ -366,8 +416,9 @@ class PeppolExportService
                 $this->addCbcElement($doc, $itemElement, 'Description', $item->description);
             }
 
-            // Name
-            $this->addCbcElement($doc, $itemElement, 'Name', $item->title);
+            // Name (use description if no title)
+            $itemName = $item->title ?: $item->description ?: 'Service';
+            $this->addCbcElement($doc, $itemElement, 'Name', $itemName);
 
             // ClassifiedTaxCategory
             $taxCategory = $doc->createElementNS(self::NS_CAC, 'cac:ClassifiedTaxCategory');
@@ -463,6 +514,21 @@ class PeppolExportService
     }
 
     /**
+     * Get the main tax category code for the invoice.
+     */
+    protected function getMainTaxCategoryCode(Invoice $invoice): string
+    {
+        $vatBreakdown = $invoice->vat_breakdown;
+        if (empty($vatBreakdown)) {
+            return 'S';
+        }
+
+        // Get the first (or only) VAT rate
+        $firstRate = $vatBreakdown[0]['rate'] ?? 0;
+        return $this->getTaxCategoryCode($firstRate, $invoice);
+    }
+
+    /**
      * Get the tax category code based on VAT rate and invoice context.
      */
     protected function getTaxCategoryCode(float $rate, Invoice $invoice): string
@@ -494,19 +560,108 @@ class PeppolExportService
     }
 
     /**
+     * Get endpoint ID for a party.
+     * Uses VAT number as the primary identifier.
+     */
+    protected function getEndpointId(array $party): string
+    {
+        // If custom Peppol endpoint is set, use it
+        if (!empty($party['peppol_endpoint_id'])) {
+            return $party['peppol_endpoint_id'];
+        }
+
+        // Fallback to VAT number
+        return $party['vat_number'] ?? '';
+    }
+
+    /**
+     * Get endpoint scheme for a party based on country.
+     * Maps to correct Peppol participant identifier schemes.
+     */
+    protected function getEndpointScheme(array $party): string
+    {
+        // If custom scheme is set and valid, use it
+        if (!empty($party['peppol_endpoint_scheme'])) {
+            $scheme = $party['peppol_endpoint_scheme'];
+            // Convert old/incorrect scheme codes to correct ones
+            return $this->normalizeSchemeCode($scheme, $party['country_code'] ?? 'LU');
+        }
+
+        // Default scheme based on country
+        $countryCode = $party['country_code'] ?? 'LU';
+        return $this->getDefaultSchemeForCountry($countryCode);
+    }
+
+    /**
+     * Normalize scheme code to correct Peppol identifier.
+     */
+    protected function normalizeSchemeCode(string $scheme, string $countryCode): string
+    {
+        // Map incorrect/old scheme codes to correct ones
+        $schemeMapping = [
+            // 0184 is Danish, not Luxembourg
+            '0184' => match($countryCode) {
+                'LU' => '9934',
+                'DK' => '0184',
+                default => '9934',
+            },
+        ];
+
+        return $schemeMapping[$scheme] ?? $scheme;
+    }
+
+    /**
+     * Get default Peppol scheme for a country.
+     */
+    protected function getDefaultSchemeForCountry(string $countryCode): string
+    {
+        return match($countryCode) {
+            'LU' => '9934',  // LU:VAT
+            'BE' => '0208',  // BE:CBE
+            'FR' => '0009',  // FR:SIRET
+            'DE' => '9930',  // DE:VAT
+            'NL' => '0106',  // NL:KVK
+            'AT' => '9914',  // AT:VAT
+            'IT' => '0211',  // IT:IVA
+            'ES' => '9920',  // ES:VAT
+            'DK' => '0184',  // DK:DIGST
+            'SE' => '0007',  // SE:ORGNR
+            'NO' => '9908',  // NO:ORGNR
+            'FI' => '0037',  // FI:OVT
+            'PT' => '9946',  // PT:VAT
+            'IE' => '9928',  // IE:VAT
+            'PL' => '9945',  // PL:VAT
+            'CZ' => '9922',  // CZ:VAT
+            'GB' => '9932',  // GB:VAT (post-Brexit)
+            'CH' => '9927',  // CH:VAT
+            default => '9934', // Default to LU:VAT
+        };
+    }
+
+    /**
      * Map internal unit codes to UN/ECE Recommendation 20 codes.
+     * Only codes from UN/ECE Rec 20 that are accepted by Peppol BIS 3.0.
      */
     protected function mapUnitCode(?string $unit): string
     {
-        return match ($unit) {
-            'hour' => 'HUR',
-            'day' => 'DAY',
-            'piece', 'unit' => 'C62', // One (unit)
-            'package' => 'PK',
-            'month' => 'MON',
-            'word' => 'C62',
-            'page' => 'C62',
-            default => 'C62', // Default to unit
+        // UN/ECE Rec 20 codes accepted by Peppol
+        return match (strtolower($unit ?? '')) {
+            'hour', 'heure', 'h' => 'HUR',      // Hour
+            'day', 'jour', 'j' => 'DAY',        // Day
+            'piece', 'unit', 'pièce', 'unité', 'u', '', 'each', 'ea' => 'C62',  // One (unit)
+            'package', 'paquet', 'pack', 'pk' => 'XPK',  // Package (Rec 21)
+            'month', 'mois' => 'MON',           // Month
+            'year', 'an', 'année' => 'ANN',     // Year
+            'week', 'semaine' => 'WEE',         // Week
+            'kg', 'kilogram', 'kilogramme' => 'KGM',  // Kilogram
+            'g', 'gram', 'gramme' => 'GRM',     // Gram
+            'm', 'meter', 'mètre' => 'MTR',     // Meter
+            'km', 'kilometer', 'kilomètre' => 'KMT',  // Kilometer
+            'l', 'litre', 'liter' => 'LTR',     // Litre
+            'set', 'ensemble' => 'C62',         // Set -> use unit
+            'box', 'boîte' => 'XBX',            // Box (Rec 21)
+            'pair', 'paire' => 'PR',            // Pair
+            default => 'C62',                    // Default to unit (C62 is universally accepted)
         };
     }
 
