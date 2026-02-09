@@ -234,11 +234,18 @@ class AccountantExportController extends Controller
             abort(500, 'Impossible de créer l\'archive.');
         }
 
+        $pdfCount = 0;
         foreach ($invoices as $invoice) {
             if ($invoice->pdf_archive_path && Storage::disk('local')->exists($invoice->pdf_archive_path)) {
                 $pdfContent = Storage::disk('local')->get($invoice->pdf_archive_path);
                 $zip->addFromString($invoice->number . '.pdf', $pdfContent);
+                $pdfCount++;
             }
+        }
+
+        // If no PDFs found, add a readme file explaining
+        if ($pdfCount === 0) {
+            $zip->addFromString('README.txt', "Aucun PDF archivé disponible pour cette période.\n\nLes PDF sont générés lors de la finalisation des factures.");
         }
 
         $zip->close();
