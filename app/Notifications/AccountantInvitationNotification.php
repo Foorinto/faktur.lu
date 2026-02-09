@@ -3,14 +3,11 @@
 namespace App\Notifications;
 
 use App\Models\AccountantInvitation;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AccountantInvitationNotification extends Notification implements ShouldQueue
+class AccountantInvitationNotification extends Notification
 {
-    use Queueable;
 
     public function __construct(
         public AccountantInvitation $invitation
