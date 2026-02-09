@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -162,5 +163,39 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isStarter(): bool
     {
         return !$this->isPro();
+    }
+
+    /**
+     * Get the accountants who have access to this user's data.
+     */
+    public function accountants(): BelongsToMany
+    {
+        return $this->belongsToMany(Accountant::class, 'accountant_user')
+            ->withPivot(['status', 'granted_at', 'revoked_at'])
+            ->withTimestamps();
+    }
+
+    /**
+     * Get only active accountants.
+     */
+    public function activeAccountants(): BelongsToMany
+    {
+        return $this->accountants()->wherePivot('status', 'active');
+    }
+
+    /**
+     * Get accountant invitations.
+     */
+    public function accountantInvitations(): HasMany
+    {
+        return $this->hasMany(AccountantInvitation::class);
+    }
+
+    /**
+     * Get accountant downloads for this user.
+     */
+    public function accountantDownloads(): HasMany
+    {
+        return $this->hasMany(AccountantDownload::class);
     }
 }

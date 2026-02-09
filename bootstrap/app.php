@@ -22,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::middleware('web')
                 ->group(base_path('routes/admin.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/accountant.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
@@ -43,6 +46,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.auth' => \App\Http\Middleware\AdminAuthenticated::class,
             'admin.timeout' => \App\Http\Middleware\AdminSessionTimeout::class,
             'admin.ip' => \App\Http\Middleware\AdminIpBlocking::class,
+            'accountant.auth' => \App\Http\Middleware\AccountantAuthenticated::class,
+            'accountant.access' => \App\Http\Middleware\VerifyAccountantAccess::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

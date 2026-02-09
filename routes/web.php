@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountantSettingsController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\AuditLogController;
@@ -135,6 +136,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/settings/email/provider', [EmailProviderController::class, 'update'])->name('settings.email.provider.update');
     Route::post('/settings/email/provider/test', [EmailProviderController::class, 'test'])->name('settings.email.provider.test');
     Route::post('/settings/email/provider/validate-smtp', [EmailProviderController::class, 'validateSmtp'])->name('settings.email.provider.validate-smtp');
+
+    // Accountant settings (invite/manage accountants)
+    Route::get('/settings/accountant', [AccountantSettingsController::class, 'index'])->name('settings.accountant');
+    Route::post('/settings/accountant/invite', [AccountantSettingsController::class, 'invite'])->name('settings.accountant.invite');
+    Route::post('/settings/accountant/invitations/{invitation}/resend', [AccountantSettingsController::class, 'resendInvitation'])->name('settings.accountant.resend');
+    Route::delete('/settings/accountant/invitations/{invitation}', [AccountantSettingsController::class, 'cancelInvitation'])->name('settings.accountant.cancel');
+    Route::delete('/settings/accountant/{accountant}', [AccountantSettingsController::class, 'revokeAccess'])->name('settings.accountant.revoke');
 
     // Invoice email history
     Route::get('/invoices/{invoice}/emails', [InvoiceEmailController::class, 'history'])->name('invoices.emails');
