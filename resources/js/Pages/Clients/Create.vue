@@ -19,6 +19,10 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    peppolSchemes: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const form = useForm({
@@ -36,6 +40,8 @@ const form = useForm({
     phone: '',
     notes: '',
     locale: 'fr',
+    peppol_endpoint_scheme: '',
+    peppol_endpoint_id: '',
 });
 
 const submit = () => {
@@ -59,6 +65,7 @@ const submit = () => {
                 :client-types="clientTypes"
                 :currencies="currencies"
                 :countries="countries"
+                :peppol-schemes="peppolSchemes"
                 :submit-label="t('create')"
                 @submit="submit"
             />

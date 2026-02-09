@@ -34,6 +34,8 @@ class StoreClientRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:20'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'locale' => ['nullable', 'string', Rule::in(['fr', 'de', 'en', 'lb'])],
+            'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
+            'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
         ];
     }
 

@@ -23,6 +23,10 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    peppolSchemes: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const form = useForm({
@@ -40,6 +44,8 @@ const form = useForm({
     phone: props.client.phone ?? '',
     notes: props.client.notes ?? '',
     locale: props.client.locale ?? 'fr',
+    peppol_endpoint_scheme: props.client.peppol_endpoint_scheme ?? '',
+    peppol_endpoint_id: props.client.peppol_endpoint_id ?? '',
 });
 
 const submit = () => {
@@ -63,6 +69,7 @@ const submit = () => {
                 :client-types="clientTypes"
                 :currencies="currencies"
                 :countries="countries"
+                :peppol-schemes="peppolSchemes"
                 :submit-label="t('save')"
                 cancel-route="clients.show"
                 :cancel-route-params="client.id"
