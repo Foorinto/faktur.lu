@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FaiaValidatorController;
 use App\Http\Controllers\EmailProviderController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PeppolExportController;
 use App\Http\Controllers\InvoiceEmailController;
@@ -37,6 +38,12 @@ Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name(
 Route::post('/validateur-faia/validate', [FaiaValidatorController::class, 'validate'])
     ->middleware('throttle:faia-validator')
     ->name('faia-validator.validate');
+
+// Legal pages - public access
+Route::get('/mentions-legales', [LegalController::class, 'mentions'])->name('legal.mentions');
+Route::get('/confidentialite', [LegalController::class, 'privacy'])->name('legal.privacy');
+Route::get('/cgu', [LegalController::class, 'terms'])->name('legal.terms');
+Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

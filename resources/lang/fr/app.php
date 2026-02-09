@@ -61,6 +61,10 @@ return [
     'password' => 'Mot de passe',
     'confirm_password' => 'Confirmer le mot de passe',
     'already_registered' => 'Déjà inscrit ?',
+    'accept_terms_prefix' => 'J\'accepte les',
+    'terms_of_service' => 'Conditions Générales d\'Utilisation',
+    'accept_terms_and' => 'et la',
+    'privacy_policy' => 'Politique de Confidentialité',
 
     // Auth pages
     'forgot_password_title' => 'Mot de passe oublié',

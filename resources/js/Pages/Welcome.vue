@@ -715,7 +715,7 @@ const toggleFaq = (index) => {
         <!-- Footer -->
         <footer class="border-t border-slate-200 py-12">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="grid md:grid-cols-5 gap-8 mb-8">
                     <div class="md:col-span-2">
                         <div class="flex items-center space-x-2.5 mb-4">
                             <div class="bg-[#9b5de5] p-2 rounded-xl">
@@ -744,6 +744,15 @@ const toggleFaq = (index) => {
                             <li class="text-slate-600">{{ t('landing.footer.faia_export') }}</li>
                             <li class="text-slate-600">{{ t('landing.footer.vat_luxembourg') }}</li>
                             <li class="text-slate-600">{{ t('landing.footer.gdpr') }}</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-slate-900 mb-4">Légal</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li><Link :href="route('legal.mentions')" class="text-slate-600 hover:text-slate-900">Mentions légales</Link></li>
+                            <li><Link :href="route('legal.privacy')" class="text-slate-600 hover:text-slate-900">Confidentialité</Link></li>
+                            <li><Link :href="route('legal.terms')" class="text-slate-600 hover:text-slate-900">CGU / CGV</Link></li>
+                            <li><Link :href="route('legal.cookies')" class="text-slate-600 hover:text-slate-900">Cookies</Link></li>
                         </ul>
                     </div>
                 </div>

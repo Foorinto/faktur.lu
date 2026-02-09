@@ -61,6 +61,10 @@ return [
     'password' => 'Passwuert',
     'confirm_password' => 'Passwuert bestätegen',
     'already_registered' => 'Schonn registréiert?',
+    'accept_terms_prefix' => 'Ech akzeptéieren d\'',
+    'terms_of_service' => 'Allgemeng Geschäftsbedingungen',
+    'accept_terms_and' => 'an d\'',
+    'privacy_policy' => 'Dateschutzrichtlinn',
 
     // Auth pages
     'forgot_password_title' => 'Passwuert vergiess',

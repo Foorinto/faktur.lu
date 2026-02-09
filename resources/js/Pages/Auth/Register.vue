@@ -14,6 +14,7 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
+    terms: false,
 });
 
 const submit = () => {
@@ -93,6 +94,23 @@ const submit = () => {
                     class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
+            </div>
+
+            <div class="mt-4">
+                <label class="flex items-start">
+                    <input
+                        type="checkbox"
+                        v-model="form.terms"
+                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800 mt-0.5"
+                    />
+                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                        {{ t('accept_terms_prefix') }}
+                        <Link :href="route('legal.terms')" class="text-indigo-600 hover:underline dark:text-indigo-400" target="_blank">{{ t('terms_of_service') }}</Link>
+                        {{ t('accept_terms_and') }}
+                        <Link :href="route('legal.privacy')" class="text-indigo-600 hover:underline dark:text-indigo-400" target="_blank">{{ t('privacy_policy') }}</Link>
+                    </span>
+                </label>
+                <InputError class="mt-2" :message="form.errors.terms" />
             </div>
 
             <div class="mt-4 flex items-center justify-end">

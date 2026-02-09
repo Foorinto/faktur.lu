@@ -61,6 +61,10 @@ return [
     'password' => 'Passwort',
     'confirm_password' => 'Passwort bestätigen',
     'already_registered' => 'Bereits registriert?',
+    'accept_terms_prefix' => 'Ich akzeptiere die',
+    'terms_of_service' => 'Allgemeinen Geschäftsbedingungen',
+    'accept_terms_and' => 'und die',
+    'privacy_policy' => 'Datenschutzerklärung',
 
     // Auth pages
     'forgot_password_title' => 'Passwort vergessen',
