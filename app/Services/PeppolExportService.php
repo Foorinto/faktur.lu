@@ -279,7 +279,8 @@ class PeppolExportService
 
         // TaxSubtotal per VAT rate
         $vatBreakdown = $invoice->vat_breakdown;
-        foreach ($vatBreakdown as $rate => $amounts) {
+        foreach ($vatBreakdown as $amounts) {
+            $rate = $amounts['rate'];
             $taxSubtotal = $doc->createElementNS(self::NS_CAC, 'cac:TaxSubtotal');
 
             // TaxableAmount (base HT)
@@ -287,7 +288,7 @@ class PeppolExportService
             $taxableAmount->setAttribute('currencyID', $invoice->currency ?? 'EUR');
 
             // TaxAmount (VAT for this rate)
-            $subTaxAmount = $this->addCbcElement($doc, $taxSubtotal, 'TaxAmount', $this->formatAmount($amounts['vat']));
+            $subTaxAmount = $this->addCbcElement($doc, $taxSubtotal, 'TaxAmount', $this->formatAmount($amounts['amount']));
             $subTaxAmount->setAttribute('currencyID', $invoice->currency ?? 'EUR');
 
             // TaxCategory
