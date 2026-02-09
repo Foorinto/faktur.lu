@@ -101,6 +101,14 @@ const canSendReminder = computed(() => {
     return ['finalized', 'sent'].includes(props.invoice.status) && props.invoice.type !== 'credit_note';
 });
 
+const canExportPeppol = computed(() => {
+    return props.invoice.status !== 'draft'
+        && props.invoice.seller_snapshot?.peppol_endpoint_id
+        && props.invoice.seller_snapshot?.peppol_endpoint_scheme
+        && props.invoice.buyer_snapshot?.peppol_endpoint_id
+        && props.invoice.buyer_snapshot?.peppol_endpoint_scheme;
+});
+
 const isOverdue = computed(() => {
     if (!props.invoice.due_at) return false;
     return new Date(props.invoice.due_at) < new Date() && !['paid', 'cancelled'].includes(props.invoice.status);
@@ -413,6 +421,19 @@ const submitCreditNote = () => {
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
                         </svg>
                     </button>
+
+                    <!-- Peppol Export Button -->
+                    <a
+                        v-if="canExportPeppol"
+                        :href="route('invoices.peppol', invoice.id)"
+                        class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                        title="Export Peppol BIS 3.0"
+                    >
+                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
+                        </svg>
+                        Peppol XML
+                    </a>
 
                     <!-- Create Credit Note -->
                     <button

@@ -31,6 +31,10 @@ const props = defineProps({
         type: String,
         default: '#7c3aed',
     },
+    peppolSchemes: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const form = useForm({
@@ -57,6 +61,8 @@ const form = useForm({
     show_phone_on_invoice: props.settings?.show_phone_on_invoice ?? false,
     email: props.settings?.email ?? '',
     show_email_on_invoice: props.settings?.show_email_on_invoice ?? false,
+    peppol_endpoint_scheme: props.settings?.peppol_endpoint_scheme ?? '',
+    peppol_endpoint_id: props.settings?.peppol_endpoint_id ?? '',
 });
 
 const isCustomColor = computed(() => {
@@ -547,6 +553,70 @@ const cancelLogoUpload = () => {
                                     placeholder="AAAABBCCXXX"
                                 />
                                 <InputError :message="form.errors.bic" class="mt-2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Peppol e-Invoicing -->
+                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                            Peppol e-Invoicing
+                        </h2>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                            Configurez votre identifiant Peppol pour exporter des factures au format Peppol BIS 3.0
+                        </p>
+                    </div>
+                    <div class="px-6 py-4 space-y-4">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <InputLabel for="peppol_endpoint_scheme" value="Schéma d'identifiant" />
+                                <select
+                                    id="peppol_endpoint_scheme"
+                                    v-model="form.peppol_endpoint_scheme"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                >
+                                    <option value="">-- Sélectionner --</option>
+                                    <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
+                                        {{ scheme.label }}
+                                    </option>
+                                </select>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Code ISO 6523 ICD. Pour Luxembourg, utilisez 0184 (TVA).
+                                </p>
+                                <InputError :message="form.errors.peppol_endpoint_scheme" class="mt-2" />
+                            </div>
+
+                            <div>
+                                <InputLabel for="peppol_endpoint_id" value="Identifiant Peppol" />
+                                <TextInput
+                                    id="peppol_endpoint_id"
+                                    v-model="form.peppol_endpoint_id"
+                                    type="text"
+                                    class="mt-1 block w-full font-mono uppercase"
+                                    maxlength="50"
+                                    placeholder="LU12345678"
+                                />
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Votre numéro de TVA ou autre identifiant selon le schéma choisi.
+                                </p>
+                                <InputError :message="form.errors.peppol_endpoint_id" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg bg-blue-50 dark:bg-blue-900/20 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-blue-700 dark:text-blue-300">
+                                        L'export Peppol génère un fichier XML que vous pouvez télécharger et importer manuellement dans votre Access Point Peppol (ex: Peppol.lu, Basware, etc.).
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

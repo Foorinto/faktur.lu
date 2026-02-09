@@ -11,6 +11,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FaiaValidatorController;
 use App\Http\Controllers\EmailProviderController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PeppolExportController;
 use App\Http\Controllers\InvoiceEmailController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\ProfileController;
@@ -153,6 +154,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/exports/audit', [AuditExportController::class, 'store'])->name('exports.audit.store');
         Route::post('/invoices/{invoice}/archive', [ArchiveController::class, 'archive'])->name('invoices.archive');
         Route::post('/archive/batch', [ArchiveController::class, 'archiveBatch'])->name('archive.batch');
+        Route::get('/invoices/{invoice}/peppol', [PeppolExportController::class, 'export'])->name('invoices.peppol');
     });
 
     // Audit log export - 10 requests/hour

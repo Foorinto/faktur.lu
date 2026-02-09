@@ -28,6 +28,10 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    peppolSchemes: {
+        type: Array,
+        default: () => [],
+    },
     submitLabel: {
         type: String,
         default: null,
@@ -352,6 +356,44 @@ const submit = () => {
                             placeholder="B000000"
                         />
                         <InputError :message="form.errors.registration_number" class="mt-2" />
+                    </div>
+                </div>
+
+                <!-- Peppol Endpoint (B2B only) -->
+                <div v-if="isB2B && peppolSchemes.length > 0" class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Identifiant Peppol (optionnel)
+                    </h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                        Nécessaire pour l'envoi de factures électroniques via le réseau Peppol.
+                    </p>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                            <InputLabel for="peppol_endpoint_scheme" value="Schéma" />
+                            <select
+                                id="peppol_endpoint_scheme"
+                                v-model="form.peppol_endpoint_scheme"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                            >
+                                <option value="">Aucun</option>
+                                <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
+                                    {{ scheme.label }}
+                                </option>
+                            </select>
+                            <InputError :message="form.errors.peppol_endpoint_scheme" class="mt-2" />
+                        </div>
+                        <div>
+                            <InputLabel for="peppol_endpoint_id" value="Identifiant" />
+                            <TextInput
+                                id="peppol_endpoint_id"
+                                v-model="form.peppol_endpoint_id"
+                                type="text"
+                                class="mt-1 block w-full font-mono"
+                                placeholder="12345678"
+                                :disabled="!form.peppol_endpoint_scheme"
+                            />
+                            <InputError :message="form.errors.peppol_endpoint_id" class="mt-2" />
+                        </div>
                     </div>
                 </div>
             </div>

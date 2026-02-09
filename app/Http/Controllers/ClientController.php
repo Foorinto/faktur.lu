@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Api\V1\StoreClientRequest;
 use App\Http\Requests\Api\V1\UpdateClientRequest;
+use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
@@ -64,6 +65,7 @@ class ClientController extends Controller
                 ['value' => 'CHF', 'label' => 'Franc Suisse (CHF)', 'symbol' => 'CHF'],
             ],
             'countries' => $this->getCountries(),
+            'peppolSchemes' => BusinessSettings::getPeppolSchemeOptions(),
         ]);
     }
 
@@ -111,6 +113,7 @@ class ClientController extends Controller
                 ['value' => 'CHF', 'label' => 'Franc Suisse (CHF)', 'symbol' => 'CHF'],
             ],
             'countries' => $this->getCountries(),
+            'peppolSchemes' => BusinessSettings::getPeppolSchemeOptions(),
         ]);
     }
 

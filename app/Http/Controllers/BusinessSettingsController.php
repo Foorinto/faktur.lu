@@ -30,6 +30,7 @@ class BusinessSettingsController extends Controller
             'vatMentionOptions' => BusinessSettings::getVatMentionOptions(),
             'pdfColorPresets' => BusinessSettings::getPdfColorPresets(),
             'defaultPdfColor' => BusinessSettings::DEFAULT_PDF_COLOR,
+            'peppolSchemes' => BusinessSettings::getPeppolSchemeOptions(),
         ]);
     }
 

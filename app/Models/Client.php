@@ -24,6 +24,8 @@ class Client extends Model
         'city',
         'country_code',
         'vat_number',
+        'peppol_endpoint_id',
+        'peppol_endpoint_scheme',
         'registration_number',
         'type',
         'currency',
@@ -72,6 +74,8 @@ class Client extends Model
             'city' => $this->city,
             'country_code' => $this->country_code,
             'vat_number' => $this->vat_number,
+            'peppol_endpoint_id' => $this->peppol_endpoint_id,
+            'peppol_endpoint_scheme' => $this->peppol_endpoint_scheme,
             'registration_number' => $this->registration_number,
             'type' => $this->type,
             'phone' => $this->phone,
@@ -80,6 +84,26 @@ class Client extends Model
             'suggested_vat_rate' => $vatScenario['rate'],
             'suggested_vat_mention' => $vatScenario['mention'],
         ];
+    }
+
+    /**
+     * Get the full Peppol endpoint identifier (scheme:id format).
+     */
+    public function getPeppolEndpointAttribute(): ?string
+    {
+        if ($this->peppol_endpoint_id && $this->peppol_endpoint_scheme) {
+            return "{$this->peppol_endpoint_scheme}:{$this->peppol_endpoint_id}";
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if the client has a Peppol endpoint configured.
+     */
+    public function hasPeppolEndpoint(): bool
+    {
+        return !empty($this->peppol_endpoint_id) && !empty($this->peppol_endpoint_scheme);
     }
 
     /**

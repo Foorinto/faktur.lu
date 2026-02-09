@@ -19,6 +19,8 @@ class BusinessSettings extends Model
         'city',
         'country_code',
         'vat_number',
+        'peppol_endpoint_id',
+        'peppol_endpoint_scheme',
         'matricule',
         'rcs_number',
         'establishment_authorization',
@@ -57,6 +59,20 @@ class BusinessSettings extends Model
         '#be185d' => 'Rose',
         '#4b5563' => 'Gris',
         '#1e293b' => 'Bleu marine',
+    ];
+
+    /**
+     * Peppol endpoint scheme codes (ISO 6523 ICD).
+     */
+    public const PEPPOL_SCHEMES = [
+        '0184' => 'Luxembourg VAT (LU)',
+        '0009' => 'France SIRET',
+        '0088' => 'EAN/GLN (international)',
+        '0208' => 'Belgium enterprise number',
+        '0007' => 'Sweden Org Number',
+        '0192' => 'Denmark CVR',
+        '0106' => 'Netherlands KvK',
+        '0190' => 'Netherlands OIN',
     ];
 
     /**
@@ -145,6 +161,8 @@ class BusinessSettings extends Model
             'city' => $this->city,
             'country_code' => $this->country_code,
             'vat_number' => $this->vat_number,
+            'peppol_endpoint_id' => $this->peppol_endpoint_id,
+            'peppol_endpoint_scheme' => $this->peppol_endpoint_scheme,
             'matricule' => $this->matricule,
             'rcs_number' => $this->rcs_number,
             'establishment_authorization' => $this->establishment_authorization,
@@ -159,6 +177,41 @@ class BusinessSettings extends Model
             'logo_path' => $this->logo_path,
             'pdf_color' => $this->getEffectivePdfColor(),
         ];
+    }
+
+    /**
+     * Get the full Peppol endpoint identifier (scheme:id format).
+     */
+    public function getPeppolEndpointAttribute(): ?string
+    {
+        if ($this->peppol_endpoint_id && $this->peppol_endpoint_scheme) {
+            return "{$this->peppol_endpoint_scheme}:{$this->peppol_endpoint_id}";
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if a Peppol endpoint is configured.
+     */
+    public function hasPeppolEndpoint(): bool
+    {
+        return !empty($this->peppol_endpoint_id) && !empty($this->peppol_endpoint_scheme);
+    }
+
+    /**
+     * Get the list of Peppol scheme options for forms.
+     */
+    public static function getPeppolSchemeOptions(): array
+    {
+        $options = [];
+        foreach (self::PEPPOL_SCHEMES as $code => $label) {
+            $options[] = [
+                'value' => $code,
+                'label' => "{$code} - {$label}",
+            ];
+        }
+        return $options;
     }
 
     /**
