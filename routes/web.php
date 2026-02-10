@@ -12,6 +12,7 @@ use App\Http\Controllers\FaiaValidatorController;
 use App\Http\Controllers\EmailProviderController;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PricingController;
 use App\Http\Controllers\PeppolExportController;
 use App\Http\Controllers\InvoiceEmailController;
 use App\Http\Controllers\InvoiceItemController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoteItemController;
 use App\Http\Controllers\RevenueBookController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TimeEntryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +47,9 @@ Route::get('/confidentialite', [LegalController::class, 'privacy'])->name('legal
 Route::get('/cgu', [LegalController::class, 'terms'])->name('legal.terms');
 Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
 
+// Pricing page - public access
+Route::get('/tarifs', [PricingController::class, 'index'])->name('pricing');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -58,10 +63,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // CRUD operations - 120 requests/minute
     Route::middleware('throttle:crud')->group(function () {
         // Clients
-        Route::resource('clients', ClientController::class);
+        Route::resource('clients', ClientController::class)->except(['store']);
+        Route::post('/clients', [ClientController::class, 'store'])
+            ->middleware('plan.limit:clients')
+            ->name('clients.store');
 
         // Invoices
-        Route::resource('invoices', InvoiceController::class);
+        Route::resource('invoices', InvoiceController::class)->except(['store']);
+        Route::post('/invoices', [InvoiceController::class, 'store'])
+            ->middleware('plan.limit:invoices')
+            ->name('invoices.store');
         Route::post('/invoices/{invoice}/finalize', [InvoiceController::class, 'finalize'])->name('invoices.finalize');
         Route::post('/invoices/{invoice}/mark-sent', [InvoiceController::class, 'markAsSent'])->name('invoices.mark-sent');
         Route::post('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
@@ -74,7 +85,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/invoices/{invoice}/items/{item}', [InvoiceItemController::class, 'destroy'])->name('invoices.items.destroy');
 
         // Quotes
-        Route::resource('quotes', QuoteController::class);
+        Route::resource('quotes', QuoteController::class)->except(['store']);
+        Route::post('/quotes', [QuoteController::class, 'store'])
+            ->middleware('plan.limit:quotes')
+            ->name('quotes.store');
         Route::post('/quotes/{quote}/mark-sent', [QuoteController::class, 'markAsSent'])->name('quotes.mark-sent');
         Route::post('/quotes/{quote}/mark-accepted', [QuoteController::class, 'markAsAccepted'])->name('quotes.mark-accepted');
         Route::post('/quotes/{quote}/mark-declined', [QuoteController::class, 'markAsDeclined'])->name('quotes.mark-declined');
@@ -130,9 +144,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Email sending - 20 requests/hour
-    Route::middleware('throttle:email')->group(function () {
+    Route::middleware(['throttle:email', 'plan.limit:emails'])->group(function () {
         Route::post('/invoices/{invoice}/send-email', [InvoiceEmailController::class, 'send'])->name('invoices.send-email');
-        Route::post('/invoices/{invoice}/send-reminder', [InvoiceEmailController::class, 'sendReminder'])->name('invoices.send-reminder');
+        Route::post('/invoices/{invoice}/send-reminder', [InvoiceEmailController::class, 'sendReminder'])
+            ->middleware('plan.feature:email_reminders')
+            ->name('invoices.send-reminder');
     });
 
     // Email settings (no special rate limit)
@@ -152,15 +168,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/settings/accountant/invitations/{invitation}', [AccountantSettingsController::class, 'cancelInvitation'])->name('settings.accountant.cancel');
     Route::delete('/settings/accountant/{accountant}', [AccountantSettingsController::class, 'revokeAccess'])->name('settings.accountant.revoke');
 
+    // Subscription management
+    Route::get('/settings/subscription', [SubscriptionController::class, 'index'])->name('subscription.index');
+    Route::post('/subscription/checkout', [SubscriptionController::class, 'checkout'])->name('subscription.checkout');
+    Route::get('/subscription/success', [SubscriptionController::class, 'success'])->name('subscription.success');
+    Route::get('/subscription/portal', [SubscriptionController::class, 'portal'])->name('subscription.portal');
+    Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
+    Route::post('/subscription/resume', [SubscriptionController::class, 'resume'])->name('subscription.resume');
+    Route::post('/subscription/swap', [SubscriptionController::class, 'swap'])->name('subscription.swap');
+    Route::get('/subscription/invoice/{invoiceId}', [SubscriptionController::class, 'downloadInvoice'])->name('subscription.invoice');
+
     // Invoice email history
     Route::get('/invoices/{invoice}/emails', [InvoiceEmailController::class, 'history'])->name('invoices.emails');
     Route::post('/invoices/{invoice}/toggle-reminders', [InvoiceEmailController::class, 'toggleExcludeFromReminders'])->name('invoices.toggle-reminders');
 
     // Export operations - 5 requests/hour (very expensive)
     Route::middleware('throttle:export')->group(function () {
-        Route::post('/exports/audit', [AuditExportController::class, 'store'])->name('exports.audit.store');
-        Route::post('/invoices/{invoice}/archive', [ArchiveController::class, 'archive'])->name('invoices.archive');
-        Route::post('/archive/batch', [ArchiveController::class, 'archiveBatch'])->name('archive.batch');
+        // FAIA export - Pro only
+        Route::post('/exports/audit', [AuditExportController::class, 'store'])
+            ->middleware('plan.feature:faia_export')
+            ->name('exports.audit.store');
+
+        // PDF Archive - Pro only
+        Route::post('/invoices/{invoice}/archive', [ArchiveController::class, 'archive'])
+            ->middleware('plan.feature:pdf_archive')
+            ->name('invoices.archive');
+        Route::post('/archive/batch', [ArchiveController::class, 'archiveBatch'])
+            ->middleware('plan.feature:pdf_archive')
+            ->name('archive.batch');
+
+        // Peppol export - available for all
         Route::get('/invoices/{invoice}/peppol', [PeppolExportController::class, 'export'])->name('invoices.peppol');
     });
 

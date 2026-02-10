@@ -130,6 +130,12 @@ const getInputType = (field, fieldConfig) => {
                 >
                     Accès Comptable
                 </Link>
+                <Link
+                    :href="route('subscription.index')"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                >
+                    Abonnement
+                </Link>
             </nav>
         </div>
 

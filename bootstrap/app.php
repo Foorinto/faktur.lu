@@ -48,6 +48,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.ip' => \App\Http\Middleware\AdminIpBlocking::class,
             'accountant.auth' => \App\Http\Middleware\AccountantAuthenticated::class,
             'accountant.access' => \App\Http\Middleware\VerifyAccountantAccess::class,
+            'plan.limit' => \App\Http\Middleware\CheckPlanLimits::class,
+            'plan.feature' => \App\Http\Middleware\CheckPlanFeature::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

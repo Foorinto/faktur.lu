@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, SoftDeletes;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, SoftDeletes, Billable;
 
     /**
      * Send the email verification notification.
@@ -148,13 +149,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Check if user has an active Pro subscription.
-     * Returns false by default until FEAT-022 (Pricing) is implemented.
      */
     public function isPro(): bool
     {
-        // TODO: Implement when FEAT-022 (Pricing/Subscriptions) is done
-        // return $this->subscription?->isActive() && $this->subscription?->plan === 'pro';
-        return false;
+        return $this->subscribed('default');
     }
 
     /**
@@ -163,6 +161,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isStarter(): bool
     {
         return !$this->isPro();
+    }
+
+    /**
+     * Check if user is on trial.
+     */
+    public function isOnTrial(): bool
+    {
+        return $this->onTrial('default');
+    }
+
+    /**
+     * Get the current plan name.
+     */
+    public function getPlanAttribute(): string
+    {
+        if ($this->isPro()) {
+            return 'pro';
+        }
+
+        return 'starter';
     }
 
     /**
