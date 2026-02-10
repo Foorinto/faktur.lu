@@ -38,12 +38,14 @@ class SubscriptionController extends Controller
             'currentPlan' => $user->plan,
             'subscription' => $user->subscription('default'),
             'usage' => $this->planService->getUsageStats($user),
-            'invoices' => collect($user->invoices())->map(fn ($invoice) => [
-                'id' => $invoice->id,
-                'date' => $invoice->date()->toFormattedDateString(),
-                'total' => $invoice->total(),
-                'url' => $invoice->invoicePdf(),
-            ]),
+            'invoices' => $user->hasStripeId()
+                ? collect($user->invoices())->map(fn ($invoice) => [
+                    'id' => $invoice->id,
+                    'date' => $invoice->date()->toFormattedDateString(),
+                    'total' => $invoice->total(),
+                    'url' => $invoice->invoicePdf(),
+                ])
+                : [],
             'onTrial' => $user->isOnTrial(),
             'trialEndsAt' => $user->subscription('default')?->trial_ends_at,
         ]);
