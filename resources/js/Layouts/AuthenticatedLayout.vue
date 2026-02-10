@@ -33,9 +33,9 @@ const stopImpersonation = () => {
             </button>
         </div>
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-slate-100 dark:bg-slate-900">
             <nav
-                class="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800"
+                class="border-b border-slate-100 bg-white dark:border-slate-700 dark:bg-slate-800"
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -45,7 +45,7 @@ const stopImpersonation = () => {
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
                                     <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
+                                        class="block h-9 w-auto fill-current text-slate-800 dark:text-slate-200"
                                     />
                                 </Link>
                             </div>
@@ -71,7 +71,7 @@ const stopImpersonation = () => {
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                                class="inline-flex items-center rounded-xl border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-500 transition duration-150 ease-in-out hover:text-slate-700 focus:outline-none dark:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-300"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -116,7 +116,7 @@ const stopImpersonation = () => {
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
+                                class="inline-flex items-center justify-center rounded-xl p-2 text-slate-400 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 focus:outline-none dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-400 dark:focus:bg-slate-900 dark:focus:text-slate-400"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -171,15 +171,15 @@ const stopImpersonation = () => {
 
                     <!-- Responsive Settings Options -->
                     <div
-                        class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600"
+                        class="border-t border-slate-200 pb-1 pt-4 dark:border-slate-600"
                     >
                         <div class="px-4">
                             <div
-                                class="text-base font-medium text-gray-800 dark:text-gray-200"
+                                class="text-base font-medium text-slate-800 dark:text-slate-200"
                             >
                                 {{ $page.props.auth.user.name }}
                             </div>
-                            <div class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-slate-500">
                                 {{ $page.props.auth.user.email }}
                             </div>
                         </div>
@@ -202,7 +202,7 @@ const stopImpersonation = () => {
 
             <!-- Page Heading -->
             <header
-                class="bg-white shadow dark:bg-gray-800"
+                class="bg-white shadow dark:bg-slate-800"
                 v-if="$slots.header"
             >
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

@@ -172,6 +172,7 @@ return [
     'sent' => 'Envoyée',
     'paid' => 'Payée',
     'overdue' => 'En retard',
+    'overdue_days' => ':days jour(s) de retard',
     'cancelled' => 'Annulée',
     'accepted' => 'Accepté',
     'rejected' => 'Refusé',

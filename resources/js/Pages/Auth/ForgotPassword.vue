@@ -28,13 +28,13 @@ const submit = () => {
     <GuestLayout>
         <Head :title="t('forgot_password_title')" />
 
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+        <div class="mb-4 text-sm text-slate-600 dark:text-slate-400">
             {{ t('forgot_password_description') }}
         </div>
 
         <div
             v-if="status"
-            class="mb-4 text-sm font-medium text-green-600 dark:text-green-400"
+            class="mb-4 text-sm font-medium text-emerald-600 dark:text-emerald-400"
         >
             {{ status }}
         </div>

@@ -128,7 +128,7 @@ const getStatusBadge = (status) => {
         case 'failed':
             return { class: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', text: t('faia.status_failed') };
         default:
-            return { class: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300', text: t('faia.status_pending') };
+            return { class: 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-300', text: t('faia.status_pending') };
     }
 };
 </script>
@@ -138,7 +138,7 @@ const getStatusBadge = (status) => {
 
     <AppLayout>
         <template #header>
-            <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                 {{ t('faia_audit_export') }}
             </h1>
         </template>
@@ -147,15 +147,15 @@ const getStatusBadge = (status) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Export Form -->
-                    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('faia.new_export') }}
                         </h2>
 
                         <form @submit.prevent="submit" class="space-y-6">
                             <!-- Period Selection -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     {{ t('faia.period') }}
                                 </label>
 
@@ -166,7 +166,7 @@ const getStatusBadge = (status) => {
                                         :key="year"
                                         type="button"
                                         @click="setYear(year)"
-                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
                                     >
                                         {{ year }}
                                     </button>
@@ -178,7 +178,7 @@ const getStatusBadge = (status) => {
                                         :key="`q${q}`"
                                         type="button"
                                         @click="setQuarter(defaultYear, q)"
-                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
                                     >
                                         T{{ q }} {{ defaultYear }}
                                     </button>
@@ -187,7 +187,7 @@ const getStatusBadge = (status) => {
                                         :key="`s${s}`"
                                         type="button"
                                         @click="setSemester(defaultYear, s)"
-                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
                                     >
                                         S{{ s }} {{ defaultYear }}
                                     </button>
@@ -196,19 +196,19 @@ const getStatusBadge = (status) => {
                                 <!-- Date inputs -->
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('faia.from') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('faia.from') }}</label>
                                         <input
                                             v-model="form.period_start"
                                             type="date"
-                                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         />
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('faia.to') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('faia.to') }}</label>
                                         <input
                                             v-model="form.period_end"
                                             type="date"
-                                            class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         />
                                     </div>
                                 </div>
@@ -216,17 +216,17 @@ const getStatusBadge = (status) => {
 
                             <!-- Format Selection -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     {{ t('faia.format') }}
                                 </label>
                                 <div class="space-y-2">
                                     <label
                                         v-for="(label, value) in formats"
                                         :key="value"
-                                        class="flex items-center p-3 border rounded-lg cursor-pointer transition-colors"
+                                        class="flex items-center p-3 border rounded-2xl cursor-pointer transition-colors"
                                         :class="form.format === value
                                             ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20'
-                                            : 'border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                            : 'border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700'"
                                     >
                                         <input
                                             v-model="form.format"
@@ -234,7 +234,7 @@ const getStatusBadge = (status) => {
                                             type="radio"
                                             class="h-4 w-4 text-violet-600 focus:ring-violet-500"
                                         />
-                                        <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                        <span class="ml-3 text-sm text-slate-700 dark:text-slate-300">
                                             {{ label }}
                                         </span>
                                     </label>
@@ -243,7 +243,7 @@ const getStatusBadge = (status) => {
 
                             <!-- Options -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     {{ t('faia.options') }}
                                 </label>
                                 <div class="space-y-3">
@@ -251,9 +251,9 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.include_credit_notes"
                                             type="checkbox"
-                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-600"
+                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
                                         />
-                                        <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                        <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                             {{ t('faia.include_credit_notes') }}
                                         </span>
                                     </label>
@@ -261,9 +261,9 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.anonymize"
                                             type="checkbox"
-                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-600"
+                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
                                         />
-                                        <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                        <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                             {{ t('faia.anonymize_data') }}
                                         </span>
                                     </label>
@@ -271,15 +271,15 @@ const getStatusBadge = (status) => {
                             </div>
 
                             <!-- Preview -->
-                            <div v-if="preview || previewLoading || previewError" class="rounded-lg bg-gray-50 dark:bg-gray-700 p-4">
-                                <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ t('faia.preview') }}</h3>
+                            <div v-if="preview || previewLoading || previewError" class="rounded-2xl bg-slate-50 dark:bg-slate-700 p-4">
+                                <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">{{ t('faia.preview') }}</h3>
 
                                 <div v-if="previewLoading" class="flex items-center justify-center py-4">
                                     <svg class="animate-spin h-5 w-5 text-violet-500" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">{{ t('faia.loading') }}</span>
+                                    <span class="ml-2 text-sm text-slate-500 dark:text-slate-400">{{ t('faia.loading') }}</span>
                                 </div>
 
                                 <div v-else-if="previewError" class="text-sm text-red-600 dark:text-red-400">
@@ -288,28 +288,28 @@ const getStatusBadge = (status) => {
 
                                 <div v-else-if="preview" class="space-y-2">
                                     <div class="flex justify-between text-sm">
-                                        <span class="text-gray-600 dark:text-gray-400">{{ t('faia.invoices') }}</span>
-                                        <span class="font-medium text-gray-900 dark:text-white">{{ preview.invoices_count }}</span>
+                                        <span class="text-slate-600 dark:text-slate-400">{{ t('faia.invoices') }}</span>
+                                        <span class="font-medium text-slate-900 dark:text-white">{{ preview.invoices_count }}</span>
                                     </div>
                                     <div v-if="form.include_credit_notes" class="flex justify-between text-sm">
-                                        <span class="text-gray-600 dark:text-gray-400">{{ t('faia.credit_notes') }}</span>
-                                        <span class="font-medium text-gray-900 dark:text-white">{{ preview.credit_notes_count }}</span>
+                                        <span class="text-slate-600 dark:text-slate-400">{{ t('faia.credit_notes') }}</span>
+                                        <span class="font-medium text-slate-900 dark:text-white">{{ preview.credit_notes_count }}</span>
                                     </div>
-                                    <div class="flex justify-between text-sm pt-2 border-t border-gray-200 dark:border-gray-600">
-                                        <span class="text-gray-600 dark:text-gray-400">{{ t('faia.total_ht') }}</span>
-                                        <span class="font-medium text-gray-900 dark:text-white">{{ formatCurrency(preview.total_ht) }}</span>
-                                    </div>
-                                    <div class="flex justify-between text-sm">
-                                        <span class="text-gray-600 dark:text-gray-400">{{ t('faia.total_vat') }}</span>
-                                        <span class="font-medium text-gray-900 dark:text-white">{{ formatCurrency(preview.total_vat) }}</span>
+                                    <div class="flex justify-between text-sm pt-2 border-t border-slate-200 dark:border-slate-600">
+                                        <span class="text-slate-600 dark:text-slate-400">{{ t('faia.total_ht') }}</span>
+                                        <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.total_ht) }}</span>
                                     </div>
                                     <div class="flex justify-between text-sm">
-                                        <span class="text-gray-600 dark:text-gray-400">{{ t('faia.total_ttc') }}</span>
-                                        <span class="font-medium text-gray-900 dark:text-white">{{ formatCurrency(preview.total_ttc) }}</span>
+                                        <span class="text-slate-600 dark:text-slate-400">{{ t('faia.total_vat') }}</span>
+                                        <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.total_vat) }}</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-slate-600 dark:text-slate-400">{{ t('faia.total_ttc') }}</span>
+                                        <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.total_ttc) }}</span>
                                     </div>
 
                                     <!-- Sequence validation -->
-                                    <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
+                                    <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-600">
                                         <div v-if="preview.sequence_valid" class="flex items-center text-sm text-green-600 dark:text-green-400">
                                             <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -337,7 +337,7 @@ const getStatusBadge = (status) => {
                                 <button
                                     type="submit"
                                     :disabled="form.processing || !preview || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
-                                    class="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="px-4 py-2 bg-violet-600 text-white rounded-2xl hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <span v-if="form.processing">{{ t('faia.generating') }}</span>
                                     <span v-else>{{ t('faia.generate_export') }}</span>
@@ -347,12 +347,12 @@ const getStatusBadge = (status) => {
                     </div>
 
                     <!-- Export History -->
-                    <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('faia.export_history') }}
                         </h2>
 
-                        <div v-if="exports.length === 0" class="text-center py-8 text-gray-500 dark:text-gray-400">
+                        <div v-if="exports.length === 0" class="text-center py-8 text-slate-500 dark:text-slate-400">
                             {{ t('faia.no_exports') }}
                         </div>
 
@@ -360,11 +360,11 @@ const getStatusBadge = (status) => {
                             <div
                                 v-for="exportItem in exports"
                                 :key="exportItem.id"
-                                class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-2xl"
                             >
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-sm font-medium text-gray-900 dark:text-white">
+                                        <span class="text-sm font-medium text-slate-900 dark:text-white">
                                             {{ exportItem.period_label }}
                                         </span>
                                         <span
@@ -374,7 +374,7 @@ const getStatusBadge = (status) => {
                                             {{ getStatusBadge(exportItem.status).text }}
                                         </span>
                                     </div>
-                                    <div class="mt-1 flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+                                    <div class="mt-1 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
                                         <span>{{ exportItem.format_label }}</span>
                                         <span v-if="exportItem.documents_count">{{ exportItem.documents_count }} {{ t('faia.docs') }}</span>
                                         <span>{{ formatDateTime(exportItem.created_at) }}</span>
@@ -388,7 +388,7 @@ const getStatusBadge = (status) => {
                                     <button
                                         v-if="exportItem.status === 'completed'"
                                         @click="downloadExport(exportItem)"
-                                        class="p-2 text-violet-600 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-lg"
+                                        class="p-2 text-violet-600 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-2xl"
                                         :title="t('download')"
                                     >
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -397,7 +397,7 @@ const getStatusBadge = (status) => {
                                     </button>
                                     <button
                                         @click="deleteExport(exportItem)"
-                                        class="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg"
+                                        class="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-2xl"
                                         :title="t('delete')"
                                     >
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -411,7 +411,7 @@ const getStatusBadge = (status) => {
                 </div>
 
                 <!-- Info box -->
-                <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-4">
                     <div class="flex">
                         <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />

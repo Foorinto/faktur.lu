@@ -296,16 +296,16 @@ const openPreview = () => {
                 <div class="flex items-center space-x-4">
                     <Link
                         :href="route('invoices.index')"
-                        class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
                     >
                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
                         </svg>
                     </Link>
-                    <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                         {{ invoice.title || t('draft_invoice') }}
                     </h1>
-                    <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                    <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800 dark:bg-slate-700 dark:text-slate-300">
                         {{ t('draft') }}
                     </span>
                 </div>
@@ -313,7 +313,7 @@ const openPreview = () => {
                     <button
                         type="button"
                         @click="openPreview"
-                        class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                     >
                         <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
@@ -324,7 +324,7 @@ const openPreview = () => {
                     <button
                         type="button"
                         @click="deleteInvoice"
-                        class="inline-flex items-center rounded-md border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-700 dark:text-red-400 dark:hover:bg-gray-600"
+                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-slate-700 dark:text-red-400 dark:hover:bg-slate-600"
                     >
                         {{ t('delete') }}
                     </button>
@@ -332,7 +332,7 @@ const openPreview = () => {
                         type="button"
                         @click="showFinalizeModal = true"
                         :disabled="!invoice.items || invoice.items.length === 0"
-                        class="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {{ t('finalize') }}
                     </button>
@@ -343,9 +343,9 @@ const openPreview = () => {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div class="lg:col-span-2 space-y-6">
                 <!-- Client & Settings -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ t('information') }}</h2>
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('information') }}</h2>
                     </div>
                     <div class="px-6 py-4">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -354,7 +354,7 @@ const openPreview = () => {
                                 <select
                                     id="client_id"
                                     v-model="form.client_id"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 >
                                     <option v-for="client in clients" :key="client.id" :value="client.id">
                                         {{ client.name }}
@@ -373,7 +373,7 @@ const openPreview = () => {
                                     id="title"
                                     v-model="form.title"
                                     type="text"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                     :placeholder="t('example_placeholder')"
                                 />
                                 <InputError :message="form.errors.title" class="mt-2" />
@@ -387,7 +387,7 @@ const openPreview = () => {
                                     id="due_at"
                                     v-model="form.due_at"
                                     type="date"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 />
                                 <InputError :message="form.errors.due_at" class="mt-2" />
                             </div>
@@ -399,7 +399,7 @@ const openPreview = () => {
                                 id="notes"
                                 v-model="form.notes"
                                 rows="2"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 :placeholder="t('notes_placeholder')"
                             ></textarea>
                         </div>
@@ -409,14 +409,14 @@ const openPreview = () => {
                             <select
                                 id="vat_mention"
                                 v-model="form.vat_mention"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                             >
                                 <option value="">{{ t('use_default_mention') }}</option>
                                 <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('default_mention_note') }}
                             </p>
                         </div>
@@ -427,7 +427,7 @@ const openPreview = () => {
                                 id="custom_vat_mention"
                                 v-model="form.custom_vat_mention"
                                 rows="2"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 :placeholder="t('custom_vat_mention_placeholder')"
                             ></textarea>
                         </div>
@@ -438,10 +438,10 @@ const openPreview = () => {
                                 id="footer_message"
                                 v-model="form.footer_message"
                                 rows="2"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 :placeholder="defaultInvoiceFooter"
                             ></textarea>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('empty_default_message') }} "{{ defaultInvoiceFooter }}"
                             </p>
                         </div>
@@ -454,7 +454,7 @@ const openPreview = () => {
                                 type="button"
                                 @click="updateInvoice"
                                 :disabled="form.processing"
-                                class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:opacity-50"
+                                class="inline-flex items-center rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                             >
                                 <svg v-if="form.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -467,11 +467,11 @@ const openPreview = () => {
                 </div>
 
                 <!-- Invoice items -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ t('invoice_lines') }}</h2>
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
                     </div>
-                    <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <div class="divide-y divide-slate-200 dark:divide-slate-700">
                         <!-- Existing items -->
                         <div
                             v-for="(item, index) in invoice.items"
@@ -482,22 +482,22 @@ const openPreview = () => {
                             <div v-if="editingItemId === item.id" class="space-y-3">
                                 <div class="grid grid-cols-1 gap-3">
                                     <div>
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('title') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('title') }}</label>
                                         <input
                                             v-model="editItemForm.title"
                                             type="text"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             :placeholder="t('service_title')"
                                             required
                                         />
                                         <InputError :message="editItemForm.errors.title" class="mt-1" />
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('description') }} ({{ t('optional') }})</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('description') }} ({{ t('optional') }})</label>
                                         <textarea
                                             v-model="editItemForm.description"
                                             rows="2"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             :placeholder="t('detailed_description')"
                                         ></textarea>
                                         <InputError :message="editItemForm.errors.description" class="mt-1" />
@@ -505,21 +505,21 @@ const openPreview = () => {
                                 </div>
                                 <div class="flex flex-wrap gap-3 items-end">
                                     <div class="w-20">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('quantity') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('quantity') }}</label>
                                         <input
                                             v-model.number="editItemForm.quantity"
                                             type="number"
                                             step="0.01"
                                             min="0.01"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
                                     <div class="w-28">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('unit') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('unit') }}</label>
                                         <select
                                             v-model="editItemForm.unit"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                         >
                                             <option value="">{{ t('without_unit') }}</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
@@ -528,21 +528,21 @@ const openPreview = () => {
                                         </select>
                                     </div>
                                     <div class="w-28">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('price_ht') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('price_ht') }}</label>
                                         <input
                                             v-model.number="editItemForm.unit_price"
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
                                     <div class="w-28">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('vat') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('vat') }}</label>
                                         <select
                                             v-model.number="editItemForm.vat_rate"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                                 {{ rate.value }}%
@@ -554,7 +554,7 @@ const openPreview = () => {
                                             type="button"
                                             @click="saveEditItem(item.id)"
                                             :disabled="editItemForm.processing"
-                                            class="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50"
+                                            class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50"
                                         >
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
@@ -563,7 +563,7 @@ const openPreview = () => {
                                         <button
                                             type="button"
                                             @click="cancelEditItem"
-                                            class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                                            class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                                         >
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -581,7 +581,7 @@ const openPreview = () => {
                                         type="button"
                                         @click="moveItem(item.id, 'up')"
                                         :disabled="index === 0"
-                                        class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                                        class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed"
                                         :title="t('move_up')"
                                     >
                                         <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -592,7 +592,7 @@ const openPreview = () => {
                                         type="button"
                                         @click="moveItem(item.id, 'down')"
                                         :disabled="index === invoice.items.length - 1"
-                                        class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                                        class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed"
                                         :title="t('move_down')"
                                     >
                                         <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -601,24 +601,24 @@ const openPreview = () => {
                                     </button>
                                 </div>
                                 <div class="flex-1 cursor-pointer" @click="startEditItem(item)">
-                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                    <p class="text-sm font-medium text-slate-900 dark:text-white">
                                         {{ item.title }}
                                     </p>
-                                    <p v-if="item.description" class="text-sm text-gray-500 dark:text-gray-400 whitespace-pre-line">
+                                    <p v-if="item.description" class="text-sm text-slate-500 dark:text-slate-400 whitespace-pre-line">
                                         {{ item.description }}
                                     </p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">
                                         {{ formatQuantity(item.quantity) }} {{ getUnitLabel(item.unit, item.quantity) }} x {{ formatCurrency(item.unit_price) }} (TVA {{ item.vat_rate }}%)
                                     </p>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <span class="text-sm font-medium text-gray-900 dark:text-white mr-2">
+                                    <span class="text-sm font-medium text-slate-900 dark:text-white mr-2">
                                         {{ formatCurrency(item.total_ht) }}
                                     </span>
                                     <button
                                         type="button"
                                         @click="startEditItem(item)"
-                                        class="p-1 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
+                                        class="p-1 text-slate-400 hover:text-primary-600 dark:hover:text-primary-400"
                                         :title="t('edit')"
                                     >
                                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -628,7 +628,7 @@ const openPreview = () => {
                                     <button
                                         type="button"
                                         @click="deleteItem(item.id)"
-                                        class="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+                                        class="p-1 text-slate-400 hover:text-red-600 dark:hover:text-red-400"
                                         :title="t('delete')"
                                     >
                                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -641,7 +641,7 @@ const openPreview = () => {
 
                         <!-- Add new item form -->
                         <form @submit.prevent="addItem" class="px-6 py-4">
-                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ t('add_line') }}</p>
+                            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">{{ t('add_line') }}</p>
                             <div class="space-y-3">
                                 <!-- Title and description -->
                                 <div class="grid grid-cols-1 gap-3">
@@ -649,7 +649,7 @@ const openPreview = () => {
                                         <input
                                             v-model="itemForm.title"
                                             type="text"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             :placeholder="t('service_title')"
                                             required
                                         />
@@ -659,7 +659,7 @@ const openPreview = () => {
                                         <textarea
                                             v-model="itemForm.description"
                                             rows="2"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             :placeholder="t('detailed_description_optional')"
                                         ></textarea>
                                         <InputError :message="itemForm.errors.description" class="mt-1" />
@@ -668,21 +668,21 @@ const openPreview = () => {
                                 <!-- Quantity, unit, price, VAT -->
                                 <div class="flex flex-wrap gap-3 items-end">
                                     <div class="w-20">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('quantity') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('quantity') }}</label>
                                         <input
                                             v-model.number="itemForm.quantity"
                                             type="number"
                                             step="0.01"
                                             min="0.01"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
                                     <div class="w-28">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('unit') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('unit') }}</label>
                                         <select
                                             v-model="itemForm.unit"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                         >
                                             <option value="">{{ t('without_unit') }}</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
@@ -691,21 +691,21 @@ const openPreview = () => {
                                         </select>
                                     </div>
                                     <div class="w-28">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('price_ht') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('price_ht') }}</label>
                                         <input
                                             v-model.number="itemForm.unit_price"
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
                                     <div class="w-28">
-                                        <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">{{ t('vat') }}</label>
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('vat') }}</label>
                                         <select
                                             v-model.number="itemForm.vat_rate"
-                                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                                 {{ rate.value }}%
@@ -715,7 +715,7 @@ const openPreview = () => {
                                     <button
                                         type="submit"
                                         :disabled="itemForm.processing"
-                                        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:opacity-50"
+                                        class="inline-flex items-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                                     >
                                         <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -731,28 +731,28 @@ const openPreview = () => {
 
             <!-- Sidebar with totals -->
             <div class="space-y-6">
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 sticky top-20">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">{{ t('summary') }}</h2>
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 sticky top-20">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('summary') }}</h2>
                     </div>
                     <div class="px-6 py-4 space-y-3">
                         <div class="flex justify-between text-sm">
-                            <span class="text-gray-500 dark:text-gray-400">{{ t('total_ht') }}</span>
-                            <span class="font-medium text-gray-900 dark:text-white">{{ formatCurrency(totals.ht) }}</span>
+                            <span class="text-slate-500 dark:text-slate-400">{{ t('total_ht') }}</span>
+                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(totals.ht) }}</span>
                         </div>
                         <div class="flex justify-between text-sm">
-                            <span class="text-gray-500 dark:text-gray-400">{{ t('vat') }}</span>
-                            <span class="font-medium text-gray-900 dark:text-white">{{ formatCurrency(totals.vat) }}</span>
+                            <span class="text-slate-500 dark:text-slate-400">{{ t('vat') }}</span>
+                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(totals.vat) }}</span>
                         </div>
-                        <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                        <div class="border-t border-slate-200 dark:border-slate-700 pt-3">
                             <div class="flex justify-between">
-                                <span class="text-base font-medium text-gray-900 dark:text-white">{{ t('total_ttc') }}</span>
-                                <span class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(totals.ttc) }}</span>
+                                <span class="text-base font-medium text-slate-900 dark:text-white">{{ t('total_ttc') }}</span>
+                                <span class="text-lg font-bold text-slate-900 dark:text-white">{{ formatCurrency(totals.ttc) }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700/50">
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-700/50">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
                             {{ invoice.items?.length || 0 }} {{ (invoice.items?.length || 0) <= 1 ? t('line') : t('lines') }}
                         </p>
                     </div>
@@ -763,17 +763,17 @@ const openPreview = () => {
         <!-- Preview Modal -->
         <div v-if="showPreviewModal" class="fixed inset-0 z-50 overflow-hidden">
             <div class="flex items-center justify-center min-h-screen p-4">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="showPreviewModal = false"></div>
+                <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="showPreviewModal = false"></div>
 
-                <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h3 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('invoice_preview') }}
                         </h3>
                         <div class="flex items-center space-x-2">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
+                            <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
@@ -782,8 +782,8 @@ const openPreview = () => {
                                     :title="lang.label"
                                     class="px-2 py-1.5 text-base transition-colors"
                                     :class="pdfLocale === lang.value
-                                        ? 'bg-indigo-100 dark:bg-indigo-900'
-                                        : 'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'"
+                                        ? 'bg-primary-100 dark:bg-primary-900'
+                                        : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600'"
                                 >
                                     {{ lang.flag }}
                                 </button>
@@ -791,7 +791,7 @@ const openPreview = () => {
                             <a
                                 :href="pdfUrl"
                                 target="_blank"
-                                class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                             >
                                 <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -803,7 +803,7 @@ const openPreview = () => {
                                 type="button"
                                 @click="loadPreview"
                                 :disabled="loadingPreview"
-                                class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 disabled:opacity-50"
+                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 disabled:opacity-50"
                             >
                                 <svg class="h-4 w-4 mr-1" :class="{ 'animate-spin': loadingPreview }" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
@@ -813,7 +813,7 @@ const openPreview = () => {
                             <button
                                 type="button"
                                 @click="showPreviewModal = false"
-                                class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                                class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
                             >
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -823,9 +823,9 @@ const openPreview = () => {
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-gray-100 dark:bg-gray-900">
+                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-slate-900">
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
                         </div>
                         <div
                             v-else
@@ -836,14 +836,14 @@ const openPreview = () => {
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mr-auto">
+                    <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mr-auto">
                             {{ t('preview_finalize_note') }}
                         </p>
                         <button
                             type="button"
                             @click="showPreviewModal = false"
-                            class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:ring-gray-500"
+                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
                             {{ t('close') }}
                         </button>
@@ -855,9 +855,9 @@ const openPreview = () => {
         <!-- Finalize Modal -->
         <div v-if="showFinalizeModal" class="fixed inset-0 z-50 overflow-y-auto">
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="showFinalizeModal = false"></div>
+                <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="showFinalizeModal = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
                             <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -866,29 +866,29 @@ const openPreview = () => {
                                 </svg>
                             </div>
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white">
                                     {{ t('finalize_invoice_question') }}
                                 </h3>
                                 <div class="mt-2">
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">
                                         {{ t('finalize_invoice_warning') }}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 dark:bg-gray-700 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div class="bg-slate-50 px-4 py-3 dark:bg-slate-700 sm:flex sm:flex-row-reverse sm:px-6">
                         <button
                             type="button"
                             @click="finalizeInvoice"
-                            class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+                            class="inline-flex w-full justify-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
                         >
                             {{ t('finalize') }}
                         </button>
                         <button
                             type="button"
                             @click="showFinalizeModal = false"
-                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:ring-gray-500 sm:mt-0 sm:w-auto"
+                            class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                         >
                             {{ t('cancel') }}
                         </button>

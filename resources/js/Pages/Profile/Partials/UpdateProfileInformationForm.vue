@@ -30,11 +30,11 @@ const form = useForm({
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
                 {{ t('profile_information') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
                 {{ t('update_profile_info') }}
             </p>
         </header>
@@ -80,14 +80,14 @@ const form = useForm({
                 <select
                     id="locale"
                     v-model="form.locale"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                 >
                     <option v-for="(label, code) in page.props.availableLocales" :key="code" :value="code">
                         {{ label }}
                     </option>
                 </select>
 
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                     {{ t('interface_language_help') }}
                 </p>
 
@@ -95,13 +95,13 @@ const form = useForm({
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800 dark:text-gray-200">
+                <p class="mt-2 text-sm text-slate-800 dark:text-slate-200">
                     {{ t('email_unverified') }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                        class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
                     >
                         {{ t('resend_verification_email') }}
                     </Link>
@@ -109,7 +109,7 @@ const form = useForm({
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600 dark:text-green-400"
+                    class="mt-2 text-sm font-medium text-emerald-600 dark:text-emerald-400"
                 >
                     {{ t('verification_link_sent') }}
                 </div>
@@ -126,7 +126,7 @@ const form = useForm({
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600 dark:text-gray-400"
+                        class="text-sm text-slate-600 dark:text-slate-400"
                     >
                         {{ t('saved') }}
                     </p>

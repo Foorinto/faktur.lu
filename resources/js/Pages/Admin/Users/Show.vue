@@ -78,7 +78,7 @@ const getStatusBadge = (status) => {
         sent: { class: 'bg-blue-500/20 text-blue-400', label: 'Envoyée' },
         paid: { class: 'bg-green-500/20 text-green-400', label: 'Payée' },
         overdue: { class: 'bg-red-500/20 text-red-400', label: 'En retard' },
-        cancelled: { class: 'bg-gray-500/20 text-gray-400', label: 'Annulée' },
+        cancelled: { class: 'bg-slate-500/20 text-slate-400', label: 'Annulée' },
     };
     return badges[status] || { class: 'bg-slate-500/20 text-slate-400', label: status };
 };
@@ -161,7 +161,7 @@ const getStatusBadge = (status) => {
                         </span>
                         <span
                             v-if="user.deleted_at"
-                            class="inline-flex rounded-full bg-gray-500/20 px-3 py-1 text-sm font-medium text-gray-400"
+                            class="inline-flex rounded-full bg-slate-500/20 px-3 py-1 text-sm font-medium text-slate-400"
                         >
                             Supprimé le {{ formatDate(user.deleted_at) }}
                         </span>

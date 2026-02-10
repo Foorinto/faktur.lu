@@ -31,7 +31,7 @@ const submit = () => {
     <GuestLayout>
         <Head :title="t('two_factor_title')" />
 
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+        <div class="mb-4 text-sm text-slate-600 dark:text-slate-400">
             <template v-if="!recovery">
                 {{ t('two_factor_description') }}
             </template>
@@ -76,7 +76,7 @@ const submit = () => {
             <div class="mt-6 flex items-center justify-between">
                 <button
                     type="button"
-                    class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer dark:text-gray-400 dark:hover:text-gray-100"
+                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
                     @click="toggleRecovery"
                 >
                     <template v-if="!recovery">

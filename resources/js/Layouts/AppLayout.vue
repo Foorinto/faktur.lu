@@ -47,18 +47,25 @@ const routeExists = (routeName) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+        <!-- Background decorations -->
+        <div class="fixed inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 -left-40 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 right-1/3 w-80 h-80 bg-accent-pink/5 rounded-full blur-3xl"></div>
+        </div>
+
         <!-- Impersonation Banner -->
         <div
             v-if="page.props.impersonating"
-            class="fixed top-0 left-0 right-0 z-[100] bg-purple-600 px-4 py-2 text-center text-sm text-white"
+            class="fixed top-0 left-0 right-0 z-[100] bg-primary-600 px-4 py-2 text-center text-sm text-white"
         >
             <span>
                 {{ t('logged_in_as') }} <strong>{{ page.props.impersonating.user_name }}</strong>
             </span>
             <button
                 @click="stopImpersonation"
-                class="ml-4 rounded bg-white px-3 py-1 text-sm font-medium text-purple-600 hover:bg-purple-50"
+                class="ml-4 rounded-lg bg-white px-3 py-1 text-sm font-medium text-primary-600 hover:bg-primary-50 transition-colors"
             >
                 {{ t('return_to_admin') }}
             </button>
@@ -69,29 +76,33 @@ const routeExists = (routeName) => {
             :class="[
                 showingSidebar ? 'translate-x-0' : '-translate-x-full',
                 page.props.impersonating ? 'top-10' : 'top-0',
-                'fixed inset-y-0 left-0 z-50 w-64 transform bg-white transition-transform duration-300 ease-in-out dark:bg-gray-800 lg:translate-x-0',
+                'fixed inset-y-0 left-0 z-50 w-64 transform bg-white border-r border-slate-200 transition-transform duration-300 ease-in-out dark:bg-slate-800 dark:border-slate-700 lg:translate-x-0',
             ]"
         >
             <div class="flex h-full flex-col">
                 <!-- Logo -->
-                <div class="flex h-16 items-center justify-between border-b border-gray-200 px-4 dark:border-gray-700">
-                    <Link :href="route('dashboard')" class="flex items-center space-x-2">
-                        <ApplicationLogo class="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
-                        <span class="text-lg font-semibold text-gray-900 dark:text-white">faktur.lu</span>
+                <div class="flex h-16 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-700">
+                    <Link :href="route('dashboard')" class="flex items-center space-x-2.5">
+                        <div class="bg-primary-500 p-2 rounded-xl">
+                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-lg font-bold text-slate-900 dark:text-white">faktur.lu</span>
                     </Link>
                 </div>
 
                 <!-- Navigation -->
-                <nav class="flex-1 space-y-1 px-2 py-4">
+                <nav class="flex-1 space-y-1 px-3 py-4">
                     <template v-for="item in navigation" :key="item.name">
                         <Link
                             v-if="routeExists(item.href)"
                             :href="route(item.href)"
                             :class="[
                                 isCurrentRoute(item.href)
-                                    ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400'
-                                    : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700',
-                                'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                                    ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400'
+                                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200',
+                                'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
                             ]"
                         >
                             <!-- Dashboard Icon -->
@@ -139,7 +150,7 @@ const routeExists = (routeName) => {
                         </Link>
                         <span
                             v-else
-                            class="group flex cursor-not-allowed items-center rounded-md px-3 py-2 text-sm font-medium text-gray-400 dark:text-gray-500"
+                            class="group flex cursor-not-allowed items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 dark:text-slate-600"
                         >
                             <!-- Icons same as above but grayed out -->
                             <svg v-if="item.icon === 'chart-bar'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -176,27 +187,27 @@ const routeExists = (routeName) => {
                 </nav>
 
                 <!-- User menu at bottom -->
-                <div class="border-t border-gray-200 p-4 dark:border-gray-700">
+                <div class="border-t border-slate-200 p-4 dark:border-slate-700">
                     <Dropdown align="top-left" width="48">
                         <template #trigger>
                             <button
                                 type="button"
-                                class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
+                                class="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-700"
                             >
-                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900">
-                                    <span class="text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                                <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
+                                    <span class="text-sm font-semibold text-primary-600 dark:text-primary-400">
                                         {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
                                     </span>
                                 </div>
                                 <div class="ml-3 flex-1 text-left">
-                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                    <p class="text-sm font-medium text-slate-900 dark:text-white">
                                         {{ $page.props.auth.user.name }}
                                     </p>
-                                    <p class="truncate text-xs text-gray-500 dark:text-gray-400">
+                                    <p class="truncate text-xs text-slate-500 dark:text-slate-400">
                                         {{ $page.props.auth.user.email }}
                                     </p>
                                 </div>
-                                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
                                 </svg>
                             </button>
@@ -218,18 +229,18 @@ const routeExists = (routeName) => {
         <!-- Mobile sidebar backdrop -->
         <div
             v-show="showingSidebar"
-            class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+            class="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm lg:hidden"
             @click="showingSidebar = false"
         ></div>
 
         <!-- Main content -->
-        <div :class="['lg:pl-64', page.props.impersonating ? 'pt-10' : '']">
+        <div :class="['lg:pl-64 relative', page.props.impersonating ? 'pt-10' : '']">
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-4 dark:border-gray-700 dark:bg-gray-800 sm:px-6 lg:px-8">
+            <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 backdrop-blur-md px-4 dark:border-slate-700 dark:bg-slate-800/80 sm:px-6 lg:px-8">
                 <!-- Mobile menu button -->
                 <button
                     type="button"
-                    class="text-gray-500 hover:text-gray-600 lg:hidden dark:text-gray-400 dark:hover:text-gray-300"
+                    class="text-slate-500 hover:text-slate-700 lg:hidden dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
                     @click="showingSidebar = !showingSidebar"
                 >
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

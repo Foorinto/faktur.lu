@@ -134,35 +134,35 @@ const cancelLogoUpload = () => {
 
     <AppLayout>
         <template #header>
-            <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                 {{ t('settings') }}
             </h1>
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
             <nav class="flex space-x-8" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-indigo-500 text-indigo-600 dark:text-indigo-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
                 >
                     {{ t('business_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('email_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Fournisseur Email
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Accès Comptable
                 </Link>
@@ -171,12 +171,12 @@ const cancelLogoUpload = () => {
 
         <div class="mx-auto max-w-3xl space-y-8">
             <!-- Logo -->
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         {{ t('logo') }}
                     </h2>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         {{ t('logo_appears_on_invoices') }}
                     </p>
                 </div>
@@ -186,7 +186,7 @@ const cancelLogoUpload = () => {
                         <div class="flex-shrink-0">
                             <div
                                 v-if="logoPreview"
-                                class="w-32 h-32 rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden bg-white flex items-center justify-center"
+                                class="w-32 h-32 rounded-xl border border-slate-200 dark:border-slate-600 overflow-hidden bg-white flex items-center justify-center"
                             >
                                 <img
                                     :src="logoPreview"
@@ -196,9 +196,9 @@ const cancelLogoUpload = () => {
                             </div>
                             <div
                                 v-else
-                                class="w-32 h-32 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center"
+                                class="w-32 h-32 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center"
                             >
-                                <svg class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                 </svg>
                             </div>
@@ -219,7 +219,7 @@ const cancelLogoUpload = () => {
                             </div>
 
                             <div v-else-if="logoForm.logo" class="space-y-3">
-                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                <p class="text-sm text-slate-600 dark:text-slate-400">
                                     {{ t('new_file_selected') }} <span class="font-medium">{{ logoForm.logo.name }}</span>
                                 </p>
                                 <div class="flex space-x-3">
@@ -227,7 +227,7 @@ const cancelLogoUpload = () => {
                                         type="button"
                                         @click="uploadLogo"
                                         :disabled="logoForm.processing"
-                                        class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 disabled:opacity-50"
+                                        class="inline-flex items-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                                     >
                                         <svg v-if="logoForm.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -238,7 +238,7 @@ const cancelLogoUpload = () => {
                                     <button
                                         type="button"
                                         @click="cancelLogoUpload"
-                                        class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                                     >
                                         {{ t('cancel') }}
                                     </button>
@@ -247,7 +247,7 @@ const cancelLogoUpload = () => {
                             </div>
 
                             <div v-else class="space-y-3">
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                <p class="text-sm text-slate-500 dark:text-slate-400">
                                     {{ t('logo_format_info') }}<br>
                                     {{ t('max_size') }} 2 Mo.
                                 </p>
@@ -255,7 +255,7 @@ const cancelLogoUpload = () => {
                                     <button
                                         type="button"
                                         @click="selectLogo"
-                                        class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                                     >
                                         <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -266,7 +266,7 @@ const cancelLogoUpload = () => {
                                         v-if="settings?.logo_path"
                                         type="button"
                                         @click="deleteLogo"
-                                        class="inline-flex items-center rounded-md border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-700 dark:text-red-400"
+                                        class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-slate-700 dark:text-pink-400"
                                     >
                                         <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -282,12 +282,12 @@ const cancelLogoUpload = () => {
 
             <form @submit.prevent="submit" class="space-y-8">
                 <!-- Informations légales -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('legal_information') }}
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('legal_info_appear_invoices') }}
                         </p>
                     </div>
@@ -325,7 +325,7 @@ const cancelLogoUpload = () => {
                             <textarea
                                 id="address"
                                 v-model="form.address"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 rows="2"
                                 required
                                 placeholder="1 Rue Exemple"
@@ -365,7 +365,7 @@ const cancelLogoUpload = () => {
                                 <select
                                     id="country_code"
                                     v-model="form.country_code"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                     required
                                 >
                                     <option value="LU">Luxembourg</option>
@@ -380,12 +380,12 @@ const cancelLogoUpload = () => {
                 </div>
 
                 <!-- Identifiants fiscaux -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('tax_identifiers') }}
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('tax_info_required') }}
                         </p>
                     </div>
@@ -402,7 +402,7 @@ const cancelLogoUpload = () => {
                                     maxlength="13"
                                     placeholder="0000000000000"
                                 />
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('matricule_help') }}
                                 </p>
                                 <InputError :message="form.errors.matricule" class="mt-2" />
@@ -411,7 +411,7 @@ const cancelLogoUpload = () => {
                             <div>
                                 <InputLabel for="rcs_number">
                                     {{ t('rcs_number_label') }}
-                                    <span class="text-gray-400 text-xs">({{ t('optional') }})</span>
+                                    <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
                                 </InputLabel>
                                 <TextInput
                                     id="rcs_number"
@@ -421,7 +421,7 @@ const cancelLogoUpload = () => {
                                     maxlength="20"
                                     placeholder="A00000"
                                 />
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('rcs_help') }}
                                 </p>
                                 <InputError :message="form.errors.rcs_number" class="mt-2" />
@@ -432,8 +432,8 @@ const cancelLogoUpload = () => {
                             <div>
                                 <InputLabel for="vat_number">
                                     {{ t('vat_number') }}
-                                    <span v-if="isVatRequired" class="text-red-500">*</span>
-                                    <span v-else class="text-gray-400 text-xs">({{ t('optional') }})</span>
+                                    <span v-if="isVatRequired" class="text-pink-500">*</span>
+                                    <span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span>
                                 </InputLabel>
                                 <TextInput
                                     id="vat_number"
@@ -444,7 +444,7 @@ const cancelLogoUpload = () => {
                                     maxlength="20"
                                     placeholder="LU00000000"
                                 />
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('vat_format_help') }}
                                     <span v-if="!isVatRequired"> ({{ t('kept_for_reference') }})</span>
                                 </p>
@@ -454,7 +454,7 @@ const cancelLogoUpload = () => {
                             <div>
                                 <InputLabel for="establishment_authorization">
                                     {{ t('establishment_authorization') }}
-                                    <span class="text-gray-400 text-xs">({{ t('optional') }})</span>
+                                    <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
                                 </InputLabel>
                                 <TextInput
                                     id="establishment_authorization"
@@ -464,7 +464,7 @@ const cancelLogoUpload = () => {
                                     maxlength="50"
                                     placeholder="N° d'autorisation"
                                 />
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('establishment_authorization_help') }}
                                 </p>
                                 <InputError :message="form.errors.establishment_authorization" class="mt-2" />
@@ -477,24 +477,24 @@ const cancelLogoUpload = () => {
                                 <label
                                     v-for="regime in vatRegimes"
                                     :key="regime.value"
-                                    class="flex items-start p-4 rounded-lg border cursor-pointer transition-colors"
+                                    class="flex items-start p-4 rounded-xl border cursor-pointer transition-colors"
                                     :class="[
                                         form.vat_regime === regime.value
-                                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
-                                            : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                                            : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
                                     ]"
                                 >
                                     <input
                                         type="radio"
                                         v-model="form.vat_regime"
                                         :value="regime.value"
-                                        class="mt-0.5 h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        class="mt-0.5 h-4 w-4 border-slate-300 text-primary-600 focus:ring-primary-500"
                                     />
                                     <div class="ml-3">
-                                        <span class="block text-sm font-medium text-gray-900 dark:text-white">
+                                        <span class="block text-sm font-medium text-slate-900 dark:text-white">
                                             {{ regime.label }}
                                         </span>
-                                        <span class="block text-sm text-gray-500 dark:text-gray-400">
+                                        <span class="block text-sm text-slate-500 dark:text-slate-400">
                                             {{ regime.description }}
                                         </span>
                                     </div>
@@ -506,12 +506,12 @@ const cancelLogoUpload = () => {
                 </div>
 
                 <!-- Coordonnées bancaires -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('bank_details') }}
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('bank_details_help') }}
                         </p>
                     </div>
@@ -559,12 +559,12 @@ const cancelLogoUpload = () => {
                 </div>
 
                 <!-- Peppol e-Invoicing -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             Peppol e-Invoicing
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             Configurez votre identifiant Peppol pour exporter des factures au format Peppol BIS 3.0
                         </p>
                     </div>
@@ -575,14 +575,14 @@ const cancelLogoUpload = () => {
                                 <select
                                     id="peppol_endpoint_scheme"
                                     v-model="form.peppol_endpoint_scheme"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 >
                                     <option value="">-- Sélectionner --</option>
                                     <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
                                         {{ scheme.label }}
                                     </option>
                                 </select>
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     Code ISO 6523 ICD. Pour Luxembourg, utilisez 0184 (TVA).
                                 </p>
                                 <InputError :message="form.errors.peppol_endpoint_scheme" class="mt-2" />
@@ -598,22 +598,22 @@ const cancelLogoUpload = () => {
                                     maxlength="50"
                                     placeholder="LU12345678"
                                 />
-                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     Votre numéro de TVA ou autre identifiant selon le schéma choisi.
                                 </p>
                                 <InputError :message="form.errors.peppol_endpoint_id" class="mt-2" />
                             </div>
                         </div>
 
-                        <div class="rounded-lg bg-blue-50 dark:bg-blue-900/20 p-4">
+                        <div class="rounded-xl bg-sky-50 dark:bg-sky-900/20 p-4">
                             <div class="flex">
                                 <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <p class="text-sm text-blue-700 dark:text-blue-300">
+                                    <p class="text-sm text-sky-700 dark:text-sky-300">
                                         L'export Peppol génère un fichier XML que vous pouvez télécharger et importer manuellement dans votre Access Point Peppol (ex: Peppol.lu, Basware, etc.).
                                     </p>
                                 </div>
@@ -623,19 +623,19 @@ const cancelLogoUpload = () => {
                 </div>
 
                 <!-- Tarification -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('pricing') }}
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('pricing_help') }}
                         </p>
                     </div>
                     <div class="px-6 py-4">
                         <div class="max-w-xs">
                             <InputLabel for="default_hourly_rate" :value="t('default_hourly_rate')" />
-                            <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="mt-1 relative rounded-xl shadow-sm">
                                 <TextInput
                                     id="default_hourly_rate"
                                     v-model="form.default_hourly_rate"
@@ -646,10 +646,10 @@ const cancelLogoUpload = () => {
                                     placeholder="100.00"
                                 />
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                    <span class="text-gray-500 dark:text-gray-400 sm:text-sm">€/h</span>
+                                    <span class="text-slate-500 dark:text-slate-400 sm:text-sm">€/h</span>
                                 </div>
                             </div>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('hourly_rate_help') }}
                             </p>
                             <InputError :message="form.errors.default_hourly_rate" class="mt-2" />
@@ -658,12 +658,12 @@ const cancelLogoUpload = () => {
                 </div>
 
                 <!-- Personnalisation des factures -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('invoice_customization') }}
                         </h2>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('invoice_customization_help') }}
                         </p>
                     </div>
@@ -674,13 +674,13 @@ const cancelLogoUpload = () => {
                             <select
                                 id="default_vat_mention"
                                 v-model="form.default_vat_mention"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                             >
                                 <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('vat_mention_help') }}
                             </p>
                             <InputError :message="form.errors.default_vat_mention" class="mt-2" />
@@ -693,7 +693,7 @@ const cancelLogoUpload = () => {
                                 id="default_custom_vat_mention"
                                 v-model="form.default_custom_vat_mention"
                                 rows="2"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 :placeholder="t('custom_vat_placeholder')"
                             ></textarea>
                             <InputError :message="form.errors.default_custom_vat_mention" class="mt-2" />
@@ -702,7 +702,7 @@ const cancelLogoUpload = () => {
                         <!-- PDF Color -->
                         <div>
                             <InputLabel :value="t('pdf_color')" />
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 mb-3">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400 mb-3">
                                 {{ t('pdf_color_help') }}
                             </p>
                             <div class="flex flex-wrap gap-2 mb-3">
@@ -711,8 +711,8 @@ const cancelLogoUpload = () => {
                                     :key="preset.value"
                                     type="button"
                                     @click="form.default_pdf_color = preset.value"
-                                    class="w-10 h-10 rounded-lg border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                    :class="form.default_pdf_color === preset.value ? 'border-gray-900 dark:border-white ring-2 ring-offset-2' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'"
+                                    class="w-10 h-10 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                    :class="form.default_pdf_color === preset.value ? 'border-slate-900 dark:border-white ring-2 ring-offset-2' : 'border-slate-300 dark:border-slate-600 hover:border-slate-400'"
                                     :style="{ backgroundColor: preset.value }"
                                     :title="preset.label"
                                 >
@@ -728,16 +728,16 @@ const cancelLogoUpload = () => {
                                 </button>
                             </div>
                             <div class="flex items-center gap-3">
-                                <label class="text-sm text-gray-600 dark:text-gray-400">{{ t('custom_color') }}</label>
+                                <label class="text-sm text-slate-600 dark:text-slate-400">{{ t('custom_color') }}</label>
                                 <input
                                     type="color"
                                     v-model="form.default_pdf_color"
-                                    class="w-10 h-10 rounded cursor-pointer border border-gray-300 dark:border-gray-600"
+                                    class="w-10 h-10 rounded-xl cursor-pointer border border-slate-300 dark:border-slate-600"
                                 />
                                 <input
                                     type="text"
                                     v-model="form.default_pdf_color"
-                                    class="w-28 px-2 py-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm font-mono uppercase"
+                                    class="w-28 px-2 py-1 rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm font-mono uppercase"
                                     placeholder="#7c3aed"
                                     maxlength="7"
                                 />
@@ -752,10 +752,10 @@ const cancelLogoUpload = () => {
                                 id="default_invoice_footer"
                                 v-model="form.default_invoice_footer"
                                 rows="3"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 placeholder="Merci pour votre confiance !"
                             ></textarea>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('footer_message_help') }}
                             </p>
                             <InputError :message="form.errors.default_invoice_footer" class="mt-2" />
@@ -764,9 +764,9 @@ const cancelLogoUpload = () => {
                 </div>
 
                 <!-- Contact -->
-                <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('contact') }}
                         </h2>
                     </div>
@@ -786,9 +786,9 @@ const cancelLogoUpload = () => {
                                     <input
                                         type="checkbox"
                                         v-model="form.show_email_on_invoice"
-                                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700"
+                                        class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
                                     />
-                                    <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">
                                         {{ t('show_on_invoices') }}
                                     </span>
                                 </label>
@@ -808,9 +808,9 @@ const cancelLogoUpload = () => {
                                     <input
                                         type="checkbox"
                                         v-model="form.show_phone_on_invoice"
-                                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700"
+                                        class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
                                     />
-                                    <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">
                                         {{ t('show_on_invoices') }}
                                     </span>
                                 </label>
@@ -830,7 +830,7 @@ const cancelLogoUpload = () => {
                     >
                         <p
                             v-if="form.recentlySuccessful"
-                            class="text-sm text-green-600 dark:text-green-400"
+                            class="text-sm text-emerald-600 dark:text-emerald-400"
                         >
                             {{ t('saved') }}
                         </p>

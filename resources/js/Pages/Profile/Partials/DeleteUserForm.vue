@@ -44,11 +44,11 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
                 {{ t('delete_account') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
                 {{ t('delete_account_warning') }}
             </p>
         </header>
@@ -58,12 +58,12 @@ const closeModal = () => {
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
                 <h2
-                    class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                    class="text-lg font-medium text-slate-900 dark:text-slate-100"
                 >
                     {{ t('delete_account_confirm_title') }}
                 </h2>
 
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
                     {{ t('delete_account_confirm_message') }}
                 </p>
 

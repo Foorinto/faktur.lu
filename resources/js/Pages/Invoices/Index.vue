@@ -97,11 +97,11 @@ watch([statusFilter, yearFilter, clientFilter], updateFilters);
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        draft: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-        finalized: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-        sent: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-        paid: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-        cancelled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+        draft: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        finalized: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
+        sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+        paid: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+        cancelled: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
     };
     return classes[status] || classes.draft;
 };
@@ -127,6 +127,25 @@ const formatCurrency = (amount, currency = 'EUR') => {
 const formatDate = (date) => {
     if (!date) return '-';
     return new Date(date).toLocaleDateString('fr-FR');
+};
+
+// Check if invoice is overdue
+const isOverdue = (invoice) => {
+    if (!invoice.due_at) return false;
+    if (['paid', 'cancelled', 'draft'].includes(invoice.status)) return false;
+    const dueDate = new Date(invoice.due_at);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return dueDate < today;
+};
+
+// Get days overdue
+const getDaysOverdue = (invoice) => {
+    if (!isOverdue(invoice)) return 0;
+    const dueDate = new Date(invoice.due_at);
+    const today = new Date();
+    const diffTime = today - dueDate;
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
 
 // Status change functionality
@@ -172,12 +191,12 @@ const changeStatus = (invoice, newStatus) => {
     <AppLayout>
         <template #header>
             <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <h1 class="text-xl font-bold text-slate-900 dark:text-white">
                     {{ t('invoices') }}
                 </h1>
                 <Link
                     :href="route('invoices.create')"
-                    class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                    class="inline-flex items-center rounded-xl bg-primary-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 transition-colors"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -191,7 +210,7 @@ const changeStatus = (invoice, newStatus) => {
         <div class="mb-6 flex flex-wrap gap-4">
             <select
                 v-model="statusFilter"
-                class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+                class="rounded-xl border-slate-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:border-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_statuses') }}</option>
                 <option v-for="status in statuses" :key="status.value" :value="status.value">
@@ -201,7 +220,7 @@ const changeStatus = (invoice, newStatus) => {
 
             <select
                 v-model="yearFilter"
-                class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+                class="rounded-xl border-slate-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:border-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_years') }}</option>
                 <option v-for="year in years" :key="year" :value="year">
@@ -211,7 +230,7 @@ const changeStatus = (invoice, newStatus) => {
 
             <select
                 v-model="clientFilter"
-                class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+                class="rounded-xl border-slate-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:border-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_clients') }}</option>
                 <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -221,26 +240,26 @@ const changeStatus = (invoice, newStatus) => {
         </div>
 
         <!-- Invoices list -->
-        <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                <thead class="bg-slate-50 dark:bg-slate-700/50">
                     <tr>
-                        <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
+                        <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('number') }}
                         </th>
-                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">
                             {{ t('client') }}
                         </th>
-                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white md:table-cell">
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">
                             {{ t('date') }}
                         </th>
-                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white lg:table-cell">
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">
                             {{ t('due_date') }}
                         </th>
-                        <th class="px-3 py-3.5 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                        <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">
                             {{ t('total') }} {{ t('ttc') }}
                         </th>
-                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">
                             {{ t('status') }}
                         </th>
                         <th class="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -248,89 +267,127 @@ const changeStatus = (invoice, newStatus) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+                <tbody class="divide-y divide-slate-100 bg-white dark:divide-slate-700 dark:bg-slate-800">
                     <tr v-if="invoices.data.length === 0">
-                        <td colspan="7" class="py-10 text-center text-sm text-gray-500 dark:text-gray-400">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <p class="mt-2">{{ t('no_invoices') }}</p>
+                        <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
+                            <div class="mx-auto h-16 w-16 rounded-2xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center mb-4">
+                                <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <p class="font-medium text-slate-700 dark:text-slate-300">{{ t('no_invoices') }}</p>
                             <Link
                                 :href="route('invoices.create')"
-                                class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+                                class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500 dark:text-primary-400 font-medium"
                             >
                                 {{ t('create_first_invoice') }}
                             </Link>
                         </td>
                     </tr>
-                    <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <tr
+                        v-for="invoice in invoices.data"
+                        :key="invoice.id"
+                        :class="[
+                            'transition-colors',
+                            isOverdue(invoice)
+                                ? 'bg-pink-50/50 hover:bg-pink-50 dark:bg-pink-900/10 dark:hover:bg-pink-900/20'
+                                : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                        ]"
+                    >
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                             <Link
                                 :href="invoice.status === 'draft' ? route('invoices.edit', invoice.id) : route('invoices.show', invoice.id)"
-                                class="font-medium text-gray-900 hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400"
+                                class="font-semibold text-slate-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400 transition-colors"
                             >
-                                <span v-if="invoice.type === 'credit_note'" class="text-red-600 dark:text-red-400">
+                                <span v-if="invoice.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">
                                     NC-
                                 </span>
                                 {{ invoice.number || t('draft').toUpperCase() }}
                             </Link>
-                            <p v-if="invoice.title" class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[200px]">
+                            <p v-if="invoice.title" class="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
                                 {{ invoice.title }}
                             </p>
                         </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-600 dark:text-slate-400">
                             {{ invoice.client?.name }}
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400 md:table-cell">
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell">
                             {{ formatDate(invoice.issued_at) }}
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400 lg:table-cell">
-                            {{ formatDate(invoice.due_at) }}
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm lg:table-cell">
+                            <div class="flex items-center gap-1.5">
+                                <!-- Overdue warning icon -->
+                                <svg
+                                    v-if="isOverdue(invoice)"
+                                    class="h-4 w-4 text-pink-500 flex-shrink-0"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    :title="t('overdue_days', { days: getDaysOverdue(invoice) })"
+                                >
+                                    <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                </svg>
+                                <span :class="isOverdue(invoice) ? 'text-pink-600 dark:text-pink-400 font-medium' : 'text-slate-500 dark:text-slate-400'">
+                                    {{ formatDate(invoice.due_at) }}
+                                </span>
+                            </div>
                         </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-right text-sm font-medium"
-                            :class="invoice.type === 'credit_note' ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'"
+                        <td class="whitespace-nowrap px-3 py-4 text-right text-sm font-semibold"
+                            :class="invoice.type === 'credit_note' ? 'text-pink-600 dark:text-pink-400' : 'text-slate-900 dark:text-white'"
                         >
                             {{ formatCurrency(invoice.total_ttc, invoice.currency) }}
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm">
-                            <!-- Dropdown for changeable statuses -->
-                            <div v-if="canChangeStatus(invoice)" class="inline-flex relative">
-                                <select
-                                    :value="invoice.status"
-                                    @change="changeStatus(invoice, $event.target.value)"
-                                    :disabled="changingStatus === invoice.id"
-                                    :class="[
-                                        getStatusBadgeClass(invoice.status),
-                                        'appearance-none cursor-pointer rounded-full pl-2.5 pr-6 py-0.5 text-xs font-medium border-0 focus:ring-2 focus:ring-indigo-500',
-                                        changingStatus === invoice.id ? 'opacity-50' : ''
-                                    ]"
-                                >
-                                    <option :value="invoice.status">{{ getStatusLabel(invoice.status) }}</option>
-                                    <option
-                                        v-for="status in getAvailableStatuses(invoice.status)"
-                                        :key="status"
-                                        :value="status"
+                            <div class="flex items-center gap-2">
+                                <!-- Dropdown for changeable statuses -->
+                                <div v-if="canChangeStatus(invoice)" class="inline-flex relative">
+                                    <select
+                                        :value="invoice.status"
+                                        @change="changeStatus(invoice, $event.target.value)"
+                                        :disabled="changingStatus === invoice.id"
+                                        :class="[
+                                            getStatusBadgeClass(invoice.status),
+                                            'appearance-none cursor-pointer rounded-xl pl-3 pr-7 py-1 text-xs font-semibold border-0 focus:ring-2 focus:ring-primary-500',
+                                            changingStatus === invoice.id ? 'opacity-50' : ''
+                                        ]"
                                     >
-                                        → {{ getStatusLabel(status) }}
-                                    </option>
-                                </select>
+                                        <option :value="invoice.status">{{ getStatusLabel(invoice.status) }}</option>
+                                        <option
+                                            v-for="status in getAvailableStatuses(invoice.status)"
+                                            :key="status"
+                                            :value="status"
+                                        >
+                                            → {{ getStatusLabel(status) }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <!-- Static badge for non-changeable statuses -->
+                                <span
+                                    v-else
+                                    :class="getStatusBadgeClass(invoice.status)"
+                                    class="inline-flex items-center rounded-xl px-3 py-1 text-xs font-semibold"
+                                >
+                                    {{ getStatusLabel(invoice.status) }}
+                                </span>
+                                <!-- Overdue badge -->
+                                <span
+                                    v-if="isOverdue(invoice)"
+                                    class="inline-flex items-center gap-1 rounded-xl bg-pink-100 px-2 py-0.5 text-xs font-semibold text-pink-700 dark:bg-pink-900/30 dark:text-pink-400"
+                                    :title="t('overdue_days', { days: getDaysOverdue(invoice) })"
+                                >
+                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    </svg>
+                                    {{ t('overdue') }}
+                                </span>
                             </div>
-                            <!-- Static badge for non-changeable statuses -->
-                            <span
-                                v-else
-                                :class="getStatusBadgeClass(invoice.status)"
-                                class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                            >
-                                {{ getStatusLabel(invoice.status) }}
-                            </span>
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div class="flex items-center justify-end gap-5">
+                            <div class="flex items-center justify-end gap-4">
                                 <!-- Preview button -->
                                 <button
                                     type="button"
                                     @click="openPreview(invoice)"
-                                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                                    class="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                                     :title="t('preview')"
                                 >
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -342,7 +399,7 @@ const changeStatus = (invoice, newStatus) => {
                                 <a
                                     :href="invoice.status === 'draft' ? route('invoices.draft-pdf', invoice.id) : route('invoices.pdf.stream', invoice.id)"
                                     target="_blank"
-                                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                                    class="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                                     :title="t('download_pdf')"
                                 >
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -353,7 +410,7 @@ const changeStatus = (invoice, newStatus) => {
                                 <Link
                                     v-if="invoice.status === 'draft'"
                                     :href="route('invoices.edit', invoice.id)"
-                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                    class="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
                                     :title="t('edit')"
                                 >
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -364,7 +421,7 @@ const changeStatus = (invoice, newStatus) => {
                                 <Link
                                     v-else
                                     :href="route('invoices.show', invoice.id)"
-                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                    class="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
                                     :title="t('view')"
                                 >
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -377,13 +434,13 @@ const changeStatus = (invoice, newStatus) => {
                                     :href="route('invoices.finalize', invoice.id)"
                                     method="post"
                                     as="button"
-                                    class="inline-flex items-center gap-1 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
+                                    class="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
                                     :title="t('finalize')"
                                 >
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span class="text-sm">{{ t('finalize') }}</span>
+                                    <span class="text-sm font-medium">{{ t('finalize') }}</span>
                                 </Link>
                             </div>
                         </td>
@@ -394,21 +451,21 @@ const changeStatus = (invoice, newStatus) => {
 
         <!-- Pagination -->
         <div v-if="invoices.links && invoices.links.length > 3" class="mt-6 flex items-center justify-between">
-            <div class="text-sm text-gray-700 dark:text-gray-400">
+            <div class="text-sm text-slate-600 dark:text-slate-400">
                 {{ t('showing_x_to_y_of_z', { from: invoices.from, to: invoices.to, total: invoices.total, items: t('invoices').toLowerCase() }) }}
             </div>
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+            <nav class="isolate inline-flex -space-x-px rounded-xl shadow-sm overflow-hidden">
                 <template v-for="(link, index) in invoices.links" :key="index">
                     <Link
                         v-if="link.url"
                         :href="link.url"
                         :class="[
                             link.active
-                                ? 'z-10 bg-indigo-600 text-white'
-                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:text-gray-300 dark:ring-gray-600 dark:hover:bg-gray-700',
-                            'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
-                            index === 0 ? 'rounded-l-md' : '',
-                            index === invoices.links.length - 1 ? 'rounded-r-md' : '',
+                                ? 'z-10 bg-primary-500 text-white'
+                                : 'text-slate-700 bg-white ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:text-slate-300 dark:bg-slate-800 dark:ring-slate-700 dark:hover:bg-slate-700',
+                            'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 transition-colors',
+                            index === 0 ? 'rounded-l-xl' : '',
+                            index === invoices.links.length - 1 ? 'rounded-r-xl' : '',
                         ]"
                         v-html="link.label"
                         preserve-scroll
@@ -420,27 +477,27 @@ const changeStatus = (invoice, newStatus) => {
         <!-- Preview Modal -->
         <div v-if="showPreviewModal" class="fixed inset-0 z-50 overflow-hidden">
             <div class="flex items-center justify-center min-h-screen p-4">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="closePreview"></div>
+                <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="closePreview"></div>
 
-                <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col border border-slate-200 dark:border-slate-700">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                            <span v-if="previewInvoice?.type === 'credit_note'" class="text-red-600 dark:text-red-400">NC-</span>{{ previewInvoice?.number || t('draft') }}
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                            <span v-if="previewInvoice?.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">NC-</span>{{ previewInvoice?.number || t('draft') }}
                         </h3>
-                        <div class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-3">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
+                            <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
                                     type="button"
                                     @click="changePdfLanguage(lang.value)"
                                     :title="lang.label"
-                                    class="px-2 py-1.5 text-base transition-colors"
+                                    class="px-2.5 py-1.5 text-base transition-colors"
                                     :class="pdfLocale === lang.value
-                                        ? 'bg-indigo-100 dark:bg-indigo-900'
-                                        : 'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'"
+                                        ? 'bg-primary-100 dark:bg-primary-900/30'
+                                        : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600'"
                                 >
                                     {{ lang.flag }}
                                 </button>
@@ -448,7 +505,7 @@ const changeStatus = (invoice, newStatus) => {
                             <a
                                 :href="pdfUrl"
                                 target="_blank"
-                                class="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                             >
                                 <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -459,7 +516,7 @@ const changeStatus = (invoice, newStatus) => {
                             <button
                                 type="button"
                                 @click="closePreview"
-                                class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                                class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
                             >
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -469,24 +526,24 @@ const changeStatus = (invoice, newStatus) => {
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-gray-100 dark:bg-gray-900">
+                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-slate-900">
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                         </div>
                         <div
                             v-else
-                            class="bg-white shadow-lg mx-auto"
+                            class="bg-white shadow-xl rounded-lg mx-auto"
                             style="width: 210mm; min-height: 297mm; transform: scale(1); transform-origin: top center;"
                             v-html="previewHtml"
                         ></div>
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
+                    <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
                         <button
                             type="button"
                             @click="closePreview"
-                            class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:ring-gray-500"
+                            class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-colors dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
                             {{ t('close') }}
                         </button>

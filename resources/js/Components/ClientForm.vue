@@ -144,9 +144,9 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-8">
         <!-- Type de client -->
-        <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_type') }}
                 </h2>
             </div>
@@ -155,24 +155,24 @@ const submit = () => {
                     <label
                         v-for="clientType in clientTypes"
                         :key="clientType.value"
-                        class="flex items-start p-4 rounded-lg border cursor-pointer transition-colors"
+                        class="flex items-start p-4 rounded-xl border cursor-pointer transition-colors"
                         :class="[
                             form.type === clientType.value
-                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
-                                : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                                ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                                : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
                         ]"
                     >
                         <input
                             type="radio"
                             v-model="form.type"
                             :value="clientType.value"
-                            class="mt-0.5 h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            class="mt-0.5 h-4 w-4 border-slate-300 text-primary-500 focus:ring-primary-500"
                         />
                         <div class="ml-3">
-                            <span class="block text-sm font-medium text-gray-900 dark:text-white">
+                            <span class="block text-sm font-medium text-slate-900 dark:text-white">
                                 {{ clientType.label }}
                             </span>
-                            <span class="block text-sm text-gray-500 dark:text-gray-400">
+                            <span class="block text-sm text-slate-500 dark:text-slate-400">
                                 {{ clientType.description }}
                             </span>
                         </div>
@@ -183,9 +183,9 @@ const submit = () => {
         </div>
 
         <!-- Informations du client -->
-        <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_info') }}
                 </h2>
             </div>
@@ -235,7 +235,7 @@ const submit = () => {
                     <textarea
                         id="address"
                         v-model="form.address"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         rows="2"
                         placeholder="10 Rue Fictive"
                     ></textarea>
@@ -272,7 +272,7 @@ const submit = () => {
                         <select
                             id="country_code"
                             v-model="form.country_code"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                             required
                         >
                             <option v-for="country in countries" :key="country.code" :value="country.code">
@@ -300,8 +300,8 @@ const submit = () => {
                         <InputLabel for="vat_number">
                             {{ t('vat_number') }}
                             <span v-if="isB2B && isIntraEu" class="text-amber-600 text-xs font-medium">({{ t('vat_required_for_reverse_charge') }})</span>
-                            <span v-else-if="isB2B" class="text-gray-400 text-xs">({{ t('vat_recommended_b2b') }})</span>
-                            <span v-else class="text-gray-400 text-xs">({{ t('optional') }})</span>
+                            <span v-else-if="isB2B" class="text-slate-400 text-xs">({{ t('vat_recommended_b2b') }})</span>
+                            <span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span>
                         </InputLabel>
                         <TextInput
                             id="vat_number"
@@ -309,32 +309,32 @@ const submit = () => {
                             type="text"
                             class="mt-1 block w-full font-mono uppercase"
                             placeholder="LU00000000"
-                            :class="{ 'bg-gray-100 dark:bg-gray-600': !isB2B }"
+                            :class="{ 'bg-slate-100 dark:bg-slate-600': !isB2B }"
                         />
                         <InputError :message="form.errors.vat_number" class="mt-2" />
                     </div>
                 </div>
 
                 <!-- VAT Scenario Indicator -->
-                <div class="rounded-lg border p-4" :class="[
+                <div class="rounded-xl border p-4" :class="[
                     vatScenario.rate === 0
-                        ? 'border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/20'
-                        : 'border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800'
+                        ? 'border-sky-200 bg-sky-50 dark:border-sky-800 dark:bg-sky-900/20'
+                        : 'border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800'
                 ]">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-900 dark:text-white">
+                            <h4 class="text-sm font-medium text-slate-900 dark:text-white">
                                 {{ t('vat_scenario_detected') }}
                             </h4>
                             <VatScenarioIndicator :scenario="vatScenario" size="sm" class="mt-2" />
                         </div>
                         <div class="text-right">
                             <span class="text-2xl font-bold" :class="[
-                                vatScenario.rate === 0 ? 'text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-white'
+                                vatScenario.rate === 0 ? 'text-sky-600 dark:text-sky-400' : 'text-slate-900 dark:text-white'
                             ]">
                                 {{ vatScenario.rate }}%
                             </span>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ t('vat_rate') }}</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('vat_rate') }}</p>
                         </div>
                     </div>
                     <p v-if="showVatWarning" class="mt-3 text-sm text-amber-600 dark:text-amber-400">
@@ -360,11 +360,11 @@ const submit = () => {
                 </div>
 
                 <!-- Peppol Endpoint (B2B only) -->
-                <div v-if="isB2B && peppolSchemes.length > 0" class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
-                    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <div v-if="isB2B && peppolSchemes.length > 0" class="border-t border-slate-200 dark:border-slate-700 pt-4 mt-4">
+                    <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
                         Identifiant Peppol (optionnel)
                     </h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
                         Nécessaire pour l'envoi de factures électroniques via le réseau Peppol.
                     </p>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -373,7 +373,7 @@ const submit = () => {
                             <select
                                 id="peppol_endpoint_scheme"
                                 v-model="form.peppol_endpoint_scheme"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
                             >
                                 <option value="">Aucun</option>
                                 <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
@@ -400,9 +400,9 @@ const submit = () => {
         </div>
 
         <!-- Facturation -->
-        <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-white">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('billing_settings') }}
                 </h2>
             </div>
@@ -413,7 +413,7 @@ const submit = () => {
                         <select
                             id="currency"
                             v-model="form.currency"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                             required
                         >
                             <option v-for="currency in currencies" :key="currency.value" :value="currency.value">
@@ -428,13 +428,13 @@ const submit = () => {
                         <select
                             id="locale"
                             v-model="form.locale"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         >
                             <option v-for="(label, code) in page.props.availableLocales" :key="code" :value="code">
                                 {{ label }}
                             </option>
                         </select>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('document_language_help') }}
                         </p>
                         <InputError :message="form.errors.locale" class="mt-2" />
@@ -446,11 +446,11 @@ const submit = () => {
                     <textarea
                         id="notes"
                         v-model="form.notes"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                         rows="3"
                         :placeholder="t('internal_notes')"
                     ></textarea>
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         {{ t('notes_not_visible') }}
                     </p>
                     <InputError :message="form.errors.notes" class="mt-2" />
@@ -462,7 +462,7 @@ const submit = () => {
         <div class="flex justify-end space-x-3">
             <Link
                 :href="cancelRouteParams ? route(cancelRoute, cancelRouteParams) : route(cancelRoute)"
-                class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
             >
                 {{ t('cancel') }}
             </Link>

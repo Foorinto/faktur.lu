@@ -36,7 +36,7 @@ const submit = () => {
     <GuestLayout>
         <Head :title="t('login')" />
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+        <div v-if="status" class="mb-4 text-sm font-medium text-emerald-600">
             {{ status }}
         </div>
 
@@ -75,7 +75,7 @@ const submit = () => {
             <div class="mt-4 block">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400"
+                    <span class="ms-2 text-sm text-slate-600 dark:text-slate-400"
                         >{{ t('remember_me') }}</span
                     >
                 </label>
@@ -84,7 +84,7 @@ const submit = () => {
             <div class="mt-4 flex items-center justify-between">
                 <Link
                     :href="route('register')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
                 >
                     {{ t('create_account') }}
                 </Link>
@@ -93,7 +93,7 @@ const submit = () => {
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                        class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
                     >
                         {{ t('forgot_password') }}
                     </Link>

@@ -63,20 +63,20 @@ const getCategoryData = (categoryKey) => {
                 <div class="flex items-center space-x-4">
                     <Link
                         :href="route('expenses.index')"
-                        class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
                     >
                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
                         </svg>
                     </Link>
-                    <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                         {{ t('expenses_summary') }}
                     </h1>
                 </div>
 
                 <select
                     v-model="yearFilter"
-                    class="rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 dark:bg-gray-800 dark:text-white dark:ring-gray-600 sm:text-sm"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
                 >
                     <option v-for="y in years" :key="y" :value="y">
                         {{ y }}
@@ -87,27 +87,27 @@ const getCategoryData = (categoryKey) => {
 
         <!-- Year Summary Cards -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
-                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total HT {{ year }}</dt>
-                <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">Total HT {{ year }}</dt>
+                <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(yearSummary.total_ht) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
-                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">TVA récupérable</dt>
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">TVA récupérable</dt>
                 <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
                     {{ formatCurrency(yearSummary.total_vat) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
-                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Total TTC</dt>
-                <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">Total TTC</dt>
+                <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(yearSummary.total_ttc) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800 px-4 py-5">
-                <dt class="truncate text-sm font-medium text-gray-500 dark:text-gray-400">Dépenses</dt>
-                <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-white">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">Dépenses</dt>
+                <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ yearSummary.count }}
                 </dd>
             </div>
@@ -115,46 +115,46 @@ const getCategoryData = (categoryKey) => {
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- Monthly Summary -->
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-white">Par mois</h2>
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">Par mois</h2>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
+                    <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                        <thead class="bg-slate-50 dark:bg-slate-700">
                             <tr>
-                                <th class="py-3 pl-6 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white">Mois</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">HT</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">TVA</th>
-                                <th class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-gray-900 dark:text-white">Nb</th>
+                                <th class="py-3 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">Mois</th>
+                                <th class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">HT</th>
+                                <th class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">TVA</th>
+                                <th class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-slate-900 dark:text-white">Nb</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
                             <tr v-for="month in months" :key="month.key">
-                                <td class="py-3 pl-6 pr-3 text-sm text-gray-900 dark:text-white">
+                                <td class="py-3 pl-6 pr-3 text-sm text-slate-900 dark:text-white">
                                     {{ month.label }}
                                 </td>
-                                <td class="px-3 py-3 text-right text-sm text-gray-500 dark:text-gray-400">
+                                <td class="px-3 py-3 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ formatCurrency(getMonthData(month.key).total_ht) }}
                                 </td>
-                                <td class="px-3 py-3 text-right text-sm text-gray-500 dark:text-gray-400">
+                                <td class="px-3 py-3 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ formatCurrency(getMonthData(month.key).total_vat) }}
                                 </td>
-                                <td class="py-3 pl-3 pr-6 text-right text-sm text-gray-500 dark:text-gray-400">
+                                <td class="py-3 pl-3 pr-6 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ getMonthData(month.key).count || 0 }}
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot class="bg-gray-50 dark:bg-gray-700">
+                        <tfoot class="bg-slate-50 dark:bg-slate-700">
                             <tr>
-                                <td class="py-3 pl-6 pr-3 text-sm font-semibold text-gray-900 dark:text-white">Total</td>
-                                <td class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                                <td class="py-3 pl-6 pr-3 text-sm font-semibold text-slate-900 dark:text-white">Total</td>
+                                <td class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ formatCurrency(yearSummary.total_ht) }}
                                 </td>
-                                <td class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                                <td class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ formatCurrency(yearSummary.total_vat) }}
                                 </td>
-                                <td class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                                <td class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ yearSummary.count }}
                                 </td>
                             </tr>
@@ -164,46 +164,46 @@ const getCategoryData = (categoryKey) => {
             </div>
 
             <!-- Category Summary -->
-            <div class="overflow-hidden rounded-lg bg-white shadow dark:bg-gray-800">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-white">Par catégorie</h2>
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">Par catégorie</h2>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
+                    <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                        <thead class="bg-slate-50 dark:bg-slate-700">
                             <tr>
-                                <th class="py-3 pl-6 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white">Catégorie</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">HT</th>
-                                <th class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">TVA</th>
-                                <th class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-gray-900 dark:text-white">Nb</th>
+                                <th class="py-3 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">Catégorie</th>
+                                <th class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">HT</th>
+                                <th class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">TVA</th>
+                                <th class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-slate-900 dark:text-white">Nb</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
                             <tr v-for="(label, key) in categories" :key="key">
-                                <td class="py-3 pl-6 pr-3 text-sm text-gray-900 dark:text-white">
+                                <td class="py-3 pl-6 pr-3 text-sm text-slate-900 dark:text-white">
                                     {{ label }}
                                 </td>
-                                <td class="px-3 py-3 text-right text-sm text-gray-500 dark:text-gray-400">
+                                <td class="px-3 py-3 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ formatCurrency(getCategoryData(key).total_ht) }}
                                 </td>
-                                <td class="px-3 py-3 text-right text-sm text-gray-500 dark:text-gray-400">
+                                <td class="px-3 py-3 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ formatCurrency(getCategoryData(key).total_vat) }}
                                 </td>
-                                <td class="py-3 pl-3 pr-6 text-right text-sm text-gray-500 dark:text-gray-400">
+                                <td class="py-3 pl-3 pr-6 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ getCategoryData(key).count || 0 }}
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot class="bg-gray-50 dark:bg-gray-700">
+                        <tfoot class="bg-slate-50 dark:bg-slate-700">
                             <tr>
-                                <td class="py-3 pl-6 pr-3 text-sm font-semibold text-gray-900 dark:text-white">Total</td>
-                                <td class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                                <td class="py-3 pl-6 pr-3 text-sm font-semibold text-slate-900 dark:text-white">Total</td>
+                                <td class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ formatCurrency(yearSummary.total_ht) }}
                                 </td>
-                                <td class="px-3 py-3 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                                <td class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ formatCurrency(yearSummary.total_vat) }}
                                 </td>
-                                <td class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-gray-900 dark:text-white">
+                                <td class="py-3 pl-3 pr-6 text-right text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ yearSummary.count }}
                                 </td>
                             </tr>

@@ -54,7 +54,7 @@ const submit = () => {
 
     <AppLayout>
         <template #header>
-            <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                 {{ t('new_client') }}
             </h1>
         </template>

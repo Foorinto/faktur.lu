@@ -101,13 +101,13 @@ const submit = () => {
                     <input
                         type="checkbox"
                         v-model="form.terms"
-                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800 mt-0.5"
+                        class="rounded-md border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:ring-primary-600 dark:focus:ring-offset-slate-800 mt-0.5"
                     />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                    <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">
                         {{ t('accept_terms_prefix') }}
-                        <Link :href="route('legal.terms')" class="text-indigo-600 hover:underline dark:text-indigo-400" target="_blank">{{ t('terms_of_service') }}</Link>
+                        <Link :href="route('legal.terms')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank">{{ t('terms_of_service') }}</Link>
                         {{ t('accept_terms_and') }}
-                        <Link :href="route('legal.privacy')" class="text-indigo-600 hover:underline dark:text-indigo-400" target="_blank">{{ t('privacy_policy') }}</Link>
+                        <Link :href="route('legal.privacy')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank">{{ t('privacy_policy') }}</Link>
                     </span>
                 </label>
                 <InputError class="mt-2" :message="form.errors.terms" />
@@ -116,7 +116,7 @@ const submit = () => {
             <div class="mt-4 flex items-center justify-end">
                 <Link
                     :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
                 >
                     {{ t('already_registered') }}
                 </Link>

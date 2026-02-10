@@ -187,7 +187,7 @@ const getSortIcon = (field) => {
                                     </span>
                                     <span
                                         v-if="user.deleted_at"
-                                        class="inline-flex rounded-full bg-gray-500/20 px-2 py-1 text-xs font-medium text-gray-400"
+                                        class="inline-flex rounded-full bg-slate-500/20 px-2 py-1 text-xs font-medium text-slate-400"
                                     >
                                         Supprimé
                                     </span>

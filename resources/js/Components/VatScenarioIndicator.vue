@@ -24,7 +24,7 @@ const colorClasses = computed(() => {
         blue: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
         green: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
         purple: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-        gray: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+        gray: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
         yellow: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
     };
     return colors[props.scenario.color] || colors.gray;
@@ -70,10 +70,10 @@ const vatRateText = computed(() => {
             {{ scenario.label }}
         </span>
         <div v-if="showDescription" class="flex flex-col">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
                 {{ vatRateText }}
             </span>
-            <span class="text-xs text-gray-500 dark:text-gray-400">
+            <span class="text-xs text-slate-500 dark:text-slate-400">
                 {{ scenario.description }}
             </span>
         </div>
