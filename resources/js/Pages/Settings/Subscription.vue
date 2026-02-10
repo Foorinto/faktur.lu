@@ -151,7 +151,7 @@ const getUsagePercentage = (used, limit) => {
                                 </h3>
                                 <p class="text-slate-500 dark:text-slate-400">
                                     <template v-if="isPro">
-                                        {{ formatPrice(proPlan?.price_monthly || 19) }}/mois
+                                        {{ formatPrice(proPlan?.price_monthly || 7) }}/mois
                                     </template>
                                     <template v-else>
                                         Gratuit
@@ -312,7 +312,7 @@ const getUsagePercentage = (used, limit) => {
                                     </button>
                                 </div>
                                 <p class="text-4xl font-bold">
-                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 15.83) : formatPrice(proPlan?.price_monthly || 19) }}
+                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 5.83) : formatPrice(proPlan?.price_monthly || 7) }}
                                 </p>
                                 <p class="text-sm text-primary-100">/mois HT</p>
                             </div>
