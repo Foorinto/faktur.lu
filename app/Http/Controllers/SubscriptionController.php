@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
             'currentPlan' => $user->plan,
             'subscription' => $user->subscription('default'),
             'usage' => $this->planService->getUsageStats($user),
-            'invoices' => $user->invoices()->map(fn ($invoice) => [
+            'invoices' => collect($user->invoices())->map(fn ($invoice) => [
                 'id' => $invoice->id,
                 'date' => $invoice->date()->toFormattedDateString(),
                 'total' => $invoice->total(),
