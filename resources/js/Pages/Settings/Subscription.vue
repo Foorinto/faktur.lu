@@ -2,9 +2,11 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+
+const page = usePage();
 
 const { t } = useTranslations();
 
@@ -119,6 +121,17 @@ const getUsagePercentage = (used, limit) => {
                     Abonnement
                 </Link>
             </nav>
+        </div>
+
+        <!-- Flash Messages -->
+        <div v-if="page.props.flash?.success" class="mb-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl">
+            <p class="text-sm text-emerald-700 dark:text-emerald-300">{{ page.props.flash.success }}</p>
+        </div>
+        <div v-if="page.props.flash?.error" class="mb-6 p-4 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded-xl">
+            <p class="text-sm text-pink-700 dark:text-pink-300">{{ page.props.flash.error }}</p>
+        </div>
+        <div v-if="checkoutForm.errors?.plan || checkoutForm.errors?.billing_period" class="mb-6 p-4 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded-xl">
+            <p class="text-sm text-pink-700 dark:text-pink-300">{{ checkoutForm.errors.plan || checkoutForm.errors.billing_period }}</p>
         </div>
 
         <div class="space-y-6">
