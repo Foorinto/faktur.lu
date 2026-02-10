@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AccountantInvitation;
 use App\Notifications\AccountantInvitationNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,7 +24,9 @@ class AccountantSettingsController extends Controller
                 'id' => $accountant->id,
                 'name' => $accountant->display_name,
                 'email' => $accountant->email,
-                'granted_at' => $accountant->pivot->granted_at?->format('d/m/Y'),
+                'granted_at' => $accountant->pivot->granted_at
+                    ? Carbon::parse($accountant->pivot->granted_at)->format('d/m/Y')
+                    : null,
                 'last_download' => $accountant->downloads()
                     ->where('user_id', $user->id)
                     ->latest()
