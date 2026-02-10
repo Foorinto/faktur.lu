@@ -47,7 +47,7 @@ class PlanService
             return true; // unlimited
         }
 
-        $count = $user->invoices()
+        $count = $user->userInvoices()
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
             ->count();
@@ -88,7 +88,7 @@ class PlanService
         }
 
         // Count sent emails this month from invoice_emails table
-        $count = $user->invoices()
+        $count = $user->userInvoices()
             ->join('invoice_emails', 'invoices.id', '=', 'invoice_emails.invoice_id')
             ->whereMonth('invoice_emails.created_at', Carbon::now()->month)
             ->whereYear('invoice_emails.created_at', Carbon::now()->year)
@@ -123,7 +123,7 @@ class PlanService
                 'unlimited' => $plan->getLimit('max_clients') === null,
             ],
             'invoices_this_month' => [
-                'used' => $user->invoices()
+                'used' => $user->userInvoices()
                     ->whereMonth('created_at', Carbon::now()->month)
                     ->whereYear('created_at', Carbon::now()->year)
                     ->count(),

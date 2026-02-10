@@ -69,7 +69,7 @@ class AccountantExportController extends Controller
      */
     protected function getInvoicesForPeriod(User $user, int $year, ?int $quarter)
     {
-        $query = $user->invoices()
+        $query = $user->userInvoices()
             ->where('status', '!=', 'draft')
             ->whereYear('finalized_at', $year)
             ->with('client')

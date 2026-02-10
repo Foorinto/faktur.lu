@@ -50,7 +50,7 @@ class AccountantDashboardController extends Controller
         $accountant = auth('accountant')->user();
 
         // Get available years (SQLite compatible)
-        $years = $user->invoices()
+        $years = $user->userInvoices()
             ->where('status', '!=', 'draft')
             ->whereNotNull('finalized_at')
             ->selectRaw("strftime('%Y', finalized_at) as year")

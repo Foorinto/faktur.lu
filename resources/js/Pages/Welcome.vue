@@ -15,6 +15,7 @@ defineProps({
 });
 
 const mobileMenuOpen = ref(false);
+const billingPeriod = ref('monthly');
 
 const features = computed(() => [
     {
@@ -497,7 +498,7 @@ const toggleFaq = (index) => {
         <!-- Pricing Section -->
         <section id="pricing" class="py-20 bg-white">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12">
                     <p class="text-[#00bbf9] font-semibold mb-3">{{ t('landing.pricing.title') }}</p>
                     <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
                         {{ t('landing.pricing.heading') }}
@@ -505,9 +506,45 @@ const toggleFaq = (index) => {
                     <p class="text-lg text-slate-600">
                         {{ t('landing.pricing.subtitle') }}
                     </p>
+
+                    <!-- Billing toggle -->
+                    <div class="mt-8 flex justify-center items-center gap-4">
+                        <span
+                            :class="[
+                                'text-sm font-medium transition-colors',
+                                billingPeriod === 'monthly' ? 'text-slate-900' : 'text-slate-500'
+                            ]"
+                        >
+                            Mensuel
+                        </span>
+                        <button
+                            @click="billingPeriod = billingPeriod === 'monthly' ? 'yearly' : 'monthly'"
+                            class="relative inline-flex h-7 w-12 items-center rounded-full transition-colors"
+                            :class="billingPeriod === 'yearly' ? 'bg-[#9b5de5]' : 'bg-slate-300'"
+                        >
+                            <span
+                                class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform"
+                                :class="billingPeriod === 'yearly' ? 'translate-x-6' : 'translate-x-1'"
+                            />
+                        </button>
+                        <span
+                            :class="[
+                                'text-sm font-medium transition-colors',
+                                billingPeriod === 'yearly' ? 'text-slate-900' : 'text-slate-500'
+                            ]"
+                        >
+                            Annuel
+                        </span>
+                        <span
+                            v-if="billingPeriod === 'yearly'"
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#00f5d4]/20 text-[#00a896]"
+                        >
+                            -17% (2 mois offerts)
+                        </span>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <!-- Plan Gratuit -->
                     <div class="bg-slate-50 rounded-3xl p-8">
                         <div class="mb-6">
@@ -516,6 +553,7 @@ const toggleFaq = (index) => {
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-slate-900">{{ t('landing.pricing.plans.discovery.price') }}</span>
+                            <span class="text-slate-500 ml-1">pour toujours</span>
                         </div>
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center gap-3 text-slate-700">
@@ -556,7 +594,13 @@ const toggleFaq = (index) => {
                             <p class="text-white/70 mt-1">{{ t('landing.pricing.plans.professional.description') }}</p>
                         </div>
                         <div class="mb-6">
-                            <span class="text-4xl font-bold text-white">{{ t('landing.pricing.plans.professional.price') }}</span>
+                            <span class="text-4xl font-bold text-white">
+                                {{ billingPeriod === 'yearly' ? '5,83€' : '7€' }}
+                            </span>
+                            <span class="text-white/70 ml-1">/mois HT</span>
+                            <p v-if="billingPeriod === 'yearly'" class="text-sm text-white/60 mt-1">
+                                70€ facturé annuellement
+                            </p>
                         </div>
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center gap-3 text-white/90">
@@ -592,45 +636,228 @@ const toggleFaq = (index) => {
                             {{ t('landing.pricing.sign_up') }}
                         </Link>
                     </div>
+                </div>
 
-                    <!-- Plan Entreprise -->
-                    <div class="bg-slate-50 rounded-3xl p-8">
-                        <div class="mb-6">
-                            <h3 class="text-xl font-semibold text-slate-900">{{ t('landing.pricing.plans.enterprise.name') }}</h3>
-                            <p class="text-slate-500 mt-1">{{ t('landing.pricing.plans.enterprise.description') }}</p>
-                        </div>
-                        <div class="mb-6">
-                            <span class="text-4xl font-bold text-slate-400">{{ t('landing.pricing.plans.enterprise.price') }}</span>
-                        </div>
-                        <ul class="space-y-4 mb-8">
-                            <li class="flex items-center gap-3 text-slate-500">
-                                <svg class="w-5 h-5 text-[#00bbf9] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                {{ t('landing.pricing.plans.enterprise.features.0') }}
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-500">
-                                <svg class="w-5 h-5 text-[#00bbf9] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                {{ t('landing.pricing.plans.enterprise.features.1') }}
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-500">
-                                <svg class="w-5 h-5 text-[#00bbf9] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                {{ t('landing.pricing.plans.enterprise.features.2') }}
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-500">
-                                <svg class="w-5 h-5 text-[#00bbf9] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                {{ t('landing.pricing.plans.enterprise.features.3') }}
-                            </li>
-                        </ul>
-                        <button disabled class="block w-full py-3.5 text-center font-semibold text-slate-400 border-2 border-slate-200 rounded-xl cursor-not-allowed">
-                            {{ t('landing.pricing.coming_soon') }}
-                        </button>
+                <!-- Feature Comparison Table -->
+                <div class="mt-16 max-w-4xl mx-auto">
+                    <h3 class="text-xl font-semibold text-slate-900 text-center mb-8">
+                        Comparatif détaillé des fonctionnalités
+                    </h3>
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="text-left py-4 px-6 text-sm font-semibold text-slate-900">Fonctionnalité</th>
+                                    <th class="text-center py-4 px-6 text-sm font-semibold text-slate-900 w-28">Starter</th>
+                                    <th class="text-center py-4 px-6 text-sm font-semibold text-[#9b5de5] w-28">Pro</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <!-- Limites -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="3" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Limites</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Clients</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Factures / mois</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Devis / mois</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Emails / mois</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                </tr>
+
+                                <!-- Fonctionnalités de base -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="3" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Factures conformes Luxembourg</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Devis professionnels</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Gestion des clients</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Avoirs / notes de crédit</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Suivi du temps</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Suivi des dépenses</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Authentification 2FA</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+
+                                <!-- Fonctionnalités Pro -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="3" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Export FAIA (contrôle fiscal)</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Archivage PDF/A 10 ans</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Relances automatiques impayés</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Accès comptable dédié</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Sans mention "faktur.lu"</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Support email prioritaire</td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

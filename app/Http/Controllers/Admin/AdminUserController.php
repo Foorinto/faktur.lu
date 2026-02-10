@@ -17,8 +17,8 @@ class AdminUserController extends Controller
     public function index(Request $request)
     {
         $query = User::query()
-            ->withCount(['invoices', 'clients'])
-            ->withSum('invoices', 'total_ttc');
+            ->withCount(['userInvoices', 'clients'])
+            ->withSum('userInvoices', 'total_ttc');
 
         // Search
         if ($search = $request->get('search')) {
@@ -44,7 +44,7 @@ class AdminUserController extends Controller
         // Sort
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
-        $allowedSorts = ['name', 'email', 'created_at', 'invoices_count', 'invoices_sum_total_ttc'];
+        $allowedSorts = ['name', 'email', 'created_at', 'user_invoices_count', 'user_invoices_sum_total_ttc'];
 
         if (in_array($sortField, $allowedSorts)) {
             $query->orderBy($sortField, $sortDirection);
@@ -70,22 +70,22 @@ class AdminUserController extends Controller
     {
         $user = User::withTrashed()->findOrFail($user);
 
-        $user->load(['invoices' => function ($query) {
+        $user->load(['userInvoices' => function ($query) {
             $query->latest()->limit(10);
         }, 'clients']);
 
         $stats = [
-            'total_invoices' => $user->invoices()->count(),
-            'total_revenue' => $user->invoices()->where('status', 'paid')->sum('total_ttc'),
-            'paid_invoices' => $user->invoices()->where('status', 'paid')->count(),
-            'pending_invoices' => $user->invoices()->whereIn('status', ['draft', 'sent'])->count(),
+            'total_invoices' => $user->userInvoices()->count(),
+            'total_revenue' => $user->userInvoices()->where('status', 'paid')->sum('total_ttc'),
+            'paid_invoices' => $user->userInvoices()->where('status', 'paid')->count(),
+            'pending_invoices' => $user->userInvoices()->whereIn('status', ['draft', 'sent'])->count(),
             'total_clients' => $user->clients()->count(),
         ];
 
         return Inertia::render('Admin/Users/Show', [
             'user' => $user,
             'stats' => $stats,
-            'recentInvoices' => $user->invoices,
+            'recentInvoices' => $user->userInvoices,
         ]);
     }
 

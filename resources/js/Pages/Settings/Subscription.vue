@@ -28,17 +28,16 @@ const starterPlan = computed(() => props.plans.find(p => p.name === 'starter'));
 const isPro = computed(() => props.currentPlan === 'pro');
 const isOnGracePeriod = computed(() => props.subscription?.ends_at && new Date(props.subscription.ends_at) > new Date());
 
-const checkoutForm = useForm({
-    plan: 'pro',
-    billing_period: 'monthly',
-});
+const checkoutForm = ref(null);
+const isCheckingOut = ref(false);
 
 const cancelForm = useForm({});
 const resumeForm = useForm({});
 
 const startCheckout = () => {
-    checkoutForm.billing_period = billingPeriod.value;
-    checkoutForm.post(route('subscription.checkout'));
+    isCheckingOut.value = true;
+    // Submit the native form for full page redirect (required by Stripe)
+    checkoutForm.value.submit();
 };
 
 const cancelSubscription = () => {
@@ -130,8 +129,8 @@ const getUsagePercentage = (used, limit) => {
         <div v-if="page.props.flash?.error" class="mb-6 p-4 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded-xl">
             <p class="text-sm text-pink-700 dark:text-pink-300">{{ page.props.flash.error }}</p>
         </div>
-        <div v-if="checkoutForm.errors?.plan || checkoutForm.errors?.billing_period" class="mb-6 p-4 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded-xl">
-            <p class="text-sm text-pink-700 dark:text-pink-300">{{ checkoutForm.errors.plan || checkoutForm.errors.billing_period }}</p>
+        <div v-if="page.props.errors?.plan || page.props.errors?.billing_period" class="mb-6 p-4 bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded-xl">
+            <p class="text-sm text-pink-700 dark:text-pink-300">{{ page.props.errors.plan || page.props.errors.billing_period }}</p>
         </div>
 
         <div class="space-y-6">
@@ -329,14 +328,24 @@ const getUsagePercentage = (used, limit) => {
                                 </p>
                                 <p class="text-sm text-primary-100">/mois HT</p>
                             </div>
-                            <button
-                                @click="startCheckout"
-                                :disabled="checkoutForm.processing"
-                                class="inline-flex items-center px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors disabled:opacity-50"
+                            <form
+                                ref="checkoutForm"
+                                :action="route('subscription.checkout')"
+                                method="POST"
                             >
-                                <span v-if="checkoutForm.processing">Chargement...</span>
-                                <span v-else>Passer à Pro</span>
-                            </button>
+                                <input type="hidden" name="_token" :value="page.props.csrf_token">
+                                <input type="hidden" name="plan" value="pro">
+                                <input type="hidden" name="billing_period" :value="billingPeriod">
+                                <button
+                                    type="submit"
+                                    @click.prevent="startCheckout"
+                                    :disabled="isCheckingOut"
+                                    class="inline-flex items-center px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors disabled:opacity-50"
+                                >
+                                    <span v-if="isCheckingOut">Chargement...</span>
+                                    <span v-else>Passer à Pro</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

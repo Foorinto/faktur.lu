@@ -109,8 +109,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Get the invoices for this user.
+     * Note: Named userInvoices to avoid conflict with Laravel Cashier's invoices() method.
      */
-    public function invoices(): HasMany
+    public function userInvoices(): HasMany
     {
         return $this->hasMany(Invoice::class);
     }
