@@ -163,15 +163,19 @@ const allFeatures = [
                             <ul class="space-y-3">
                                 <li class="flex items-center text-slate-600 dark:text-slate-400">
                                     <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_clients || 5 }} clients maximum
+                                    {{ starterPlan?.limits?.max_clients || 2 }} clients maximum
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-400">
                                     <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_invoices_per_month || 3 }} factures/mois
+                                    {{ starterPlan?.limits?.max_invoices_per_month || 2 }} factures/mois
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-400">
                                     <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_quotes_per_month || 3 }} devis/mois
+                                    {{ starterPlan?.limits?.max_quotes_per_month || 2 }} devis/mois
+                                </li>
+                                <li class="flex items-center text-slate-600 dark:text-slate-400">
+                                    <span class="text-slate-400 mr-3">•</span>
+                                    {{ starterPlan?.limits?.max_emails_per_month || 2 }} emails/mois
                                 </li>
                             </ul>
                         </div>
@@ -211,13 +215,13 @@ const allFeatures = [
                         <div class="mt-6">
                             <div class="flex items-baseline">
                                 <span class="text-5xl font-bold text-slate-900 dark:text-white">
-                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 15.83) : formatPrice(proPlan?.price_monthly || 19) }}
+                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 5.83) : formatPrice(proPlan?.price_monthly || 7) }}
                                 </span>
                                 <span class="ml-2 text-slate-500">/mois</span>
                             </div>
                             <p class="mt-1 text-sm text-slate-500">
                                 <template v-if="billingPeriod === 'yearly'">
-                                    {{ formatPrice(proPlan?.price_yearly || 190) }} facturé annuellement
+                                    {{ formatPrice(proPlan?.price_yearly || 70) }} facturé annuellement
                                 </template>
                                 <template v-else>
                                     HT, facturé mensuellement

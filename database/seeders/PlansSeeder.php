@@ -23,10 +23,10 @@ class PlansSeeder extends Seeder
                 'stripe_price_id_monthly' => null,
                 'stripe_price_id_yearly' => null,
                 'limits' => [
-                    'max_clients' => 5,
-                    'max_invoices_per_month' => 3,
-                    'max_quotes_per_month' => 3,
-                    'max_emails_per_month' => 5,
+                    'max_clients' => 2,
+                    'max_invoices_per_month' => 2,
+                    'max_quotes_per_month' => 2,
+                    'max_emails_per_month' => 2,
                 ],
                 'features' => [
                     'invoices',
@@ -41,14 +41,14 @@ class PlansSeeder extends Seeder
             ]
         );
 
-        // Plan Pro (19€/mois)
+        // Plan Pro (7€/mois)
         Plan::updateOrCreate(
             ['name' => 'pro'],
             [
                 'display_name' => 'Pro',
                 'description' => 'Pour les indépendants',
-                'price_monthly' => 1900, // 19€ in cents
-                'price_yearly' => 19000, // 190€ in cents (2 mois offerts)
+                'price_monthly' => 700, // 7€ in cents
+                'price_yearly' => 7000, // 70€ in cents (2 mois offerts)
                 'stripe_price_id_monthly' => env('STRIPE_PRICE_PRO_MONTHLY'),
                 'stripe_price_id_yearly' => env('STRIPE_PRICE_PRO_YEARLY'),
                 'limits' => [
