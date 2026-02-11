@@ -52,6 +52,13 @@ const getTypeBadgeClass = (type) => {
         ? 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
         : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
 };
+
+const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+    }).format(amount);
+};
 </script>
 
 <template>
@@ -127,6 +134,12 @@ const getTypeBadgeClass = (type) => {
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">
                             {{ t('currency') }}
                         </th>
+                        <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell">
+                            {{ t('total_invoiced') }}
+                        </th>
+                        <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell">
+                            {{ t('total_paid') }}
+                        </th>
                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                             <span class="sr-only">{{ t('actions') }}</span>
                         </th>
@@ -134,7 +147,7 @@ const getTypeBadgeClass = (type) => {
                 </thead>
                 <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
                     <tr v-if="clients.data.length === 0">
-                        <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
+                        <td colspan="9" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
@@ -193,20 +206,34 @@ const getTypeBadgeClass = (type) => {
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400">
                             {{ client.currency }}
                         </td>
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-right text-slate-900 dark:text-white xl:table-cell">
+                            {{ formatCurrency(client.total_invoiced || 0) }}
+                        </td>
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-right xl:table-cell">
+                            <span :class="client.total_paid > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'">
+                                {{ formatCurrency(client.total_paid || 0) }}
+                            </span>
+                        </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div class="flex items-center justify-end space-x-2">
+                            <div class="flex items-center justify-end space-x-1">
                                 <Link
                                     :href="route('clients.edit', client.id)"
-                                    class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300"
+                                    class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-primary-600 dark:hover:bg-slate-700 dark:hover:text-primary-400"
+                                    :title="t('edit')"
                                 >
-                                    {{ t('edit') }}
+                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                                    </svg>
                                 </Link>
                                 <button
                                     v-if="client.invoices_count === 0"
                                     @click="deleteClient(client)"
-                                    class="text-pink-600 hover:text-pink-900 dark:text-pink-400 dark:hover:text-pink-300"
+                                    class="rounded-lg p-2 text-slate-400 hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pink-900/20 dark:hover:text-pink-400"
+                                    :title="t('delete')"
                                 >
-                                    {{ t('delete') }}
+                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                                    </svg>
                                 </button>
                             </div>
                         </td>

@@ -11,6 +11,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    activeTab: {
+        type: String,
+        default: 'info',
+    },
 });
 
 const deleteClient = () => {
@@ -78,6 +82,34 @@ const getTypeBadgeClass = (type) => {
                 </div>
             </div>
         </template>
+
+        <!-- Tabs Navigation -->
+        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+            <nav class="flex space-x-8" aria-label="Client tabs">
+                <Link
+                    :href="route('clients.show', client.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'info'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('tab_info') }}
+                </Link>
+                <Link
+                    :href="route('clients.invoices', client.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'invoices'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('tab_invoices') }} ({{ client.invoices_count || 0 }})
+                </Link>
+            </nav>
+        </div>
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- Main info -->
@@ -216,26 +248,24 @@ const getTypeBadgeClass = (type) => {
                         </h2>
                     </div>
                     <div class="px-6 py-4 space-y-3">
-                        <button
-                            type="button"
-                            disabled
-                            class="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                        <Link
+                            :href="route('invoices.create', { client_id: client.id })"
+                            class="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                         >
                             <svg class="-ml-1 mr-2 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                             </svg>
                             {{ t('new_invoice') }}
-                        </button>
-                        <button
-                            type="button"
-                            disabled
-                            class="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                        </Link>
+                        <Link
+                            :href="route('time-entries.index', { client_id: client.id })"
+                            class="w-full inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                         >
                             <svg class="-ml-1 mr-2 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
                             </svg>
                             {{ t('start_new_timer') }}
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
@@ -244,13 +274,13 @@ const getTypeBadgeClass = (type) => {
                     <div class="px-6 py-4">
                         <dl class="space-y-2 text-sm">
                             <div class="flex justify-between">
-                                <dt class="text-slate-500 dark:text-slate-400">{{ t('date') }}</dt>
+                                <dt class="text-slate-500 dark:text-slate-400">{{ t('created_at') }}</dt>
                                 <dd class="text-slate-900 dark:text-white">
                                     {{ new Date(client.created_at).toLocaleDateString('fr-FR') }}
                                 </dd>
                             </div>
                             <div class="flex justify-between">
-                                <dt class="text-slate-500 dark:text-slate-400">Modifié le</dt>
+                                <dt class="text-slate-500 dark:text-slate-400">{{ t('updated_at') }}</dt>
                                 <dd class="text-slate-900 dark:text-white">
                                     {{ new Date(client.updated_at).toLocaleDateString('fr-FR') }}
                                 </dd>

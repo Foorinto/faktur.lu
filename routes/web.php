@@ -67,6 +67,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/clients', [ClientController::class, 'store'])
             ->middleware('plan.limit:clients')
             ->name('clients.store');
+        Route::get('/clients/{client}/invoices', [ClientController::class, 'invoices'])
+            ->name('clients.invoices');
 
         // Invoices
         Route::resource('invoices', InvoiceController::class)->except(['store']);

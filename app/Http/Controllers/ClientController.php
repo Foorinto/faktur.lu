@@ -24,6 +24,12 @@ class ClientController extends Controller
             ->ofType($request->input('type'))
             ->fromCountry($request->input('country'))
             ->withCount(['invoices', 'timeEntries'])
+            ->withSum(['invoices as total_invoiced' => function ($query) {
+                $query->whereNotNull('finalized_at')->where('type', 'invoice');
+            }], 'total_ttc')
+            ->withSum(['invoices as total_paid' => function ($query) {
+                $query->where('status', 'paid');
+            }], 'total_ttc')
             ->orderBy('name')
             ->paginate(15)
             ->withQueryString();
@@ -92,6 +98,36 @@ class ClientController extends Controller
             'client' => array_merge($client->toArray(), [
                 'vat_scenario' => $client->vat_scenario,
             ]),
+            'activeTab' => 'info',
+        ]);
+    }
+
+    /**
+     * Display the invoices for the specified client.
+     */
+    public function invoices(Client $client): Response
+    {
+        $client->loadCount(['invoices', 'timeEntries']);
+
+        $invoices = $client->invoices()
+            ->latest('finalized_at')
+            ->latest('created_at')
+            ->paginate(20);
+
+        $stats = [
+            'total_invoiced' => $client->invoices()->whereNotNull('finalized_at')->where('type', 'invoice')->sum('total_ttc'),
+            'total_paid' => $client->invoices()->where('status', 'paid')->sum('total_ttc'),
+            'pending' => $client->invoices()->whereIn('status', ['sent', 'overdue'])->sum('total_ttc'),
+            'count' => $client->invoices()->count(),
+        ];
+
+        return Inertia::render('Clients/Invoices', [
+            'client' => array_merge($client->toArray(), [
+                'vat_scenario' => $client->vat_scenario,
+            ]),
+            'invoices' => $invoices,
+            'stats' => $stats,
+            'activeTab' => 'invoices',
         ]);
     }
 
