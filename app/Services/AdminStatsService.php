@@ -122,7 +122,7 @@ class AdminStatsService
     public function getRecentUsers(int $limit = 10): array
     {
         return User::select(['id', 'name', 'email', 'created_at', 'email_verified_at'])
-            ->withCount(['invoices', 'clients'])
+            ->withCount(['userInvoices', 'clients'])
             ->latest()
             ->take($limit)
             ->get()
@@ -135,11 +135,11 @@ class AdminStatsService
     public function getTopUsers(int $limit = 10): array
     {
         return User::select(['id', 'name', 'email'])
-            ->withCount('invoices')
-            ->withSum(['invoices' => function ($query) {
+            ->withCount('userInvoices')
+            ->withSum(['userInvoices' => function ($query) {
                 $query->whereNotNull('finalized_at')->where('type', 'invoice');
             }], 'total_ttc')
-            ->orderByDesc('invoices_count')
+            ->orderByDesc('user_invoices_count')
             ->take($limit)
             ->get()
             ->toArray();
