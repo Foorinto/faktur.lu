@@ -54,4 +54,15 @@ return [
     'ip_block_duration' => env('ADMIN_IP_BLOCK_DURATION', 60), // minutes
     'rate_limit_per_minute' => env('ADMIN_RATE_LIMIT', 5),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Support Notification Email
+    |--------------------------------------------------------------------------
+    |
+    | Email address to receive new support ticket notifications.
+    |
+    */
+
+    'support_email' => env('ADMIN_SUPPORT_EMAIL', env('ADMIN_USERNAME', 'admin@faktur.lu')),
+
 ];

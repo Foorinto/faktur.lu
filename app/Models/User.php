@@ -217,4 +217,33 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(AccountantDownload::class);
     }
+
+    /**
+     * Get support tickets for this user.
+     */
+    public function supportTickets(): HasMany
+    {
+        return $this->hasMany(SupportTicket::class);
+    }
+
+    /**
+     * Get the count of support tickets with unread admin responses.
+     */
+    public function getUnreadSupportCountAttribute(): int
+    {
+        return $this->supportTickets()
+            ->whereHas('messages', function ($query) {
+                $query->where('is_internal', false)
+                    ->where('sender_type', '!=', self::class)
+                    ->whereColumn('created_at', '>', 'support_tickets.user_last_read_at');
+            })
+            ->orWhere(function ($query) {
+                $query->whereNull('user_last_read_at')
+                    ->whereHas('messages', function ($q) {
+                        $q->where('is_internal', false)
+                            ->where('sender_type', '!=', User::class);
+                    });
+            })
+            ->count();
+    }
 }

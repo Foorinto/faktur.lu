@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Listeners\LogAuthenticationEvents;
+use App\Models\AdminSession;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
@@ -35,6 +37,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Register audit logging for authentication events
         Event::subscribe(LogAuthenticationEvents::class);
+
+        // Register morph map for polymorphic relations
+        Relation::morphMap([
+            'admin' => AdminSession::class,
+        ]);
 
         // Configure rate limiters
         $this->configureRateLimiting();

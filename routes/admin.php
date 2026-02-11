@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminMaintenanceController;
+use App\Http\Controllers\Admin\AdminSupportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,13 @@ Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->group(functi
         Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
         Route::delete('users/{user}/force', [AdminUserController::class, 'forceDelete'])->name('users.force-delete');
         Route::post('impersonation/stop', [AdminUserController::class, 'stopImpersonation'])->name('impersonation.stop');
+
+        // Support tickets
+        Route::get('support', [AdminSupportController::class, 'index'])->name('support.index');
+        Route::get('support/{ticket}', [AdminSupportController::class, 'show'])->name('support.show');
+        Route::post('support/{ticket}/reply', [AdminSupportController::class, 'reply'])->name('support.reply');
+        Route::put('support/{ticket}', [AdminSupportController::class, 'update'])->name('support.update');
+        Route::delete('support/{ticket}', [AdminSupportController::class, 'destroy'])->name('support.destroy');
 
         // Maintenance
         Route::get('maintenance', [AdminMaintenanceController::class, 'index'])->name('maintenance');

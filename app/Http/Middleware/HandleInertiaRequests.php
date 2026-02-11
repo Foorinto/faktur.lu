@@ -52,7 +52,30 @@ class HandleInertiaRequests extends Middleware
                 'lb' => 'Lëtzebuergesch',
             ],
             'translations' => fn () => $this->getTranslations($locale),
+            'unreadSupportCount' => fn () => $this->getUnreadSupportCount($request),
         ];
+    }
+
+    /**
+     * Get the count of unread support messages for the current user.
+     */
+    protected function getUnreadSupportCount(Request $request): int
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return 0;
+        }
+
+        return $user->supportTickets()
+            ->where(function ($query) {
+                $query->whereHas('messages', function ($q) {
+                    $q->where('is_internal', false)
+                        ->where('sender_type', '!=', \App\Models\User::class)
+                        ->whereRaw('support_messages.created_at > COALESCE(support_tickets.user_last_read_at, support_tickets.created_at)');
+                });
+            })
+            ->count();
     }
 
     /**

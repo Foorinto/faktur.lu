@@ -194,9 +194,15 @@ const routeExists = (routeName) => {
                                 type="button"
                                 class="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-700"
                             >
-                                <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
+                                <div class="relative flex h-9 w-9 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
                                     <span class="text-sm font-semibold text-primary-600 dark:text-primary-400">
                                         {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
+                                    </span>
+                                    <span
+                                        v-if="$page.props.unreadSupportCount > 0"
+                                        class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-pink-500 text-[10px] font-bold text-white"
+                                    >
+                                        {{ $page.props.unreadSupportCount > 9 ? '9+' : $page.props.unreadSupportCount }}
                                     </span>
                                 </div>
                                 <div class="ml-3 flex-1 text-left">
@@ -216,6 +222,15 @@ const routeExists = (routeName) => {
                         <template #content>
                             <DropdownLink :href="route('profile.edit')">
                                 {{ t('profile') }}
+                            </DropdownLink>
+                            <DropdownLink :href="route('support.index')" class="flex items-center justify-between">
+                                <span>{{ t('support') }}</span>
+                                <span
+                                    v-if="$page.props.unreadSupportCount > 0"
+                                    class="ml-2 inline-flex items-center justify-center rounded-full bg-pink-500 px-2 py-0.5 text-xs font-medium text-white"
+                                >
+                                    {{ $page.props.unreadSupportCount }}
+                                </span>
                             </DropdownLink>
                             <DropdownLink :href="route('logout')" method="post" as="button">
                                 {{ t('logout') }}

@@ -22,6 +22,7 @@ use App\Http\Controllers\QuoteItemController;
 use App\Http\Controllers\RevenueBookController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TimeEntryController;
+use App\Http\Controllers\SupportController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -123,6 +124,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Audit Logs (view)
         Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+
+        // Support tickets
+        Route::get('/support', [SupportController::class, 'index'])->name('support.index');
+        Route::get('/support/create', [SupportController::class, 'create'])->name('support.create');
+        Route::post('/support', [SupportController::class, 'store'])->name('support.store');
+        Route::get('/support/{ticket}', [SupportController::class, 'show'])->name('support.show');
+        Route::post('/support/{ticket}/reply', [SupportController::class, 'reply'])->name('support.reply');
     });
 
     // PDF generation - 10 requests/minute (expensive operations)
