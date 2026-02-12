@@ -6,6 +6,7 @@ use App\Actions\ConvertTimeToInvoiceAction;
 use App\Http\Requests\Api\V1\StoreTimeEntryRequest;
 use App\Http\Requests\Api\V1\UpdateTimeEntryRequest;
 use App\Models\Client;
+use App\Models\Project;
 use App\Models\TimeEntry;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class TimeEntryController extends Controller
     public function index(Request $request): Response
     {
         $query = TimeEntry::query()
-            ->with('client')
+            ->with(['client', 'project:id,title,color', 'task:id,title'])
             ->stopped();
 
         // Filter by client
@@ -65,7 +66,7 @@ class TimeEntryController extends Controller
         });
 
         // Get running timer
-        $runningTimer = TimeEntry::running()->with('client')->first();
+        $runningTimer = TimeEntry::running()->with(['client', 'project:id,title,color', 'task:id,title'])->first();
         if ($runningTimer) {
             $runningTimer = array_merge($runningTimer->toArray(), [
                 'duration_formatted' => $runningTimer->duration_formatted,
@@ -106,6 +107,15 @@ class TimeEntryController extends Controller
                 'created_at' => $invoice->created_at->format('d/m/Y'),
             ]);
 
+        // Get active projects grouped by client
+        $projects = Project::query()
+            ->active()
+            ->with(['tasks' => function ($query) {
+                $query->where('is_completed', false)->orderBy('sort_order');
+            }])
+            ->orderBy('title')
+            ->get(['id', 'client_id', 'title', 'color']);
+
         return Inertia::render('TimeTracking/Index', [
             'entries' => $entries,
             'runningTimer' => $runningTimer,
@@ -121,6 +131,7 @@ class TimeEntryController extends Controller
                 'period' => $request->input('period'),
             ],
             'clients' => Client::orderBy('name')->get(['id', 'name', 'default_hourly_rate']),
+            'projects' => $projects,
             'periods' => [
                 ['value' => 'today', 'label' => 'Aujourd\'hui'],
                 ['value' => 'week', 'label' => 'Cette semaine'],
@@ -212,15 +223,28 @@ class TimeEntryController extends Controller
 
         $request->validate([
             'client_id' => 'required|exists:clients,id',
+            'project_id' => 'nullable|exists:projects,id',
+            'task_id' => 'nullable|exists:tasks,id',
             'project_name' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
         ]);
 
         $client = Client::findOrFail($request->input('client_id'));
 
+        // If a project is selected, use its title as project_name for backward compatibility
+        $projectName = $request->input('project_name');
+        if ($request->filled('project_id')) {
+            $project = Project::find($request->input('project_id'));
+            if ($project && !$projectName) {
+                $projectName = $project->title;
+            }
+        }
+
         TimeEntry::create([
             'client_id' => $client->id,
-            'project_name' => $request->input('project_name'),
+            'project_id' => $request->input('project_id'),
+            'task_id' => $request->input('task_id'),
+            'project_name' => $projectName,
             'description' => $request->input('description'),
             'hourly_rate' => $client->default_hourly_rate,
             'started_at' => now(),

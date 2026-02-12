@@ -16,6 +16,8 @@ class TimeEntry extends Model
 
     protected $fillable = [
         'client_id',
+        'project_id',
+        'task_id',
         'invoice_id',
         'project_name',
         'description',
@@ -61,6 +63,22 @@ class TimeEntry extends Model
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    /**
+     * Get the project associated with this time entry.
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Get the task associated with this time entry.
+     */
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class);
     }
 
     /**

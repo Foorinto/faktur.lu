@@ -59,6 +59,14 @@ class Client extends Model
     }
 
     /**
+     * Get the projects for the client.
+     */
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
      * Generate a snapshot of the client data for invoice immutability.
      */
     public function toSnapshot(): array

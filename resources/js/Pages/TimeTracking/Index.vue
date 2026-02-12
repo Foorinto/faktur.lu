@@ -12,6 +12,7 @@ const props = defineProps({
     summary: Object,
     filters: Object,
     clients: Array,
+    projects: Array,
     periods: Array,
     draftInvoices: Array,
     defaultHourlyRate: [Number, String],
@@ -32,6 +33,8 @@ const selectedEntryForInvoice = ref(null);
 // Timer form
 const timerForm = useForm({
     client_id: '',
+    project_id: '',
+    task_id: '',
     project_name: '',
     description: '',
 });
@@ -39,10 +42,57 @@ const timerForm = useForm({
 // Manual entry form
 const manualForm = useForm({
     client_id: '',
+    project_id: '',
+    task_id: '',
     project_name: '',
     description: '',
     date: new Date().toISOString().split('T')[0],
     duration: '',
+});
+
+// Projects filtered by selected client for timer
+const timerProjects = computed(() => {
+    if (!timerForm.client_id) return [];
+    return props.projects.filter(p => p.client_id === timerForm.client_id || !p.client_id);
+});
+
+// Tasks for selected project in timer
+const timerTasks = computed(() => {
+    if (!timerForm.project_id) return [];
+    const project = props.projects.find(p => p.id === timerForm.project_id);
+    return project?.tasks || [];
+});
+
+// Projects filtered by selected client for manual form
+const manualProjects = computed(() => {
+    if (!manualForm.client_id) return [];
+    return props.projects.filter(p => p.client_id === manualForm.client_id || !p.client_id);
+});
+
+// Tasks for selected project in manual form
+const manualTasks = computed(() => {
+    if (!manualForm.project_id) return [];
+    const project = props.projects.find(p => p.id === manualForm.project_id);
+    return project?.tasks || [];
+});
+
+// Reset project/task when client changes
+watch(() => timerForm.client_id, () => {
+    timerForm.project_id = '';
+    timerForm.task_id = '';
+});
+
+watch(() => timerForm.project_id, () => {
+    timerForm.task_id = '';
+});
+
+watch(() => manualForm.client_id, () => {
+    manualForm.project_id = '';
+    manualForm.task_id = '';
+});
+
+watch(() => manualForm.project_id, () => {
+    manualForm.task_id = '';
 });
 
 // Convert to invoice form
@@ -329,7 +379,8 @@ const formatTime = (date) => {
                         <p class="text-sm font-medium text-primary-100">{{ t('running_timer') }}</p>
                         <p class="mt-1 text-3xl font-bold text-white">{{ formattedTimerDuration }}</p>
                         <p class="mt-1 text-sm text-primary-200">
-                            {{ runningTimer.client?.name }} - {{ runningTimer.project_name || t('no_project') }}
+                            {{ runningTimer.client?.name }} - {{ runningTimer.project?.title || runningTimer.project_name || t('no_project') }}
+                            <span v-if="runningTimer.task" class="text-primary-300">/ {{ runningTimer.task.title }}</span>
                         </p>
                     </div>
                     <button
@@ -361,12 +412,33 @@ const formatTime = (date) => {
                                 {{ client.name }}
                             </option>
                         </select>
+                        <select
+                            v-if="timerProjects.length > 0"
+                            v-model="timerForm.project_id"
+                            class="rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                        >
+                            <option value="" class="text-slate-900">{{ t('project') }} ({{ t('optional') }})</option>
+                            <option v-for="project in timerProjects" :key="project.id" :value="project.id" class="text-slate-900">
+                                {{ project.title }}
+                            </option>
+                        </select>
                         <input
+                            v-else
                             v-model="timerForm.project_name"
                             type="text"
                             :placeholder="t('project_name')"
                             class="rounded-xl border-0 bg-white/10 py-2 px-3 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
                         />
+                        <select
+                            v-if="timerTasks.length > 0"
+                            v-model="timerForm.task_id"
+                            class="rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                        >
+                            <option value="" class="text-slate-900">{{ t('task') }} ({{ t('optional') }})</option>
+                            <option v-for="task in timerTasks" :key="task.id" :value="task.id" class="text-slate-900">
+                                {{ task.title }}
+                            </option>
+                        </select>
                         <textarea
                             v-model="timerForm.description"
                             :placeholder="`${t('description')} (${t('optional')})`"
@@ -443,7 +515,18 @@ const formatTime = (date) => {
                     </div>
                     <div class="sm:col-span-1">
                         <label class="block text-xs font-medium text-slate-700 dark:text-slate-300">{{ t('project') }}</label>
+                        <select
+                            v-if="manualProjects.length > 0"
+                            v-model="manualForm.project_id"
+                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                        >
+                            <option value="">{{ t('select') }}</option>
+                            <option v-for="project in manualProjects" :key="project.id" :value="project.id">
+                                {{ project.title }}
+                            </option>
+                        </select>
                         <input
+                            v-else
                             v-model="manualForm.project_name"
                             type="text"
                             :placeholder="t('project_name')"
@@ -592,8 +675,14 @@ const formatTime = (date) => {
                             <div class="font-medium text-slate-900 dark:text-white">
                                 {{ entry.client?.name || t('unknown_client') }}
                             </div>
-                            <div class="text-sm text-slate-500 dark:text-slate-400">
-                                {{ entry.project_name || t('no_project') }}
+                            <div class="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                <span
+                                    v-if="entry.project?.color"
+                                    class="inline-block h-2 w-2 rounded-full"
+                                    :style="{ backgroundColor: entry.project.color }"
+                                ></span>
+                                {{ entry.project?.title || entry.project_name || t('no_project') }}
+                                <span v-if="entry.task" class="text-slate-400 dark:text-slate-500">/ {{ entry.task.title }}</span>
                             </div>
                         </td>
                         <td class="hidden px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell">
