@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewUserRegisteredNotification;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -44,6 +46,12 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        // Send notification email to admin
+        $adminEmail = config('admin.support_email');
+        if ($adminEmail) {
+            Mail::to($adminEmail)->send(new NewUserRegisteredNotification($user));
+        }
 
         Auth::login($user);
 
