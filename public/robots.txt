@@ -1,2 +1,37 @@
+# faktur.lu robots.txt
+# Logiciel de facturation conforme Luxembourg
+
 User-agent: *
-Disallow:
+Allow: /
+
+# Disallow private/admin areas
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /api
+Disallow: /invoices
+Disallow: /quotes
+Disallow: /clients
+Disallow: /expenses
+Disallow: /time-tracking
+Disallow: /projects
+Disallow: /settings
+Disallow: /profile
+Disallow: /subscription
+Disallow: /faia
+Disallow: /archive
+Disallow: /revenue-book
+Disallow: /support
+
+# Allow public pages
+Allow: /
+Allow: /login
+Allow: /register
+Allow: /tarifs
+Allow: /validateur-faia
+Allow: /mentions-legales
+Allow: /confidentialite
+Allow: /cgu
+Allow: /cookies
+
+# Sitemap
+Sitemap: https://faktur.lu/sitemap.xml

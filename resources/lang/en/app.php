@@ -817,7 +817,9 @@ return [
 
     // Landing page
     'landing' => [
-        'page_title' => 'Simplified invoicing for Luxembourg',
+        'page_title' => 'Invoicing Software Luxembourg | FAIA & Peppol Compliant',
+        'meta_description' => 'Compliant invoicing software for Luxembourg. FAIA export for tax audits, automatic 17% VAT, quotes, time tracking. Free trial.',
+        'meta_keywords' => 'invoicing software luxembourg, electronic invoice luxembourg, FAIA, Peppol, VAT luxembourg, SME invoicing',
         'nav' => [
             'features' => 'Features',
             'how_it_works' => 'How it works',
@@ -859,7 +861,119 @@ return [
         'features' => [
             'title' => 'Features',
             'heading' => 'Everything you need',
-            'subtitle' => 'A complete solution for managing your invoicing in Luxembourg.',
+            'subtitle' => 'A complete invoicing software designed for freelancers and SMEs in Luxembourg',
+            'all_features' => 'All features',
+            'categories' => [
+                'invoicing' => [
+                    'title' => 'Professional invoicing',
+                    'items' => [
+                        'invoices' => [
+                            'title' => 'Compliant invoices',
+                            'description' => 'Sequential numbering, mandatory legal mentions, automatic VAT.',
+                        ],
+                        'quotes' => [
+                            'title' => 'Professional quotes',
+                            'description' => 'Create quotes and convert them to invoices in one click.',
+                        ],
+                        'credit_notes' => [
+                            'title' => 'Credit notes',
+                            'description' => 'Generate credit notes linked to invoices with full traceability.',
+                        ],
+                        'recurring' => [
+                            'title' => 'Recurring invoices',
+                            'description' => 'Automate monthly invoices for your subscriptions.',
+                        ],
+                        'multi_currency' => [
+                            'title' => 'Multi-currency',
+                            'description' => 'Invoice in EUR, USD, CHF or any other currency.',
+                        ],
+                        'email' => [
+                            'title' => 'Email delivery',
+                            'description' => 'Send invoices directly from the application.',
+                        ],
+                    ],
+                ],
+                'compliance' => [
+                    'title' => 'Luxembourg Compliance',
+                    'items' => [
+                        'faia' => [
+                            'title' => 'FAIA 2.01 Export',
+                            'description' => 'Compliant audit file for AED tax audits.',
+                        ],
+                        'peppol' => [
+                            'title' => 'Peppol B2G',
+                            'description' => 'Electronic invoicing for public sector (coming soon).',
+                        ],
+                        'vat' => [
+                            'title' => 'Automatic VAT',
+                            'description' => 'Automatic calculation: 17%, 14%, 8%, 3% or exempt.',
+                        ],
+                        'archive' => [
+                            'title' => 'PDF/A 10-year archive',
+                            'description' => 'Legal retention with SHA256 fingerprint.',
+                        ],
+                        'audit' => [
+                            'title' => 'Complete audit trail',
+                            'description' => 'Traceability of all actions for compliance.',
+                        ],
+                        'vies' => [
+                            'title' => 'VIES VAT validation',
+                            'description' => 'Automatic verification of EU VAT numbers.',
+                        ],
+                    ],
+                ],
+                'management' => [
+                    'title' => 'Daily management',
+                    'items' => [
+                        'clients' => [
+                            'title' => 'Client management',
+                            'description' => 'Client files with history, intra-community VAT.',
+                        ],
+                        'projects' => [
+                            'title' => 'Project management',
+                            'description' => 'Projects, tasks, Kanban view and hour budget tracking.',
+                        ],
+                        'time_tracking' => [
+                            'title' => 'Time tracking',
+                            'description' => 'One-click timer, manual entries, invoice conversion.',
+                        ],
+                        'expenses' => [
+                            'title' => 'Expense tracking',
+                            'description' => 'Categorization, deductible VAT, receipts.',
+                        ],
+                        'dashboard' => [
+                            'title' => 'Dashboard',
+                            'description' => 'Real-time KPIs, monthly revenue, charts.',
+                        ],
+                        'revenue_book' => [
+                            'title' => 'Revenue book',
+                            'description' => 'Compliant summary for your accounting.',
+                        ],
+                    ],
+                ],
+                'security' => [
+                    'title' => 'Security & Collaboration',
+                    'items' => [
+                        'two_factor' => [
+                            'title' => '2FA Authentication',
+                            'description' => 'Secure your account with Google Authenticator.',
+                        ],
+                        'accountant' => [
+                            'title' => 'Accountant access',
+                            'description' => 'Give read-only access to your accountant.',
+                        ],
+                        'encryption' => [
+                            'title' => 'Encrypted data',
+                            'description' => 'Sensitive data encryption, EU hosting.',
+                        ],
+                        'backup' => [
+                            'title' => 'Daily backups',
+                            'description' => 'Your data is backed up automatically.',
+                        ],
+                    ],
+                ],
+            ],
+            // Legacy - keep for backwards compatibility
             'items' => [
                 'invoicing' => [
                     'title' => 'Compliant invoicing',

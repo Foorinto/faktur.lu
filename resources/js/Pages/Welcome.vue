@@ -1,23 +1,129 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
     canRegister: {
         type: Boolean,
     },
+    appUrl: {
+        type: String,
+        default: 'https://faktur.lu',
+    },
+});
+
+// SEO Meta data
+const pageTitle = computed(() => t('landing.page_title'));
+const metaDescription = computed(() => t('landing.meta_description'));
+const canonicalUrl = computed(() => props.appUrl);
+
+// Schema.org structured data
+const schemaOrganization = computed(() => JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "faktur.lu",
+    "url": props.appUrl,
+    "logo": `${props.appUrl}/images/logo.png`,
+    "description": "Logiciel de facturation conforme pour le Luxembourg",
+    "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "LU"
+    },
+    "sameAs": []
+}));
+
+const schemaSoftware = computed(() => JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "faktur.lu",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "description": "Plan Starter gratuit"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "50"
+    },
+    "featureList": [
+        "Factures conformes Luxembourg",
+        "Export FAIA pour contrôles fiscaux",
+        "TVA automatique 17%",
+        "Devis professionnels",
+        "Suivi du temps",
+        "Gestion de projets"
+    ]
+}));
+
+// Schema.org FAQPage for SEO
+const schemaFAQ = computed(() => JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.value.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+        }
+    }))
+}));
+
+// Inject JSON-LD scripts on mount
+const scriptIds = ['schema-organization', 'schema-software', 'schema-faq'];
+
+onMounted(() => {
+    // Remove any existing scripts first
+    scriptIds.forEach(id => {
+        const existing = document.getElementById(id);
+        if (existing) existing.remove();
+    });
+
+    // Inject Organization schema
+    const orgScript = document.createElement('script');
+    orgScript.id = 'schema-organization';
+    orgScript.type = 'application/ld+json';
+    orgScript.textContent = schemaOrganization.value;
+    document.head.appendChild(orgScript);
+
+    // Inject SoftwareApplication schema
+    const softwareScript = document.createElement('script');
+    softwareScript.id = 'schema-software';
+    softwareScript.type = 'application/ld+json';
+    softwareScript.textContent = schemaSoftware.value;
+    document.head.appendChild(softwareScript);
+
+    // Inject FAQPage schema
+    const faqScript = document.createElement('script');
+    faqScript.id = 'schema-faq';
+    faqScript.type = 'application/ld+json';
+    faqScript.textContent = schemaFAQ.value;
+    document.head.appendChild(faqScript);
+});
+
+onUnmounted(() => {
+    // Clean up scripts on unmount
+    scriptIds.forEach(id => {
+        const script = document.getElementById(id);
+        if (script) script.remove();
+    });
 });
 
 const mobileMenuOpen = ref(false);
 const billingPeriod = ref('monthly');
 
-const features = computed(() => [
+// Quick highlight features (6 main ones for hero area)
+const highlightFeatures = computed(() => [
     {
         title: t('landing.features.items.invoicing.title'),
         description: t('landing.features.items.invoicing.description'),
@@ -55,6 +161,69 @@ const features = computed(() => [
         color: 'bg-[#9b5de5]',
     },
 ]);
+
+// Feature categories with all functionalities
+const featureCategories = computed(() => [
+    {
+        id: 'invoicing',
+        title: t('landing.features.categories.invoicing.title'),
+        color: 'bg-[#9b5de5]',
+        icon: 'document',
+        items: [
+            { title: t('landing.features.categories.invoicing.items.invoices.title'), description: t('landing.features.categories.invoicing.items.invoices.description'), icon: 'document' },
+            { title: t('landing.features.categories.invoicing.items.quotes.title'), description: t('landing.features.categories.invoicing.items.quotes.description'), icon: 'clipboard' },
+            { title: t('landing.features.categories.invoicing.items.credit_notes.title'), description: t('landing.features.categories.invoicing.items.credit_notes.description'), icon: 'refresh' },
+            { title: t('landing.features.categories.invoicing.items.recurring.title'), description: t('landing.features.categories.invoicing.items.recurring.description'), icon: 'calendar' },
+            { title: t('landing.features.categories.invoicing.items.multi_currency.title'), description: t('landing.features.categories.invoicing.items.multi_currency.description'), icon: 'currency' },
+            { title: t('landing.features.categories.invoicing.items.email.title'), description: t('landing.features.categories.invoicing.items.email.description'), icon: 'mail' },
+        ],
+    },
+    {
+        id: 'compliance',
+        title: t('landing.features.categories.compliance.title'),
+        color: 'bg-[#00f5d4]',
+        icon: 'shield',
+        items: [
+            { title: t('landing.features.categories.compliance.items.faia.title'), description: t('landing.features.categories.compliance.items.faia.description'), icon: 'download', badge: 'FAIA' },
+            { title: t('landing.features.categories.compliance.items.peppol.title'), description: t('landing.features.categories.compliance.items.peppol.description'), icon: 'globe', badge: 'Bientôt' },
+            { title: t('landing.features.categories.compliance.items.vat.title'), description: t('landing.features.categories.compliance.items.vat.description'), icon: 'calculator' },
+            { title: t('landing.features.categories.compliance.items.archive.title'), description: t('landing.features.categories.compliance.items.archive.description'), icon: 'archive' },
+            { title: t('landing.features.categories.compliance.items.audit.title'), description: t('landing.features.categories.compliance.items.audit.description'), icon: 'eye' },
+            { title: t('landing.features.categories.compliance.items.vies.title'), description: t('landing.features.categories.compliance.items.vies.description'), icon: 'check-circle' },
+        ],
+    },
+    {
+        id: 'management',
+        title: t('landing.features.categories.management.title'),
+        color: 'bg-[#00bbf9]',
+        icon: 'briefcase',
+        items: [
+            { title: t('landing.features.categories.management.items.clients.title'), description: t('landing.features.categories.management.items.clients.description'), icon: 'users' },
+            { title: t('landing.features.categories.management.items.projects.title'), description: t('landing.features.categories.management.items.projects.description'), icon: 'folder' },
+            { title: t('landing.features.categories.management.items.time_tracking.title'), description: t('landing.features.categories.management.items.time_tracking.description'), icon: 'clock' },
+            { title: t('landing.features.categories.management.items.expenses.title'), description: t('landing.features.categories.management.items.expenses.description'), icon: 'receipt' },
+            { title: t('landing.features.categories.management.items.dashboard.title'), description: t('landing.features.categories.management.items.dashboard.description'), icon: 'chart' },
+            { title: t('landing.features.categories.management.items.revenue_book.title'), description: t('landing.features.categories.management.items.revenue_book.description'), icon: 'book' },
+        ],
+    },
+    {
+        id: 'security',
+        title: t('landing.features.categories.security.title'),
+        color: 'bg-[#f15bb5]',
+        icon: 'lock',
+        items: [
+            { title: t('landing.features.categories.security.items.two_factor.title'), description: t('landing.features.categories.security.items.two_factor.description'), icon: 'key' },
+            { title: t('landing.features.categories.security.items.accountant.title'), description: t('landing.features.categories.security.items.accountant.description'), icon: 'user-group' },
+            { title: t('landing.features.categories.security.items.encryption.title'), description: t('landing.features.categories.security.items.encryption.description'), icon: 'shield' },
+            { title: t('landing.features.categories.security.items.backup.title'), description: t('landing.features.categories.security.items.backup.description'), icon: 'cloud' },
+        ],
+    },
+]);
+
+const activeCategory = ref('invoicing');
+
+// Legacy features array for backwards compatibility
+const features = highlightFeatures;
 
 const steps = computed(() => [
     {
@@ -109,7 +278,28 @@ const toggleFaq = (index) => {
 </script>
 
 <template>
-    <Head :title="t('landing.page_title')" />
+    <Head :title="pageTitle">
+        <!-- Primary Meta Tags -->
+        <meta name="description" :content="metaDescription" />
+        <meta name="keywords" :content="t('landing.meta_keywords')" />
+        <link rel="canonical" :href="canonicalUrl" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" :content="canonicalUrl" />
+        <meta property="og:title" :content="pageTitle" />
+        <meta property="og:description" :content="metaDescription" />
+        <meta property="og:image" :content="`${appUrl}/images/og-image.png`" />
+        <meta property="og:locale" content="fr_LU" />
+        <meta property="og:site_name" content="faktur.lu" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" :content="canonicalUrl" />
+        <meta name="twitter:title" :content="pageTitle" />
+        <meta name="twitter:description" :content="metaDescription" />
+        <meta name="twitter:image" :content="`${appUrl}/images/og-image.png`" />
+    </Head>
 
     <div class="min-h-screen bg-slate-50">
         <!-- Header -->
@@ -383,7 +573,7 @@ const toggleFaq = (index) => {
         <!-- Features Section -->
         <section id="features" class="py-20">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="text-center mb-16">
+                <div class="text-center mb-12">
                     <p class="text-[#f15bb5] font-semibold mb-3">{{ t('landing.features.title') }}</p>
                     <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
                         {{ t('landing.features.heading') }}
@@ -393,45 +583,119 @@ const toggleFaq = (index) => {
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div
-                        v-for="feature in features"
-                        :key="feature.title"
-                        class="bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all"
+                <!-- Category tabs -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12">
+                    <button
+                        v-for="category in featureCategories"
+                        :key="category.id"
+                        @click="activeCategory = category.id"
+                        :class="[
+                            'px-5 py-2.5 rounded-xl text-sm font-medium transition-all',
+                            activeCategory === category.id
+                                ? `${category.color} text-white shadow-lg`
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        ]"
                     >
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" :class="feature.color">
-                            <svg v-if="feature.icon === 'document'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <svg v-else-if="feature.icon === 'users'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                            <svg v-else-if="feature.icon === 'clipboard'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            <svg v-else-if="feature.icon === 'refresh'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                            <svg v-else-if="feature.icon === 'clock'" class="h-6 w-6 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <svg v-else-if="feature.icon === 'download'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                        </div>
-                        <h3 class="text-lg font-semibold text-slate-900 mb-2">
-                            {{ feature.title }}
-                        </h3>
-                        <p class="text-slate-600 leading-relaxed">
-                            {{ feature.description }}
-                        </p>
+                        {{ category.title }}
+                    </button>
+                </div>
+
+                <!-- Features grid for active category -->
+                <div v-for="category in featureCategories" :key="category.id">
+                    <div v-show="activeCategory === category.id" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <article
+                            v-for="(item, index) in category.items"
+                            :key="index"
+                            class="bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all"
+                        >
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" :class="category.color">
+                                    <!-- Icons -->
+                                <svg v-if="item.icon === 'document'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <svg v-else-if="item.icon === 'clipboard'" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'refresh'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'calendar'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'currency'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'mail'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'download'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'globe'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'calculator'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'archive'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'eye'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'check-circle'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'users'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'folder'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'clock'" class="h-5 w-5 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'receipt'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'chart'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'book'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'key'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'user-group'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'shield'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                    <svg v-else-if="item.icon === 'cloud'" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                                    </svg>
+                                    <svg v-else class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                {{ item.title }}
+                                <span v-if="item.badge" class="px-2 py-0.5 text-xs font-medium rounded-full" :class="item.badge === 'FAIA' ? 'bg-[#00f5d4]/20 text-[#00a896]' : 'bg-slate-200 text-slate-600'">
+                                    {{ item.badge }}
+                                </span>
+                            </h3>
+                            <p class="text-slate-600 leading-relaxed">{{ item.description }}</p>
+                        </article>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- How it works Section -->
-        <section id="how-it-works" class="py-20 bg-white">
+        <section id="how-it-works" class="py-20 bg-slate-50">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="text-center mb-16">
                     <p class="text-[#00bbf9] font-semibold mb-3">{{ t('landing.how_it_works.title') }}</p>

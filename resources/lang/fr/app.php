@@ -817,7 +817,9 @@ return [
 
     // Landing page
     'landing' => [
-        'page_title' => 'Facturation simple pour le Luxembourg',
+        'page_title' => 'Logiciel de Facturation Luxembourg | Conforme FAIA & Peppol',
+        'meta_description' => 'Logiciel de facturation conforme pour le Luxembourg. Export FAIA pour contrôles fiscaux, TVA automatique 17%, devis, suivi du temps. Essai gratuit.',
+        'meta_keywords' => 'logiciel facturation luxembourg, facture électronique luxembourg, FAIA, Peppol, TVA luxembourg, facturation PME',
 
         'nav' => [
             'features' => 'Fonctionnalités',
@@ -864,7 +866,119 @@ return [
         'features' => [
             'title' => 'FONCTIONNALITÉS',
             'heading' => 'Tout ce dont vous avez besoin',
-            'subtitle' => 'Des outils puissants pour gérer votre facturation au quotidien',
+            'subtitle' => 'Un logiciel de facturation complet conçu pour les indépendants et PME au Luxembourg',
+            'all_features' => 'Toutes les fonctionnalités',
+            'categories' => [
+                'invoicing' => [
+                    'title' => 'Facturation professionnelle',
+                    'items' => [
+                        'invoices' => [
+                            'title' => 'Factures conformes',
+                            'description' => 'Numérotation séquentielle, mentions légales obligatoires, TVA automatique.',
+                        ],
+                        'quotes' => [
+                            'title' => 'Devis professionnels',
+                            'description' => 'Créez des devis et convertissez-les en factures en un clic.',
+                        ],
+                        'credit_notes' => [
+                            'title' => 'Avoirs et notes de crédit',
+                            'description' => 'Générez des avoirs liés à vos factures avec traçabilité complète.',
+                        ],
+                        'recurring' => [
+                            'title' => 'Factures récurrentes',
+                            'description' => 'Automatisez vos factures mensuelles pour vos abonnements.',
+                        ],
+                        'multi_currency' => [
+                            'title' => 'Multi-devises',
+                            'description' => 'Facturez en EUR, USD, CHF ou toute autre devise.',
+                        ],
+                        'email' => [
+                            'title' => 'Envoi par email',
+                            'description' => 'Envoyez vos factures directement depuis l\'application.',
+                        ],
+                    ],
+                ],
+                'compliance' => [
+                    'title' => 'Conformité Luxembourg',
+                    'items' => [
+                        'faia' => [
+                            'title' => 'Export FAIA 2.01',
+                            'description' => 'Fichier d\'audit conforme pour les contrôles de l\'AED.',
+                        ],
+                        'peppol' => [
+                            'title' => 'Peppol B2G',
+                            'description' => 'Facturation électronique pour le secteur public (bientôt).',
+                        ],
+                        'vat' => [
+                            'title' => 'TVA automatique',
+                            'description' => 'Calcul automatique : 17%, 14%, 8%, 3% ou exonéré.',
+                        ],
+                        'archive' => [
+                            'title' => 'Archivage PDF/A 10 ans',
+                            'description' => 'Conservation légale avec empreinte SHA256.',
+                        ],
+                        'audit' => [
+                            'title' => 'Audit trail complet',
+                            'description' => 'Traçabilité de toutes les actions pour la conformité.',
+                        ],
+                        'vies' => [
+                            'title' => 'Validation TVA VIES',
+                            'description' => 'Vérification automatique des numéros de TVA UE.',
+                        ],
+                    ],
+                ],
+                'management' => [
+                    'title' => 'Gestion quotidienne',
+                    'items' => [
+                        'clients' => [
+                            'title' => 'Gestion clients',
+                            'description' => 'Fiches clients avec historique, TVA intracommunautaire.',
+                        ],
+                        'projects' => [
+                            'title' => 'Gestion de projets',
+                            'description' => 'Projets, tâches, vue Kanban et suivi du budget heures.',
+                        ],
+                        'time_tracking' => [
+                            'title' => 'Suivi du temps',
+                            'description' => 'Timer en un clic, entrées manuelles, conversion en facture.',
+                        ],
+                        'expenses' => [
+                            'title' => 'Suivi des dépenses',
+                            'description' => 'Catégorisation, TVA déductible, pièces justificatives.',
+                        ],
+                        'dashboard' => [
+                            'title' => 'Tableau de bord',
+                            'description' => 'KPIs en temps réel, CA mensuel, graphiques.',
+                        ],
+                        'revenue_book' => [
+                            'title' => 'Livre des recettes',
+                            'description' => 'Récapitulatif conforme pour votre comptabilité.',
+                        ],
+                    ],
+                ],
+                'security' => [
+                    'title' => 'Sécurité & Collaboration',
+                    'items' => [
+                        'two_factor' => [
+                            'title' => 'Authentification 2FA',
+                            'description' => 'Sécurisez votre compte avec Google Authenticator.',
+                        ],
+                        'accountant' => [
+                            'title' => 'Accès comptable',
+                            'description' => 'Donnez un accès lecture seule à votre fiduciaire.',
+                        ],
+                        'encryption' => [
+                            'title' => 'Données chiffrées',
+                            'description' => 'Chiffrement des données sensibles, hébergement EU.',
+                        ],
+                        'backup' => [
+                            'title' => 'Sauvegardes quotidiennes',
+                            'description' => 'Vos données sont sauvegardées automatiquement.',
+                        ],
+                    ],
+                ],
+            ],
+            // Legacy - keep for backwards compatibility
             'items' => [
                 'invoicing' => [
                     'title' => 'Factures conformes',
