@@ -19,7 +19,7 @@ return new class extends Migration
 
         if (!Schema::hasColumn('clients', 'locale')) {
             Schema::table('clients', function (Blueprint $table) {
-                $table->string('locale', 5)->default('fr')->after('country');
+                $table->string('locale', 5)->default('fr');
             });
         }
     }
