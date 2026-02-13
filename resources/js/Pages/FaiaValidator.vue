@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 
 defineProps({
     canLogin: Boolean,
@@ -133,52 +134,9 @@ const statusIcon = computed(() => {
         <meta name="description" content="Validez gratuitement vos fichiers FAIA (Fichier d'Audit Informatisé AED) pour le Luxembourg. Vérification de conformité, structure XML, numérotation des factures et calculs TVA." />
     </Head>
 
-    <div class="min-h-screen bg-slate-50">
-        <!-- Header -->
-        <header class="bg-white border-b border-slate-200">
-            <nav class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="flex h-16 items-center justify-between">
-                    <!-- Logo -->
-                    <Link href="/" class="flex items-center space-x-2.5">
-                        <div class="bg-[#9b5de5] p-2 rounded-xl">
-                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-lg font-bold text-slate-900">faktur.lu</span>
-                    </Link>
-
-                    <!-- Auth links -->
-                    <div v-if="canLogin" class="flex items-center space-x-4">
-                        <Link
-                            v-if="$page.props.auth?.user"
-                            :href="route('dashboard')"
-                            class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                        >
-                            Tableau de bord
-                        </Link>
-                        <template v-else>
-                            <Link
-                                :href="route('login')"
-                                class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                            >
-                                Connexion
-                            </Link>
-                            <Link
-                                v-if="canRegister"
-                                :href="route('register')"
-                                class="bg-[#9b5de5] hover:bg-[#8b4ed5] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
-                            >
-                                Créer un compte
-                            </Link>
-                        </template>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
+    <MarketingLayout>
         <!-- Main content -->
-        <main class="py-12 sm:py-16">
+        <div class="py-12 sm:py-16">
             <div class="mx-auto max-w-4xl px-6 lg:px-8">
                 <!-- Title -->
                 <div class="text-center mb-10">
@@ -547,25 +505,6 @@ const statusIcon = computed(() => {
                     </div>
                 </div>
             </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="border-t border-slate-200 py-8 mt-auto">
-            <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <Link href="/" class="flex items-center space-x-2">
-                        <div class="bg-[#9b5de5] p-1.5 rounded-lg">
-                            <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="font-semibold text-slate-900">faktur.lu</span>
-                    </Link>
-                    <p class="text-sm text-slate-500">
-                        © 2026 faktur.lu. Validateur FAIA gratuit pour le Luxembourg.
-                    </p>
-                </div>
-            </div>
-        </footer>
-    </div>
+        </div>
+    </MarketingLayout>
 </template>

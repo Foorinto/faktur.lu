@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 
 const { t } = useTranslations();
 
@@ -10,31 +11,9 @@ const lastUpdated = '9 février 2026';
 <template>
     <Head title="Politique relative aux cookies" />
 
-    <div class="min-h-screen bg-slate-50">
-        <!-- Header -->
-        <header class="bg-white border-b border-slate-200">
-            <nav class="mx-auto max-w-4xl px-6 lg:px-8">
-                <div class="flex h-16 items-center justify-between">
-                    <Link href="/" class="flex items-center space-x-2.5">
-                        <div class="bg-[#9b5de5] p-2 rounded-xl">
-                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-lg font-bold text-slate-900">faktur.lu</span>
-                    </Link>
-                    <Link
-                        :href="route('login')"
-                        class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                    >
-                        Connexion
-                    </Link>
-                </div>
-            </nav>
-        </header>
-
+    <MarketingLayout>
         <!-- Content -->
-        <main class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
+        <div class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 lg:p-12">
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Politique relative aux cookies</h1>
                 <p class="text-sm text-slate-500 mb-8">Dernière mise à jour : {{ lastUpdated }}</p>
@@ -222,13 +201,6 @@ const lastUpdated = '9 février 2026';
                 <span class="text-slate-300">|</span>
                 <Link :href="route('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
             </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="border-t border-slate-200 py-8">
-            <div class="mx-auto max-w-4xl px-6 lg:px-8 text-center text-sm text-slate-500">
-                &copy; {{ new Date().getFullYear() }} faktur.lu - Tous droits réservés
-            </div>
-        </footer>
-    </div>
+        </div>
+    </MarketingLayout>
 </template>

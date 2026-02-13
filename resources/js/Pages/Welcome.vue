@@ -16,7 +16,19 @@ const props = defineProps({
         type: String,
         default: 'https://faktur.lu',
     },
+    latestPosts: {
+        type: Array,
+        default: () => [],
+    },
 });
+
+const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+};
 
 // SEO Meta data
 const pageTitle = computed(() => t('landing.page_title'));
@@ -1246,6 +1258,78 @@ const toggleFaq = (index) => {
             </div>
         </section>
 
+        <!-- Latest Blog Posts Section -->
+        <section v-if="latestPosts && latestPosts.length > 0" class="py-20 bg-slate-50">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">
+                        Derniers articles du blog
+                    </h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                        Conseils et actualités sur la facturation et la fiscalité au Luxembourg
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <article
+                        v-for="post in latestPosts"
+                        :key="post.slug"
+                        class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
+                    >
+                        <Link :href="route('blog.show', post.slug)">
+                            <div v-if="post.cover_image_url" class="aspect-[16/9] overflow-hidden">
+                                <img
+                                    :src="post.cover_image_url"
+                                    :alt="post.title"
+                                    class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+                            <div v-else class="aspect-[16/9] bg-gradient-to-br from-[#9b5de5] to-[#7c3aed]"></div>
+
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-500 mb-2">
+                                    <span v-if="post.category" class="text-[#9b5de5] font-medium">
+                                        {{ post.category }}
+                                    </span>
+                                    <span v-if="post.category">•</span>
+                                    <time :datetime="post.published_at">
+                                        {{ formatDate(post.published_at) }}
+                                    </time>
+                                </div>
+
+                                <h3 class="text-lg font-semibold text-slate-900 group-hover:text-[#9b5de5] transition-colors mb-2">
+                                    {{ post.title }}
+                                </h3>
+
+                                <p v-if="post.excerpt" class="text-slate-600 text-sm line-clamp-2">
+                                    {{ post.excerpt }}
+                                </p>
+
+                                <div class="mt-4 flex items-center text-sm text-slate-500">
+                                    <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {{ post.reading_time }} min de lecture
+                                </div>
+                            </div>
+                        </Link>
+                    </article>
+                </div>
+
+                <div class="text-center mt-10">
+                    <Link
+                        :href="route('blog.index')"
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                    >
+                        Voir tous les articles
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </Link>
+                </div>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="border-t border-slate-200 py-12">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
@@ -1276,9 +1360,9 @@ const toggleFaq = (index) => {
                         <h4 class="font-semibold text-slate-900 mb-4">Ressources</h4>
                         <ul class="space-y-2 text-sm">
                             <li><Link :href="route('blog.index')" class="text-slate-600 hover:text-slate-900">Blog</Link></li>
-                            <li class="text-slate-600">{{ t('landing.footer.faia_export') }}</li>
-                            <li class="text-slate-600">{{ t('landing.footer.vat_luxembourg') }}</li>
-                            <li class="text-slate-600">{{ t('landing.footer.gdpr') }}</li>
+                            <li><Link :href="route('faia-validator')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.faia_export') }}</Link></li>
+                            <li><Link :href="route('blog.show', 'guide-complet-facturation-luxembourg-2026')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.vat_luxembourg') }}</Link></li>
+                            <li><Link :href="route('legal.privacy')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.gdpr') }}</Link></li>
                         </ul>
                     </div>
                     <div>

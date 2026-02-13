@@ -26,18 +26,24 @@ const canRegister = page.props.canRegister ?? true;
                     </Link>
 
                     <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center space-x-8">
+                    <div class="hidden md:flex items-center space-x-6">
                         <Link href="/#features" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             Fonctionnalités
+                        </Link>
+                        <Link href="/#how-it-works" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                            Comment ça marche
                         </Link>
                         <Link href="/#pricing" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             Tarifs
                         </Link>
+                        <Link href="/#faq" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                            FAQ
+                        </Link>
+                        <Link :href="route('faia-validator')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                            Validateur FAIA
+                        </Link>
                         <Link :href="route('blog.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             Blog
-                        </Link>
-                        <Link :href="route('faia-validator')" class="text-sm font-medium text-[#9b5de5] hover:text-[#8b4ed5] transition-colors">
-                            Validateur FAIA
                         </Link>
                     </div>
 
@@ -83,9 +89,11 @@ const canRegister = page.props.canRegister ?? true;
                 <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-slate-200 mt-4">
                     <div class="flex flex-col space-y-3">
                         <Link href="/#features" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Fonctionnalités</Link>
+                        <Link href="/#how-it-works" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Comment ça marche</Link>
                         <Link href="/#pricing" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Tarifs</Link>
+                        <Link href="/#faq" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">FAQ</Link>
+                        <Link :href="route('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Validateur FAIA</Link>
                         <Link :href="route('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Blog</Link>
-                        <Link :href="route('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-[#9b5de5] hover:text-[#8b4ed5] py-2">Validateur FAIA</Link>
                         <template v-if="!$page.props.auth?.user">
                             <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Connexion</Link>
                             <Link v-if="canRegister" :href="route('register')" class="bg-[#9b5de5] text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">Essai gratuit</Link>
@@ -130,9 +138,9 @@ const canRegister = page.props.canRegister ?? true;
                         <h4 class="font-semibold text-slate-900 mb-4">Ressources</h4>
                         <ul class="space-y-2 text-sm">
                             <li><Link :href="route('blog.index')" class="text-slate-600 hover:text-slate-900">Blog</Link></li>
-                            <li class="text-slate-600">Guide FAIA</li>
-                            <li class="text-slate-600">TVA Luxembourg</li>
-                            <li class="text-slate-600">Conformité RGPD</li>
+                            <li><Link :href="route('faia-validator')" class="text-slate-600 hover:text-slate-900">Validateur FAIA</Link></li>
+                            <li><Link :href="route('blog.show', 'guide-complet-facturation-luxembourg-2026')" class="text-slate-600 hover:text-slate-900">TVA Luxembourg</Link></li>
+                            <li><Link :href="route('legal.privacy')" class="text-slate-600 hover:text-slate-900">Conformité RGPD</Link></li>
                         </ul>
                     </div>
                     <div>

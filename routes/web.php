@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountantSettingsController;
 use App\Http\Controllers\BlogController;
+use App\Models\BlogPost;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\AuditLogController;
@@ -31,12 +32,28 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    $latestPosts = BlogPost::published()
+        ->with('category')
+        ->orderByDesc('published_at')
+        ->limit(3)
+        ->get()
+        ->map(fn ($post) => [
+            'title' => $post->title,
+            'slug' => $post->slug,
+            'excerpt' => $post->excerpt,
+            'cover_image_url' => $post->cover_image_url,
+            'published_at' => $post->published_at->toISOString(),
+            'reading_time' => $post->reading_time,
+            'category' => $post->category?->name,
+        ]);
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
         'appUrl' => config('app.url'),
+        'latestPosts' => $latestPosts,
     ]);
 });
 
