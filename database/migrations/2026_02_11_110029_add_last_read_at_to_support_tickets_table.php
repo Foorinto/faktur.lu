@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('support_tickets', 'user_last_read_at')) {
+            return;
+        }
+
         Schema::table('support_tickets', function (Blueprint $table) {
             $table->timestamp('user_last_read_at')->nullable()->after('resolved_at');
         });

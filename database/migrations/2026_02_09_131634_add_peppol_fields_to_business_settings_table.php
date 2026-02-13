@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('business_settings', 'peppol_endpoint_id')) {
+            return;
+        }
+
         Schema::table('business_settings', function (Blueprint $table) {
             $table->string('peppol_endpoint_id', 50)->nullable()->after('vat_number');
             $table->string('peppol_endpoint_scheme', 4)->nullable()->after('peppol_endpoint_id');

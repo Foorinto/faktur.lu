@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('admin_login_attempts')) {
+            return;
+        }
+
         Schema::create('admin_login_attempts', function (Blueprint $table) {
             $table->id();
             $table->string('ip_address', 45)->index();

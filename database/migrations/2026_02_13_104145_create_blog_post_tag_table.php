@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('blog_post_tag')) {
+            return;
+        }
+
         Schema::create('blog_post_tag', function (Blueprint $table) {
-            $table->foreignId('blog_post_id')->constrained()->onDelete('cascade');
-            $table->foreignId('blog_tag_id')->constrained()->onDelete('cascade');
+            $table->foreignId('blog_post_id')->constrained('blog_posts')->onDelete('cascade');
+            $table->foreignId('blog_tag_id')->constrained('blog_tags')->onDelete('cascade');
             $table->primary(['blog_post_id', 'blog_tag_id']);
         });
     }

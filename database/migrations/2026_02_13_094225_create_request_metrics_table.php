@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('request_metrics')) {
+            return;
+        }
+
         Schema::create('request_metrics', function (Blueprint $table) {
             $table->id();
             $table->string('url', 500);

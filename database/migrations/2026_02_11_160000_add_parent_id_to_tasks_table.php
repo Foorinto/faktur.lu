@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('tasks', 'parent_id')) {
+            return;
+        }
+
         Schema::table('tasks', function (Blueprint $table) {
             $table->foreignId('parent_id')->nullable()->after('project_id')->constrained('tasks')->nullOnDelete();
             $table->unsignedTinyInteger('depth')->default(0)->after('parent_id');

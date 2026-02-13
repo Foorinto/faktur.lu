@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('clients', function (Blueprint $table) {
-            $table->boolean('exclude_from_reminders')->default(false);
-        });
+        if (!Schema::hasColumn('clients', 'exclude_from_reminders')) {
+            Schema::table('clients', function (Blueprint $table) {
+                $table->boolean('exclude_from_reminders')->default(false);
+            });
+        }
 
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->boolean('exclude_from_reminders')->default(false);
-        });
+        if (!Schema::hasColumn('invoices', 'exclude_from_reminders')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                $table->boolean('exclude_from_reminders')->default(false);
+            });
+        }
     }
 
     /**

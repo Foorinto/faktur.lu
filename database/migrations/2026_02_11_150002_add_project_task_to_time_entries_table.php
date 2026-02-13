@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('time_entries', 'project_id')) {
+            return;
+        }
+
         Schema::table('time_entries', function (Blueprint $table) {
             $table->foreignId('project_id')->nullable()->after('client_id')->constrained()->nullOnDelete();
             $table->foreignId('task_id')->nullable()->after('project_id')->constrained()->nullOnDelete();

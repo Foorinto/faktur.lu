@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('admin_sessions')) {
+            return;
+        }
+
         Schema::create('admin_sessions', function (Blueprint $table) {
             $table->id();
             $table->string('session_id', 64)->unique();

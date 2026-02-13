@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('email_settings', 'provider')) {
+            return;
+        }
+
         Schema::table('email_settings', function (Blueprint $table) {
             $table->string('provider')->default('faktur')->after('user_id'); // faktur, smtp, postmark, resend
             $table->text('provider_config')->nullable()->after('provider'); // JSON chiffré
