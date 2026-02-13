@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('locale', 5)->default('fr')->after('email');
-        });
+        if (!Schema::hasColumn('users', 'locale')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('locale', 5)->default('fr')->after('email');
+            });
+        }
 
-        Schema::table('clients', function (Blueprint $table) {
-            $table->string('locale', 5)->default('fr')->after('country');
-        });
+        if (!Schema::hasColumn('clients', 'locale')) {
+            Schema::table('clients', function (Blueprint $table) {
+                $table->string('locale', 5)->default('fr')->after('country');
+            });
+        }
     }
 
     /**
