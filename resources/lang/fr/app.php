@@ -1,6 +1,16 @@
 <?php
 
 return [
+    // Trial & Subscription
+    'trial_expired_message' => 'Votre période d\'essai est terminée. Choisissez un abonnement pour continuer à utiliser faktur.lu.',
+    'trial_days_remaining' => ':days jours restants sur votre essai gratuit',
+    'trial_banner_cta' => 'Choisir un abonnement',
+    'read_only_mode' => 'Votre essai est terminé. Votre compte est en lecture seule.',
+    'subscribe_now' => 'S\'abonner maintenant',
+    'trial_14_days' => '14 jours d\'essai gratuit',
+    'no_credit_card' => 'Sans carte bancaire',
+    'try_free' => 'Essayer 14 jours gratuitement',
+
     // Navigation
     'dashboard' => 'Tableau de bord',
     'invoices' => 'Factures',
@@ -838,7 +848,7 @@ return [
             'title_2' => 'simplement',
             'title_3' => ' au Luxembourg',
             'subtitle' => 'Créez des factures conformes à la législation luxembourgeoise en quelques clics. Export FAIA pour vos contrôles fiscaux.',
-            'cta_start' => 'Commencer gratuitement',
+            'cta_start' => 'Essayer 14 jours gratuitement',
             'cta_login' => 'Déjà inscrit ?',
             'badge_faia' => 'Export FAIA',
             'badge_secure' => 'Données sécurisées',
@@ -1038,31 +1048,47 @@ return [
         'pricing' => [
             'title' => 'TARIFS',
             'heading' => 'Des prix simples et transparents',
-            'subtitle' => 'Commencez gratuitement, évoluez selon vos besoins',
-            'popular' => 'POPULAIRE',
+            'subtitle' => '14 jours d\'essai gratuit, puis choisissez votre formule',
+            'popular' => 'RECOMMANDÉ',
             'start' => 'Commencer',
             'sign_up' => 'S\'inscrire',
             'coming_soon' => 'Bientôt disponible',
+            'trial_info' => '14 jours d\'essai gratuit - Sans carte bancaire',
+            'monthly' => 'Mensuel',
+            'yearly' => 'Annuel',
+            'two_months_free' => '2 mois offerts',
+            'per_month' => '/mois',
+            'billed_yearly' => 'facturé annuellement',
+            'billed_monthly' => 'HT, facturé mensuellement',
+            'unlimited' => 'Illimité',
             'plans' => [
-                'discovery' => [
-                    'name' => 'Starter',
-                    'description' => 'Pour démarrer',
-                    'price' => 'Gratuit',
+                'essentiel' => [
+                    'name' => 'Essentiel',
+                    'description' => 'Pour les freelances débutants',
+                    'price' => '4€',
+                    'price_yearly' => '40€',
                     'features' => [
-                        '2 clients maximum',
-                        '2 factures/mois',
-                        '2 devis/mois',
+                        '10 clients maximum',
+                        '20 factures/mois',
+                        '20 devis/mois',
+                        'Facturation conforme Luxembourg',
+                        'Suivi du temps',
+                        'Authentification 2FA',
                     ],
                 ],
                 'professional' => [
                     'name' => 'Pro',
-                    'description' => 'Pour les indépendants',
-                    'price' => '7€/mois',
+                    'description' => 'Pour les freelances établis',
+                    'price' => '9€',
+                    'price_yearly' => '90€',
                     'features' => [
                         'Clients illimités',
                         'Factures illimitées',
                         'Export FAIA (contrôle fiscal)',
-                        'Archivage PDF 10 ans',
+                        'Archivage PDF/A 10 ans',
+                        'Relances automatiques',
+                        'Sans branding faktur.lu',
+                        'Support prioritaire',
                     ],
                 ],
                 'enterprise' => [
@@ -1106,7 +1132,7 @@ return [
                 ],
                 'free_trial' => [
                     'question' => 'Puis-je essayer gratuitement ?',
-                    'answer' => 'Oui ! Le plan Starter est gratuit pour toujours avec jusqu\'à 2 clients et 2 factures par mois. Idéal pour démarrer.',
+                    'answer' => 'Oui ! Profitez de 14 jours d\'essai gratuit avec accès à toutes les fonctionnalités Pro, sans carte bancaire. Choisissez ensuite le plan qui vous convient.',
                 ],
             ],
         ],
@@ -1114,7 +1140,7 @@ return [
         'cta' => [
             'heading' => 'Prêt à simplifier votre facturation ?',
             'subtitle' => 'Rejoignez les entrepreneurs luxembourgeois qui font confiance à faktur.lu',
-            'button' => 'Créer mon compte gratuit',
+            'button' => 'Essayer 14 jours gratuitement',
         ],
 
         'footer' => [

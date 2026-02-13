@@ -5,6 +5,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
+import ReadOnlyBanner from '@/Components/ReadOnlyBanner.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -70,6 +71,15 @@ const routeExists = (routeName) => {
             >
                 {{ t('return_to_admin') }}
             </button>
+        </div>
+
+        <!-- Read-only Banner (trial expired) -->
+        <div
+            v-if="page.props.auth?.user?.is_read_only"
+            :class="[page.props.impersonating ? 'top-10' : 'top-0']"
+            class="fixed left-0 right-0 z-[99]"
+        >
+            <ReadOnlyBanner />
         </div>
 
         <!-- Sidebar -->
@@ -193,6 +203,30 @@ const routeExists = (routeName) => {
                         </span>
                     </template>
                 </nav>
+
+                <!-- Trial Card -->
+                <div v-if="page.props.auth?.user?.is_on_trial" class="px-3 pb-3">
+                    <div class="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-3">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="h-5 w-5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="text-sm font-semibold text-amber-800 dark:text-amber-200">Période d'essai</span>
+                        </div>
+                        <p class="text-xs text-amber-700 dark:text-amber-300 mb-1">
+                            <strong>{{ page.props.auth.user.trial_days_remaining }}</strong> jours restants
+                        </p>
+                        <p class="text-xs text-amber-600 dark:text-amber-400 mb-3">
+                            Expire le {{ new Date(page.props.auth.user.trial_ends_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }) }}
+                        </p>
+                        <Link
+                            :href="route('subscription.index')"
+                            class="block w-full text-center text-xs font-medium px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white transition-colors"
+                        >
+                            Choisir un abonnement
+                        </Link>
+                    </div>
+                </div>
 
                 <!-- User menu at bottom -->
                 <div class="border-t border-slate-200 p-4 dark:border-slate-700">

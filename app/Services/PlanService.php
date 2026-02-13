@@ -10,14 +10,27 @@ class PlanService
 {
     /**
      * Get the user's current plan.
+     * During trial, users get access to Pro features.
      */
     public function getUserPlan(User $user): Plan
     {
+        // Pro subscribers get Pro plan
         if ($user->isPro()) {
-            return Plan::pro() ?? $this->getDefaultStarterPlan();
+            return Plan::pro() ?? $this->getDefaultProPlan();
         }
 
-        return Plan::starter() ?? $this->getDefaultStarterPlan();
+        // Users on generic trial get Pro features
+        if ($user->isOnGenericTrial()) {
+            return Plan::pro() ?? $this->getDefaultProPlan();
+        }
+
+        // Subscribed to Essentiel plan
+        if ($user->subscribed('default')) {
+            return Plan::essentiel() ?? $this->getDefaultEssentielPlan();
+        }
+
+        // Default to Essentiel (for expired trials, etc.)
+        return Plan::essentiel() ?? $this->getDefaultEssentielPlan();
     }
 
     /**
@@ -163,21 +176,47 @@ class PlanService
     }
 
     /**
-     * Get default starter plan if none exists in database.
+     * Get default essentiel plan if none exists in database.
      */
-    private function getDefaultStarterPlan(): Plan
+    private function getDefaultEssentielPlan(): Plan
     {
         $plan = new Plan();
-        $plan->name = 'starter';
-        $plan->display_name = 'Starter';
+        $plan->name = 'essentiel';
+        $plan->display_name = 'Essentiel';
         $plan->limits = [
-            'max_clients' => 5,
-            'max_invoices_per_month' => 3,
-            'max_quotes_per_month' => 3,
-            'max_emails_per_month' => 5,
+            'max_clients' => 10,
+            'max_invoices_per_month' => 20,
+            'max_quotes_per_month' => 20,
+            'max_emails_per_month' => 30,
         ];
         $plan->features = ['invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa'];
 
         return $plan;
+    }
+
+    /**
+     * Get default pro plan if none exists in database.
+     */
+    private function getDefaultProPlan(): Plan
+    {
+        $plan = new Plan();
+        $plan->name = 'pro';
+        $plan->display_name = 'Pro';
+        $plan->limits = null; // unlimited
+        $plan->features = [
+            'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
+            'faia_export', 'pdf_archive', 'email_reminders', 'no_branding', 'priority_support',
+        ];
+
+        return $plan;
+    }
+
+    /**
+     * Get default starter plan if none exists in database.
+     * @deprecated Use getDefaultEssentielPlan() instead
+     */
+    private function getDefaultStarterPlan(): Plan
+    {
+        return $this->getDefaultEssentielPlan();
     }
 }

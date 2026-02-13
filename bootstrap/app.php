@@ -14,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->dailyAt('09:00')
             ->withoutOverlapping()
             ->onOneServer();
+
+        // Send trial reminders daily at 8:00 AM
+        $schedule->command('trial:send-reminders')
+            ->dailyAt('08:00')
+            ->withoutOverlapping()
+            ->onOneServer();
     })
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -50,6 +56,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'accountant.access' => \App\Http\Middleware\VerifyAccountantAccess::class,
             'plan.limit' => \App\Http\Middleware\CheckPlanLimits::class,
             'plan.feature' => \App\Http\Middleware\CheckPlanFeature::class,
+            'check.trial' => \App\Http\Middleware\CheckTrialExpired::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

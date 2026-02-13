@@ -9,7 +9,7 @@ const props = defineProps({
 
 const billingPeriod = ref('monthly');
 
-const starterPlan = computed(() => props.plans.find(p => p.name === 'starter'));
+const essentielPlan = computed(() => props.plans.find(p => p.name === 'essentiel'));
 const proPlan = computed(() => props.plans.find(p => p.name === 'pro'));
 
 const formatPrice = (price) => {
@@ -21,37 +21,26 @@ const formatPrice = (price) => {
     }).format(price);
 };
 
-const featureLabels = {
-    invoices: 'Factures',
-    quotes: 'Devis',
-    clients: 'Gestion clients',
-    expenses: 'Suivi des dépenses',
-    time_tracking: 'Suivi du temps',
-    '2fa': 'Authentification 2FA',
-    faia_export: 'Export FAIA (audit fiscal)',
-    pdf_archive: 'Archivage PDF longue durée',
-    email_reminders: 'Relances automatiques',
-    no_branding: 'Sans branding faktur.lu',
-    priority_support: 'Support prioritaire',
-};
+const essentielFeatures = [
+    'Facturation conforme Luxembourg',
+    'Devis professionnels',
+    'Gestion clients',
+    'Suivi des dépenses',
+    'Suivi du temps',
+    'Authentification 2FA',
+];
 
-const allFeatures = [
-    { key: 'invoices', label: 'Factures conformes Luxembourg' },
-    { key: 'quotes', label: 'Devis professionnels' },
-    { key: 'clients', label: 'Gestion clients' },
-    { key: 'expenses', label: 'Suivi des dépenses' },
-    { key: 'time_tracking', label: 'Suivi du temps' },
-    { key: '2fa', label: 'Authentification 2 facteurs' },
-    { key: 'faia_export', label: 'Export FAIA (contrôle fiscal)', pro: true },
-    { key: 'pdf_archive', label: 'Archivage PDF/A 10 ans', pro: true },
-    { key: 'email_reminders', label: 'Relances automatiques impayés', pro: true },
-    { key: 'no_branding', label: 'Sans mention "faktur.lu"', pro: true },
-    { key: 'priority_support', label: 'Support email prioritaire', pro: true },
+const proFeatures = [
+    'Export FAIA (contrôle fiscal)',
+    'Archivage PDF/A 10 ans',
+    'Relances automatiques impayés',
+    'Sans mention "faktur.lu"',
+    'Support email prioritaire',
 ];
 </script>
 
 <template>
-    <Head title="Tarifs - faktur.lu" />
+    <Head title="Tarifs - faktur.lu | Logiciel de facturation Luxembourg" />
 
     <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
         <!-- Navigation -->
@@ -74,7 +63,7 @@ const allFeatures = [
                             :href="route('register')"
                             class="inline-flex items-center px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-colors"
                         >
-                            Créer un compte
+                            Essayer gratuitement
                         </Link>
                     </div>
                 </div>
@@ -88,8 +77,16 @@ const allFeatures = [
                     Tarification simple et transparente
                 </h1>
                 <p class="mt-4 text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                    Commencez gratuitement, passez à Pro quand votre activité grandit.
+                    14 jours d'essai gratuit, puis choisissez votre formule
                 </p>
+
+                <!-- Trial badge -->
+                <div class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-full">
+                    <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <span class="text-emerald-700 dark:text-emerald-300 font-medium">Sans carte bancaire</span>
+                </div>
 
                 <!-- Billing toggle -->
                 <div class="mt-10 flex justify-center items-center space-x-4">
@@ -121,7 +118,7 @@ const allFeatures = [
                     </span>
                     <span
                         v-if="billingPeriod === 'yearly'"
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800"
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300"
                     >
                         2 mois offerts
                     </span>
@@ -133,20 +130,30 @@ const allFeatures = [
         <div class="pb-24">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Starter Plan -->
+                    <!-- Essentiel Plan -->
                     <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-8">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Starter</h3>
-                                <p class="text-slate-500 dark:text-slate-400">Pour démarrer</p>
+                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
+                                <p class="text-slate-500 dark:text-slate-400">Pour les freelances débutants</p>
                             </div>
                         </div>
 
                         <div class="mt-6">
                             <div class="flex items-baseline">
-                                <span class="text-5xl font-bold text-slate-900 dark:text-white">Gratuit</span>
+                                <span class="text-5xl font-bold text-slate-900 dark:text-white">
+                                    {{ billingPeriod === 'yearly' ? formatPrice((essentielPlan?.price_yearly || 4000) / 12 / 100) : formatPrice((essentielPlan?.price_monthly || 400) / 100) }}
+                                </span>
+                                <span class="ml-2 text-slate-500">/mois</span>
                             </div>
-                            <p class="mt-1 text-sm text-slate-500">pour toujours</p>
+                            <p class="mt-1 text-sm text-slate-500">
+                                <template v-if="billingPeriod === 'yearly'">
+                                    {{ formatPrice((essentielPlan?.price_yearly || 4000) / 100) }} facturé annuellement
+                                </template>
+                                <template v-else>
+                                    HT, facturé mensuellement
+                                </template>
+                            </p>
                         </div>
 
                         <div class="mt-8">
@@ -154,7 +161,7 @@ const allFeatures = [
                                 :href="route('register')"
                                 class="block w-full text-center px-6 py-3 border-2 border-primary-500 text-primary-600 dark:text-primary-400 font-semibold rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
                             >
-                                Commencer gratuitement
+                                Essayer 14 jours gratuits
                             </Link>
                         </div>
 
@@ -163,19 +170,15 @@ const allFeatures = [
                             <ul class="space-y-3">
                                 <li class="flex items-center text-slate-600 dark:text-slate-400">
                                     <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_clients || 2 }} clients maximum
+                                    {{ essentielPlan?.limits?.max_clients || 10 }} clients maximum
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-400">
                                     <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_invoices_per_month || 2 }} factures/mois
+                                    {{ essentielPlan?.limits?.max_invoices_per_month || 20 }} factures/mois
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-400">
                                     <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_quotes_per_month || 2 }} devis/mois
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <span class="text-slate-400 mr-3">•</span>
-                                    {{ starterPlan?.limits?.max_emails_per_month || 2 }} emails/mois
+                                    {{ essentielPlan?.limits?.max_quotes_per_month || 20 }} devis/mois
                                 </li>
                             </ul>
                         </div>
@@ -184,14 +187,14 @@ const allFeatures = [
                             <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Inclus :</p>
                             <ul class="space-y-3">
                                 <li
-                                    v-for="feature in allFeatures.filter(f => !f.pro)"
-                                    :key="feature.key"
+                                    v-for="feature in essentielFeatures"
+                                    :key="feature"
                                     class="flex items-center text-slate-600 dark:text-slate-400"
                                 >
                                     <svg class="h-5 w-5 text-emerald-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    {{ feature.label }}
+                                    {{ feature }}
                                 </li>
                             </ul>
                         </div>
@@ -208,20 +211,20 @@ const allFeatures = [
                         <div class="flex items-center justify-between">
                             <div>
                                 <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Pro</h3>
-                                <p class="text-slate-500 dark:text-slate-400">Pour les indépendants</p>
+                                <p class="text-slate-500 dark:text-slate-400">Pour les freelances établis</p>
                             </div>
                         </div>
 
                         <div class="mt-6">
                             <div class="flex items-baseline">
                                 <span class="text-5xl font-bold text-slate-900 dark:text-white">
-                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 5.83) : formatPrice(proPlan?.price_monthly || 7) }}
+                                    {{ billingPeriod === 'yearly' ? formatPrice((proPlan?.price_yearly || 9000) / 12 / 100) : formatPrice((proPlan?.price_monthly || 900) / 100) }}
                                 </span>
                                 <span class="ml-2 text-slate-500">/mois</span>
                             </div>
                             <p class="mt-1 text-sm text-slate-500">
                                 <template v-if="billingPeriod === 'yearly'">
-                                    {{ formatPrice(proPlan?.price_yearly || 70) }} facturé annuellement
+                                    {{ formatPrice((proPlan?.price_yearly || 9000) / 100) }} facturé annuellement
                                 </template>
                                 <template v-else>
                                     HT, facturé mensuellement
@@ -234,7 +237,7 @@ const allFeatures = [
                                 :href="route('register')"
                                 class="block w-full text-center px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-colors"
                             >
-                                Commencer l'essai gratuit
+                                Essayer 14 jours gratuits
                             </Link>
                         </div>
 
@@ -263,17 +266,17 @@ const allFeatures = [
                         </div>
 
                         <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Tout de Starter, plus :</p>
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Tout de Essentiel, plus :</p>
                             <ul class="space-y-3">
                                 <li
-                                    v-for="feature in allFeatures.filter(f => f.pro)"
-                                    :key="feature.key"
+                                    v-for="feature in proFeatures"
+                                    :key="feature"
                                     class="flex items-center text-slate-600 dark:text-slate-400"
                                 >
                                     <svg class="h-5 w-5 text-emerald-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    {{ feature.label }}
+                                    {{ feature }}
                                 </li>
                             </ul>
                         </div>
@@ -292,19 +295,31 @@ const allFeatures = [
                 <div class="space-y-8">
                     <div>
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
-                            Puis-je passer de Starter à Pro à tout moment ?
+                            Comment fonctionne l'essai gratuit ?
                         </h3>
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
-                            Oui, vous pouvez upgrader à tout moment. Votre abonnement Pro sera activé immédiatement.
+                            Profitez de 14 jours d'accès complet à toutes les fonctionnalités Pro, sans carte bancaire.
+                            À la fin de l'essai, choisissez le plan qui vous convient pour continuer.
                         </p>
                     </div>
 
                     <div>
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
-                            Que se passe-t-il si j'annule mon abonnement Pro ?
+                            Que se passe-t-il après l'essai si je ne m'abonne pas ?
                         </h3>
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
-                            Vous conservez l'accès Pro jusqu'à la fin de votre période de facturation. Ensuite, vous repassez automatiquement en plan Starter. Vos données sont conservées.
+                            Votre compte passe en lecture seule : vous pouvez consulter vos données mais pas créer
+                            de nouvelles factures. Abonnez-vous à tout moment pour retrouver l'accès complet.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
+                            Puis-je changer de plan à tout moment ?
+                        </h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-400">
+                            Oui, vous pouvez passer d'Essentiel à Pro à tout moment. Le changement est immédiat
+                            et le prorata est calculé automatiquement.
                         </p>
                     </div>
 
@@ -313,7 +328,8 @@ const allFeatures = [
                             L'export FAIA est-il vraiment important ?
                         </h3>
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
-                            Oui. En cas de contrôle fiscal au Luxembourg, l'Administration des contributions directes peut exiger vos données au format FAIA. C'est obligatoire pour les entreprises assujetties à la TVA.
+                            Oui. En cas de contrôle fiscal au Luxembourg, l'Administration des contributions directes
+                            peut exiger vos données au format FAIA. C'est obligatoire pour les entreprises assujetties à la TVA.
                         </p>
                     </div>
 
@@ -322,7 +338,8 @@ const allFeatures = [
                             Comment fonctionne la facturation ?
                         </h3>
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
-                            Nous utilisons Stripe pour les paiements sécurisés. Vous pouvez payer par carte bancaire. La facture est disponible dans votre espace client.
+                            Nous utilisons Stripe pour les paiements sécurisés. Vous pouvez payer par carte bancaire.
+                            La facture est disponible dans votre espace client.
                         </p>
                     </div>
                 </div>
@@ -338,13 +355,14 @@ const allFeatures = [
                 <p class="mt-4 text-xl text-slate-600 dark:text-slate-400">
                     Rejoignez les entrepreneurs luxembourgeois qui font confiance à faktur.lu
                 </p>
-                <div class="mt-8">
+                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <Link
                         :href="route('register')"
                         class="inline-flex items-center px-8 py-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl text-lg transition-colors"
                     >
-                        Créer mon compte gratuit
+                        Essayer 14 jours gratuitement
                     </Link>
+                    <span class="text-slate-500 dark:text-slate-400 text-sm">Sans carte bancaire</span>
                 </div>
             </div>
         </div>

@@ -44,12 +44,20 @@ const schemaSoftware = computed(() => JSON.stringify({
     "name": "faktur.lu",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR",
-        "description": "Plan Starter gratuit"
-    },
+    "offers": [
+        {
+            "@type": "Offer",
+            "price": "4",
+            "priceCurrency": "EUR",
+            "description": "Plan Essentiel - 10 clients, 20 factures/mois"
+        },
+        {
+            "@type": "Offer",
+            "price": "9",
+            "priceCurrency": "EUR",
+            "description": "Plan Pro - Illimité avec FAIA et archivage"
+        }
+    ],
     "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.8",
@@ -806,37 +814,68 @@ const toggleFaq = (index) => {
                             -17% (2 mois offerts)
                         </span>
                     </div>
+
+                    <!-- Trial info banner -->
+                    <div class="mt-6 flex items-center justify-center gap-2 text-slate-600">
+                        <svg class="w-5 h-5 text-[#00f5d4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-sm font-medium">14 jours d'essai gratuit • Sans carte bancaire</span>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <!-- Plan Gratuit -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mt-8">
+                    <!-- Plan Essentiel -->
                     <div class="bg-slate-50 rounded-3xl p-8">
                         <div class="mb-6">
-                            <h3 class="text-xl font-semibold text-slate-900">{{ t('landing.pricing.plans.discovery.name') }}</h3>
-                            <p class="text-slate-500 mt-1">{{ t('landing.pricing.plans.discovery.description') }}</p>
+                            <h3 class="text-xl font-semibold text-slate-900">{{ t('landing.pricing.plans.essentiel.name') }}</h3>
+                            <p class="text-slate-500 mt-1">{{ t('landing.pricing.plans.essentiel.description') }}</p>
                         </div>
                         <div class="mb-6">
-                            <span class="text-4xl font-bold text-slate-900">{{ t('landing.pricing.plans.discovery.price') }}</span>
-                            <span class="text-slate-500 ml-1">pour toujours</span>
+                            <span class="text-4xl font-bold text-slate-900">
+                                {{ billingPeriod === 'yearly' ? '3,33€' : '4€' }}
+                            </span>
+                            <span class="text-slate-500 ml-1">/mois HT</span>
+                            <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
+                                40€ facturé annuellement
+                            </p>
                         </div>
                         <ul class="space-y-4 mb-8">
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.discovery.features.0') }}
+                                {{ t('landing.pricing.plans.essentiel.features.0') }}
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.discovery.features.1') }}
+                                {{ t('landing.pricing.plans.essentiel.features.1') }}
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.discovery.features.2') }}
+                                {{ t('landing.pricing.plans.essentiel.features.2') }}
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                {{ t('landing.pricing.plans.essentiel.features.3') }}
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                {{ t('landing.pricing.plans.essentiel.features.4') }}
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                {{ t('landing.pricing.plans.essentiel.features.5') }}
                             </li>
                         </ul>
                         <Link
@@ -859,11 +898,11 @@ const toggleFaq = (index) => {
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-white">
-                                {{ billingPeriod === 'yearly' ? '5,83€' : '7€' }}
+                                {{ billingPeriod === 'yearly' ? '7,50€' : '9€' }}
                             </span>
                             <span class="text-white/70 ml-1">/mois HT</span>
                             <p v-if="billingPeriod === 'yearly'" class="text-sm text-white/60 mt-1">
-                                70€ facturé annuellement
+                                90€ facturé annuellement
                             </p>
                         </div>
                         <ul class="space-y-4 mb-8">
@@ -912,7 +951,7 @@ const toggleFaq = (index) => {
                             <thead>
                                 <tr class="bg-slate-50 border-b border-slate-200">
                                     <th class="text-left py-4 px-6 text-sm font-semibold text-slate-900">Fonctionnalité</th>
-                                    <th class="text-center py-4 px-6 text-sm font-semibold text-slate-900 w-28">Starter</th>
+                                    <th class="text-center py-4 px-6 text-sm font-semibold text-slate-900 w-28">Essentiel</th>
                                     <th class="text-center py-4 px-6 text-sm font-semibold text-[#9b5de5] w-28">Pro</th>
                                 </tr>
                             </thead>
@@ -923,22 +962,22 @@ const toggleFaq = (index) => {
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Clients</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">10</td>
                                     <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Factures / mois</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">20</td>
                                     <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Devis / mois</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">20</td>
                                     <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Emails / mois</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-6 text-center text-sm text-slate-600">30</td>
                                     <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
                                 </tr>
 

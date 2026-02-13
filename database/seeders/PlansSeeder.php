@@ -12,21 +12,24 @@ class PlansSeeder extends Seeder
      */
     public function run(): void
     {
-        // Plan Starter (Gratuit)
+        // Delete old starter plan if exists
+        Plan::where('name', 'starter')->delete();
+
+        // Plan Essentiel (4€/mois)
         Plan::updateOrCreate(
-            ['name' => 'starter'],
+            ['name' => 'essentiel'],
             [
-                'display_name' => 'Starter',
-                'description' => 'Pour démarrer',
-                'price_monthly' => 0,
-                'price_yearly' => 0,
-                'stripe_price_id_monthly' => null,
-                'stripe_price_id_yearly' => null,
+                'display_name' => 'Essentiel',
+                'description' => 'Pour les freelances débutants',
+                'price_monthly' => 400, // 4€ in cents
+                'price_yearly' => 4000, // 40€ in cents (2 mois offerts)
+                'stripe_price_id_monthly' => env('STRIPE_PRICE_ESSENTIEL_MONTHLY'),
+                'stripe_price_id_yearly' => env('STRIPE_PRICE_ESSENTIEL_YEARLY'),
                 'limits' => [
-                    'max_clients' => 2,
-                    'max_invoices_per_month' => 2,
-                    'max_quotes_per_month' => 2,
-                    'max_emails_per_month' => 2,
+                    'max_clients' => 10,
+                    'max_invoices_per_month' => 20,
+                    'max_quotes_per_month' => 20,
+                    'max_emails_per_month' => 30,
                 ],
                 'features' => [
                     'invoices',
@@ -41,14 +44,14 @@ class PlansSeeder extends Seeder
             ]
         );
 
-        // Plan Pro (7€/mois)
+        // Plan Pro (9€/mois)
         Plan::updateOrCreate(
             ['name' => 'pro'],
             [
                 'display_name' => 'Pro',
-                'description' => 'Pour les indépendants',
-                'price_monthly' => 700, // 7€ in cents
-                'price_yearly' => 7000, // 70€ in cents (2 mois offerts)
+                'description' => 'Pour les freelances établis',
+                'price_monthly' => 900, // 9€ in cents
+                'price_yearly' => 9000, // 90€ in cents (2 mois offerts)
                 'stripe_price_id_monthly' => env('STRIPE_PRICE_PRO_MONTHLY'),
                 'stripe_price_id_yearly' => env('STRIPE_PRICE_PRO_YEARLY'),
                 'limits' => [

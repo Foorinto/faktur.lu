@@ -32,11 +32,20 @@ class Plan extends Model
     }
 
     /**
-     * Get the starter plan.
+     * Get the essentiel plan.
+     */
+    public static function essentiel(): ?self
+    {
+        return static::where('name', 'essentiel')->first();
+    }
+
+    /**
+     * Get the starter plan (alias for essentiel for backwards compatibility).
+     * @deprecated Use essentiel() instead
      */
     public static function starter(): ?self
     {
-        return static::where('name', 'starter')->first();
+        return static::essentiel() ?? static::where('name', 'starter')->first();
     }
 
     /**

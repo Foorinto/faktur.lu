@@ -18,14 +18,16 @@ const props = defineProps({
     invoices: Array,
     onTrial: Boolean,
     trialEndsAt: String,
+    trialDaysRemaining: Number,
 });
 
 const billingPeriod = ref('monthly');
 const showCancelModal = ref(false);
 
 const proPlan = computed(() => props.plans.find(p => p.name === 'pro'));
-const starterPlan = computed(() => props.plans.find(p => p.name === 'starter'));
+const essentielPlan = computed(() => props.plans.find(p => p.name === 'essentiel'));
 const isPro = computed(() => props.currentPlan === 'pro');
+const isEssentiel = computed(() => props.currentPlan === 'essentiel');
 const isOnGracePeriod = computed(() => props.subscription?.ends_at && new Date(props.subscription.ends_at) > new Date());
 
 const checkoutForm = ref(null);
@@ -147,26 +149,43 @@ const getUsagePercentage = (used, limit) => {
                             <div
                                 :class="[
                                     'h-14 w-14 rounded-2xl flex items-center justify-center',
-                                    isPro ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-slate-100 dark:bg-slate-700'
+                                    onTrial ? 'bg-amber-100 dark:bg-amber-900/30' : (isPro ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-slate-100 dark:bg-slate-700')
                                 ]"
                             >
-                                <svg v-if="isPro" class="h-7 w-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <!-- Trial icon (clock) -->
+                                <svg v-if="onTrial" class="h-7 w-7 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <!-- Pro icon (star) -->
+                                <svg v-else-if="isPro" class="h-7 w-7 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                                 </svg>
+                                <!-- Essentiel icon -->
                                 <svg v-else class="h-7 w-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                 </svg>
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">
-                                    Plan {{ isPro ? 'Pro' : 'Starter' }}
-                                </h3>
-                                <p class="text-slate-500 dark:text-slate-400">
-                                    <template v-if="isPro">
-                                        {{ formatPrice(proPlan?.price_monthly || 7) }}/mois
+                                    <template v-if="onTrial">
+                                        Période d'essai
+                                    </template>
+                                    <template v-else-if="isPro">
+                                        Plan Pro
                                     </template>
                                     <template v-else>
-                                        Gratuit
+                                        Plan Essentiel
+                                    </template>
+                                </h3>
+                                <p class="text-slate-500 dark:text-slate-400">
+                                    <template v-if="onTrial">
+                                        Accès Pro complet - {{ trialDaysRemaining }} jours restants
+                                    </template>
+                                    <template v-else-if="isPro">
+                                        {{ formatPrice(proPlan?.price_monthly || 9) }}/mois
+                                    </template>
+                                    <template v-else>
+                                        {{ formatPrice(essentielPlan?.price_monthly || 4) }}/mois
                                     </template>
                                 </p>
                             </div>
@@ -271,63 +290,153 @@ const getUsagePercentage = (used, limit) => {
                 </div>
             </div>
 
-            <!-- Upgrade Card (Starter only) -->
-            <div v-if="!isPro" class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl shadow-lg overflow-hidden">
-                <div class="p-8">
+            <!-- Choose Plan Section (Trial or no subscription) -->
+            <div v-if="!isPro && !isEssentiel" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                     <div class="flex items-center justify-between">
-                        <div class="text-white">
-                            <h3 class="text-2xl font-bold">Passez au plan Pro</h3>
-                            <p class="mt-2 text-primary-100">
-                                Débloquez l'export FAIA, les relances automatiques et bien plus.
-                            </p>
-                            <ul class="mt-4 space-y-2">
-                                <li class="flex items-center text-sm">
-                                    <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
+                            Choisir un abonnement
+                        </h2>
+                        <!-- Billing toggle -->
+                        <div class="flex items-center space-x-3">
+                            <button
+                                @click="billingPeriod = 'monthly'"
+                                :class="[
+                                    'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+                                    billingPeriod === 'monthly'
+                                        ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300'
+                                        : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                                ]"
+                            >
+                                Mensuel
+                            </button>
+                            <button
+                                @click="billingPeriod = 'yearly'"
+                                :class="[
+                                    'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
+                                    billingPeriod === 'yearly'
+                                        ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300'
+                                        : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
+                                ]"
+                            >
+                                Annuel
+                            </button>
+                            <span v-if="billingPeriod === 'yearly'" class="text-xs font-semibold text-green-600 dark:text-green-400">
+                                2 mois offerts
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Plan Essentiel -->
+                        <div class="border-2 border-slate-200 dark:border-slate-600 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
+                            <div class="mb-4">
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
+                                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les freelances débutants</p>
+                            </div>
+                            <div class="mb-6">
+                                <span class="text-3xl font-bold text-slate-900 dark:text-white">
+                                    {{ billingPeriod === 'yearly' ? '3,33€' : '4€' }}
+                                </span>
+                                <span class="text-slate-500 dark:text-slate-400">/mois HT</span>
+                                <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
+                                    40€ facturé annuellement
+                                </p>
+                            </div>
+                            <ul class="space-y-3 mb-6 text-sm">
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Clients et factures illimités
+                                    10 clients maximum
                                 </li>
-                                <li class="flex items-center text-sm">
-                                    <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Export FAIA pour contrôle fiscal
+                                    20 factures/mois
                                 </li>
-                                <li class="flex items-center text-sm">
-                                    <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Archivage PDF longue durée
+                                    20 devis/mois
+                                </li>
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Facturation conforme Luxembourg
                                 </li>
                             </ul>
+                            <form
+                                :action="route('subscription.checkout')"
+                                method="POST"
+                            >
+                                <input type="hidden" name="_token" :value="page.props.csrf_token">
+                                <input type="hidden" name="plan" value="essentiel">
+                                <input type="hidden" name="billing_period" :value="billingPeriod">
+                                <button
+                                    type="submit"
+                                    class="w-full py-3 px-4 border-2 border-slate-300 dark:border-slate-500 text-slate-700 dark:text-slate-200 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                                >
+                                    Choisir Essentiel
+                                </button>
+                            </form>
                         </div>
-                        <div class="text-center text-white">
-                            <div class="mb-4">
-                                <div class="flex items-center justify-center space-x-3 mb-4">
-                                    <button
-                                        @click="billingPeriod = 'monthly'"
-                                        :class="[
-                                            'px-3 py-1 rounded-lg text-sm font-medium transition-colors',
-                                            billingPeriod === 'monthly' ? 'bg-white text-primary-600' : 'text-white/80 hover:text-white'
-                                        ]"
-                                    >
-                                        Mensuel
-                                    </button>
-                                    <button
-                                        @click="billingPeriod = 'yearly'"
-                                        :class="[
-                                            'px-3 py-1 rounded-lg text-sm font-medium transition-colors',
-                                            billingPeriod === 'yearly' ? 'bg-white text-primary-600' : 'text-white/80 hover:text-white'
-                                        ]"
-                                    >
-                                        Annuel (-17%)
-                                    </button>
-                                </div>
-                                <p class="text-4xl font-bold">
-                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 5.83) : formatPrice(proPlan?.price_monthly || 7) }}
-                                </p>
-                                <p class="text-sm text-primary-100">/mois HT</p>
+
+                        <!-- Plan Pro (RECOMMANDÉ) -->
+                        <div class="border-2 border-primary-500 rounded-2xl p-6 relative bg-primary-50/50 dark:bg-primary-900/10">
+                            <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                                <span class="px-3 py-1 text-xs font-bold bg-primary-500 text-white rounded-full">RECOMMANDÉ</span>
                             </div>
+                            <div class="mb-4">
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Pro</h3>
+                                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les freelances établis</p>
+                            </div>
+                            <div class="mb-6">
+                                <span class="text-3xl font-bold text-slate-900 dark:text-white">
+                                    {{ billingPeriod === 'yearly' ? '7,50€' : '9€' }}
+                                </span>
+                                <span class="text-slate-500 dark:text-slate-400">/mois HT</span>
+                                <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
+                                    90€ facturé annuellement
+                                </p>
+                            </div>
+                            <ul class="space-y-3 mb-6 text-sm">
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Clients et factures <strong>illimités</strong>
+                                </li>
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Export FAIA (contrôle fiscal)
+                                </li>
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Archivage PDF/A 10 ans
+                                </li>
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Relances automatiques
+                                </li>
+                                <li class="flex items-center text-slate-600 dark:text-slate-300">
+                                    <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Sans branding faktur.lu
+                                </li>
+                            </ul>
                             <form
                                 ref="checkoutForm"
                                 :action="route('subscription.checkout')"
@@ -340,13 +449,58 @@ const getUsagePercentage = (used, limit) => {
                                     type="submit"
                                     @click.prevent="startCheckout"
                                     :disabled="isCheckingOut"
-                                    class="inline-flex items-center px-6 py-3 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors disabled:opacity-50"
+                                    class="w-full py-3 px-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50"
                                 >
                                     <span v-if="isCheckingOut">Chargement...</span>
-                                    <span v-else>Passer à Pro</span>
+                                    <span v-else>Choisir Pro</span>
                                 </button>
                             </form>
                         </div>
+                    </div>
+
+                    <!-- Link to full comparison -->
+                    <div class="mt-6 text-center">
+                        <a
+                            href="/#pricing"
+                            target="_blank"
+                            class="inline-flex items-center text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 font-medium"
+                        >
+                            <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            Voir le comparatif détaillé des fonctionnalités
+                            <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upgrade to Pro (Essentiel users only) -->
+            <div v-if="isEssentiel && !isPro" class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold">Passez au plan Pro</h3>
+                            <p class="mt-2 text-primary-100 text-sm">
+                                Débloquez l'export FAIA, les relances automatiques et bien plus.
+                            </p>
+                        </div>
+                        <form
+                            :action="route('subscription.checkout')"
+                            method="POST"
+                        >
+                            <input type="hidden" name="_token" :value="page.props.csrf_token">
+                            <input type="hidden" name="plan" value="pro">
+                            <input type="hidden" name="billing_period" value="monthly">
+                            <button
+                                type="submit"
+                                class="px-6 py-2.5 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors"
+                            >
+                                Passer à Pro - 9€/mois
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

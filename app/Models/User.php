@@ -38,6 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'is_active',
         'locale',
+        'account_status',
+        'trial_ends_at',
     ];
 
     /**
@@ -80,6 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'trial_ends_at' => 'datetime',
         ];
     }
 
@@ -157,19 +160,75 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Check if user is on the free Starter plan.
+     * Check if user is on the free Essentiel plan (not Pro).
      */
-    public function isStarter(): bool
+    public function isEssentiel(): bool
     {
-        return !$this->isPro();
+        return $this->subscribed('default') && !$this->subscribedToPrice(config('services.stripe.pro_monthly')) && !$this->subscribedToPrice(config('services.stripe.pro_yearly'));
     }
 
     /**
-     * Check if user is on trial.
+     * Check if user is on the generic trial (14 days without subscription).
+     */
+    public function isOnGenericTrial(): bool
+    {
+        return $this->trial_ends_at
+            && $this->trial_ends_at->isFuture()
+            && !$this->subscribed('default');
+    }
+
+    /**
+     * Check if user is on Stripe subscription trial.
+     */
+    public function isOnSubscriptionTrial(): bool
+    {
+        return $this->onTrial('default');
+    }
+
+    /**
+     * Check if user is on any trial (generic or subscription).
      */
     public function isOnTrial(): bool
     {
-        return $this->onTrial('default');
+        return $this->isOnGenericTrial() || $this->isOnSubscriptionTrial();
+    }
+
+    /**
+     * Get the number of days remaining on trial.
+     */
+    public function trialDaysRemaining(): int
+    {
+        if (!$this->trial_ends_at) {
+            return 0;
+        }
+
+        return max(0, (int) now()->diffInDays($this->trial_ends_at, false));
+    }
+
+    /**
+     * Check if the generic trial has expired (no active subscription).
+     */
+    public function isTrialExpired(): bool
+    {
+        return $this->trial_ends_at
+            && $this->trial_ends_at->isPast()
+            && !$this->subscribed('default');
+    }
+
+    /**
+     * Check if user can fully access the app (has subscription or is on trial).
+     */
+    public function canAccessApp(): bool
+    {
+        return $this->subscribed('default') || $this->isOnGenericTrial();
+    }
+
+    /**
+     * Check if user account is in read-only mode (trial expired, no subscription).
+     */
+    public function isReadOnly(): bool
+    {
+        return $this->isTrialExpired();
     }
 
     /**
@@ -181,7 +240,11 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'pro';
         }
 
-        return 'starter';
+        if ($this->isOnGenericTrial()) {
+            return 'trial';
+        }
+
+        return 'essentiel';
     }
 
     /**

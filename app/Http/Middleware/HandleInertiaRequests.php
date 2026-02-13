@@ -35,7 +35,16 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? array_merge(
+                    $request->user()->toArray(),
+                    [
+                        'is_on_trial' => $request->user()->isOnGenericTrial(),
+                        'trial_days_remaining' => $request->user()->trialDaysRemaining(),
+                        'trial_ends_at' => $request->user()->trial_ends_at?->toISOString(),
+                        'is_read_only' => $request->user()->isReadOnly(),
+                        'plan_name' => $request->user()->plan,
+                    ]
+                ) : null,
             ],
             'csrf_token' => csrf_token(),
             'impersonating' => $request->session()->get('impersonating'),

@@ -46,8 +46,9 @@ class SubscriptionController extends Controller
                     'url' => $invoice->invoicePdf(),
                 ])
                 : [],
-            'onTrial' => $user->isOnTrial(),
-            'trialEndsAt' => $user->subscription('default')?->trial_ends_at,
+            'onTrial' => $user->isOnGenericTrial(),
+            'trialEndsAt' => $user->trial_ends_at,
+            'trialDaysRemaining' => $user->trialDaysRemaining(),
         ]);
     }
 
@@ -57,7 +58,7 @@ class SubscriptionController extends Controller
     public function checkout(Request $request)
     {
         $request->validate([
-            'plan' => 'required|string|in:pro',
+            'plan' => 'required|string|in:essentiel,pro',
             'billing_period' => 'required|string|in:monthly,yearly',
         ]);
 
@@ -91,7 +92,7 @@ class SubscriptionController extends Controller
     public function success(Request $request)
     {
         return redirect()->route('subscription.index')
-            ->with('success', __('Félicitations ! Vous êtes maintenant sur le plan Pro.'));
+            ->with('success', __('Félicitations ! Votre abonnement est maintenant actif.'));
     }
 
     /**
