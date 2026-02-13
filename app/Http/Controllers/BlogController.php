@@ -20,9 +20,10 @@ class BlogController extends Controller
         $categories = BlogCategory::withCount(['posts' => function ($query) {
             $query->published();
         }])
-            ->having('posts_count', '>', 0)
             ->orderBy('sort_order')
-            ->get();
+            ->get()
+            ->filter(fn ($category) => $category->posts_count > 0)
+            ->values();
 
         $recentPosts = BlogPost::published()
             ->select(['id', 'title', 'slug', 'published_at'])
@@ -106,9 +107,10 @@ class BlogController extends Controller
         $categories = BlogCategory::withCount(['posts' => function ($query) {
             $query->published();
         }])
-            ->having('posts_count', '>', 0)
             ->orderBy('sort_order')
-            ->get();
+            ->get()
+            ->filter(fn ($category) => $category->posts_count > 0)
+            ->values();
 
         return Inertia::render('Blog/Category', [
             'category' => [
