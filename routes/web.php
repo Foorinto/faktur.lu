@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountantSettingsController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\AuditLogController;
@@ -53,6 +54,12 @@ Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies
 
 // Pricing page - public access
 Route::get('/tarifs', [PricingController::class, 'index'])->name('pricing');
+
+// Blog - public access
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/categorie/{category:slug}', [BlogController::class, 'category'])->name('blog.category');
+Route::get('/blog/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

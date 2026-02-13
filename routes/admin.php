@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminBlogCategoryController;
+use App\Http\Controllers\Admin\AdminBlogController;
+use App\Http\Controllers\Admin\AdminBlogTagController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminMaintenanceController;
 use App\Http\Controllers\Admin\AdminMonitoringController;
@@ -66,5 +69,25 @@ Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->group(functi
         // Monitoring
         Route::get('monitoring', [AdminMonitoringController::class, 'index'])->name('monitoring');
         Route::get('monitoring/refresh', [AdminMonitoringController::class, 'refresh'])->name('monitoring.refresh');
+
+        // Blog management
+        Route::get('blog', [AdminBlogController::class, 'index'])->name('blog.index');
+        Route::get('blog/create', [AdminBlogController::class, 'create'])->name('blog.create');
+        Route::post('blog', [AdminBlogController::class, 'store'])->name('blog.store');
+        Route::get('blog/{post}/edit', [AdminBlogController::class, 'edit'])->name('blog.edit');
+        Route::put('blog/{post}', [AdminBlogController::class, 'update'])->name('blog.update');
+        Route::delete('blog/{post}', [AdminBlogController::class, 'destroy'])->name('blog.destroy');
+        Route::post('blog/{post}/duplicate', [AdminBlogController::class, 'duplicate'])->name('blog.duplicate');
+
+        // Blog categories
+        Route::get('blog-categories', [AdminBlogCategoryController::class, 'index'])->name('blog-categories.index');
+        Route::post('blog-categories', [AdminBlogCategoryController::class, 'store'])->name('blog-categories.store');
+        Route::put('blog-categories/{category}', [AdminBlogCategoryController::class, 'update'])->name('blog-categories.update');
+        Route::delete('blog-categories/{category}', [AdminBlogCategoryController::class, 'destroy'])->name('blog-categories.destroy');
+        Route::post('blog-categories/reorder', [AdminBlogCategoryController::class, 'reorder'])->name('blog-categories.reorder');
+
+        // Blog tags
+        Route::post('blog-tags', [AdminBlogTagController::class, 'store'])->name('blog-tags.store');
+        Route::delete('blog-tags/{tag}', [AdminBlogTagController::class, 'destroy'])->name('blog-tags.destroy');
     });
 });
