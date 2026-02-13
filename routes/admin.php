@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminMaintenanceController;
+use App\Http\Controllers\Admin\AdminMonitoringController;
 use App\Http\Controllers\Admin\AdminSupportController;
+use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,5 +62,9 @@ Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->group(functi
         Route::post('maintenance/cache-clear', [AdminMaintenanceController::class, 'clearCache'])->name('maintenance.cache-clear');
         Route::post('maintenance/toggle', [AdminMaintenanceController::class, 'toggleMaintenance'])->name('maintenance.toggle');
         Route::get('maintenance/logs', [AdminMaintenanceController::class, 'logs'])->name('maintenance.logs');
+
+        // Monitoring
+        Route::get('monitoring', [AdminMonitoringController::class, 'index'])->name('monitoring');
+        Route::get('monitoring/refresh', [AdminMonitoringController::class, 'refresh'])->name('monitoring.refresh');
     });
 });

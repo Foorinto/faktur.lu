@@ -20,6 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->dailyAt('08:00')
             ->withoutOverlapping()
             ->onOneServer();
+
+        // Cleanup old monitoring metrics daily at 3:00 AM
+        $schedule->command('monitoring:cleanup')
+            ->dailyAt('03:00')
+            ->withoutOverlapping()
+            ->onOneServer();
     })
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -46,6 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
             \App\Http\Middleware\SecurityHeaders::class,
             \App\Http\Middleware\CheckUserIsActive::class,
+            \App\Http\Middleware\TrackRequestMetrics::class,
         ]);
 
         $middleware->alias([
