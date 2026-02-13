@@ -55,120 +55,63 @@ echo -e "${YELLOW}[2/6] Connexion au serveur...${NC}"
 
 if [ "$1" == "quick" ]; then
     # Déploiement rapide (git pull + cache)
-    ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << 'ENDSSH'
+    REMOTE_SCRIPT='
         cd /home2/sc1beal9117/faktur.lu
-
         echo "=== ÉTAPE 1: Activation du mode maintenance ==="
         php artisan down --retry=30 2>/dev/null || true
-
-        echo "=== ÉTAPE 2: Nettoyage COMPLET du cache ==="
-        # Supprimer tous les fichiers cache compilés
+        echo "=== ÉTAPE 2: Nettoyage du cache ==="
         rm -f bootstrap/cache/*.php 2>/dev/null || true
-        rm -f storage/framework/cache/data/* 2>/dev/null || true
-        rm -f storage/framework/views/*.php 2>/dev/null || true
-
-        # Clear via artisan (ignore errors si app est cassée)
         php artisan cache:clear 2>/dev/null || true
         php artisan config:clear 2>/dev/null || true
         php artisan route:clear 2>/dev/null || true
         php artisan view:clear 2>/dev/null || true
-        php artisan event:clear 2>/dev/null || true
-
         echo "=== ÉTAPE 3: Pull des modifications ==="
         git pull origin main
-
-        echo "=== ÉTAPE 4: Clear OPcache ==="
-        # Créer un script temporaire pour clear OPcache via HTTP
-        cat > public/opcache-clear.php << 'OPCACHE'
-<?php
-if (function_exists('opcache_reset')) {
-    opcache_reset();
-    echo 'OPcache cleared';
-} else {
-    echo 'OPcache not available';
-}
-unlink(__FILE__);
-OPCACHE
-        # Appeler le script pour clear OPcache
-        curl -s "https://faktur.lu/opcache-clear.php" || true
-
-        echo "=== ÉTAPE 5: Désactivation du mode maintenance ==="
+        echo "=== ÉTAPE 4: Désactivation du mode maintenance ==="
         php artisan up
-
         echo "=== Déploiement rapide terminé! ==="
-ENDSSH
+    '
 else
     # Déploiement complet
-    ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << 'ENDSSH'
+    REMOTE_SCRIPT='
         cd /home2/sc1beal9117/faktur.lu
-
         echo "=== ÉTAPE 1: Activation du mode maintenance ==="
         php artisan down --retry=30 2>/dev/null || true
-
-        echo "=== ÉTAPE 2: Nettoyage COMPLET du cache avant déploiement ==="
-        # Supprimer tous les fichiers cache compilés PHYSIQUEMENT
+        echo "=== ÉTAPE 2: Nettoyage COMPLET du cache ==="
         rm -f bootstrap/cache/*.php 2>/dev/null || true
-        rm -f bootstrap/cache/packages.php 2>/dev/null || true
-        rm -f bootstrap/cache/services.php 2>/dev/null || true
-        rm -f bootstrap/cache/config.php 2>/dev/null || true
-        rm -f bootstrap/cache/routes-v7.php 2>/dev/null || true
         rm -rf storage/framework/cache/data/* 2>/dev/null || true
         rm -f storage/framework/views/*.php 2>/dev/null || true
-
-        # Clear via artisan (ignore errors si app est cassée)
         php artisan cache:clear 2>/dev/null || true
         php artisan config:clear 2>/dev/null || true
         php artisan route:clear 2>/dev/null || true
         php artisan view:clear 2>/dev/null || true
         php artisan event:clear 2>/dev/null || true
-
         echo "=== ÉTAPE 3: Pull des modifications ==="
         git pull origin main
-
         echo "=== ÉTAPE 4: Installation des dépendances ==="
         composer install --no-dev --optimize-autoloader --no-interaction
-
         echo "=== ÉTAPE 5: Migrations de base de données ==="
         php artisan migrate --force
-
         echo "=== ÉTAPE 6: Reconstruction du cache ==="
-        # IMPORTANT: Ne pas utiliser config:cache sur hébergement mutualisé
-        # car cela peut causer des problèmes avec les chemins absolus
         php artisan route:cache
         php artisan view:cache
-        # On évite config:cache - utiliser config:clear à la place
         php artisan config:clear
-
-        echo "=== ÉTAPE 7: Clear OPcache PHP ==="
-        # Créer un script temporaire pour clear OPcache via HTTP
-        cat > public/opcache-clear.php << 'OPCACHE'
-<?php
-if (function_exists('opcache_reset')) {
-    opcache_reset();
-    echo 'OPcache cleared';
-} else {
-    echo 'OPcache not available';
-}
-unlink(__FILE__);
-OPCACHE
-        # Appeler le script pour clear OPcache (s'auto-supprime après)
-        curl -s "https://faktur.lu/opcache-clear.php" || true
-
-        echo "=== ÉTAPE 8: Désactivation du mode maintenance ==="
+        echo "=== ÉTAPE 7: Désactivation du mode maintenance ==="
         php artisan up
-
-        echo "=== ÉTAPE 9: Vérification du site ==="
+        echo "=== ÉTAPE 8: Vérification du site ==="
         HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://faktur.lu" || echo "000")
         if [ "$HTTP_STATUS" == "200" ] || [ "$HTTP_STATUS" == "302" ]; then
             echo "✓ Site accessible (HTTP $HTTP_STATUS)"
         else
             echo "⚠ Attention: Site retourne HTTP $HTTP_STATUS"
         fi
-
         echo ""
         echo "=== Déploiement complet terminé! ==="
-ENDSSH
+    '
 fi
+
+# Exécuter le script sur le serveur distant
+ssh -p $SSH_PORT $SSH_USER@$SSH_HOST "$REMOTE_SCRIPT"
 
 echo ""
 echo -e "${GREEN}========================================${NC}"
@@ -183,15 +126,6 @@ if [ "$HTTP_STATUS" == "200" ] || [ "$HTTP_STATUS" == "302" ]; then
     echo -e "${GREEN}✓ Site accessible (HTTP $HTTP_STATUS)${NC}"
 else
     echo -e "${RED}⚠ Attention: Le site retourne HTTP $HTTP_STATUS${NC}"
-    echo -e "${YELLOW}Tentative de fix automatique...${NC}"
-    ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << 'ENDSSH'
-        cd /home2/sc1beal9117/faktur.lu
-        rm -f bootstrap/cache/*.php 2>/dev/null || true
-        php artisan config:clear 2>/dev/null || true
-        php artisan cache:clear 2>/dev/null || true
-        php artisan up 2>/dev/null || true
-ENDSSH
-    echo -e "${YELLOW}Fix appliqué, vérifiez le site manuellement${NC}"
 fi
 
 echo ""
