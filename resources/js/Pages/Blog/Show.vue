@@ -109,7 +109,23 @@ const shareOnFacebook = () => {
 
                 <!-- Article content -->
                 <div
-                    class="prose prose-lg prose-purple max-w-none prose-headings:font-semibold prose-a:text-[#9b5de5] prose-img:rounded-xl"
+                    class="prose prose-lg max-w-none
+                        prose-headings:font-bold prose-headings:text-slate-900 prose-headings:mt-10 prose-headings:mb-4
+                        prose-h2:text-2xl prose-h2:border-b prose-h2:border-slate-200 prose-h2:pb-3
+                        prose-h3:text-xl prose-h3:text-slate-800
+                        prose-p:text-slate-600 prose-p:leading-relaxed prose-p:mb-6
+                        prose-a:text-[#9b5de5] prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+                        prose-strong:text-slate-900 prose-strong:font-semibold
+                        prose-ul:my-6 prose-ul:space-y-2
+                        prose-ol:my-6 prose-ol:space-y-2
+                        prose-li:text-slate-600 prose-li:leading-relaxed
+                        prose-img:rounded-2xl prose-img:shadow-lg prose-img:my-8
+                        prose-blockquote:border-l-4 prose-blockquote:border-[#9b5de5] prose-blockquote:bg-slate-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
+                        prose-table:my-8 prose-table:overflow-hidden prose-table:rounded-xl prose-table:border prose-table:border-slate-200
+                        prose-th:bg-slate-100 prose-th:text-slate-900 prose-th:font-semibold
+                        prose-td:border-slate-200
+                        prose-code:text-[#9b5de5] prose-code:bg-[#9b5de5]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
+                        prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:shadow-lg"
                     v-html="post.content"
                 />
 

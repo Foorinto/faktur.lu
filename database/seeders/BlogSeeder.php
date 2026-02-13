@@ -57,7 +57,7 @@ class BlogSeeder extends Seeder
     {
         $category = BlogCategory::where('slug', 'guides')->first();
 
-        $post = BlogPost::firstOrCreate(
+        $post = BlogPost::updateOrCreate(
             ['slug' => 'guide-complet-facturation-luxembourg-2026'],
             [
                 'author_id' => $author?->id,
@@ -65,6 +65,7 @@ class BlogSeeder extends Seeder
                 'title' => 'Guide complet de la facturation au Luxembourg en 2026',
                 'excerpt' => 'Découvrez toutes les règles de facturation au Luxembourg : mentions obligatoires, numérotation, TVA, conservation des documents. Le guide de référence pour les entreprises et freelances.',
                 'content' => $this->getArticle1Content(),
+                'cover_image' => 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1200&h=630&fit=crop',
                 'meta_title' => 'Facturation Luxembourg 2026 : Guide Complet des Règles et Obligations',
                 'meta_description' => 'Guide complet sur la facturation au Luxembourg en 2026. Mentions obligatoires, TVA, numérotation, FAIA : tout ce que vous devez savoir pour facturer en conformité.',
                 'status' => 'published',
@@ -81,7 +82,7 @@ class BlogSeeder extends Seeder
     {
         $category = BlogCategory::where('slug', 'reglementation')->first();
 
-        $post = BlogPost::firstOrCreate(
+        $post = BlogPost::updateOrCreate(
             ['slug' => 'faia-luxembourg-fichier-audit-informatise-guide'],
             [
                 'author_id' => $author?->id,
@@ -89,6 +90,7 @@ class BlogSeeder extends Seeder
                 'title' => 'FAIA Luxembourg : Tout savoir sur le fichier d\'audit informatisé',
                 'excerpt' => 'Le FAIA (Fichier d\'Audit Informatisé) est obligatoire au Luxembourg. Découvrez ce qu\'il contient, qui doit le produire, et comment générer un fichier FAIA conforme.',
                 'content' => $this->getArticle2Content(),
+                'cover_image' => 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop',
                 'meta_title' => 'FAIA Luxembourg : Guide Complet du Fichier d\'Audit Informatisé',
                 'meta_description' => 'Tout savoir sur le FAIA au Luxembourg : définition, obligations, contenu du fichier, comment le générer. Guide pratique pour être en conformité avec l\'AED.',
                 'status' => 'published',
@@ -105,7 +107,7 @@ class BlogSeeder extends Seeder
     {
         $category = BlogCategory::where('slug', 'reglementation')->first();
 
-        $post = BlogPost::firstOrCreate(
+        $post = BlogPost::updateOrCreate(
             ['slug' => 'tva-luxembourg-taux-calcul-obligations'],
             [
                 'author_id' => $author?->id,
@@ -113,6 +115,7 @@ class BlogSeeder extends Seeder
                 'title' => 'TVA au Luxembourg : taux, calcul et obligations pour les entreprises',
                 'excerpt' => 'Maîtrisez la TVA luxembourgeoise : les différents taux (17%, 14%, 8%, 3%), le calcul, les déclarations, et les cas d\'exonération. Guide complet pour les entreprises.',
                 'content' => $this->getArticle3Content(),
+                'cover_image' => 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=1200&h=630&fit=crop',
                 'meta_title' => 'TVA Luxembourg 2026 : Taux, Calcul et Obligations Fiscales',
                 'meta_description' => 'Guide complet sur la TVA au Luxembourg : taux normal 17%, taux réduits, calcul, déclarations trimestrielles. Tout pour gérer la TVA de votre entreprise.',
                 'status' => 'published',
@@ -129,7 +132,7 @@ class BlogSeeder extends Seeder
     {
         $category = BlogCategory::where('slug', 'freelances')->first();
 
-        $post = BlogPost::firstOrCreate(
+        $post = BlogPost::updateOrCreate(
             ['slug' => 'freelance-luxembourg-facturer-conformite'],
             [
                 'author_id' => $author?->id,
@@ -137,6 +140,7 @@ class BlogSeeder extends Seeder
                 'title' => 'Freelance au Luxembourg : comment facturer en toute conformité',
                 'excerpt' => 'Vous êtes freelance au Luxembourg ? Découvrez comment créer des factures conformes, gérer la TVA, et respecter toutes les obligations légales luxembourgeoises.',
                 'content' => $this->getArticle4Content(),
+                'cover_image' => 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=630&fit=crop',
                 'meta_title' => 'Freelance Luxembourg : Guide de Facturation Conforme 2026',
                 'meta_description' => 'Guide complet pour freelances au Luxembourg : créer des factures conformes, gérer la TVA, obligations FAIA. Tout pour facturer en toute légalité.',
                 'status' => 'published',
@@ -153,7 +157,7 @@ class BlogSeeder extends Seeder
     {
         $category = BlogCategory::where('slug', 'guides')->first();
 
-        $post = BlogPost::firstOrCreate(
+        $post = BlogPost::updateOrCreate(
             ['slug' => 'mentions-obligatoires-facture-luxembourg'],
             [
                 'author_id' => $author?->id,
@@ -161,6 +165,7 @@ class BlogSeeder extends Seeder
                 'title' => 'Mentions obligatoires sur une facture au Luxembourg : checklist complète',
                 'excerpt' => 'Quelles sont les mentions obligatoires sur une facture luxembourgeoise ? Découvrez la checklist complète pour créer des factures conformes à la législation.',
                 'content' => $this->getArticle5Content(),
+                'cover_image' => 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&h=630&fit=crop',
                 'meta_title' => 'Mentions Obligatoires Facture Luxembourg : Checklist 2026',
                 'meta_description' => 'Liste complète des mentions obligatoires sur une facture au Luxembourg. Checklist pratique pour créer des factures conformes et éviter les sanctions.',
                 'status' => 'published',
