@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 
 const props = defineProps({
     category: Object,
@@ -23,18 +23,18 @@ const formatDate = (date) => {
         <meta :content="`Articles de la catégorie ${category.name} sur la facturation au Luxembourg.`" name="description" />
     </Head>
 
-    <GuestLayout>
-        <div class="bg-gray-50 py-12 sm:py-16">
+    <MarketingLayout>
+        <div class="py-12 sm:py-16">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <!-- Breadcrumbs -->
                 <nav class="mb-8">
                     <ol class="flex items-center gap-2 text-sm text-gray-500">
                         <li>
-                            <Link href="/" class="hover:text-purple-600">Accueil</Link>
+                            <Link href="/" class="hover:text-[#9b5de5]">Accueil</Link>
                         </li>
                         <li>/</li>
                         <li>
-                            <Link :href="route('blog.index')" class="hover:text-purple-600">Blog</Link>
+                            <Link :href="route('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
                         </li>
                         <li>/</li>
                         <li class="text-gray-900 font-medium">{{ category.name }}</li>
@@ -69,7 +69,7 @@ const formatDate = (date) => {
                                             class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         />
                                     </div>
-                                    <div v-else class="aspect-[16/9] bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                                    <div v-else class="aspect-[16/9] bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] flex items-center justify-center">
                                         <svg class="h-16 w-16 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                                         </svg>
@@ -82,7 +82,7 @@ const formatDate = (date) => {
                                             </time>
                                         </div>
 
-                                        <h2 class="text-xl font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                                        <h2 class="text-xl font-semibold text-gray-900 group-hover:text-[#9b5de5] transition-colors">
                                             {{ post.title }}
                                         </h2>
 
@@ -90,7 +90,7 @@ const formatDate = (date) => {
                                             {{ post.excerpt }}
                                         </p>
 
-                                        <div class="mt-4 flex items-center text-purple-600 font-medium">
+                                        <div class="mt-4 flex items-center text-[#9b5de5] font-medium">
                                             Lire la suite
                                             <svg class="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -119,7 +119,7 @@ const formatDate = (date) => {
                                     :class="[
                                         'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
                                         link.active
-                                            ? 'bg-purple-600 text-white'
+                                            ? 'bg-[#9b5de5] text-white'
                                             : 'bg-white text-gray-700 hover:bg-gray-100',
                                     ]"
                                     v-html="link.label"
@@ -145,8 +145,8 @@ const formatDate = (date) => {
                                         :class="[
                                             'flex items-center justify-between transition-colors',
                                             cat.slug === category.slug
-                                                ? 'text-purple-600 font-medium'
-                                                : 'text-gray-600 hover:text-purple-600',
+                                                ? 'text-[#9b5de5] font-medium'
+                                                : 'text-gray-600 hover:text-[#9b5de5]',
                                         ]"
                                     >
                                         <span>{{ cat.name }}</span>
@@ -157,14 +157,14 @@ const formatDate = (date) => {
                         </div>
 
                         <!-- CTA -->
-                        <div class="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl p-6 text-white">
+                        <div class="bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] rounded-2xl p-6 text-white">
                             <h3 class="text-lg font-semibold mb-2">Essayez faktur.lu</h3>
-                            <p class="text-purple-100 text-sm mb-4">
+                            <p class="text-[#9b5de5]/20 text-sm mb-4">
                                 Créez vos factures conformes au Luxembourg en quelques clics.
                             </p>
                             <Link
                                 :href="route('register')"
-                                class="inline-block bg-white text-purple-600 font-medium px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors"
+                                class="inline-block bg-white text-[#9b5de5] font-medium px-4 py-2 rounded-lg hover:bg-[#9b5de5]/10 transition-colors"
                             >
                                 Essai gratuit 14 jours
                             </Link>
@@ -173,5 +173,5 @@ const formatDate = (date) => {
                 </div>
             </div>
         </div>
-    </GuestLayout>
+    </MarketingLayout>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 
 const props = defineProps({
     post: Object,
@@ -45,7 +45,7 @@ const shareOnFacebook = () => {
         <meta name="twitter:description" :content="post.meta_description" />
     </Head>
 
-    <GuestLayout>
+    <MarketingLayout>
         <article class="bg-white">
             <!-- Hero -->
             <div class="relative">
@@ -57,7 +57,7 @@ const shareOnFacebook = () => {
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 </div>
-                <div v-else class="bg-gradient-to-br from-purple-600 to-indigo-600 py-20"></div>
+                <div v-else class="bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] py-20"></div>
 
                 <div class="absolute inset-0 flex items-end">
                     <div class="mx-auto max-w-4xl px-4 pb-8 sm:px-6 lg:px-8 w-full">
@@ -101,7 +101,7 @@ const shareOnFacebook = () => {
                         v-for="tag in post.tags"
                         :key="tag.slug"
                         :href="route('blog.tag', tag.slug)"
-                        class="inline-block rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-600 hover:bg-purple-200 transition-colors"
+                        class="inline-block rounded-full bg-[#9b5de5]/20 px-3 py-1 text-sm font-medium text-[#9b5de5] hover:bg-purple-200 transition-colors"
                     >
                         #{{ tag.name }}
                     </Link>
@@ -109,7 +109,7 @@ const shareOnFacebook = () => {
 
                 <!-- Article content -->
                 <div
-                    class="prose prose-lg prose-purple max-w-none prose-headings:font-semibold prose-a:text-purple-600 prose-img:rounded-xl"
+                    class="prose prose-lg prose-purple max-w-none prose-headings:font-semibold prose-a:text-[#9b5de5] prose-img:rounded-xl"
                     v-html="post.content"
                 />
 
@@ -148,14 +148,14 @@ const shareOnFacebook = () => {
                 </div>
 
                 <!-- CTA -->
-                <div class="mt-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 p-8 text-center text-white">
+                <div class="mt-12 rounded-2xl bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] p-8 text-center text-white">
                     <h3 class="text-2xl font-bold mb-2">Prêt à simplifier votre facturation ?</h3>
-                    <p class="text-purple-100 mb-6">
+                    <p class="text-[#9b5de5]/20 mb-6">
                         Créez des factures conformes au Luxembourg en quelques clics avec faktur.lu
                     </p>
                     <Link
                         :href="route('register')"
-                        class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-purple-600 hover:bg-purple-50 transition-colors"
+                        class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-[#9b5de5] hover:bg-[#9b5de5]/10 transition-colors"
                     >
                         Essai gratuit 14 jours
                     </Link>
@@ -181,15 +181,15 @@ const shareOnFacebook = () => {
                                         class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                     />
                                 </div>
-                                <div v-else class="aspect-[16/9] bg-gradient-to-br from-purple-500 to-indigo-600"></div>
+                                <div v-else class="aspect-[16/9] bg-gradient-to-br from-[#9b5de5] to-[#7c3aed]"></div>
 
                                 <div class="p-6">
                                     <div class="text-sm text-gray-500 mb-2">
-                                        <span v-if="relatedPost.category" class="text-purple-600">{{ relatedPost.category }}</span>
+                                        <span v-if="relatedPost.category" class="text-[#9b5de5]">{{ relatedPost.category }}</span>
                                         <span v-if="relatedPost.category"> • </span>
                                         {{ formatDate(relatedPost.published_at) }}
                                     </div>
-                                    <h3 class="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                                    <h3 class="font-semibold text-gray-900 group-hover:text-[#9b5de5] transition-colors">
                                         {{ relatedPost.title }}
                                     </h3>
                                 </div>
@@ -199,7 +199,7 @@ const shareOnFacebook = () => {
                 </div>
             </div>
         </article>
-    </GuestLayout>
+    </MarketingLayout>
 </template>
 
 <style>

@@ -341,6 +341,9 @@ const toggleFaq = (index) => {
                         <Link :href="route('faia-validator')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.faia_validator') }}
                         </Link>
+                        <Link :href="route('blog.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                            Blog
+                        </Link>
                     </div>
 
                     <!-- Auth links -->
@@ -389,6 +392,7 @@ const toggleFaq = (index) => {
                         <a href="#pricing" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.pricing') }}</a>
                         <a href="#faq" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.faq') }}</a>
                         <Link :href="route('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-[#9b5de5] hover:text-[#8b4ed5] py-2">{{ t('landing.nav.faia_validator') }}</Link>
+                        <Link :href="route('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Blog</Link>
                         <template v-if="canLogin && !$page.props.auth.user">
                             <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.login') }}</Link>
                             <Link v-if="canRegister" :href="route('register')" class="bg-[#9b5de5] text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">{{ t('landing.nav.create_account') }}</Link>
@@ -1269,8 +1273,9 @@ const toggleFaq = (index) => {
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-slate-900 mb-4">{{ t('landing.footer.compliance') }}</h4>
+                        <h4 class="font-semibold text-slate-900 mb-4">Ressources</h4>
                         <ul class="space-y-2 text-sm">
+                            <li><Link :href="route('blog.index')" class="text-slate-600 hover:text-slate-900">Blog</Link></li>
                             <li class="text-slate-600">{{ t('landing.footer.faia_export') }}</li>
                             <li class="text-slate-600">{{ t('landing.footer.vat_luxembourg') }}</li>
                             <li class="text-slate-600">{{ t('landing.footer.gdpr') }}</li>

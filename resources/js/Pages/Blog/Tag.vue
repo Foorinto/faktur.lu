@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 
 const props = defineProps({
     tag: Object,
@@ -22,18 +22,18 @@ const formatDate = (date) => {
         <meta :content="`Articles tagués ${tag.name} sur la facturation au Luxembourg.`" name="description" />
     </Head>
 
-    <GuestLayout>
-        <div class="bg-gray-50 py-12 sm:py-16">
+    <MarketingLayout>
+        <div class="py-12 sm:py-16">
             <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
                 <!-- Breadcrumbs -->
                 <nav class="mb-8">
                     <ol class="flex items-center gap-2 text-sm text-gray-500">
                         <li>
-                            <Link href="/" class="hover:text-purple-600">Accueil</Link>
+                            <Link href="/" class="hover:text-[#9b5de5]">Accueil</Link>
                         </li>
                         <li>/</li>
                         <li>
-                            <Link :href="route('blog.index')" class="hover:text-purple-600">Blog</Link>
+                            <Link :href="route('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
                         </li>
                         <li>/</li>
                         <li class="text-gray-900 font-medium">#{{ tag.name }}</li>
@@ -42,7 +42,7 @@ const formatDate = (date) => {
 
                 <!-- Header -->
                 <div class="text-center mb-12">
-                    <div class="inline-block rounded-full bg-purple-100 px-4 py-2 text-purple-600 font-medium mb-4">
+                    <div class="inline-block rounded-full bg-[#9b5de5]/20 px-4 py-2 text-[#9b5de5] font-medium mb-4">
                         #{{ tag.name }}
                     </div>
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -68,7 +68,7 @@ const formatDate = (date) => {
 
                             <div class="p-6 flex-1">
                                 <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                                    <span v-if="post.category" class="text-purple-600 font-medium">
+                                    <span v-if="post.category" class="text-[#9b5de5] font-medium">
                                         {{ post.category.name }}
                                     </span>
                                     <span v-if="post.category">•</span>
@@ -77,7 +77,7 @@ const formatDate = (date) => {
                                     </time>
                                 </div>
 
-                                <h2 class="text-xl font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+                                <h2 class="text-xl font-semibold text-gray-900 group-hover:text-[#9b5de5] transition-colors">
                                     {{ post.title }}
                                 </h2>
 
@@ -95,7 +95,7 @@ const formatDate = (date) => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                     <h3 class="mt-2 text-lg font-medium text-gray-900">Aucun article avec ce tag</h3>
-                    <Link :href="route('blog.index')" class="mt-4 inline-block text-purple-600 hover:text-purple-500">
+                    <Link :href="route('blog.index')" class="mt-4 inline-block text-[#9b5de5] hover:text-[#9b5de5]">
                         Retour au blog
                     </Link>
                 </div>
@@ -109,7 +109,7 @@ const formatDate = (date) => {
                             :class="[
                                 'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
                                 link.active
-                                    ? 'bg-purple-600 text-white'
+                                    ? 'bg-[#9b5de5] text-white'
                                     : 'bg-white text-gray-700 hover:bg-gray-100',
                             ]"
                             v-html="link.label"
@@ -126,7 +126,7 @@ const formatDate = (date) => {
                 <div class="mt-8 text-center">
                     <Link
                         :href="route('blog.index')"
-                        class="inline-flex items-center text-purple-600 hover:text-purple-500 font-medium"
+                        class="inline-flex items-center text-[#9b5de5] hover:text-[#9b5de5] font-medium"
                     >
                         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -136,5 +136,5 @@ const formatDate = (date) => {
                 </div>
             </div>
         </div>
-    </GuestLayout>
+    </MarketingLayout>
 </template>

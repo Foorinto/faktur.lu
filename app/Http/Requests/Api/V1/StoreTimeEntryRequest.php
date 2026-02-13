@@ -23,6 +23,8 @@ class StoreTimeEntryRequest extends FormRequest
     {
         return [
             'client_id' => 'required|exists:clients,id',
+            'project_id' => 'nullable|exists:projects,id',
+            'task_id' => 'nullable|exists:tasks,id',
             'project_name' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
             'date' => 'nullable|date|before_or_equal:today',
