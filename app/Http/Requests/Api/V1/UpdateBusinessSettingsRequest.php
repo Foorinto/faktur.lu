@@ -23,12 +23,17 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'country_code' => ['required', 'string', 'size:2', Rule::in(config('billing.supported_countries', ['LU', 'FR', 'BE', 'DE']))],
             'activity_type' => ['nullable', 'string', Rule::in(['services', 'goods', 'mixed'])],
             'vat_number' => [
+                Rule::requiredIf($this->input('vat_regime') === 'assujetti'),
                 'nullable',
                 'string',
                 'max:20',
                 // Accepts EU VAT formats: LU12345678, FR12345678901, DE123456789, BE0123456789, etc.
-                'regex:/^[A-Z]{2}[A-Z0-9]{2,12}$/',
-                Rule::requiredIf($this->input('vat_regime') === 'assujetti'),
+                function ($attribute, $value, $fail) {
+                    // Only validate format if value is provided
+                    if (!empty($value) && !preg_match('/^[A-Z]{2}[A-Z0-9]{2,12}$/', strtoupper($value))) {
+                        $fail('Le numéro de TVA doit être au format européen (ex: LU12345678, FR12345678901).');
+                    }
+                },
             ],
             // Luxembourg matricule is 13 digits (11 digits + 2 check digits)
             'matricule' => ['required', 'string', 'regex:/^\d{11,13}$/'],
@@ -86,14 +91,19 @@ class UpdateBusinessSettingsRequest extends FormRequest
                 'bic' => strtoupper(preg_replace('/\s+/', '', $this->input('bic'))),
             ]);
         }
+        // Normalize VAT number to uppercase
+        if ($this->has('vat_number') && $this->input('vat_number')) {
+            $this->merge([
+                'vat_number' => strtoupper(preg_replace('/\s+/', '', $this->input('vat_number'))),
+            ]);
+        }
     }
 
     public function messages(): array
     {
         return [
             'matricule.regex' => 'Le matricule doit contenir entre 11 et 13 chiffres.',
-            'vat_number.regex' => 'Le numéro de TVA doit être au format européen (ex: LU12345678, FR12345678901, DE123456789).',
-            'vat_number.required_if' => 'Le numéro de TVA est obligatoire pour le régime assujetti.',
+            'vat_number.required' => 'Le numéro de TVA est obligatoire pour le régime assujetti.',
             'rcs_number.regex' => 'Le numéro RCS doit commencer par une lettre suivie de chiffres (ex: A12345).',
         ];
     }

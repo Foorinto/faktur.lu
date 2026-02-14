@@ -135,6 +135,14 @@ const getCountryFlag = (code) => {
 const submit = () => {
     form.put(route('settings.business.update'), {
         preserveScroll: true,
+        preserveState: true,
+        onError: () => {
+            // Scroll to first error for better UX
+            const firstError = document.querySelector('.text-red-600, .text-pink-600');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        },
     });
 };
 
