@@ -24,6 +24,9 @@ class DashboardTest extends TestCase
 
         $this->user = User::factory()->create();
 
+        // Authenticate user to create data so BelongsToUser trait assigns correct user_id
+        $this->actingAs($this->user);
+
         BusinessSettings::factory()->create([
             'vat_regime' => 'assujetti',
         ]);
@@ -36,6 +39,8 @@ class DashboardTest extends TestCase
 
     public function test_guest_cannot_access_dashboard(): void
     {
+        auth()->logout();
+
         $this->get(route('dashboard'))
             ->assertRedirect(route('login'));
     }
@@ -54,6 +59,7 @@ class DashboardTest extends TestCase
                 ->has('recentInvoices')
                 ->has('availableYears')
                 ->has('selectedYear')
+                ->has('franchiseAlert')
             );
     }
 
@@ -234,6 +240,8 @@ class DashboardTest extends TestCase
 
     public function test_guest_cannot_access_kpis_api(): void
     {
+        auth()->logout();
+
         $this->getJson(route('dashboard.kpis'))
             ->assertUnauthorized();
     }
@@ -426,5 +434,100 @@ class DashboardTest extends TestCase
             ->getJson(route('dashboard.unbilled-time', ['limit' => 5]))
             ->assertOk()
             ->assertJsonCount(5, 'data');
+    }
+
+    // Franchise Alert Tests
+
+    public function test_dashboard_includes_franchise_alert_data(): void
+    {
+        $this->actingAs($this->user)
+            ->get(route('dashboard'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->has('franchiseAlert')
+                ->has('franchiseAlert.show')
+                ->has('franchiseAlert.status')
+                ->has('franchiseAlert.yearly_revenue')
+                ->has('franchiseAlert.threshold')
+                ->has('franchiseAlert.country_code')
+            );
+    }
+
+    public function test_dashboard_franchise_alert_shows_warning_when_approaching_threshold(): void
+    {
+        // Re-authenticate to access scoped models
+        $this->actingAs($this->user);
+
+        // Update settings to franchise regime
+        BusinessSettings::first()->update([
+            'vat_regime' => 'franchise',
+            'country_code' => 'LU',
+        ]);
+
+        // Create invoices totaling 32000 EUR (>90% of 35000)
+        Invoice::factory()->create([
+            'client_id' => $this->client->id,
+            'status' => Invoice::STATUS_FINALIZED,
+            'issued_at' => now(),
+            'total_ht' => 32000,
+            'type' => Invoice::TYPE_INVOICE,
+        ]);
+
+        $this->get(route('dashboard'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('franchiseAlert.show', true)
+                ->where('franchiseAlert.status', 'warning')
+            );
+    }
+
+    public function test_dashboard_franchise_alert_shows_exceeded_when_threshold_passed(): void
+    {
+        // Re-authenticate to access scoped models
+        $this->actingAs($this->user);
+
+        // Update settings to franchise regime
+        BusinessSettings::first()->update([
+            'vat_regime' => 'franchise',
+            'country_code' => 'LU',
+        ]);
+
+        // Create invoices totaling 40000 EUR (>35000 threshold)
+        Invoice::factory()->create([
+            'client_id' => $this->client->id,
+            'status' => Invoice::STATUS_FINALIZED,
+            'issued_at' => now(),
+            'total_ht' => 40000,
+            'type' => Invoice::TYPE_INVOICE,
+        ]);
+
+        $this->get(route('dashboard'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('franchiseAlert.show', true)
+                ->where('franchiseAlert.status', 'exceeded')
+            );
+    }
+
+    public function test_dashboard_franchise_alert_hidden_for_assujetti(): void
+    {
+        // Re-authenticate to access scoped models
+        $this->actingAs($this->user);
+
+        // Settings are already assujetti from setUp
+        // Create high revenue that would trigger alert for franchise
+        Invoice::factory()->create([
+            'client_id' => $this->client->id,
+            'status' => Invoice::STATUS_FINALIZED,
+            'issued_at' => now(),
+            'total_ht' => 50000,
+            'type' => Invoice::TYPE_INVOICE,
+        ]);
+
+        $this->get(route('dashboard'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('franchiseAlert.show', false)
+            );
     }
 }

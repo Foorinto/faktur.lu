@@ -13,13 +13,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 router.on('invalid', (event) => {
     const response = event.detail.response;
 
-    // Log for debugging
-    console.warn('Inertia invalid response:', {
-        status: response?.status,
-        url: response?.url,
-    });
-
-    // Only reload for specific cases where we truly need a fresh page
+    // Only reload for authentication-related errors
     // Don't reload for validation errors (422) or other handled errors
     if (response?.status === 401 || response?.status === 419) {
         event.preventDefault();

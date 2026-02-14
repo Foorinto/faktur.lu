@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\DashboardService;
+use App\Services\FranchiseAlertService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,7 +12,8 @@ use Inertia\Response;
 class DashboardController extends Controller
 {
     public function __construct(
-        protected DashboardService $dashboardService
+        protected DashboardService $dashboardService,
+        protected FranchiseAlertService $franchiseAlertService
     ) {}
 
     /**
@@ -29,6 +31,7 @@ class DashboardController extends Controller
             'recentInvoices' => $this->dashboardService->getRecentInvoices(5),
             'availableYears' => $this->dashboardService->getAvailableYears(),
             'selectedYear' => (int) $year,
+            'franchiseAlert' => $this->franchiseAlertService->getFranchiseAlertData(),
         ]);
     }
 

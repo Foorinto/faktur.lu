@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import FranchiseAlert from '@/Components/FranchiseAlert.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -14,6 +15,7 @@ const props = defineProps({
     recentInvoices: Array,
     availableYears: Array,
     selectedYear: Number,
+    franchiseAlert: Object,
 });
 
 const selectedYear = ref(props.selectedYear);
@@ -103,6 +105,9 @@ const getStatusLabel = (status) => {
                 </div>
             </div>
         </template>
+
+        <!-- Franchise Alert (TVA threshold warning) -->
+        <FranchiseAlert v-if="franchiseAlert" :franchise-alert="franchiseAlert" />
 
         <!-- Alerts -->
         <div v-if="kpis?.alerts?.length > 0" class="mb-6 space-y-3">
