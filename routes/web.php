@@ -31,6 +31,13 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// CSRF token refresh endpoint - used when tab becomes visible after being hidden
+Route::get('/api/csrf-token', function () {
+    return response()->json([
+        'csrf_token' => csrf_token(),
+    ]);
+})->middleware('web');
+
 Route::get('/', function () {
     $latestPosts = BlogPost::published()
         ->with('category')

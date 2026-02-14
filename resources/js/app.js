@@ -1,12 +1,96 @@
 import '../css/app.css';
 import './bootstrap';
 
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+// Handle Inertia invalid responses (JSON displayed instead of page)
+// This can happen when session expires and page is stale
+router.on('invalid', (event) => {
+    event.preventDefault();
+    // Force a full page reload to get fresh state
+    window.location.reload();
+});
+
+// Handle Inertia exceptions (network errors, etc.)
+router.on('exception', (event) => {
+    // For most exceptions, let the browser handle it naturally
+    // by reloading the page
+    if (event.detail.exception) {
+        console.error('Inertia exception:', event.detail.exception);
+    }
+});
+
+// Detect and fix JSON/Inertia response being displayed as raw text
+// This can happen when browser shows cached XHR response or bfcache restores stale state
+const detectJsonDisplay = () => {
+    // Check if body has no #app element (Inertia container)
+    const app = document.getElementById('app');
+    const body = document.body;
+
+    if (!body) return;
+
+    // If there's a proper #app with Vue mounted, page is fine
+    if (app && app.children.length > 0 && app.__vue_app__) {
+        return;
+    }
+
+    // Check body text content for raw Inertia JSON response
+    const text = body.textContent?.trim() || '';
+    if (text.startsWith('{') && text.endsWith('}')) {
+        try {
+            const parsed = JSON.parse(text);
+            // Check if this looks like an Inertia response
+            if (parsed.component && parsed.props) {
+                // Inertia JSON is being displayed as text - reload page
+                window.location.reload();
+                return;
+            }
+        } catch {
+            // Not valid JSON, ignore
+        }
+    }
+
+    // Also check for pre tag containing JSON (some browsers wrap it)
+    const pre = body.querySelector('pre');
+    if (pre && !app) {
+        const preText = pre.textContent?.trim() || '';
+        if (preText.startsWith('{') && preText.endsWith('}')) {
+            try {
+                const parsed = JSON.parse(preText);
+                if (parsed.component && parsed.props) {
+                    window.location.reload();
+                    return;
+                }
+            } catch {
+                // Not valid JSON, ignore
+            }
+        }
+    }
+};
+
+// Check for JSON display on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', detectJsonDisplay);
+
+// Handle page restored from bfcache (back-forward cache)
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        // Page was restored from bfcache - check state and potentially reload
+        detectJsonDisplay();
+    }
+});
+
+// Check when tab becomes visible again
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        // Small delay to let page render
+        setTimeout(detectJsonDisplay, 100);
+    }
+});
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
