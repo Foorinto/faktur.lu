@@ -8,12 +8,24 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-// Handle Inertia invalid responses (JSON displayed instead of page)
-// This can happen when session expires and page is stale
+// Handle Inertia invalid responses (non-Inertia response received)
+// This can happen when session expires or server returns HTML error page
 router.on('invalid', (event) => {
-    event.preventDefault();
-    // Force a full page reload to get fresh state
-    window.location.reload();
+    const response = event.detail.response;
+
+    // Log for debugging
+    console.warn('Inertia invalid response:', {
+        status: response?.status,
+        url: response?.url,
+    });
+
+    // Only reload for specific cases where we truly need a fresh page
+    // Don't reload for validation errors (422) or other handled errors
+    if (response?.status === 401 || response?.status === 419) {
+        event.preventDefault();
+        window.location.reload();
+    }
+    // For other cases, let Inertia handle it naturally
 });
 
 // Handle Inertia exceptions (network errors, etc.)

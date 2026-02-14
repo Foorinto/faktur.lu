@@ -133,15 +133,27 @@ const getCountryFlag = (code) => {
 };
 
 const submit = () => {
+    console.log('Form submitting with vat_regime:', form.vat_regime);
+
     form.put(route('settings.business.update'), {
         preserveScroll: true,
         preserveState: true,
-        onError: () => {
+        onBefore: () => {
+            console.log('Request starting...');
+        },
+        onSuccess: () => {
+            console.log('Request successful! vat_regime is now:', form.vat_regime);
+        },
+        onError: (errors) => {
+            console.log('Validation errors:', errors);
             // Scroll to first error for better UX
             const firstError = document.querySelector('.text-red-600, .text-pink-600');
             if (firstError) {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
+        },
+        onFinish: () => {
+            console.log('Request finished. Form errors:', form.errors);
         },
     });
 };

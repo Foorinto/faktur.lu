@@ -60,12 +60,24 @@ class BusinessSettingsController extends Controller
      */
     public function update(UpdateBusinessSettingsRequest $request): RedirectResponse
     {
+        $validated = $request->validated();
+
+        // Debug logging
+        \Log::info('BusinessSettings update', [
+            'vat_regime' => $validated['vat_regime'] ?? 'NOT SET',
+            'vat_number' => $validated['vat_number'] ?? 'NOT SET',
+            'all_validated' => array_keys($validated),
+        ]);
+
         $settings = BusinessSettings::getInstance();
 
         if ($settings) {
-            $settings->update($request->validated());
+            $settings->update($validated);
+            \Log::info('BusinessSettings after update', [
+                'vat_regime' => $settings->fresh()->vat_regime,
+            ]);
         } else {
-            BusinessSettings::create($request->validated());
+            BusinessSettings::create($validated);
         }
 
         return back()->with('success', 'Paramètres enregistrés avec succès.');
