@@ -32,6 +32,7 @@ class Client extends Model
         'phone',
         'notes',
         'default_hourly_rate',
+        'default_vat_rate',
         'locale',
         'exclude_from_reminders',
     ];
@@ -39,6 +40,7 @@ class Client extends Model
     protected $casts = [
         'type' => 'string',
         'default_hourly_rate' => 'decimal:2',
+        'default_vat_rate' => 'decimal:2',
         'exclude_from_reminders' => 'boolean',
     ];
 

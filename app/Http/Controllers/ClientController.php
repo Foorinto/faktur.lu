@@ -59,6 +59,8 @@ class ClientController extends Controller
      */
     public function create(): Response
     {
+        $settings = BusinessSettings::getInstance();
+
         return Inertia::render('Clients/Create', [
             'clientTypes' => [
                 ['value' => 'b2b', 'label' => 'Entreprise (B2B)', 'description' => 'Client professionnel avec numéro de TVA'],
@@ -72,6 +74,9 @@ class ClientController extends Controller
             ],
             'countries' => $this->getCountries(),
             'peppolSchemes' => BusinessSettings::getPeppolSchemeOptions(),
+            'vatRates' => $this->getVatRates($settings),
+            'isVatExempt' => $settings?->isVatExempt() ?? true,
+            'sellerVatRegime' => $settings?->vat_regime ?? 'franchise',
         ]);
     }
 
@@ -136,6 +141,8 @@ class ClientController extends Controller
      */
     public function edit(Client $client): Response
     {
+        $settings = BusinessSettings::getInstance();
+
         return Inertia::render('Clients/Edit', [
             'client' => $client,
             'clientTypes' => [
@@ -150,6 +157,9 @@ class ClientController extends Controller
             ],
             'countries' => $this->getCountries(),
             'peppolSchemes' => BusinessSettings::getPeppolSchemeOptions(),
+            'vatRates' => $this->getVatRates($settings),
+            'isVatExempt' => $settings?->isVatExempt() ?? true,
+            'sellerVatRegime' => $settings?->vat_regime ?? 'franchise',
         ]);
     }
 
@@ -179,6 +189,33 @@ class ClientController extends Controller
         return redirect()
             ->route('clients.index')
             ->with('success', 'Client supprimé avec succès.');
+    }
+
+    /**
+     * Get available VAT rates for the business country.
+     */
+    private function getVatRates(?BusinessSettings $settings): array
+    {
+        // Get country-specific VAT rates
+        $countryRates = $settings?->getVatRates() ?? config('countries.LU.vat_rates', []);
+
+        $rates = [];
+        foreach ($countryRates as $rate) {
+            $rates[] = [
+                'value' => $rate['value'],
+                'label' => $rate['label'],
+                'default' => $rate['default'] ?? false,
+            ];
+        }
+
+        // Add "Other" option for custom rate
+        $rates[] = [
+            'value' => 'custom',
+            'label' => 'Autre (taux personnalisé)',
+            'default' => false,
+        ];
+
+        return $rates;
     }
 
     /**

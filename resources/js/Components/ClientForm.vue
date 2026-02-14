@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -32,6 +32,14 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    vatRates: {
+        type: Array,
+        default: () => [],
+    },
+    isVatExempt: {
+        type: Boolean,
+        default: true,
+    },
     submitLabel: {
         type: String,
         default: null,
@@ -53,6 +61,33 @@ const props = defineProps({
 const emit = defineEmits(['submit']);
 
 const isB2B = computed(() => props.form.type === 'b2b');
+
+// Custom VAT rate state
+const selectedVatRateOption = ref(
+    props.form.default_vat_rate !== null && props.form.default_vat_rate !== undefined && props.form.default_vat_rate !== ''
+        ? (props.vatRates.some(r => r.value === parseFloat(props.form.default_vat_rate)) ? parseFloat(props.form.default_vat_rate) : 'custom')
+        : ''
+);
+const customVatRate = ref(
+    selectedVatRateOption.value === 'custom' ? props.form.default_vat_rate : ''
+);
+
+// Watch for changes to update form value
+watch(selectedVatRateOption, (newValue) => {
+    if (newValue === '') {
+        props.form.default_vat_rate = null;
+    } else if (newValue === 'custom') {
+        props.form.default_vat_rate = customVatRate.value || null;
+    } else {
+        props.form.default_vat_rate = newValue;
+    }
+});
+
+watch(customVatRate, (newValue) => {
+    if (selectedVatRateOption.value === 'custom') {
+        props.form.default_vat_rate = newValue !== '' ? parseFloat(newValue) : null;
+    }
+});
 
 // EU country codes
 const euCountries = ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
@@ -438,6 +473,44 @@ const submit = () => {
                             {{ t('document_language_help') }}
                         </p>
                         <InputError :message="form.errors.locale" class="mt-2" />
+                    </div>
+                </div>
+
+                <!-- Default VAT Rate -->
+                <div v-if="!isVatExempt && vatRates.length > 0" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <InputLabel for="default_vat_rate">
+                            {{ t('default_vat_rate') || 'Taux de TVA par défaut' }}
+                            <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
+                        </InputLabel>
+                        <select
+                            id="default_vat_rate"
+                            v-model="selectedVatRateOption"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        >
+                            <option value="">Automatique (selon scénario TVA)</option>
+                            <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
+                                {{ rate.label }}
+                            </option>
+                        </select>
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                            Ce taux sera utilisé par défaut pour les factures de ce client.
+                        </p>
+                        <InputError :message="form.errors.default_vat_rate" class="mt-2" />
+                    </div>
+
+                    <div v-if="selectedVatRateOption === 'custom'">
+                        <InputLabel for="custom_vat_rate" value="Taux personnalisé (%)" />
+                        <TextInput
+                            id="custom_vat_rate"
+                            v-model.number="customVatRate"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            max="100"
+                            class="mt-1 block w-full"
+                            placeholder="Ex: 12.5"
+                        />
                     </div>
                 </div>
 

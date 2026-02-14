@@ -41,6 +41,25 @@ return [
             'prefix' => 'LU',
             'length' => 8,
         ],
+        'fiscal_identifiers' => [
+            'primary' => [
+                'field' => 'matricule',
+                'label' => 'Matricule',
+                'placeholder' => '0000000000000',
+                'help' => '13 chiffres, délivré par l\'Administration des Contributions Directes',
+                'maxlength' => 13,
+                'required' => true,
+            ],
+            'secondary' => [
+                'field' => 'rcs_number',
+                'label' => 'N° RCS Luxembourg',
+                'placeholder' => 'B123456',
+                'help' => 'Registre de Commerce et des Sociétés (si applicable)',
+                'maxlength' => 20,
+                'required' => false,
+            ],
+            'has_establishment_authorization' => true,
+        ],
         'fiscal_export' => [
             'type' => 'faia',
             'name' => 'FAIA (SAF-T Luxembourg)',
@@ -51,6 +70,12 @@ return [
         'number_format' => [
             'decimal_separator' => ',',
             'thousands_separator' => ' ',
+        ],
+        'vat_mentions' => [
+            'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
+            'reverse_charge' => 'Autoliquidation - Article 44 de la directive 2006/112/CE',
+            'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 43 du Code de la TVA luxembourgeois)',
+            'export' => 'Exonération de TVA - Exportation (Art. 43 du Code de la TVA luxembourgeois)',
         ],
     ],
 
@@ -85,6 +110,25 @@ return [
             'prefix' => 'FR',
             'length' => 11, // 2 caractères de clé + 9 chiffres SIREN
         ],
+        'fiscal_identifiers' => [
+            'primary' => [
+                'field' => 'matricule',
+                'label' => 'SIRET',
+                'placeholder' => '12345678901234',
+                'help' => '14 chiffres (SIREN + NIC)',
+                'maxlength' => 14,
+                'required' => true,
+            ],
+            'secondary' => [
+                'field' => 'rcs_number',
+                'label' => 'RCS',
+                'placeholder' => 'Paris B 123 456 789',
+                'help' => 'Registre du Commerce et des Sociétés (ville + numéro)',
+                'maxlength' => 30,
+                'required' => false,
+            ],
+            'has_establishment_authorization' => false,
+        ],
         'fiscal_export' => [
             'type' => 'fec',
             'name' => 'FEC (Fichier des Écritures Comptables)',
@@ -95,6 +139,12 @@ return [
         'number_format' => [
             'decimal_separator' => ',',
             'thousands_separator' => ' ',
+        ],
+        'vat_mentions' => [
+            'franchise' => 'TVA non applicable, art. 293 B du Code général des impôts',
+            'reverse_charge' => 'Autoliquidation de la TVA - Art. 283-2 du CGI',
+            'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire, art. 262 ter-I du CGI',
+            'export' => 'Exonération de TVA - Exportation, art. 262-I du CGI',
         ],
     ],
 
@@ -124,6 +174,25 @@ return [
             'prefix' => 'BE',
             'length' => 10,
         ],
+        'fiscal_identifiers' => [
+            'primary' => [
+                'field' => 'matricule',
+                'label' => 'N° d\'entreprise BCE',
+                'placeholder' => '0123.456.789',
+                'help' => '10 chiffres, Banque-Carrefour des Entreprises',
+                'maxlength' => 12,
+                'required' => true,
+            ],
+            'secondary' => [
+                'field' => 'rcs_number',
+                'label' => 'N° RPM',
+                'placeholder' => 'Bruxelles 0123.456.789',
+                'help' => 'Registre des Personnes Morales (si applicable)',
+                'maxlength' => 30,
+                'required' => false,
+            ],
+            'has_establishment_authorization' => false,
+        ],
         'fiscal_export' => [
             'type' => 'listing_tva',
             'name' => 'Listing TVA annuel',
@@ -134,6 +203,12 @@ return [
         'number_format' => [
             'decimal_separator' => ',',
             'thousands_separator' => '.',
+        ],
+        'vat_mentions' => [
+            'franchise' => 'Petite entreprise assujettie au régime de la franchise de taxe - TVA non applicable (Art. 56bis du Code TVA)',
+            'reverse_charge' => 'Autoliquidation - Art. 51 du Code de la TVA belge',
+            'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 39bis du Code de la TVA)',
+            'export' => 'Exonération de TVA - Exportation (Art. 39 du Code de la TVA)',
         ],
     ],
 
@@ -165,6 +240,25 @@ return [
             'prefix' => 'DE',
             'length' => 9,
         ],
+        'fiscal_identifiers' => [
+            'primary' => [
+                'field' => 'matricule',
+                'label' => 'Steuernummer',
+                'placeholder' => '123/456/78901',
+                'help' => 'Numéro fiscal délivré par le Finanzamt',
+                'maxlength' => 20,
+                'required' => true,
+            ],
+            'secondary' => [
+                'field' => 'rcs_number',
+                'label' => 'Handelsregister',
+                'placeholder' => 'HRB 12345, Amtsgericht München',
+                'help' => 'Registre du commerce (si applicable)',
+                'maxlength' => 50,
+                'required' => false,
+            ],
+            'has_establishment_authorization' => false,
+        ],
         'fiscal_export' => [
             'type' => 'gdpdu',
             'name' => 'GDPdU / GoBD',
@@ -175,6 +269,12 @@ return [
         'number_format' => [
             'decimal_separator' => ',',
             'thousands_separator' => '.',
+        ],
+        'vat_mentions' => [
+            'franchise' => 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung)',
+            'reverse_charge' => 'Steuerschuldnerschaft des Leistungsempfängers - § 13b UStG',
+            'intra_eu' => 'Steuerfreie innergemeinschaftliche Lieferung - § 4 Nr. 1b UStG',
+            'export' => 'Steuerfreie Ausfuhrlieferung - § 4 Nr. 1a UStG',
         ],
     ],
 ];

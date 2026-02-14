@@ -85,12 +85,16 @@ class QuoteController extends Controller
      */
     public function create(Request $request): Response
     {
+        $settings = \App\Models\BusinessSettings::getInstance();
+        $defaultVatRate = $settings?->getDefaultVatRate() ?? 17;
+
         return Inertia::render('Quotes/Create', [
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate']),
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
             'defaultClientId' => $request->input('client_id'),
             'isVatExempt' => $this->isVatExempt(),
+            'defaultVatRate' => $defaultVatRate,
         ]);
     }
 
@@ -348,6 +352,13 @@ class QuoteController extends Controller
                 'default' => $rate['default'] ?? false,
             ];
         }
+
+        // Add "Other" option for custom rate
+        $rates[] = [
+            'value' => 'custom',
+            'label' => 'Autre (taux personnalisé)',
+            'default' => false,
+        ];
 
         return $rates;
     }

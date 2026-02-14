@@ -23,6 +23,18 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    vatRates: {
+        type: Array,
+        default: () => [],
+    },
+    isVatExempt: {
+        type: Boolean,
+        default: true,
+    },
+    sellerVatRegime: {
+        type: String,
+        default: 'franchise',
+    },
 });
 
 const form = useForm({
@@ -42,6 +54,7 @@ const form = useForm({
     locale: 'fr',
     peppol_endpoint_scheme: '',
     peppol_endpoint_id: '',
+    default_vat_rate: null,
 });
 
 const submit = () => {
@@ -66,6 +79,9 @@ const submit = () => {
                 :currencies="currencies"
                 :countries="countries"
                 :peppol-schemes="peppolSchemes"
+                :vat-rates="vatRates"
+                :is-vat-exempt="isVatExempt"
+                :seller-vat-regime="sellerVatRegime"
                 :submit-label="t('create')"
                 @submit="submit"
             />

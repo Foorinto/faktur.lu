@@ -5,7 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -17,9 +17,24 @@ const props = defineProps({
     defaultClientId: [String, Number],
     isVatExempt: Boolean,
     vatScenarios: Object,
+    defaultVatRate: {
+        type: Number,
+        default: 17,
+    },
 });
 
-const defaultVatRate = props.isVatExempt ? 0 : 17;
+// Calculate effective default VAT rate based on exemption status and country
+const effectiveDefaultVatRate = computed(() => {
+    if (props.isVatExempt) return 0;
+
+    // If a client is selected and has a default rate, use it
+    if (selectedClient.value?.default_vat_rate !== null && selectedClient.value?.default_vat_rate !== undefined) {
+        return parseFloat(selectedClient.value.default_vat_rate);
+    }
+
+    // Otherwise use the business's country default
+    return props.defaultVatRate;
+});
 
 // Get selected client's VAT scenario
 const selectedClient = computed(() => {
@@ -39,16 +54,59 @@ const form = useForm({
     items: [],
 });
 
+// Track custom VAT rates per item
+const customVatRates = ref({});
+
 const addItem = () => {
+    const itemIndex = form.items.length;
     form.items.push({
         title: '',
         description: '',
         quantity: 1,
         unit: 'hour',
         unit_price: 0,
-        vat_rate: defaultVatRate,
+        vat_rate: effectiveDefaultVatRate.value,
+        vat_rate_select: effectiveDefaultVatRate.value, // For select tracking
     });
+    customVatRates.value[itemIndex] = '';
 };
+
+// Handle VAT rate selection change
+const handleVatRateChange = (index, value) => {
+    if (value === 'custom') {
+        // Keep track that this item uses custom rate
+        form.items[index].vat_rate_select = 'custom';
+        form.items[index].vat_rate = customVatRates.value[index] || 0;
+    } else {
+        form.items[index].vat_rate_select = value;
+        form.items[index].vat_rate = value;
+    }
+};
+
+// Handle custom VAT rate input change
+const handleCustomVatRateChange = (index, value) => {
+    customVatRates.value[index] = value;
+    if (form.items[index].vat_rate_select === 'custom') {
+        form.items[index].vat_rate = parseFloat(value) || 0;
+    }
+};
+
+// Watch for client changes to update default VAT rate on items
+watch(() => form.client_id, (newClientId) => {
+    if (newClientId) {
+        const client = props.clients.find(c => c.id === newClientId);
+        if (client?.default_vat_rate !== null && client?.default_vat_rate !== undefined) {
+            // Update all items with 0 quantity (new items) to use client's default rate
+            form.items.forEach((item, index) => {
+                if (item.vat_rate_select !== 'custom') {
+                    const newRate = parseFloat(client.default_vat_rate);
+                    item.vat_rate = newRate;
+                    item.vat_rate_select = newRate;
+                }
+            });
+        }
+    }
+});
 
 const removeItem = (index) => {
     form.items.splice(index, 1);
@@ -222,7 +280,8 @@ if (form.items.length === 0) {
                                 <InputLabel :for="`item-${index}-vat_rate`" :value="t('vat')" />
                                 <select
                                     :id="`item-${index}-vat_rate`"
-                                    v-model.number="item.vat_rate"
+                                    :value="item.vat_rate_select ?? item.vat_rate"
+                                    @change="handleVatRateChange(index, $event.target.value === 'custom' ? 'custom' : parseFloat($event.target.value))"
                                     class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                     required
                                 >
@@ -230,6 +289,22 @@ if (form.items.length === 0) {
                                         {{ rate.label }}
                                     </option>
                                 </select>
+                            </div>
+
+                            <!-- Custom VAT rate input -->
+                            <div v-if="item.vat_rate_select === 'custom'" class="w-24">
+                                <InputLabel :for="`item-${index}-custom_vat_rate`" value="%" />
+                                <input
+                                    :id="`item-${index}-custom_vat_rate`"
+                                    type="number"
+                                    step="0.01"
+                                    min="0"
+                                    max="100"
+                                    :value="customVatRates[index]"
+                                    @input="handleCustomVatRateChange(index, $event.target.value)"
+                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    placeholder="Ex: 12"
+                                />
                             </div>
 
                             <button

@@ -97,7 +97,7 @@ class InvoiceController extends Controller
      */
     public function create(Request $request): Response
     {
-        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number']);
+        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number', 'default_vat_rate']);
 
         // Add VAT scenario to each client
         $vatService = app(VatCalculationService::class);
@@ -108,6 +108,9 @@ class InvoiceController extends Controller
             ]);
         });
 
+        $settings = BusinessSettings::getInstance();
+        $defaultVatRate = $settings?->getDefaultVatRate() ?? 17;
+
         return Inertia::render('Invoices/Create', [
             'clients' => $clientsWithScenario,
             'vatRates' => $this->getVatRates(),
@@ -115,6 +118,7 @@ class InvoiceController extends Controller
             'defaultClientId' => $request->input('client_id'),
             'isVatExempt' => $this->isVatExempt(),
             'vatScenarios' => VatCalculationService::getAllScenarios(),
+            'defaultVatRate' => $defaultVatRate,
         ]);
     }
 
@@ -514,6 +518,13 @@ class InvoiceController extends Controller
                 'default' => $rate['default'] ?? false,
             ];
         }
+
+        // Add "Other" option for custom rate
+        $rates[] = [
+            'value' => 'custom',
+            'label' => 'Autre (taux personnalisé)',
+            'default' => false,
+        ];
 
         return $rates;
     }

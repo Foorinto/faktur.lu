@@ -77,7 +77,21 @@ class BusinessSettings extends Model
     ];
 
     /**
-     * Available VAT mention types.
+     * VAT mention type keys (used for form validation).
+     * Actual mention texts are country-specific and loaded from config.
+     */
+    public const VAT_MENTION_TYPES = [
+        'franchise',
+        'reverse_charge',
+        'intra_eu',
+        'export',
+        'none',
+        'other',
+    ];
+
+    /**
+     * Fallback VAT mentions (Luxembourg) for backwards compatibility.
+     * @deprecated Use getVatMentions() instead
      */
     public const VAT_MENTIONS = [
         'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
@@ -280,16 +294,53 @@ class BusinessSettings extends Model
             return $this->default_custom_vat_mention;
         }
 
-        return self::VAT_MENTIONS[$this->default_vat_mention] ?? null;
+        // Use country-specific mention
+        $mentions = $this->getVatMentions();
+        return $mentions[$this->default_vat_mention] ?? null;
     }
 
     /**
      * Get the list of VAT mention options for forms.
      */
-    public static function getVatMentionOptions(): array
+    /**
+     * Get VAT mentions for a specific country.
+     */
+    public static function getVatMentionsForCountry(?string $countryCode = 'LU'): array
     {
+        $countryCode = $countryCode ?? 'LU';
+        $countryMentions = config("countries.{$countryCode}.vat_mentions", []);
+
+        // Merge with static options (none, other)
+        return array_merge($countryMentions, [
+            'none' => 'Aucune mention',
+            'other' => 'Autre (texte personnalisé)',
+        ]);
+    }
+
+    /**
+     * Get VAT mentions for this business's country.
+     */
+    public function getVatMentions(): array
+    {
+        return self::getVatMentionsForCountry($this->country_code);
+    }
+
+    /**
+     * Get the list of VAT mention options for forms.
+     * Uses the authenticated user's business country if available.
+     */
+    public static function getVatMentionOptions(?string $countryCode = null): array
+    {
+        // If no country code provided, try to get from current user's settings
+        if ($countryCode === null) {
+            $settings = self::getInstance();
+            $countryCode = $settings?->country_code ?? 'LU';
+        }
+
+        $mentions = self::getVatMentionsForCountry($countryCode);
+
         $options = [];
-        foreach (self::VAT_MENTIONS as $key => $label) {
+        foreach ($mentions as $key => $label) {
             $options[] = [
                 'value' => $key,
                 'label' => $label,

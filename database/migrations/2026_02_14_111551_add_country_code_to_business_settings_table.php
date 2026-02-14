@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('business_settings', 'country_code')) {
-            return;
+        // Add country_code if not exists
+        if (!Schema::hasColumn('business_settings', 'country_code')) {
+            Schema::table('business_settings', function (Blueprint $table) {
+                $table->string('country_code', 2)->default('LU')->after('user_id');
+            });
         }
 
-        Schema::table('business_settings', function (Blueprint $table) {
-            // Country code (ISO 3166-1 alpha-2): LU, FR, BE, DE
-            $table->string('country_code', 2)->default('LU')->after('user_id');
-
-            // Activity type for countries with different thresholds (e.g., France)
-            // services, goods, mixed
-            $table->string('activity_type', 20)->nullable()->after('vat_regime');
-        });
+        // Add activity_type if not exists
+        if (!Schema::hasColumn('business_settings', 'activity_type')) {
+            Schema::table('business_settings', function (Blueprint $table) {
+                $table->string('activity_type', 20)->nullable()->after('vat_regime');
+            });
+        }
     }
 
     /**

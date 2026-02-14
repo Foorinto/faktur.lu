@@ -126,6 +126,61 @@ const franchiseLegalReference = computed(() => {
     return config.franchise?.legal_reference || 'Art. 57 du Code de la TVA luxembourgeois';
 });
 
+// Get dynamic VAT mention options based on selected country
+const dynamicVatMentionOptions = computed(() => {
+    const config = currentCountryConfig.value;
+    const mentions = config.vat_mentions || {};
+
+    const options = [];
+
+    // Add country-specific mentions
+    if (mentions.franchise) {
+        options.push({ value: 'franchise', label: mentions.franchise });
+    }
+    if (mentions.reverse_charge) {
+        options.push({ value: 'reverse_charge', label: mentions.reverse_charge });
+    }
+    if (mentions.intra_eu) {
+        options.push({ value: 'intra_eu', label: mentions.intra_eu });
+    }
+    if (mentions.export) {
+        options.push({ value: 'export', label: mentions.export });
+    }
+
+    // Add static options
+    options.push({ value: 'none', label: 'Aucune mention' });
+    options.push({ value: 'other', label: 'Autre (texte personnalisé)' });
+
+    return options;
+});
+
+// Get fiscal identifiers configuration for the selected country
+const fiscalIdentifiers = computed(() => {
+    const config = currentCountryConfig.value;
+    return config.fiscal_identifiers || {
+        primary: {
+            label: 'Matricule',
+            placeholder: '0000000000000',
+            help: '13 chiffres',
+            maxlength: 13,
+            required: true,
+        },
+        secondary: {
+            label: 'N° RCS',
+            placeholder: 'B123456',
+            help: 'Registre du Commerce',
+            maxlength: 20,
+            required: false,
+        },
+        has_establishment_authorization: true,
+    };
+});
+
+// Check if establishment authorization field should be shown (only for Luxembourg)
+const showEstablishmentAuthorization = computed(() => {
+    return fiscalIdentifiers.value.has_establishment_authorization === true;
+});
+
 // Get country flag
 const getCountryFlag = (code) => {
     const flags = { LU: '🇱🇺', FR: '🇫🇷', BE: '🇧🇪', DE: '🇩🇪' };
@@ -485,43 +540,43 @@ const cancelLogoUpload = () => {
                     <div class="px-6 py-4 space-y-4">
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <InputLabel for="matricule" :value="t('matricule_label')" />
+                                <InputLabel for="matricule" :value="fiscalIdentifiers.primary.label" />
                                 <TextInput
                                     id="matricule"
                                     v-model="form.matricule"
                                     type="text"
                                     class="mt-1 block w-full font-mono"
-                                    required
-                                    maxlength="13"
-                                    placeholder="0000000000000"
+                                    :required="fiscalIdentifiers.primary.required"
+                                    :maxlength="fiscalIdentifiers.primary.maxlength"
+                                    :placeholder="fiscalIdentifiers.primary.placeholder"
                                 />
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    {{ t('matricule_help') }}
+                                    {{ fiscalIdentifiers.primary.help }}
                                 </p>
                                 <InputError :message="form.errors.matricule" class="mt-2" />
                             </div>
 
                             <div>
                                 <InputLabel for="rcs_number">
-                                    {{ t('rcs_number_label') }}
-                                    <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
+                                    {{ fiscalIdentifiers.secondary.label }}
+                                    <span v-if="!fiscalIdentifiers.secondary.required" class="text-slate-400 text-xs">({{ t('optional') }})</span>
                                 </InputLabel>
                                 <TextInput
                                     id="rcs_number"
                                     v-model="form.rcs_number"
                                     type="text"
                                     class="mt-1 block w-full font-mono uppercase"
-                                    maxlength="20"
-                                    placeholder="A00000"
+                                    :maxlength="fiscalIdentifiers.secondary.maxlength"
+                                    :placeholder="fiscalIdentifiers.secondary.placeholder"
                                 />
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    {{ t('rcs_help') }}
+                                    {{ fiscalIdentifiers.secondary.help }}
                                 </p>
                                 <InputError :message="form.errors.rcs_number" class="mt-2" />
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div class="grid grid-cols-1 gap-4" :class="showEstablishmentAuthorization ? 'sm:grid-cols-2' : ''">
                             <div>
                                 <InputLabel for="vat_number">
                                     {{ t('vat_number') }}
@@ -544,7 +599,7 @@ const cancelLogoUpload = () => {
                                 <InputError :message="form.errors.vat_number" class="mt-2" />
                             </div>
 
-                            <div>
+                            <div v-if="showEstablishmentAuthorization">
                                 <InputLabel for="establishment_authorization">
                                     {{ t('establishment_authorization') }}
                                     <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
@@ -796,7 +851,7 @@ const cancelLogoUpload = () => {
                                 v-model="form.default_vat_mention"
                                 class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                             >
-                                <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
+                                <option v-for="option in dynamicVatMentionOptions" :key="option.value" :value="option.value">
                                     {{ option.label }}
                                 </option>
                             </select>
