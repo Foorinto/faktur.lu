@@ -462,7 +462,7 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Get available VAT rates based on client scenario.
+     * Get available VAT rates based on client scenario and seller's country.
      */
     private function getVatRates(?Client $client = null): array
     {
@@ -476,31 +476,46 @@ class InvoiceController extends Controller
             ];
         }
 
+        // Get country-specific VAT rates
+        $countryRates = $settings?->getVatRates() ?? config('countries.LU.vat_rates', []);
+
         // If client provided, check their VAT scenario
         if ($client) {
             $vatService = app(VatCalculationService::class);
-            $scenario = $vatService->determineScenario($client);
+            $scenario = $vatService->determineScenario($client, $settings);
 
             // For intra-EU B2B with VAT number or export, suggest 0%
             if (in_array($scenario['key'], ['B2B_INTRA_EU', 'EXPORT'])) {
-                return [
+                // Put 0% first with scenario label
+                $rates = [
                     ['value' => 0, 'label' => '0% (' . $scenario['label'] . ')', 'default' => true],
-                    ['value' => 17, 'label' => __('app.vat_rates.standard')],
-                    ['value' => 14, 'label' => __('app.vat_rates.intermediate')],
-                    ['value' => 8, 'label' => __('app.vat_rates.reduced')],
-                    ['value' => 3, 'label' => __('app.vat_rates.super_reduced')],
                 ];
+
+                // Add other country rates (excluding 0% since we already have it)
+                foreach ($countryRates as $rate) {
+                    if ($rate['value'] > 0) {
+                        $rates[] = [
+                            'value' => $rate['value'],
+                            'label' => $rate['label'],
+                        ];
+                    }
+                }
+
+                return $rates;
             }
         }
 
-        // Standard Luxembourg rates
-        return [
-            ['value' => 17, 'label' => __('app.vat_rates.standard'), 'default' => true],
-            ['value' => 14, 'label' => __('app.vat_rates.intermediate')],
-            ['value' => 8, 'label' => __('app.vat_rates.reduced')],
-            ['value' => 3, 'label' => __('app.vat_rates.super_reduced')],
-            ['value' => 0, 'label' => __('app.vat_rates.exempt')],
-        ];
+        // Return country-specific rates with default marked
+        $rates = [];
+        foreach ($countryRates as $rate) {
+            $rates[] = [
+                'value' => $rate['value'],
+                'label' => $rate['label'],
+                'default' => $rate['default'] ?? false,
+            ];
+        }
+
+        return $rates;
     }
 
     private function isVatExempt(): bool

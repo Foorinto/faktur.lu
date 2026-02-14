@@ -15,6 +15,18 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    countries: {
+        type: Array,
+        default: () => [],
+    },
+    countriesConfig: {
+        type: Object,
+        default: () => ({}),
+    },
+    activityTypes: {
+        type: Array,
+        default: () => [],
+    },
     vatRegimes: {
         type: Array,
         required: true,
@@ -44,6 +56,7 @@ const form = useForm({
     postal_code: props.settings?.postal_code ?? '',
     city: props.settings?.city ?? '',
     country_code: props.settings?.country_code ?? 'LU',
+    activity_type: props.settings?.activity_type ?? 'services',
     vat_number: props.settings?.vat_number ?? '',
     matricule: props.settings?.matricule ?? '',
     rcs_number: props.settings?.rcs_number ?? '',
@@ -77,6 +90,47 @@ const logoInput = ref(null);
 const logoPreview = ref(props.settings?.logo_url ?? null);
 
 const isVatRequired = computed(() => form.vat_regime === 'assujetti');
+
+// Show activity type selector for France (different thresholds for services vs goods)
+const showActivityType = computed(() => form.country_code === 'FR');
+
+// Get the current country configuration
+const currentCountryConfig = computed(() => {
+    return props.countriesConfig[form.country_code] || props.countriesConfig['LU'] || {};
+});
+
+// Get the franchise threshold based on country and activity type
+const franchiseThreshold = computed(() => {
+    const config = currentCountryConfig.value;
+    if (!config.franchise) return 35000;
+
+    // For France, threshold depends on activity type
+    if (form.country_code === 'FR') {
+        if (form.activity_type === 'goods') {
+            return config.franchise.threshold_goods || 85000;
+        }
+        return config.franchise.threshold_services || 37500;
+    }
+
+    return config.franchise.threshold || 35000;
+});
+
+// Get formatted franchise threshold
+const formattedFranchiseThreshold = computed(() => {
+    return new Intl.NumberFormat('fr-FR', { style: 'decimal' }).format(franchiseThreshold.value);
+});
+
+// Get the franchise legal reference
+const franchiseLegalReference = computed(() => {
+    const config = currentCountryConfig.value;
+    return config.franchise?.legal_reference || 'Art. 57 du Code de la TVA luxembourgeois';
+});
+
+// Get country flag
+const getCountryFlag = (code) => {
+    const flags = { LU: '🇱🇺', FR: '🇫🇷', BE: '🇧🇪', DE: '🇩🇪' };
+    return flags[code] || '🏳️';
+};
 
 const submit = () => {
     form.put(route('settings.business.update'), {
@@ -374,12 +428,37 @@ const cancelLogoUpload = () => {
                                     class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                     required
                                 >
-                                    <option value="LU">Luxembourg</option>
-                                    <option value="BE">Belgique</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Allemagne</option>
+                                    <option
+                                        v-for="country in countries"
+                                        :key="country.value"
+                                        :value="country.value"
+                                    >
+                                        {{ country.flag }} {{ country.label }}
+                                    </option>
                                 </select>
                                 <InputError :message="form.errors.country_code" class="mt-2" />
+                            </div>
+
+                            <!-- Activity Type (for France) -->
+                            <div v-if="showActivityType">
+                                <InputLabel for="activity_type" value="Type d'activité" />
+                                <select
+                                    id="activity_type"
+                                    v-model="form.activity_type"
+                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                >
+                                    <option
+                                        v-for="type in activityTypes"
+                                        :key="type.value"
+                                        :value="type.value"
+                                    >
+                                        {{ type.label }}
+                                    </option>
+                                </select>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                    Le seuil de franchise dépend du type d'activité en France
+                                </p>
+                                <InputError :message="form.errors.activity_type" class="mt-2" />
                             </div>
                         </div>
                     </div>
@@ -448,7 +527,7 @@ const cancelLogoUpload = () => {
                                     class="mt-1 block w-full font-mono uppercase"
                                     :required="isVatRequired"
                                     maxlength="20"
-                                    placeholder="LU00000000"
+                                    :placeholder="currentCountryConfig.vat_number?.example || 'LU00000000'"
                                 />
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('vat_format_help') }}
@@ -480,12 +559,11 @@ const cancelLogoUpload = () => {
                         <div>
                             <InputLabel :value="t('vat_regime')" />
                             <div class="mt-2 space-y-3">
+                                <!-- Franchise option with dynamic threshold -->
                                 <label
-                                    v-for="regime in vatRegimes"
-                                    :key="regime.value"
                                     class="flex items-start p-4 rounded-xl border cursor-pointer transition-colors"
                                     :class="[
-                                        form.vat_regime === regime.value
+                                        form.vat_regime === 'franchise'
                                             ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                                             : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
                                     ]"
@@ -493,15 +571,43 @@ const cancelLogoUpload = () => {
                                     <input
                                         type="radio"
                                         v-model="form.vat_regime"
-                                        :value="regime.value"
+                                        value="franchise"
                                         class="mt-0.5 h-4 w-4 border-slate-300 text-primary-600 focus:ring-primary-500"
                                     />
                                     <div class="ml-3">
                                         <span class="block text-sm font-medium text-slate-900 dark:text-white">
-                                            {{ regime.label }}
+                                            Franchise (&lt; {{ formattedFranchiseThreshold }} €/an)
                                         </span>
                                         <span class="block text-sm text-slate-500 dark:text-slate-400">
-                                            {{ regime.description }}
+                                            Exonéré de TVA
+                                        </span>
+                                        <span class="block text-xs text-slate-400 dark:text-slate-500 mt-1">
+                                            {{ franchiseLegalReference }}
+                                        </span>
+                                    </div>
+                                </label>
+
+                                <!-- Assujetti option -->
+                                <label
+                                    class="flex items-start p-4 rounded-xl border cursor-pointer transition-colors"
+                                    :class="[
+                                        form.vat_regime === 'assujetti'
+                                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                                            : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                                    ]"
+                                >
+                                    <input
+                                        type="radio"
+                                        v-model="form.vat_regime"
+                                        value="assujetti"
+                                        class="mt-0.5 h-4 w-4 border-slate-300 text-primary-600 focus:ring-primary-500"
+                                    />
+                                    <div class="ml-3">
+                                        <span class="block text-sm font-medium text-slate-900 dark:text-white">
+                                            Assujetti
+                                        </span>
+                                        <span class="block text-sm text-slate-500 dark:text-slate-400">
+                                            TVA collectée et déductible
                                         </span>
                                     </div>
                                 </label>

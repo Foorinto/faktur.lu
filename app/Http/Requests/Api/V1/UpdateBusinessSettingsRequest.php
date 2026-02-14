@@ -20,7 +20,8 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'address' => ['required', 'string', 'max:500'],
             'postal_code' => ['required', 'string', 'max:10'],
             'city' => ['required', 'string', 'max:255'],
-            'country_code' => ['required', 'string', 'size:2'],
+            'country_code' => ['required', 'string', 'size:2', Rule::in(config('billing.supported_countries', ['LU', 'FR', 'BE', 'DE']))],
+            'activity_type' => ['nullable', 'string', Rule::in(['services', 'goods', 'mixed'])],
             'vat_number' => [
                 'nullable',
                 'string',

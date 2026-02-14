@@ -269,16 +269,24 @@ class ExpenseController extends Controller
     }
 
     /**
-     * Get VAT rates for select.
+     * Get VAT rates for select based on seller's country.
      */
     private function getVatRates(): array
     {
-        return [
-            ['value' => 17, 'label' => '17% (Standard)'],
-            ['value' => 14, 'label' => '14% (Intermédiaire)'],
-            ['value' => 8, 'label' => '8% (Réduit)'],
-            ['value' => 3, 'label' => '3% (Super-réduit)'],
-            ['value' => 0, 'label' => '0% (Exonéré)'],
-        ];
+        $settings = \App\Models\BusinessSettings::getInstance();
+
+        // Get country-specific VAT rates
+        $countryRates = $settings?->getVatRates() ?? config('countries.LU.vat_rates', []);
+
+        $rates = [];
+        foreach ($countryRates as $rate) {
+            $rates[] = [
+                'value' => $rate['value'],
+                'label' => $rate['label'],
+                'default' => $rate['default'] ?? false,
+            ];
+        }
+
+        return $rates;
     }
 }

@@ -18,15 +18,36 @@ class BusinessSettingsController extends Controller
     public function edit(): Response
     {
         $settings = BusinessSettings::getInstance();
+        $countryCode = $settings?->country_code ?? 'LU';
+        $countryConfig = config("countries.{$countryCode}", config('countries.LU'));
+
+        // Build VAT regimes with country-specific threshold
+        $franchiseThreshold = $settings?->getFranchiseThreshold() ?? $countryConfig['franchise']['threshold'] ?? 35000;
+        $vatRegimes = [
+            [
+                'value' => 'franchise',
+                'label' => "Franchise (< " . number_format($franchiseThreshold, 0, ',', ' ') . " €/an)",
+                'description' => 'Exonéré de TVA',
+            ],
+            [
+                'value' => 'assujetti',
+                'label' => 'Assujetti',
+                'description' => 'TVA collectée et déductible',
+            ],
+        ];
 
         return Inertia::render('Settings/Business', [
             'settings' => $settings ? array_merge($settings->toArray(), [
                 'logo_url' => $settings->logo_url,
-            ]) : null,
-            'vatRegimes' => [
-                ['value' => 'franchise', 'label' => 'Franchise (< 35 000 €/an)', 'description' => 'Exonéré de TVA'],
-                ['value' => 'assujetti', 'label' => 'Assujetti', 'description' => 'TVA collectée et déductible'],
+                'franchise_threshold' => $franchiseThreshold,
+            ]) : [
+                'country_code' => 'LU',
+                'franchise_threshold' => 35000,
             ],
+            'countries' => BusinessSettings::getSupportedCountries(),
+            'countriesConfig' => config('countries'),
+            'activityTypes' => BusinessSettings::getActivityTypeOptions(),
+            'vatRegimes' => $vatRegimes,
             'vatMentionOptions' => BusinessSettings::getVatMentionOptions(),
             'pdfColorPresets' => BusinessSettings::getPdfColorPresets(),
             'defaultPdfColor' => BusinessSettings::DEFAULT_PDF_COLOR,

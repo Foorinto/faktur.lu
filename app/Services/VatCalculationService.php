@@ -42,21 +42,39 @@ class VatCalculationService
 
     /**
      * VAT scenarios with their configurations.
+     * Note: 'rate' values are defaults and will be replaced dynamically
+     * based on the seller's country configuration.
      */
     public const VAT_SCENARIOS = [
         'B2B_INTRA_EU' => [
             'label' => 'B2B Intracommunautaire',
-            'description' => 'Client professionnel UE (hors Luxembourg)',
+            'description' => 'Client professionnel UE (hors pays du vendeur)',
             'rate' => 0,
             'mention' => 'reverse_charge',
             'color' => 'blue',
         ],
+        'B2B_DOMESTIC' => [
+            'label' => 'B2B National',
+            'description' => 'Client professionnel dans le pays du vendeur',
+            'rate' => null, // Will be set dynamically
+            'mention' => null,
+            'color' => 'green',
+        ],
+        'B2C_DOMESTIC' => [
+            'label' => 'B2C National',
+            'description' => 'Client particulier dans le pays du vendeur',
+            'rate' => null, // Will be set dynamically
+            'mention' => null,
+            'color' => 'green',
+        ],
+        // Legacy aliases for backward compatibility
         'B2B_LU' => [
             'label' => 'B2B Luxembourg',
             'description' => 'Client professionnel luxembourgeois',
             'rate' => 17,
             'mention' => null,
             'color' => 'green',
+            'alias' => 'B2B_DOMESTIC',
         ],
         'B2C_LU' => [
             'label' => 'B2C Luxembourg',
@@ -64,6 +82,7 @@ class VatCalculationService
             'rate' => 17,
             'mention' => null,
             'color' => 'green',
+            'alias' => 'B2C_DOMESTIC',
         ],
         'FRANCHISE' => [
             'label' => 'Franchise de TVA',
@@ -82,9 +101,39 @@ class VatCalculationService
     ];
 
     /**
-     * Standard VAT rate for Luxembourg.
+     * Default VAT rate (Luxembourg standard).
+     * @deprecated Use getStandardVatRate() instead for multi-country support.
      */
     public const STANDARD_VAT_RATE = 17;
+
+    /**
+     * Get the standard VAT rate for a business's country.
+     */
+    public function getStandardVatRate(?BusinessSettings $settings = null): float
+    {
+        $settings = $settings ?? BusinessSettings::getInstance();
+
+        if ($settings) {
+            return $settings->getDefaultVatRate();
+        }
+
+        return config('billing.default_vat_rate', 17.0);
+    }
+
+    /**
+     * Get all available VAT rates for a business's country.
+     */
+    public function getVatRatesForBusiness(?BusinessSettings $settings = null): array
+    {
+        $settings = $settings ?? BusinessSettings::getInstance();
+
+        if ($settings) {
+            return $settings->getVatRates();
+        }
+
+        // Fallback to Luxembourg rates
+        return config('countries.LU.vat_rates', []);
+    }
 
     /**
      * Determine the VAT scenario for a client.
@@ -92,34 +141,35 @@ class VatCalculationService
     public function determineScenario(Client $client, ?BusinessSettings $settings = null): array
     {
         $settings = $settings ?? BusinessSettings::getInstance();
+        $sellerCountry = $settings?->country_code ?? 'LU';
 
         // If seller is VAT exempt (franchise regime), always return FRANCHISE scenario
         if ($settings && $settings->isVatExempt()) {
-            return $this->getScenarioWithDetails('FRANCHISE');
+            return $this->getScenarioWithDetails('FRANCHISE', $settings);
         }
 
-        $countryCode = $client->country_code ?? 'LU';
+        $clientCountry = $client->country_code ?? $sellerCountry;
         $isB2B = $client->type === 'b2b';
         $hasVatNumber = !empty($client->vat_number);
 
-        // Luxembourg client
-        if ($countryCode === 'LU') {
-            return $this->getScenarioWithDetails($isB2B ? 'B2B_LU' : 'B2C_LU');
+        // Domestic client (same country as seller)
+        if ($clientCountry === $sellerCountry) {
+            return $this->getScenarioWithDetails($isB2B ? 'B2B_DOMESTIC' : 'B2C_DOMESTIC', $settings);
         }
 
-        // EU client (not Luxembourg)
-        if ($this->isEuCountry($countryCode)) {
+        // EU client (not same country as seller)
+        if ($this->isEuCountry($clientCountry)) {
             // B2B with VAT number = reverse charge
             if ($isB2B && $hasVatNumber) {
-                return $this->getScenarioWithDetails('B2B_INTRA_EU');
+                return $this->getScenarioWithDetails('B2B_INTRA_EU', $settings);
             }
 
-            // B2B without VAT number or B2C = apply Luxembourg VAT
-            return $this->getScenarioWithDetails($isB2B ? 'B2B_LU' : 'B2C_LU');
+            // B2B without VAT number or B2C = apply domestic VAT
+            return $this->getScenarioWithDetails($isB2B ? 'B2B_DOMESTIC' : 'B2C_DOMESTIC', $settings);
         }
 
         // Non-EU client = export
-        return $this->getScenarioWithDetails('EXPORT');
+        return $this->getScenarioWithDetails('EXPORT', $settings);
     }
 
     /**
@@ -128,34 +178,35 @@ class VatCalculationService
     public function determineScenarioFromData(array $clientData, ?BusinessSettings $settings = null): array
     {
         $settings = $settings ?? BusinessSettings::getInstance();
+        $sellerCountry = $settings?->country_code ?? 'LU';
 
         // If seller is VAT exempt (franchise regime), always return FRANCHISE scenario
         if ($settings && $settings->isVatExempt()) {
-            return $this->getScenarioWithDetails('FRANCHISE');
+            return $this->getScenarioWithDetails('FRANCHISE', $settings);
         }
 
-        $countryCode = $clientData['country_code'] ?? 'LU';
+        $clientCountry = $clientData['country_code'] ?? $sellerCountry;
         $isB2B = ($clientData['type'] ?? 'b2b') === 'b2b';
         $hasVatNumber = !empty($clientData['vat_number']);
 
-        // Luxembourg client
-        if ($countryCode === 'LU') {
-            return $this->getScenarioWithDetails($isB2B ? 'B2B_LU' : 'B2C_LU');
+        // Domestic client (same country as seller)
+        if ($clientCountry === $sellerCountry) {
+            return $this->getScenarioWithDetails($isB2B ? 'B2B_DOMESTIC' : 'B2C_DOMESTIC', $settings);
         }
 
-        // EU client (not Luxembourg)
-        if ($this->isEuCountry($countryCode)) {
+        // EU client (not same country as seller)
+        if ($this->isEuCountry($clientCountry)) {
             // B2B with VAT number = reverse charge
             if ($isB2B && $hasVatNumber) {
-                return $this->getScenarioWithDetails('B2B_INTRA_EU');
+                return $this->getScenarioWithDetails('B2B_INTRA_EU', $settings);
             }
 
-            // B2B without VAT number or B2C = apply Luxembourg VAT
-            return $this->getScenarioWithDetails($isB2B ? 'B2B_LU' : 'B2C_LU');
+            // B2B without VAT number or B2C = apply domestic VAT
+            return $this->getScenarioWithDetails($isB2B ? 'B2B_DOMESTIC' : 'B2C_DOMESTIC', $settings);
         }
 
         // Non-EU client = export
-        return $this->getScenarioWithDetails('EXPORT');
+        return $this->getScenarioWithDetails('EXPORT', $settings);
     }
 
     /**
@@ -177,20 +228,44 @@ class VatCalculationService
 
     /**
      * Get scenario details with the key.
+     * Dynamically sets the VAT rate based on the business's country.
      */
-    public function getScenarioWithDetails(string $scenarioKey): array
+    public function getScenarioWithDetails(string $scenarioKey, ?BusinessSettings $settings = null): array
     {
-        $scenario = self::VAT_SCENARIOS[$scenarioKey] ?? self::VAT_SCENARIOS['B2B_LU'];
+        $scenario = self::VAT_SCENARIOS[$scenarioKey] ?? self::VAT_SCENARIOS['B2B_DOMESTIC'];
+
+        // Get the standard VAT rate for the seller's country
+        $standardRate = $this->getStandardVatRate($settings);
+
+        // Set dynamic rate for domestic scenarios
+        if (in_array($scenarioKey, ['B2B_DOMESTIC', 'B2C_DOMESTIC', 'B2B_LU', 'B2C_LU'])) {
+            $scenario['rate'] = $standardRate;
+        }
+
+        // Update description with country name
+        if ($settings && in_array($scenarioKey, ['B2B_DOMESTIC', 'B2C_DOMESTIC'])) {
+            $countryConfig = $settings->getCountryConfig();
+            $countryName = $countryConfig['name'] ?? 'Luxembourg';
+            $scenario['label'] = str_replace('National', $countryName, $scenario['label']);
+            $scenario['description'] = str_replace('dans le pays du vendeur', "au {$countryName}", $scenario['description']);
+        }
+
         return array_merge(['key' => $scenarioKey], $scenario);
     }
 
     /**
      * Get the VAT mention text for a scenario.
+     * Uses country-specific mention for franchise regime.
      */
-    public function getVatMentionText(string $mentionKey): ?string
+    public function getVatMentionText(string $mentionKey, ?BusinessSettings $settings = null): ?string
     {
         if (!$mentionKey || $mentionKey === 'none') {
             return null;
+        }
+
+        // For franchise, use country-specific mention
+        if ($mentionKey === 'franchise' && $settings) {
+            return $settings->getFranchiseMention();
         }
 
         return BusinessSettings::VAT_MENTIONS[$mentionKey] ?? null;
@@ -199,12 +274,25 @@ class VatCalculationService
     /**
      * Get all VAT scenarios for display.
      */
-    public static function getAllScenarios(): array
+    public static function getAllScenarios(?BusinessSettings $settings = null): array
     {
         $scenarios = [];
+        $standardRate = $settings?->getDefaultVatRate() ?? 17.0;
+
         foreach (self::VAT_SCENARIOS as $key => $scenario) {
+            // Skip legacy aliases
+            if (isset($scenario['alias'])) {
+                continue;
+            }
+
+            // Set dynamic rate for domestic scenarios
+            if (in_array($key, ['B2B_DOMESTIC', 'B2C_DOMESTIC'])) {
+                $scenario['rate'] = $standardRate;
+            }
+
             $scenarios[] = array_merge(['key' => $key], $scenario);
         }
+
         return $scenarios;
     }
 
@@ -274,7 +362,25 @@ class VatCalculationService
             }
         }
 
+        // Try to use country-specific format from config
+        if ($countryCode) {
+            $countryConfig = config("countries.{$countryCode}");
+            if ($countryConfig && isset($countryConfig['vat_number']['format'])) {
+                return (bool) preg_match($countryConfig['vat_number']['format'], $vatNumber);
+            }
+        }
+
         // Basic format validation: 2 letters followed by alphanumeric
         return (bool) preg_match('/^[A-Z]{2}[A-Z0-9]{2,12}$/', $vatNumber);
+    }
+
+    /**
+     * Get the VAT number example for a country.
+     */
+    public function getVatNumberExample(string $countryCode): string
+    {
+        $countryConfig = config("countries.{$countryCode}");
+
+        return $countryConfig['vat_number']['example'] ?? 'LU12345678';
     }
 }

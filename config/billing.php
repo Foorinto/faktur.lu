@@ -27,14 +27,37 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | VAT Rates (Luxembourg)
+    | Default Country
     |--------------------------------------------------------------------------
     |
-    | Luxembourg VAT rates as of 2024:
-    | - Standard: 17%
-    | - Intermediate: 14%
-    | - Reduced: 8%
-    | - Super-reduced: 3%
+    | Default country for new businesses. VAT rates, thresholds and legal
+    | mentions are loaded from config/countries.php based on this setting.
+    | Supported: LU, FR, BE, DE
+    |
+    */
+
+    'default_country' => env('BUSINESS_COUNTRY', 'LU'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Supported Countries
+    |--------------------------------------------------------------------------
+    |
+    | List of countries where faktur.lu can be used.
+    | Full configuration in config/countries.php
+    |
+    */
+
+    'supported_countries' => ['LU', 'FR', 'BE', 'DE'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | VAT Rates
+    |--------------------------------------------------------------------------
+    |
+    | DEPRECATED: Use config('countries.XX.vat_rates') instead.
+    | Kept for backward compatibility with existing code.
+    | These are Luxembourg rates - will be removed in future version.
     |
     */
 
@@ -52,9 +75,8 @@ return [
     | VAT Franchise Threshold
     |--------------------------------------------------------------------------
     |
-    | Annual revenue threshold below which a business can operate under
-    | the VAT franchise regime (exempt from charging VAT).
-    | As of 2024: 35,000 EUR
+    | DEPRECATED: Use config('countries.XX.franchise.threshold') instead.
+    | Kept for backward compatibility.
     |
     */
 

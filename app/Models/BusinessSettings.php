@@ -18,6 +18,7 @@ class BusinessSettings extends Model
         'postal_code',
         'city',
         'country_code',
+        'activity_type', // services, goods, mixed (for France thresholds)
         'vat_number',
         'peppol_endpoint_id',
         'peppol_endpoint_scheme',
@@ -318,5 +319,148 @@ class BusinessSettings extends Model
     public function getEffectivePdfColor(): string
     {
         return $this->default_pdf_color ?? self::DEFAULT_PDF_COLOR;
+    }
+
+    /**
+     * Get the country configuration for this business.
+     */
+    public function getCountryConfig(): array
+    {
+        $countryCode = $this->country_code ?? 'LU';
+
+        return config("countries.{$countryCode}", config('countries.LU'));
+    }
+
+    /**
+     * Get the VAT rates available for this business's country.
+     */
+    public function getVatRates(): array
+    {
+        $config = $this->getCountryConfig();
+
+        return $config['vat_rates'] ?? [];
+    }
+
+    /**
+     * Get the default VAT rate for this business's country.
+     */
+    public function getDefaultVatRate(): float
+    {
+        $config = $this->getCountryConfig();
+
+        return $config['default_vat_rate'] ?? 17.0;
+    }
+
+    /**
+     * Get the franchise threshold for this business.
+     * For France, this depends on activity_type (services vs goods).
+     */
+    public function getFranchiseThreshold(): int
+    {
+        $config = $this->getCountryConfig();
+        $franchise = $config['franchise'] ?? [];
+
+        // For countries with single threshold (LU, BE, DE)
+        if (($franchise['threshold_type'] ?? 'single') === 'single' || ($franchise['threshold_type'] ?? 'single') === 'previous_year') {
+            return $franchise['threshold'] ?? 35000;
+        }
+
+        // For France with services/goods thresholds
+        return match ($this->activity_type) {
+            'goods' => $franchise['threshold_goods'] ?? 85000,
+            'services', 'mixed' => $franchise['threshold_services'] ?? 37500,
+            default => $franchise['threshold_services'] ?? $franchise['threshold'] ?? 37500,
+        };
+    }
+
+    /**
+     * Get the franchise legal mention for this business's country.
+     */
+    public function getFranchiseMention(): string
+    {
+        $config = $this->getCountryConfig();
+
+        return $config['franchise']['mention'] ?? self::VAT_MENTIONS['franchise'];
+    }
+
+    /**
+     * Get the franchise legal reference for this business's country.
+     */
+    public function getFranchiseLegalReference(): string
+    {
+        $config = $this->getCountryConfig();
+
+        return $config['franchise']['legal_reference'] ?? 'Art. 57 du Code de la TVA luxembourgeois';
+    }
+
+    /**
+     * Get the VAT number format regex for this business's country.
+     */
+    public function getVatNumberFormat(): string
+    {
+        $config = $this->getCountryConfig();
+
+        return $config['vat_number']['format'] ?? '/^LU\d{8}$/';
+    }
+
+    /**
+     * Check if the VAT number is valid for this business's country.
+     */
+    public function isVatNumberValid(?string $vatNumber = null): bool
+    {
+        $vatNumber = $vatNumber ?? $this->vat_number;
+
+        if (empty($vatNumber)) {
+            return false;
+        }
+
+        $format = $this->getVatNumberFormat();
+
+        return (bool) preg_match($format, $vatNumber);
+    }
+
+    /**
+     * Get the list of supported countries for forms.
+     */
+    public static function getSupportedCountries(): array
+    {
+        $countries = config('countries', []);
+        $options = [];
+
+        foreach ($countries as $code => $config) {
+            $options[] = [
+                'value' => $code,
+                'label' => $config['name'],
+                'flag' => self::getCountryFlag($code),
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
+     * Get the flag emoji for a country code.
+     */
+    public static function getCountryFlag(string $countryCode): string
+    {
+        return match (strtoupper($countryCode)) {
+            'LU' => '🇱🇺',
+            'FR' => '🇫🇷',
+            'BE' => '🇧🇪',
+            'DE' => '🇩🇪',
+            default => '🏳️',
+        };
+    }
+
+    /**
+     * Get activity type options for forms (for France).
+     */
+    public static function getActivityTypeOptions(): array
+    {
+        return [
+            ['value' => 'services', 'label' => 'Services (prestations intellectuelles)', 'threshold' => 37500],
+            ['value' => 'goods', 'label' => 'Vente de biens', 'threshold' => 85000],
+            ['value' => 'mixed', 'label' => 'Mixte (services + biens)', 'threshold' => 37500],
+        ];
     }
 }
