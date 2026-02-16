@@ -2,6 +2,8 @@ import axios from 'axios';
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.withCredentials = true;
+window.axios.defaults.withXSRFToken = true;
 
 // Configure CSRF token for all axios requests
 const updateCsrfToken = () => {
@@ -14,6 +16,15 @@ const updateCsrfToken = () => {
 
 // Initial CSRF token setup
 updateCsrfToken();
+
+// Update token before each request to ensure freshness
+axios.interceptors.request.use((config) => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (csrfToken) {
+        config.headers['X-CSRF-TOKEN'] = csrfToken;
+    }
+    return config;
+});
 
 // Refresh CSRF token when tab becomes visible after being hidden
 let lastVisibilityChange = Date.now();

@@ -8,6 +8,21 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+// Sync CSRF token after each Inertia navigation
+// This ensures axios always has the latest token from the server
+router.on('success', (event) => {
+    const csrfToken = event.detail.page.props.csrf_token;
+    if (csrfToken) {
+        // Update meta tag
+        const metaTag = document.querySelector('meta[name="csrf-token"]');
+        if (metaTag) {
+            metaTag.setAttribute('content', csrfToken);
+        }
+        // Update axios default header
+        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+    }
+});
+
 // Handle Inertia invalid responses (non-Inertia response received)
 // This can happen when session expires or server returns HTML error page
 router.on('invalid', (event) => {
