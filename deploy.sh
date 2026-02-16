@@ -42,6 +42,31 @@ if [ -n "$(git status --porcelain)" ]; then
     exit 1
 fi
 
+# Vérifier si des fichiers Vue/JS ont été modifiés depuis le dernier build
+LAST_BUILD_TIME=$(stat -f %m public/build/manifest.json 2>/dev/null || echo "0")
+LATEST_VUE_TIME=$(find resources/js -name "*.vue" -o -name "*.js" -o -name "*.ts" 2>/dev/null | xargs stat -f %m 2>/dev/null | sort -rn | head -1 || echo "0")
+
+if [ "$LATEST_VUE_TIME" -gt "$LAST_BUILD_TIME" ]; then
+    echo -e "${YELLOW}⚠️  Des fichiers Vue/JS ont été modifiés depuis le dernier build${NC}"
+    echo ""
+    read -p "Lancer 'npm run build' maintenant? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo -e "${YELLOW}Build des assets...${NC}"
+        npm run build
+        echo ""
+        echo -e "${YELLOW}N'oubliez pas de commiter les changements du build:${NC}"
+        echo "  git add public/build/ && git commit -m 'build: recompile assets' && git push"
+        echo ""
+        exit 0
+    else
+        echo -e "${YELLOW}Continuer sans rebuild? Les changements JS/Vue ne seront pas déployés.${NC}"
+        read -p "Continuer quand même? (y/n) " -n 1 -r
+        echo
+        [[ ! $REPLY =~ ^[Yy]$ ]] && exit 1
+    fi
+fi
+
 # Push
 echo -e "${YELLOW}[1/4] Push vers GitHub...${NC}"
 git push origin $BRANCH
