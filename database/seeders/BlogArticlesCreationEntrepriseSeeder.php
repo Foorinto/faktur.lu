@@ -29,7 +29,7 @@ class BlogArticlesCreationEntrepriseSeeder extends Seeder
                 ['slug' => $article['slug']],
                 array_merge($article, [
                     'category_id' => $category->id,
-                    'author_id' => 1,
+                    'author_id' => null,
                     'status' => 'published',
                     'published_at' => now(),
                     'views_count' => 0,
