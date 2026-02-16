@@ -28,7 +28,7 @@ class AdminSession extends Model
      */
     public function isExpired(): bool
     {
-        $lifetime = config('admin.session_lifetime', 30);
+        $lifetime = (int) config('admin.session_lifetime', 30);
         return $this->last_activity->addMinutes($lifetime)->isPast();
     }
 
@@ -46,7 +46,7 @@ class AdminSession extends Model
      */
     public function scopeValid($query)
     {
-        $lifetime = config('admin.session_lifetime', 30);
+        $lifetime = (int) config('admin.session_lifetime', 30);
         return $query->where('last_activity', '>=', now()->subMinutes($lifetime));
     }
 }
