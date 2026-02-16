@@ -1,1 +1,0 @@
-import{f as t,E as s,c as a,d as r,t as n,o}from"./app-WPm1OF2O.js";const c={class:"text-sm text-pink-600 dark:text-pink-400"},l={__name:"InputError",props:{message:{type:String}},setup(e){return(i,p)=>t((o(),a("div",null,[r("p",c,n(e.message),1)],512)),[[s,e.message]])}};export{l as _};
