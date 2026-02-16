@@ -27,9 +27,39 @@ const form = useForm({
     status: props.post.status,
     published_at: props.post.published_at || '',
     tags: props.post.tags || [],
+    new_tags: [],
 });
 
 const previewImage = ref(props.post.cover_image_url);
+const newTagInput = ref('');
+
+const addNewTag = () => {
+    const tagName = newTagInput.value.trim();
+    if (tagName && !form.new_tags.includes(tagName)) {
+        // Check if tag already exists in existing tags
+        const existingTag = props.tags.find(t => t.name.toLowerCase() === tagName.toLowerCase());
+        if (existingTag) {
+            // Add existing tag ID instead
+            if (!form.tags.includes(existingTag.id)) {
+                form.tags.push(existingTag.id);
+            }
+        } else {
+            form.new_tags.push(tagName);
+        }
+    }
+    newTagInput.value = '';
+};
+
+const removeNewTag = (index) => {
+    form.new_tags.splice(index, 1);
+};
+
+const handleTagInputKeydown = (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        addNewTag();
+    }
+};
 
 const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -224,6 +254,7 @@ const submit = () => {
                 <div class="rounded-xl bg-slate-800 p-6">
                     <h3 class="mb-4 text-lg font-semibold text-white">Tags</h3>
 
+                    <!-- Existing tags -->
                     <div class="flex flex-wrap gap-2">
                         <label
                             v-for="tag in tags"
@@ -244,10 +275,50 @@ const submit = () => {
                             {{ tag.name }}
                         </label>
                     </div>
-                    <p v-if="tags.length === 0" class="text-sm text-slate-400">
-                        Aucun tag disponible
+
+                    <!-- New tags -->
+                    <div v-if="form.new_tags.length > 0" class="mt-3 flex flex-wrap gap-2">
+                        <span
+                            v-for="(tag, index) in form.new_tags"
+                            :key="'new-' + index"
+                            class="inline-flex items-center gap-1 rounded-full bg-green-600 px-3 py-1 text-sm text-white"
+                        >
+                            {{ tag }}
+                            <button
+                                type="button"
+                                @click="removeNewTag(index)"
+                                class="ml-1 text-white/70 hover:text-white"
+                            >
+                                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+
+                    <!-- Add new tag input -->
+                    <div class="mt-3 flex gap-2">
+                        <input
+                            v-model="newTagInput"
+                            type="text"
+                            placeholder="Nouveau tag..."
+                            class="flex-1 rounded-lg border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white placeholder-slate-400 focus:border-purple-500 focus:ring-purple-500"
+                            @keydown="handleTagInputKeydown"
+                        />
+                        <button
+                            type="button"
+                            @click="addNewTag"
+                            class="rounded-lg bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-500"
+                        >
+                            +
+                        </button>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-400">
+                        Appuyer sur Entrer pour ajouter un nouveau tag
                     </p>
+
                     <InputError :message="form.errors.tags" class="mt-2" />
+                    <InputError :message="form.errors.new_tags" class="mt-2" />
                 </div>
 
                 <!-- Cover image -->

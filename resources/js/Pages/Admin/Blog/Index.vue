@@ -33,12 +33,12 @@ watch([search, status, category], applyFilters);
 
 const deletePost = (post) => {
     if (confirm(`Supprimer l'article "${post.title}" ?`)) {
-        router.delete(route('admin.blog.destroy', post.id));
+        router.delete(route('admin.blog.destroy', post.slug));
     }
 };
 
 const duplicatePost = (post) => {
-    router.post(route('admin.blog.duplicate', post.id));
+    router.post(route('admin.blog.duplicate', post.slug));
 };
 
 const statusLabel = (status) => {
@@ -179,7 +179,7 @@ const formatDate = (date) => {
                                     </svg>
                                 </a>
                                 <Link
-                                    :href="route('admin.blog.edit', post.id)"
+                                    :href="route('admin.blog.edit', post.slug)"
                                     class="text-slate-400 hover:text-white"
                                     title="Modifier"
                                 >

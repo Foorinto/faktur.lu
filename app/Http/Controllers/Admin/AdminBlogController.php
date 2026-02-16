@@ -15,6 +15,36 @@ use Inertia\Response;
 
 class AdminBlogController extends Controller
 {
+    /**
+     * Process tags: sync existing IDs and create new tags from names.
+     */
+    private function processTags(array $existingTagIds, array $newTagNames): array
+    {
+        $allTagIds = $existingTagIds;
+
+        foreach ($newTagNames as $tagName) {
+            $tagName = trim($tagName);
+            if (empty($tagName)) {
+                continue;
+            }
+
+            // Check if tag already exists (case-insensitive)
+            $existingTag = BlogTag::whereRaw('LOWER(name) = ?', [strtolower($tagName)])->first();
+
+            if ($existingTag) {
+                if (!in_array($existingTag->id, $allTagIds)) {
+                    $allTagIds[] = $existingTag->id;
+                }
+            } else {
+                // Create new tag
+                $newTag = BlogTag::create(['name' => $tagName]);
+                $allTagIds[] = $newTag->id;
+            }
+        }
+
+        return $allTagIds;
+    }
+
     public function index(Request $request): Response
     {
         $query = BlogPost::with(['category', 'author']);
@@ -80,6 +110,8 @@ class AdminBlogController extends Controller
             'published_at' => 'nullable|date',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:blog_tags,id',
+            'new_tags' => 'nullable|array',
+            'new_tags.*' => 'string|max:50',
         ]);
 
         $slug = $validated['slug'] ?? Str::slug($validated['title']);
@@ -110,9 +142,11 @@ class AdminBlogController extends Controller
             'author_id' => null, // Admin posts don't have user author
         ]);
 
-        if (!empty($validated['tags'])) {
-            $post->tags()->sync($validated['tags']);
-        }
+        $tagIds = $this->processTags(
+            $validated['tags'] ?? [],
+            $validated['new_tags'] ?? []
+        );
+        $post->tags()->sync($tagIds);
 
         return redirect()->route('admin.blog.index')
             ->with('success', 'Article créé avec succès.');
@@ -132,8 +166,8 @@ class AdminBlogController extends Controller
                 'category_id' => $post->category_id,
                 'cover_image' => $post->cover_image,
                 'cover_image_url' => $post->cover_image_url,
-                'meta_title' => $post->attributes['meta_title'],
-                'meta_description' => $post->attributes['meta_description'],
+                'meta_title' => $post->meta_title,
+                'meta_description' => $post->meta_description,
                 'status' => $post->status,
                 'published_at' => $post->published_at?->format('Y-m-d\TH:i'),
                 'tags' => $post->tags->pluck('id'),
@@ -159,6 +193,8 @@ class AdminBlogController extends Controller
             'published_at' => 'nullable|date',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:blog_tags,id',
+            'new_tags' => 'nullable|array',
+            'new_tags.*' => 'string|max:50',
         ]);
 
         $coverImage = $post->cover_image;
@@ -190,7 +226,11 @@ class AdminBlogController extends Controller
                 : $validated['published_at'],
         ]);
 
-        $post->tags()->sync($validated['tags'] ?? []);
+        $tagIds = $this->processTags(
+            $validated['tags'] ?? [],
+            $validated['new_tags'] ?? []
+        );
+        $post->tags()->sync($tagIds);
 
         return redirect()->route('admin.blog.index')
             ->with('success', 'Article mis à jour avec succès.');
