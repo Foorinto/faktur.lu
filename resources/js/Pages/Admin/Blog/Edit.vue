@@ -77,9 +77,11 @@ const removeImage = () => {
 };
 
 const submit = () => {
-    form.post(route('admin.blog.update', props.post.id), {
-        forceFormData: true,
+    form.transform((data) => ({
+        ...data,
         _method: 'PUT',
+    })).post(route('admin.blog.update', props.post.slug), {
+        forceFormData: true,
     });
 };
 </script>

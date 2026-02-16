@@ -80,6 +80,9 @@ const formatDate = (date) => {
                     <Link :href="route('admin.blog-categories.index')">
                         <SecondaryButton>Catégories</SecondaryButton>
                     </Link>
+                    <Link :href="route('admin.blog-tags.index')">
+                        <SecondaryButton>Tags</SecondaryButton>
+                    </Link>
                     <Link :href="route('admin.blog.create')">
                         <PrimaryButton>Nouvel article</PrimaryButton>
                     </Link>

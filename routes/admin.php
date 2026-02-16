@@ -87,7 +87,9 @@ Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->group(functi
         Route::post('blog-categories/reorder', [AdminBlogCategoryController::class, 'reorder'])->name('blog-categories.reorder');
 
         // Blog tags
+        Route::get('blog-tags', [AdminBlogTagController::class, 'index'])->name('blog-tags.index');
         Route::post('blog-tags', [AdminBlogTagController::class, 'store'])->name('blog-tags.store');
+        Route::put('blog-tags/{tag}', [AdminBlogTagController::class, 'update'])->name('blog-tags.update');
         Route::delete('blog-tags/{tag}', [AdminBlogTagController::class, 'destroy'])->name('blog-tags.destroy');
     });
 });
