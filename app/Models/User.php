@@ -160,6 +160,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Check if user is on Starter/free plan (no active subscription).
+     */
+    public function isStarter(): bool
+    {
+        return !$this->subscribed('default');
+    }
+
+    /**
      * Check if user is on the free Essentiel plan (not Pro).
      */
     public function isEssentiel(): bool
