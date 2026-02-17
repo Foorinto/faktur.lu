@@ -1,15 +1,22 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
 
 const { t } = useTranslations();
+const { localizedRoute } = useLocalizedRoute();
 
 const lastUpdated = '9 février 2026';
 </script>
 
 <template>
-    <Head title="Conditions générales d'utilisation et de vente" />
+    <SeoHead
+        title="CGU et CGV | faktur.lu"
+        description="Conditions générales d'utilisation et de vente de faktur.lu. Règles d'accès et d'utilisation du service de facturation."
+        canonical-path="/cgu"
+    />
 
     <MarketingLayout>
         <!-- Content -->
@@ -258,7 +265,7 @@ const lastUpdated = '9 février 2026';
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">10.4 Protection des données</h3>
                         <p class="text-slate-600">
                             Le traitement des données personnelles est régi par notre
-                            <Link :href="route('legal.privacy')" class="text-[#9b5de5] hover:underline">Politique de confidentialité</Link>.
+                            <Link :href="localizedRoute('legal.privacy')" class="text-[#9b5de5] hover:underline">Politique de confidentialité</Link>.
                         </p>
                     </section>
 
@@ -375,11 +382,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="route('legal.mentions')" class="text-slate-600 hover:text-[#9b5de5]">Mentions légales</Link>
+                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-[#9b5de5]">Mentions légales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="route('legal.privacy')" class="text-slate-600 hover:text-[#9b5de5]">Politique de confidentialité</Link>
+                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-[#9b5de5]">Politique de confidentialité</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="route('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
             </div>
         </div>
     </MarketingLayout>

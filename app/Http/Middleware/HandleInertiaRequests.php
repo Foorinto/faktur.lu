@@ -54,13 +54,14 @@ class HandleInertiaRequests extends Middleware
                 'info' => fn () => $request->session()->get('info'),
             ],
             'locale' => $locale,
-            'availableLocales' => [
+            'supportedLocales' => config('app.supported_locales', ['fr', 'de', 'en', 'lb']),
+            'availableLocales' => config('app.locale_names', [
                 'fr' => 'Français',
                 'de' => 'Deutsch',
                 'en' => 'English',
                 'lb' => 'Lëtzebuergesch',
-            ],
-            'translations' => fn () => $this->getTranslations($locale),
+            ]),
+            'translations' => $this->getTranslations($locale),
             'unreadSupportCount' => fn () => $this->getUnreadSupportCount($request),
         ];
     }

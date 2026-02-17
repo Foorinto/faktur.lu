@@ -17,19 +17,35 @@ const props = defineProps({
 const search = ref(props.filters.search);
 const status = ref(props.filters.status);
 const category = ref(props.filters.category);
+const locale = ref(props.filters.locale);
+
+const locales = {
+    fr: 'Français',
+    de: 'Deutsch',
+    en: 'English',
+    lb: 'Lëtzebuergesch',
+};
+
+const localeFlags = {
+    fr: '🇫🇷',
+    de: '🇩🇪',
+    en: '🇬🇧',
+    lb: '🇱🇺',
+};
 
 const applyFilters = debounce(() => {
     router.get(route('admin.blog.index'), {
         search: search.value || undefined,
         status: status.value || undefined,
         category: category.value || undefined,
+        locale: locale.value || undefined,
     }, {
         preserveState: true,
         replace: true,
     });
 }, 300);
 
-watch([search, status, category], applyFilters);
+watch([search, status, category, locale], applyFilters);
 
 const deletePost = (post) => {
     if (confirm(`Supprimer l'article "${post.title}" ?`)) {
@@ -132,6 +148,15 @@ const formatDate = (date) => {
                     {{ cat.name }}
                 </option>
             </select>
+            <select
+                v-model="locale"
+                class="rounded-lg border-slate-600 bg-slate-700 px-4 py-2 text-white focus:border-purple-500 focus:ring-purple-500"
+            >
+                <option value="">Toutes les langues</option>
+                <option v-for="(name, code) in locales" :key="code" :value="code">
+                    {{ localeFlags[code] }} {{ name }}
+                </option>
+            </select>
         </div>
 
         <!-- Table -->
@@ -140,6 +165,7 @@ const formatDate = (date) => {
                 <thead class="border-b border-slate-700 text-slate-400">
                     <tr>
                         <th class="px-6 py-4 font-medium">Titre</th>
+                        <th class="px-6 py-4 font-medium">Langue</th>
                         <th class="px-6 py-4 font-medium">Catégorie</th>
                         <th class="px-6 py-4 font-medium">Statut</th>
                         <th class="px-6 py-4 font-medium">Date</th>
@@ -151,7 +177,12 @@ const formatDate = (date) => {
                     <tr v-for="post in posts.data" :key="post.id" class="hover:bg-slate-700/50">
                         <td class="px-6 py-4">
                             <div class="font-medium text-white">{{ post.title }}</div>
-                            <div class="text-xs text-slate-400">/blog/{{ post.slug }}</div>
+                            <div class="text-xs text-slate-400">/{{ post.locale || 'fr' }}/blog/{{ post.slug }}</div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span :title="locales[post.locale] || 'Français'" class="text-lg">
+                                {{ localeFlags[post.locale] || '🇫🇷' }}
+                            </span>
                         </td>
                         <td class="px-6 py-4 text-slate-300">
                             {{ post.category?.name || '-' }}
@@ -212,7 +243,7 @@ const formatDate = (date) => {
                         </td>
                     </tr>
                     <tr v-if="posts.data.length === 0">
-                        <td colspan="6" class="px-6 py-12 text-center text-slate-400">
+                        <td colspan="7" class="px-6 py-12 text-center text-slate-400">
                             Aucun article trouvé
                         </td>
                     </tr>

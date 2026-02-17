@@ -86,6 +86,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Supported Locales
+    |--------------------------------------------------------------------------
+    |
+    | The locales supported by the application for the public-facing pages.
+    | These will be used for URL prefixes (e.g., /fr/, /de/, /en/, /lb/).
+    |
+    */
+
+    'supported_locales' => ['fr', 'de', 'en', 'lb'],
+
+    'locale_names' => [
+        'fr' => 'Français',
+        'de' => 'Deutsch',
+        'en' => 'English',
+        'lb' => 'Lëtzebuergesch',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |

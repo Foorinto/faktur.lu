@@ -14,7 +14,9 @@ use App\Http\Controllers\FaiaValidatorController;
 use App\Http\Controllers\EmailProviderController;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PricingController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\PeppolExportController;
 use App\Http\Controllers\InvoiceEmailController;
 use App\Http\Controllers\InvoiceItemController;
@@ -38,52 +40,147 @@ Route::get('/api/csrf-token', function () {
     ]);
 })->middleware('web');
 
-Route::get('/', function () {
-    $latestPosts = BlogPost::published()
-        ->with('category')
-        ->orderByDesc('published_at')
-        ->limit(3)
-        ->get()
-        ->map(fn ($post) => [
-            'title' => $post->title,
-            'slug' => $post->slug,
-            'excerpt' => $post->excerpt,
-            'cover_image_url' => $post->cover_image_url,
-            'published_at' => $post->published_at->toISOString(),
-            'reading_time' => $post->reading_time,
-            'category' => $post->category?->name,
-        ]);
+/*
+|--------------------------------------------------------------------------
+| Locale Redirect
+|--------------------------------------------------------------------------
+|
+| Redirect root URL to the appropriate locale based on browser detection.
+|
+*/
 
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'appUrl' => config('app.url'),
-        'latestPosts' => $latestPosts,
-    ]);
-});
+Route::get('/', [LocaleController::class, 'redirect'])->name('home.redirect');
+Route::get('/switch-locale/{locale}', [LocaleController::class, 'switchLocale'])
+    ->where('locale', 'fr|de|en|lb')
+    ->name('locale.switch');
 
-// Public FAIA Validator - accessible without authentication
-Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator');
-Route::post('/validateur-faia/validate', [FaiaValidatorController::class, 'validate'])
-    ->middleware('throttle:faia-validator')
-    ->name('faia-validator.validate');
+/*
+|--------------------------------------------------------------------------
+| Sitemap Routes
+|--------------------------------------------------------------------------
+|
+| XML sitemaps for SEO with multilingual support (hreflang).
+|
+*/
 
-// Legal pages - public access
-Route::get('/mentions-legales', [LegalController::class, 'mentions'])->name('legal.mentions');
-Route::get('/confidentialite', [LegalController::class, 'privacy'])->name('legal.privacy');
-Route::get('/cgu', [LegalController::class, 'terms'])->name('legal.terms');
-Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
+Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
 
-// Pricing page - public access
-Route::get('/tarifs', [PricingController::class, 'index'])->name('pricing');
+/*
+|--------------------------------------------------------------------------
+| Public Localized Routes
+|--------------------------------------------------------------------------
+|
+| All public-facing pages with locale prefix (e.g., /fr/, /de/, /en/, /lb/).
+|
+*/
 
-// Blog - public access
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/categorie/{category:slug}', [BlogController::class, 'category'])->name('blog.category');
-Route::get('/blog/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
-Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::prefix('{locale}')
+    ->where(['locale' => 'fr|de|en|lb'])
+    ->group(function () {
+
+        // Landing page
+        Route::get('/', function (string $locale) {
+            // Get posts in current locale, fallback to French if none
+            $latestPosts = BlogPost::published()
+                ->forLocale($locale)
+                ->with('category')
+                ->orderByDesc('published_at')
+                ->limit(3)
+                ->get();
+
+            // Fallback to French if no posts in requested locale
+            if ($latestPosts->isEmpty() && $locale !== 'fr') {
+                $latestPosts = BlogPost::published()
+                    ->forLocale('fr')
+                    ->with('category')
+                    ->orderByDesc('published_at')
+                    ->limit(3)
+                    ->get();
+            }
+
+            $latestPosts = $latestPosts->map(fn ($post) => [
+                'title' => $post->title,
+                'slug' => $post->slug,
+                'excerpt' => $post->excerpt,
+                'cover_image_url' => $post->cover_image_url,
+                'published_at' => $post->published_at->toISOString(),
+                'reading_time' => $post->reading_time,
+                'category' => $post->category?->name,
+            ]);
+
+            return Inertia::render('Welcome', [
+                'canLogin' => Route::has('login'),
+                'canRegister' => Route::has('register'),
+                'laravelVersion' => Application::VERSION,
+                'phpVersion' => PHP_VERSION,
+                'appUrl' => config('app.url'),
+                'latestPosts' => $latestPosts,
+                'currentLocale' => $locale,
+            ]);
+        })->name('home');
+
+        // Pricing page (explicit localized routes)
+        Route::get('/tarifs', [PricingController::class, 'index'])->name('pricing.fr');
+        Route::get('/preise', [PricingController::class, 'index'])->name('pricing.de');
+        Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.en');
+        Route::get('/präisser', [PricingController::class, 'index'])->name('pricing.lb');
+
+        // Public FAIA Validator (explicit localized routes)
+        Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.fr');
+        Route::get('/faia-validator', [FaiaValidatorController::class, 'index'])->name('faia-validator.other');
+        Route::post('/validateur-faia/validate', [FaiaValidatorController::class, 'validate'])
+            ->middleware('throttle:faia-validator')->name('faia-validator.validate.fr');
+        Route::post('/faia-validator/validate', [FaiaValidatorController::class, 'validate'])
+            ->middleware('throttle:faia-validator')->name('faia-validator.validate.other');
+
+        // Legal pages (explicit localized routes)
+        Route::get('/mentions-legales', [LegalController::class, 'mentions'])->name('legal.mentions.fr');
+        Route::get('/impressum', [LegalController::class, 'mentions'])->name('legal.mentions.de');
+        Route::get('/legal-notice', [LegalController::class, 'mentions'])->name('legal.mentions.en');
+
+        Route::get('/confidentialite', [LegalController::class, 'privacy'])->name('legal.privacy.fr');
+        Route::get('/datenschutz', [LegalController::class, 'privacy'])->name('legal.privacy.de');
+        Route::get('/privacy', [LegalController::class, 'privacy'])->name('legal.privacy.en');
+        Route::get('/dateschutz', [LegalController::class, 'privacy'])->name('legal.privacy.lb');
+
+        Route::get('/cgu', [LegalController::class, 'terms'])->name('legal.terms.fr');
+        Route::get('/agb', [LegalController::class, 'terms'])->name('legal.terms.de');
+        Route::get('/terms', [LegalController::class, 'terms'])->name('legal.terms.en');
+
+        Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
+
+        // Blog (localized slugs)
+        Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+        Route::get('/{blogSlug}/{catSlug}/{category:slug}', [BlogController::class, 'category'])
+            ->where('blogSlug', 'blog')
+            ->where('catSlug', 'categorie|kategorie|category')
+            ->name('blog.category');
+        Route::get('/blog/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
+        Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Legacy redirects (SEO - redirect old URLs to new localized URLs)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/blog', fn () => redirect()->route('blog.index', ['locale' => app()->getLocale()]));
+Route::get('/blog/{post:slug}', fn (BlogPost $post) => redirect()->route('blog.show', ['locale' => app()->getLocale(), 'post' => $post->slug]));
+Route::get('/tarifs', fn () => redirect()->route('pricing', ['locale' => app()->getLocale()]));
+Route::get('/mentions-legales', fn () => redirect()->route('legal.mentions', ['locale' => app()->getLocale()]));
+Route::get('/confidentialite', fn () => redirect()->route('legal.privacy', ['locale' => app()->getLocale()]));
+Route::get('/cgu', fn () => redirect()->route('legal.terms', ['locale' => app()->getLocale()]));
+Route::get('/cookies', fn () => redirect()->route('legal.cookies', ['locale' => app()->getLocale()]));
+Route::get('/validateur-faia', fn () => redirect()->route('faia-validator', ['locale' => app()->getLocale()]));
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes (no locale prefix - uses user preference)
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

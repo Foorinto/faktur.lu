@@ -20,6 +20,7 @@ const form = useForm({
     excerpt: props.post.excerpt || '',
     content: props.post.content,
     category_id: props.post.category_id || '',
+    locale: props.post.locale || 'fr',
     cover_image: null,
     remove_cover: false,
     meta_title: props.post.meta_title || '',
@@ -29,6 +30,13 @@ const form = useForm({
     tags: props.post.tags || [],
     new_tags: [],
 });
+
+const locales = {
+    fr: 'Français',
+    de: 'Deutsch',
+    en: 'English',
+    lb: 'Lëtzebuergesch',
+};
 
 const previewImage = ref(props.post.cover_image_url);
 const newTagInput = ref('');
@@ -234,6 +242,21 @@ const submit = () => {
                     >
                         Voir l'article
                     </a>
+                </div>
+
+                <!-- Locale -->
+                <div class="rounded-xl bg-slate-800 p-6">
+                    <h3 class="mb-4 text-lg font-semibold text-white">Langue</h3>
+
+                    <select
+                        v-model="form.locale"
+                        class="block w-full rounded-lg border-slate-600 bg-slate-700 text-white focus:border-purple-500 focus:ring-purple-500"
+                    >
+                        <option v-for="(name, code) in locales" :key="code" :value="code">
+                            {{ name }}
+                        </option>
+                    </select>
+                    <InputError :message="form.errors.locale" class="mt-2" />
                 </div>
 
                 <!-- Category -->

@@ -3,6 +3,9 @@ import { ref, computed } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
 
 defineProps({
     canLogin: Boolean,
@@ -43,14 +46,14 @@ const handleFileSelect = (e) => {
 const selectFile = (selectedFile) => {
     // Check extension
     if (!selectedFile.name.toLowerCase().endsWith('.xml')) {
-        error.value = 'Seuls les fichiers .xml sont acceptés.';
+        error.value = t('faia_validator.error_xml_only');
         file.value = null;
         return;
     }
 
     // Check size (50 MB)
     if (selectedFile.size > 50 * 1024 * 1024) {
-        error.value = 'Le fichier ne doit pas dépasser 50 Mo.';
+        error.value = t('faia_validator.error_file_size');
         file.value = null;
         return;
     }
@@ -93,7 +96,7 @@ const validate = async () => {
         } else if (e.response?.data?.errors?.file) {
             error.value = e.response.data.errors.file[0];
         } else {
-            error.value = 'Erreur de connexion. Veuillez réessayer.';
+            error.value = t('faia_validator.error_connection');
         }
     } finally {
         isValidating.value = false;
@@ -130,8 +133,8 @@ const statusIcon = computed(() => {
 
 <template>
     <Head>
-        <title>Validateur FAIA gratuit - Vérifiez vos fichiers Luxembourg | faktur.lu</title>
-        <meta name="description" content="Validez gratuitement vos fichiers FAIA (Fichier d'Audit Informatisé AED) pour le Luxembourg. Vérification de conformité, structure XML, numérotation des factures et calculs TVA." />
+        <title>{{ t('faia_validator.page_title') }}</title>
+        <meta name="description" :content="t('faia_validator.meta_description')" />
     </Head>
 
     <MarketingLayout>
@@ -144,13 +147,13 @@ const statusIcon = computed(() => {
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        Outil gratuit
+                        {{ t('faia_validator.badge_free') }}
                     </div>
                     <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                        Validateur FAIA Luxembourg
+                        {{ t('faia_validator.title') }}
                     </h1>
                     <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                        Vérifiez la conformité de vos fichiers d'audit FAIA avant de les soumettre à l'Administration des contributions directes.
+                        {{ t('faia_validator.subtitle') }}
                     </p>
                 </div>
 
@@ -186,14 +189,14 @@ const statusIcon = computed(() => {
                         </div>
                         <div>
                             <p class="text-lg font-medium text-slate-700">
-                                Glissez votre fichier FAIA ici
+                                {{ t('faia_validator.drop_file') }}
                             </p>
                             <p class="text-slate-500 mt-1">
-                                ou <span class="text-[#9b5de5] font-medium">cliquez pour parcourir</span>
+                                {{ t('faia_validator.or_click') }}
                             </p>
                         </div>
                         <p class="text-sm text-slate-400">
-                            Format accepté : .xml (max 50 Mo)
+                            {{ t('faia_validator.format_accepted') }}
                         </p>
                     </div>
 
@@ -211,7 +214,7 @@ const statusIcon = computed(() => {
                             @click.stop="file = null"
                             class="text-sm text-slate-500 hover:text-slate-700"
                         >
-                            Changer de fichier
+                            {{ t('faia_validator.change_file') }}
                         </button>
                     </div>
                 </div>
@@ -240,7 +243,7 @@ const statusIcon = computed(() => {
                         <svg v-else class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        {{ isValidating ? 'Validation en cours...' : 'Valider le fichier' }}
+                        {{ isValidating ? t('faia_validator.validating') : t('faia_validator.validate_button') }}
                     </button>
                 </div>
 
@@ -298,15 +301,15 @@ const statusIcon = computed(() => {
                                 <div class="flex items-center justify-center sm:justify-start gap-4 mt-4 text-sm">
                                     <span class="flex items-center gap-1.5">
                                         <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                                        {{ result.summary.errors }} erreur(s)
+                                        {{ t('faia_validator.errors_count', { count: result.summary.errors }) }}
                                     </span>
                                     <span class="flex items-center gap-1.5">
                                         <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                        {{ result.summary.warnings }} avertissement(s)
+                                        {{ t('faia_validator.warnings_count', { count: result.summary.warnings }) }}
                                     </span>
                                     <span class="flex items-center gap-1.5">
                                         <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                                        {{ result.summary.info }} info(s)
+                                        {{ t('faia_validator.info_count', { count: result.summary.info }) }}
                                     </span>
                                 </div>
                             </div>
@@ -320,7 +323,7 @@ const statusIcon = computed(() => {
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Erreurs ({{ result.errors.length }})
+                                {{ t('faia_validator.errors_title') }} ({{ result.errors.length }})
                             </h3>
                         </div>
                         <ul class="divide-y divide-red-100">
@@ -330,7 +333,7 @@ const statusIcon = computed(() => {
                                         {{ err.category }}
                                     </span>
                                     <span class="text-slate-700">{{ err.message }}</span>
-                                    <span v-if="err.line" class="text-slate-400 text-sm">Ligne {{ err.line }}</span>
+                                    <span v-if="err.line" class="text-slate-400 text-sm">{{ t('faia_validator.line') }} {{ err.line }}</span>
                                 </div>
                             </li>
                         </ul>
@@ -343,7 +346,7 @@ const statusIcon = computed(() => {
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
-                                Avertissements ({{ result.warnings.length }})
+                                {{ t('faia_validator.warnings_title') }} ({{ result.warnings.length }})
                             </h3>
                         </div>
                         <ul class="divide-y divide-yellow-100">
@@ -353,7 +356,7 @@ const statusIcon = computed(() => {
                                         {{ warn.category }}
                                     </span>
                                     <span class="text-slate-700">{{ warn.message }}</span>
-                                    <span v-if="warn.line" class="text-slate-400 text-sm">Ligne {{ warn.line }}</span>
+                                    <span v-if="warn.line" class="text-slate-400 text-sm">{{ t('faia_validator.line') }} {{ warn.line }}</span>
                                 </div>
                             </li>
                         </ul>
@@ -366,7 +369,7 @@ const statusIcon = computed(() => {
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Informations ({{ result.info.length }})
+                                {{ t('faia_validator.info_title') }} ({{ result.info.length }})
                             </h3>
                         </div>
                         <ul class="divide-y divide-slate-100">
@@ -390,24 +393,24 @@ const statusIcon = computed(() => {
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
-                            Valider un autre fichier
+                            {{ t('faia_validator.validate_another') }}
                         </button>
                     </div>
 
                     <!-- CTA -->
                     <div class="bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] rounded-2xl p-8 text-center">
                         <h3 class="text-xl font-bold text-white mb-2">
-                            Générez vos fichiers FAIA automatiquement
+                            {{ t('faia_validator.cta_title') }}
                         </h3>
                         <p class="text-white/80 mb-6">
-                            Créez des factures conformes et exportez au format FAIA en un clic avec faktur.lu
+                            {{ t('faia_validator.cta_subtitle') }}
                         </p>
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
                             class="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#9b5de5] font-semibold rounded-xl hover:bg-slate-50 transition-colors"
                         >
-                            Créer un compte gratuit
+                            {{ t('faia_validator.cta_button') }}
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
@@ -417,7 +420,7 @@ const statusIcon = computed(() => {
 
                 <!-- Features section -->
                 <div v-if="!result" class="mt-16">
-                    <h2 class="text-xl font-bold text-slate-900 mb-6 text-center">Validations effectuées</h2>
+                    <h2 class="text-xl font-bold text-slate-900 mb-6 text-center">{{ t('faia_validator.validations_title') }}</h2>
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div class="bg-white rounded-xl p-5 border border-slate-200">
                             <div class="w-10 h-10 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center mb-3">
@@ -425,8 +428,8 @@ const statusIcon = computed(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-slate-900 mb-1">Structure XML</h3>
-                            <p class="text-sm text-slate-600">Validation de la syntaxe XML et de l'encodage UTF-8</p>
+                            <h3 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.validation_xml') }}</h3>
+                            <p class="text-sm text-slate-600">{{ t('faia_validator.validation_xml_desc') }}</p>
                         </div>
                         <div class="bg-white rounded-xl p-5 border border-slate-200">
                             <div class="w-10 h-10 rounded-lg bg-[#00bbf9]/10 flex items-center justify-center mb-3">
@@ -434,8 +437,8 @@ const statusIcon = computed(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-slate-900 mb-1">Schéma FAIA 2.01</h3>
-                            <p class="text-sm text-slate-600">Conformité au schéma XSD officiel de l'AED</p>
+                            <h3 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.validation_schema') }}</h3>
+                            <p class="text-sm text-slate-600">{{ t('faia_validator.validation_schema_desc') }}</p>
                         </div>
                         <div class="bg-white rounded-xl p-5 border border-slate-200">
                             <div class="w-10 h-10 rounded-lg bg-[#f15bb5]/10 flex items-center justify-center mb-3">
@@ -443,8 +446,8 @@ const statusIcon = computed(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-slate-900 mb-1">Données société</h3>
-                            <p class="text-sm text-slate-600">Vérification du matricule et numéro TVA</p>
+                            <h3 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.validation_company') }}</h3>
+                            <p class="text-sm text-slate-600">{{ t('faia_validator.validation_company_desc') }}</p>
                         </div>
                         <div class="bg-white rounded-xl p-5 border border-slate-200">
                             <div class="w-10 h-10 rounded-lg bg-[#00f5d4]/10 flex items-center justify-center mb-3">
@@ -452,8 +455,8 @@ const statusIcon = computed(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-slate-900 mb-1">Numérotation</h3>
-                            <p class="text-sm text-slate-600">Détection des ruptures de séquence</p>
+                            <h3 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.validation_numbering') }}</h3>
+                            <p class="text-sm text-slate-600">{{ t('faia_validator.validation_numbering_desc') }}</p>
                         </div>
                         <div class="bg-white rounded-xl p-5 border border-slate-200">
                             <div class="w-10 h-10 rounded-lg bg-[#fee440]/10 flex items-center justify-center mb-3">
@@ -461,8 +464,8 @@ const statusIcon = computed(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-slate-900 mb-1">Calculs TVA</h3>
-                            <p class="text-sm text-slate-600">Cohérence des totaux HT, TVA et TTC</p>
+                            <h3 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.validation_vat') }}</h3>
+                            <p class="text-sm text-slate-600">{{ t('faia_validator.validation_vat_desc') }}</p>
                         </div>
                         <div class="bg-white rounded-xl p-5 border border-slate-200">
                             <div class="w-10 h-10 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center mb-3">
@@ -470,36 +473,34 @@ const statusIcon = computed(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                             </div>
-                            <h3 class="font-semibold text-slate-900 mb-1">Clients & Fournisseurs</h3>
-                            <p class="text-sm text-slate-600">Validation des identifiants et TVA</p>
+                            <h3 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.validation_parties') }}</h3>
+                            <p class="text-sm text-slate-600">{{ t('faia_validator.validation_parties_desc') }}</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- FAQ / Info section -->
                 <div v-if="!result" class="mt-16 bg-white rounded-2xl border border-slate-200 p-8">
-                    <h2 class="text-xl font-bold text-slate-900 mb-6">Qu'est-ce que le FAIA ?</h2>
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{{ t('faia_validator.faq_title') }}</h2>
                     <div class="prose prose-slate max-w-none">
                         <p>
-                            Le <strong>FAIA (Fichier d'Audit Informatisé AED)</strong> est un format standard XML exigé par
-                            l'Administration des contributions directes du Luxembourg pour les contrôles fiscaux des entreprises.
+                            {{ t('faia_validator.faq_intro') }}
                         </p>
                         <p>
-                            Depuis 2015, les entreprises luxembourgeoises utilisant un système informatisé de comptabilité
-                            doivent être en mesure de fournir leurs données comptables dans ce format lors d'un contrôle fiscal.
+                            {{ t('faia_validator.faq_since') }}
                         </p>
-                        <h3>Que contient un fichier FAIA ?</h3>
+                        <h3>{{ t('faia_validator.faq_content_title') }}</h3>
                         <ul>
-                            <li>Informations sur l'entreprise (matricule, TVA, adresse)</li>
-                            <li>Plan comptable utilisé</li>
-                            <li>Liste des clients et fournisseurs</li>
-                            <li>Factures de vente avec leur détail</li>
-                            <li>Écritures comptables (journal)</li>
+                            <li>{{ t('faia_validator.faq_content_company') }}</li>
+                            <li>{{ t('faia_validator.faq_content_accounts') }}</li>
+                            <li>{{ t('faia_validator.faq_content_parties') }}</li>
+                            <li>{{ t('faia_validator.faq_content_invoices') }}</li>
+                            <li>{{ t('faia_validator.faq_content_journal') }}</li>
                         </ul>
-                        <h3>Ressources officielles</h3>
+                        <h3>{{ t('faia_validator.faq_resources_title') }}</h3>
                         <p>
                             <a href="https://pfi.public.lu/fr/e-file/faia.html" target="_blank" rel="noopener noreferrer" class="text-[#9b5de5] hover:underline">
-                                Documentation FAIA - Administration des contributions
+                                {{ t('faia_validator.faq_resources_link') }}
                             </a>
                         </p>
                     </div>

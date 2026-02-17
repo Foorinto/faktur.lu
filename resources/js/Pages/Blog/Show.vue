@@ -1,6 +1,10 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+
+const { localizedRoute, currentLocale } = useLocalizedRoute();
 
 const props = defineProps({
     post: Object,
@@ -8,7 +12,8 @@ const props = defineProps({
 });
 
 const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('fr-FR', {
+    const localeMap = { 'fr': 'fr-FR', 'de': 'de-DE', 'en': 'en-GB', 'lb': 'lb-LU' };
+    return new Date(date).toLocaleDateString(localeMap[currentLocale()] || 'fr-FR', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
@@ -32,18 +37,13 @@ const shareOnFacebook = () => {
 </script>
 
 <template>
-    <Head>
-        <title>{{ post.meta_title }} | faktur.lu</title>
-        <meta name="description" :content="post.meta_description" />
-        <meta property="og:title" :content="post.meta_title" />
-        <meta property="og:description" :content="post.meta_description" />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" :content="route('blog.show', post.slug)" />
-        <meta v-if="post.cover_image_url" property="og:image" :content="post.cover_image_url" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" :content="post.meta_title" />
-        <meta name="twitter:description" :content="post.meta_description" />
-    </Head>
+    <SeoHead
+        :title="`${post.meta_title} | faktur.lu`"
+        :description="post.meta_description"
+        :canonical-path="`/blog/${post.slug}`"
+        :image="post.cover_image_url"
+        type="article"
+    />
 
     <MarketingLayout>
         <article class="bg-white">
@@ -69,11 +69,11 @@ const shareOnFacebook = () => {
                                 </li>
                                 <li>/</li>
                                 <li>
-                                    <Link :href="route('blog.index')" class="hover:text-white">Blog</Link>
+                                    <Link :href="localizedRoute('blog.index')" class="hover:text-white">Blog</Link>
                                 </li>
                                 <li v-if="post.category">/</li>
                                 <li v-if="post.category">
-                                    <Link :href="route('blog.category', post.category.slug)" class="hover:text-white">
+                                    <Link :href="localizedRoute('blog.category', post.category.slug)" class="hover:text-white">
                                         {{ post.category.name }}
                                     </Link>
                                 </li>
@@ -100,7 +100,7 @@ const shareOnFacebook = () => {
                     <Link
                         v-for="tag in post.tags"
                         :key="tag.slug"
-                        :href="route('blog.tag', tag.slug)"
+                        :href="localizedRoute('blog.tag', tag.slug)"
                         class="inline-block rounded-full bg-[#9b5de5]/20 px-3 py-1 text-sm font-medium text-[#9b5de5] hover:bg-purple-200 transition-colors"
                     >
                         #{{ tag.name }}
@@ -189,7 +189,7 @@ const shareOnFacebook = () => {
                             :key="relatedPost.slug"
                             class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
                         >
-                            <Link :href="route('blog.show', relatedPost.slug)">
+                            <Link :href="localizedRoute('blog.show', relatedPost.slug)">
                                 <div v-if="relatedPost.cover_image_url" class="aspect-[16/9] overflow-hidden">
                                     <img
                                         :src="relatedPost.cover_image_url"

@@ -1,15 +1,22 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
 
 const { t } = useTranslations();
+const { localizedRoute } = useLocalizedRoute();
 
 const lastUpdated = '9 février 2026';
 </script>
 
 <template>
-    <Head title="Politique de confidentialité" />
+    <SeoHead
+        title="Politique de confidentialité | faktur.lu"
+        description="Politique de confidentialité de faktur.lu. Comment nous collectons, utilisons et protégeons vos données personnelles conformément au RGPD."
+        canonical-path="/confidentialite"
+    />
 
     <MarketingLayout>
         <!-- Content -->
@@ -307,11 +314,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="route('legal.mentions')" class="text-slate-600 hover:text-[#9b5de5]">Mentions légales</Link>
+                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-[#9b5de5]">Mentions légales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="route('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
+                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="route('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
             </div>
         </div>
     </MarketingLayout>

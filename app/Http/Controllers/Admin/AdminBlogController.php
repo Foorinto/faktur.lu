@@ -64,6 +64,10 @@ class AdminBlogController extends Controller
             $query->where('category_id', $categoryId);
         }
 
+        if ($locale = $request->get('locale')) {
+            $query->where('locale', $locale);
+        }
+
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
 
@@ -78,6 +82,7 @@ class AdminBlogController extends Controller
                 'search' => $request->get('search', ''),
                 'status' => $request->get('status', ''),
                 'category' => $request->get('category', ''),
+                'locale' => $request->get('locale', ''),
             ],
             'stats' => [
                 'total' => BlogPost::count(),
@@ -103,6 +108,7 @@ class AdminBlogController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'category_id' => 'nullable|exists:blog_categories,id',
+            'locale' => 'required|in:fr,de,en,lb',
             'cover_image' => 'nullable|image|max:2048',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
@@ -132,6 +138,7 @@ class AdminBlogController extends Controller
             'excerpt' => $validated['excerpt'],
             'content' => $validated['content'],
             'category_id' => $validated['category_id'],
+            'locale' => $validated['locale'],
             'cover_image' => $coverImage,
             'meta_title' => $validated['meta_title'],
             'meta_description' => $validated['meta_description'],
@@ -164,6 +171,7 @@ class AdminBlogController extends Controller
                 'excerpt' => $post->excerpt,
                 'content' => $post->content,
                 'category_id' => $post->category_id,
+                'locale' => $post->locale ?? 'fr',
                 'cover_image' => $post->cover_image,
                 'cover_image_url' => $post->cover_image_url,
                 'meta_title' => $post->meta_title,
@@ -185,6 +193,7 @@ class AdminBlogController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'category_id' => 'nullable|exists:blog_categories,id',
+            'locale' => 'required|in:fr,de,en,lb',
             'cover_image' => 'nullable|image|max:2048',
             'remove_cover' => 'nullable|boolean',
             'meta_title' => 'nullable|string|max:255',
@@ -217,6 +226,7 @@ class AdminBlogController extends Controller
             'excerpt' => $validated['excerpt'],
             'content' => $validated['content'],
             'category_id' => $validated['category_id'],
+            'locale' => $validated['locale'],
             'cover_image' => $coverImage,
             'meta_title' => $validated['meta_title'],
             'meta_description' => $validated['meta_description'],

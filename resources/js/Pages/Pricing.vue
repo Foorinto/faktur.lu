@@ -1,7 +1,11 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import SeoHead from '@/Components/SeoHead.vue';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+
+const { localizedRoute } = useLocalizedRoute();
 
 const props = defineProps({
     plans: Array,
@@ -40,7 +44,11 @@ const proFeatures = [
 </script>
 
 <template>
-    <Head title="Tarifs - faktur.lu | Logiciel de facturation Luxembourg" />
+    <SeoHead
+        title="Tarifs - faktur.lu | Logiciel de facturation Luxembourg"
+        description="Découvrez les tarifs de faktur.lu : plan Essentiel à 4€/mois ou Pro à 9€/mois. Facturation conforme Luxembourg avec export FAIA."
+        canonical-path="/tarifs"
+    />
 
     <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
         <!-- Navigation -->
@@ -375,13 +383,13 @@ const proFeatures = [
                         <ApplicationLogo class="h-8 w-auto text-white" />
                     </div>
                     <div class="mt-4 md:mt-0 flex space-x-6">
-                        <Link :href="route('legal.mentions')" class="text-slate-400 hover:text-white text-sm">
+                        <Link :href="localizedRoute('legal.mentions')" class="text-slate-400 hover:text-white text-sm">
                             Mentions légales
                         </Link>
-                        <Link :href="route('legal.privacy')" class="text-slate-400 hover:text-white text-sm">
+                        <Link :href="localizedRoute('legal.privacy')" class="text-slate-400 hover:text-white text-sm">
                             Confidentialité
                         </Link>
-                        <Link :href="route('legal.terms')" class="text-slate-400 hover:text-white text-sm">
+                        <Link :href="localizedRoute('legal.terms')" class="text-slate-400 hover:text-white text-sm">
                             CGU
                         </Link>
                     </div>

@@ -1,15 +1,22 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
 
 const { t } = useTranslations();
+const { localizedRoute } = useLocalizedRoute();
 
 const lastUpdated = '9 février 2026';
 </script>
 
 <template>
-    <Head title="Mentions légales" />
+    <SeoHead
+        title="Mentions légales | faktur.lu"
+        description="Mentions légales de faktur.lu : informations sur l'éditeur, l'hébergeur et la propriété intellectuelle du logiciel de facturation."
+        canonical-path="/mentions-legales"
+    />
 
     <MarketingLayout>
         <!-- Content -->
@@ -88,7 +95,7 @@ const lastUpdated = '9 février 2026';
                         </p>
                         <p class="text-slate-600 mb-4">
                             Pour plus d'informations sur le traitement de vos données et l'exercice de vos droits, veuillez consulter notre
-                            <Link :href="route('legal.privacy')" class="text-[#9b5de5] hover:underline">Politique de confidentialité</Link>.
+                            <Link :href="localizedRoute('legal.privacy')" class="text-[#9b5de5] hover:underline">Politique de confidentialité</Link>.
                         </p>
                         <p class="text-slate-600">
                             <strong>Autorité de contrôle :</strong> Commission Nationale pour la Protection des Données (CNPD)<br>
@@ -104,7 +111,7 @@ const lastUpdated = '9 février 2026';
                         </p>
                         <p class="text-slate-600">
                             Pour en savoir plus sur les cookies utilisés et gérer vos préférences, consultez notre
-                            <Link :href="route('legal.cookies')" class="text-[#9b5de5] hover:underline">Politique relative aux cookies</Link>.
+                            <Link :href="localizedRoute('legal.cookies')" class="text-[#9b5de5] hover:underline">Politique relative aux cookies</Link>.
                         </p>
                     </section>
 
@@ -124,11 +131,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="route('legal.privacy')" class="text-slate-600 hover:text-[#9b5de5]">Politique de confidentialité</Link>
+                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-[#9b5de5]">Politique de confidentialité</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="route('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
+                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="route('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
             </div>
         </div>
     </MarketingLayout>

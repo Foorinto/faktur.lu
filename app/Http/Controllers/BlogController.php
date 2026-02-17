@@ -5,20 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class BlogController extends Controller
 {
-    public function index(): Response
+    /**
+     * Get the current locale from the route or app.
+     */
+    protected function getLocale(): string
+    {
+        return request()->route('locale') ?? App::getLocale();
+    }
+
+    public function index(string $locale): Response
     {
         $posts = BlogPost::published()
+            ->forLocale($locale)
             ->with(['category', 'author'])
             ->orderByDesc('published_at')
             ->paginate(10);
 
-        $categories = BlogCategory::withCount(['posts' => function ($query) {
-            $query->published();
+        // If no posts in requested locale, try fallback to French
+        if ($posts->isEmpty() && $locale !== 'fr') {
+            $posts = BlogPost::published()
+                ->forLocale('fr')
+                ->with(['category', 'author'])
+                ->orderByDesc('published_at')
+                ->paginate(10);
+        }
+
+        $categories = BlogCategory::withCount(['posts' => function ($query) use ($locale) {
+            $query->published()->forLocale($locale);
         }])
             ->orderBy('sort_order')
             ->get()
@@ -26,7 +45,8 @@ class BlogController extends Controller
             ->values();
 
         $recentPosts = BlogPost::published()
-            ->select(['id', 'title', 'slug', 'published_at'])
+            ->forLocale($locale)
+            ->select(['id', 'title', 'slug', 'published_at', 'locale'])
             ->orderByDesc('published_at')
             ->limit(5)
             ->get();
@@ -38,7 +58,7 @@ class BlogController extends Controller
         ]);
     }
 
-    public function show(BlogPost $post): Response
+    public function show(string $locale, BlogPost $post): Response
     {
         if (!$post->isPublished()) {
             abort(404);
@@ -47,7 +67,9 @@ class BlogController extends Controller
         $post->load(['category', 'author', 'tags']);
         $post->incrementViews();
 
+        // Get related posts in the same locale first, then fallback
         $relatedPosts = BlogPost::published()
+            ->forLocale($post->locale)
             ->where('id', '!=', $post->id)
             ->where(function ($query) use ($post) {
                 $query->where('category_id', $post->category_id)
@@ -65,6 +87,7 @@ class BlogController extends Controller
                 'id' => $post->id,
                 'title' => $post->title,
                 'slug' => $post->slug,
+                'locale' => $post->locale,
                 'excerpt' => $post->excerpt,
                 'content' => $post->content,
                 'cover_image_url' => $post->cover_image_url,
@@ -96,16 +119,27 @@ class BlogController extends Controller
         ]);
     }
 
-    public function category(BlogCategory $category): Response
+    public function category(string $locale, BlogCategory $category): Response
     {
         $posts = BlogPost::published()
+            ->forLocale($locale)
             ->where('category_id', $category->id)
             ->with(['category', 'author'])
             ->orderByDesc('published_at')
             ->paginate(10);
 
-        $categories = BlogCategory::withCount(['posts' => function ($query) {
-            $query->published();
+        // Fallback to French if no posts in requested locale
+        if ($posts->isEmpty() && $locale !== 'fr') {
+            $posts = BlogPost::published()
+                ->forLocale('fr')
+                ->where('category_id', $category->id)
+                ->with(['category', 'author'])
+                ->orderByDesc('published_at')
+                ->paginate(10);
+        }
+
+        $categories = BlogCategory::withCount(['posts' => function ($query) use ($locale) {
+            $query->published()->forLocale($locale);
         }])
             ->orderBy('sort_order')
             ->get()
@@ -123,13 +157,24 @@ class BlogController extends Controller
         ]);
     }
 
-    public function tag(BlogTag $tag): Response
+    public function tag(string $locale, BlogTag $tag): Response
     {
         $posts = $tag->posts()
             ->published()
+            ->forLocale($locale)
             ->with(['category', 'author'])
             ->orderByDesc('published_at')
             ->paginate(10);
+
+        // Fallback to French if no posts in requested locale
+        if ($posts->isEmpty() && $locale !== 'fr') {
+            $posts = $tag->posts()
+                ->published()
+                ->forLocale('fr')
+                ->with(['category', 'author'])
+                ->orderByDesc('published_at')
+                ->paginate(10);
+        }
 
         return Inertia::render('Blog/Tag', [
             'tag' => [

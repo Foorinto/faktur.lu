@@ -19,6 +19,7 @@ const form = useForm({
     excerpt: '',
     content: '',
     category_id: '',
+    locale: 'fr',
     cover_image: null,
     meta_title: '',
     meta_description: '',
@@ -27,6 +28,13 @@ const form = useForm({
     tags: [],
     new_tags: [],
 });
+
+const locales = {
+    fr: 'Français',
+    de: 'Deutsch',
+    en: 'English',
+    lb: 'Lëtzebuergesch',
+};
 
 const previewImage = ref(null);
 const newTagInput = ref('');
@@ -220,6 +228,21 @@ const submit = () => {
                             {{ form.processing ? 'Enregistrement...' : 'Enregistrer' }}
                         </PrimaryButton>
                     </div>
+                </div>
+
+                <!-- Locale -->
+                <div class="rounded-xl bg-slate-800 p-6">
+                    <h3 class="mb-4 text-lg font-semibold text-white">Langue</h3>
+
+                    <select
+                        v-model="form.locale"
+                        class="block w-full rounded-lg border-slate-600 bg-slate-700 text-white focus:border-purple-500 focus:ring-purple-500"
+                    >
+                        <option v-for="(name, code) in locales" :key="code" :value="code">
+                            {{ name }}
+                        </option>
+                    </select>
+                    <InputError :message="form.errors.locale" class="mt-2" />
                 </div>
 
                 <!-- Category -->

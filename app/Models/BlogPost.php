@@ -12,6 +12,7 @@ class BlogPost extends Model
 {
     protected $fillable = [
         'author_id',
+        'locale',
         'category_id',
         'title',
         'slug',
@@ -69,6 +70,32 @@ class BlogPost extends Model
     public function scopeArchived(Builder $query): Builder
     {
         return $query->where('status', 'archived');
+    }
+
+    /**
+     * Scope to filter posts by locale.
+     * Falls back to default locale (fr) if no posts found.
+     */
+    public function scopeForLocale(Builder $query, string $locale): Builder
+    {
+        return $query->where('locale', $locale);
+    }
+
+    /**
+     * Scope to filter posts by locale with fallback to French.
+     */
+    public function scopeForLocaleWithFallback(Builder $query, string $locale): Builder
+    {
+        // If the requested locale is already French, no fallback needed
+        if ($locale === 'fr') {
+            return $query->where('locale', 'fr');
+        }
+
+        // Include both the requested locale and French as fallback
+        return $query->where(function ($q) use ($locale) {
+            $q->where('locale', $locale)
+              ->orWhere('locale', 'fr');
+        });
     }
 
     public function isPublished(): bool

@@ -1,6 +1,10 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+
+const { localizedRoute, currentLocale } = useLocalizedRoute();
 
 const props = defineProps({
     tag: Object,
@@ -8,7 +12,8 @@ const props = defineProps({
 });
 
 const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('fr-FR', {
+    const localeMap = { 'fr': 'fr-FR', 'de': 'de-DE', 'en': 'en-GB', 'lb': 'lb-LU' };
+    return new Date(date).toLocaleDateString(localeMap[currentLocale()] || 'fr-FR', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
@@ -17,10 +22,11 @@ const formatDate = (date) => {
 </script>
 
 <template>
-    <Head>
-        <title>#{{ tag.name }} - Blog | faktur.lu</title>
-        <meta :content="`Articles tagués ${tag.name} sur la facturation au Luxembourg.`" name="description" />
-    </Head>
+    <SeoHead
+        :title="`#${tag.name} - Blog | faktur.lu`"
+        :description="`Articles tagués ${tag.name} sur la facturation au Luxembourg.`"
+        :canonical-path="`/blog/tag/${tag.slug}`"
+    />
 
     <MarketingLayout>
         <div class="py-12 sm:py-16">
@@ -33,7 +39,7 @@ const formatDate = (date) => {
                         </li>
                         <li>/</li>
                         <li>
-                            <Link :href="route('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
+                            <Link :href="localizedRoute('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
                         </li>
                         <li>/</li>
                         <li class="text-gray-900 font-medium">#{{ tag.name }}</li>
@@ -57,7 +63,7 @@ const formatDate = (date) => {
                         :key="post.id"
                         class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
                     >
-                        <Link :href="route('blog.show', post.slug)" class="flex flex-col sm:flex-row">
+                        <Link :href="localizedRoute('blog.show', post.slug)" class="flex flex-col sm:flex-row">
                             <div v-if="post.cover_image" class="sm:w-48 aspect-video sm:aspect-square shrink-0 overflow-hidden">
                                 <img
                                     :src="post.cover_image.startsWith('http') ? post.cover_image : `/storage/${post.cover_image}`"
@@ -95,7 +101,7 @@ const formatDate = (date) => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                     <h3 class="mt-2 text-lg font-medium text-gray-900">Aucun article avec ce tag</h3>
-                    <Link :href="route('blog.index')" class="mt-4 inline-block text-[#9b5de5] hover:text-[#9b5de5]">
+                    <Link :href="localizedRoute('blog.index')" class="mt-4 inline-block text-[#9b5de5] hover:text-[#9b5de5]">
                         Retour au blog
                     </Link>
                 </div>
@@ -125,7 +131,7 @@ const formatDate = (date) => {
                 <!-- Back link -->
                 <div class="mt-8 text-center">
                     <Link
-                        :href="route('blog.index')"
+                        :href="localizedRoute('blog.index')"
                         class="inline-flex items-center text-[#9b5de5] hover:text-[#9b5de5] font-medium"
                     >
                         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

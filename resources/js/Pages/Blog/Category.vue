@@ -1,6 +1,10 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+
+const { localizedRoute, currentLocale } = useLocalizedRoute();
 
 const props = defineProps({
     category: Object,
@@ -9,7 +13,8 @@ const props = defineProps({
 });
 
 const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('fr-FR', {
+    const localeMap = { 'fr': 'fr-FR', 'de': 'de-DE', 'en': 'en-GB', 'lb': 'lb-LU' };
+    return new Date(date).toLocaleDateString(localeMap[currentLocale()] || 'fr-FR', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
@@ -18,10 +23,11 @@ const formatDate = (date) => {
 </script>
 
 <template>
-    <Head>
-        <title>{{ category.name }} - Blog | faktur.lu</title>
-        <meta :content="`Articles de la catégorie ${category.name} sur la facturation au Luxembourg.`" name="description" />
-    </Head>
+    <SeoHead
+        :title="`${category.name} - Blog | faktur.lu`"
+        :description="`Articles de la catégorie ${category.name} sur la facturation au Luxembourg.`"
+        :canonical-path="`/blog/categorie/${category.slug}`"
+    />
 
     <MarketingLayout>
         <div class="py-12 sm:py-16">
@@ -34,7 +40,7 @@ const formatDate = (date) => {
                         </li>
                         <li>/</li>
                         <li>
-                            <Link :href="route('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
+                            <Link :href="localizedRoute('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
                         </li>
                         <li>/</li>
                         <li class="text-gray-900 font-medium">{{ category.name }}</li>
@@ -61,7 +67,7 @@ const formatDate = (date) => {
                                 :key="post.id"
                                 class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
                             >
-                                <Link :href="route('blog.show', post.slug)">
+                                <Link :href="localizedRoute('blog.show', post.slug)">
                                     <div v-if="post.cover_image" class="aspect-[16/9] overflow-hidden">
                                         <img
                                             :src="post.cover_image.startsWith('http') ? post.cover_image : `/storage/${post.cover_image}`"
@@ -141,7 +147,7 @@ const formatDate = (date) => {
                             <ul class="space-y-2">
                                 <li v-for="cat in categories" :key="cat.id">
                                     <Link
-                                        :href="route('blog.category', cat.slug)"
+                                        :href="localizedRoute('blog.category', cat.slug)"
                                         :class="[
                                             'flex items-center justify-between transition-colors',
                                             cat.slug === category.slug

@@ -774,10 +774,28 @@ return [
             'pricing' => 'Preise',
             'faq' => 'FAQ',
             'faia_validator' => 'FAIA-Validator',
+            'blog' => 'Blog',
             'dashboard' => 'Dashboard',
             'login' => 'Anmelden',
             'create_account' => 'Konto erstellen',
+            'free_trial' => 'Kostenlos testen',
+            'language' => 'Sprache',
         ],
+
+        'footer' => [
+            'tagline' => 'Rechnungssoftware für Freiberufler und KMU in Luxemburg. FAIA-konform.',
+            'product' => 'Produkt',
+            'resources' => 'Ressourcen',
+            'legal' => 'Rechtliches',
+            'legal_notice' => 'Impressum',
+            'privacy' => 'Datenschutz',
+            'terms' => 'AGB',
+            'cookies' => 'Cookies',
+            'gdpr' => 'DSGVO-Konformität',
+            'aed_compliant' => 'Konform mit den Anforderungen der AED Luxemburg',
+            'all_rights' => 'Alle Rechte vorbehalten',
+        ],
+
         'hero' => [
             'badge' => 'Luxemburg-konform',
             'title_1' => 'Rechnungsstellung',
@@ -810,6 +828,117 @@ return [
             'title' => 'Funktionen',
             'heading' => 'Alles was Sie brauchen',
             'subtitle' => 'Eine komplette Lösung für Ihre Rechnungsstellung in Luxemburg.',
+            'all_features' => 'Alle Funktionen',
+            'categories' => [
+                'invoicing' => [
+                    'title' => 'Professionelle Rechnungsstellung',
+                    'items' => [
+                        'invoices' => [
+                            'title' => 'Konforme Rechnungen',
+                            'description' => 'Fortlaufende Nummerierung, Pflichtangaben, automatische MwSt.',
+                        ],
+                        'quotes' => [
+                            'title' => 'Professionelle Angebote',
+                            'description' => 'Erstellen Sie Angebote und wandeln Sie sie mit einem Klick in Rechnungen um.',
+                        ],
+                        'credit_notes' => [
+                            'title' => 'Gutschriften',
+                            'description' => 'Erstellen Sie Gutschriften mit vollständiger Rückverfolgbarkeit.',
+                        ],
+                        'recurring' => [
+                            'title' => 'Wiederkehrende Rechnungen',
+                            'description' => 'Automatisieren Sie Ihre monatlichen Rechnungen.',
+                        ],
+                        'multi_currency' => [
+                            'title' => 'Multi-Währung',
+                            'description' => 'Rechnung in EUR, USD, CHF oder jeder anderen Währung.',
+                        ],
+                        'email' => [
+                            'title' => 'E-Mail-Versand',
+                            'description' => 'Senden Sie Rechnungen direkt aus der Anwendung.',
+                        ],
+                    ],
+                ],
+                'compliance' => [
+                    'title' => 'Luxemburg-Konformität',
+                    'items' => [
+                        'faia' => [
+                            'title' => 'FAIA-Export 2.01',
+                            'description' => 'Konforme Prüfdatei für Steuerprüfungen.',
+                        ],
+                        'peppol' => [
+                            'title' => 'Peppol B2G',
+                            'description' => 'Elektronische Rechnungsstellung für den öffentlichen Sektor (bald).',
+                        ],
+                        'vat' => [
+                            'title' => 'Automatische MwSt',
+                            'description' => 'Automatische Berechnung: 17%, 14%, 8%, 3% oder befreit.',
+                        ],
+                        'archive' => [
+                            'title' => 'PDF/A-Archivierung 10 Jahre',
+                            'description' => 'Rechtskonforme Aufbewahrung mit SHA256-Fingerabdruck.',
+                        ],
+                        'audit' => [
+                            'title' => 'Vollständiger Audit-Trail',
+                            'description' => 'Nachverfolgbarkeit aller Aktionen für Compliance.',
+                        ],
+                        'vies' => [
+                            'title' => 'VIES MwSt-Validierung',
+                            'description' => 'Automatische Überprüfung von EU-MwSt-Nummern.',
+                        ],
+                    ],
+                ],
+                'management' => [
+                    'title' => 'Tägliche Verwaltung',
+                    'items' => [
+                        'clients' => [
+                            'title' => 'Kundenverwaltung',
+                            'description' => 'Kundendateien mit Historie, innergemeinschaftliche MwSt.',
+                        ],
+                        'projects' => [
+                            'title' => 'Projektverwaltung',
+                            'description' => 'Projekte, Aufgaben, Kanban-Ansicht und Stundenbudget.',
+                        ],
+                        'time_tracking' => [
+                            'title' => 'Zeiterfassung',
+                            'description' => 'Ein-Klick-Timer, manuelle Einträge, Umwandlung in Rechnung.',
+                        ],
+                        'expenses' => [
+                            'title' => 'Ausgabenverfolgung',
+                            'description' => 'Kategorisierung, abzugsfähige MwSt, Belege.',
+                        ],
+                        'dashboard' => [
+                            'title' => 'Dashboard',
+                            'description' => 'Echtzeit-KPIs, monatlicher Umsatz, Diagramme.',
+                        ],
+                        'revenue_book' => [
+                            'title' => 'Einnahmenbuch',
+                            'description' => 'Konforme Zusammenfassung für Ihre Buchhaltung.',
+                        ],
+                    ],
+                ],
+                'security' => [
+                    'title' => 'Sicherheit & Zusammenarbeit',
+                    'items' => [
+                        'two_factor' => [
+                            'title' => '2FA-Authentifizierung',
+                            'description' => 'Sichern Sie Ihr Konto mit Google Authenticator.',
+                        ],
+                        'accountant' => [
+                            'title' => 'Buchhalter-Zugang',
+                            'description' => 'Lesezugriff für Ihren Treuhänder.',
+                        ],
+                        'encryption' => [
+                            'title' => 'Verschlüsselte Daten',
+                            'description' => 'Verschlüsselung sensibler Daten, EU-Hosting.',
+                        ],
+                        'backup' => [
+                            'title' => 'Tägliche Backups',
+                            'description' => 'Ihre Daten werden automatisch gesichert.',
+                        ],
+                    ],
+                ],
+            ],
             'items' => [
                 'invoicing' => [
                     'title' => 'Konforme Rechnungsstellung',
@@ -958,16 +1087,77 @@ return [
             'subtitle' => 'Schließen Sie sich luxemburgischen Unternehmern an, die faktur.lu vertrauen',
             'button' => '14 Tage kostenlos testen',
         ],
-        'footer' => [
-            'description' => 'Die moderne und konforme Rechnungslösung für Unternehmer in Luxemburg.',
-            'product' => 'Produkt',
-            'compliance' => 'Konformität',
-            'faia_export' => 'FAIA-Export',
-            'vat_luxembourg' => 'Luxemburger MwSt',
-            'gdpr' => 'DSGVO',
-            'faia_compliant' => 'Konform mit luxemburgischen Anforderungen',
-            'copyright' => '© 2026 faktur.lu. Alle Rechte vorbehalten.',
-        ],
+    ],
+
+    // FAIA Validator (public page)
+    'faia_validator' => [
+        'page_title' => 'Kostenloser FAIA-Validator - Überprüfen Sie Ihre Luxemburger Dateien | faktur.lu',
+        'meta_description' => 'Validieren Sie Ihre FAIA-Dateien (AED Computerisierte Prüfungsdatei) für Luxemburg kostenlos. Konformitätsprüfung, XML-Struktur, Rechnungsnummerierung und MwSt-Berechnungen.',
+        'badge_free' => 'Kostenloses Tool',
+        'title' => 'Luxemburger FAIA-Validator',
+        'subtitle' => 'Überprüfen Sie die Konformität Ihrer FAIA-Prüfungsdateien, bevor Sie sie bei der direkten Steuerverwaltung einreichen.',
+        'drop_file' => 'Ziehen Sie Ihre FAIA-Datei hierher',
+        'or_click' => 'oder klicken Sie zum Durchsuchen',
+        'format_accepted' => 'Akzeptiertes Format: .xml (max 50 MB)',
+        'change_file' => 'Datei ändern',
+        'validate_button' => 'Datei validieren',
+        'validating' => 'Validierung läuft...',
+        'error_xml_only' => 'Nur .xml-Dateien werden akzeptiert.',
+        'error_file_size' => 'Die Datei darf 50 MB nicht überschreiten.',
+        'error_connection' => 'Verbindungsfehler. Bitte versuchen Sie es erneut.',
+        'errors_count' => ':count Fehler',
+        'warnings_count' => ':count Warnung(en)',
+        'info_count' => ':count Info(s)',
+        'errors_title' => 'Fehler',
+        'warnings_title' => 'Warnungen',
+        'info_title' => 'Informationen',
+        'line' => 'Zeile',
+        'validate_another' => 'Andere Datei validieren',
+        'cta_title' => 'Generieren Sie Ihre FAIA-Dateien automatisch',
+        'cta_subtitle' => 'Erstellen Sie konforme Rechnungen und exportieren Sie mit einem Klick im FAIA-Format mit faktur.lu',
+        'cta_button' => 'Kostenloses Konto erstellen',
+        'validations_title' => 'Durchgeführte Validierungen',
+        'validation_xml' => 'XML-Struktur',
+        'validation_xml_desc' => 'XML-Syntax- und UTF-8-Codierungsvalidierung',
+        'validation_schema' => 'FAIA 2.01 Schema',
+        'validation_schema_desc' => 'Konformität mit dem offiziellen AED XSD-Schema',
+        'validation_company' => 'Unternehmensdaten',
+        'validation_company_desc' => 'Überprüfung der Matrikelnummer und USt-IdNr',
+        'validation_numbering' => 'Nummerierung',
+        'validation_numbering_desc' => 'Erkennung von Sequenzlücken',
+        'validation_vat' => 'MwSt-Berechnungen',
+        'validation_vat_desc' => 'Konsistenz der Netto-, MwSt- und Bruttosummen',
+        'validation_parties' => 'Kunden & Lieferanten',
+        'validation_parties_desc' => 'Validierung von Kennungen und USt-IdNr',
+        'faq_title' => 'Was ist FAIA?',
+        'faq_intro' => 'FAIA (AED Computerisierte Prüfungsdatei) ist ein Standard-XML-Format, das von der luxemburgischen direkten Steuerverwaltung für Steuerprüfungen von Unternehmen verlangt wird.',
+        'faq_since' => 'Seit 2015 müssen luxemburgische Unternehmen, die computergestützte Buchhaltungssysteme verwenden, in der Lage sein, ihre Buchhaltungsdaten bei einer Steuerprüfung in diesem Format bereitzustellen.',
+        'faq_content_title' => 'Was enthält eine FAIA-Datei?',
+        'faq_content_company' => 'Unternehmensinformationen (Matrikelnummer, USt-IdNr, Adresse)',
+        'faq_content_accounts' => 'Verwendeter Kontenplan',
+        'faq_content_parties' => 'Liste der Kunden und Lieferanten',
+        'faq_content_invoices' => 'Verkaufsrechnungen mit ihren Details',
+        'faq_content_journal' => 'Buchungseinträge (Journal)',
+        'faq_resources_title' => 'Offizielle Ressourcen',
+        'faq_resources_link' => 'FAIA-Dokumentation - Steuerverwaltung',
+    ],
+
+    // Blog Index
+    'blog' => [
+        'page_title' => 'Blog - Nachrichten und Leitfäden zur Rechnungsstellung in Luxemburg | faktur.lu',
+        'meta_description' => 'Entdecken Sie unsere praktischen Leitfäden zur Rechnungsstellung in Luxemburg, FAIA-Nachrichten, MwSt und Tipps für Freiberufler und KMU.',
+        'title' => 'Blog',
+        'subtitle' => 'Leitfäden, Nachrichten und Tipps zur Rechnungsstellung in Luxemburg',
+        'read_more' => 'Weiterlesen',
+        'no_posts' => 'Keine Artikel',
+        'posts_coming_soon' => 'Artikel kommen bald!',
+        'categories' => 'Kategorien',
+        'no_categories' => 'Keine Kategorien',
+        'recent_posts' => 'Neueste Artikel',
+        'no_recent_posts' => 'Keine aktuellen Artikel',
+        'cta_title' => 'Testen Sie faktur.lu',
+        'cta_subtitle' => 'Erstellen Sie Ihre konformen Rechnungen in Luxemburg mit wenigen Klicks.',
+        'cta_button' => '14 Tage kostenlos testen',
     ],
 
     // Support

@@ -774,10 +774,28 @@ return [
             'pricing' => 'Präisser',
             'faq' => 'FAQ',
             'faia_validator' => 'FAIA-Validator',
+            'blog' => 'Blog',
             'dashboard' => 'Dashboard',
             'login' => 'Aloggen',
             'create_account' => 'Kont erstellen',
+            'free_trial' => 'Gratis testen',
+            'language' => 'Sprooch',
         ],
+
+        'footer' => [
+            'tagline' => 'Rechnungssoftware fir Freelanceren a KMUen zu Lëtzebuerg. FAIA-konform.',
+            'product' => 'Produkt',
+            'resources' => 'Ressourcen',
+            'legal' => 'Rechtleches',
+            'legal_notice' => 'Impressum',
+            'privacy' => 'Dateschutz',
+            'terms' => 'AGB',
+            'cookies' => 'Cookies',
+            'gdpr' => 'DSGVO-Konformitéit',
+            'aed_compliant' => 'Konform mat den Ufuerderunge vun der AED Lëtzebuerg',
+            'all_rights' => 'All Rechter reservéiert',
+        ],
+
         'hero' => [
             'badge' => 'Lëtzebuerg-konform',
             'title_1' => 'Rechnungsstellung',
@@ -810,6 +828,117 @@ return [
             'title' => 'Funktiounen',
             'heading' => 'Alles wat Dir braucht',
             'subtitle' => 'Eng komplett Léisung fir Är Rechnungsstellung zu Lëtzebuerg.',
+            'all_features' => 'All Funktiounen',
+            'categories' => [
+                'invoicing' => [
+                    'title' => 'Professionell Rechnungsstellung',
+                    'items' => [
+                        'invoices' => [
+                            'title' => 'Konform Rechnungen',
+                            'description' => 'Sequentiell Nummeréierung, Pflichtangaben, automatesch TVA.',
+                        ],
+                        'quotes' => [
+                            'title' => 'Professionell Devis',
+                            'description' => 'Erstellt Devis a konvertéiert se mat engem Klick an Rechnungen.',
+                        ],
+                        'credit_notes' => [
+                            'title' => 'Avoire',
+                            'description' => 'Erstellt Avoire mat kompletter Réckverfolgbarkeet.',
+                        ],
+                        'recurring' => [
+                            'title' => 'Widderkeerend Rechnungen',
+                            'description' => 'Automatiséiert Är monatleg Rechnungen.',
+                        ],
+                        'multi_currency' => [
+                            'title' => 'Multi-Währung',
+                            'description' => 'Fakturéiert an EUR, USD, CHF oder all aner Währung.',
+                        ],
+                        'email' => [
+                            'title' => 'E-Mail-Versand',
+                            'description' => 'Schéckt Rechnungen direkt aus der Applikatioun.',
+                        ],
+                    ],
+                ],
+                'compliance' => [
+                    'title' => 'Lëtzebuerg-Konformitéit',
+                    'items' => [
+                        'faia' => [
+                            'title' => 'FAIA-Export 2.01',
+                            'description' => 'Konform Audit-Fichier fir Steierkontroller.',
+                        ],
+                        'peppol' => [
+                            'title' => 'Peppol B2G',
+                            'description' => 'Elektronesch Rechnungsstellung fir den ëffentleche Secteur (geschwënn).',
+                        ],
+                        'vat' => [
+                            'title' => 'Automatesch TVA',
+                            'description' => 'Automatesch Berechnung: 17%, 14%, 8%, 3% oder befreit.',
+                        ],
+                        'archive' => [
+                            'title' => 'PDF/A-Archivéierung 10 Joer',
+                            'description' => 'Legal konform Opbewahrung mat SHA256-Emprint.',
+                        ],
+                        'audit' => [
+                            'title' => 'Komplett Audit-Trail',
+                            'description' => 'Réckverfolgbarkeet vun allen Aktiounen fir Compliance.',
+                        ],
+                        'vies' => [
+                            'title' => 'VIES TVA-Validatioun',
+                            'description' => 'Automatesch Verifizéierung vun EU-TVA-Nummeren.',
+                        ],
+                    ],
+                ],
+                'management' => [
+                    'title' => 'Deeglech Verwaltung',
+                    'items' => [
+                        'clients' => [
+                            'title' => 'Clientesverwaltung',
+                            'description' => 'Clientsdateien mat Historique, intrakommunautär TVA.',
+                        ],
+                        'projects' => [
+                            'title' => 'Projektverwaltung',
+                            'description' => 'Projeten, Aufgaben, Kanban-Vue a Stonnebudget.',
+                        ],
+                        'time_tracking' => [
+                            'title' => 'Zäiterfassung',
+                            'description' => 'Een-Klick-Timer, manuell Androen, Konversioun an Rechnung.',
+                        ],
+                        'expenses' => [
+                            'title' => 'Ausgabeverfolgung',
+                            'description' => 'Kategorisatioun, ofzuchsfäeg TVA, Beleger.',
+                        ],
+                        'dashboard' => [
+                            'title' => 'Dashboard',
+                            'description' => 'Echtzäit-KPIs, monatlechen Ëmsaz, Grafiken.',
+                        ],
+                        'revenue_book' => [
+                            'title' => 'Akommebuch',
+                            'description' => 'Konform Zesummefaassung fir Är Buchhaltung.',
+                        ],
+                    ],
+                ],
+                'security' => [
+                    'title' => 'Sécherheet & Zesummenaarbecht',
+                    'items' => [
+                        'two_factor' => [
+                            'title' => '2FA-Authentifizéierung',
+                            'description' => 'Séchert Äre Kont mat Google Authenticator.',
+                        ],
+                        'accountant' => [
+                            'title' => 'Comptablen-Zougang',
+                            'description' => 'Liesezougang fir Äre Fiduciaire.',
+                        ],
+                        'encryption' => [
+                            'title' => 'Verschlësselt Daten',
+                            'description' => 'Verschlësselung vu sensibelen Daten, EU-Hosting.',
+                        ],
+                        'backup' => [
+                            'title' => 'Deeglech Backups',
+                            'description' => 'Är Daten ginn automatesch geséchert.',
+                        ],
+                    ],
+                ],
+            ],
             'items' => [
                 'invoicing' => [
                     'title' => 'Konform Rechnungsstellung',
@@ -958,16 +1087,77 @@ return [
             'subtitle' => 'Gitt bei Lëtzebuerger Entrepreneure bäi, déi faktur.lu vertrauen',
             'button' => '14 Deeg gratis testen',
         ],
-        'footer' => [
-            'description' => 'Déi modern a konform Rechnungsléisung fir Entrepreneure zu Lëtzebuerg.',
-            'product' => 'Produkt',
-            'compliance' => 'Konformitéit',
-            'faia_export' => 'FAIA-Export',
-            'vat_luxembourg' => 'Lëtzebuerger TVA',
-            'gdpr' => 'RGPD',
-            'faia_compliant' => 'Konform mat Lëtzebuerger Ufuerderungen',
-            'copyright' => '© 2026 faktur.lu. All Rechter reservéiert.',
-        ],
+    ],
+
+    // FAIA Validator (public page)
+    'faia_validator' => [
+        'page_title' => 'Gratis FAIA Validator - Préift Är Lëtzebuerger Fichieren | faktur.lu',
+        'meta_description' => 'Validéiert Är FAIA-Fichieren (AED Computeréiert Audit Fichier) fir Lëtzebuerg gratis. Konformitéitspréifung, XML-Struktur, Rechnungsnummeréierung an TVA-Berechnungen.',
+        'badge_free' => 'Gratis Tool',
+        'title' => 'Lëtzebuerger FAIA Validator',
+        'subtitle' => 'Préift d\'Konformitéit vun Ären FAIA Audit-Fichieren ier Dir se bei der Steierverwaltung areeecht.',
+        'drop_file' => 'Zitt Äre FAIA-Fichier heihin',
+        'or_click' => 'oder klickt fir ze sichen',
+        'format_accepted' => 'Akzeptéiert Format: .xml (max 50 MB)',
+        'change_file' => 'Fichier änneren',
+        'validate_button' => 'Fichier validéieren',
+        'validating' => 'Validéierung leeft...',
+        'error_xml_only' => 'Nëmmen .xml-Fichiere ginn akzeptéiert.',
+        'error_file_size' => 'De Fichier däerf 50 MB net iwwerschreiden.',
+        'error_connection' => 'Verbindungsfehler. Probéiert et w.e.g. nach eng Kéier.',
+        'errors_count' => ':count Fehler',
+        'warnings_count' => ':count Warnung(en)',
+        'info_count' => ':count Info(s)',
+        'errors_title' => 'Feeler',
+        'warnings_title' => 'Warnungen',
+        'info_title' => 'Informatiounen',
+        'line' => 'Linn',
+        'validate_another' => 'Anere Fichier validéieren',
+        'cta_title' => 'Generéiert Är FAIA-Fichieren automatesch',
+        'cta_subtitle' => 'Erstellt konform Rechnungen an exportéiert am FAIA-Format mat engem Klick mat faktur.lu',
+        'cta_button' => 'Gratis Kont erstellen',
+        'validations_title' => 'Duerchgeféiert Validéierungen',
+        'validation_xml' => 'XML-Struktur',
+        'validation_xml_desc' => 'XML-Syntax an UTF-8-Codéierung Validéierung',
+        'validation_schema' => 'FAIA 2.01 Schema',
+        'validation_schema_desc' => 'Konformitéit mam offizielle AED XSD-Schema',
+        'validation_company' => 'Entreprisendaten',
+        'validation_company_desc' => 'Préifung vun Matrikelnummer an TVA-Nummer',
+        'validation_numbering' => 'Nummeréierung',
+        'validation_numbering_desc' => 'Erkennung vu Sequenzlücken',
+        'validation_vat' => 'TVA-Berechnungen',
+        'validation_vat_desc' => 'Konsistenz vun den Netto-, TVA- an Bruttosummen',
+        'validation_parties' => 'Clienten & Fournisseuren',
+        'validation_parties_desc' => 'Validéierung vun Identifikatiounen an TVA',
+        'faq_title' => 'Wat ass FAIA?',
+        'faq_intro' => 'FAIA (AED Computeréiert Audit Fichier) ass e Standard XML-Format dat vun der Lëtzebuerger Steierverwaltung fir Steierkontrollen vu Betriber gefuerdert gëtt.',
+        'faq_since' => 'Zënter 2015 musse Lëtzebuerger Entreprise mat computergestëtzte Buchhalungssystemer an der Lag sinn, hir Buchhalungsdaten an dësem Format bei enger Steierprüfung unzeginn.',
+        'faq_content_title' => 'Wat enthält e FAIA-Fichier?',
+        'faq_content_company' => 'Entrepriseinformatiounen (Matrikelnummer, TVA, Adress)',
+        'faq_content_accounts' => 'Benotzte Kontenplang',
+        'faq_content_parties' => 'Lëscht vu Clienten a Fournisseuren',
+        'faq_content_invoices' => 'Verkafsrechnunge mat hiren Detailer',
+        'faq_content_journal' => 'Buchungseinträg (Journal)',
+        'faq_resources_title' => 'Offiziell Ressourcen',
+        'faq_resources_link' => 'FAIA-Dokumentatioun - Steierverwaltung',
+    ],
+
+    // Blog Index
+    'blog' => [
+        'page_title' => 'Blog - Neiegkeeten a Guiden zur Rechnungsstellung zu Lëtzebuerg | faktur.lu',
+        'meta_description' => 'Entdeckt eis praktesch Guiden iwwer d\'Rechnungsstellung zu Lëtzebuerg, FAIA-Neiegkeeten, TVA an Tipps fir Freelancer a KMU.',
+        'title' => 'Blog',
+        'subtitle' => 'Guiden, Neiegkeeten an Tipps iwwer d\'Rechnungsstellung zu Lëtzebuerg',
+        'read_more' => 'Weiderliesen',
+        'no_posts' => 'Keng Artikelen',
+        'posts_coming_soon' => 'Artikele kommen geschwënn!',
+        'categories' => 'Kategorien',
+        'no_categories' => 'Keng Kategorien',
+        'recent_posts' => 'Rezent Artikelen',
+        'no_recent_posts' => 'Keng rezent Artikelen',
+        'cta_title' => 'Probéiert faktur.lu',
+        'cta_subtitle' => 'Erstellt Är konform Rechnungen zu Lëtzebuerg mat wéineg Klicken.',
+        'cta_button' => '14 Deeg gratis testen',
     ],
 
     // Support
