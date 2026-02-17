@@ -13,6 +13,10 @@ const props = defineProps({
     vatRates: Array,
     units: Array,
     isVatExempt: Boolean,
+    vatMentionOptions: Array,
+    defaultVatMention: String,
+    suggestedVatMention: String,
+    defaultQuoteFooter: String,
 });
 
 const defaultVatRate = props.isVatExempt ? 0 : 17;
@@ -62,6 +66,9 @@ const form = useForm({
     valid_until: formatDateForInput(props.quote.valid_until),
     notes: props.quote.notes || '',
     currency: props.quote.currency,
+    vat_mention: props.quote.vat_mention || '',
+    custom_vat_mention: props.quote.custom_vat_mention || '',
+    footer_message: props.quote.footer_message || '',
 });
 
 const itemForm = useForm({
@@ -415,6 +422,51 @@ const getStatusLabel = (status) => {
                                 class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                 placeholder="Conditions particulières..."
                             ></textarea>
+                        </div>
+
+                        <div class="mt-4">
+                            <InputLabel for="vat_mention" value="Mention TVA (optionnel)" />
+                            <select
+                                id="vat_mention"
+                                v-model="form.vat_mention"
+                                @change="updateQuote"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            >
+                                <option value="">Mention par défaut</option>
+                                <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                Cette mention apparaîtra sur le PDF du devis.
+                            </p>
+                        </div>
+
+                        <div v-if="form.vat_mention === 'other'" class="mt-4">
+                            <InputLabel for="custom_vat_mention" value="Mention TVA personnalisée" />
+                            <textarea
+                                id="custom_vat_mention"
+                                v-model="form.custom_vat_mention"
+                                @blur="updateQuote"
+                                rows="2"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                placeholder="Entrez votre mention TVA personnalisée..."
+                            ></textarea>
+                        </div>
+
+                        <div class="mt-4">
+                            <InputLabel for="footer_message" value="Message de pied de page (optionnel)" />
+                            <textarea
+                                id="footer_message"
+                                v-model="form.footer_message"
+                                @blur="updateQuote"
+                                rows="2"
+                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                :placeholder="defaultQuoteFooter"
+                            ></textarea>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                Si vide, le message par défaut sera utilisé : "{{ defaultQuoteFooter }}"
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -88,13 +88,29 @@ class QuoteController extends Controller
         $settings = \App\Models\BusinessSettings::getInstance();
         $defaultVatRate = $settings?->getDefaultVatRate() ?? 17;
 
+        // Get VAT scenario for default client if provided
+        $defaultClientId = $request->input('client_id');
+        $suggestedVatMention = null;
+        if ($defaultClientId) {
+            $client = Client::find($defaultClientId);
+            if ($client) {
+                $vatService = app(\App\Services\VatCalculationService::class);
+                $scenario = $vatService->determineScenario($client, $settings);
+                $suggestedVatMention = $scenario['mention'] ?? null;
+            }
+        }
+
         return Inertia::render('Quotes/Create', [
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate', 'country_code', 'type', 'vat_number']),
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
-            'defaultClientId' => $request->input('client_id'),
+            'defaultClientId' => $defaultClientId,
             'isVatExempt' => $this->isVatExempt(),
             'defaultVatRate' => $defaultVatRate,
+            'vatMentionOptions' => \App\Models\BusinessSettings::getVatMentionOptions(),
+            'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
+            'suggestedVatMention' => $suggestedVatMention,
+            'defaultQuoteFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
         ]);
     }
 
@@ -110,6 +126,9 @@ class QuoteController extends Controller
             'currency' => $request->validated('currency') ?? $client->currency,
             'valid_until' => $request->validated('valid_until'),
             'notes' => $request->validated('notes'),
+            'vat_mention' => $request->validated('vat_mention'),
+            'custom_vat_mention' => $request->validated('custom_vat_mention'),
+            'footer_message' => $request->validated('footer_message'),
             'status' => Quote::STATUS_DRAFT,
         ]);
 
@@ -156,13 +175,26 @@ class QuoteController extends Controller
         }
 
         $quote->load(['client', 'items']);
+        $settings = \App\Models\BusinessSettings::getInstance();
+
+        // Get VAT scenario for the current client
+        $suggestedVatMention = null;
+        if ($quote->client) {
+            $vatService = app(\App\Services\VatCalculationService::class);
+            $scenario = $vatService->determineScenario($quote->client, $settings);
+            $suggestedVatMention = $scenario['mention'] ?? null;
+        }
 
         return Inertia::render('Quotes/Edit', [
             'quote' => $quote,
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number']),
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
             'isVatExempt' => $this->isVatExempt(),
+            'vatMentionOptions' => \App\Models\BusinessSettings::getVatMentionOptions(),
+            'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
+            'suggestedVatMention' => $suggestedVatMention,
+            'defaultQuoteFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
         ]);
     }
 

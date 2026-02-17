@@ -37,6 +37,9 @@ class Quote extends Model
         'declined_at',
         'converted_to_invoice_id',
         'notes',
+        'vat_mention',
+        'custom_vat_mention',
+        'footer_message',
         'currency',
     ];
 
@@ -268,6 +271,29 @@ class Quote extends Model
     {
         $seller = $this->seller;
         return ($seller['vat_regime'] ?? 'franchise') === 'franchise';
+    }
+
+    /**
+     * Get the VAT mention text for this quote.
+     * Returns custom mention if set, otherwise the predefined mention text.
+     */
+    public function getVatMentionText(): ?string
+    {
+        // If custom mention is set and vat_mention is 'other', return custom text
+        if ($this->vat_mention === 'other' && $this->custom_vat_mention) {
+            return $this->custom_vat_mention;
+        }
+
+        // If no mention is set, return null
+        if (empty($this->vat_mention) || $this->vat_mention === 'none') {
+            return null;
+        }
+
+        // Get the mention text from VatCalculationService
+        $settings = BusinessSettings::getInstance();
+        $vatService = app(\App\Services\VatCalculationService::class);
+
+        return $vatService->getVatMentionText($this->vat_mention, $settings);
     }
 
     /**

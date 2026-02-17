@@ -164,6 +164,16 @@ class QuotePdfService
         // Show branding for Starter (free) users
         $showBranding = $quote->user ? $quote->user->isStarter() : true;
 
+        // Get VAT mention text
+        $vatMentionText = $quote->getVatMentionText();
+
+        // Get footer message (from quote or default)
+        $footerMessage = $quote->footer_message;
+        if (empty($footerMessage)) {
+            $settings = BusinessSettings::getInstance();
+            $footerMessage = $settings?->default_invoice_footer ?? 'Merci pour votre confiance !';
+        }
+
         return [
             'quote' => $quote,
             'seller' => $seller,
@@ -174,6 +184,8 @@ class QuotePdfService
             'logoPath' => $logoPath,
             'showBranding' => $showBranding,
             'locale' => $locale,
+            'vatMentionText' => $vatMentionText,
+            'footerMessage' => $footerMessage,
         ];
     }
 

@@ -510,7 +510,11 @@
                     @endif
                 </div>
 
-                @if($isVatExempt)
+                @if(!empty($vatMentionText))
+                    <div class="vat-notice">
+                        {{ $vatMentionText }}
+                    </div>
+                @elseif($isVatExempt)
                     <div class="vat-notice">
                         {{ __('invoice.vat_exempt') }}<br>
                         ({{ __('invoice.vat_exempt_franchise') }})
@@ -521,7 +525,7 @@
 
         <!-- Notes Section -->
         <div class="notes-section">
-            <div class="thanks-message">{{ __('invoice.thank_you') }}</div>
+            <div class="thanks-message">{{ $footerMessage ?? __('invoice.thank_you') }}</div>
             <div class="notes-content">
                 {{ __('invoice.quote_info') }}
                 {{ __('invoice.quote_prices_valid') }}

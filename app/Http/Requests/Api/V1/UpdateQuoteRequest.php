@@ -22,6 +22,9 @@ class UpdateQuoteRequest extends FormRequest
             'valid_until' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'currency' => ['sometimes', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
+            'vat_mention' => ['nullable', 'string', 'max:50'],
+            'custom_vat_mention' => ['nullable', 'string', 'max:500'],
+            'footer_message' => ['nullable', 'string', 'max:1000'],
         ];
     }
 

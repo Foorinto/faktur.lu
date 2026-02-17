@@ -19,6 +19,10 @@ const props = defineProps({
         type: Number,
         default: 17,
     },
+    vatMentionOptions: Array,
+    defaultVatMention: String,
+    suggestedVatMention: String,
+    defaultQuoteFooter: String,
 });
 
 // Get selected client
@@ -44,6 +48,9 @@ const form = useForm({
     valid_until: '',
     notes: '',
     currency: 'EUR',
+    vat_mention: props.suggestedVatMention || '',
+    custom_vat_mention: '',
+    footer_message: '',
     items: [],
 });
 
@@ -83,7 +90,7 @@ const handleCustomVatRateChange = (index, value) => {
     }
 };
 
-// Watch for client changes to update default VAT rate on items
+// Watch for client changes to update default VAT rate on items and suggest VAT mention
 watch(() => form.client_id, (newClientId) => {
     if (newClientId) {
         const client = props.clients.find(c => c.id === newClientId);
@@ -95,6 +102,16 @@ watch(() => form.client_id, (newClientId) => {
                     item.vat_rate_select = newRate;
                 }
             });
+        }
+
+        // Auto-suggest VAT mention based on client type and country
+        // Only suggest if no mention is already set
+        if (!form.vat_mention && client) {
+            // Check if it's an intra-EU B2B client
+            const isIntraEu = client.country_code && client.country_code !== 'LU' && ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'].includes(client.country_code);
+            if (client.type === 'b2b' && client.vat_number && isIntraEu) {
+                form.vat_mention = 'reverse_charge';
+            }
         }
     }
 });
@@ -317,19 +334,65 @@ if (form.items.length === 0) {
                 </div>
             </div>
 
-            <!-- Notes -->
+            <!-- Notes & Options -->
             <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes_optional') }}</h2>
                 </div>
-                <div class="px-6 py-4">
-                    <textarea
-                        v-model="form.notes"
-                        rows="3"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
-                        :placeholder="t('special_conditions')"
-                    ></textarea>
-                    <InputError :message="form.errors.notes" class="mt-2" />
+                <div class="px-6 py-4 space-y-4">
+                    <div>
+                        <InputLabel for="notes" value="Notes / Conditions" />
+                        <textarea
+                            id="notes"
+                            v-model="form.notes"
+                            rows="3"
+                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            :placeholder="t('special_conditions')"
+                        ></textarea>
+                        <InputError :message="form.errors.notes" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="vat_mention" value="Mention TVA (optionnel)" />
+                        <select
+                            id="vat_mention"
+                            v-model="form.vat_mention"
+                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        >
+                            <option value="">Mention par défaut</option>
+                            <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
+                                {{ option.label }}
+                            </option>
+                        </select>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            Cette mention apparaîtra sur le PDF du devis.
+                        </p>
+                    </div>
+
+                    <div v-if="form.vat_mention === 'other'">
+                        <InputLabel for="custom_vat_mention" value="Mention TVA personnalisée" />
+                        <textarea
+                            id="custom_vat_mention"
+                            v-model="form.custom_vat_mention"
+                            rows="2"
+                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            placeholder="Entrez votre mention TVA personnalisée..."
+                        ></textarea>
+                    </div>
+
+                    <div>
+                        <InputLabel for="footer_message" value="Message de pied de page (optionnel)" />
+                        <textarea
+                            id="footer_message"
+                            v-model="form.footer_message"
+                            rows="2"
+                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            :placeholder="defaultQuoteFooter"
+                        ></textarea>
+                        <p v-if="defaultQuoteFooter" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            Si vide, le message par défaut sera utilisé : "{{ defaultQuoteFooter }}"
+                        </p>
+                    </div>
                 </div>
             </div>
 
