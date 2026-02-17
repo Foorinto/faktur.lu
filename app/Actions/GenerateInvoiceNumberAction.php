@@ -29,7 +29,8 @@ class GenerateInvoiceNumberAction
 
         return DB::transaction(function () use ($year, $type, $prefix) {
             // Lock the table to prevent race conditions
-            $lastInvoice = Invoice::query()
+            // Use withoutGlobalScope to search across ALL users (numbers must be globally unique)
+            $lastInvoice = Invoice::withoutGlobalScope('user')
                 ->whereYear('finalized_at', $year)
                 ->where('type', $type)
                 ->whereNotNull('number')
@@ -63,7 +64,8 @@ class GenerateInvoiceNumberAction
         $year = $year ?? now()->year;
         $prefix = $this->getPrefixForType($type);
 
-        $lastInvoice = Invoice::query()
+        // Use withoutGlobalScope to search across ALL users (numbers must be globally unique)
+        $lastInvoice = Invoice::withoutGlobalScope('user')
             ->whereYear('finalized_at', $year)
             ->where('type', $type)
             ->whereNotNull('number')

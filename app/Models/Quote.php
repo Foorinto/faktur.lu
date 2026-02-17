@@ -86,8 +86,10 @@ class Quote extends Model
         $year = now()->year;
         $prefix = "DEV-{$year}-";
 
-        // Get the last quote of the year
-        $lastQuote = static::withTrashed()
+        // Get the last quote of the year across ALL users (ignore user scope)
+        // This is needed because the reference must be globally unique
+        $lastQuote = static::withoutGlobalScope('user')
+            ->withTrashed()
             ->where('reference', 'like', $prefix . '%')
             ->orderByRaw('CAST(SUBSTRING(reference, -3) AS UNSIGNED) DESC')
             ->first();
