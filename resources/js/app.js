@@ -8,6 +8,9 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+// Track if Vue app is properly mounted
+let vueAppMounted = false;
+
 // Sync CSRF token after each Inertia navigation
 // This ensures axios always has the latest token from the server
 router.on('success', (event) => {
@@ -28,13 +31,17 @@ router.on('success', (event) => {
 router.on('invalid', (event) => {
     const response = event.detail.response;
 
-    // Only reload for authentication-related errors
-    // Don't reload for validation errors (422) or other handled errors
-    if (response?.status === 401 || response?.status === 419) {
-        event.preventDefault();
+    // Prevent default and force reload for any invalid response
+    // This ensures we never show raw JSON to users
+    event.preventDefault();
+
+    // If it's an auth error or any other issue, reload the page
+    if (response?.status === 401 || response?.status === 419 || response?.status === 409) {
         window.location.reload();
+    } else {
+        // For other cases, navigate to the current URL to get fresh HTML
+        window.location.href = window.location.href;
     }
-    // For other cases, let Inertia handle it naturally
 });
 
 // Handle Inertia exceptions (network errors, etc.)
@@ -43,74 +50,107 @@ router.on('exception', (event) => {
     // by reloading the page
     if (event.detail.exception) {
         console.error('Inertia exception:', event.detail.exception);
+        // Force reload on exception to recover
+        window.location.reload();
     }
 });
 
 // Detect and fix JSON/Inertia response being displayed as raw text
 // This can happen when browser shows cached XHR response or bfcache restores stale state
 const detectJsonDisplay = () => {
-    // Check if body has no #app element (Inertia container)
-    const app = document.getElementById('app');
-    const body = document.body;
-
-    if (!body) return;
-
-    // If there's a proper #app with Vue mounted, page is fine
-    if (app && app.children.length > 0 && app.__vue_app__) {
-        return;
+    // If Vue app is mounted and running, everything is fine
+    if (vueAppMounted) {
+        const app = document.getElementById('app');
+        if (app && app.children.length > 0) {
+            return false;
+        }
     }
 
-    // Check body text content for raw Inertia JSON response
-    const text = body.textContent?.trim() || '';
-    if (text.startsWith('{') && text.endsWith('}')) {
+    const body = document.body;
+    if (!body) return false;
+
+    // Check if the page content looks like raw JSON
+    const bodyText = body.innerText?.trim() || body.textContent?.trim() || '';
+
+    // Quick check: if body starts with { and contains "component", it's likely Inertia JSON
+    if (bodyText.startsWith('{') && bodyText.includes('"component"')) {
         try {
-            const parsed = JSON.parse(text);
+            const parsed = JSON.parse(bodyText);
             // Check if this looks like an Inertia response
-            if (parsed.component && parsed.props) {
-                // Inertia JSON is being displayed as text - reload page
+            if (parsed.component && parsed.props && parsed.url) {
+                console.warn('Detected raw Inertia JSON response, reloading page...');
                 window.location.reload();
-                return;
+                return true;
             }
         } catch {
-            // Not valid JSON, ignore
+            // Not valid JSON, continue checking
         }
     }
 
     // Also check for pre tag containing JSON (some browsers wrap it)
     const pre = body.querySelector('pre');
-    if (pre && !app) {
+    if (pre) {
         const preText = pre.textContent?.trim() || '';
-        if (preText.startsWith('{') && preText.endsWith('}')) {
+        if (preText.startsWith('{') && preText.includes('"component"')) {
             try {
                 const parsed = JSON.parse(preText);
                 if (parsed.component && parsed.props) {
+                    console.warn('Detected raw Inertia JSON in <pre> tag, reloading page...');
                     window.location.reload();
-                    return;
+                    return true;
                 }
             } catch {
                 // Not valid JSON, ignore
             }
         }
     }
+
+    return false;
 };
 
 // Check for JSON display on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', detectJsonDisplay);
+document.addEventListener('DOMContentLoaded', () => {
+    // Delay slightly to allow Vue to mount
+    setTimeout(() => {
+        if (!vueAppMounted) {
+            detectJsonDisplay();
+        }
+    }, 500);
+});
 
 // Handle page restored from bfcache (back-forward cache)
 window.addEventListener('pageshow', (event) => {
     if (event.persisted) {
         // Page was restored from bfcache - check state and potentially reload
-        detectJsonDisplay();
+        setTimeout(detectJsonDisplay, 100);
     }
 });
 
-// Check when tab becomes visible again
+// Check when tab becomes visible again after being hidden
+let lastHiddenTime = null;
 document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        // Small delay to let page render
+    if (document.visibilityState === 'hidden') {
+        lastHiddenTime = Date.now();
+    } else if (document.visibilityState === 'visible') {
+        // Check for JSON display
         setTimeout(detectJsonDisplay, 100);
+
+        // If tab was hidden for more than 5 minutes, do a soft refresh
+        // This helps keep the page state fresh
+        if (lastHiddenTime && (Date.now() - lastHiddenTime) > 5 * 60 * 1000) {
+            // Check if the page state seems stale or broken
+            const app = document.getElementById('app');
+            if (!app || app.children.length === 0 || !vueAppMounted) {
+                console.warn('Page state appears stale after long inactivity, reloading...');
+                window.location.reload();
+            }
+        }
     }
+});
+
+// Also handle focus event as backup
+window.addEventListener('focus', () => {
+    setTimeout(detectJsonDisplay, 200);
 });
 
 createInertiaApp({
@@ -121,10 +161,15 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
             .mount(el);
+
+        // Mark Vue app as successfully mounted
+        vueAppMounted = true;
+
+        return app;
     },
     progress: {
         color: '#4B5563',

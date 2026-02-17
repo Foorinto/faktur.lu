@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
+use Symfony\Component\HttpFoundation\Response;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -17,10 +18,40 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * Determine the current asset version.
+     *
+     * This is crucial for Inertia to know when assets have changed (after deployment)
+     * and force a full page reload instead of an XHR response.
      */
     public function version(Request $request): ?string
     {
+        // Use the Vite manifest hash as version
+        // This ensures version changes on every deployment
+        $manifestPath = public_path('build/manifest.json');
+
+        if (file_exists($manifestPath)) {
+            return md5_file($manifestPath);
+        }
+
+        // Fallback to parent (which uses mix-manifest.json or null)
         return parent::version($request);
+    }
+
+    /**
+     * Handle the incoming request.
+     */
+    public function handle(Request $request, \Closure $next): Response
+    {
+        $response = parent::handle($request, $next);
+
+        // Prevent caching of Inertia XHR responses
+        // This fixes the issue where browsers show raw JSON when tabs are restored
+        if ($request->header('X-Inertia')) {
+            $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+            $response->headers->set('Pragma', 'no-cache');
+            $response->headers->set('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
+        }
+
+        return $response;
     }
 
     /**
