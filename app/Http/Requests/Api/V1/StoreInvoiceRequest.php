@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\Client;
 use App\Models\InvoiceItem;
+use App\Rules\BelongsToAuthUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -16,7 +18,7 @@ class StoreInvoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => ['required', 'exists:clients,id'],
+            'client_id' => ['required', 'integer', new BelongsToAuthUser(Client::class)],
             'title' => ['nullable', 'string', 'max:255'],
             'due_at' => ['nullable', 'date', 'after_or_equal:today'],
             'notes' => ['nullable', 'string', 'max:2000'],
@@ -27,7 +29,8 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.quantity' => ['required_with:items', 'numeric', 'min:0.0001'],
             'items.*.unit' => ['nullable', 'string', Rule::in(array_keys(InvoiceItem::getUnits()))],
             'items.*.unit_price' => ['required_with:items', 'numeric', 'min:0'],
-            'items.*.vat_rate' => ['required_with:items', 'numeric', Rule::in([0, 3, 8, 14, 17])],
+            // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
+            'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
         ];
     }
 
@@ -35,8 +38,8 @@ class StoreInvoiceRequest extends FormRequest
     {
         return [
             'client_id.required' => 'Le client est obligatoire.',
-            'client_id.exists' => 'Le client sélectionné n\'existe pas.',
-            'items.*.vat_rate.in' => 'Le taux de TVA doit être 0%, 3%, 8%, 14% ou 17%.',
+            'items.*.vat_rate.min' => 'Le taux de TVA ne peut pas être négatif.',
+            'items.*.vat_rate.max' => 'Le taux de TVA ne peut pas dépasser 100%.',
         ];
     }
 }

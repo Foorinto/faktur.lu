@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\Client;
+use App\Rules\BelongsToAuthUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -16,7 +18,7 @@ class UpdateQuoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => ['sometimes', 'required', 'exists:clients,id'],
+            'client_id' => ['sometimes', 'required', 'integer', new BelongsToAuthUser(Client::class)],
             'valid_until' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'currency' => ['sometimes', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
@@ -25,8 +27,6 @@ class UpdateQuoteRequest extends FormRequest
 
     public function messages(): array
     {
-        return [
-            'client_id.exists' => 'Le client sélectionné n\'existe pas.',
-        ];
+        return [];
     }
 }

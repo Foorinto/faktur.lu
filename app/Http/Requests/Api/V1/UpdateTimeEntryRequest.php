@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\Client;
+use App\Rules\BelongsToAuthUser;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTimeEntryRequest extends FormRequest
@@ -22,7 +24,7 @@ class UpdateTimeEntryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'sometimes|exists:clients,id',
+            'client_id' => ['sometimes', 'integer', new BelongsToAuthUser(Client::class)],
             'project_name' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
             'duration' => 'nullable|string|regex:/^\d+:\d{2}$/',
@@ -39,7 +41,6 @@ class UpdateTimeEntryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'client_id.exists' => 'Le client sélectionné n\'existe pas.',
             'duration.regex' => 'Le format de la durée doit être HH:MM.',
             'stopped_at.after' => 'La date de fin doit être après la date de début.',
         ];

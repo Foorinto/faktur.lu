@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\Client;
+use App\Models\Project;
+use App\Rules\BelongsToAuthUser;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTimeEntryRequest extends FormRequest
@@ -22,9 +25,10 @@ class StoreTimeEntryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|exists:clients,id',
-            'project_id' => 'nullable|exists:projects,id',
-            'task_id' => 'nullable|exists:tasks,id',
+            'client_id' => ['required', 'integer', new BelongsToAuthUser(Client::class)],
+            'project_id' => ['nullable', 'integer', new BelongsToAuthUser(Project::class)],
+            // Task belongs to Project, which has user scope - validated indirectly
+            'task_id' => ['nullable', 'integer', 'exists:tasks,id'],
             'project_name' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
             'date' => 'nullable|date|before_or_equal:today',
@@ -43,7 +47,6 @@ class StoreTimeEntryRequest extends FormRequest
     {
         return [
             'client_id.required' => 'Le client est obligatoire.',
-            'client_id.exists' => 'Le client sélectionné n\'existe pas.',
             'duration.regex' => 'Le format de la durée doit être HH:MM.',
             'date.before_or_equal' => 'La date ne peut pas être dans le futur.',
             'stopped_at.after' => 'La date de fin doit être après la date de début.',

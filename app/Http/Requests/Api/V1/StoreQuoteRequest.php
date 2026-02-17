@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\Client;
 use App\Models\QuoteItem;
+use App\Rules\BelongsToAuthUser;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -16,7 +18,7 @@ class StoreQuoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => ['required', 'exists:clients,id'],
+            'client_id' => ['required', 'integer', new BelongsToAuthUser(Client::class)],
             'valid_until' => ['nullable', 'date', 'after_or_equal:today'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'currency' => ['nullable', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
@@ -26,7 +28,8 @@ class StoreQuoteRequest extends FormRequest
             'items.*.quantity' => ['required_with:items', 'numeric', 'min:0.0001'],
             'items.*.unit' => ['nullable', 'string', Rule::in(array_keys(QuoteItem::getUnits()))],
             'items.*.unit_price' => ['required_with:items', 'numeric', 'min:0'],
-            'items.*.vat_rate' => ['required_with:items', 'numeric', Rule::in([0, 3, 8, 14, 17])],
+            // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
+            'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
         ];
     }
 
