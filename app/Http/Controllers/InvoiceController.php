@@ -111,14 +111,29 @@ class InvoiceController extends Controller
         $settings = BusinessSettings::getInstance();
         $defaultVatRate = $settings?->getDefaultVatRate() ?? 17;
 
+        // Get VAT scenario for default client if provided
+        $defaultClientId = $request->input('client_id');
+        $suggestedVatMention = null;
+        if ($defaultClientId) {
+            $client = Client::find($defaultClientId);
+            if ($client) {
+                $scenario = $vatService->determineScenario($client, $settings);
+                $suggestedVatMention = $scenario['mention'] ?? null;
+            }
+        }
+
         return Inertia::render('Invoices/Create', [
             'clients' => $clientsWithScenario,
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
-            'defaultClientId' => $request->input('client_id'),
+            'defaultClientId' => $defaultClientId,
             'isVatExempt' => $this->isVatExempt(),
             'vatScenarios' => VatCalculationService::getAllScenarios(),
             'defaultVatRate' => $defaultVatRate,
+            'vatMentionOptions' => BusinessSettings::getVatMentionOptions(),
+            'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
+            'suggestedVatMention' => $suggestedVatMention,
+            'defaultInvoiceFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
         ]);
     }
 
@@ -134,6 +149,9 @@ class InvoiceController extends Controller
             'currency' => $request->validated('currency') ?? $client->currency,
             'due_at' => $request->validated('due_at'),
             'notes' => $request->validated('notes'),
+            'vat_mention' => $request->validated('vat_mention'),
+            'custom_vat_mention' => $request->validated('custom_vat_mention'),
+            'footer_message' => $request->validated('footer_message'),
             'status' => Invoice::STATUS_DRAFT,
         ]);
 

@@ -21,6 +21,10 @@ const props = defineProps({
         type: Number,
         default: 17,
     },
+    vatMentionOptions: Array,
+    defaultVatMention: String,
+    suggestedVatMention: String,
+    defaultInvoiceFooter: String,
 });
 
 // Calculate effective default VAT rate based on exemption status and country
@@ -51,6 +55,9 @@ const form = useForm({
     due_at: '',
     notes: '',
     currency: 'EUR',
+    vat_mention: props.suggestedVatMention || '',
+    custom_vat_mention: '',
+    footer_message: '',
     items: [],
 });
 
@@ -91,7 +98,7 @@ const handleCustomVatRateChange = (index, value) => {
     }
 };
 
-// Watch for client changes to update default VAT rate on items
+// Watch for client changes to update default VAT rate on items and suggest VAT mention
 watch(() => form.client_id, (newClientId) => {
     if (newClientId) {
         const client = props.clients.find(c => c.id === newClientId);
@@ -104,6 +111,11 @@ watch(() => form.client_id, (newClientId) => {
                     item.vat_rate_select = newRate;
                 }
             });
+        }
+
+        // Auto-suggest VAT mention based on client's VAT scenario
+        if (!form.vat_mention && client?.vat_scenario?.mention) {
+            form.vat_mention = client.vat_scenario.mention;
         }
     }
 });
@@ -334,19 +346,65 @@ if (form.items.length === 0) {
                 </div>
             </div>
 
-            <!-- Notes -->
+            <!-- Notes & Options -->
             <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes_optional') }}</h2>
                 </div>
-                <div class="px-6 py-4">
-                    <textarea
-                        v-model="form.notes"
-                        rows="3"
-                        class="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
-                        :placeholder="t('notes_placeholder')"
-                    ></textarea>
-                    <InputError :message="form.errors.notes" class="mt-2" />
+                <div class="px-6 py-4 space-y-4">
+                    <div>
+                        <InputLabel for="notes" value="Notes" />
+                        <textarea
+                            id="notes"
+                            v-model="form.notes"
+                            rows="3"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            :placeholder="t('notes_placeholder')"
+                        ></textarea>
+                        <InputError :message="form.errors.notes" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="vat_mention" :value="t('vat_mention_optional')" />
+                        <select
+                            id="vat_mention"
+                            v-model="form.vat_mention"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        >
+                            <option value="">{{ t('use_default_mention') }}</option>
+                            <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
+                                {{ option.label }}
+                            </option>
+                        </select>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            {{ t('default_mention_note') }}
+                        </p>
+                    </div>
+
+                    <div v-if="form.vat_mention === 'other'">
+                        <InputLabel for="custom_vat_mention" :value="t('custom_vat_mention_label')" />
+                        <textarea
+                            id="custom_vat_mention"
+                            v-model="form.custom_vat_mention"
+                            rows="2"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            :placeholder="t('custom_vat_mention_placeholder')"
+                        ></textarea>
+                    </div>
+
+                    <div>
+                        <InputLabel for="footer_message" :value="t('footer_message_optional')" />
+                        <textarea
+                            id="footer_message"
+                            v-model="form.footer_message"
+                            rows="2"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            :placeholder="defaultInvoiceFooter"
+                        ></textarea>
+                        <p v-if="defaultInvoiceFooter" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            {{ t('empty_default_message') }} "{{ defaultInvoiceFooter }}"
+                        </p>
+                    </div>
                 </div>
             </div>
 
