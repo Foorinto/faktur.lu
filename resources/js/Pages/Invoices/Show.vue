@@ -537,6 +537,19 @@ const submitCreditNote = () => {
                         Peppol XML
                     </a>
 
+                    <!-- Factur-X Export Button -->
+                    <a
+                        v-if="invoice.status !== 'draft'"
+                        :href="route('invoices.facturx', invoice.id)"
+                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        title="Télécharger Factur-X / ZUGFeRD (PDF hybride)"
+                    >
+                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 11.97a.75.75 0 001.5 0v-2.69l.72.72a.75.75 0 101.06-1.06l-2-2a.75.75 0 00-1.06 0l-2 2a.75.75 0 001.06 1.06l.72-.72v2.69z" clip-rule="evenodd" />
+                        </svg>
+                        Factur-X
+                    </a>
+
                     <!-- Send via Peppol Button -->
                     <button
                         v-if="canSendPeppol"

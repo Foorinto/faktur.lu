@@ -15,6 +15,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PeppolTransmission;
+use App\Services\FacturXService;
 use App\Services\InvoicePdfService;
 use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\VatCalculationService;
@@ -395,6 +396,57 @@ class InvoiceController extends Controller
                 'delivered_at' => $transmission->delivered_at?->toISOString(),
             ],
         ]);
+    }
+
+    /**
+     * Download Factur-X PDF (PDF/A-3 with embedded XML).
+     */
+    public function facturx(Invoice $invoice, FacturXService $facturXService, Request $request): HttpResponse
+    {
+        if ($invoice->isDraft()) {
+            abort(400, 'Impossible de générer Factur-X pour un brouillon.');
+        }
+
+        $locale = $request->input('locale', 'fr');
+        $profile = $request->input('profile', FacturXService::PROFILE_EN16931);
+
+        try {
+            $content = $facturXService->generate($invoice, $profile, $locale);
+            $filename = $facturXService->getFilename($invoice);
+
+            return response($content, 200, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+                'Content-Length' => strlen($content),
+            ]);
+        } catch (\Exception $e) {
+            abort(500, 'Erreur lors de la génération Factur-X: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Download Factur-X XML only.
+     */
+    public function facturxXml(Invoice $invoice, FacturXService $facturXService, Request $request): HttpResponse
+    {
+        if ($invoice->isDraft()) {
+            abort(400, 'Impossible de générer Factur-X pour un brouillon.');
+        }
+
+        $profile = $request->input('profile', FacturXService::PROFILE_EN16931);
+
+        try {
+            $xml = $facturXService->generateXml($invoice, $profile);
+            $filename = 'factur-x_' . $invoice->number . '.xml';
+
+            return response($xml, 200, [
+                'Content-Type' => 'application/xml',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+                'Content-Length' => strlen($xml),
+            ]);
+        } catch (\Exception $e) {
+            abort(500, 'Erreur lors de la génération XML: ' . $e->getMessage());
+        }
     }
 
     /**

@@ -359,6 +359,10 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
         // Peppol transmission - send invoice via Peppol network
         Route::post('/invoices/{invoice}/send-peppol', [InvoiceController::class, 'sendViaPeppol'])->name('invoices.send-peppol');
         Route::get('/invoices/{invoice}/peppol-status', [InvoiceController::class, 'peppolStatus'])->name('invoices.peppol-status');
+
+        // Factur-X / ZUGFeRD export
+        Route::get('/invoices/{invoice}/facturx', [InvoiceController::class, 'facturx'])->name('invoices.facturx');
+        Route::get('/invoices/{invoice}/facturx-xml', [InvoiceController::class, 'facturxXml'])->name('invoices.facturx-xml');
     });
 
     // Audit log export - 10 requests/hour
