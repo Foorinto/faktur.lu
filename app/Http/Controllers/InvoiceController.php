@@ -8,12 +8,15 @@ use App\Actions\FinalizeInvoiceAction;
 use App\Exceptions\ImmutableInvoiceException;
 use App\Http\Requests\Api\V1\StoreInvoiceRequest;
 use App\Http\Requests\Api\V1\UpdateInvoiceRequest;
+use App\Jobs\SendPeppolInvoiceJob;
 use App\Mail\InvoiceMail;
 use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PeppolTransmission;
 use App\Services\InvoicePdfService;
+use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -181,11 +184,12 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): Response
     {
-        $invoice->load(['client', 'items', 'originalInvoice', 'creditNote', 'creditNotes']);
+        $invoice->load(['client', 'items', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission']);
 
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
             'creditNoteReasons' => Invoice::CREDIT_NOTE_REASONS,
+            'peppolEnabled' => config('peppol.enabled', false),
         ]);
     }
 
@@ -306,6 +310,91 @@ class InvoiceController extends Controller
         ]);
 
         return back()->with('success', 'Facture marquée comme payée.');
+    }
+
+    /**
+     * Send the invoice via Peppol network.
+     */
+    public function sendViaPeppol(Invoice $invoice, PeppolAccessPointInterface $accessPoint): RedirectResponse
+    {
+        // Check if Peppol is enabled
+        if (!config('peppol.enabled')) {
+            return back()->with('error', 'L\'envoi Peppol n\'est pas activé.');
+        }
+
+        // Check if Access Point is configured
+        if (!$accessPoint->isConfigured()) {
+            return back()->with('error', 'Le service Peppol n\'est pas configuré correctement.');
+        }
+
+        // Invoice must be finalized
+        if (!$invoice->isFinalized()) {
+            return back()->with('error', 'Seules les factures finalisées peuvent être envoyées via Peppol.');
+        }
+
+        // Check seller has Peppol endpoint
+        $seller = $invoice->seller;
+        if (empty($seller['peppol_endpoint_id']) || empty($seller['peppol_endpoint_scheme'])) {
+            return back()->with('error', 'Veuillez configurer votre identifiant Peppol dans les paramètres entreprise.');
+        }
+
+        // Check buyer has Peppol endpoint
+        $buyer = $invoice->buyer;
+        if (empty($buyer['peppol_endpoint_id']) || empty($buyer['peppol_endpoint_scheme'])) {
+            return back()->with('error', 'Le client doit avoir un identifiant Peppol configuré.');
+        }
+
+        // Check if there's already a pending or successful transmission
+        $existingTransmission = PeppolTransmission::where('invoice_id', $invoice->id)
+            ->whereIn('status', [
+                PeppolTransmission::STATUS_PENDING,
+                PeppolTransmission::STATUS_PROCESSING,
+                PeppolTransmission::STATUS_SENT,
+                PeppolTransmission::STATUS_DELIVERED,
+            ])
+            ->first();
+
+        if ($existingTransmission) {
+            $status = $existingTransmission->status_label;
+            return back()->with('error', "Cette facture a déjà une transmission Peppol en cours ou terminée (statut: {$status}).");
+        }
+
+        // Create transmission record
+        $transmission = PeppolTransmission::create([
+            'user_id' => auth()->id(),
+            'invoice_id' => $invoice->id,
+            'status' => PeppolTransmission::STATUS_PENDING,
+            'recipient_id' => $buyer['peppol_endpoint_id'],
+            'recipient_scheme' => $buyer['peppol_endpoint_scheme'],
+        ]);
+
+        // Dispatch job
+        SendPeppolInvoiceJob::dispatch($transmission);
+
+        return back()->with('success', 'Envoi Peppol initié. Vous pouvez suivre le statut sur cette page.');
+    }
+
+    /**
+     * Get Peppol transmission status for polling.
+     */
+    public function peppolStatus(Invoice $invoice): \Illuminate\Http\JsonResponse
+    {
+        $transmission = $invoice->peppolTransmission;
+
+        if (!$transmission) {
+            return response()->json(['transmission' => null]);
+        }
+
+        return response()->json([
+            'transmission' => [
+                'id' => $transmission->id,
+                'status' => $transmission->status,
+                'document_id' => $transmission->document_id,
+                'error_message' => $transmission->error_message,
+                'sent_at' => $transmission->sent_at?->toISOString(),
+                'delivered_at' => $transmission->delivered_at?->toISOString(),
+            ],
+        ]);
     }
 
     /**

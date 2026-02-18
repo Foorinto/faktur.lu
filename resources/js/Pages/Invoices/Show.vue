@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
 import { useTranslations } from '@/Composables/useTranslations';
 
@@ -9,6 +9,10 @@ const { t } = useTranslations();
 
 const props = defineProps({
     invoice: Object,
+    peppolEnabled: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const processing = ref(false);
@@ -108,6 +112,95 @@ const canExportPeppol = computed(() => {
         && props.invoice.buyer_snapshot?.peppol_endpoint_id
         && props.invoice.buyer_snapshot?.peppol_endpoint_scheme;
 });
+
+const canSendPeppol = computed(() => {
+    return props.peppolEnabled
+        && canExportPeppol.value
+        && !props.invoice.peppol_transmission;
+});
+
+const peppolTransmission = computed(() => props.invoice.peppol_transmission);
+
+// Peppol status polling
+const pollingInterval = ref(null);
+const POLL_INTERVAL_MS = 5000; // 5 seconds
+
+const shouldPollPeppolStatus = computed(() => {
+    const transmission = peppolTransmission.value;
+    return transmission && ['pending', 'processing'].includes(transmission.status);
+});
+
+const pollPeppolStatus = async () => {
+    if (!peppolTransmission.value) return;
+
+    try {
+        const response = await axios.get(route('invoices.peppol-status', props.invoice.id));
+        if (response.data.transmission) {
+            // Update the local transmission data
+            props.invoice.peppol_transmission = response.data.transmission;
+
+            // Stop polling if status is final
+            if (!['pending', 'processing'].includes(response.data.transmission.status)) {
+                stopPolling();
+            }
+        }
+    } catch (error) {
+        console.error('Error polling Peppol status:', error);
+    }
+};
+
+const startPolling = () => {
+    if (pollingInterval.value) return;
+    pollingInterval.value = setInterval(pollPeppolStatus, POLL_INTERVAL_MS);
+};
+
+const stopPolling = () => {
+    if (pollingInterval.value) {
+        clearInterval(pollingInterval.value);
+        pollingInterval.value = null;
+    }
+};
+
+// Start/stop polling based on transmission status
+watch(shouldPollPeppolStatus, (shouldPoll) => {
+    if (shouldPoll) {
+        startPolling();
+    } else {
+        stopPolling();
+    }
+}, { immediate: true });
+
+onMounted(() => {
+    if (shouldPollPeppolStatus.value) {
+        startPolling();
+    }
+});
+
+onUnmounted(() => {
+    stopPolling();
+});
+
+const getPeppolStatusBadgeClass = (status) => {
+    const classes = {
+        pending: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        processing: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
+        sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
+        delivered: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
+        failed: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300',
+    };
+    return classes[status] || classes.pending;
+};
+
+const getPeppolStatusLabel = (status) => {
+    const labels = {
+        pending: 'En attente',
+        processing: 'En cours',
+        sent: 'Envoyé',
+        delivered: 'Livré',
+        failed: 'Échoué',
+    };
+    return labels[status] || status;
+};
 
 const isOverdue = computed(() => {
     if (!props.invoice.due_at) return false;
@@ -268,6 +361,15 @@ const markAsPaid = () => {
     if (processing.value) return;
     processing.value = true;
     router.post(route('invoices.mark-paid', props.invoice.id), {}, {
+        preserveScroll: true,
+        onFinish: () => processing.value = false,
+    });
+};
+
+const sendViaPeppol = () => {
+    if (processing.value) return;
+    processing.value = true;
+    router.post(route('invoices.send-peppol', props.invoice.id), {}, {
         preserveScroll: true,
         onFinish: () => processing.value = false,
     });
@@ -434,6 +536,40 @@ const submitCreditNote = () => {
                         </svg>
                         Peppol XML
                     </a>
+
+                    <!-- Send via Peppol Button -->
+                    <button
+                        v-if="canSendPeppol"
+                        @click="sendViaPeppol"
+                        :disabled="processing"
+                        class="inline-flex items-center rounded-xl bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 disabled:opacity-50"
+                        title="Envoyer via le réseau Peppol"
+                    >
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+                        </svg>
+                        Envoyer Peppol
+                    </button>
+
+                    <!-- Peppol Status Badge -->
+                    <span
+                        v-if="peppolTransmission"
+                        :class="getPeppolStatusBadgeClass(peppolTransmission.status)"
+                        class="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium"
+                        :title="peppolTransmission.error_message || ''"
+                    >
+                        <svg v-if="peppolTransmission.status === 'processing'" class="animate-spin -ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <svg v-else-if="peppolTransmission.status === 'sent' || peppolTransmission.status === 'delivered'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                        </svg>
+                        <svg v-else-if="peppolTransmission.status === 'failed'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                        </svg>
+                        Peppol: {{ getPeppolStatusLabel(peppolTransmission.status) }}
+                    </span>
 
                     <!-- Create Credit Note -->
                     <button

@@ -78,6 +78,8 @@ class AuditLog extends Model
         'BusinessSettings.updated' => 'Paramètres modifiés',
         'export.faia' => 'Export FAIA généré',
         'export.pdf' => 'PDF téléchargé',
+        'peppol_sent' => 'Envoi Peppol réussi',
+        'peppol_failed' => 'Envoi Peppol échoué',
     ];
 
     protected static function boot(): void
@@ -124,6 +126,7 @@ class AuditLog extends Model
             str_contains($this->action, 'TimeEntry') => '⏱️',
             str_contains($this->action, 'BusinessSettings') => '⚙️',
             str_contains($this->action, 'export') => '📊',
+            str_contains($this->action, 'peppol') => '🌐',
             default => '📝',
         };
     }

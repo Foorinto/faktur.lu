@@ -355,6 +355,10 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
 
         // Peppol export - available for all
         Route::get('/invoices/{invoice}/peppol', [PeppolExportController::class, 'export'])->name('invoices.peppol');
+
+        // Peppol transmission - send invoice via Peppol network
+        Route::post('/invoices/{invoice}/send-peppol', [InvoiceController::class, 'sendViaPeppol'])->name('invoices.send-peppol');
+        Route::get('/invoices/{invoice}/peppol-status', [InvoiceController::class, 'peppolStatus'])->name('invoices.peppol-status');
     });
 
     // Audit log export - 10 requests/hour

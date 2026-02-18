@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use App\Listeners\LogAuthenticationEvents;
 use App\Models\AdminSession;
+use App\Services\Peppol\PeppolAccessPointInterface;
+use App\Services\Peppol\SimulationService;
+use App\Services\Peppol\StorecoveService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -20,7 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Bind Peppol Access Point interface to implementation based on config
+        $this->app->bind(PeppolAccessPointInterface::class, function ($app) {
+            return match (config('peppol.provider')) {
+                'storecove' => new StorecoveService(),
+                default => new SimulationService(),
+            };
+        });
     }
 
     /**

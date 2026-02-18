@@ -184,6 +184,22 @@ class Invoice extends Model
     }
 
     /**
+     * Get the latest Peppol transmission for this invoice.
+     */
+    public function peppolTransmission(): HasOne
+    {
+        return $this->hasOne(PeppolTransmission::class)->latestOfMany();
+    }
+
+    /**
+     * Get all Peppol transmissions for this invoice.
+     */
+    public function peppolTransmissions(): HasMany
+    {
+        return $this->hasMany(PeppolTransmission::class)->orderByDesc('created_at');
+    }
+
+    /**
      * Check if the invoice is immutable (cannot be modified).
      */
     public function isImmutable(): bool
