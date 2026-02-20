@@ -385,6 +385,14 @@ return [
     'vat_required_for_reverse_charge' => 'required for reverse charge',
     'vat_recommended_b2b' => 'recommended for B2B',
 
+    // Company lookup
+    'company_search_fr_hint' => 'Type the name to search in the company register',
+    'company_search_vat_hint' => 'Enter the VAT number below to auto-fill company information',
+    'vat_validating' => 'Verifying via VIES...',
+    'vat_valid' => 'VAT number valid (VIES)',
+    'vat_invalid' => 'VAT number invalid (VIES)',
+    'vat_validation_unavailable' => 'VIES verification unavailable',
+
     // Invoices
     'invoices_title' => 'Invoices',
     'new_invoice' => 'New invoice',

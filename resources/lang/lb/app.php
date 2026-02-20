@@ -325,6 +325,14 @@ return [
     'vat_required_for_reverse_charge' => 'obligatoresch fir Autoliquidatioun',
     'vat_recommended_b2b' => 'recommandéiert fir B2B',
 
+    // Company lookup
+    'company_search_fr_hint' => 'Tippt den Numm fir am Handelsregëster ze sichen',
+    'company_search_vat_hint' => 'Gitt d\'TVA-Nummer ënnendrënner an fir d\'Firmendaten automatesch auszefëllen',
+    'vat_validating' => 'VIES-Iwwerpréiwung...',
+    'vat_valid' => 'TVA-Nummer gëlteg (VIES)',
+    'vat_invalid' => 'TVA-Nummer ongëlteg (VIES)',
+    'vat_validation_unavailable' => 'VIES-Iwwerpréiwung net disponibel',
+
     // Invoices
     'invoices_title' => 'Rechnungen',
     'new_invoice' => 'Nei Rechnung',

@@ -1,4 +1,5 @@
 <script setup>
+import CompanySearchInput from '@/Components/CompanySearchInput.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -171,6 +172,65 @@ watch(() => props.form.type, (newType) => {
     }
 });
 
+// VIES VAT validation
+const vatValidationStatus = ref(null); // null | 'loading' | 'valid' | 'invalid' | 'error'
+const vatValidationName = ref(null);
+
+const onCompanySelected = (company) => {
+    if (company.address) props.form.address = company.address;
+    if (company.postal_code) props.form.postal_code = company.postal_code;
+    if (company.city) props.form.city = company.city;
+    if (company.country_code) props.form.country_code = company.country_code;
+    if (company.vat_number) props.form.vat_number = company.vat_number;
+    if (company.registration_number) props.form.registration_number = company.registration_number;
+};
+
+const validateVatViaVies = async () => {
+    const vatNumber = (props.form.vat_number || '').replace(/\s/g, '').toUpperCase();
+
+    if (!vatNumber || vatNumber.length < 4 || !isB2B.value || !isEuCountry.value) {
+        vatValidationStatus.value = null;
+        return;
+    }
+
+    vatValidationStatus.value = 'loading';
+
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+            || usePage().props.csrf_token;
+
+        const response = await fetch(route('company-lookup.validate-vat'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify({ vat_number: vatNumber }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            vatValidationStatus.value = data.valid ? 'valid' : 'invalid';
+            vatValidationName.value = data.name;
+
+            // Auto-fill form fields from VIES company data
+            if (data.valid && data.company) {
+                const c = data.company;
+                if (c.name && !props.form.name) props.form.name = c.name;
+                if (c.address && !props.form.address) props.form.address = c.address;
+                if (c.postal_code && !props.form.postal_code) props.form.postal_code = c.postal_code;
+                if (c.city && !props.form.city) props.form.city = c.city;
+            }
+        } else {
+            vatValidationStatus.value = 'error';
+        }
+    } catch {
+        vatValidationStatus.value = 'error';
+    }
+};
+
 const submit = () => {
     emit('submit');
 };
@@ -228,13 +288,24 @@ const submit = () => {
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                         <InputLabel for="name" :value="isB2B ? t('company_name') : t('full_name')" />
+                        <CompanySearchInput
+                            v-if="isB2B"
+                            id="name"
+                            v-model="form.name"
+                            :country-code="form.country_code"
+                            :is-b2b="isB2B"
+                            class="mt-1"
+                            placeholder="Société Exemple SARL"
+                            @company-selected="onCompanySelected"
+                        />
                         <TextInput
+                            v-else
                             id="name"
                             v-model="form.name"
                             type="text"
                             class="mt-1 block w-full"
                             required
-                            :placeholder="isB2B ? 'Société Exemple SARL' : 'Marie Durand'"
+                            placeholder="Marie Durand"
                         />
                         <InputError :message="form.errors.name" class="mt-2" />
                     </div>
@@ -345,8 +416,27 @@ const submit = () => {
                             class="mt-1 block w-full font-mono uppercase"
                             placeholder="LU00000000"
                             :class="{ 'bg-slate-100 dark:bg-slate-600': !isB2B }"
+                            @blur="validateVatViaVies"
                         />
                         <InputError :message="form.errors.vat_number" class="mt-2" />
+                        <!-- VIES Validation Status -->
+                        <div v-if="vatValidationStatus" class="mt-1 flex items-center text-xs">
+                            <svg v-if="vatValidationStatus === 'loading'" class="animate-spin h-3 w-3 mr-1 text-slate-400" viewBox="0 0 24 24" fill="none">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                            <span v-if="vatValidationStatus === 'loading'" class="text-slate-400">{{ t('vat_validating') }}</span>
+                            <span v-else-if="vatValidationStatus === 'valid'" class="text-green-600 dark:text-green-400">
+                                &#10003; {{ t('vat_valid') }}
+                                <span v-if="vatValidationName" class="text-slate-500 dark:text-slate-400 ml-1">— {{ vatValidationName }}</span>
+                            </span>
+                            <span v-else-if="vatValidationStatus === 'invalid'" class="text-red-600 dark:text-red-400">
+                                &#10007; {{ t('vat_invalid') }}
+                            </span>
+                            <span v-else-if="vatValidationStatus === 'error'" class="text-slate-400">
+                                {{ t('vat_validation_unavailable') }}
+                            </span>
+                        </div>
                     </div>
                 </div>
 

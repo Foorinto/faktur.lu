@@ -325,6 +325,14 @@ return [
     'vat_required_for_reverse_charge' => 'erforderlich für Reverse-Charge',
     'vat_recommended_b2b' => 'empfohlen für B2B',
 
+    // Company lookup
+    'company_search_fr_hint' => 'Geben Sie den Namen ein, um im Handelsregister zu suchen',
+    'company_search_vat_hint' => 'Geben Sie die USt-IdNr. unten ein, um die Firmendaten automatisch auszufüllen',
+    'vat_validating' => 'VIES-Überprüfung...',
+    'vat_valid' => 'USt-IdNr. gültig (VIES)',
+    'vat_invalid' => 'USt-IdNr. ungültig (VIES)',
+    'vat_validation_unavailable' => 'VIES-Überprüfung nicht verfügbar',
+
     // Invoices
     'invoices_title' => 'Rechnungen',
     'new_invoice' => 'Neue Rechnung',

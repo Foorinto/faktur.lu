@@ -8,6 +8,7 @@ use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CompanyLookupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FaiaValidatorController;
@@ -385,6 +386,12 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
     Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
     Route::get('/invoices/{invoice}/archive/verify', [ArchiveController::class, 'verify'])->name('invoices.archive.verify');
     Route::get('/invoices/{invoice}/archive/info', [ArchiveController::class, 'info'])->name('invoices.archive.info');
+
+    // Company lookup API - 30 requests/minute
+    Route::middleware('throttle:company-lookup')->group(function () {
+        Route::get('/api/company-lookup/search', [CompanyLookupController::class, 'search'])->name('company-lookup.search');
+        Route::post('/api/company-lookup/validate-vat', [CompanyLookupController::class, 'validateVat'])->name('company-lookup.validate-vat');
+    });
 
     // Dashboard API endpoints - 60 requests/minute
     Route::middleware('throttle:dashboard')->group(function () {

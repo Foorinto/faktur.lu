@@ -179,6 +179,15 @@ class AppServiceProvider extends ServiceProvider
                 });
         });
 
+        // Company lookup API - 30/minute (external API calls)
+        RateLimiter::for('company-lookup', function (Request $request) {
+            return Limit::perMinute(30)
+                ->by($request->user()?->id ?: $request->ip())
+                ->response(function (Request $request, array $headers) {
+                    return $this->rateLimitResponse($headers, 'Trop de recherches. Veuillez patienter.');
+                });
+        });
+
         // Public FAIA Validator - 10/minute par IP (prevent abuse)
         RateLimiter::for('faia-validator', function (Request $request) {
             return Limit::perMinute(10)

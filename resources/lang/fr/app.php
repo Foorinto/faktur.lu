@@ -385,6 +385,14 @@ return [
     'vat_required_for_reverse_charge' => 'requis pour l\'autoliquidation',
     'vat_recommended_b2b' => 'recommandé pour B2B',
 
+    // Company lookup
+    'company_search_fr_hint' => 'Tapez le nom pour rechercher dans le registre des entreprises',
+    'company_search_vat_hint' => 'Saisissez le n° TVA ci-dessous pour auto-compléter les informations',
+    'vat_validating' => 'Vérification VIES...',
+    'vat_valid' => 'N° TVA valide (VIES)',
+    'vat_invalid' => 'N° TVA invalide (VIES)',
+    'vat_validation_unavailable' => 'Vérification VIES indisponible',
+
     // Invoices
     'invoices_title' => 'Factures',
     'new_invoice' => 'Nouvelle facture',
