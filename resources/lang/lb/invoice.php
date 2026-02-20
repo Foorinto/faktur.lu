@@ -53,6 +53,7 @@ return [
     'bank' => 'Bank',
     'iban' => 'IBAN',
     'bic' => 'BIC',
+    'scan_to_pay' => 'Scannt fir ze bezuelen',
 
     // VAT mentions
     'vat_exempt' => 'TVA net applicabel, Art. 57 vum lëtzebuerger TVA Code',

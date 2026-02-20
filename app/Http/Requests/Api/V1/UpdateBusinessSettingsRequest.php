@@ -69,6 +69,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'show_phone_on_invoice' => ['boolean'],
             'email' => ['required', 'email', 'max:255'],
             'show_email_on_invoice' => ['boolean'],
+            'show_payment_qrcode' => ['boolean'],
             'logo_path' => ['nullable', 'string', 'max:255'],
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],

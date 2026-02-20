@@ -53,6 +53,7 @@ return [
     'bank' => 'Banque',
     'iban' => 'IBAN',
     'bic' => 'BIC',
+    'scan_to_pay' => 'Scannez pour payer',
 
     // VAT mentions
     'vat_exempt' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois',

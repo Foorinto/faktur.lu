@@ -39,6 +39,7 @@ class BusinessSettingsController extends Controller
         return Inertia::render('Settings/Business', [
             'settings' => $settings ? array_merge($settings->toArray(), [
                 'logo_url' => $settings->logo_url,
+                'payment_qrcode_url' => $settings->payment_qrcode_url,
                 'franchise_threshold' => $franchiseThreshold,
             ]) : [
                 'country_code' => 'LU',
@@ -103,6 +104,51 @@ class BusinessSettingsController extends Controller
         $settings->update(['logo_path' => $path]);
 
         return back()->with('success', 'Logo mis à jour avec succès.');
+    }
+
+    /**
+     * Upload a payment QR code image (Payconiq, PayPal, etc.).
+     */
+    public function uploadPaymentQrcode(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'payment_qrcode' => ['required', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
+        ]);
+
+        $settings = BusinessSettings::getInstance();
+
+        if (!$settings) {
+            return back()->with('error', 'Veuillez d\'abord configurer les paramètres de l\'entreprise.');
+        }
+
+        // Delete old QR code if exists
+        if ($settings->payment_qrcode_path) {
+            Storage::disk('public')->delete($settings->payment_qrcode_path);
+        }
+
+        $path = $request->file('payment_qrcode')->store('payment-qrcodes', 'public');
+
+        $settings->update(['payment_qrcode_path' => $path]);
+
+        return back()->with('success', 'QR code de paiement mis à jour.');
+    }
+
+    /**
+     * Delete the payment QR code image.
+     */
+    public function deletePaymentQrcode(): RedirectResponse
+    {
+        $settings = BusinessSettings::getInstance();
+
+        if (!$settings || !$settings->payment_qrcode_path) {
+            return back()->with('error', 'Aucun QR code à supprimer.');
+        }
+
+        Storage::disk('public')->delete($settings->payment_qrcode_path);
+
+        $settings->update(['payment_qrcode_path' => null]);
+
+        return back()->with('success', 'QR code de paiement supprimé.');
     }
 
     /**

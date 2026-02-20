@@ -659,6 +659,13 @@ return [
     'contact' => 'Contact',
     'phone_optional' => 'Téléphone (optionnel)',
     'show_on_invoices' => 'Afficher sur les factures',
+    'show_payment_qrcode' => 'Afficher un QR code de paiement sur les factures',
+    'show_payment_qrcode_help' => 'Un QR code EPC (virement SEPA) sera généré automatiquement. Vous pouvez aussi ajouter votre propre QR code ci-dessous.',
+    'payment_qrcode_title' => 'QR code personnalisé (Payconiq, PayPal, etc.)',
+    'payment_qrcode_help' => 'Uploadez le QR code de votre compte marchand. Il apparaîtra sur vos factures à côté du QR code de virement.',
+    'delete_payment_qrcode_confirm' => 'Supprimer le QR code de paiement ?',
+    'add_image' => 'Ajouter une image',
+    'change' => 'Changer',
 
     // Profile
     'profile_title' => 'Profil',

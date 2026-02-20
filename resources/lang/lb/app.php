@@ -599,6 +599,13 @@ return [
     'contact' => 'Kontakt',
     'phone_optional' => 'Telefon (optional)',
     'show_on_invoices' => 'Op Rechnungen uweisen',
+    'show_payment_qrcode' => 'E Bezuel-QR-Code op de Rechnungen uweisen',
+    'show_payment_qrcode_help' => 'En EPC QR-Code (SEPA Iwwerweisung) gëtt automatesch generéiert. Dir kënnt och Ären eegene QR-Code hei drënner derbäisetzen.',
+    'payment_qrcode_title' => 'Eegene QR-Code (Payconiq, PayPal, etc.)',
+    'payment_qrcode_help' => 'Luet den QR-Code vun Ärem Händlerkonto erop. Hien erschéngt op Äre Rechnungen nieft dem Iwwerweisungs-QR-Code.',
+    'delete_payment_qrcode_confirm' => 'Bezuel-QR-Code läschen?',
+    'add_image' => 'Bild derbäisetzen',
+    'change' => 'Änneren',
 
     // Profile
     'profile_title' => 'Profil',

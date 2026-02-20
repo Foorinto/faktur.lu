@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Invoice;
+use App\Services\Payment\QrCodePaymentService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -184,19 +185,42 @@ class InvoicePdfService
         // Show branding for Starter (free) users
         $showBranding = $invoice->user ? $invoice->user->isStarter() : true;
 
+        // Generate QR codes for payment (not for credit notes)
+        $paymentQrCode = null;
+        $customPaymentQrCode = null;
+        $isCreditNote = $invoice->isCreditNote();
+        if (!$isCreditNote && !empty($seller['show_payment_qrcode'])) {
+            // EPC QR code (SEPA standard with amount)
+            if (!empty($seller['iban'])) {
+                $paymentQrCode = $this->generatePaymentQrCode(
+                    $seller['company_name'] ?? $seller['legal_name'] ?? '',
+                    $seller['iban'],
+                    $seller['bic'] ?? '',
+                    (float) $invoice->total_ttc,
+                    $this->generatePaymentReference($invoice),
+                );
+            }
+            // Custom QR code image (Payconiq, PayPal, etc.)
+            if (!empty($seller['payment_qrcode_path'])) {
+                $customPaymentQrCode = $this->getLogoDataUri($seller['payment_qrcode_path']);
+            }
+        }
+
         return [
             'invoice' => $invoice,
             'seller' => $seller,
             'buyer' => $buyer,
             'items' => $invoice->items,
             'isVatExempt' => $isVatExempt,
-            'isCreditNote' => $invoice->isCreditNote(),
+            'isCreditNote' => $isCreditNote,
             'vatSummary' => $vatSummary,
             'paymentReference' => $this->generatePaymentReference($invoice),
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
             'showBranding' => $showBranding,
             'locale' => $locale,
+            'paymentQrCode' => $paymentQrCode,
+            'customPaymentQrCode' => $customPaymentQrCode,
         ];
     }
 
@@ -282,19 +306,40 @@ class InvoicePdfService
         // Show branding for Starter (free) users
         $showBranding = $invoice->user ? $invoice->user->isStarter() : true;
 
+        // Generate QR codes for draft preview
+        $paymentQrCode = null;
+        $customPaymentQrCode = null;
+        $isCreditNote = $invoice->isCreditNote();
+        if (!$isCreditNote && $settings?->show_payment_qrcode) {
+            if (!empty($settings->iban)) {
+                $paymentQrCode = $this->generatePaymentQrCode(
+                    $settings->company_name ?? $settings->legal_name ?? '',
+                    $settings->iban,
+                    $settings->bic ?? '',
+                    (float) $invoice->total_ttc,
+                    'BROUILLON',
+                );
+            }
+            if ($settings->payment_qrcode_path) {
+                $customPaymentQrCode = $this->getLogoDataUri($settings->payment_qrcode_path);
+            }
+        }
+
         return [
             'invoice' => $invoice,
             'seller' => $seller,
             'buyer' => $buyer,
             'items' => $invoice->items,
             'isVatExempt' => $isVatExempt,
-            'isCreditNote' => $invoice->isCreditNote(),
+            'isCreditNote' => $isCreditNote,
             'vatSummary' => $vatSummary,
             'paymentReference' => 'BROUILLON',
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
             'showBranding' => $showBranding,
             'locale' => $locale,
+            'paymentQrCode' => $paymentQrCode,
+            'customPaymentQrCode' => $customPaymentQrCode,
         ];
     }
 
@@ -342,6 +387,25 @@ class InvoicePdfService
         $mimeType = mime_content_type($fullPath) ?: 'image/png';
 
         return 'data:' . $mimeType . ';base64,' . base64_encode($content);
+    }
+
+    /**
+     * Generate EPC QR code for payment.
+     */
+    protected function generatePaymentQrCode(
+        string $beneficiaryName,
+        string $iban,
+        string $bic,
+        float $amount,
+        string $reference,
+    ): ?string {
+        return app(QrCodePaymentService::class)->generateEpcQrCode(
+            $beneficiaryName,
+            $iban,
+            $bic,
+            $amount,
+            $reference,
+        );
     }
 
     /**

@@ -53,6 +53,7 @@ return [
     'bank' => 'Bank',
     'iban' => 'IBAN',
     'bic' => 'BIC',
+    'scan_to_pay' => 'Scan to pay',
 
     // VAT mentions
     'vat_exempt' => 'VAT exempt pursuant to Art. 57 of the Luxembourg VAT Code',

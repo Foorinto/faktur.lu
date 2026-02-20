@@ -599,6 +599,13 @@ return [
     'contact' => 'Kontakt',
     'phone_optional' => 'Telefon (optional)',
     'show_on_invoices' => 'Auf Rechnungen anzeigen',
+    'show_payment_qrcode' => 'Zahlungs-QR-Code auf Rechnungen anzeigen',
+    'show_payment_qrcode_help' => 'Ein EPC-QR-Code (SEPA-Überweisung) wird automatisch generiert. Sie können auch Ihren eigenen QR-Code unten hinzufügen.',
+    'payment_qrcode_title' => 'Eigener QR-Code (Payconiq, PayPal, etc.)',
+    'payment_qrcode_help' => 'Laden Sie den QR-Code Ihres Händlerkontos hoch. Er erscheint auf Ihren Rechnungen neben dem Überweisungs-QR-Code.',
+    'delete_payment_qrcode_confirm' => 'Zahlungs-QR-Code löschen?',
+    'add_image' => 'Bild hinzufügen',
+    'change' => 'Ändern',
 
     // Profile
     'profile_title' => 'Profil',

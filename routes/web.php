@@ -268,6 +268,8 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
         Route::put('/settings/business', [BusinessSettingsController::class, 'update'])->name('settings.business.update');
         Route::post('/settings/business/logo', [BusinessSettingsController::class, 'uploadLogo'])->name('settings.business.logo.upload');
         Route::delete('/settings/business/logo', [BusinessSettingsController::class, 'deleteLogo'])->name('settings.business.logo.delete');
+        Route::post('/settings/business/payment-qrcode', [BusinessSettingsController::class, 'uploadPaymentQrcode'])->name('settings.business.payment-qrcode.upload');
+        Route::delete('/settings/business/payment-qrcode', [BusinessSettingsController::class, 'deletePaymentQrcode'])->name('settings.business.payment-qrcode.delete');
 
         // Audit Logs (view)
         Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');

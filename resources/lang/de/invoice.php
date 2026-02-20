@@ -53,6 +53,7 @@ return [
     'bank' => 'Bank',
     'iban' => 'IBAN',
     'bic' => 'BIC',
+    'scan_to_pay' => 'Zum Bezahlen scannen',
 
     // VAT mentions
     'vat_exempt' => 'Steuerbefreit gem. Art. 57 des luxemburgischen MwSt-Gesetzes',

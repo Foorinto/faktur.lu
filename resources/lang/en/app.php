@@ -659,6 +659,13 @@ return [
     'contact' => 'Contact',
     'phone_optional' => 'Phone (optional)',
     'show_on_invoices' => 'Show on invoices',
+    'show_payment_qrcode' => 'Show a payment QR code on invoices',
+    'show_payment_qrcode_help' => 'An EPC QR code (SEPA transfer) will be generated automatically. You can also add your own QR code below.',
+    'payment_qrcode_title' => 'Custom QR code (Payconiq, PayPal, etc.)',
+    'payment_qrcode_help' => 'Upload the QR code from your merchant account. It will appear on your invoices next to the bank transfer QR code.',
+    'delete_payment_qrcode_confirm' => 'Delete the payment QR code?',
+    'add_image' => 'Add image',
+    'change' => 'Change',
 
     // Profile
     'profile_title' => 'Profile',

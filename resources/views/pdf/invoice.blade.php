@@ -256,6 +256,33 @@
             font-weight: bold;
         }
 
+        /* Payment QR Codes */
+        .qr-payment-wrapper {
+            margin-top: 8px;
+        }
+
+        .qr-payment-codes {
+            display: block;
+        }
+
+        .qr-payment-item {
+            display: inline-block;
+            text-align: center;
+            vertical-align: top;
+            margin-right: 10px;
+        }
+
+        .qr-payment-item img {
+            width: 90px;
+            height: 90px;
+        }
+
+        .qr-payment-label {
+            font-size: 6pt;
+            color: #666;
+            margin-top: 2px;
+        }
+
         /* Totals */
         .totals-box {
             border: 1px solid #e5e5e5;
@@ -532,6 +559,25 @@
                                 <span class="bank-value">{{ $seller['bic'] }}</span>
                             </div>
                         @endif
+                    </div>
+                @endif
+
+                @if(!empty($paymentQrCode) || !empty($customPaymentQrCode))
+                    <div class="qr-payment-wrapper">
+                        <div class="qr-payment-codes">
+                            @if(!empty($customPaymentQrCode))
+                                <div class="qr-payment-item">
+                                    <img src="{{ $customPaymentQrCode }}" alt="QR Code paiement" />
+                                    <div class="qr-payment-label">{{ __('invoice.scan_to_pay') }}</div>
+                                </div>
+                            @endif
+                            @if(!empty($paymentQrCode))
+                                <div class="qr-payment-item">
+                                    <img src="{{ $paymentQrCode }}" alt="QR Code virement" />
+                                    <div class="qr-payment-label">{{ __('invoice.bank_transfer') }}</div>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 @endif
             </div>

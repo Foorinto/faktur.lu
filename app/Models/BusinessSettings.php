@@ -38,6 +38,8 @@ class BusinessSettings extends Model
         'show_phone_on_invoice',
         'email',
         'show_email_on_invoice',
+        'show_payment_qrcode',
+        'payment_qrcode_path',
         'logo_path',
     ];
 
@@ -107,6 +109,7 @@ class BusinessSettings extends Model
         'default_hourly_rate' => 'decimal:2',
         'show_email_on_invoice' => 'boolean',
         'show_phone_on_invoice' => 'boolean',
+        'show_payment_qrcode' => 'boolean',
     ];
 
     /**
@@ -189,6 +192,8 @@ class BusinessSettings extends Model
             'show_phone_on_invoice' => $this->show_phone_on_invoice,
             'email' => $this->email,
             'show_email_on_invoice' => $this->show_email_on_invoice,
+            'show_payment_qrcode' => $this->show_payment_qrcode,
+            'payment_qrcode_path' => $this->payment_qrcode_path,
             'logo_path' => $this->logo_path,
             'pdf_color' => $this->getEffectivePdfColor(),
         ];
@@ -239,6 +244,18 @@ class BusinessSettings extends Model
         }
 
         return storage_path('app/public/' . $this->logo_path);
+    }
+
+    /**
+     * Get the public URL to the payment QR code image.
+     */
+    public function getPaymentQrcodeUrlAttribute(): ?string
+    {
+        if (!$this->payment_qrcode_path) {
+            return null;
+        }
+
+        return asset('storage/' . $this->payment_qrcode_path);
     }
 
     /**

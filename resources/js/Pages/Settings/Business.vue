@@ -76,6 +76,7 @@ const form = useForm({
     show_email_on_invoice: props.settings?.show_email_on_invoice ?? false,
     peppol_endpoint_scheme: props.settings?.peppol_endpoint_scheme ?? '',
     peppol_endpoint_id: props.settings?.peppol_endpoint_id ?? '',
+    show_payment_qrcode: props.settings?.show_payment_qrcode ?? false,
 });
 
 const isCustomColor = computed(() => {
@@ -88,6 +89,13 @@ const logoForm = useForm({
 
 const logoInput = ref(null);
 const logoPreview = ref(props.settings?.logo_url ?? null);
+
+const paymentQrcodeForm = useForm({
+    payment_qrcode: null,
+});
+
+const paymentQrcodeInput = ref(null);
+const paymentQrcodePreview = ref(props.settings?.payment_qrcode_url ?? null);
 
 const isVatRequired = computed(() => form.vat_regime === 'assujetti');
 
@@ -243,6 +251,49 @@ const cancelLogoUpload = () => {
     logoForm.reset();
     logoPreview.value = props.settings?.logo_url ?? null;
     logoInput.value.value = '';
+};
+
+const selectPaymentQrcode = () => {
+    paymentQrcodeInput.value.click();
+};
+
+const handlePaymentQrcodeSelect = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        paymentQrcodeForm.payment_qrcode = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            paymentQrcodePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const uploadPaymentQrcode = () => {
+    paymentQrcodeForm.post(route('settings.business.payment-qrcode.upload'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            paymentQrcodeForm.reset();
+            paymentQrcodeInput.value.value = '';
+        },
+    });
+};
+
+const deletePaymentQrcode = () => {
+    if (confirm(t('delete_payment_qrcode_confirm'))) {
+        router.delete(route('settings.business.payment-qrcode.delete'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                paymentQrcodePreview.value = null;
+            },
+        });
+    }
+};
+
+const cancelPaymentQrcodeUpload = () => {
+    paymentQrcodeForm.reset();
+    paymentQrcodePreview.value = props.settings?.payment_qrcode_url ?? null;
+    paymentQrcodeInput.value.value = '';
 };
 </script>
 
@@ -728,6 +779,113 @@ const cancelLogoUpload = () => {
                                     placeholder="AAAABBCCXXX"
                                 />
                                 <InputError :message="form.errors.bic" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <label class="mt-2 flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                v-model="form.show_payment_qrcode"
+                                class="mt-0.5 rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
+                            />
+                            <span class="ml-2">
+                                <span class="text-sm text-slate-700 dark:text-slate-300">{{ t('show_payment_qrcode') }}</span>
+                                <span class="block text-xs text-slate-500 dark:text-slate-400">{{ t('show_payment_qrcode_help') }}</span>
+                            </span>
+                        </label>
+
+                        <!-- Custom Payment QR Code upload (Payconiq, PayPal, etc.) -->
+                        <div v-if="form.show_payment_qrcode" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
+                            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('payment_qrcode_title') }}</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">{{ t('payment_qrcode_help') }}</p>
+
+                            <div class="flex items-start space-x-4">
+                                <!-- Preview -->
+                                <div class="flex-shrink-0">
+                                    <div
+                                        v-if="paymentQrcodePreview"
+                                        class="w-24 h-24 rounded-lg border border-slate-200 dark:border-slate-600 overflow-hidden bg-white flex items-center justify-center"
+                                    >
+                                        <img :src="paymentQrcodePreview" alt="QR Code" class="max-w-full max-h-full object-contain" />
+                                    </div>
+                                    <div
+                                        v-else
+                                        class="w-24 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center"
+                                    >
+                                        <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75H16.5v-.75z" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- Upload controls -->
+                                <div class="flex-1">
+                                    <input
+                                        ref="paymentQrcodeInput"
+                                        type="file"
+                                        accept="image/png,image/jpeg,image/jpg,image/webp"
+                                        class="hidden"
+                                        @change="handlePaymentQrcodeSelect"
+                                    />
+
+                                    <div v-if="paymentQrcodeForm.payment_qrcode" class="space-y-2">
+                                        <p class="text-xs text-slate-600 dark:text-slate-400">
+                                            {{ paymentQrcodeForm.payment_qrcode.name }}
+                                        </p>
+                                        <div class="flex space-x-2">
+                                            <button
+                                                type="button"
+                                                @click="uploadPaymentQrcode"
+                                                :disabled="paymentQrcodeForm.processing"
+                                                class="inline-flex items-center rounded-lg bg-primary-600 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
+                                            >
+                                                <svg v-if="paymentQrcodeForm.processing" class="animate-spin -ml-0.5 mr-1.5 h-3 w-3 text-white" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                {{ t('save') }}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                @click="cancelPaymentQrcodeUpload"
+                                                class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                            >
+                                                {{ t('cancel') }}
+                                            </button>
+                                        </div>
+                                        <InputError :message="paymentQrcodeForm.errors.payment_qrcode" />
+                                    </div>
+
+                                    <div v-else class="space-y-2">
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            PNG, JPG, WebP — max 1 Mo
+                                        </p>
+                                        <div class="flex space-x-2">
+                                            <button
+                                                type="button"
+                                                @click="selectPaymentQrcode"
+                                                class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                            >
+                                                <svg class="h-3.5 w-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                                </svg>
+                                                {{ settings?.payment_qrcode_path ? t('change') : t('add_image') }}
+                                            </button>
+                                            <button
+                                                v-if="settings?.payment_qrcode_path"
+                                                type="button"
+                                                @click="deletePaymentQrcode"
+                                                class="inline-flex items-center rounded-lg border border-pink-300 bg-white px-2.5 py-1.5 text-xs font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-slate-700 dark:text-pink-400"
+                                            >
+                                                <svg class="h-3.5 w-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                {{ t('delete') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
