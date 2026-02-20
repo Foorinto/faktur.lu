@@ -24,11 +24,11 @@ class AccountantDashboardController extends Controller
                 'name' => $client->businessSettings?->company_name ?? $client->name,
                 'email' => $client->email,
                 'vat_number' => $client->businessSettings?->vat_number,
-                'last_invoice_at' => $client->invoices()
+                'last_invoice_at' => $client->userInvoices()
                     ->where('status', '!=', 'draft')
                     ->latest('finalized_at')
                     ->first()?->finalized_at?->format('d/m/Y'),
-                'invoices_count' => $client->invoices()
+                'invoices_count' => $client->userInvoices()
                     ->where('status', '!=', 'draft')
                     ->count(),
             ]);

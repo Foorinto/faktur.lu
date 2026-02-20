@@ -37,6 +37,7 @@ class StoreClientRequest extends FormRequest
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
             'default_vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'accounting_id' => ['nullable', 'string', 'max:20'],
         ];
     }
 

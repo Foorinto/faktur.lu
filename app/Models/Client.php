@@ -35,6 +35,7 @@ class Client extends Model
         'default_vat_rate',
         'locale',
         'exclude_from_reminders',
+        'accounting_id',
     ];
 
     protected $casts = [

@@ -55,6 +55,7 @@ const form = useForm({
     peppol_endpoint_scheme: '',
     peppol_endpoint_id: '',
     default_vat_rate: null,
+    accounting_id: '',
 });
 
 const submit = () => {

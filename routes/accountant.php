@@ -34,6 +34,7 @@ Route::prefix('comptable')->name('accountant.')->group(function () {
         // Client routes (with access verification)
         Route::middleware('accountant.access')->group(function () {
             Route::get('/client/{user}', [AccountantDashboardController::class, 'client'])->name('client');
+            Route::get('/client/{user}/export/accounting/{format}', [AccountantExportController::class, 'downloadAccounting'])->name('accounting-export');
             Route::get('/client/{user}/export/{type}', [AccountantExportController::class, 'download'])->name('export');
         });
     });

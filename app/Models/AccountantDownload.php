@@ -13,11 +13,17 @@ class AccountantDownload extends Model
     public const TYPE_FAIA = 'faia';
     public const TYPE_EXCEL = 'excel';
     public const TYPE_PDF_ARCHIVE = 'pdf_archive';
+    public const TYPE_ACCOUNTING_GENERIC = 'accounting_generic';
+    public const TYPE_ACCOUNTING_SAGE_BOB = 'accounting_sage_bob';
+    public const TYPE_ACCOUNTING_SAGE_100 = 'accounting_sage_100';
 
     public const TYPES = [
         self::TYPE_FAIA => 'Export FAIA (XML)',
         self::TYPE_EXCEL => 'Export Excel',
         self::TYPE_PDF_ARCHIVE => 'Archive PDF',
+        self::TYPE_ACCOUNTING_GENERIC => 'Export comptable (CSV)',
+        self::TYPE_ACCOUNTING_SAGE_BOB => 'Sage BOB 50 (ASCII)',
+        self::TYPE_ACCOUNTING_SAGE_100 => 'Sage 100 (CSV)',
     ];
 
     protected $fillable = [

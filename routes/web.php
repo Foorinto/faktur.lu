@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AccountantSettingsController;
+use App\Http\Controllers\AccountingExportController;
+use App\Http\Controllers\AccountingSettingsController;
 use App\Http\Controllers\BlogController;
 use App\Models\BlogPost;
 use App\Http\Controllers\ArchiveController;
@@ -383,6 +385,18 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
     Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
     Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
     Route::delete('/exports/audit/{export}', [AuditExportController::class, 'destroy'])->name('exports.audit.destroy');
+
+    // Accounting exports
+    Route::get('/exports/accounting', [AccountingExportController::class, 'index'])->name('exports.accounting.index');
+    Route::get('/exports/accounting/preview', [AccountingExportController::class, 'preview'])->name('exports.accounting.preview');
+    Route::get('/exports/accounting/pdf-archive', [AccountingExportController::class, 'pdfArchive'])->name('exports.accounting.pdf-archive');
+    Route::post('/exports/accounting', [AccountingExportController::class, 'store'])->name('exports.accounting.store');
+    Route::get('/exports/accounting/{export}/download', [AccountingExportController::class, 'download'])->name('exports.accounting.download');
+    Route::delete('/exports/accounting/{export}', [AccountingExportController::class, 'destroy'])->name('exports.accounting.destroy');
+
+    // Accounting settings
+    Route::get('/settings/accounting', [AccountingSettingsController::class, 'edit'])->name('settings.accounting.edit');
+    Route::put('/settings/accounting', [AccountingSettingsController::class, 'update'])->name('settings.accounting.update');
 
     // Archive info (read-only)
     Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');

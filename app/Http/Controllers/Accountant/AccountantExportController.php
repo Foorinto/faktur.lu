@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Accountant;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountantDownload;
+use App\Models\AccountingExport;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Notifications\AccountantDownloadNotification;
+use App\Services\Accounting\AccountingExportService;
+use App\Services\InvoicePdfService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -234,18 +238,26 @@ class AccountantExportController extends Controller
             abort(500, 'Impossible de créer l\'archive.');
         }
 
+        $pdfService = app(InvoicePdfService::class);
         $pdfCount = 0;
+
         foreach ($invoices as $invoice) {
-            if ($invoice->pdf_archive_path && Storage::disk('local')->exists($invoice->pdf_archive_path)) {
-                $pdfContent = Storage::disk('local')->get($invoice->pdf_archive_path);
+            if ($invoice->status === 'draft') {
+                continue;
+            }
+
+            try {
+                $pdfContent = $pdfService->getContent($invoice);
                 $zip->addFromString($invoice->number . '.pdf', $pdfContent);
                 $pdfCount++;
+            } catch (\Exception $e) {
+                // Skip invoices that fail PDF generation
+                continue;
             }
         }
 
-        // If no PDFs found, add a readme file explaining
         if ($pdfCount === 0) {
-            $zip->addFromString('README.txt', "Aucun PDF archivé disponible pour cette période.\n\nLes PDF sont générés lors de la finalisation des factures.");
+            $zip->addFromString('README.txt', "Aucune facture disponible pour cette période.");
         }
 
         $zip->close();
@@ -256,5 +268,71 @@ class AccountantExportController extends Controller
         );
 
         return response()->download($zipPath, $filename)->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Download an accounting export (Sage BOB, Sage 100, or Generic CSV).
+     */
+    public function downloadAccounting(Request $request, User $user, string $format)
+    {
+        $request->validate([
+            'year' => 'required|integer|min:2020|max:2100',
+            'quarter' => 'nullable|integer|min:1|max:4',
+        ]);
+
+        if (!in_array($format, [AccountingExport::FORMAT_SAGE_BOB, AccountingExport::FORMAT_SAGE_100, AccountingExport::FORMAT_GENERIC])) {
+            abort(400, 'Format d\'export invalide.');
+        }
+
+        $accountant = auth('accountant')->user();
+        $year = $request->integer('year');
+        $quarter = $request->integer('quarter');
+
+        // Build period
+        if ($quarter) {
+            $startMonth = ($quarter - 1) * 3 + 1;
+            $periodStart = Carbon::create($year, $startMonth, 1)->startOfDay();
+            $periodEnd = $periodStart->copy()->addMonths(3)->subDay()->endOfDay();
+            $period = "{$year}-Q{$quarter}";
+        } else {
+            $periodStart = Carbon::create($year, 1, 1)->startOfDay();
+            $periodEnd = Carbon::create($year, 12, 31)->endOfDay();
+            $period = (string) $year;
+        }
+
+        // Record the download
+        $formatLabel = AccountingExport::FORMATS[$format] ?? $format;
+        AccountantDownload::record(
+            $accountant,
+            $user,
+            "accounting_{$format}",
+            $period,
+            $request->ip(),
+            $request->userAgent()
+        );
+
+        // Notify the user
+        $user->notify(new AccountantDownloadNotification($accountant, "accounting_{$format}", $period));
+
+        // Generate content
+        $exportService = app(AccountingExportService::class);
+        $content = $exportService->generateContent($user, $periodStart, $periodEnd, $format);
+
+        $extension = match ($format) {
+            AccountingExport::FORMAT_SAGE_BOB => 'txt',
+            default => 'csv',
+        };
+
+        $mimeType = match ($format) {
+            AccountingExport::FORMAT_SAGE_BOB => 'text/plain',
+            default => 'text/csv',
+        };
+
+        $companyName = $user->businessSettings?->company_name ?? 'export';
+        $filename = sprintf('%s_%s_%s.%s', $format, $companyName, str_replace('-', '_', $period), $extension);
+
+        return response($content)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 }

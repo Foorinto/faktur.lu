@@ -605,6 +605,22 @@ const submit = () => {
                 </div>
 
                 <div>
+                    <InputLabel for="accounting_id" :value="`${t('accounting_id')} (${t('optional')})`" />
+                    <TextInput
+                        id="accounting_id"
+                        v-model="form.accounting_id"
+                        type="text"
+                        class="mt-1 block w-full"
+                        placeholder="Ex: C00042"
+                        maxlength="20"
+                    />
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        {{ t('accounting_id_help') }}
+                    </p>
+                    <InputError :message="form.errors.accounting_id" class="mt-2" />
+                </div>
+
+                <div>
                     <InputLabel for="notes" :value="`${t('internal_notes')} (${t('optional')})`" />
                     <textarea
                         id="notes"
