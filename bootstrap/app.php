@@ -26,6 +26,15 @@ return Application::configure(basePath: dirname(__DIR__))
             ->dailyAt('03:00')
             ->withoutOverlapping()
             ->onOneServer();
+
+        // Database backup daily at configured time (default 3:00 AM)
+        if (config('backup.enabled')) {
+            $schedule->command('backup:run')
+                ->dailyAt(config('backup.schedule_time', '03:00'))
+                ->withoutOverlapping()
+                ->onOneServer()
+                ->runInBackground();
+        }
     })
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
