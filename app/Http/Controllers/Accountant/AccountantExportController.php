@@ -113,7 +113,7 @@ class AccountantExportController extends Controller
     /**
      * Generate FAIA XML content.
      */
-    protected function generateFaiaXml(User $user, $invoices, int $year): string
+    public function generateFaiaXml(User $user, $invoices, int $year): string
     {
         $settings = $user->businessSettings;
 

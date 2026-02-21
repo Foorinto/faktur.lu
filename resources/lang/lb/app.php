@@ -635,6 +635,23 @@ return [
     'add_image' => 'Bild derbäisetzen',
     'change' => 'Änneren',
 
+    // Accountant portal
+    'my_clients' => 'Meng Clienten',
+    'manage_export_clients' => 'Verwalten an exportéiert d\'Comptabilitéitsdaten vun Äre Clienten',
+    'mass_export' => 'Massenexport',
+    'consolidated_report' => 'Konsolidéierte Rapport',
+    'clients_selected' => 'Client(en) ausgewielt',
+    'export_selection' => 'Auswiel exportéieren',
+    'no_clients_yet' => 'Nach keng Clienten',
+    'no_clients_yet_description' => 'Dir hutt nach keng Clienten, déi Iech Zougang ginn hunn.',
+    'full_year' => 'Ganzt Joer',
+    'quarter' => 'Quartal',
+    'ca_ht' => 'Ëmsaz netto',
+    'last_export' => 'Leschten Export',
+    'credit_notes_short' => 'GS.',
+    'exporting' => 'Export leeft',
+    'generating_report' => 'Rapport gëtt erstallt',
+
     // Profile
     'profile_title' => 'Profil',
     'profile_information' => 'Profil-Informatiounen',

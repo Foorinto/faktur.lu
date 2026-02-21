@@ -635,6 +635,23 @@ return [
     'add_image' => 'Bild hinzufügen',
     'change' => 'Ändern',
 
+    // Accountant portal
+    'my_clients' => 'Meine Kunden',
+    'manage_export_clients' => 'Verwalten und exportieren Sie die Buchhaltungsdaten Ihrer Kunden',
+    'mass_export' => 'Massenexport',
+    'consolidated_report' => 'Konsolidierter Bericht',
+    'clients_selected' => 'Kunde(n) ausgewählt',
+    'export_selection' => 'Auswahl exportieren',
+    'no_clients_yet' => 'Noch keine Kunden',
+    'no_clients_yet_description' => 'Sie haben noch keine Kunden, die Ihnen Zugang gewährt haben.',
+    'full_year' => 'Ganzes Jahr',
+    'quarter' => 'Quartal',
+    'ca_ht' => 'Umsatz netto',
+    'last_export' => 'Letzter Export',
+    'credit_notes_short' => 'GS.',
+    'exporting' => 'Export läuft',
+    'generating_report' => 'Bericht wird erstellt',
+
     // Profile
     'profile_title' => 'Profil',
     'profile_information' => 'Profilinformationen',

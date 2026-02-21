@@ -695,6 +695,23 @@ return [
     'add_image' => 'Add image',
     'change' => 'Change',
 
+    // Accountant portal
+    'my_clients' => 'My clients',
+    'manage_export_clients' => 'Manage and export your clients\' accounting data',
+    'mass_export' => 'Mass export',
+    'consolidated_report' => 'Consolidated report',
+    'clients_selected' => 'client(s) selected',
+    'export_selection' => 'Export selection',
+    'no_clients_yet' => 'No clients yet',
+    'no_clients_yet_description' => 'You don\'t have any clients who have granted you access yet.',
+    'full_year' => 'Full year',
+    'quarter' => 'Quarter',
+    'ca_ht' => 'Revenue excl. VAT',
+    'last_export' => 'Last export',
+    'credit_notes_short' => 'cn.',
+    'exporting' => 'Exporting',
+    'generating_report' => 'Generating report',
+
     // Profile
     'profile_title' => 'Profile',
     'profile_information' => 'Profile Information',

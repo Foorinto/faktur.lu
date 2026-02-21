@@ -5,6 +5,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -49,6 +50,13 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->redirectGuestsTo(function (Request $request) {
+            if ($request->is('comptable/*') || $request->is('comptable')) {
+                return route('accountant.login');
+            }
+
+            return route('login');
+        });
         // Remplacer le middleware de maintenance par notre version personnalisée
         $middleware->replace(
             \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,

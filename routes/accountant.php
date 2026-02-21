@@ -3,6 +3,7 @@
 use App\Http\Controllers\Accountant\AccountantAuthController;
 use App\Http\Controllers\Accountant\AccountantDashboardController;
 use App\Http\Controllers\Accountant\AccountantExportController;
+use App\Http\Controllers\Accountant\AccountantMassExportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,8 @@ Route::prefix('comptable')->name('accountant.')->group(function () {
     Route::middleware('accountant.auth')->group(function () {
         Route::get('/', [AccountantDashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [AccountantAuthController::class, 'logout'])->name('logout');
+        Route::post('/mass-export', [AccountantMassExportController::class, 'massExport'])->name('mass-export');
+        Route::post('/consolidated-report', [AccountantMassExportController::class, 'consolidatedReport'])->name('consolidated-report');
 
         // Client routes (with access verification)
         Route::middleware('accountant.access')->group(function () {
