@@ -1,0 +1,119 @@
+<script setup>
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
+const page = usePage();
+const user = computed(() => page.props.auth?.user);
+const mobileMenuOpen = ref(false);
+
+const navigation = [
+    { name: t('collaborator_dashboard'), href: 'collaborator.dashboard', icon: 'home' },
+    { name: t('my_projects'), href: 'collaborator.projects.index', icon: 'folder' },
+    { name: t('my_time'), href: 'collaborator.time.index', icon: 'clock' },
+];
+
+const isActive = (routeName) => route().current(routeName + '*');
+
+const logout = () => {
+    router.post(route('logout'));
+};
+</script>
+
+<template>
+    <div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+        <!-- Header -->
+        <header class="bg-white dark:bg-slate-800 shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <Link :href="route('collaborator.dashboard')" class="flex items-center space-x-2">
+                            <svg class="h-8 w-8 text-primary-600" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H6v-2h6v2zm4-4H6v-2h10v2zm0-4H6V7h10v2z"/>
+                            </svg>
+                            <span class="text-xl font-bold text-slate-900 dark:text-white">faktur.lu</span>
+                        </Link>
+                        <span class="text-sm text-slate-500 dark:text-slate-400 hidden sm:inline">{{ t('collaborator_space') }}</span>
+                    </div>
+
+                    <!-- Desktop navigation -->
+                    <nav class="hidden md:flex items-center space-x-1">
+                        <Link
+                            v-for="item in navigation"
+                            :key="item.href"
+                            :href="route(item.href)"
+                            class="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                            :class="isActive(item.href.replace('.index', ''))
+                                ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
+                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700'"
+                        >
+                            {{ item.name }}
+                        </Link>
+                    </nav>
+
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-slate-600 dark:text-slate-300 hidden sm:inline">{{ user?.name }}</span>
+                        <button
+                            @click="logout"
+                            class="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600"
+                        >
+                            {{ t('logout') }}
+                        </button>
+
+                        <!-- Mobile menu button -->
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile navigation -->
+                <nav v-if="mobileMenuOpen" class="md:hidden pb-4 space-y-1">
+                    <Link
+                        v-for="item in navigation"
+                        :key="item.href"
+                        :href="route(item.href)"
+                        class="block px-3 py-2 rounded-lg text-sm font-medium"
+                        :class="isActive(item.href.replace('.index', ''))
+                            ? 'bg-primary-50 text-primary-700'
+                            : 'text-slate-600 hover:bg-slate-100'"
+                        @click="mobileMenuOpen = false"
+                    >
+                        {{ item.name }}
+                    </Link>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Flash messages -->
+        <div v-if="$page.props.flash?.success" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
+                <p class="text-sm text-green-700 dark:text-green-400">{{ $page.props.flash.success }}</p>
+            </div>
+        </div>
+        <div v-if="$page.props.flash?.error" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+                <p class="text-sm text-red-700 dark:text-red-400">{{ $page.props.flash.error }}</p>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <main class="py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <slot />
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <p class="text-center text-sm text-slate-500 dark:text-slate-400">
+                    faktur.lu - {{ t('collaborator_space') }}
+                </p>
+            </div>
+        </footer>
+    </div>
+</template>

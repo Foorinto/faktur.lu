@@ -43,7 +43,7 @@ class SubscriptionController extends Controller
                     'id' => $invoice->id,
                     'date' => $invoice->date()->toFormattedDateString(),
                     'total' => $invoice->total(),
-                    'url' => $invoice->invoicePdf(),
+                    'url' => $invoice->asStripeInvoice()->invoice_pdf,
                 ])
                 : [],
             'onTrial' => $user->isOnGenericTrial(),

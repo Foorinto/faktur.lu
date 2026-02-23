@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -51,6 +52,8 @@ class Project extends Model
         'budget_hours',
         'sort_order',
         'is_archived',
+        'hidden_from_collaborators',
+        'created_by',
     ];
 
     protected function casts(): array
@@ -59,6 +62,7 @@ class Project extends Model
             'due_date' => 'date:Y-m-d',
             'budget_hours' => 'decimal:2',
             'is_archived' => 'boolean',
+            'hidden_from_collaborators' => 'boolean',
         ];
     }
 
@@ -79,6 +83,16 @@ class Project extends Model
         return $this->hasMany(TimeEntry::class);
     }
 
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_members')->withTimestamps();
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     // Scopes
 
     public function scopeStatus(Builder $query, string|array|null $status): Builder
@@ -93,6 +107,11 @@ class Project extends Model
     public function scopeArchived(Builder $query, bool $archived = true): Builder
     {
         return $query->where('is_archived', $archived);
+    }
+
+    public function scopeVisibleToCollaborators(Builder $query): Builder
+    {
+        return $query->where('hidden_from_collaborators', false);
     }
 
     public function scopeActive(Builder $query): Builder

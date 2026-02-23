@@ -47,6 +47,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
             Route::middleware('web')
                 ->group(base_path('routes/accountant.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/collaborator.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
@@ -78,6 +81,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.ip' => \App\Http\Middleware\AdminIpBlocking::class,
             'accountant.auth' => \App\Http\Middleware\AccountantAuthenticated::class,
             'accountant.access' => \App\Http\Middleware\VerifyAccountantAccess::class,
+            'collaborator' => \App\Http\Middleware\EnsureUserIsCollaborator::class,
+            'org.admin' => \App\Http\Middleware\EnsureUserIsOrganizationAdmin::class,
             'plan.limit' => \App\Http\Middleware\CheckPlanLimits::class,
             'plan.feature' => \App\Http\Middleware\CheckPlanFeature::class,
             'check.trial' => \App\Http\Middleware\CheckTrialExpired::class,

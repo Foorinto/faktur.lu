@@ -206,6 +206,7 @@ class PlanService
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
             'faia_export', 'pdf_archive', 'email_reminders', 'no_branding', 'priority_support',
+            'organizations',
         ];
 
         return $plan;

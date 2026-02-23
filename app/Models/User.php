@@ -289,6 +289,39 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(AccountantDownload::class);
     }
 
+    // ── Organization / Collaboration ────────────────────────────
+
+    public function ownedOrganization(): HasOne
+    {
+        return $this->hasOne(Organization::class);
+    }
+
+    public function organizationMembership(): HasOne
+    {
+        return $this->hasOne(OrganizationMember::class)->whereNotNull('joined_at');
+    }
+
+    public function isCollaborator(): bool
+    {
+        return $this->organizationMembership()
+            ->where('role', OrganizationMember::ROLE_COLLABORATOR)
+            ->exists();
+    }
+
+    public function isOrganizationOwner(): bool
+    {
+        return $this->ownedOrganization()->exists();
+    }
+
+    public function getOrganization(): ?Organization
+    {
+        if ($org = $this->ownedOrganization) {
+            return $org;
+        }
+
+        return $this->organizationMembership?->organization;
+    }
+
     /**
      * Get support tickets for this user.
      */

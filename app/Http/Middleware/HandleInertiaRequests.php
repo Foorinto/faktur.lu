@@ -74,6 +74,9 @@ class HandleInertiaRequests extends Middleware
                         'trial_ends_at' => $request->user()->trial_ends_at?->toISOString(),
                         'is_read_only' => $request->user()->isReadOnly(),
                         'plan_name' => $request->user()->plan,
+                        'is_collaborator' => $request->user()->isCollaborator(),
+                        'is_organization_owner' => $request->user()->isOrganizationOwner(),
+                        'is_pro' => $request->user()->isPro(),
                     ]
                 ) : null,
             ],

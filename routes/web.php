@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountantSettingsController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\AccountingExportController;
 use App\Http\Controllers\AccountingSettingsController;
 use App\Http\Controllers\BlogController;
@@ -328,6 +329,18 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
     Route::post('/settings/accountant/invitations/{invitation}/resend', [AccountantSettingsController::class, 'resendInvitation'])->name('settings.accountant.resend');
     Route::delete('/settings/accountant/invitations/{invitation}', [AccountantSettingsController::class, 'cancelInvitation'])->name('settings.accountant.cancel');
     Route::delete('/settings/accountant/{accountant}', [AccountantSettingsController::class, 'revokeAccess'])->name('settings.accountant.revoke');
+
+    // Organization management (Pro only)
+    Route::prefix('settings/organisation')->name('settings.organization.')->middleware('plan.feature:organizations')->group(function () {
+        Route::get('/', [OrganizationController::class, 'index'])->name('index');
+        Route::post('/', [OrganizationController::class, 'store'])->name('store');
+        Route::put('/', [OrganizationController::class, 'update'])->middleware('org.admin')->name('update');
+        Route::post('/invite', [OrganizationController::class, 'invite'])->middleware('org.admin')->name('invite');
+        Route::post('/invitations/{invitation}/resend', [OrganizationController::class, 'resendInvitation'])->middleware('org.admin')->name('invitations.resend');
+        Route::delete('/invitations/{invitation}', [OrganizationController::class, 'cancelInvitation'])->middleware('org.admin')->name('invitations.cancel');
+        Route::delete('/members/{member}', [OrganizationController::class, 'removeMember'])->middleware('org.admin')->name('members.remove');
+        Route::put('/projects/{project}/visibility', [OrganizationController::class, 'toggleProjectVisibility'])->middleware('org.admin')->name('projects.visibility');
+    });
 
     // Subscription management
     Route::get('/settings/subscription', [SubscriptionController::class, 'index'])->name('subscription.index');

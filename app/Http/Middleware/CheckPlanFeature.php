@@ -55,6 +55,7 @@ class CheckPlanFeature
             'pdf_archive' => __('L\'archivage PDF longue durée est réservé au plan Pro.'),
             'email_reminders' => __('Les relances automatiques sont réservées au plan Pro.'),
             'no_branding' => __('La suppression du branding est réservée au plan Pro.'),
+            'organizations' => __('La gestion d\'organisation est réservée au plan Pro.'),
             default => __('Cette fonctionnalité est réservée au plan Pro.'),
         };
     }
