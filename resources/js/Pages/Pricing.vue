@@ -48,6 +48,7 @@ const proFeatures = [
         title="Tarifs - faktur.lu | Logiciel de facturation Luxembourg"
         description="Découvrez les tarifs de faktur.lu : plan Essentiel à 4€/mois ou Pro à 9€/mois. Facturation conforme Luxembourg avec export FAIA."
         canonical-path="/tarifs"
+        route-name="pricing"
     />
 
     <div class="min-h-screen bg-slate-50 dark:bg-slate-900">

@@ -28,10 +28,18 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    routeName: {
+        type: String,
+        default: null,
+    },
+    routeParams: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 const page = usePage();
-const { currentLocale, availableLocales } = useLocalizedRoute();
+const { currentLocale, availableLocales, getAlternateUrls } = useLocalizedRoute();
 
 const appUrl = computed(() => page.props.appUrl || 'https://faktur.lu');
 const locale = computed(() => currentLocale());
@@ -66,10 +74,18 @@ const canonicalUrl = computed(() => {
 
 // Generate hreflang URLs for all locales
 const hreflangUrls = computed(() => {
+    // Use localized route generation when routeName is provided (handles localized slugs)
+    if (props.routeName) {
+        const alternates = getAlternateUrls(props.routeName, props.routeParams);
+        return Object.entries(alternates).map(([code, url]) => ({
+            locale: code,
+            url,
+        }));
+    }
+
+    // Fallback: simple locale prefix swap (works for routes without localized slugs)
     const locales = availableLocales();
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-
-    // Extract the path without locale prefix
     const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb)/, '') || '/';
 
     return Object.keys(locales).map(code => ({
@@ -80,6 +96,11 @@ const hreflangUrls = computed(() => {
 
 // Default x-default (usually French for Luxembourg)
 const xDefaultUrl = computed(() => {
+    if (props.routeName) {
+        const alternates = getAlternateUrls(props.routeName, props.routeParams);
+        return alternates.fr || `${appUrl.value}/fr/`;
+    }
+
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
     const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb)/, '') || '/';
     return `${appUrl.value}/fr${pathWithoutLocale}`;

@@ -7,6 +7,34 @@
  */
 
 return [
+    'features.index' => [
+        'fr' => 'fonctionnalites',
+        'de' => 'funktionen',
+        'en' => 'features',
+        'lb' => 'funktiounen',
+    ],
+
+    'features.show' => [
+        'fr' => 'fonctionnalites',
+        'de' => 'funktionen',
+        'en' => 'features',
+        'lb' => 'funktiounen',
+    ],
+
+    'about' => [
+        'fr' => 'a-propos',
+        'de' => 'ueber-uns',
+        'en' => 'about',
+        'lb' => 'iwwer-eis',
+    ],
+
+    'contact' => [
+        'fr' => 'contact',
+        'de' => 'contact',
+        'en' => 'contact',
+        'lb' => 'contact',
+    ],
+
     'pricing' => [
         'fr' => 'tarifs',
         'de' => 'preise',

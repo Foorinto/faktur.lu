@@ -108,7 +108,10 @@ class SitemapController extends Controller
         // Static pages with their route names (for localized slugs)
         $pages = [
             ['route' => null, 'path' => '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
+            ['route' => 'features.index', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'pricing', 'priority' => '0.9', 'changefreq' => 'monthly'],
+            ['route' => 'about', 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['route' => 'contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['route' => 'faia-validator', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'blog.index', 'priority' => '0.8', 'changefreq' => 'daily'],
             ['route' => 'legal.mentions', 'priority' => '0.3', 'changefreq' => 'yearly'],
@@ -117,8 +120,14 @@ class SitemapController extends Controller
             ['route' => 'legal.cookies', 'priority' => '0.3', 'changefreq' => 'yearly'],
         ];
 
+        // Feature detail pages
+        $featureSlugs = ['facturation', 'faia', 'peppol', 'gestion-projets', 'suivi-temps'];
+        foreach ($featureSlugs as $slug) {
+            $pages[] = ['route' => 'features.show', 'path' => null, 'priority' => '0.8', 'changefreq' => 'monthly', 'suffix' => '/' . $slug];
+        }
+
         foreach ($pages as $page) {
-            $xml .= $this->generateLocalizedUrlEntry($baseUrl, $page['route'] ?? null, $page['path'] ?? null, $page['priority'], $page['changefreq']);
+            $xml .= $this->generateLocalizedUrlEntry($baseUrl, $page['route'] ?? null, $page['path'] ?? null, $page['priority'], $page['changefreq'], $page['suffix'] ?? '');
         }
 
         $xml .= '</urlset>';
@@ -225,7 +234,7 @@ class SitemapController extends Controller
     /**
      * Generate a URL entry with localized slugs and hreflang alternatives.
      */
-    protected function generateLocalizedUrlEntry(string $baseUrl, ?string $routeName, ?string $staticPath, string $priority, string $changefreq): string
+    protected function generateLocalizedUrlEntry(string $baseUrl, ?string $routeName, ?string $staticPath, string $priority, string $changefreq, string $suffix = ''): string
     {
         $xml = '';
 
@@ -235,7 +244,7 @@ class SitemapController extends Controller
                 $path = $staticPath;
             } else {
                 $slug = $this->getLocalizedSlug($routeName, $locale);
-                $path = $slug ? '/' . $slug : '';
+                $path = $slug ? '/' . $slug . $suffix : $suffix;
             }
 
             $xml .= '<url>';
@@ -249,7 +258,7 @@ class SitemapController extends Controller
                     $altPath = $staticPath;
                 } else {
                     $altSlug = $this->getLocalizedSlug($routeName, $altLocale);
-                    $altPath = $altSlug ? '/' . $altSlug : '';
+                    $altPath = $altSlug ? '/' . $altSlug . $suffix : $suffix;
                 }
                 $xml .= '<xhtml:link rel="alternate" hreflang="' . $altLocale . '" ';
                 $xml .= 'href="' . $baseUrl . '/' . $altLocale . $altPath . '" />';
@@ -260,7 +269,7 @@ class SitemapController extends Controller
                 $defaultPath = $staticPath;
             } else {
                 $defaultSlug = $this->getLocalizedSlug($routeName, 'fr');
-                $defaultPath = $defaultSlug ? '/' . $defaultSlug : '';
+                $defaultPath = $defaultSlug ? '/' . $defaultSlug . $suffix : $suffix;
             }
             $xml .= '<xhtml:link rel="alternate" hreflang="x-default" ';
             $xml .= 'href="' . $baseUrl . '/fr' . $defaultPath . '" />';

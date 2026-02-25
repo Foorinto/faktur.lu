@@ -823,6 +823,19 @@ const toggleFaq = (index) => {
                         </article>
                     </div>
                 </div>
+
+                <!-- Link to all features -->
+                <div class="mt-12 text-center">
+                    <Link
+                        :href="localizedRoute('features.index')"
+                        class="inline-flex items-center gap-2 text-[#9b5de5] hover:text-[#8b4ed5] font-semibold transition-colors"
+                    >
+                        {{ t('landing.features.all_features') }}
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
+                </div>
             </div>
         </section>
 

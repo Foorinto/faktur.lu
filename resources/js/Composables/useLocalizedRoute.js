@@ -5,6 +5,11 @@ import { usePage } from '@inertiajs/vue3';
  */
 const localizedRoutes = [
     'home',
+    'features.index',
+    'features.show',
+    'about',
+    'contact',
+    'contact.send',
     'pricing',
     'faia-validator',
     'faia-validator.validate',
@@ -23,6 +28,36 @@ const localizedRoutes = [
  * Maps route names to their localized slugs per language.
  */
 const localizedSlugs = {
+    'features.index': {
+        fr: 'fonctionnalites',
+        de: 'funktionen',
+        en: 'features',
+        lb: 'funktiounen',
+    },
+    'features.show': {
+        fr: 'fonctionnalites',
+        de: 'funktionen',
+        en: 'features',
+        lb: 'funktiounen',
+    },
+    'about': {
+        fr: 'a-propos',
+        de: 'ueber-uns',
+        en: 'about',
+        lb: 'iwwer-eis',
+    },
+    'contact': {
+        fr: 'contact',
+        de: 'contact',
+        en: 'contact',
+        lb: 'contact',
+    },
+    'contact.send': {
+        fr: 'contact',
+        de: 'contact',
+        en: 'contact',
+        lb: 'contact',
+    },
     'pricing': {
         fr: 'tarifs',
         de: 'preise',
@@ -138,7 +173,9 @@ export function useLocalizedRoute() {
                 url += `/${params}`;
             } else if (typeof params === 'object') {
                 // Handle specific route parameters
-                if (name === 'blog.show' && params.post) {
+                if (name === 'features.show' && params.slug) {
+                    url += `/${params.slug}`;
+                } else if (name === 'blog.show' && params.post) {
                     url = `/${targetLocale}/blog/${params.post}`;
                 } else if (name === 'blog.category' && params.category) {
                     url += `/${params.category}`;

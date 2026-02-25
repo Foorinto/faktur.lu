@@ -1221,6 +1221,346 @@ return [
         ],
     ],
 
+    // Feature pages (SEO landing pages)
+    'features' => [
+        'breadcrumb' => [
+            'home' => 'Accueil',
+            'features' => 'Fonctionnalites',
+        ],
+        'index' => [
+            'page_title' => 'Fonctionnalites | Logiciel de Facturation Luxembourg | faktur.lu',
+            'meta_description' => 'Decouvrez toutes les fonctionnalites de faktur.lu : facturation conforme Luxembourg, export FAIA, Peppol, gestion de projets, suivi du temps.',
+            'badge' => 'Solution complete',
+            'title' => 'Toutes les fonctionnalites pour votre activite',
+            'subtitle' => 'Un logiciel de facturation complet concu pour les freelances et PME au Luxembourg. Conformite FAIA, Peppol, TVA automatique et bien plus.',
+            'learn_more' => 'En savoir plus',
+            'cta_title' => 'Pret a simplifier votre facturation ?',
+            'cta_subtitle' => '14 jours d\'essai gratuit, sans carte bancaire.',
+        ],
+        'faq_title' => 'Questions frequentes',
+        'other_features' => 'Decouvrez aussi',
+
+        'invoicing' => [
+            'title' => 'Facturation professionnelle',
+            'short_description' => 'Creez des factures conformes a la legislation luxembourgeoise en quelques clics.',
+            'page_title' => 'Facturation Luxembourg | Factures conformes FAIA | faktur.lu',
+            'meta_description' => 'Logiciel de facturation conforme Luxembourg. Numerotation sequentielle, TVA automatique 17%, devis, avoirs, envoi par email. Essai gratuit 14 jours.',
+            'hero_description' => 'Creez et envoyez des factures professionnelles conformes a la legislation luxembourgeoise. Numerotation sequentielle, calcul automatique de la TVA, devis convertibles en factures, notes de credit et relances automatiques.',
+            'details_title' => 'Tout ce dont vous avez besoin pour facturer',
+            'items' => [
+                'sequential' => [
+                    'title' => 'Numerotation sequentielle conforme',
+                    'description' => 'Numerotation automatique respectant les exigences legales du Luxembourg pour la tracabilite fiscale.',
+                ],
+                'vat' => [
+                    'title' => 'TVA automatique Luxembourg',
+                    'description' => 'Calcul automatique des taux de TVA luxembourgeois : 17%, 14%, 8%, 3% ou exonere selon le type de client.',
+                ],
+                'quotes' => [
+                    'title' => 'Devis professionnels',
+                    'description' => 'Creez des devis et convertissez-les en factures en un clic. Suivi des acceptations et relances.',
+                ],
+                'credit_notes' => [
+                    'title' => 'Notes de credit et avoirs',
+                    'description' => 'Generez des avoirs lies a vos factures originales avec tracabilite complete pour votre comptabilite.',
+                ],
+                'multi_currency' => [
+                    'title' => 'Facturation multi-devises',
+                    'description' => 'Facturez en EUR, USD, CHF ou toute autre devise. Conversion automatique et mentions legales adaptees.',
+                ],
+                'email' => [
+                    'title' => 'Envoi et relances par email',
+                    'description' => 'Envoyez vos factures directement par email et configurez des relances automatiques pour les impayes.',
+                ],
+                'recurring' => [
+                    'title' => 'Factures recurrentes',
+                    'description' => 'Automatisez la creation de factures mensuelles pour vos abonnements et contrats recurrents.',
+                ],
+                'pdf' => [
+                    'title' => 'Export PDF professionnel',
+                    'description' => 'PDF avec votre logo et vos couleurs. Archivage legal PDF/A pour conservation 10 ans.',
+                ],
+                'branding' => [
+                    'title' => 'Personnalisation du branding',
+                    'description' => 'Ajoutez votre logo, choisissez vos couleurs et personnalisez vos factures a votre image.',
+                ],
+            ],
+            'faqs' => [
+                'legal' => [
+                    'question' => 'Mes factures sont-elles conformes au Luxembourg ?',
+                    'answer' => 'Oui, toutes les factures generees par faktur.lu respectent les mentions legales obligatoires : numero de TVA, numerotation sequentielle, mentions legales, et sont compatibles avec les exigences de l\'AED.',
+                ],
+                'numbering' => [
+                    'question' => 'Comment fonctionne la numerotation des factures ?',
+                    'answer' => 'La numerotation est sequentielle et automatique, conforme aux exigences fiscales luxembourgeoises. Chaque facture recoit un numero unique et chronologique non modifiable.',
+                ],
+                'credit_note' => [
+                    'question' => 'Comment creer un avoir (note de credit) ?',
+                    'answer' => 'Depuis une facture finalisee, cliquez sur "Creer un avoir". Le systeme genere automatiquement une note de credit liee a la facture originale avec tracabilite complete.',
+                ],
+            ],
+        ],
+
+        'faia' => [
+            'title' => 'Export FAIA Luxembourg',
+            'short_description' => 'Fichier d\'audit conforme pour les controles de l\'AED Luxembourg.',
+            'page_title' => 'Export FAIA Luxembourg | Fichier Audit AED | faktur.lu',
+            'meta_description' => 'Export FAIA 2.01 conforme pour le Luxembourg. Fichier d\'audit informatise pour les controles fiscaux de l\'AED. Generation automatique, validation integree.',
+            'hero_description' => 'Generez automatiquement vos fichiers FAIA (Fichier d\'Audit Informatise AED) conformes au format 2.01 exige par l\'Administration des contributions directes du Luxembourg lors des controles fiscaux.',
+            'details_title' => 'Export FAIA complet et conforme',
+            'items' => [
+                'format' => [
+                    'title' => 'Format FAIA 2.01 conforme',
+                    'description' => 'Generation automatique au format XML FAIA 2.01, le standard exige par l\'AED Luxembourg pour les controles fiscaux.',
+                ],
+                'automatic' => [
+                    'title' => 'Generation automatique',
+                    'description' => 'Un clic suffit pour generer votre fichier FAIA couvrant la periode de votre choix.',
+                ],
+                'validation' => [
+                    'title' => 'Validation integree',
+                    'description' => 'Verification automatique de la conformite du fichier avant export : structure XML, coherence des donnees, calculs TVA.',
+                ],
+                'audit_trail' => [
+                    'title' => 'Piste d\'audit complete',
+                    'description' => 'Tracabilite de toutes les modifications sur vos factures, conforme aux obligations de conservation.',
+                ],
+                'archive' => [
+                    'title' => 'Archivage PDF/A 10 ans',
+                    'description' => 'Conservation legale de vos factures au format PDF/A avec empreinte SHA256 pour garantir l\'integrite.',
+                ],
+                'validator' => [
+                    'title' => 'Validateur FAIA gratuit',
+                    'description' => 'Outil en ligne gratuit pour verifier vos fichiers FAIA avant soumission a l\'AED.',
+                ],
+            ],
+            'faqs' => [
+                'what_is' => [
+                    'question' => 'Qu\'est-ce que le format FAIA ?',
+                    'answer' => 'Le FAIA (Fichier d\'Audit Informatise AED) est un format XML standardise exige par l\'Administration des contributions directes du Luxembourg lors des controles fiscaux des entreprises assujetties a la TVA.',
+                ],
+                'mandatory' => [
+                    'question' => 'Le FAIA est-il obligatoire ?',
+                    'answer' => 'Oui, depuis 2011 toute entreprise assujettie a la TVA au Luxembourg doit pouvoir fournir un fichier FAIA en cas de controle fiscal. faktur.lu genere ce fichier automatiquement.',
+                ],
+                'period' => [
+                    'question' => 'Quelle periode couvre le fichier FAIA ?',
+                    'answer' => 'Vous choisissez la periode lors de la generation : mensuelle, trimestrielle ou annuelle. Le fichier inclut toutes les factures et avoirs de la periode selectionnee.',
+                ],
+            ],
+        ],
+
+        'peppol' => [
+            'title' => 'Facturation Peppol',
+            'short_description' => 'Facturation electronique structuree pour le secteur public et les entreprises.',
+            'page_title' => 'Peppol Luxembourg | Facturation electronique B2G | faktur.lu',
+            'meta_description' => 'Facturation electronique Peppol pour le Luxembourg et la Belgique. Envoi B2G conforme, format UBL 2.1, Access Point certifie. Integration native.',
+            'hero_description' => 'Envoyez vos factures electroniques via le reseau Peppol, obligatoire pour les marches publics au Luxembourg et en Belgique. Format UBL 2.1 conforme, transmission via Access Point certifie.',
+            'details_title' => 'Facturation electronique Peppol integree',
+            'items' => [
+                'b2g' => [
+                    'title' => 'B2G conforme Luxembourg',
+                    'description' => 'Facturation electronique obligatoire pour le secteur public luxembourgeois via le reseau Peppol.',
+                ],
+                'ubl' => [
+                    'title' => 'Format UBL 2.1',
+                    'description' => 'Generation automatique de factures au format UBL 2.1, le standard international pour la facturation electronique.',
+                ],
+                'access_point' => [
+                    'title' => 'Access Point certifie',
+                    'description' => 'Transmission via un Access Point Peppol certifie pour la Belgique et le Luxembourg.',
+                ],
+                'belgium' => [
+                    'title' => 'Support Belgique',
+                    'description' => 'Compatible avec les obligations belges de facturation electronique B2G via Peppol.',
+                ],
+                'facturx' => [
+                    'title' => 'Factur-X / ZUGFeRD',
+                    'description' => 'Support du format Factur-X (France) et ZUGFeRD (Allemagne) pour la facturation electronique hybride.',
+                ],
+                'tracking' => [
+                    'title' => 'Suivi de transmission',
+                    'description' => 'Suivez le statut de vos factures Peppol en temps reel : envoyee, recue, acceptee ou rejetee.',
+                ],
+            ],
+            'faqs' => [
+                'mandatory' => [
+                    'question' => 'Peppol est-il obligatoire au Luxembourg ?',
+                    'answer' => 'Oui, la facturation electronique via Peppol est obligatoire pour les fournisseurs du secteur public luxembourgeois. C\'est aussi requis pour les marches publics belges.',
+                ],
+                'format' => [
+                    'question' => 'Quel format de facture est utilise ?',
+                    'answer' => 'Les factures Peppol utilisent le format UBL 2.1, un standard XML international. faktur.lu genere ce format automatiquement a partir de vos factures.',
+                ],
+                'facturx' => [
+                    'question' => 'Quelle est la difference entre Peppol et Factur-X ?',
+                    'answer' => 'Peppol est un reseau de transmission de factures electroniques (B2G). Factur-X est un format hybride PDF+XML utilise principalement en France et en Allemagne. faktur.lu supporte les deux.',
+                ],
+            ],
+        ],
+
+        'projects' => [
+            'title' => 'Gestion de projets',
+            'short_description' => 'Organisez vos projets, taches et suivez votre budget heures en temps reel.',
+            'page_title' => 'Gestion de Projets PME | Kanban, Taches, Budget | faktur.lu',
+            'meta_description' => 'Gestion de projets integree pour freelances et PME. Vue Kanban, taches et sous-taches, suivi du budget heures, conversion en facture. Essai gratuit.',
+            'hero_description' => 'Gerez vos projets, organisez vos taches en vue Kanban, suivez votre budget heures et convertissez le temps passe directement en factures. Un outil complet pour les freelances et PME.',
+            'details_title' => 'Gestion de projets complete',
+            'items' => [
+                'kanban' => [
+                    'title' => 'Vue Kanban intuitive',
+                    'description' => 'Organisez vos taches dans des colonnes personnalisables : Backlog, A faire, En cours, Termine.',
+                ],
+                'tasks' => [
+                    'title' => 'Taches et sous-taches',
+                    'description' => 'Creez des taches detaillees avec sous-taches, descriptions et assignation aux membres.',
+                ],
+                'budget' => [
+                    'title' => 'Budget heures',
+                    'description' => 'Definissez un budget heures par projet et suivez la consommation en temps reel.',
+                ],
+                'status' => [
+                    'title' => 'Suivi de statut',
+                    'description' => 'Suivez l\'avancement de vos projets avec des statuts personnalisables et des barres de progression.',
+                ],
+                'collaboration' => [
+                    'title' => 'Collaboration equipe',
+                    'description' => 'Invitez vos collaborateurs a travailler sur les projets avec des roles et permissions adaptes.',
+                ],
+                'invoicing' => [
+                    'title' => 'Conversion en facture',
+                    'description' => 'Convertissez le temps passe sur un projet directement en lignes de facture en quelques clics.',
+                ],
+            ],
+            'faqs' => [
+                'billing' => [
+                    'question' => 'Comment convertir le temps projet en facture ?',
+                    'answer' => 'Depuis la vue projet, selectionnez les entrees de temps a facturer et cliquez sur "Convertir en facture". Les lignes sont automatiquement ajoutees avec le tarif horaire.',
+                ],
+                'views' => [
+                    'question' => 'Quelles vues sont disponibles ?',
+                    'answer' => 'Vous disposez de la vue Liste, Kanban et Timeline pour organiser vos projets et taches selon vos preferences.',
+                ],
+            ],
+        ],
+
+        'time-tracking' => [
+            'title' => 'Suivi du temps',
+            'short_description' => 'Tracez votre temps de travail et facturez vos heures automatiquement.',
+            'page_title' => 'Suivi du Temps | Time Tracking Freelance Luxembourg | faktur.lu',
+            'meta_description' => 'Suivi du temps integre pour freelances et PME. Timer en un clic, entrees manuelles, association projet/tache, conversion en facture. Essai gratuit.',
+            'hero_description' => 'Tracez precisement votre temps de travail avec un chronometre en un clic ou des entrees manuelles. Associez chaque entree a un projet et une tache, puis convertissez le tout en facture.',
+            'details_title' => 'Time tracking complet et simple',
+            'items' => [
+                'timer' => [
+                    'title' => 'Timer en un clic',
+                    'description' => 'Demarrez et arretez le chronometre depuis n\'importe quelle page. Association automatique au projet en cours.',
+                ],
+                'manual' => [
+                    'title' => 'Entrees manuelles',
+                    'description' => 'Ajoutez des entrees de temps manuellement avec date, duree, projet et description.',
+                ],
+                'project_link' => [
+                    'title' => 'Association projet/tache',
+                    'description' => 'Liez chaque entree de temps a un projet et une tache pour un suivi precis du budget.',
+                ],
+                'reports' => [
+                    'title' => 'Rapports detailles',
+                    'description' => 'Rapports par periode, projet ou client. Visualisez la repartition de votre temps de travail.',
+                ],
+                'invoicing' => [
+                    'title' => 'Conversion en facture',
+                    'description' => 'Selectionnez les entrees de temps et generez une facture automatiquement avec le tarif horaire.',
+                ],
+                'team' => [
+                    'title' => 'Suivi equipe',
+                    'description' => 'Visualisez le temps de toute votre equipe sur chaque projet (fonctionnalite PME).',
+                ],
+            ],
+            'faqs' => [
+                'billing' => [
+                    'question' => 'Comment facturer mes heures ?',
+                    'answer' => 'Selectionnez les entrees de temps non facturees et cliquez sur "Convertir en facture". Le systeme cree les lignes de facture avec le tarif horaire et la duree.',
+                ],
+                'running' => [
+                    'question' => 'Que se passe-t-il si j\'oublie d\'arreter le timer ?',
+                    'answer' => 'Vous pouvez modifier l\'heure de fin a tout moment. Le timer apparait sur toutes les pages pour vous rappeler qu\'il est en cours.',
+                ],
+            ],
+        ],
+    ],
+
+    // About page
+    'about' => [
+        'page_title' => 'A propos | faktur.lu - Logiciel de facturation Luxembourg',
+        'meta_description' => 'Decouvrez faktur.lu, le logiciel de facturation concu pour les freelances et PME au Luxembourg. Conforme FAIA, multilingue, 100% luxembourgeois.',
+        'breadcrumb' => 'A propos',
+        'badge' => 'Notre histoire',
+        'title' => 'Facturation simplifiee pour le Luxembourg',
+        'subtitle' => 'faktur.lu est ne d\'un constat simple : les PME et freelances luxembourgeois meritent un outil de facturation moderne, conforme et adapte a leur realite multilingue.',
+        'mission_title' => 'Notre mission',
+        'mission_text' => 'Nous croyons que la facturation ne devrait pas etre une corvee. Notre objectif est de fournir aux entrepreneurs luxembourgeois un logiciel intuitif qui respecte toutes les obligations legales — export FAIA, numerotation sequentielle, TVA luxembourgeoise — tout en restant simple a utiliser au quotidien.',
+        'values_title' => 'Nos valeurs',
+        'values' => [
+            'compliance' => [
+                'title' => 'Conformite garantie',
+                'description' => 'Export FAIA pour l\'AED, numerotation sequentielle obligatoire, TVA luxembourgeoise a 17%, 14%, 8% et 3%. Toujours a jour avec la legislation.',
+            ],
+            'simplicity' => [
+                'title' => 'Simplicite avant tout',
+                'description' => 'Interface intuitive qui vous permet de creer une facture en moins de 2 minutes. Pas de formation necessaire, pas de complexite inutile.',
+            ],
+            'security' => [
+                'title' => 'Securite des donnees',
+                'description' => 'Vos donnees sont hebergees en Europe, chiffrees et sauvegardees quotidiennement. Authentification deux facteurs disponible.',
+            ],
+            'local' => [
+                'title' => '100% luxembourgeois',
+                'description' => 'Concu specifiquement pour le marche luxembourgeois. Interface en 4 langues : francais, allemand, anglais et luxembourgeois.',
+            ],
+        ],
+        'why_luxembourg_title' => 'Pourquoi le Luxembourg ?',
+        'why_luxembourg_text' => 'Le Luxembourg a des exigences specifiques en matiere de facturation : export FAIA obligatoire pour les controles fiscaux, numerotation sequentielle, mentions legales precises. faktur.lu est le seul logiciel concu nativement pour repondre a ces obligations.',
+        'stats' => [
+            'compliant' => 'Conforme legislation LU',
+            'languages' => 'Langues supportees',
+            'faia' => 'Export natif AED',
+        ],
+        'cta_title' => 'Pret a essayer faktur.lu ?',
+        'cta_subtitle' => '14 jours d\'essai gratuit, sans engagement, sans carte bancaire.',
+        'cta_contact' => 'Nous contacter',
+    ],
+
+    // Contact page
+    'contact' => [
+        'page_title' => 'Contact | faktur.lu - Logiciel de facturation Luxembourg',
+        'meta_description' => 'Contactez l\'equipe faktur.lu. Une question sur la facturation au Luxembourg, l\'export FAIA ou nos tarifs ? Nous vous repondons sous 24h.',
+        'breadcrumb' => 'Contact',
+        'badge' => 'Contactez-nous',
+        'title' => 'Une question ? Parlons-en.',
+        'subtitle' => 'Que vous souhaitiez en savoir plus sur faktur.lu, obtenir une demonstration ou simplement poser une question, notre equipe est la pour vous.',
+        'info' => [
+            'email_title' => 'Email',
+            'response_title' => 'Delai de reponse',
+            'response_text' => 'Nous repondons generalement sous 24 heures ouvrables.',
+            'location_title' => 'Localisation',
+            'location_text' => 'Luxembourg',
+        ],
+        'form' => [
+            'name' => 'Nom complet',
+            'name_placeholder' => 'Jean Dupont',
+            'email' => 'Adresse email',
+            'email_placeholder' => 'jean@entreprise.lu',
+            'subject' => 'Sujet',
+            'subject_placeholder' => 'Question sur les fonctionnalites...',
+            'message' => 'Message',
+            'message_placeholder' => 'Decrivez votre question ou demande...',
+            'submit' => 'Envoyer le message',
+            'sending' => 'Envoi en cours...',
+        ],
+        'success' => 'Votre message a ete envoye avec succes. Nous vous repondrons dans les plus brefs delais.',
+    ],
+
     // FAIA Validator (public page)
     'faia_validator' => [
         'page_title' => 'Validateur FAIA gratuit - Vérifiez vos fichiers Luxembourg | faktur.lu',

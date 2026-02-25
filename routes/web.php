@@ -5,6 +5,8 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\AccountingExportController;
 use App\Http\Controllers\AccountingSettingsController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FeaturePageController;
 use App\Models\BlogPost;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
@@ -130,6 +132,27 @@ Route::prefix('{locale}')
         Route::get('/preise', [PricingController::class, 'index'])->name('pricing.de');
         Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.en');
         Route::get('/präisser', [PricingController::class, 'index'])->name('pricing.lb');
+
+        // Feature pages (explicit localized routes)
+        Route::get('/fonctionnalites', [FeaturePageController::class, 'index'])->name('features.index.fr');
+        Route::get('/funktionen', [FeaturePageController::class, 'index'])->name('features.index.de');
+        Route::get('/features', [FeaturePageController::class, 'index'])->name('features.index.en');
+        Route::get('/funktiounen', [FeaturePageController::class, 'index'])->name('features.index.lb');
+
+        Route::get('/fonctionnalites/{slug}', [FeaturePageController::class, 'show'])->name('features.show.fr');
+        Route::get('/funktionen/{slug}', [FeaturePageController::class, 'show'])->name('features.show.de');
+        Route::get('/features/{slug}', [FeaturePageController::class, 'show'])->name('features.show.en');
+        Route::get('/funktiounen/{slug}', [FeaturePageController::class, 'show'])->name('features.show.lb');
+
+        // About page (explicit localized routes)
+        Route::get('/a-propos', [ContactController::class, 'about'])->name('about.fr');
+        Route::get('/ueber-uns', [ContactController::class, 'about'])->name('about.de');
+        Route::get('/about', [ContactController::class, 'about'])->name('about.en');
+        Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
+
+        // Contact page (explicit localized routes)
+        Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+        Route::post('/contact', [ContactController::class, 'send'])->middleware('throttle:6,1')->name('contact.send');
 
         // Public FAIA Validator (explicit localized routes)
         Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.fr');
