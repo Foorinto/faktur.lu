@@ -35,6 +35,18 @@ const props = defineProps({
         type: String,
         default: 'franchise',
     },
+    clientStatuses: {
+        type: Array,
+        default: () => [],
+    },
+    clientSources: {
+        type: Array,
+        default: () => [],
+    },
+    initialStatus: {
+        type: String,
+        default: 'active',
+    },
 });
 
 const form = useForm({
@@ -48,6 +60,7 @@ const form = useForm({
     vat_number: '',
     registration_number: '',
     type: 'b2b',
+    status: props.initialStatus || 'active',
     currency: 'EUR',
     phone: '',
     notes: '',
@@ -56,6 +69,8 @@ const form = useForm({
     peppol_endpoint_id: '',
     default_vat_rate: null,
     accounting_id: '',
+    source: null,
+    estimated_value: null,
 });
 
 const submit = () => {
@@ -83,6 +98,9 @@ const submit = () => {
                 :vat-rates="vatRates"
                 :is-vat-exempt="isVatExempt"
                 :seller-vat-regime="sellerVatRegime"
+                :client-statuses="clientStatuses"
+                :client-sources="clientSources"
+                :initial-status="initialStatus"
                 :submit-label="t('create')"
                 @submit="submit"
             />

@@ -55,4 +55,14 @@ defineProps({
 .rich-text-display u {
     @apply underline;
 }
+
+.rich-text-display a {
+    color: #2563eb;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.rich-text-display a:hover {
+    color: #1d4ed8;
+}
 </style>

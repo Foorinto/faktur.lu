@@ -143,6 +143,17 @@ const formatDate = (date) => {
                 >
                     {{ t('tab_invoices') }} ({{ client.invoices_count || 0 }})
                 </Link>
+                <Link
+                    :href="route('clients.interactions', client.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'interactions'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('crm.interactions') || 'Interactions' }}
+                </Link>
             </nav>
         </div>
 

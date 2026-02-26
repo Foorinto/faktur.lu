@@ -35,6 +35,9 @@ use App\Http\Controllers\TimeEntryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\InteractionController;
+use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\TagController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -228,6 +231,30 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
             ->name('clients.store');
         Route::get('/clients/{client}/invoices', [ClientController::class, 'invoices'])
             ->name('clients.invoices');
+        Route::get('/clients/{client}/interactions', [ClientController::class, 'interactions'])
+            ->name('clients.interactions');
+        Route::patch('/clients/{client}/convert', [ClientController::class, 'convertProspect'])
+            ->name('clients.convert');
+
+        // CRM - Interactions
+        Route::post('/clients/{client}/interactions', [InteractionController::class, 'store'])->name('interactions.store');
+        Route::put('/interactions/{interaction}', [InteractionController::class, 'update'])->name('interactions.update');
+        Route::delete('/interactions/{interaction}', [InteractionController::class, 'destroy'])->name('interactions.destroy');
+
+        // CRM - Reminders
+        Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+        Route::post('/clients/{client}/reminders', [ReminderController::class, 'store'])->name('reminders.store');
+        Route::put('/reminders/{reminder}', [ReminderController::class, 'update'])->name('reminders.update');
+        Route::patch('/reminders/{reminder}/complete', [ReminderController::class, 'complete'])->name('reminders.complete');
+        Route::delete('/reminders/{reminder}', [ReminderController::class, 'destroy'])->name('reminders.destroy');
+
+        // CRM - Tags
+        Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+        Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+        Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+        Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+        Route::post('/clients/{client}/tags/{tag}', [TagController::class, 'attach'])->name('tags.attach');
+        Route::delete('/clients/{client}/tags/{tag}', [TagController::class, 'detach'])->name('tags.detach');
 
         // Invoices
         Route::resource('invoices', InvoiceController::class)->except(['store']);

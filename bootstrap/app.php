@@ -28,6 +28,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Send CRM reminder notifications every 15 minutes
+        $schedule->command('reminders:send')
+            ->everyFifteenMinutes()
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Database backup daily at configured time (default 3:00 AM)
         if (config('backup.enabled')) {
             $schedule->command('backup:run')

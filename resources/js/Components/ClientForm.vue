@@ -57,6 +57,18 @@ const props = defineProps({
         type: String,
         default: 'franchise',
     },
+    clientStatuses: {
+        type: Array,
+        default: () => [],
+    },
+    clientSources: {
+        type: Array,
+        default: () => [],
+    },
+    initialStatus: {
+        type: String,
+        default: null,
+    },
 });
 
 const emit = defineEmits(['submit']);
@@ -274,6 +286,59 @@ const submit = () => {
                     </label>
                 </div>
                 <InputError :message="form.errors.type" class="mt-2" />
+            </div>
+        </div>
+
+        <!-- CRM - Statut & Informations commerciales -->
+        <div v-if="clientStatuses && clientStatuses.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                    {{ t('crm.commercial_info') }}
+                </h2>
+            </div>
+            <div class="px-6 py-4 space-y-4">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div>
+                        <InputLabel for="status" :value="t('crm.status')" />
+                        <select
+                            id="status"
+                            v-model="form.status"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        >
+                            <option v-for="status in clientStatuses" :key="status" :value="status">
+                                {{ t(`crm.status_${status}`) }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.status" class="mt-2" />
+                    </div>
+                    <div>
+                        <InputLabel for="source" :value="`${t('crm.source')} (${t('optional')})`" />
+                        <select
+                            id="source"
+                            v-model="form.source"
+                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        >
+                            <option :value="null">-</option>
+                            <option v-for="src in clientSources" :key="src" :value="src">
+                                {{ t(`crm.source_${src}`) }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.source" class="mt-2" />
+                    </div>
+                    <div>
+                        <InputLabel for="estimated_value" :value="`${t('crm.estimated_value')} (${t('optional')})`" />
+                        <TextInput
+                            id="estimated_value"
+                            v-model="form.estimated_value"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            class="mt-1 block w-full"
+                            placeholder="0.00"
+                        />
+                        <InputError :message="form.errors.estimated_value" class="mt-2" />
+                    </div>
+                </div>
             </div>
         </div>
 

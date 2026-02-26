@@ -1,41 +1,70 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import StatusBadge from '@/Components/CRM/StatusBadge.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
 
 const props = defineProps({
-    clients: {
-        type: Object,
-        required: true,
-    },
-    filters: {
-        type: Object,
-        default: () => ({}),
-    },
-    clientTypes: {
-        type: Array,
-        required: true,
-    },
+    clients: { type: Object, required: true },
+    filters: { type: Object, default: () => ({}) },
+    statusCounts: { type: Object, default: () => ({}) },
+    tags: { type: Array, default: () => [] },
+    clientTypes: { type: Array, required: true },
+    clientStatuses: { type: Array, default: () => [] },
+    clientSources: { type: Array, default: () => [] },
 });
 
 const search = ref(props.filters.search || '');
 const typeFilter = ref(props.filters.type || '');
+const statusFilter = ref(props.filters.status || '');
+const tagFilter = ref(props.filters.tag || '');
+
+const totalCount = computed(() => {
+    return Object.values(props.statusCounts).reduce((sum, c) => sum + c, 0);
+});
+
+const statusTabs = computed(() => {
+    return [
+        { value: '', label: t('crm.all_statuses'), count: totalCount.value },
+        { value: 'prospect', label: t('crm.status_prospect'), count: props.statusCounts.prospect || 0 },
+        { value: 'contacted', label: t('crm.status_contacted'), count: props.statusCounts.contacted || 0 },
+        { value: 'discussing', label: t('crm.status_discussing'), count: props.statusCounts.discussing || 0 },
+        { value: 'active', label: t('crm.status_active'), count: props.statusCounts.active || 0 },
+        { value: 'inactive', label: t('crm.status_inactive'), count: props.statusCounts.inactive || 0 },
+        { value: 'lost', label: t('crm.status_lost'), count: props.statusCounts.lost || 0 },
+    ];
+});
 
 const updateFilters = debounce(() => {
     router.get(route('clients.index'), {
         search: search.value || undefined,
         type: typeFilter.value || undefined,
+        status: statusFilter.value || undefined,
+        tag: tagFilter.value || undefined,
     }, {
         preserveState: true,
         replace: true,
     });
 }, 300);
 
-watch([search, typeFilter], updateFilters);
+watch([search, typeFilter, tagFilter], updateFilters);
+
+const setStatus = (status) => {
+    statusFilter.value = status;
+    router.get(route('clients.index'), {
+        search: search.value || undefined,
+        type: typeFilter.value || undefined,
+        status: status || undefined,
+        tag: tagFilter.value || undefined,
+    }, {
+        preserveState: true,
+        replace: true,
+    });
+};
 
 const deleteClient = (client) => {
     if (confirm(t('confirm_delete_name', { name: client.name }))) {
@@ -59,6 +88,8 @@ const formatCurrency = (amount) => {
         currency: 'EUR',
     }).format(amount);
 };
+
+const showNewDropdown = ref(false);
 </script>
 
 <template>
@@ -70,17 +101,68 @@ const formatCurrency = (amount) => {
                 <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                     {{ t('clients') }}
                 </h1>
-                <Link
-                    :href="route('clients.create')"
-                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
-                >
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    {{ t('new_client') }}
-                </Link>
+                <div class="relative">
+                    <button
+                        @click="showNewDropdown = !showNewDropdown"
+                        class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    >
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                        </svg>
+                        {{ t('new_client') }}
+                        <svg class="ml-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div v-if="showNewDropdown" class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
+                        <Link
+                            :href="route('clients.create', { status: 'active' })"
+                            @click="showNewDropdown = false"
+                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 rounded-t-xl"
+                        >
+                            {{ t('new_client') }}
+                        </Link>
+                        <Link
+                            :href="route('clients.create', { status: 'prospect' })"
+                            @click="showNewDropdown = false"
+                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 rounded-b-xl"
+                        >
+                            {{ t('crm.new_prospect') }}
+                        </Link>
+                    </div>
+                </div>
             </div>
         </template>
+
+        <!-- Status tabs -->
+        <div class="mb-4 border-b border-slate-200 dark:border-slate-700">
+            <nav class="flex space-x-4 overflow-x-auto" aria-label="Status tabs">
+                <button
+                    v-for="tab in statusTabs"
+                    :key="tab.value"
+                    @click="setStatus(tab.value)"
+                    :class="[
+                        'whitespace-nowrap py-3 px-1 border-b-2 text-sm font-medium transition-colors',
+                        statusFilter === tab.value
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ tab.label }}
+                    <span
+                        v-if="tab.count > 0"
+                        :class="[
+                            'ml-1.5 rounded-full px-2 py-0.5 text-xs',
+                            statusFilter === tab.value
+                                ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                                : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400'
+                        ]"
+                    >
+                        {{ tab.count }}
+                    </span>
+                </button>
+            </nav>
+        </div>
 
         <!-- Filters -->
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -108,6 +190,17 @@ const formatCurrency = (amount) => {
                         {{ type.label }}
                     </option>
                 </select>
+
+                <select
+                    v-if="tags.length > 0"
+                    v-model="tagFilter"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                >
+                    <option value="">{{ t('crm.all_tags') }}</option>
+                    <option v-for="tag in tags" :key="tag.id" :value="tag.id">
+                        {{ tag.name }}
+                    </option>
+                </select>
             </div>
         </div>
 
@@ -119,6 +212,9 @@ const formatCurrency = (amount) => {
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('client') }}
                         </th>
+                        <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white sm:table-cell">
+                            {{ t('crm.status') }}
+                        </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">
                             {{ t('email') }}
                         </th>
@@ -127,12 +223,6 @@ const formatCurrency = (amount) => {
                         </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">
                             {{ t('country') }}
-                        </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">
-                            {{ t('vat') }}
-                        </th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">
-                            {{ t('currency') }}
                         </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell">
                             {{ t('total_invoiced') }}
@@ -147,7 +237,7 @@ const formatCurrency = (amount) => {
                 </thead>
                 <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
                     <tr v-if="clients.data.length === 0">
-                        <td colspan="9" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
+                        <td colspan="8" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
@@ -183,8 +273,22 @@ const formatCurrency = (amount) => {
                                     <div class="text-sm text-slate-500 dark:text-slate-400 lg:hidden">
                                         {{ client.email }}
                                     </div>
+                                    <!-- Tags -->
+                                    <div v-if="client.tags && client.tags.length > 0" class="mt-1 flex flex-wrap gap-1">
+                                        <span
+                                            v-for="tag in client.tags"
+                                            :key="tag.id"
+                                            class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium text-white"
+                                            :style="{ backgroundColor: tag.color }"
+                                        >
+                                            {{ tag.name }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
+                        </td>
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
+                            <StatusBadge :status="client.status || 'active'" />
                         </td>
                         <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 lg:table-cell">
                             {{ client.email }}
@@ -199,12 +303,6 @@ const formatCurrency = (amount) => {
                         </td>
                         <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell">
                             {{ client.country_code }}
-                        </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 lg:table-cell">
-                            {{ client.vat_number || '-' }}
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400">
-                            {{ client.currency }}
                         </td>
                         <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-right text-slate-900 dark:text-white xl:table-cell">
                             {{ formatCurrency(client.total_invoiced || 0) }}

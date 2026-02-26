@@ -8,12 +8,16 @@ use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
     use HasFactory, SoftDeletes, BelongsToUser, Auditable;
+
+    public const STATUSES = ['prospect', 'contacted', 'discussing', 'active', 'inactive', 'lost'];
+    public const SOURCES = ['web', 'referral', 'event', 'cold', 'other'];
 
     protected $fillable = [
         'name',
@@ -28,6 +32,10 @@ class Client extends Model
         'peppol_endpoint_scheme',
         'registration_number',
         'type',
+        'status',
+        'source',
+        'estimated_value',
+        'converted_at',
         'currency',
         'phone',
         'notes',
@@ -40,9 +48,13 @@ class Client extends Model
 
     protected $casts = [
         'type' => 'string',
+        'status' => 'string',
+        'source' => 'string',
         'default_hourly_rate' => 'decimal:2',
         'default_vat_rate' => 'decimal:2',
+        'estimated_value' => 'decimal:2',
         'exclude_from_reminders' => 'boolean',
+        'converted_at' => 'datetime',
     ];
 
     /**
@@ -67,6 +79,30 @@ class Client extends Model
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
+    }
+
+    /**
+     * Get the interactions for the client.
+     */
+    public function interactions(): HasMany
+    {
+        return $this->hasMany(Interaction::class);
+    }
+
+    /**
+     * Get the reminders for the client.
+     */
+    public function reminders(): HasMany
+    {
+        return $this->hasMany(Reminder::class);
+    }
+
+    /**
+     * Get the tags for the client.
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'client_tag');
     }
 
     /**
@@ -269,5 +305,64 @@ class Client extends Model
         }
 
         return $query->where('country_code', $countryCode);
+    }
+
+    /**
+     * Scope to filter by status.
+     */
+    public function scopeOfStatus(Builder $query, ?string $status): Builder
+    {
+        if (empty($status)) {
+            return $query;
+        }
+
+        return $query->where('status', $status);
+    }
+
+    /**
+     * Scope to get only prospects (non-active statuses).
+     */
+    public function scopeProspects(Builder $query): Builder
+    {
+        return $query->whereIn('status', ['prospect', 'contacted', 'discussing']);
+    }
+
+    /**
+     * Scope to get only active clients.
+     */
+    public function scopeActiveClients(Builder $query): Builder
+    {
+        return $query->where('status', 'active');
+    }
+
+    /**
+     * Scope to filter by tag.
+     */
+    public function scopeWithTag(Builder $query, ?int $tagId): Builder
+    {
+        if (empty($tagId)) {
+            return $query;
+        }
+
+        return $query->whereHas('tags', fn (Builder $q) => $q->where('tags.id', $tagId));
+    }
+
+    /**
+     * Check if the client is a prospect.
+     */
+    public function isProspect(): bool
+    {
+        return in_array($this->status, ['prospect', 'contacted', 'discussing']);
+    }
+
+    /**
+     * Convert a prospect to an active client.
+     */
+    public function convertToClient(): void
+    {
+        $this->update([
+            'status' => 'active',
+            'converted_at' => now(),
+        ]);
     }
 }

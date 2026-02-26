@@ -2,6 +2,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
 import { watch } from 'vue';
 
 const props = defineProps({
@@ -17,6 +18,20 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
+const setLink = () => {
+    const previousUrl = editor.value?.getAttributes('link').href || '';
+    const url = window.prompt('URL du lien :', previousUrl);
+
+    if (url === null) return;
+
+    if (url === '') {
+        editor.value?.chain().focus().extendMarkRange('link').unsetLink().run();
+        return;
+    }
+
+    editor.value?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+};
+
 const editor = useEditor({
     content: props.modelValue,
     extensions: [
@@ -28,6 +43,13 @@ const editor = useEditor({
             horizontalRule: false,
         }),
         Underline,
+        Link.configure({
+            openOnClick: false,
+            HTMLAttributes: {
+                target: '_blank',
+                rel: 'noopener noreferrer',
+            },
+        }),
     ],
     editorProps: {
         attributes: {
@@ -129,6 +151,24 @@ watch(() => props.modelValue, (newValue) => {
                     <path d="M8 4h13v2H8V4ZM5 3v3h1v1H3V6h1V4H3V3h2Zm-2 7h3.5v1H4v1h1.5v1H3v-4h3v1H4v.5H3Zm2 5H3v1h2v1H3v1h2v1H3v1h3v-5H5ZM8 11h13v2H8v-2Zm0 7h13v2H8v-2Z"/>
                 </svg>
             </button>
+
+            <div class="mx-1 h-5 w-px bg-slate-300 dark:bg-slate-600"></div>
+
+            <button
+                type="button"
+                @click="setLink"
+                :class="[
+                    'rounded p-1.5 transition-colors',
+                    editor.isActive('link')
+                        ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                ]"
+                title="Lien (Ctrl+K)"
+            >
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.364 15.536 16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607 1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z"/>
+                </svg>
+            </button>
         </div>
 
         <!-- Editor content -->
@@ -173,6 +213,12 @@ watch(() => props.modelValue, (newValue) => {
 
 .rich-text-editor .ProseMirror ol {
     list-style-type: decimal;
+}
+
+.rich-text-editor .ProseMirror a {
+    color: #2563eb;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /* Placeholder */

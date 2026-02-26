@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\Client;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -38,6 +39,9 @@ class StoreClientRequest extends FormRequest
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
             'default_vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'accounting_id' => ['nullable', 'string', 'max:20'],
+            'status' => ['nullable', Rule::in(Client::STATUSES)],
+            'source' => ['nullable', Rule::in(Client::SOURCES)],
+            'estimated_value' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 

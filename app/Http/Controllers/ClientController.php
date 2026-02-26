@@ -6,6 +6,7 @@ use App\Http\Requests\Api\V1\StoreClientRequest;
 use App\Http\Requests\Api\V1\UpdateClientRequest;
 use App\Models\BusinessSettings;
 use App\Models\Client;
+use App\Models\Tag;
 use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,28 +20,46 @@ class ClientController extends Controller
      */
     public function index(Request $request): Response
     {
-        $clients = Client::query()
+        $query = Client::query()
             ->search($request->input('search'))
             ->ofType($request->input('type'))
+            ->ofStatus($request->input('status'))
+            ->withTag($request->input('tag') ? (int) $request->input('tag') : null)
             ->fromCountry($request->input('country'))
             ->withCount(['invoices', 'timeEntries'])
+            ->with('tags')
             ->withSum(['invoices as total_invoiced' => function ($query) {
                 $query->whereNotNull('finalized_at')->where('type', 'invoice');
             }], 'total_ttc')
             ->withSum(['invoices as total_paid' => function ($query) {
                 $query->where('status', 'paid');
             }], 'total_ttc')
-            ->orderBy('name')
-            ->paginate(15)
-            ->withQueryString();
+            ->orderBy('name');
+
+        $clients = $query->paginate(15)->withQueryString();
+
+        // Status counts for tabs
+        $statusCounts = Client::query()
+            ->selectRaw('status, COUNT(*) as count')
+            ->groupBy('status')
+            ->pluck('count', 'status')
+            ->toArray();
+
+        $tags = Tag::query()->orderBy('name')->get(['id', 'name', 'color']);
 
         return Inertia::render('Clients/Index', [
             'clients' => $clients,
             'filters' => [
                 'search' => $request->input('search'),
                 'type' => $request->input('type'),
+                'status' => $request->input('status'),
+                'tag' => $request->input('tag'),
                 'country' => $request->input('country'),
             ],
+            'statusCounts' => $statusCounts,
+            'tags' => $tags,
+            'clientStatuses' => Client::STATUSES,
+            'clientSources' => Client::SOURCES,
             'clientTypes' => [
                 ['value' => 'b2b', 'label' => 'Entreprise (B2B)'],
                 ['value' => 'b2c', 'label' => 'Particulier (B2C)'],
@@ -57,7 +76,7 @@ class ClientController extends Controller
     /**
      * Show the form for creating a new client.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
         $settings = BusinessSettings::getInstance();
 
@@ -77,6 +96,9 @@ class ClientController extends Controller
             'vatRates' => $this->getVatRates($settings),
             'isVatExempt' => $settings?->isVatExempt() ?? true,
             'sellerVatRegime' => $settings?->vat_regime ?? 'franchise',
+            'clientStatuses' => Client::STATUSES,
+            'clientSources' => Client::SOURCES,
+            'initialStatus' => $request->input('status', 'active'),
         ]);
     }
 
@@ -98,12 +120,70 @@ class ClientController extends Controller
     public function show(Client $client): Response
     {
         $client->loadCount(['invoices', 'timeEntries']);
+        $client->load('tags');
+
+        $interactions = $client->interactions()
+            ->latest('contacted_at')
+            ->limit(20)
+            ->get();
+
+        $reminders = $client->reminders()
+            ->pending()
+            ->limit(10)
+            ->get();
+
+        $overdueReminders = $client->reminders()
+            ->overdue()
+            ->count();
+
+        $allTags = Tag::query()->orderBy('name')->get(['id', 'name', 'color']);
 
         return Inertia::render('Clients/Show', [
             'client' => array_merge($client->toArray(), [
                 'vat_scenario' => $client->vat_scenario,
             ]),
+            'interactions' => $interactions,
+            'reminders' => $reminders,
+            'overdueReminders' => $overdueReminders,
+            'interactionTypes' => \App\Models\Interaction::TYPES,
+            'tags' => $allTags,
             'activeTab' => 'info',
+        ]);
+    }
+
+    /**
+     * Display the interactions for the specified client.
+     */
+    public function interactions(Client $client): Response
+    {
+        $client->loadCount(['invoices', 'timeEntries']);
+        $client->load('tags');
+
+        $interactions = $client->interactions()
+            ->latest('contacted_at')
+            ->paginate(20);
+
+        $reminders = $client->reminders()
+            ->pending()
+            ->limit(10)
+            ->get();
+
+        $overdueReminders = $client->reminders()
+            ->overdue()
+            ->count();
+
+        $allTags = Tag::query()->orderBy('name')->get(['id', 'name', 'color']);
+
+        return Inertia::render('Clients/Show', [
+            'client' => array_merge($client->toArray(), [
+                'vat_scenario' => $client->vat_scenario,
+            ]),
+            'interactions' => $interactions,
+            'reminders' => $reminders,
+            'overdueReminders' => $overdueReminders,
+            'interactionTypes' => \App\Models\Interaction::TYPES,
+            'tags' => $allTags,
+            'activeTab' => 'interactions',
         ]);
     }
 
@@ -113,6 +193,7 @@ class ClientController extends Controller
     public function invoices(Client $client): Response
     {
         $client->loadCount(['invoices', 'timeEntries']);
+        $client->load('tags');
 
         $invoices = $client->invoices()
             ->latest('finalized_at')
@@ -126,12 +207,24 @@ class ClientController extends Controller
             'count' => $client->invoices()->count(),
         ];
 
+        $reminders = $client->reminders()
+            ->pending()
+            ->limit(10)
+            ->get();
+
+        $overdueReminders = $client->reminders()
+            ->overdue()
+            ->count();
+
         return Inertia::render('Clients/Invoices', [
             'client' => array_merge($client->toArray(), [
                 'vat_scenario' => $client->vat_scenario,
             ]),
             'invoices' => $invoices,
             'stats' => $stats,
+            'reminders' => $reminders,
+            'overdueReminders' => $overdueReminders,
+            'interactionTypes' => \App\Models\Interaction::TYPES,
             'activeTab' => 'invoices',
         ]);
     }
@@ -160,6 +253,8 @@ class ClientController extends Controller
             'vatRates' => $this->getVatRates($settings),
             'isVatExempt' => $settings?->isVatExempt() ?? true,
             'sellerVatRegime' => $settings?->vat_regime ?? 'franchise',
+            'clientStatuses' => Client::STATUSES,
+            'clientSources' => Client::SOURCES,
         ]);
     }
 
@@ -173,6 +268,22 @@ class ClientController extends Controller
         return redirect()
             ->route('clients.show', $client)
             ->with('success', 'Client mis à jour avec succès.');
+    }
+
+    /**
+     * Convert a prospect to an active client.
+     */
+    public function convertProspect(Client $client): RedirectResponse
+    {
+        if (!$client->isProspect()) {
+            return back()->with('error', 'Ce client est déjà actif.');
+        }
+
+        $client->convertToClient();
+
+        return redirect()
+            ->route('clients.edit', $client)
+            ->with('success', 'Prospect converti en client. Complétez les informations de facturation.');
     }
 
     /**

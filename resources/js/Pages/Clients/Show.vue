@@ -1,26 +1,33 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
+import StatusBadge from '@/Components/CRM/StatusBadge.vue';
+import InteractionTimeline from '@/Components/CRM/InteractionTimeline.vue';
+import TagSelector from '@/Components/CRM/TagSelector.vue';
+import ReminderWidget from '@/Components/CRM/ReminderWidget.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
 
 const props = defineProps({
-    client: {
-        type: Object,
-        required: true,
-    },
-    activeTab: {
-        type: String,
-        default: 'info',
-    },
+    client: { type: Object, required: true },
+    interactions: { type: [Array, Object], default: () => [] },
+    reminders: { type: Array, default: () => [] },
+    overdueReminders: { type: Number, default: 0 },
+    interactionTypes: { type: Array, default: () => [] },
+    tags: { type: Array, default: () => [] },
+    activeTab: { type: String, default: 'info' },
 });
 
 const deleteClient = () => {
     if (confirm(t('confirm_delete_name', { name: props.client.name }))) {
         router.delete(route('clients.destroy', props.client.id));
     }
+};
+
+const convertProspect = () => {
+    router.patch(route('clients.convert', props.client.id));
 };
 
 const getTypeLabel = (type) => {
@@ -32,6 +39,17 @@ const getTypeBadgeClass = (type) => {
         ? 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
         : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
 };
+
+const isProspect = ['prospect', 'contacted', 'discussing'].includes(props.client.status);
+
+const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR',
+    }).format(amount);
+};
+
+const allTags = props.tags || [];
 </script>
 
 <template>
@@ -52,6 +70,7 @@ const getTypeBadgeClass = (type) => {
                     <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                         {{ client.name }}
                     </h1>
+                    <StatusBadge :status="client.status || 'active'" />
                     <span
                         :class="getTypeBadgeClass(client.type)"
                         class="inline-flex items-center rounded-xl px-3 py-1 text-xs font-medium"
@@ -60,6 +79,16 @@ const getTypeBadgeClass = (type) => {
                     </span>
                 </div>
                 <div class="flex items-center space-x-3">
+                    <button
+                        v-if="isProspect"
+                        @click="convertProspect"
+                        class="inline-flex items-center rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500"
+                    >
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                        </svg>
+                        {{ t('crm.convert_to_client') }}
+                    </button>
                     <Link
                         :href="route('clients.edit', client.id)"
                         class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"
@@ -108,131 +137,208 @@ const getTypeBadgeClass = (type) => {
                 >
                     {{ t('tab_invoices') }} ({{ client.invoices_count || 0 }})
                 </Link>
+                <Link
+                    :href="route('clients.interactions', client.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'interactions'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('crm.interactions') }}
+                </Link>
             </nav>
         </div>
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <!-- Main info -->
+            <!-- Main content -->
             <div class="lg:col-span-2 space-y-6">
-                <!-- Contact -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
-                            {{ t('client_info') }}
-                        </h2>
+                <!-- Info tab -->
+                <template v-if="activeTab === 'info'">
+                    <!-- Contact -->
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                                {{ t('client_info') }}
+                            </h2>
+                        </div>
+                        <dl class="divide-y divide-slate-200 dark:divide-slate-700">
+                            <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('name') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ client.name }}
+                                </dd>
+                            </div>
+                            <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('email') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    <a :href="`mailto:${client.email}`" class="text-primary-600 hover:text-primary-500 dark:text-primary-400">
+                                        {{ client.email }}
+                                    </a>
+                                </dd>
+                            </div>
+                            <div v-if="client.phone" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('phone') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    <a :href="`tel:${client.phone}`" class="text-primary-600 hover:text-primary-500 dark:text-primary-400">
+                                        {{ client.phone }}
+                                    </a>
+                                </dd>
+                            </div>
+                            <div v-if="client.address" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('address') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0 whitespace-pre-line">
+                                    {{ client.address }}
+                                    <template v-if="client.postal_code || client.city">
+                                        <br />{{ client.postal_code }} {{ client.city }}
+                                    </template>
+                                    <template v-if="client.country_code !== 'LU'">
+                                        <br />{{ client.country_code }}
+                                    </template>
+                                </dd>
+                            </div>
+                            <div v-if="client.source" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('crm.source') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ t(`crm.source_${client.source}`) }}
+                                </dd>
+                            </div>
+                            <div v-if="client.estimated_value" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('crm.estimated_value') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ formatCurrency(client.estimated_value) }}
+                                </dd>
+                            </div>
+                            <div v-if="client.converted_at" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('crm.conversion_date') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ new Date(client.converted_at).toLocaleDateString('fr-FR') }}
+                                </dd>
+                            </div>
+                        </dl>
                     </div>
-                    <dl class="divide-y divide-slate-200 dark:divide-slate-700">
-                        <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('name') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                {{ client.name }}
-                            </dd>
-                        </div>
-                        <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('email') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                <a :href="`mailto:${client.email}`" class="text-primary-600 hover:text-primary-500 dark:text-primary-400">
-                                    {{ client.email }}
-                                </a>
-                            </dd>
-                        </div>
-                        <div v-if="client.phone" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('phone') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                <a :href="`tel:${client.phone}`" class="text-primary-600 hover:text-primary-500 dark:text-primary-400">
-                                    {{ client.phone }}
-                                </a>
-                            </dd>
-                        </div>
-                        <div v-if="client.address" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('address') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0 whitespace-pre-line">
-                                {{ client.address }}
-                                <template v-if="client.postal_code || client.city">
-                                    <br />{{ client.postal_code }} {{ client.city }}
-                                </template>
-                                <template v-if="client.country_code !== 'LU'">
-                                    <br />{{ client.country_code }}
-                                </template>
-                            </dd>
-                        </div>
-                    </dl>
-                </div>
 
-                <!-- Fiscal info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
-                            {{ t('billing_settings') }}
-                        </h2>
-                    </div>
-                    <dl class="divide-y divide-slate-200 dark:divide-slate-700">
-                        <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('client_type') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                {{ getTypeLabel(client.type) }}
-                            </dd>
+                    <!-- Fiscal info -->
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                                {{ t('billing_settings') }}
+                            </h2>
                         </div>
-                        <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('country') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                {{ client.country_code }}
-                            </dd>
-                        </div>
-                        <div v-if="client.vat_number" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_number') }}</dt>
-                            <dd class="mt-1 text-sm font-mono text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                {{ client.vat_number }}
-                            </dd>
-                        </div>
-                        <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('currency') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
-                                {{ client.currency }}
-                            </dd>
-                        </div>
-                        <div v-if="client.vat_scenario" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_scenario_detected') }}</dt>
-                            <dd class="mt-1 sm:col-span-2 sm:mt-0">
-                                <VatScenarioIndicator :scenario="client.vat_scenario" size="sm" />
-                            </dd>
-                        </div>
-                        <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Peppol</dt>
-                            <dd class="mt-1 sm:col-span-2 sm:mt-0">
-                                <span v-if="client.peppol_endpoint_id && client.peppol_endpoint_scheme" class="inline-flex items-center">
-                                    <span class="inline-flex items-center rounded-xl bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
-                                        <svg class="mr-1 h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                                        </svg>
-                                        {{ client.peppol_endpoint_scheme }}:{{ client.peppol_endpoint_id }}
+                        <dl class="divide-y divide-slate-200 dark:divide-slate-700">
+                            <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('client_type') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ getTypeLabel(client.type) }}
+                                </dd>
+                            </div>
+                            <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('country') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ client.country_code }}
+                                </dd>
+                            </div>
+                            <div v-if="client.vat_number" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_number') }}</dt>
+                                <dd class="mt-1 text-sm font-mono text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ client.vat_number }}
+                                </dd>
+                            </div>
+                            <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('currency') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ client.currency }}
+                                </dd>
+                            </div>
+                            <div v-if="client.vat_scenario" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_scenario_detected') }}</dt>
+                                <dd class="mt-1 sm:col-span-2 sm:mt-0">
+                                    <VatScenarioIndicator :scenario="client.vat_scenario" size="sm" />
+                                </dd>
+                            </div>
+                            <div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Peppol</dt>
+                                <dd class="mt-1 sm:col-span-2 sm:mt-0">
+                                    <span v-if="client.peppol_endpoint_id && client.peppol_endpoint_scheme" class="inline-flex items-center">
+                                        <span class="inline-flex items-center rounded-xl bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
+                                            <svg class="mr-1 h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                                            </svg>
+                                            {{ client.peppol_endpoint_scheme }}:{{ client.peppol_endpoint_id }}
+                                        </span>
                                     </span>
-                                </span>
-                                <span v-else class="text-sm text-slate-400 dark:text-slate-500">
-                                    {{ t('not_configured') }}
-                                </span>
-                            </dd>
-                        </div>
-                    </dl>
-                </div>
+                                    <span v-else class="text-sm text-slate-400 dark:text-slate-500">
+                                        {{ t('not_configured') }}
+                                    </span>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
 
-                <!-- Notes -->
-                <div v-if="client.notes" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
-                            {{ t('internal_notes') }}
-                        </h2>
+                    <!-- Notes -->
+                    <div v-if="client.notes" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                                {{ t('internal_notes') }}
+                            </h2>
+                        </div>
+                        <div class="px-6 py-4">
+                            <p class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line">
+                                {{ client.notes }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="px-6 py-4">
-                        <p class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                            {{ client.notes }}
-                        </p>
+                </template>
+
+                <!-- Interactions tab -->
+                <template v-if="activeTab === 'interactions'">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                                {{ t('crm.interactions') }}
+                            </h2>
+                        </div>
+                        <div class="px-6 py-4">
+                            <InteractionTimeline
+                                :interactions="interactions"
+                                :client-id="client.id"
+                                :interaction-types="interactionTypes"
+                            />
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
 
             <!-- Sidebar -->
             <div class="space-y-6">
+                <!-- Tags -->
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                            {{ t('crm.tags') }}
+                        </h2>
+                    </div>
+                    <div class="px-6 py-4">
+                        <TagSelector
+                            :client-tags="client.tags || []"
+                            :available-tags="allTags"
+                            :client-id="client.id"
+                        />
+                    </div>
+                </div>
+
+                <!-- Reminders -->
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                    <div class="px-6 py-4">
+                        <ReminderWidget
+                            :reminders="reminders"
+                            :client-id="client.id"
+                            :overdue-count="overdueReminders"
+                        />
+                    </div>
+                </div>
+
                 <!-- Stats -->
                 <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
