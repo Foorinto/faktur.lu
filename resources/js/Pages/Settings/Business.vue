@@ -1100,7 +1100,7 @@ const cancelPaymentQrcodeUpload = () => {
                 <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
-                            {{ t('contact') }}
+                            {{ t('contact_label') }}
                         </h2>
                     </div>
                     <div class="px-6 py-4 space-y-4">

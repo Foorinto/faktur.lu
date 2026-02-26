@@ -18,6 +18,21 @@ return [
     'archive' => 'Archivéierung',
     'users' => 'Benotzer',
     'maintenance' => 'Maintenance',
+    'business' => 'Betrib',
+    'subscription' => 'Abonnement',
+    'accountant_access' => 'Comptabel-Zougang',
+    'email_provider' => 'E-Mail-Ubidder',
+    'remove' => 'Ewechhuelen',
+    'resend' => 'Nach emol schécken',
+    'low' => 'Niddreg',
+    'normal' => 'Normal',
+    'high' => 'Héich',
+    'budget' => 'Budget',
+    'color' => 'Faarf',
+    'end' => 'Enn',
+    'not_configured' => 'Net konfiguréiert',
+    'default_vat_rate' => 'Standard TVA-Saz',
+    'contact_label' => 'Kontakt',
 
     // Common actions
     'create' => 'Erstellen',
@@ -854,6 +869,11 @@ return [
             'gdpr' => 'DSGVO-Konformitéit',
             'aed_compliant' => 'Konform mat den Ufuerderunge vun der AED Lëtzebuerg',
             'all_rights' => 'All Rechter reservéiert',
+            'description' => 'Rechnungssoftware fir Freelanceren a KMUen zu Lëtzebuerg.',
+            'faia_compliant' => 'FAIA-konform',
+            'faia_export' => 'FAIA-Export',
+            'vat_luxembourg' => 'TVA Lëtzebuerg',
+            'copyright' => '© 2026 faktur.lu. All Rechter reservéiert.',
         ],
 
         'hero' => [

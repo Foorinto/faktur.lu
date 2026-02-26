@@ -18,6 +18,21 @@ return [
     'archive' => 'Archivierung',
     'users' => 'Benutzer',
     'maintenance' => 'Wartung',
+    'business' => 'Unternehmen',
+    'subscription' => 'Abonnement',
+    'accountant_access' => 'Buchhalter-Zugang',
+    'email_provider' => 'E-Mail-Anbieter',
+    'remove' => 'Entfernen',
+    'resend' => 'Erneut senden',
+    'low' => 'Niedrig',
+    'normal' => 'Normal',
+    'high' => 'Hoch',
+    'budget' => 'Budget',
+    'color' => 'Farbe',
+    'end' => 'Ende',
+    'not_configured' => 'Nicht konfiguriert',
+    'default_vat_rate' => 'Standard-MwSt-Satz',
+    'contact_label' => 'Kontakt',
 
     // Common actions
     'create' => 'Erstellen',
@@ -854,6 +869,11 @@ return [
             'gdpr' => 'DSGVO-Konformität',
             'aed_compliant' => 'Konform mit den Anforderungen der AED Luxemburg',
             'all_rights' => 'Alle Rechte vorbehalten',
+            'description' => 'Rechnungssoftware für Freiberufler und KMU in Luxemburg.',
+            'faia_compliant' => 'FAIA-konform',
+            'faia_export' => 'FAIA-Export',
+            'vat_luxembourg' => 'MwSt Luxemburg',
+            'copyright' => '© 2026 faktur.lu. Alle Rechte vorbehalten.',
         ],
 
         'hero' => [
