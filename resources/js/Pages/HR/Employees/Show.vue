@@ -16,6 +16,7 @@ const props = defineProps({
     nationalities: { type: Array, default: () => [] },
     pendingDays: { type: Object, default: () => ({}) },
     expenseReports: { type: Array, default: () => [] },
+    documents: { type: Array, default: () => [] },
 });
 
 const countryName = (code) => {
@@ -97,6 +98,67 @@ const submitLeave = () => {
     leaveForm.post(route('hr.leaves.store'), {
         onSuccess: () => { showLeaveModal.value = false; leaveForm.reset(); leaveForm.employee_id = props.employee.id; },
     });
+};
+
+// Document upload
+const showDocModal = ref(false);
+const docForm = useForm({
+    type: '',
+    name: '',
+    file: null,
+    expiry_date: '',
+    notes: '',
+});
+
+const docTypes = [
+    { value: 'contract', key: 'type_contract' },
+    { value: 'amendment', key: 'type_amendment' },
+    { value: 'payslip', key: 'type_payslip' },
+    { value: 'id_card', key: 'type_id_card' },
+    { value: 'certificate', key: 'type_certificate' },
+    { value: 'other', key: 'type_other' },
+];
+
+const getDocTypeLabel = (type) => {
+    const found = docTypes.find(d => d.value === type);
+    return found ? t('hr.' + found.key) : type;
+};
+
+const getDocTypeBadgeClass = (type) => {
+    const classes = {
+        contract: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+        amendment: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
+        payslip: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+        id_card: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+        certificate: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
+        other: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+    };
+    return classes[type] || classes.other;
+};
+
+const isExpired = (date) => {
+    if (!date) return false;
+    return new Date(date) < new Date();
+};
+
+const onDocFileChange = (e) => {
+    docForm.file = e.target.files[0] || null;
+};
+
+const submitDocument = () => {
+    docForm.post(route('hr.employees.documents.store', props.employee.id), {
+        forceFormData: true,
+        onSuccess: () => {
+            showDocModal.value = false;
+            docForm.reset();
+        },
+    });
+};
+
+const deleteDocument = (doc) => {
+    if (confirm(t('hr.confirm_delete_document'))) {
+        router.delete(route('hr.employees.documents.destroy', [props.employee.id, doc.id]));
+    }
 };
 </script>
 
@@ -195,6 +257,17 @@ const submitLeave = () => {
                     ]"
                 >
                     {{ t('hr.expenses') }}
+                </Link>
+                <Link
+                    :href="route('hr.employees.documents', employee.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'documents'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('hr.documents') }}
                 </Link>
             </nav>
         </div>
@@ -440,6 +513,68 @@ const submitLeave = () => {
                         </div>
                     </div>
                 </template>
+
+                <!-- Documents Tab -->
+                <template v-if="activeTab === 'documents'">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.documents') }}</h2>
+                            <button
+                                @click="showDocModal = true"
+                                class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-600"
+                            >
+                                + {{ t('hr.new_document') }}
+                            </button>
+                        </div>
+                        <div v-if="documents && documents.length > 0" class="divide-y divide-slate-200 dark:divide-slate-700">
+                            <div v-for="doc in documents" :key="doc.id" class="px-6 py-4 flex items-start justify-between gap-4">
+                                <div class="flex items-start gap-3 min-w-0">
+                                    <!-- File icon -->
+                                    <div class="flex-shrink-0 mt-0.5">
+                                        <svg class="h-8 w-8 text-slate-400 dark:text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                        </svg>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="text-sm font-medium text-slate-900 dark:text-white">{{ doc.name }}</span>
+                                            <span :class="getDocTypeBadgeClass(doc.type)" class="inline-flex items-center rounded-xl px-2 py-0.5 text-xs font-medium">
+                                                {{ getDocTypeLabel(doc.type) }}
+                                            </span>
+                                            <span v-if="doc.expiry_date && isExpired(doc.expiry_date)" class="inline-flex items-center rounded-xl px-2 py-0.5 text-xs font-medium bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400">
+                                                {{ t('hr.expired') }}
+                                            </span>
+                                        </div>
+                                        <div class="mt-1 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                                            <a :href="`/storage/${doc.file_path}`" target="_blank" class="text-primary-600 hover:text-primary-500 dark:text-primary-400 hover:underline truncate">
+                                                {{ doc.original_name }}
+                                            </a>
+                                            <span v-if="doc.expiry_date && !isExpired(doc.expiry_date)">
+                                                {{ t('hr.expires_on') }} {{ formatDate(doc.expiry_date) }}
+                                            </span>
+                                            <span v-else-if="doc.expiry_date && isExpired(doc.expiry_date)">
+                                                {{ t('hr.expires_on') }} {{ formatDate(doc.expiry_date) }}
+                                            </span>
+                                        </div>
+                                        <p v-if="doc.notes" class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ doc.notes }}</p>
+                                    </div>
+                                </div>
+                                <button
+                                    @click="deleteDocument(doc)"
+                                    class="flex-shrink-0 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-400"
+                                    :title="t('delete')"
+                                >
+                                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-else class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                            {{ t('hr.no_documents') }}
+                        </div>
+                    </div>
+                </template>
             </div>
 
             <!-- Sidebar -->
@@ -560,6 +695,54 @@ const submitLeave = () => {
                             </button>
                             <button type="submit" :disabled="!canSubmitLeave" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ t('hr.submit_request') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </Teleport>
+
+        <!-- Document Upload Modal -->
+        <Teleport to="body">
+            <div v-if="showDocModal" class="fixed inset-0 z-50 flex items-center justify-center">
+                <div class="fixed inset-0 bg-slate-900/50" @click="showDocModal = false"></div>
+                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('hr.new_document') }}</h3>
+                    <form @submit.prevent="submitDocument" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_type') }} *</label>
+                            <select v-model="docForm.type" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm">
+                                <option value="">{{ t('hr.select_type') }}</option>
+                                <option v-for="dt in docTypes" :key="dt.value" :value="dt.value">{{ t('hr.' + dt.key) }}</option>
+                            </select>
+                            <p v-if="docForm.errors.type" class="mt-1 text-xs text-rose-600">{{ docForm.errors.type }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_name') }} *</label>
+                            <input v-model="docForm.name" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <p v-if="docForm.errors.name" class="mt-1 text-xs text-rose-600">{{ docForm.errors.name }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.justification') }} *</label>
+                            <input type="file" @change="onDocFileChange" required accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 dark:text-slate-400 dark:file:bg-primary-900/30 dark:file:text-primary-400" />
+                            <p v-if="docForm.errors.file" class="mt-1 text-xs text-rose-600">{{ docForm.errors.file }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_expiry') }}</label>
+                            <input v-model="docForm.expiry_date" type="date" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <p v-if="docForm.errors.expiry_date" class="mt-1 text-xs text-rose-600">{{ docForm.errors.expiry_date }}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_notes') }}</label>
+                            <textarea v-model="docForm.notes" rows="2" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
+                            <p v-if="docForm.errors.notes" class="mt-1 text-xs text-rose-600">{{ docForm.errors.notes }}</p>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <button type="button" @click="showDocModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600">
+                                {{ t('cancel') }}
+                            </button>
+                            <button type="submit" :disabled="docForm.processing" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                                {{ t('save') }}
                             </button>
                         </div>
                     </form>

@@ -156,6 +156,23 @@ class EmployeeController extends Controller
         ]);
     }
 
+    public function documents(Employee $employee): Response
+    {
+        $employee->load([
+            'department:id,name,color',
+            'manager:id,first_name,last_name',
+            'leaveBalances' => fn ($q) => $q->where('year', now()->year)->with('leaveType:id,name,color'),
+        ]);
+
+        $documents = $employee->documents()->latest()->get();
+
+        return Inertia::render('HR/Employees/Show', [
+            'employee' => $employee,
+            'documents' => $documents,
+            'activeTab' => 'documents',
+        ]);
+    }
+
     public function edit(Employee $employee): Response
     {
         $employee->load('department:id,name', 'manager:id,first_name,last_name');

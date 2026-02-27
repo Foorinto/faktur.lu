@@ -113,6 +113,11 @@ class Employee extends Model
         return $this->hasMany(LeaveBalance::class);
     }
 
+    public function documents(): HasMany
+    {
+        return $this->hasMany(EmployeeDocument::class);
+    }
+
     // Scopes
 
     public function scopeSearch(Builder $query, ?string $search): Builder
