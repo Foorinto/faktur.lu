@@ -38,6 +38,7 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\HR;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -255,6 +256,30 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
         Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
         Route::post('/clients/{client}/tags/{tag}', [TagController::class, 'attach'])->name('tags.attach');
         Route::delete('/clients/{client}/tags/{tag}', [TagController::class, 'detach'])->name('tags.detach');
+
+        // HR Module
+        Route::prefix('hr')->name('hr.')->group(function () {
+            Route::get('/', [HR\HRDashboardController::class, 'index'])->name('dashboard');
+
+            Route::resource('employees', HR\EmployeeController::class);
+            Route::get('/employees/{employee}/leaves', [HR\EmployeeController::class, 'leaves'])->name('employees.leaves');
+
+            Route::get('/trombinoscope', [HR\TrombinoscopeController::class, 'index'])->name('trombinoscope');
+            Route::get('/trombinoscope/pdf', [HR\TrombinoscopeController::class, 'pdf'])->name('trombinoscope.pdf');
+
+            Route::resource('departments', HR\DepartmentController::class)->except(['create', 'show', 'edit']);
+            Route::resource('leave-types', HR\LeaveTypeController::class)->except(['create', 'show', 'edit']);
+
+            Route::get('/leaves', [HR\LeaveRequestController::class, 'index'])->name('leaves.index');
+            Route::get('/leaves/calendar', [HR\LeaveRequestController::class, 'calendar'])->name('leaves.calendar');
+            Route::post('/leaves', [HR\LeaveRequestController::class, 'store'])->name('leaves.store');
+            Route::put('/leaves/{leaveRequest}', [HR\LeaveRequestController::class, 'update'])->name('leaves.update');
+            Route::patch('/leaves/{leaveRequest}/approve', [HR\LeaveRequestController::class, 'approve'])->name('leaves.approve');
+            Route::patch('/leaves/{leaveRequest}/reject', [HR\LeaveRequestController::class, 'reject'])->name('leaves.reject');
+            Route::patch('/leaves/{leaveRequest}/cancel', [HR\LeaveRequestController::class, 'cancel'])->name('leaves.cancel');
+            Route::patch('/leaves/{leaveRequest}/reactivate', [HR\LeaveRequestController::class, 'reactivate'])->name('leaves.reactivate');
+            Route::delete('/leaves/{leaveRequest}', [HR\LeaveRequestController::class, 'destroy'])->name('leaves.destroy');
+        });
 
         // Invoices
         Route::resource('invoices', InvoiceController::class)->except(['store']);
