@@ -1838,5 +1838,17 @@ return [
         'view_org_chart' => 'Organigramm',
         'no_manager' => 'Keen Responsabelen',
         'subordinates_count' => ':count Ënnergestallt(en)',
+
+        // Bewäertungen
+        'evaluations' => 'Bewäertungen',
+        'add_evaluation' => 'Bewäertung derbäisetzen',
+        'evaluation_title' => 'Titel',
+        'evaluation_description' => 'Beschreiwung',
+        'evaluation_date' => 'Datum vum Gespréich',
+        'evaluator' => 'Bewerter',
+        'no_evaluations' => 'Keng Bewäertungen.',
+        'confirm_delete_evaluation' => 'Dës Bewäertung läschen?',
+        'evaluation_created' => 'Bewäertung erfollegräich erstallt.',
+        'evaluation_deleted' => 'Bewäertung geläscht.',
     ],
 ];

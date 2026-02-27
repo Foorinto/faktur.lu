@@ -2056,5 +2056,17 @@ return [
         'view_org_chart' => 'Organigramme',
         'no_manager' => 'Sans responsable',
         'subordinates_count' => ':count subordonné(s)',
+
+        // Evaluations
+        'evaluations' => 'Évaluations',
+        'add_evaluation' => 'Ajouter une évaluation',
+        'evaluation_title' => 'Titre',
+        'evaluation_description' => 'Description',
+        'evaluation_date' => 'Date de l\'entretien',
+        'evaluator' => 'Évaluateur',
+        'no_evaluations' => 'Aucune évaluation.',
+        'confirm_delete_evaluation' => 'Supprimer cette évaluation ?',
+        'evaluation_created' => 'Évaluation créée avec succès.',
+        'evaluation_deleted' => 'Évaluation supprimée.',
     ],
 ];

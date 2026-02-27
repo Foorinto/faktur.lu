@@ -268,6 +268,10 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
             Route::post('/employees/{employee}/documents', [HR\EmployeeDocumentController::class, 'store'])->name('employees.documents.store');
             Route::delete('/employees/{employee}/documents/{employeeDocument}', [HR\EmployeeDocumentController::class, 'destroy'])->name('employees.documents.destroy');
 
+            Route::get('/employees/{employee}/evaluations', [HR\EmployeeController::class, 'evaluations'])->name('employees.evaluations');
+            Route::post('/employees/{employee}/evaluations', [HR\EvaluationController::class, 'store'])->name('employees.evaluations.store');
+            Route::delete('/employees/{employee}/evaluations/{evaluation}', [HR\EvaluationController::class, 'destroy'])->name('employees.evaluations.destroy');
+
             Route::get('/trombinoscope', [HR\TrombinoscopeController::class, 'index'])->name('trombinoscope');
             Route::get('/trombinoscope/pdf', [HR\TrombinoscopeController::class, 'pdf'])->name('trombinoscope.pdf');
 

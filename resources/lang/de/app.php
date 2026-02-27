@@ -1838,5 +1838,17 @@ return [
         'view_org_chart' => 'Organigramm',
         'no_manager' => 'Kein Vorgesetzter',
         'subordinates_count' => ':count Untergebene(r)',
+
+        // Bewertungen
+        'evaluations' => 'Bewertungen',
+        'add_evaluation' => 'Bewertung hinzufügen',
+        'evaluation_title' => 'Titel',
+        'evaluation_description' => 'Beschreibung',
+        'evaluation_date' => 'Datum des Gesprächs',
+        'evaluator' => 'Bewerter',
+        'no_evaluations' => 'Keine Bewertungen.',
+        'confirm_delete_evaluation' => 'Diese Bewertung löschen?',
+        'evaluation_created' => 'Bewertung erfolgreich erstellt.',
+        'evaluation_deleted' => 'Bewertung gelöscht.',
     ],
 ];

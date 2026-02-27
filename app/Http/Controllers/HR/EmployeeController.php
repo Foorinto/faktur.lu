@@ -173,6 +173,32 @@ class EmployeeController extends Controller
         ]);
     }
 
+    public function evaluations(Employee $employee): Response
+    {
+        $employee->load([
+            'department:id,name,color',
+            'manager:id,first_name,last_name',
+            'leaveBalances' => fn ($q) => $q->where('year', now()->year)->with('leaveType:id,name,color'),
+        ]);
+
+        $evaluations = $employee->evaluations()
+            ->with('evaluator:id,first_name,last_name')
+            ->latest('date')
+            ->get();
+
+        $evaluators = Employee::active()
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->get(['id', 'first_name', 'last_name']);
+
+        return Inertia::render('HR/Employees/Show', [
+            'employee' => $employee,
+            'evaluations' => $evaluations,
+            'evaluators' => $evaluators,
+            'activeTab' => 'evaluations',
+        ]);
+    }
+
     public function edit(Employee $employee): Response
     {
         $employee->load('department:id,name', 'manager:id,first_name,last_name');

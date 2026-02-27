@@ -118,6 +118,11 @@ class Employee extends Model
         return $this->hasMany(EmployeeDocument::class);
     }
 
+    public function evaluations(): HasMany
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
     // Scopes
 
     public function scopeSearch(Builder $query, ?string $search): Builder

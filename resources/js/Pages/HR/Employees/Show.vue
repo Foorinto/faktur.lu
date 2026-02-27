@@ -1,6 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
+import RichTextDisplay from '@/Components/RichTextDisplay.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -17,6 +19,8 @@ const props = defineProps({
     pendingDays: { type: Object, default: () => ({}) },
     expenseReports: { type: Array, default: () => [] },
     documents: { type: Array, default: () => [] },
+    evaluations: { type: Array, default: () => [] },
+    evaluators: { type: Array, default: () => [] },
 });
 
 const countryName = (code) => {
@@ -160,6 +164,35 @@ const deleteDocument = (doc) => {
         router.delete(route('hr.employees.documents.destroy', [props.employee.id, doc.id]));
     }
 };
+
+// Evaluations
+const showEvalModal = ref(false);
+const expandedEval = ref(null);
+const evalForm = useForm({
+    title: '',
+    description: '',
+    date: '',
+    evaluator_id: '',
+});
+
+const submitEvaluation = () => {
+    evalForm.post(route('hr.employees.evaluations.store', props.employee.id), {
+        onSuccess: () => {
+            showEvalModal.value = false;
+            evalForm.reset();
+        },
+    });
+};
+
+const deleteEvaluation = (evaluation) => {
+    if (confirm(t('hr.confirm_delete_evaluation'))) {
+        router.delete(route('hr.employees.evaluations.destroy', [props.employee.id, evaluation.id]));
+    }
+};
+
+const toggleEval = (id) => {
+    expandedEval.value = expandedEval.value === id ? null : id;
+};
 </script>
 
 <template>
@@ -268,6 +301,17 @@ const deleteDocument = (doc) => {
                     ]"
                 >
                     {{ t('hr.documents') }}
+                </Link>
+                <Link
+                    :href="route('hr.employees.evaluations', employee.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'evaluations'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('hr.evaluations') }}
                 </Link>
             </nav>
         </div>
@@ -575,6 +619,60 @@ const deleteDocument = (doc) => {
                         </div>
                     </div>
                 </template>
+
+                <!-- Evaluations Tab -->
+                <template v-if="activeTab === 'evaluations'">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.evaluations') }}</h2>
+                            <button
+                                @click="showEvalModal = true"
+                                class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-600"
+                            >
+                                + {{ t('hr.add_evaluation') }}
+                            </button>
+                        </div>
+                        <div v-if="evaluations && evaluations.length > 0" class="divide-y divide-slate-200 dark:divide-slate-700">
+                            <div v-for="ev in evaluations" :key="ev.id" class="px-6 py-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3 min-w-0 cursor-pointer" @click="toggleEval(ev.id)">
+                                        <svg
+                                            class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform duration-200"
+                                            :class="{ 'rotate-90': expandedEval === ev.id }"
+                                            viewBox="0 0 20 20" fill="currentColor"
+                                        >
+                                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                                        </svg>
+                                        <div class="min-w-0">
+                                            <span class="text-sm font-medium text-slate-900 dark:text-white">{{ ev.title }}</span>
+                                            <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                                                <span>{{ formatDate(ev.date) }}</span>
+                                                <span>&middot;</span>
+                                                <span>{{ t('hr.evaluator') }}: {{ ev.evaluator?.first_name }} {{ ev.evaluator?.last_name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        @click="deleteEvaluation(ev)"
+                                        class="flex-shrink-0 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-400"
+                                        :title="t('delete')"
+                                    >
+                                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <!-- Expanded description -->
+                                <div v-if="expandedEval === ev.id" class="mt-3 ml-7 rounded-xl bg-slate-50 dark:bg-slate-700/50 p-4">
+                                    <RichTextDisplay :content="ev.description" />
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                            {{ t('hr.no_evaluations') }}
+                        </div>
+                    </div>
+                </template>
             </div>
 
             <!-- Sidebar -->
@@ -695,6 +793,51 @@ const deleteDocument = (doc) => {
                             </button>
                             <button type="submit" :disabled="!canSubmitLeave" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ t('hr.submit_request') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </Teleport>
+
+        <!-- Evaluation Modal -->
+        <Teleport to="body">
+            <div v-if="showEvalModal" class="fixed inset-0 z-50 flex items-center justify-center">
+                <div class="fixed inset-0 bg-slate-900/50" @click="showEvalModal = false"></div>
+                <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('hr.add_evaluation') }}</h3>
+                    <form @submit.prevent="submitEvaluation" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.evaluation_title') }} *</label>
+                            <input v-model="evalForm.title" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <p v-if="evalForm.errors.title" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.title }}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.evaluator') }} *</label>
+                                <select v-model="evalForm.evaluator_id" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm">
+                                    <option value="">{{ t('hr.select_type') }}</option>
+                                    <option v-for="ev in evaluators" :key="ev.id" :value="ev.id">{{ ev.last_name }} {{ ev.first_name }}</option>
+                                </select>
+                                <p v-if="evalForm.errors.evaluator_id" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.evaluator_id }}</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.evaluation_date') }} *</label>
+                                <input v-model="evalForm.date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                                <p v-if="evalForm.errors.date" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.date }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.evaluation_description') }} *</label>
+                            <RichTextEditor v-model="evalForm.description" />
+                            <p v-if="evalForm.errors.description" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.description }}</p>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <button type="button" @click="showEvalModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600">
+                                {{ t('cancel') }}
+                            </button>
+                            <button type="submit" :disabled="evalForm.processing" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                                {{ t('save') }}
                             </button>
                         </div>
                     </form>

@@ -1901,5 +1901,17 @@ return [
         'view_org_chart' => 'Org chart',
         'no_manager' => 'No manager',
         'subordinates_count' => ':count subordinate(s)',
+
+        // Evaluations
+        'evaluations' => 'Evaluations',
+        'add_evaluation' => 'Add evaluation',
+        'evaluation_title' => 'Title',
+        'evaluation_description' => 'Description',
+        'evaluation_date' => 'Interview date',
+        'evaluator' => 'Evaluator',
+        'no_evaluations' => 'No evaluations.',
+        'confirm_delete_evaluation' => 'Delete this evaluation?',
+        'evaluation_created' => 'Evaluation created successfully.',
+        'evaluation_deleted' => 'Evaluation deleted.',
     ],
 ];
