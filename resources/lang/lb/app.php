@@ -1879,5 +1879,13 @@ return [
         'confirm_delete_template' => 'Dës Virlag läschen?',
         'no_templates' => 'Keng Virlagen.',
         'items_count' => ':count Aufgab(en)',
+
+        // HR-Astellungen
+        'hr_settings' => 'HR-Astellungen',
+        'settings_departments_desc' => 'Abteilunge vum Betrib verwalten',
+        'settings_leave_types_desc' => 'Congésaarten a Kontingenter konfiguréieren',
+        'settings_expense_categories_desc' => 'Spesekategorien verwalten',
+        'settings_onboarding_desc' => 'Widderverwäertbar Onboarding-Checklëschten',
+        'configured_items' => ':count konfiguréiert',
     ],
 ];

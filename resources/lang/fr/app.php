@@ -2097,5 +2097,13 @@ return [
         'confirm_delete_template' => 'Supprimer ce template ?',
         'no_templates' => 'Aucun template.',
         'items_count' => ':count tâche(s)',
+
+        // Paramètres RH
+        'hr_settings' => 'Paramètres RH',
+        'settings_departments_desc' => 'Gérer les départements de l\'entreprise',
+        'settings_leave_types_desc' => 'Configurer les types de congé et soldes',
+        'settings_expense_categories_desc' => 'Gérer les catégories de notes de frais',
+        'settings_onboarding_desc' => 'Checklists d\'intégration réutilisables',
+        'configured_items' => ':count configuré(s)',
     ],
 ];

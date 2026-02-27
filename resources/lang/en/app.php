@@ -1942,5 +1942,13 @@ return [
         'confirm_delete_template' => 'Delete this template?',
         'no_templates' => 'No templates.',
         'items_count' => ':count task(s)',
+
+        // HR Settings
+        'hr_settings' => 'HR Settings',
+        'settings_departments_desc' => 'Manage company departments',
+        'settings_leave_types_desc' => 'Configure leave types and balances',
+        'settings_expense_categories_desc' => 'Manage expense report categories',
+        'settings_onboarding_desc' => 'Reusable onboarding checklists',
+        'configured_items' => ':count configured',
     ],
 ];

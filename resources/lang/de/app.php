@@ -1879,5 +1879,13 @@ return [
         'confirm_delete_template' => 'Diese Vorlage löschen?',
         'no_templates' => 'Keine Vorlagen.',
         'items_count' => ':count Aufgabe(n)',
+
+        // HR-Einstellungen
+        'hr_settings' => 'HR-Einstellungen',
+        'settings_departments_desc' => 'Abteilungen des Unternehmens verwalten',
+        'settings_leave_types_desc' => 'Urlaubsarten und Kontingente konfigurieren',
+        'settings_expense_categories_desc' => 'Spesenkategorien verwalten',
+        'settings_onboarding_desc' => 'Wiederverwendbare Onboarding-Checklisten',
+        'configured_items' => ':count konfiguriert',
     ],
 ];

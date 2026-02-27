@@ -8,21 +8,16 @@ const { t } = useTranslations();
 const currentRoute = computed(() => usePage().url);
 
 const links = [
-    { label: () => t('hr.dashboard'), href: 'hr.dashboard', match: '/hr' },
-    { label: () => t('hr.employees'), href: 'hr.employees.index', match: '/hr/employees' },
-    { label: () => t('hr.trombinoscope'), href: 'hr.trombinoscope', match: '/hr/trombinoscope' },
-    { label: () => t('hr.departments'), href: 'hr.departments.index', match: '/hr/departments' },
-    { label: () => t('hr.leave_types'), href: 'hr.leave-types.index', match: '/hr/leave-types' },
-    { label: () => t('hr.leave_requests'), href: 'hr.leaves.index', match: '/hr/leaves' },
-    { label: () => t('hr.expense_categories'), href: 'hr.expense-categories.index', match: '/hr/expense-categories' },
-    { label: () => t('hr.expenses'), href: 'hr.expenses.index', match: '/hr/expenses' },
-    { label: () => t('hr.onboarding_templates'), href: 'hr.onboarding-templates.index', match: '/hr/onboarding-templates' },
+    { label: () => t('hr.dashboard'), href: 'hr.dashboard', match: ['/hr', '/hr/departments', '/hr/leave-types', '/hr/expense-categories', '/hr/onboarding-templates'] },
+    { label: () => t('hr.employees'), href: 'hr.employees.index', match: ['/hr/employees'] },
+    { label: () => t('hr.trombinoscope'), href: 'hr.trombinoscope', match: ['/hr/trombinoscope'] },
+    { label: () => t('hr.leave_requests'), href: 'hr.leaves.index', match: ['/hr/leaves'] },
+    { label: () => t('hr.expenses'), href: 'hr.expenses.index', match: ['/hr/expenses'] },
 ];
 
 const isActive = (match) => {
     const url = currentRoute.value;
-    if (match === '/hr') return url === '/hr' || url === '/hr/';
-    return url.startsWith(match);
+    return match.some(m => m === '/hr' ? (url === '/hr' || url === '/hr/') : url.startsWith(m));
 };
 </script>
 
