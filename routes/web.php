@@ -270,7 +270,17 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
 
             Route::get('/employees/{employee}/evaluations', [HR\EmployeeController::class, 'evaluations'])->name('employees.evaluations');
             Route::post('/employees/{employee}/evaluations', [HR\EvaluationController::class, 'store'])->name('employees.evaluations.store');
+            Route::get('/employees/{employee}/evaluations/{evaluation}', [HR\EvaluationController::class, 'show'])->name('employees.evaluations.show');
+            Route::get('/employees/{employee}/evaluations/{evaluation}/pdf', [HR\EvaluationController::class, 'pdf'])->name('employees.evaluations.pdf');
             Route::delete('/employees/{employee}/evaluations/{evaluation}', [HR\EvaluationController::class, 'destroy'])->name('employees.evaluations.destroy');
+
+            Route::get('/employees/{employee}/onboarding', [HR\EmployeeController::class, 'onboarding'])->name('employees.onboarding');
+            Route::post('/employees/{employee}/onboarding', [HR\OnboardingTaskController::class, 'store'])->name('employees.onboarding.store');
+            Route::post('/employees/{employee}/onboarding/apply-template', [HR\OnboardingTaskController::class, 'applyTemplate'])->name('employees.onboarding.apply-template');
+            Route::patch('/employees/{employee}/onboarding/{onboardingTask}/toggle', [HR\OnboardingTaskController::class, 'toggle'])->name('employees.onboarding.toggle');
+            Route::delete('/employees/{employee}/onboarding/{onboardingTask}', [HR\OnboardingTaskController::class, 'destroy'])->name('employees.onboarding.destroy');
+
+            Route::resource('onboarding-templates', HR\OnboardingTemplateController::class)->except(['create', 'show', 'edit']);
 
             Route::get('/trombinoscope', [HR\TrombinoscopeController::class, 'index'])->name('trombinoscope');
             Route::get('/trombinoscope/pdf', [HR\TrombinoscopeController::class, 'pdf'])->name('trombinoscope.pdf');

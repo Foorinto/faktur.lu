@@ -16,6 +16,7 @@ const links = [
     { label: () => t('hr.leave_requests'), href: 'hr.leaves.index', match: '/hr/leaves' },
     { label: () => t('hr.expense_categories'), href: 'hr.expense-categories.index', match: '/hr/expense-categories' },
     { label: () => t('hr.expenses'), href: 'hr.expenses.index', match: '/hr/expenses' },
+    { label: () => t('hr.onboarding_templates'), href: 'hr.onboarding-templates.index', match: '/hr/onboarding-templates' },
 ];
 
 const isActive = (match) => {

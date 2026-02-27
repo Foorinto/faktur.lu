@@ -2,7 +2,6 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
-import RichTextDisplay from '@/Components/RichTextDisplay.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -21,6 +20,8 @@ const props = defineProps({
     documents: { type: Array, default: () => [] },
     evaluations: { type: Array, default: () => [] },
     evaluators: { type: Array, default: () => [] },
+    onboardingTasks: { type: Array, default: () => [] },
+    onboardingTemplates: { type: Array, default: () => [] },
 });
 
 const countryName = (code) => {
@@ -167,7 +168,6 @@ const deleteDocument = (doc) => {
 
 // Evaluations
 const showEvalModal = ref(false);
-const expandedEval = ref(null);
 const evalForm = useForm({
     title: '',
     description: '',
@@ -184,14 +184,37 @@ const submitEvaluation = () => {
     });
 };
 
-const deleteEvaluation = (evaluation) => {
-    if (confirm(t('hr.confirm_delete_evaluation'))) {
-        router.delete(route('hr.employees.evaluations.destroy', [props.employee.id, evaluation.id]));
-    }
+// Onboarding
+const taskForm = useForm({
+    title: '',
+});
+
+const completedCount = computed(() => props.onboardingTasks.filter(t => t.completed_at).length);
+const totalCount = computed(() => props.onboardingTasks.length);
+const progressPercent = computed(() => totalCount.value > 0 ? Math.round((completedCount.value / totalCount.value) * 100) : 0);
+
+const submitTask = () => {
+    taskForm.post(route('hr.employees.onboarding.store', props.employee.id), {
+        onSuccess: () => taskForm.reset(),
+    });
 };
 
-const toggleEval = (id) => {
-    expandedEval.value = expandedEval.value === id ? null : id;
+const toggleTask = (task) => {
+    router.patch(route('hr.employees.onboarding.toggle', [props.employee.id, task.id]));
+};
+
+const deleteTask = (task) => {
+    router.delete(route('hr.employees.onboarding.destroy', [props.employee.id, task.id]));
+};
+
+const selectedTemplate = ref('');
+const applyTemplate = () => {
+    if (!selectedTemplate.value) return;
+    router.post(route('hr.employees.onboarding.apply-template', props.employee.id), {
+        template_id: selectedTemplate.value,
+    }, {
+        onSuccess: () => { selectedTemplate.value = ''; },
+    });
 };
 </script>
 
@@ -312,6 +335,17 @@ const toggleEval = (id) => {
                     ]"
                 >
                     {{ t('hr.evaluations') }}
+                </Link>
+                <Link
+                    :href="route('hr.employees.onboarding', employee.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'onboarding'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('hr.onboarding') }}
                 </Link>
             </nav>
         </div>
@@ -633,43 +667,121 @@ const toggleEval = (id) => {
                             </button>
                         </div>
                         <div v-if="evaluations && evaluations.length > 0" class="divide-y divide-slate-200 dark:divide-slate-700">
-                            <div v-for="ev in evaluations" :key="ev.id" class="px-6 py-4">
+                            <Link
+                                v-for="ev in evaluations"
+                                :key="ev.id"
+                                :href="route('hr.employees.evaluations.show', [employee.id, ev.id])"
+                                class="block px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                            >
                                 <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-3 min-w-0 cursor-pointer" @click="toggleEval(ev.id)">
-                                        <svg
-                                            class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform duration-200"
-                                            :class="{ 'rotate-90': expandedEval === ev.id }"
-                                            viewBox="0 0 20 20" fill="currentColor"
-                                        >
-                                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                                        </svg>
-                                        <div class="min-w-0">
-                                            <span class="text-sm font-medium text-slate-900 dark:text-white">{{ ev.title }}</span>
-                                            <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-                                                <span>{{ formatDate(ev.date) }}</span>
-                                                <span>&middot;</span>
-                                                <span>{{ t('hr.evaluator') }}: {{ ev.evaluator?.first_name }} {{ ev.evaluator?.last_name }}</span>
-                                            </div>
+                                    <div class="min-w-0">
+                                        <span class="text-sm font-medium text-slate-900 dark:text-white">{{ ev.title }}</span>
+                                        <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                                            <span>{{ formatDate(ev.date) }}</span>
+                                            <span>&middot;</span>
+                                            <span>{{ t('hr.evaluator') }}: {{ ev.evaluator?.first_name }} {{ ev.evaluator?.last_name }}</span>
                                         </div>
                                     </div>
-                                    <button
-                                        @click="deleteEvaluation(ev)"
-                                        class="flex-shrink-0 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-400"
-                                        :title="t('delete')"
-                                    >
-                                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                                    <svg class="h-5 w-5 flex-shrink-0 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                                    </svg>
                                 </div>
-                                <!-- Expanded description -->
-                                <div v-if="expandedEval === ev.id" class="mt-3 ml-7 rounded-xl bg-slate-50 dark:bg-slate-700/50 p-4">
-                                    <RichTextDisplay :content="ev.description" />
-                                </div>
-                            </div>
+                            </Link>
                         </div>
                         <div v-else class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
                             {{ t('hr.no_evaluations') }}
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Onboarding Tab -->
+                <template v-if="activeTab === 'onboarding'">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center justify-between gap-3">
+                                <h2 class="text-lg font-medium text-slate-900 dark:text-white flex-shrink-0">{{ t('hr.onboarding') }}</h2>
+                                <div class="flex items-center gap-2">
+                                    <template v-if="onboardingTemplates.length > 0">
+                                        <select
+                                            v-model="selectedTemplate"
+                                            class="rounded-xl border-0 py-1.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                        >
+                                            <option value="">{{ t('hr.select_template') }}</option>
+                                            <option v-for="tpl in onboardingTemplates" :key="tpl.id" :value="tpl.id">{{ tpl.name }}</option>
+                                        </select>
+                                        <button
+                                            @click="applyTemplate"
+                                            :disabled="!selectedTemplate"
+                                            class="rounded-xl bg-primary-500 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                        >
+                                            {{ t('hr.apply_template') }}
+                                        </button>
+                                    </template>
+                                    <span v-if="totalCount > 0" class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                                        {{ t('hr.tasks_completed', { completed: completedCount, total: totalCount }) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Progress bar -->
+                            <div v-if="totalCount > 0" class="mt-3">
+                                <div class="h-2 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+                                    <div
+                                        class="h-2 rounded-full transition-all duration-300"
+                                        :class="progressPercent === 100 ? 'bg-emerald-500' : 'bg-primary-500'"
+                                        :style="{ width: progressPercent + '%' }"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Task list -->
+                        <div v-if="onboardingTasks.length > 0" class="divide-y divide-slate-200 dark:divide-slate-700">
+                            <div v-for="task in onboardingTasks" :key="task.id" class="px-6 py-3 flex items-center gap-3">
+                                <button @click="toggleTask(task)" class="flex-shrink-0">
+                                    <svg v-if="task.completed_at" class="h-5 w-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                                    </svg>
+                                    <div v-else class="h-5 w-5 rounded-full border-2 border-slate-300 dark:border-slate-600 hover:border-primary-400 dark:hover:border-primary-500"></div>
+                                </button>
+                                <span
+                                    class="flex-1 text-sm"
+                                    :class="task.completed_at ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-700 dark:text-slate-300'"
+                                >
+                                    {{ task.title }}
+                                </span>
+                                <button
+                                    @click="deleteTask(task)"
+                                    class="flex-shrink-0 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-400"
+                                >
+                                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-else class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                            {{ t('hr.no_onboarding_tasks') }}
+                        </div>
+
+                        <!-- Add task inline form -->
+                        <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+                            <form @submit.prevent="submitTask" class="flex items-center gap-3">
+                                <input
+                                    v-model="taskForm.title"
+                                    type="text"
+                                    :placeholder="t('hr.task_title')"
+                                    required
+                                    class="flex-1 rounded-xl border-0 py-1.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                />
+                                <button
+                                    type="submit"
+                                    :disabled="taskForm.processing || !taskForm.title"
+                                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    +
+                                </button>
+                            </form>
+                            <p v-if="taskForm.errors.title" class="mt-1 text-xs text-rose-600">{{ taskForm.errors.title }}</p>
                         </div>
                     </div>
                 </template>

@@ -123,6 +123,11 @@ class Employee extends Model
         return $this->hasMany(Evaluation::class);
     }
 
+    public function onboardingTasks(): HasMany
+    {
+        return $this->hasMany(OnboardingTask::class);
+    }
+
     // Scopes
 
     public function scopeSearch(Builder $query, ?string $search): Builder

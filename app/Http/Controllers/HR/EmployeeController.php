@@ -8,7 +8,9 @@ use App\Http\Requests\HR\UpdateEmployeeRequest;
 use App\Models\HR\Department;
 use App\Models\HR\Employee;
 use App\Models\HR\ExpenseReport;
+use App\Models\HR\LeaveRequest;
 use App\Models\HR\LeaveType;
+use App\Models\HR\OnboardingTemplate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -196,6 +198,28 @@ class EmployeeController extends Controller
             'evaluations' => $evaluations,
             'evaluators' => $evaluators,
             'activeTab' => 'evaluations',
+        ]);
+    }
+
+    public function onboarding(Employee $employee): Response
+    {
+        $employee->load([
+            'department:id,name,color',
+            'manager:id,first_name,last_name',
+            'leaveBalances' => fn ($q) => $q->where('year', now()->year)->with('leaveType:id,name,color'),
+        ]);
+
+        $onboardingTasks = $employee->onboardingTasks()
+            ->orderBy('position')
+            ->get();
+
+        $onboardingTemplates = OnboardingTemplate::orderBy('name')->get(['id', 'name']);
+
+        return Inertia::render('HR/Employees/Show', [
+            'employee' => $employee,
+            'onboardingTasks' => $onboardingTasks,
+            'onboardingTemplates' => $onboardingTemplates,
+            'activeTab' => 'onboarding',
         ]);
     }
 
