@@ -27,7 +27,7 @@ const props = defineProps({
         <div class="py-6">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <!-- KPI Cards -->
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5 mb-8">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 mb-8">
                     <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.total_employees') }}</p>
                         <p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">{{ widgets.total_employees }}</p>
@@ -48,6 +48,13 @@ const props = defineProps({
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.pending_requests') }}</p>
                         <p class="mt-1 text-3xl font-bold text-blue-600">{{ widgets.pending_requests }}</p>
                     </div>
+                    <Link :href="route('hr.expenses.index', { status: 'pending' })" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700">
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.pending_expenses') }}</p>
+                        <p class="mt-1 text-3xl font-bold text-orange-600">{{ widgets.pending_expenses }}</p>
+                        <p v-if="widgets.pending_expenses_total > 0" class="mt-1 text-sm font-medium text-slate-500 dark:text-slate-400">
+                            {{ new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(widgets.pending_expenses_total) }}
+                        </p>
+                    </Link>
                 </div>
 
                 <!-- Quick Links -->

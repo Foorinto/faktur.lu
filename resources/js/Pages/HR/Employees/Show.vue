@@ -15,6 +15,7 @@ const props = defineProps({
     countries: { type: Array, default: () => [] },
     nationalities: { type: Array, default: () => [] },
     pendingDays: { type: Object, default: () => ({}) },
+    expenseReports: { type: Array, default: () => [] },
 });
 
 const countryName = (code) => {
@@ -183,6 +184,17 @@ const submitLeave = () => {
                     ]"
                 >
                     {{ t('hr.leaves') }}
+                </Link>
+                <Link
+                    :href="route('hr.employees.expenses', employee.id)"
+                    :class="[
+                        'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
+                        activeTab === 'expenses'
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                    ]"
+                >
+                    {{ t('hr.expenses') }}
                 </Link>
             </nav>
         </div>
@@ -382,6 +394,49 @@ const submitLeave = () => {
                         </div>
                         <div v-else class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">
                             {{ t('hr.no_leave_requests') }}
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Expenses Tab -->
+                <template v-if="activeTab === 'expenses'">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.expenses') }}</h2>
+                        </div>
+                        <div v-if="expenseReports && expenseReports.length > 0">
+                            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                                <thead class="bg-slate-50 dark:bg-slate-700">
+                                    <tr>
+                                        <th class="py-3 pl-6 pr-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.expense_date') }}</th>
+                                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.category') }}</th>
+                                        <th class="px-3 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.vendor') }}</th>
+                                        <th class="px-3 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.amount_ttc') }}</th>
+                                        <th class="px-3 py-3 text-center text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.status') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                                    <tr v-for="exp in expenseReports" :key="exp.id">
+                                        <td class="py-3 pl-6 pr-3 text-sm text-slate-700 dark:text-slate-300">{{ formatDate(exp.date) }}</td>
+                                        <td class="px-3 py-3 text-sm">
+                                            <span class="inline-flex items-center gap-1.5">
+                                                <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: exp.category?.color || '#94a3b8' }"></span>
+                                                <span class="text-slate-700 dark:text-slate-300">{{ exp.category?.name }}</span>
+                                            </span>
+                                        </td>
+                                        <td class="px-3 py-3 text-sm text-slate-700 dark:text-slate-300">{{ exp.vendor }}</td>
+                                        <td class="px-3 py-3 text-sm text-right font-medium text-slate-900 dark:text-white">{{ formatCurrency(exp.amount_ttc) }}</td>
+                                        <td class="px-3 py-3 text-sm text-center">
+                                            <span :class="getLeaveStatusClass(exp.status)" class="inline-flex items-center rounded-xl px-2 py-0.5 text-xs font-medium">
+                                                {{ t('hr.leave_status_' + exp.status) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div v-else class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">
+                            {{ t('hr.no_expenses') }}
                         </div>
                     </div>
                 </template>

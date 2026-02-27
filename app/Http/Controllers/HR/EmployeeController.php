@@ -7,6 +7,7 @@ use App\Http\Requests\HR\StoreEmployeeRequest;
 use App\Http\Requests\HR\UpdateEmployeeRequest;
 use App\Models\HR\Department;
 use App\Models\HR\Employee;
+use App\Models\HR\ExpenseReport;
 use App\Models\HR\LeaveType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -131,6 +132,27 @@ class EmployeeController extends Controller
             'leaveTypes' => $leaveTypes,
             'activeTab' => 'leaves',
             'pendingDays' => $pendingDays,
+        ]);
+    }
+
+    public function expenses(Employee $employee): Response
+    {
+        $employee->load([
+            'department:id,name,color',
+            'manager:id,first_name,last_name',
+            'leaveBalances' => fn ($q) => $q->where('year', now()->year)->with('leaveType:id,name,color'),
+        ]);
+
+        $expenseReports = ExpenseReport::where('employee_id', $employee->id)
+            ->with('category:id,name,color')
+            ->latest('date')
+            ->limit(20)
+            ->get();
+
+        return Inertia::render('HR/Employees/Show', [
+            'employee' => $employee,
+            'expenseReports' => $expenseReports,
+            'activeTab' => 'expenses',
         ]);
     }
 

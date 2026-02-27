@@ -263,6 +263,7 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
 
             Route::resource('employees', HR\EmployeeController::class);
             Route::get('/employees/{employee}/leaves', [HR\EmployeeController::class, 'leaves'])->name('employees.leaves');
+            Route::get('/employees/{employee}/expenses', [HR\EmployeeController::class, 'expenses'])->name('employees.expenses');
 
             Route::get('/trombinoscope', [HR\TrombinoscopeController::class, 'index'])->name('trombinoscope');
             Route::get('/trombinoscope/pdf', [HR\TrombinoscopeController::class, 'pdf'])->name('trombinoscope.pdf');
@@ -279,6 +280,16 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
             Route::patch('/leaves/{leaveRequest}/cancel', [HR\LeaveRequestController::class, 'cancel'])->name('leaves.cancel');
             Route::patch('/leaves/{leaveRequest}/reactivate', [HR\LeaveRequestController::class, 'reactivate'])->name('leaves.reactivate');
             Route::delete('/leaves/{leaveRequest}', [HR\LeaveRequestController::class, 'destroy'])->name('leaves.destroy');
+
+            Route::resource('expense-categories', HR\ExpenseCategoryController::class)->except(['create', 'show', 'edit']);
+
+            Route::get('/expenses', [HR\ExpenseReportController::class, 'index'])->name('expenses.index');
+            Route::post('/expenses', [HR\ExpenseReportController::class, 'store'])->name('expenses.store');
+            Route::put('/expenses/{expenseReport}', [HR\ExpenseReportController::class, 'update'])->name('expenses.update');
+            Route::patch('/expenses/{expenseReport}/approve', [HR\ExpenseReportController::class, 'approve'])->name('expenses.approve');
+            Route::patch('/expenses/{expenseReport}/reject', [HR\ExpenseReportController::class, 'reject'])->name('expenses.reject');
+            Route::delete('/expenses/{expenseReport}/receipts/{expenseReceipt}', [HR\ExpenseReportController::class, 'deleteReceipt'])->name('expenses.receipts.destroy');
+            Route::delete('/expenses/{expenseReport}', [HR\ExpenseReportController::class, 'destroy'])->name('expenses.destroy');
         });
 
         // Invoices

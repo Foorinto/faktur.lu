@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\HR\Employee;
+use App\Models\HR\ExpenseReport;
 use App\Models\HR\LeaveRequest;
 use Carbon\Carbon;
 
@@ -25,6 +26,8 @@ class HRDashboardService
                 ->where('end_date', '>=', $now->toDateString())
                 ->count(),
             'pending_requests' => LeaveRequest::pending()->count(),
+            'pending_expenses' => ExpenseReport::pending()->count(),
+            'pending_expenses_total' => (float) ExpenseReport::pending()->sum('amount_ttc'),
             'upcoming_birthdays' => $this->getUpcomingBirthdays(),
             'trial_periods_ending' => $this->getTrialPeriodsEnding(),
             'contracts_to_renew' => $this->getContractsToRenew(),
