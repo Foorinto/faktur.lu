@@ -1895,5 +1895,11 @@ return [
         'type_other' => 'Other',
         'expired' => 'Expired',
         'expires_on' => 'Expires on',
+
+        // Org chart
+        'view_grid' => 'Grid',
+        'view_org_chart' => 'Org chart',
+        'no_manager' => 'No manager',
+        'subordinates_count' => ':count subordinate(s)',
     ],
 ];

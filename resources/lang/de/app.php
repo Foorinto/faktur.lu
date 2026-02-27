@@ -1832,5 +1832,11 @@ return [
         'type_other' => 'Sonstiges',
         'expired' => 'Abgelaufen',
         'expires_on' => 'Läuft ab am',
+
+        // Organigramm
+        'view_grid' => 'Raster',
+        'view_org_chart' => 'Organigramm',
+        'no_manager' => 'Kein Vorgesetzter',
+        'subordinates_count' => ':count Untergebene(r)',
     ],
 ];

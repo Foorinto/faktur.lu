@@ -1832,5 +1832,11 @@ return [
         'type_other' => 'Aneres',
         'expired' => 'Ofgelaf',
         'expires_on' => 'Leeft of den',
+
+        // Organigramm
+        'view_grid' => 'Raster',
+        'view_org_chart' => 'Organigramm',
+        'no_manager' => 'Keen Responsabelen',
+        'subordinates_count' => ':count Ënnergestallt(en)',
     ],
 ];

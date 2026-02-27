@@ -1,8 +1,9 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
+import OrgNode from '@/Components/HR/OrgNode.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
 
@@ -14,6 +15,7 @@ const props = defineProps({
     filters: { type: Object, default: () => ({}) },
 });
 
+const viewMode = ref('grid');
 const search = ref(props.filters.search || '');
 const departmentFilter = ref(props.filters.department || '');
 
@@ -35,6 +37,26 @@ const downloadPdf = () => {
     const query = params.toString();
     window.open(route('hr.trombinoscope.pdf') + (query ? '?' + query : ''), '_blank');
 };
+
+// Build org tree from flat employee list
+const orgTree = computed(() => {
+    const map = {};
+    const roots = [];
+
+    props.employees.forEach(emp => {
+        map[emp.id] = { ...emp, children: [] };
+    });
+
+    props.employees.forEach(emp => {
+        if (emp.manager_id && map[emp.manager_id]) {
+            map[emp.manager_id].children.push(map[emp.id]);
+        } else {
+            roots.push(map[emp.id]);
+        }
+    });
+
+    return roots;
+});
 </script>
 
 <template>
@@ -78,6 +100,7 @@ const downloadPdf = () => {
                         />
                     </div>
                     <select
+                        v-if="viewMode === 'grid'"
                         v-model="departmentFilter"
                         class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                     >
@@ -86,74 +109,128 @@ const downloadPdf = () => {
                             {{ dept.name }}
                         </option>
                     </select>
-                </div>
 
-                <!-- Employee count -->
-                <p class="mb-4 text-sm text-slate-500 dark:text-slate-400">
-                    {{ employees.length }} {{ t('hr.employees').toLowerCase() }}
-                </p>
-
-                <!-- Grid of employee cards -->
-                <div v-if="employees.length > 0" class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <div
-                        v-for="employee in employees"
-                        :key="employee.id"
-                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm text-center transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
-                    >
-                        <!-- Photo or initials -->
-                        <div class="mx-auto mb-3 h-20 w-20">
-                            <img
-                                v-if="employee.photo_path"
-                                :src="`/storage/${employee.photo_path}`"
-                                :alt="employee.full_name"
-                                class="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700"
-                            />
-                            <div v-else class="flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 ring-2 ring-primary-50 dark:bg-primary-900/30 dark:ring-primary-900/50">
-                                <span class="text-lg font-semibold text-primary-600 dark:text-primary-400">
-                                    {{ employee.first_name?.charAt(0) }}{{ employee.last_name?.charAt(0) }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Name -->
-                        <h3 class="text-sm font-semibold text-slate-900 dark:text-white">
-                            {{ employee.full_name }}
-                        </h3>
-
-                        <!-- Job title -->
-                        <p v-if="employee.job_title" class="mt-0.5 text-xs font-medium text-primary-600 dark:text-primary-400">
-                            {{ employee.job_title }}
-                        </p>
-
-                        <!-- Department -->
-                        <p v-if="employee.department" class="mt-1 flex items-center justify-center gap-1 text-xs text-slate-500 dark:text-slate-400">
-                            <span
-                                v-if="employee.department.color"
-                                class="inline-block h-2 w-2 rounded-full"
-                                :style="{ backgroundColor: employee.department.color }"
-                            ></span>
-                            {{ employee.department.name }}
-                        </p>
-
-                        <!-- Phone -->
-                        <p v-if="employee.phone" class="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                            <a :href="`tel:${employee.phone}`" class="hover:text-primary-600 dark:hover:text-primary-400">{{ employee.phone }}</a>
-                        </p>
-
-                        <!-- Email -->
-                        <p v-if="employee.email_pro" class="mt-0.5 text-xs text-slate-500 dark:text-slate-400 truncate">
-                            <a :href="`mailto:${employee.email_pro}`" class="hover:text-primary-600 dark:hover:text-primary-400">{{ employee.email_pro }}</a>
-                        </p>
+                    <!-- View toggle -->
+                    <div class="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-700 sm:ml-auto">
+                        <button
+                            @click="viewMode = 'grid'"
+                            :class="[
+                                'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                                viewMode === 'grid'
+                                    ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-600 dark:text-white'
+                                    : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
+                            ]"
+                        >
+                            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 002 4.25v2.5A2.25 2.25 0 004.25 9h2.5A2.25 2.25 0 009 6.75v-2.5A2.25 2.25 0 006.75 2h-2.5zm0 9A2.25 2.25 0 002 13.25v2.5A2.25 2.25 0 004.25 18h2.5A2.25 2.25 0 009 15.75v-2.5A2.25 2.25 0 006.75 11h-2.5zm9-9A2.25 2.25 0 0011 4.25v2.5A2.25 2.25 0 0013.25 9h2.5A2.25 2.25 0 0018 6.75v-2.5A2.25 2.25 0 0015.75 2h-2.5zm0 9A2.25 2.25 0 0011 13.25v2.5A2.25 2.25 0 0013.25 18h2.5A2.25 2.25 0 0018 15.75v-2.5A2.25 2.25 0 0015.75 11h-2.5z" clip-rule="evenodd" />
+                            </svg>
+                            {{ t('hr.view_grid') }}
+                        </button>
+                        <button
+                            @click="viewMode = 'tree'"
+                            :class="[
+                                'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors',
+                                viewMode === 'tree'
+                                    ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-600 dark:text-white'
+                                    : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
+                            ]"
+                        >
+                            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15zm-6.5-5a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 013.5 10zm13 0a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5a.75.75 0 01-.75-.75zM7.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm-3 5.5a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm9-1.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm-4.5 4a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+                            </svg>
+                            {{ t('hr.view_org_chart') }}
+                        </button>
                     </div>
                 </div>
 
-                <!-- Empty state -->
-                <div v-else class="rounded-2xl border border-slate-200 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-800">
-                    <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                    </svg>
-                    <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">{{ t('hr.no_employees') }}</p>
-                </div>
+                <!-- GRID VIEW -->
+                <template v-if="viewMode === 'grid'">
+                    <!-- Employee count -->
+                    <p class="mb-4 text-sm text-slate-500 dark:text-slate-400">
+                        {{ employees.length }} {{ t('hr.employees').toLowerCase() }}
+                    </p>
+
+                    <!-- Grid of employee cards -->
+                    <div v-if="employees.length > 0" class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        <div
+                            v-for="employee in employees"
+                            :key="employee.id"
+                            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm text-center transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
+                        >
+                            <!-- Photo or initials -->
+                            <div class="mx-auto mb-3 h-20 w-20">
+                                <img
+                                    v-if="employee.photo_path"
+                                    :src="`/storage/${employee.photo_path}`"
+                                    :alt="employee.full_name"
+                                    class="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700"
+                                />
+                                <div v-else class="flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 ring-2 ring-primary-50 dark:bg-primary-900/30 dark:ring-primary-900/50">
+                                    <span class="text-lg font-semibold text-primary-600 dark:text-primary-400">
+                                        {{ employee.first_name?.charAt(0) }}{{ employee.last_name?.charAt(0) }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Name -->
+                            <h3 class="text-sm font-semibold text-slate-900 dark:text-white">
+                                {{ employee.full_name }}
+                            </h3>
+
+                            <!-- Job title -->
+                            <p v-if="employee.job_title" class="mt-0.5 text-xs font-medium text-primary-600 dark:text-primary-400">
+                                {{ employee.job_title }}
+                            </p>
+
+                            <!-- Department -->
+                            <p v-if="employee.department" class="mt-1 flex items-center justify-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                                <span
+                                    v-if="employee.department.color"
+                                    class="inline-block h-2 w-2 rounded-full"
+                                    :style="{ backgroundColor: employee.department.color }"
+                                ></span>
+                                {{ employee.department.name }}
+                            </p>
+
+                            <!-- Phone -->
+                            <p v-if="employee.phone" class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                                <a :href="`tel:${employee.phone}`" class="hover:text-primary-600 dark:hover:text-primary-400">{{ employee.phone }}</a>
+                            </p>
+
+                            <!-- Email -->
+                            <p v-if="employee.email_pro" class="mt-0.5 text-xs text-slate-500 dark:text-slate-400 truncate">
+                                <a :href="`mailto:${employee.email_pro}`" class="hover:text-primary-600 dark:hover:text-primary-400">{{ employee.email_pro }}</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div v-else class="rounded-2xl border border-slate-200 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-800">
+                        <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        </svg>
+                        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">{{ t('hr.no_employees') }}</p>
+                    </div>
+                </template>
+
+                <!-- TREE VIEW (Org Chart) -->
+                <template v-if="viewMode === 'tree'">
+                    <div v-if="orgTree.length > 0" class="overflow-x-auto pb-8">
+                        <div class="inline-flex flex-col items-center gap-8 min-w-full">
+                            <div v-for="root in orgTree" :key="root.id">
+                                <OrgNode :node="root" :depth="0" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div v-else class="rounded-2xl border border-slate-200 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-800">
+                        <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        </svg>
+                        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">{{ t('hr.no_employees') }}</p>
+                    </div>
+                </template>
             </div>
         </div>
     </AppLayout>

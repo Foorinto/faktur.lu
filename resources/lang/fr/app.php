@@ -2050,5 +2050,11 @@ return [
         'type_other' => 'Autre',
         'expired' => 'Expiré',
         'expires_on' => 'Expire le',
+
+        // Organigramme
+        'view_grid' => 'Grille',
+        'view_org_chart' => 'Organigramme',
+        'no_manager' => 'Sans responsable',
+        'subordinates_count' => ':count subordonné(s)',
     ],
 ];
