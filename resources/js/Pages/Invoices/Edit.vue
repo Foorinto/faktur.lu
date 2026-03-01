@@ -87,6 +87,7 @@ const editItemForm = useForm({
 const form = useForm({
     client_id: props.invoice.client_id,
     title: props.invoice.title || '',
+    issued_at: formatDateForInput(props.invoice.issued_at),
     due_at: formatDateForInput(props.invoice.due_at),
     notes: props.invoice.notes || '',
     footer_message: props.invoice.footer_message || '',
@@ -381,6 +382,16 @@ const openPreview = () => {
                         </div>
 
                         <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div>
+                                <InputLabel for="issued_at" :value="t('issue_date')" />
+                                <input
+                                    id="issued_at"
+                                    v-model="form.issued_at"
+                                    type="date"
+                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                />
+                                <InputError :message="form.errors.issued_at" class="mt-2" />
+                            </div>
                             <div>
                                 <InputLabel for="due_at" :value="t('due_date')" />
                                 <input

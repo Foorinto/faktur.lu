@@ -20,6 +20,7 @@ class UpdateInvoiceRequest extends FormRequest
         return [
             'client_id' => ['sometimes', 'required', 'integer', new BelongsToAuthUser(Client::class)],
             'title' => ['nullable', 'string', 'max:255'],
+            'issued_at' => ['nullable', 'date'],
             'due_at' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'footer_message' => ['nullable', 'string', 'max:1000'],

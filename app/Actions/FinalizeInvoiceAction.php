@@ -56,7 +56,7 @@ class FinalizeInvoiceAction
             $buyerSnapshot = $invoice->client->toSnapshot();
 
             // Determine dates
-            $issuedDate = $issuedAt ? now()->parse($issuedAt) : now();
+            $issuedDate = $issuedAt ? now()->parse($issuedAt) : ($invoice->issued_at ?? now());
             $paymentDays = config('billing.default_payment_days', 30);
             $dueDate = $invoice->due_at ?? $issuedDate->copy()->addDays($paymentDays);
 
