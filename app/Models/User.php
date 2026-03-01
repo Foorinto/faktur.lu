@@ -289,6 +289,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(AccountantDownload::class);
     }
 
+    // ── Employee Portal ────────────────────────────────────────
+
+    public function linkedEmployee(): HasOne
+    {
+        return $this->hasOne(\App\Models\HR\Employee::class, 'account_id')->withoutGlobalScope('user');
+    }
+
+    public function isEmployee(): bool
+    {
+        return $this->linkedEmployee()->exists();
+    }
+
     // ── Organization / Collaboration ────────────────────────────
 
     public function ownedOrganization(): HasOne

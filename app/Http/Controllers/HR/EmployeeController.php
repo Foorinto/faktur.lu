@@ -11,9 +11,13 @@ use App\Models\HR\ExpenseReport;
 use App\Models\HR\LeaveRequest;
 use App\Models\HR\LeaveType;
 use App\Models\HR\OnboardingTemplate;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -259,6 +263,55 @@ class EmployeeController extends Controller
         $employee->update($data);
 
         return back()->with('success', 'Employé mis à jour.');
+    }
+
+    public function activatePortal(Employee $employee): RedirectResponse
+    {
+        if ($employee->hasPortalAccess()) {
+            return back()->with('error', __('app.employee_portal.already_activated'));
+        }
+
+        if (!$employee->email_pro) {
+            return back()->with('error', __('app.employee_portal.email_required'));
+        }
+
+        $user = User::where('email', $employee->email_pro)->first();
+
+        if (!$user) {
+            $user = User::create([
+                'name' => $employee->full_name,
+                'email' => $employee->email_pro,
+                'password' => Hash::make(Str::random(32)),
+                'email_verified_at' => now(),
+                'is_active' => true,
+                'locale' => auth()->user()->locale ?? 'fr',
+            ]);
+        } elseif (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        $employee->update([
+            'account_id' => $user->id,
+            'portal_activated_at' => now(),
+        ]);
+
+        Password::sendResetLink(['email' => $user->email]);
+
+        return back()->with('success', __('app.employee_portal.activated'));
+    }
+
+    public function deactivatePortal(Employee $employee): RedirectResponse
+    {
+        if (!$employee->hasPortalAccess()) {
+            return back()->with('error', __('app.employee_portal.not_activated'));
+        }
+
+        $employee->update([
+            'account_id' => null,
+            'portal_activated_at' => null,
+        ]);
+
+        return back()->with('success', __('app.employee_portal.deactivated'));
     }
 
     public function destroy(Employee $employee): RedirectResponse

@@ -70,6 +70,16 @@ const deleteEmployee = () => {
     }
 };
 
+const activatePortal = () => {
+    router.post(route('hr.employees.activate-portal', props.employee.id));
+};
+
+const deactivatePortal = () => {
+    if (confirm(t('employee_portal.confirm_deactivate'))) {
+        router.post(route('hr.employees.deactivate-portal', props.employee.id));
+    }
+};
+
 // Leave request form
 const showLeaveModal = ref(false);
 const leaveForm = useForm({
@@ -257,6 +267,30 @@ const applyTemplate = () => {
                     </span>
                 </div>
                 <div class="flex items-center space-x-3">
+                    <!-- Portal activation -->
+                    <button
+                        v-if="!employee.account_id && employee.email_pro"
+                        @click="activatePortal"
+                        class="inline-flex items-center rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500"
+                    >
+                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                        </svg>
+                        {{ t('employee_portal.activate_portal') }}
+                    </button>
+                    <span
+                        v-if="employee.account_id"
+                        class="inline-flex items-center rounded-xl bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                    >
+                        {{ t('employee_portal.portal_active') }}
+                    </span>
+                    <button
+                        v-if="employee.account_id"
+                        @click="deactivatePortal"
+                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"
+                    >
+                        {{ t('employee_portal.deactivate_portal') }}
+                    </button>
                     <Link
                         :href="route('hr.employees.edit', employee.id)"
                         class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"

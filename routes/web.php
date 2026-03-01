@@ -214,10 +214,10 @@ Route::get('/validateur-faia', fn () => redirect()->route('faia-validator', ['lo
 */
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'redirect.employee'])
     ->name('dashboard');
 
-Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
+Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
     // Profile routes (no special rate limit)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -262,6 +262,8 @@ Route::middleware(['auth', 'verified', 'check.trial'])->group(function () {
             Route::get('/', [HR\HRDashboardController::class, 'index'])->name('dashboard');
 
             Route::resource('employees', HR\EmployeeController::class);
+            Route::post('/employees/{employee}/activate-portal', [HR\EmployeeController::class, 'activatePortal'])->name('employees.activate-portal');
+            Route::post('/employees/{employee}/deactivate-portal', [HR\EmployeeController::class, 'deactivatePortal'])->name('employees.deactivate-portal');
             Route::get('/employees/{employee}/leaves', [HR\EmployeeController::class, 'leaves'])->name('employees.leaves');
             Route::get('/employees/{employee}/expenses', [HR\EmployeeController::class, 'expenses'])->name('employees.expenses');
             Route::get('/employees/{employee}/documents', [HR\EmployeeController::class, 'documents'])->name('employees.documents');

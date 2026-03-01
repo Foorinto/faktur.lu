@@ -1,0 +1,97 @@
+<script setup>
+import EmployeePortalLayout from '@/Layouts/EmployeePortalLayout.vue';
+import { Head, Link } from '@inertiajs/vue3';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
+
+const props = defineProps({
+    employee: { type: Object, required: true },
+    evaluation: { type: Object, required: true },
+});
+
+const formatDate = (date) => {
+    if (!date) return '—';
+    return new Date(date).toLocaleDateString('fr-FR');
+};
+
+const getScoreClass = (score) => {
+    if (score >= 4) return 'text-emerald-600 dark:text-emerald-400';
+    if (score >= 3) return 'text-amber-600 dark:text-amber-400';
+    return 'text-rose-600 dark:text-rose-400';
+};
+</script>
+
+<template>
+    <Head :title="evaluation.title || t('hr.evaluation')" />
+
+    <EmployeePortalLayout>
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <Link :href="route('employee-portal.evaluations.index')" class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700">
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <h1 class="text-xl font-bold text-slate-900 dark:text-white">{{ evaluation.title || t('hr.evaluation') }}</h1>
+            </div>
+            <a
+                :href="route('employee-portal.evaluations.pdf', evaluation.id)"
+                target="_blank"
+                class="inline-flex items-center gap-1.5 rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+            >
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                PDF
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <!-- Main content -->
+            <div class="lg:col-span-2">
+                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div v-if="evaluation.description" class="prose prose-sm dark:prose-invert max-w-none" v-html="evaluation.description"></div>
+                    <p v-else class="text-sm text-slate-500 dark:text-slate-400">{{ t('hr.no_data') }}</p>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-4">
+                <!-- Score -->
+                <div v-if="evaluation.overall_score" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800 text-center">
+                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('hr.overall_score') }}</p>
+                    <p class="text-4xl font-bold" :class="getScoreClass(evaluation.overall_score)">
+                        {{ evaluation.overall_score }}
+                        <span class="text-lg font-normal text-slate-400">/5</span>
+                    </p>
+                </div>
+
+                <!-- Details -->
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{{ t('hr.details') }}</h3>
+                    <dl class="space-y-3 text-sm">
+                        <div>
+                            <dt class="text-slate-500 dark:text-slate-400">{{ t('hr.date') }}</dt>
+                            <dd class="font-medium text-slate-900 dark:text-white">{{ formatDate(evaluation.date) }}</dd>
+                        </div>
+                        <div v-if="evaluation.evaluator">
+                            <dt class="text-slate-500 dark:text-slate-400">{{ t('hr.evaluator') }}</dt>
+                            <dd class="font-medium text-slate-900 dark:text-white">{{ evaluation.evaluator.first_name }} {{ evaluation.evaluator.last_name }}</dd>
+                        </div>
+                        <div v-if="employee.department">
+                            <dt class="text-slate-500 dark:text-slate-400">{{ t('hr.department') }}</dt>
+                            <dd>
+                                <span class="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium" :style="{ backgroundColor: employee.department.color + '20', color: employee.department.color }">
+                                    <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: employee.department.color }"></span>
+                                    {{ employee.department.name }}
+                                </span>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </EmployeePortalLayout>
+</template>

@@ -49,6 +49,8 @@ class Employee extends Model
         'status',
         'termination_date',
         'termination_reason',
+        'account_id',
+        'portal_activated_at',
     ];
 
     protected $casts = [
@@ -60,6 +62,7 @@ class Employee extends Model
         'salary_gross' => 'decimal:2',
         'benefits' => 'array',
         'emergency_contact' => 'array',
+        'portal_activated_at' => 'datetime',
     ];
 
     protected $appends = ['full_name'];
@@ -87,6 +90,11 @@ class Employee extends Model
     }
 
     // Relationships
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'account_id');
+    }
 
     public function department(): BelongsTo
     {
@@ -174,5 +182,10 @@ class Employee extends Model
     public function isOnTrial(): bool
     {
         return $this->trial_end_date && $this->trial_end_date->isFuture();
+    }
+
+    public function hasPortalAccess(): bool
+    {
+        return $this->account_id !== null;
     }
 }

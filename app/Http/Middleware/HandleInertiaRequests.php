@@ -76,6 +76,7 @@ class HandleInertiaRequests extends Middleware
                         'plan_name' => $request->user()->plan,
                         'is_collaborator' => $request->user()->isCollaborator(),
                         'is_organization_owner' => $request->user()->isOrganizationOwner(),
+                        'is_employee' => $request->user()->isEmployee(),
                         'is_pro' => $request->user()->isPro(),
                     ]
                 ) : null,
