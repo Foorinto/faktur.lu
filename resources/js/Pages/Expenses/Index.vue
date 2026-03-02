@@ -90,25 +90,25 @@ const deleteExpense = (expense) => {
 
         <!-- Summary Cards -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_ht') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(summary.total_ht) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_deductible') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
                     {{ formatCurrency(summary.total_vat) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_ttc') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(summary.total_ttc) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('count') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.count }}
@@ -150,7 +150,7 @@ const deleteExpense = (expense) => {
         </div>
 
         <!-- Expenses list -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>

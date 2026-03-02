@@ -96,7 +96,7 @@ const submit = () => {
         <div class="mx-auto max-w-3xl py-6 px-4 sm:px-6 lg:px-8">
             <form @submit.prevent="submit" class="space-y-8">
                 <!-- Photo -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.photo') }}</h2>
                     </div>
@@ -120,7 +120,7 @@ const submit = () => {
                 </div>
 
                 <!-- Personal Information -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.personal_info') }}</h2>
                     </div>
@@ -150,7 +150,7 @@ const submit = () => {
                 </div>
 
                 <!-- Contact -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.contact_info') }}</h2>
                     </div>
@@ -195,7 +195,7 @@ const submit = () => {
                 </div>
 
                 <!-- Contract -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.contract_details') }}</h2>
                     </div>
@@ -250,7 +250,7 @@ const submit = () => {
                 </div>
 
                 <!-- Termination (visible only if terminated) -->
-                <div v-if="form.status === 'terminated'" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-rose-200 dark:bg-surface-card dark:border-rose-700 dark:shadow-gray-900/50">
+                <div v-if="form.status === 'terminated'" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-rose-200 dark:bg-surface-card dark:border-rose-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-rose-200 dark:border-rose-700">
                         <h2 class="text-lg font-medium text-rose-700 dark:text-rose-400">{{ t('hr.termination') }}</h2>
                     </div>
@@ -267,7 +267,7 @@ const submit = () => {
                 </div>
 
                 <!-- Salary & Banking -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.salary_banking') }}</h2>
                     </div>
@@ -292,7 +292,7 @@ const submit = () => {
                 </div>
 
                 <!-- Emergency Contact -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.emergency_contact') }}</h2>
                     </div>

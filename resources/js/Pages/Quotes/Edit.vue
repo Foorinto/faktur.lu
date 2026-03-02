@@ -378,7 +378,7 @@ const getStatusLabel = (status) => {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div class="lg:col-span-2 space-y-6">
                 <!-- Client & Settings -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Informations</h2>
                     </div>
@@ -472,7 +472,7 @@ const getStatusLabel = (status) => {
                 </div>
 
                 <!-- Quote items -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Lignes du devis</h2>
                     </div>
@@ -750,7 +750,7 @@ const getStatusLabel = (status) => {
 
             <!-- Sidebar with totals -->
             <div class="space-y-6">
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card sticky top-20">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card sticky top-20">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Résumé</h2>
                     </div>

@@ -391,7 +391,7 @@ const applyTemplate = () => {
                 <!-- Info Tab -->
                 <template v-if="activeTab === 'info'">
                     <!-- Personal -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.personal_info') }}</h2>
                         </div>
@@ -442,7 +442,7 @@ const applyTemplate = () => {
                     </div>
 
                     <!-- Contract -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.contract_details') }}</h2>
                         </div>
@@ -492,7 +492,7 @@ const applyTemplate = () => {
                     </div>
 
                     <!-- Emergency Contact -->
-                    <div v-if="employee.emergency_contact?.name" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div v-if="employee.emergency_contact?.name" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.emergency_contact') }}</h2>
                         </div>
@@ -516,7 +516,7 @@ const applyTemplate = () => {
                 <!-- Leaves Tab -->
                 <template v-if="activeTab === 'leaves'">
                     <!-- Leave Balances -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_balances') }}</h2>
                             <button
@@ -544,7 +544,7 @@ const applyTemplate = () => {
                     </div>
 
                     <!-- Leave Requests -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_requests') }}</h2>
                         </div>
@@ -587,7 +587,7 @@ const applyTemplate = () => {
 
                 <!-- Expenses Tab -->
                 <template v-if="activeTab === 'expenses'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.expenses') }}</h2>
                         </div>
@@ -630,7 +630,7 @@ const applyTemplate = () => {
 
                 <!-- Documents Tab -->
                 <template v-if="activeTab === 'documents'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.documents') }}</h2>
                             <button
@@ -692,7 +692,7 @@ const applyTemplate = () => {
 
                 <!-- Evaluations Tab -->
                 <template v-if="activeTab === 'evaluations'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.evaluations') }}</h2>
                             <button
@@ -732,7 +732,7 @@ const applyTemplate = () => {
 
                 <!-- Onboarding Tab -->
                 <template v-if="activeTab === 'onboarding'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <div class="flex items-center justify-between gap-3">
                                 <h2 class="text-lg font-medium text-slate-900 dark:text-white flex-shrink-0">{{ t('hr.onboarding') }}</h2>
@@ -826,7 +826,7 @@ const applyTemplate = () => {
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Salary -->
-                <div v-if="employee.salary_gross" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div v-if="employee.salary_gross" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.salary_banking') }}</h2>
                     </div>
@@ -845,7 +845,7 @@ const applyTemplate = () => {
                 </div>
 
                 <!-- Quick Leave Balances (info tab) -->
-                <div v-if="activeTab === 'info' && employee.leave_balances && employee.leave_balances.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div v-if="activeTab === 'info' && employee.leave_balances && employee.leave_balances.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_balances') }}</h2>
                     </div>
@@ -858,7 +858,7 @@ const applyTemplate = () => {
                 </div>
 
                 <!-- Recent Leaves (info tab) -->
-                <div v-if="activeTab === 'info' && employee.leave_requests && employee.leave_requests.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div v-if="activeTab === 'info' && employee.leave_requests && employee.leave_requests.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.recent_leaves') }}</h2>
                     </div>
@@ -876,7 +876,7 @@ const applyTemplate = () => {
                 </div>
 
                 <!-- Metadata -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4">
                         <dl class="space-y-2 text-sm">
                             <div class="flex justify-between">

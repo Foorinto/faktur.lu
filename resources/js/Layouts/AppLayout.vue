@@ -11,8 +11,14 @@ import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
-const showingSidebar = ref(true);
+const showingSidebar = ref(false);
+const sidebarCollapsed = ref(localStorage.getItem('sidebar-collapsed') === 'true');
 const page = usePage();
+
+const toggleCollapse = () => {
+    sidebarCollapsed.value = !sidebarCollapsed.value;
+    localStorage.setItem('sidebar-collapsed', sidebarCollapsed.value);
+};
 
 const stopImpersonation = () => {
     router.post(route('admin.impersonation.stop'));
@@ -104,155 +110,175 @@ const routeExists = (routeName) => {
             :class="[
                 showingSidebar ? 'translate-x-0' : '-translate-x-full',
                 page.props.impersonating ? 'top-10' : 'top-0',
-                'fixed inset-y-0 left-0 z-50 w-64 transform bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out dark:bg-surface-card dark:border-gray-700 lg:translate-x-0',
+                sidebarCollapsed ? 'w-16' : 'w-64',
+                'fixed inset-y-0 left-0 z-50 transform bg-white border-r border-gray-200 transition-all duration-300 ease-in-out dark:bg-surface-card dark:border-gray-700 lg:translate-x-0',
             ]"
         >
             <div class="flex h-full flex-col">
                 <!-- Logo -->
-                <div class="flex h-16 items-center justify-between border-b border-gray-200 px-4 dark:border-gray-700">
+                <div class="flex h-16 items-center border-b border-gray-200 dark:border-gray-700" :class="sidebarCollapsed ? 'justify-center px-2' : 'justify-between px-4'">
                     <Link :href="route('dashboard')" class="flex items-center">
-                        <ApplicationLogo size="sm" />
+                        <ApplicationLogo v-if="!sidebarCollapsed" size="sm" />
+                        <span v-else class="text-lg font-bold text-primary-500">F</span>
                     </Link>
+                    <button
+                        v-if="!sidebarCollapsed"
+                        @click="toggleCollapse"
+                        class="hidden lg:flex items-center justify-center rounded-lg p-1.5 text-slate-400 hover:bg-gray-100 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300 transition-colors"
+                        :title="t('collapse_sidebar') || 'Réduire'"
+                    >
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                        </svg>
+                    </button>
                 </div>
 
                 <!-- Navigation -->
-                <nav class="flex-1 space-y-1 px-3 py-4">
+                <nav class="flex-1 space-y-1 py-4 overflow-y-auto" :class="sidebarCollapsed ? 'px-2' : 'px-3'">
                     <template v-for="item in navigation" :key="item.name">
                         <Link
                             v-if="routeExists(item.href)"
                             :href="route(item.href)"
+                            :title="sidebarCollapsed ? item.name : undefined"
                             :class="[
                                 isCurrentRoute(item.href)
                                     ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
                                     : 'text-slate-600 hover:bg-gray-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200',
-                                'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
+                                sidebarCollapsed
+                                    ? 'group flex items-center justify-center rounded-xl p-2.5 text-sm font-medium transition-all duration-200'
+                                    : 'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
                             ]"
                         >
                             <!-- Dashboard Icon -->
-                            <svg v-if="item.icon === 'chart-bar'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-if="item.icon === 'chart-bar'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
                             <!-- Users Icon -->
-                            <svg v-else-if="item.icon === 'users'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'users'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                             <!-- Clipboard List Icon (Devis) -->
-                            <svg v-else-if="item.icon === 'clipboard-list'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'clipboard-list'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                             </svg>
                             <!-- Document Icon -->
-                            <svg v-else-if="item.icon === 'document-text'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'document-text'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <!-- Credit Card Icon -->
-                            <svg v-else-if="item.icon === 'credit-card'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'credit-card'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
                             <!-- Clock Icon -->
-                            <svg v-else-if="item.icon === 'clock'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'clock'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <!-- Folder Icon (Projects) -->
-                            <svg v-else-if="item.icon === 'folder'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'folder'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                             </svg>
                             <!-- Book Open Icon (Recettes) -->
-                            <svg v-else-if="item.icon === 'book-open'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'book-open'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                             <!-- Document Download Icon (Export FAIA) -->
-                            <svg v-else-if="item.icon === 'document-download'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'document-download'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <!-- Calculator Icon (Export Comptable) -->
-                            <svg v-else-if="item.icon === 'calculator'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'calculator'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
                             <!-- Bell Icon (Rappels) -->
-                            <svg v-else-if="item.icon === 'bell'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'bell'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
                             <!-- Identification Icon (RH) -->
-                            <svg v-else-if="item.icon === 'identification'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'identification'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
                             </svg>
                             <!-- Archive Icon (Archivage) -->
-                            <svg v-else-if="item.icon === 'archive'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'archive'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                             </svg>
                             <!-- Cog Icon -->
-                            <svg v-else-if="item.icon === 'cog'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'cog'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                             <!-- User Group Icon (Organisation) -->
-                            <svg v-else-if="item.icon === 'user-group'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'user-group'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <!-- User Circle Icon (Employee Portal) -->
-                            <svg v-else-if="item.icon === 'user-circle'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'user-circle'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            {{ item.name }}
+                            <span v-if="!sidebarCollapsed">{{ item.name }}</span>
                         </Link>
                         <span
                             v-else
-                            class="group flex cursor-not-allowed items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 dark:text-slate-600"
+                            :title="sidebarCollapsed ? item.name : undefined"
+                            :class="[
+                                sidebarCollapsed
+                                    ? 'group flex cursor-not-allowed items-center justify-center rounded-xl p-2.5 text-sm font-medium text-slate-400 dark:text-slate-600'
+                                    : 'group flex cursor-not-allowed items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 dark:text-slate-600',
+                            ]"
                         >
                             <!-- Icons same as above but grayed out -->
-                            <svg v-if="item.icon === 'chart-bar'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-if="item.icon === 'chart-bar'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'users'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'users'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'clipboard-list'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'clipboard-list'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                             </svg>
-                            <svg v-else-if="item.icon === 'document-text'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'document-text'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'credit-card'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'credit-card'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'clock'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'clock'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'folder'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'folder'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'document-download'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'document-download'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'calculator'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'calculator'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'bell'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'bell'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
-                            <svg v-else-if="item.icon === 'identification'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'identification'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'archive'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'archive'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                             </svg>
-                            <svg v-else-if="item.icon === 'cog'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'cog'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'user-group'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'user-group'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'user-circle'" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-else-if="item.icon === 'user-circle'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            {{ item.name }}
+                            <span v-if="!sidebarCollapsed">{{ item.name }}</span>
                         </span>
                     </template>
                 </nav>
 
                 <!-- Trial Card -->
-                <div v-if="page.props.auth?.user?.is_on_trial" class="px-3 pb-3">
+                <div v-if="page.props.auth?.user?.is_on_trial && !sidebarCollapsed" class="px-3 pb-3">
                     <div class="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-3">
                         <div class="flex items-center gap-2 mb-2">
                             <svg class="h-5 w-5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -275,15 +301,30 @@ const routeExists = (routeName) => {
                     </div>
                 </div>
 
+                <!-- Expand button when collapsed -->
+                <div v-if="sidebarCollapsed" class="hidden lg:flex justify-center px-2 pb-2">
+                    <button
+                        @click="toggleCollapse"
+                        class="flex items-center justify-center rounded-lg p-2 text-slate-400 hover:bg-gray-100 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300 transition-colors"
+                        :title="'Agrandir'"
+                    >
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+
                 <!-- User menu at bottom -->
-                <div class="border-t border-gray-200 p-4 dark:border-gray-700">
-                    <Dropdown align="top-left" width="48">
+                <div class="border-t border-gray-200 dark:border-gray-700" :class="sidebarCollapsed ? 'p-2' : 'p-4'">
+                    <Dropdown :align="sidebarCollapsed ? 'top-right' : 'top-left'" width="48">
                         <template #trigger>
                             <button
                                 type="button"
-                                class="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-gray-50 transition-colors dark:text-slate-300 dark:hover:bg-gray-800"
+                                :class="sidebarCollapsed
+                                    ? 'flex w-full items-center justify-center rounded-xl p-2 text-sm font-medium text-slate-700 hover:bg-gray-50 transition-colors dark:text-slate-300 dark:hover:bg-gray-800'
+                                    : 'flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-gray-50 transition-colors dark:text-slate-300 dark:hover:bg-gray-800'"
                             >
-                                <div :class="['relative flex h-9 w-9 items-center justify-center rounded-xl', getAvatarClasses($page.props.auth.user.name)]">
+                                <div :class="['relative flex h-9 w-9 items-center justify-center rounded-xl flex-shrink-0', getAvatarClasses($page.props.auth.user.name)]">
                                     <span class="text-sm font-bold">
                                         {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
                                     </span>
@@ -294,17 +335,19 @@ const routeExists = (routeName) => {
                                         {{ $page.props.unreadSupportCount > 9 ? '9+' : $page.props.unreadSupportCount }}
                                     </span>
                                 </div>
-                                <div class="ml-3 flex-1 text-left">
-                                    <p class="text-sm font-medium text-slate-900 dark:text-white">
-                                        {{ $page.props.auth.user.name }}
-                                    </p>
-                                    <p class="truncate text-xs text-slate-500 dark:text-slate-400">
-                                        {{ $page.props.auth.user.email }}
-                                    </p>
-                                </div>
-                                <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                                </svg>
+                                <template v-if="!sidebarCollapsed">
+                                    <div class="ml-3 flex-1 text-left">
+                                        <p class="text-sm font-medium text-slate-900 dark:text-white">
+                                            {{ $page.props.auth.user.name }}
+                                        </p>
+                                        <p class="truncate text-xs text-slate-500 dark:text-slate-400">
+                                            {{ $page.props.auth.user.email }}
+                                        </p>
+                                    </div>
+                                    <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                                    </svg>
+                                </template>
                             </button>
                         </template>
 
@@ -338,7 +381,7 @@ const routeExists = (routeName) => {
         ></div>
 
         <!-- Main content -->
-        <div :class="['lg:pl-64 relative', page.props.impersonating ? 'pt-10' : '']">
+        <div :class="[sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64', 'relative transition-all duration-300', page.props.impersonating ? 'pt-10' : '']">
             <!-- Top bar -->
             <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 dark:border-gray-700 dark:bg-surface-card/80 sm:px-6 lg:px-8">
                 <!-- Mobile menu button -->

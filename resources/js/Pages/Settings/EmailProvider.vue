@@ -141,7 +141,7 @@ const getInputType = (field, fieldConfig) => {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Provider Selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Provider d'envoi</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -183,7 +183,7 @@ const getInputType = (field, fieldConfig) => {
             </div>
 
             <!-- Provider Configuration -->
-            <div v-if="needsConfiguration" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div v-if="needsConfiguration" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         Configuration {{ providers[form.provider] }}
@@ -255,7 +255,7 @@ const getInputType = (field, fieldConfig) => {
             </div>
 
             <!-- From Address -->
-            <div v-if="needsConfiguration" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div v-if="needsConfiguration" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Expéditeur</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -291,7 +291,7 @@ const getInputType = (field, fieldConfig) => {
             </div>
 
             <!-- Verification Status -->
-            <div v-if="settings.provider !== 'faktur'" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div v-if="settings.provider !== 'faktur'" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-3">

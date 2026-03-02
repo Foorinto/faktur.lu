@@ -284,7 +284,7 @@ const updateProjectStatus = (project, newStatus) => {
         </div>
 
         <!-- List View -->
-        <div v-if="currentView === 'list'" class="overflow-hidden rounded-2xl bg-white border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+        <div v-if="currentView === 'list'" class="overflow-x-auto rounded-2xl bg-white border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead>
                     <tr>

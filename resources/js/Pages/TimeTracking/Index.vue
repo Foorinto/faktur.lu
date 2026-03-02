@@ -372,7 +372,7 @@ const formatTime = (date) => {
         </template>
 
         <!-- Running Timer Section -->
-        <div class="mb-6 overflow-hidden rounded-2xl bg-gradient-to-r from-primary-500 to-purple-600 shadow-lg">
+        <div class="mb-6 overflow-x-auto rounded-2xl bg-gradient-to-r from-primary-500 to-purple-600 shadow-lg">
             <div class="px-6 py-5">
                 <div v-if="runningTimer" class="flex items-center justify-between">
                     <div>
@@ -464,19 +464,19 @@ const formatTime = (date) => {
 
         <!-- Summary Cards -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.total_formatted }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('unbilled') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-400">
                     {{ summary.unbilled_formatted }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('selected') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-primary-600 dark:text-primary-400">
                     {{ selectedEntries.length }}
@@ -485,7 +485,7 @@ const formatTime = (date) => {
         </div>
 
         <!-- Manual Entry Form -->
-        <div class="mb-6 overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+        <div class="mb-6 overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-sm font-medium text-slate-900 dark:text-white">{{ t('add_manual_entry') }}</h3>
             </div>
@@ -612,7 +612,7 @@ const formatTime = (date) => {
         </div>
 
         <!-- Time Entries Table -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
@@ -764,7 +764,7 @@ const formatTime = (date) => {
             <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
             <div class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div class="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                    <div class="relative transform overflow-x-auto rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                                 {{ t('convert_to_invoice') }}
@@ -856,7 +856,7 @@ const formatTime = (date) => {
             <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
             <div class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div class="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                    <div class="relative transform overflow-x-auto rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                                 {{ t('add_to_invoice') }}

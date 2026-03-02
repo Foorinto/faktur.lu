@@ -152,7 +152,7 @@ if (form.items.length === 0) {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Client</h2>
                 </div>
@@ -192,7 +192,7 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Quote items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('quote_lines') }}</h2>
                 </div>
@@ -335,7 +335,7 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Notes & Options -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes_optional') }}</h2>
                 </div>

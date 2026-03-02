@@ -174,7 +174,7 @@ const getStatusColor = (status) => {
 </script>
 
 <template>
-    <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+    <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
         <!-- Toolbar -->
         <div class="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-gray-700">
             <div class="flex items-center gap-2">

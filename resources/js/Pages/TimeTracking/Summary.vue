@@ -88,7 +88,7 @@ const formatCurrency = (amount) => {
 
         <!-- Global Summary -->
         <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.total_formatted }}
@@ -97,7 +97,7 @@ const formatCurrency = (amount) => {
                     {{ summary.total_hours }} {{ t('hours') }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('unbilled_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-400">
                     {{ summary.unbilled_formatted }}
@@ -106,7 +106,7 @@ const formatCurrency = (amount) => {
                     {{ summary.unbilled_hours }} {{ t('hours') }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('billed_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
                     {{ summary.billed_formatted }}
@@ -115,7 +115,7 @@ const formatCurrency = (amount) => {
                     {{ summary.billed_hours }} {{ t('hours') }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('entries_count') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.count }}
@@ -124,7 +124,7 @@ const formatCurrency = (amount) => {
         </div>
 
         <!-- By Client -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-base font-semibold text-slate-900 dark:text-white">{{ t('by_client') }}</h3>
             </div>

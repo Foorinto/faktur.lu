@@ -90,7 +90,7 @@ const submit = () => {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Basic Info -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('information') }}</h2>
                 </div>
@@ -141,7 +141,7 @@ const submit = () => {
             </div>
 
             <!-- Amounts -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('calculated_amounts') }}</h2>
                 </div>
@@ -200,7 +200,7 @@ const submit = () => {
             </div>
 
             <!-- Additional Info -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('additional_info') }}</h2>
                 </div>
@@ -263,7 +263,7 @@ const submit = () => {
             </div>
 
             <!-- Attachment -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('receipt_attachment') }}</h2>
                 </div>

@@ -145,7 +145,7 @@ const monthNames = [
                 </div>
 
                 <!-- FullCalendar -->
-                <div class="fc-wrapper overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 p-4">
+                <div class="fc-wrapper overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 p-4">
                     <FullCalendar ref="calendarRef" :options="calendarOptions" />
                 </div>
 

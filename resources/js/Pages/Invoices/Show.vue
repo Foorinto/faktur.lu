@@ -604,7 +604,7 @@ const submitCreditNote = () => {
             <!-- Invoice Header Info -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <!-- Seller Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('issuer') }}</h2>
                     </div>
@@ -627,7 +627,7 @@ const submitCreditNote = () => {
                 </div>
 
                 <!-- Buyer Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('client') }}</h2>
                     </div>
@@ -648,7 +648,7 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Invoice Details -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
                 </div>
@@ -700,7 +700,7 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Invoice Items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
                 </div>
@@ -777,7 +777,7 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Notes -->
-            <div v-if="invoice.notes" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div v-if="invoice.notes" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes') }}</h2>
                 </div>
@@ -787,7 +787,7 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Credit Notes linked to this invoice -->
-            <div v-if="invoice.credit_notes && invoice.credit_notes.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div v-if="invoice.credit_notes && invoice.credit_notes.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('related_credit_notes') }}</h2>
                 </div>
@@ -814,7 +814,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="closeCreditNoteModal"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <div class="px-4 pt-5 pb-4 sm:p-6">
                         <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
                             {{ t('create_credit_note_for').replace(':number', invoice.number) }}
@@ -1018,7 +1018,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showEmailModal = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <form @submit.prevent="sendEmail">
                         <div class="px-4 pt-5 pb-4 sm:p-6">
                             <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
@@ -1128,7 +1128,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showReminderModal = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <form @submit.prevent="sendReminder">
                         <div class="px-4 pt-5 pb-4 sm:p-6">
                             <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
@@ -1260,7 +1260,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showEmailHistory = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <div class="px-4 pt-5 pb-4 sm:p-6">
                         <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
                             {{ t('email_history') }}

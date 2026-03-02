@@ -186,7 +186,7 @@ const canEdit = (quote) => {
         </div>
 
         <!-- Quotes list -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>

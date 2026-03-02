@@ -109,7 +109,7 @@ const exportCsv = () => {
 
         <div class="space-y-6">
             <!-- Period Selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('period') }}</h2>
                 </div>
@@ -183,7 +183,7 @@ const exportCsv = () => {
 
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -205,7 +205,7 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -227,7 +227,7 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -249,7 +249,7 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -273,7 +273,7 @@ const exportCsv = () => {
             </div>
 
             <!-- VAT Breakdown -->
-            <div v-if="vatBreakdown.length > 0" class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div v-if="vatBreakdown.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('vat_summary_title') }}</h2>
                 </div>
@@ -323,7 +323,7 @@ const exportCsv = () => {
             </div>
 
             <!-- Invoices Table -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         {{ t('revenue_details') }}

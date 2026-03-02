@@ -253,7 +253,7 @@ const exportSingleClient = (clientId) => {
         </div>
 
         <!-- Client table -->
-        <div v-else class="overflow-hidden rounded-2xl bg-white shadow border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+        <div v-else class="overflow-x-auto rounded-2xl bg-white shadow border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800/50">
                     <tr>

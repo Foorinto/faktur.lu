@@ -87,25 +87,25 @@ const getCategoryData = (categoryKey) => {
 
         <!-- Year Summary Cards -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">Total HT {{ year }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(yearSummary.total_ht) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">TVA récupérable</dt>
                 <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
                     {{ formatCurrency(yearSummary.total_vat) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">Total TTC</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(yearSummary.total_ttc) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">Dépenses</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ yearSummary.count }}
@@ -115,7 +115,7 @@ const getCategoryData = (categoryKey) => {
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- Monthly Summary -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Par mois</h2>
                 </div>
@@ -164,7 +164,7 @@ const getCategoryData = (categoryKey) => {
             </div>
 
             <!-- Category Summary -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Par catégorie</h2>
                 </div>

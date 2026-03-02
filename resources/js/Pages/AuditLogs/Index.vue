@@ -172,7 +172,7 @@ watch(() => localFilters.value.search, () => {
                 </div>
 
                 <!-- Logs table -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                         <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
@@ -261,7 +261,7 @@ watch(() => localFilters.value.search, () => {
 
                 <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-2xl sm:align-middle">
+                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-2xl sm:align-middle">
                     <div class="bg-white px-4 pb-4 pt-5 dark:bg-surface-card sm:p-6 sm:pb-4">
                         <div class="flex items-start justify-between">
                             <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-slate-100">
@@ -304,7 +304,7 @@ watch(() => localFilters.value.search, () => {
                             <!-- Changes diff -->
                             <div v-if="selectedLog?.changed_fields && Object.keys(selectedLog.changed_fields).length > 0">
                                 <h4 class="mb-2 font-medium text-slate-900 dark:text-slate-100">{{ t('changes') }} :</h4>
-                                <div class="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700">
+                                <div class="overflow-x-auto rounded-2xl border border-gray-200 dark:border-gray-700">
                                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-600">
                                         <thead class="bg-slate-50 dark:bg-gray-800">
                                             <tr>

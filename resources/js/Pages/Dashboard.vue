@@ -133,7 +133,7 @@ const getStatusLabel = (status) => {
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <!-- CA Annuel -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -169,7 +169,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Bénéfice Net -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -208,7 +208,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Factures impayées -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -244,7 +244,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Temps non facturé -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -277,7 +277,7 @@ const getStatusLabel = (status) => {
         <!-- Second Row: Progress Bars -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- VAT Franchise Threshold -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('vat_franchise_threshold') }}
@@ -311,7 +311,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Simplified Accounting Threshold -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('simplified_accounting_threshold') }}
@@ -348,7 +348,7 @@ const getStatusLabel = (status) => {
         <!-- Third Row: Revenue Chart & VAT Summary -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- Revenue Chart -->
-            <div class="lg:col-span-2 overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="lg:col-span-2 overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('monthly_revenue') }}
@@ -373,7 +373,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- VAT Summary -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('vat_summary', { year: selectedYear }) }}
@@ -414,7 +414,7 @@ const getStatusLabel = (status) => {
         <!-- Fourth Row: Lists -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- Unpaid Invoices -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-900 dark:text-white">
@@ -459,7 +459,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Unbilled Time by Client -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-900 dark:text-white">
@@ -497,7 +497,7 @@ const getStatusLabel = (status) => {
         </div>
 
         <!-- Recent Invoices -->
-        <div class="mt-6 overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div class="mt-6 overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">

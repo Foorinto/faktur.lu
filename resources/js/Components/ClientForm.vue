@@ -251,7 +251,7 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-8">
         <!-- Type de client -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_type') }}
@@ -290,7 +290,7 @@ const submit = () => {
         </div>
 
         <!-- CRM - Statut & Informations commerciales -->
-        <div v-if="clientStatuses && clientStatuses.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div v-if="clientStatuses && clientStatuses.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('crm.commercial_info') }}
@@ -343,7 +343,7 @@ const submit = () => {
         </div>
 
         <!-- Informations du client -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_info') }}
@@ -590,7 +590,7 @@ const submit = () => {
         </div>
 
         <!-- Facturation -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('billing_settings') }}

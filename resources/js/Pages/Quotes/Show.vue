@@ -216,7 +216,7 @@ const convertToInvoice = () => {
             <!-- Quote Header Info -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <!-- Seller Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('issuer') }}</h2>
                     </div>
@@ -241,7 +241,7 @@ const convertToInvoice = () => {
                 </div>
 
                 <!-- Buyer Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('client') }}</h2>
                     </div>
@@ -268,7 +268,7 @@ const convertToInvoice = () => {
             </div>
 
             <!-- Quote Details -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
                 </div>
@@ -310,7 +310,7 @@ const convertToInvoice = () => {
             </div>
 
             <!-- Quote Items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('quote_lines') }}</h2>
                 </div>
@@ -386,7 +386,7 @@ const convertToInvoice = () => {
             </div>
 
             <!-- Notes -->
-            <div v-if="quote.notes" class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div v-if="quote.notes" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes') }}</h2>
                 </div>

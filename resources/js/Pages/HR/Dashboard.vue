@@ -135,7 +135,7 @@ const settingsSections = [
                         v-for="section in settingsSections"
                         :key="section.route"
                         :href="route(section.route)"
-                        class="group overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-sm p-5 transition-all hover:border-primary-300 hover:shadow-primary-100/50 dark:bg-surface-card dark:border-gray-700 dark:hover:border-primary-600"
+                        class="group overflow-x-auto rounded-2xl bg-white border border-gray-200 shadow-sm p-5 transition-all hover:border-primary-300 hover:shadow-primary-100/50 dark:bg-surface-card dark:border-gray-700 dark:hover:border-primary-600"
                     >
                         <div class="flex items-start gap-3">
                             <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">

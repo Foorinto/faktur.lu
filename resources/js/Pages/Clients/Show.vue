@@ -157,7 +157,7 @@ const allTags = props.tags || [];
                 <!-- Info tab -->
                 <template v-if="activeTab === 'info'">
                     <!-- Contact -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                                 {{ t('client_info') }}
@@ -220,7 +220,7 @@ const allTags = props.tags || [];
                     </div>
 
                     <!-- Fiscal info -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                                 {{ t('billing_settings') }}
@@ -277,7 +277,7 @@ const allTags = props.tags || [];
                     </div>
 
                     <!-- Notes -->
-                    <div v-if="client.notes" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div v-if="client.notes" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                                 {{ t('internal_notes') }}
@@ -293,7 +293,7 @@ const allTags = props.tags || [];
 
                 <!-- Interactions tab -->
                 <template v-if="activeTab === 'interactions'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                                 {{ t('crm.interactions') }}
@@ -313,7 +313,7 @@ const allTags = props.tags || [];
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Tags -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('crm.tags') }}
@@ -329,7 +329,7 @@ const allTags = props.tags || [];
                 </div>
 
                 <!-- Reminders -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4">
                         <ReminderWidget
                             :reminders="reminders"
@@ -340,7 +340,7 @@ const allTags = props.tags || [];
                 </div>
 
                 <!-- Stats -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('reports') }}
@@ -363,7 +363,7 @@ const allTags = props.tags || [];
                 </div>
 
                 <!-- Quick actions -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('quick_actions') }}
@@ -392,7 +392,7 @@ const allTags = props.tags || [];
                 </div>
 
                 <!-- Metadata -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4">
                         <dl class="space-y-2 text-sm">
                             <div class="flex justify-between">
