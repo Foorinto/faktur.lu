@@ -65,7 +65,7 @@ const deleteDepartment = (department) => {
                 </h1>
                 <button
                     @click="openCreate"
-                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -79,9 +79,9 @@ const deleteDepartment = (department) => {
 
         <div class="py-6">
             <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-700">
+                        <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">{{ t('hr.department') }}</th>
                                 <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white sm:table-cell">{{ t('hr.parent_department') }}</th>
@@ -89,13 +89,13 @@ const deleteDepartment = (department) => {
                                 <th class="relative py-3.5 pl-3 pr-4 sm:pr-6"><span class="sr-only">{{ t('actions') }}</span></th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-if="departments.length === 0">
                                 <td colspan="4" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                                     {{ t('hr.no_departments') }}
                                 </td>
                             </tr>
-                            <tr v-for="dept in departments" :key="dept.id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                            <tr v-for="dept in departments" :key="dept.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                                     <div class="flex items-center gap-3">
                                         <span
@@ -115,7 +115,7 @@ const deleteDepartment = (department) => {
                                     <div class="flex items-center justify-end space-x-1">
                                         <button
                                             @click="openEdit(dept)"
-                                            class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-primary-600 dark:hover:bg-slate-700 dark:hover:text-primary-400"
+                                            class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-primary-600 dark:hover:bg-gray-800 dark:hover:text-primary-400"
                                         >
                                             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                 <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
@@ -143,19 +143,19 @@ const deleteDepartment = (department) => {
         <Teleport to="body">
             <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center">
                 <div class="fixed inset-0 bg-slate-900/50" @click="showModal = false"></div>
-                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
+                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-surface-card">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                         {{ editing ? t('hr.edit_department') : t('hr.new_department') }}
                     </h3>
                     <form @submit.prevent="submit" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.name') }} *</label>
-                            <input v-model="form.name" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <input v-model="form.name" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             <p v-if="form.errors.name" class="mt-1 text-xs text-rose-600">{{ form.errors.name }}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.parent_department') }}</label>
-                            <select v-model="form.parent_id" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm">
+                            <select v-model="form.parent_id" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
                                 <option value="">—</option>
                                 <option v-for="dept in departments.filter(d => d.id !== editing?.id)" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
                             </select>
@@ -165,10 +165,10 @@ const deleteDepartment = (department) => {
                             <input v-model="form.color" type="color" class="mt-1 h-10 w-20 cursor-pointer rounded-lg border-0" />
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600">
+                            <button type="button" @click="showModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="form.processing" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50">
+                            <button type="submit" :disabled="form.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
                                 {{ editing ? t('save') : t('create') }}
                             </button>
                         </div>

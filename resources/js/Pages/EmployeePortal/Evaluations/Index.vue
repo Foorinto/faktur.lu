@@ -29,7 +29,7 @@ const getScoreClass = (score) => {
             <h1 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('employee_portal.my_evaluations') }}</h1>
         </div>
 
-        <div v-if="evaluations.length === 0" class="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div v-if="evaluations.length === 0" class="rounded-2xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-700 dark:bg-surface-card">
             <svg class="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
@@ -41,7 +41,7 @@ const getScoreClass = (score) => {
                 v-for="evaluation in evaluations"
                 :key="evaluation.id"
                 :href="route('employee-portal.evaluations.show', evaluation.id)"
-                class="block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-primary-300 hover:shadow-md transition-all dark:border-slate-700 dark:bg-slate-800 dark:hover:border-primary-600"
+                class="block rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:border-primary-300 hover:shadow-md transition-all dark:border-gray-700 dark:bg-surface-card dark:hover:border-primary-600"
             >
                 <div class="flex items-start justify-between">
                     <div class="min-w-0 flex-1">

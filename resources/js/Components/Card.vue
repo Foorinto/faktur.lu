@@ -30,10 +30,10 @@ defineProps({
 <template>
     <div
         :class="[
-            'relative bg-white dark:bg-slate-800 overflow-hidden',
+            'relative bg-white dark:bg-surface-card overflow-hidden',
             rounded,
-            shadow ? 'shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50' : '',
-            border ? 'border border-slate-200 dark:border-slate-700' : '',
+            shadow ? 'shadow-xl shadow-gray-200/50 dark:shadow-gray-900/50' : '',
+            border ? 'border border-gray-200 dark:border-gray-700' : '',
             padding,
         ]"
     >

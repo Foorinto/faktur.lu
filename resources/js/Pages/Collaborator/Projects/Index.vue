@@ -32,7 +32,7 @@ watch(statusFilter, applyFilters);
 
 const getStatusColor = (status) => {
     const colors = {
-        backlog: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        backlog: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         todo: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
         in_progress: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
         review: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
@@ -66,12 +66,12 @@ const getStatusColor = (status) => {
                     v-model="search"
                     type="text"
                     :placeholder="t('search') + '...'"
-                    class="w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white text-sm"
+                    class="w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-surface-card dark:text-white text-sm"
                 />
             </div>
             <select
                 v-model="statusFilter"
-                class="rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white text-sm"
+                class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-surface-card dark:text-white text-sm"
             >
                 <option value="">{{ t('all_statuses') || 'Tous les statuts' }}</option>
                 <option v-for="(label, key) in statuses" :key="key" :value="key">{{ label }}</option>
@@ -79,7 +79,7 @@ const getStatusColor = (status) => {
         </div>
 
         <!-- Projects Grid -->
-        <div v-if="projects.length === 0" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-12 text-center">
+        <div v-if="projects.length === 0" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-12 text-center">
             <svg class="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
             </svg>
@@ -91,7 +91,7 @@ const getStatusColor = (status) => {
                 v-for="project in projects"
                 :key="project.id"
                 :href="route('collaborator.projects.show', project.id)"
-                class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-5 hover:shadow-lg transition-shadow block"
+                class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-5 hover:shadow-lg transition-shadow block"
             >
                 <div class="flex items-start justify-between mb-3">
                     <div class="flex items-center space-x-2">
@@ -120,7 +120,7 @@ const getStatusColor = (status) => {
                             {{ Math.round((project.completed_tasks_count / project.tasks_count) * 100) }}%
                         </span>
                     </div>
-                    <div v-if="project.tasks_count > 0" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div v-if="project.tasks_count > 0" class="w-full h-1.5 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
                         <div
                             class="h-full bg-primary-500 rounded-full transition-all"
                             :style="{ width: Math.round((project.completed_tasks_count / project.tasks_count) * 100) + '%' }"

@@ -152,8 +152,8 @@ if (form.items.length === 0) {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Client</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -163,7 +163,7 @@ if (form.items.length === 0) {
                             <select
                                 id="client_id"
                                 v-model="form.client_id"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 required
                             >
                                 <option value="">{{ t('select_client') }}</option>
@@ -180,7 +180,7 @@ if (form.items.length === 0) {
                                 id="valid_until"
                                 v-model="form.valid_until"
                                 type="date"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('default_30_days') }}
@@ -192,8 +192,8 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Quote items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('quote_lines') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -201,7 +201,7 @@ if (form.items.length === 0) {
                         <div
                             v-for="(item, index) in form.items"
                             :key="index"
-                            class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700"
+                            class="p-4 rounded-2xl border border-gray-200 dark:border-gray-700"
                         >
                             <div class="space-y-3">
                                 <div class="flex-1">
@@ -210,7 +210,7 @@ if (form.items.length === 0) {
                                         :id="`item-${index}-title`"
                                         v-model="item.title"
                                         type="text"
-                                        class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         :placeholder="t('service_title_placeholder')"
                                         required
                                     />
@@ -222,7 +222,7 @@ if (form.items.length === 0) {
                                         :id="`item-${index}-description`"
                                         v-model="item.description"
                                         rows="2"
-                                        class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         :placeholder="t('detailed_description_placeholder')"
                                     ></textarea>
                                 </div>
@@ -236,7 +236,7 @@ if (form.items.length === 0) {
                                             type="number"
                                             step="0.01"
                                             min="0.01"
-                                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                             required
                                         />
                                     </div>
@@ -246,7 +246,7 @@ if (form.items.length === 0) {
                                         <select
                                             :id="`item-${index}-unit`"
                                             v-model="item.unit"
-                                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         >
                                             <option value="">-</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
@@ -263,7 +263,7 @@ if (form.items.length === 0) {
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                             required
                                         />
                                     </div>
@@ -275,7 +275,7 @@ if (form.items.length === 0) {
                                             :id="`item-${index}-vat_rate`"
                                             :value="item.vat_rate_select ?? item.vat_rate"
                                             @change="handleVatRateChange(index, $event.target.value === 'custom' ? 'custom' : parseFloat($event.target.value))"
-                                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                             required
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
@@ -284,7 +284,7 @@ if (form.items.length === 0) {
                                         </select>
                                         <div
                                             v-else
-                                            class="mt-1 block w-full rounded-xl border border-slate-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-slate-600 dark:bg-slate-600 dark:text-slate-400"
+                                            class="mt-1 block w-full rounded-xl border border-gray-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-gray-700 dark:bg-slate-600 dark:text-slate-400"
                                         >
                                             {{ t('vat_rates.exempt') }}
                                         </div>
@@ -301,7 +301,7 @@ if (form.items.length === 0) {
                                             max="100"
                                             :value="customVatRates[index]"
                                             @input="handleCustomVatRateChange(index, $event.target.value)"
-                                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                             placeholder="Ex: 12"
                                         />
                                     </div>
@@ -323,7 +323,7 @@ if (form.items.length === 0) {
                         <button
                             type="button"
                             @click="addItem"
-                            class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                            class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                         >
                             <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -335,8 +335,8 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Notes & Options -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes_optional') }}</h2>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -346,7 +346,7 @@ if (form.items.length === 0) {
                             id="notes"
                             v-model="form.notes"
                             rows="3"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             :placeholder="t('special_conditions')"
                         ></textarea>
                         <InputError :message="form.errors.notes" class="mt-2" />
@@ -357,7 +357,7 @@ if (form.items.length === 0) {
                         <select
                             id="vat_mention"
                             v-model="form.vat_mention"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option value="">Mention par défaut</option>
                             <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
@@ -375,7 +375,7 @@ if (form.items.length === 0) {
                             id="custom_vat_mention"
                             v-model="form.custom_vat_mention"
                             rows="2"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             placeholder="Entrez votre mention TVA personnalisée..."
                         ></textarea>
                     </div>
@@ -386,7 +386,7 @@ if (form.items.length === 0) {
                             id="footer_message"
                             v-model="form.footer_message"
                             rows="2"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             :placeholder="defaultQuoteFooter"
                         ></textarea>
                         <p v-if="defaultQuoteFooter" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -400,7 +400,7 @@ if (form.items.length === 0) {
             <div class="flex justify-end space-x-3">
                 <Link
                     :href="route('quotes.index')"
-                    class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                    class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 >
                     {{ t('cancel') }}
                 </Link>

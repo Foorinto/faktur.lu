@@ -70,9 +70,9 @@ watch(() => props.modelValue, (newValue) => {
 </script>
 
 <template>
-    <div class="rich-text-editor rounded-lg border border-slate-200 bg-white dark:border-slate-600 dark:bg-slate-800 overflow-hidden">
+    <div class="rich-text-editor rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-surface-card overflow-hidden">
         <!-- Toolbar -->
-        <div v-if="editor" class="flex flex-wrap items-center gap-1 border-b border-slate-200 bg-slate-50 px-2 py-1.5 dark:border-slate-600 dark:bg-slate-700/50">
+        <div v-if="editor" class="flex flex-wrap items-center gap-1 border-b border-gray-200 bg-slate-50 px-2 py-1.5 dark:border-gray-700 dark:bg-gray-800/50">
             <button
                 type="button"
                 @click="editor.chain().focus().toggleBold().run()"
@@ -80,7 +80,7 @@ watch(() => props.modelValue, (newValue) => {
                     'rounded p-1.5 transition-colors',
                     editor.isActive('bold')
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200'
                 ]"
                 title="Gras (Ctrl+B)"
             >
@@ -95,7 +95,7 @@ watch(() => props.modelValue, (newValue) => {
                     'rounded p-1.5 transition-colors',
                     editor.isActive('italic')
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200'
                 ]"
                 title="Italique (Ctrl+I)"
             >
@@ -110,7 +110,7 @@ watch(() => props.modelValue, (newValue) => {
                     'rounded p-1.5 transition-colors',
                     editor.isActive('underline')
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200'
                 ]"
                 title="Souligné (Ctrl+U)"
             >
@@ -128,7 +128,7 @@ watch(() => props.modelValue, (newValue) => {
                     'rounded p-1.5 transition-colors',
                     editor.isActive('bulletList')
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200'
                 ]"
                 title="Liste à puces"
             >
@@ -143,7 +143,7 @@ watch(() => props.modelValue, (newValue) => {
                     'rounded p-1.5 transition-colors',
                     editor.isActive('orderedList')
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200'
                 ]"
                 title="Liste numérotée"
             >
@@ -161,7 +161,7 @@ watch(() => props.modelValue, (newValue) => {
                     'rounded p-1.5 transition-colors',
                     editor.isActive('link')
                         ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-600 dark:hover:text-slate-200'
+                        : 'text-slate-500 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200'
                 ]"
                 title="Lien (Ctrl+K)"
             >

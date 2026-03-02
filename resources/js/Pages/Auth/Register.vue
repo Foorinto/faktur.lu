@@ -101,7 +101,7 @@ const submit = () => {
                     <input
                         type="checkbox"
                         v-model="form.terms"
-                        class="rounded-md border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-700 dark:bg-slate-900 dark:focus:ring-primary-600 dark:focus:ring-offset-slate-800 mt-0.5"
+                        class="rounded-md border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-surface-dark dark:focus:ring-primary-600 dark:focus:ring-offset-surface-dark mt-0.5"
                     />
                     <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">
                         {{ t('accept_terms_prefix') }}
@@ -116,7 +116,7 @@ const submit = () => {
             <div class="mt-4 flex items-center justify-end">
                 <Link
                     :href="route('login')"
-                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
+                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-surface-dark"
                 >
                     {{ t('already_registered') }}
                 </Link>

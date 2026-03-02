@@ -89,35 +89,35 @@ const getUsagePercentage = (used, limit) => {
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Entreprise
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Email
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Fournisseur Email
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Accès Comptable
                 </Link>
                 <Link
                     :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
                     Abonnement
                 </Link>
@@ -137,8 +137,8 @@ const getUsagePercentage = (used, limit) => {
 
         <div class="space-y-6">
             <!-- Current Plan Card -->
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
                         Votre plan actuel
                     </h2>
@@ -149,7 +149,7 @@ const getUsagePercentage = (used, limit) => {
                             <div
                                 :class="[
                                     'h-14 w-14 rounded-2xl flex items-center justify-center',
-                                    onTrial ? 'bg-amber-100 dark:bg-amber-900/30' : (isPro ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-slate-100 dark:bg-slate-700')
+                                    onTrial ? 'bg-amber-100 dark:bg-amber-900/30' : (isPro ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-slate-100 dark:bg-gray-800')
                                 ]"
                             >
                                 <!-- Trial icon (clock) -->
@@ -194,7 +194,7 @@ const getUsagePercentage = (used, limit) => {
                         <div v-if="isPro && !isOnGracePeriod" class="flex items-center space-x-3">
                             <a
                                 :href="route('subscription.portal')"
-                                class="inline-flex items-center px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                             >
                                 Gérer le paiement
                             </a>
@@ -233,8 +233,8 @@ const getUsagePercentage = (used, limit) => {
             </div>
 
             <!-- Usage Stats (Starter only) -->
-            <div v-if="!isPro" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="!isPro" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
                         Utilisation ce mois
                     </h2>
@@ -248,7 +248,7 @@ const getUsagePercentage = (used, limit) => {
                                 {{ usage.clients.used }} / {{ usage.clients.limit }}
                             </span>
                         </div>
-                        <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
                             <div
                                 class="h-full bg-primary-500 rounded-full transition-all"
                                 :style="{ width: getUsagePercentage(usage.clients.used, usage.clients.limit) + '%' }"
@@ -264,7 +264,7 @@ const getUsagePercentage = (used, limit) => {
                                 {{ usage.invoices_this_month.used }} / {{ usage.invoices_this_month.limit }}
                             </span>
                         </div>
-                        <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
                             <div
                                 class="h-full bg-primary-500 rounded-full transition-all"
                                 :style="{ width: getUsagePercentage(usage.invoices_this_month.used, usage.invoices_this_month.limit) + '%' }"
@@ -280,7 +280,7 @@ const getUsagePercentage = (used, limit) => {
                                 {{ usage.quotes_this_month.used }} / {{ usage.quotes_this_month.limit }}
                             </span>
                         </div>
-                        <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div class="h-2 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
                             <div
                                 class="h-full bg-primary-500 rounded-full transition-all"
                                 :style="{ width: getUsagePercentage(usage.quotes_this_month.used, usage.quotes_this_month.limit) + '%' }"
@@ -291,8 +291,8 @@ const getUsagePercentage = (used, limit) => {
             </div>
 
             <!-- Choose Plan Section (Trial or no subscription) -->
-            <div v-if="!isPro && !isEssentiel" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="!isPro && !isEssentiel" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
                             Choisir un abonnement
@@ -331,7 +331,7 @@ const getUsagePercentage = (used, limit) => {
                 <div class="p-6">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <!-- Plan Essentiel -->
-                        <div class="border-2 border-slate-200 dark:border-slate-600 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
+                        <div class="border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
                             <div class="mb-4">
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
                                 <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les freelances débutants</p>
@@ -380,7 +380,7 @@ const getUsagePercentage = (used, limit) => {
                                 <input type="hidden" name="billing_period" :value="billingPeriod">
                                 <button
                                     type="submit"
-                                    class="w-full py-3 px-4 border-2 border-slate-300 dark:border-slate-500 text-slate-700 dark:text-slate-200 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                                    class="w-full py-3 px-4 border-2 border-gray-300 dark:border-slate-500 text-slate-700 dark:text-slate-200 font-semibold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                                 >
                                     Choisir Essentiel
                                 </button>
@@ -506,8 +506,8 @@ const getUsagePercentage = (used, limit) => {
             </div>
 
             <!-- Invoices History (Pro only) -->
-            <div v-if="isPro && invoices?.length" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="isPro && invoices?.length" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
                         Historique des factures
                     </h2>
@@ -539,7 +539,7 @@ const getUsagePercentage = (used, limit) => {
             <div v-if="showCancelModal" class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-full items-center justify-center p-4">
                     <div class="fixed inset-0 bg-slate-900/50" @click="showCancelModal = false" />
-                    <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-md w-full p-6">
+                    <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl max-w-md w-full p-6">
                         <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                             Annuler votre abonnement ?
                         </h3>

@@ -78,8 +78,8 @@ const submit = () => {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Basic Info -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('information') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -90,7 +90,7 @@ const submit = () => {
                                 id="date"
                                 v-model="form.date"
                                 type="date"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 required
                             />
                             <InputError :message="form.errors.date" class="mt-2" />
@@ -102,7 +102,7 @@ const submit = () => {
                                 id="provider_name"
                                 v-model="form.provider_name"
                                 type="text"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="t('example_provider')"
                                 required
                             />
@@ -114,7 +114,7 @@ const submit = () => {
                             <select
                                 id="category"
                                 v-model="form.category"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 required
                             >
                                 <option value="">{{ t('select_category') }}</option>
@@ -129,8 +129,8 @@ const submit = () => {
             </div>
 
             <!-- Amounts -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('calculated_amounts') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -144,7 +144,7 @@ const submit = () => {
                                     type="number"
                                     step="0.01"
                                     min="0.01"
-                                    class="block w-full rounded-xl border-slate-300 pr-12 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="block w-full rounded-xl border-gray-300 pr-12 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     placeholder="0.00"
                                     required
                                 />
@@ -160,7 +160,7 @@ const submit = () => {
                             <select
                                 id="vat_rate"
                                 v-model.number="form.vat_rate"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 required
                             >
                                 <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
@@ -172,7 +172,7 @@ const submit = () => {
 
                         <div>
                             <InputLabel :value="t('calculated_amounts')" />
-                            <div class="mt-1 rounded-xl bg-slate-50 dark:bg-slate-700 px-4 py-3 text-sm">
+                            <div class="mt-1 rounded-xl bg-slate-50 dark:bg-gray-800 px-4 py-3 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-slate-500 dark:text-slate-400">{{ t('vat') }}:</span>
                                     <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(calculatedVat) }}</span>
@@ -188,8 +188,8 @@ const submit = () => {
             </div>
 
             <!-- Additional Info -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('additional_info') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -199,7 +199,7 @@ const submit = () => {
                             <select
                                 id="payment_method"
                                 v-model="form.payment_method"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option value="">{{ t('select') }}</option>
                                 <option v-for="method in paymentMethods" :key="method.value" :value="method.value">
@@ -215,7 +215,7 @@ const submit = () => {
                                 id="reference"
                                 v-model="form.reference"
                                 type="text"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="t('example_ref')"
                             />
                             <InputError :message="form.errors.reference" class="mt-2" />
@@ -227,7 +227,7 @@ const submit = () => {
                                 id="description"
                                 v-model="form.description"
                                 rows="3"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="t('expense_notes')"
                             ></textarea>
                             <InputError :message="form.errors.description" class="mt-2" />
@@ -239,7 +239,7 @@ const submit = () => {
                                     id="is_deductible"
                                     v-model="form.is_deductible"
                                     type="checkbox"
-                                    class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
+                                    class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
                                 />
                                 <label for="is_deductible" class="ml-2 block text-sm text-slate-900 dark:text-white">
                                     {{ t('expense_deductible') }}
@@ -251,15 +251,15 @@ const submit = () => {
             </div>
 
             <!-- Attachment -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('receipt_attachment') }}</h2>
                 </div>
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-center w-full">
                         <label
                             for="attachment"
-                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-300 border-dashed rounded-2xl cursor-pointer bg-slate-50 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-700 dark:hover:bg-slate-600"
+                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-slate-50 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-800"
                         >
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                 <svg class="w-8 h-8 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,7 +290,7 @@ const submit = () => {
             <div class="flex justify-end space-x-3">
                 <Link
                     :href="route('expenses.index')"
-                    class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                    class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 >
                     {{ t('cancel') }}
                 </Link>

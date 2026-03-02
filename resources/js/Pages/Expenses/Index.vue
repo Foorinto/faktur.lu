@@ -68,7 +68,7 @@ const deleteExpense = (expense) => {
                 <div class="flex items-center space-x-3">
                     <Link
                         :href="route('expenses.summary')"
-                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0016.5 2h-1zM9.5 6A1.5 1.5 0 008 7.5v9A1.5 1.5 0 009.5 18h1a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 6h-1zM3.5 10A1.5 1.5 0 002 11.5v5A1.5 1.5 0 003.5 18h1A1.5 1.5 0 006 16.5v-5A1.5 1.5 0 004.5 10h-1z" />
@@ -90,25 +90,25 @@ const deleteExpense = (expense) => {
 
         <!-- Summary Cards -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_ht') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(summary.total_ht) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_deductible') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
                     {{ formatCurrency(summary.total_vat) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_ttc') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(summary.total_ttc) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('count') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.count }}
@@ -120,7 +120,7 @@ const deleteExpense = (expense) => {
         <div class="mb-6 flex flex-wrap gap-4">
             <select
                 v-model="categoryFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_categories') }}</option>
                 <option v-for="cat in categories" :key="cat.value" :value="cat.value">
@@ -130,7 +130,7 @@ const deleteExpense = (expense) => {
 
             <select
                 v-model="yearFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_years') }}</option>
                 <option v-for="year in years" :key="year" :value="year">
@@ -140,7 +140,7 @@ const deleteExpense = (expense) => {
 
             <select
                 v-model="monthFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_months') }}</option>
                 <option v-for="month in months" :key="month.value" :value="month.value">
@@ -150,9 +150,9 @@ const deleteExpense = (expense) => {
         </div>
 
         <!-- Expenses list -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('date') }}
@@ -177,7 +177,7 @@ const deleteExpense = (expense) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="expenses.data.length === 0">
                         <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -192,7 +192,7 @@ const deleteExpense = (expense) => {
                             </Link>
                         </td>
                     </tr>
-                    <tr v-for="expense in expenses.data" :key="expense.id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <tr v-for="expense in expenses.data" :key="expense.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-slate-500 dark:text-slate-400 sm:pl-6">
                             {{ formatDate(expense.date) }}
                         </td>
@@ -208,7 +208,7 @@ const deleteExpense = (expense) => {
                             </p>
                         </td>
                         <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell">
-                            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800 dark:bg-slate-700 dark:text-slate-300">
+                            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800 dark:bg-gray-800 dark:text-slate-300">
                                 {{ getCategoryLabel(expense.category) }}
                             </span>
                         </td>
@@ -266,7 +266,7 @@ const deleteExpense = (expense) => {
                         :class="[
                             link.active
                                 ? 'z-10 bg-primary-600 text-white'
-                                : 'text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-700',
+                                : 'text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                             'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                             index === 0 ? 'rounded-l-md' : '',
                             index === expenses.links.length - 1 ? 'rounded-r-md' : '',

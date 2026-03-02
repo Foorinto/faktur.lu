@@ -139,7 +139,7 @@ onUnmounted(() => {
                 ref="inputRef"
                 v-model="query"
                 type="text"
-                class="rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:border-primary-500 dark:focus:ring-primary-500 placeholder-slate-400 block w-full"
+                class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-primary-500 dark:focus:ring-primary-500 placeholder-slate-400 block w-full"
                 :class="{ 'pr-8': isLoading }"
                 :placeholder="placeholder"
                 @keydown="onKeydown"
@@ -177,7 +177,7 @@ onUnmounted(() => {
         <!-- Results dropdown -->
         <div
             v-if="showDropdown"
-            class="absolute z-50 mt-1 w-full rounded-xl bg-white shadow-xl shadow-slate-200/50 ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:shadow-slate-900/50 max-h-64 overflow-y-auto"
+            class="absolute z-50 mt-1 w-full rounded-xl bg-white shadow-xl shadow-gray-200/50 ring-1 ring-gray-200 dark:bg-surface-card dark:ring-gray-700 dark:shadow-gray-900/50 max-h-64 overflow-y-auto"
         >
             <ul class="py-1">
                 <li
@@ -187,7 +187,7 @@ onUnmounted(() => {
                     :class="[
                         index === highlightedIndex
                             ? 'bg-primary-50 dark:bg-primary-900/20'
-                            : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                            : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
                     ]"
                     @click="selectCompany(company)"
                     @mouseenter="highlightedIndex = index"

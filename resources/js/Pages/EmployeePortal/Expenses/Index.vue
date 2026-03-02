@@ -70,16 +70,16 @@ const handleFileChange = (e) => {
             <h1 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('employee_portal.my_expenses') }}</h1>
             <button
                 @click="showModal = true"
-                class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+                class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
             >
                 + {{ t('employee_portal.submit_expense') }}
             </button>
         </div>
 
         <!-- Expenses Table -->
-        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden">
+        <div class="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-surface-card overflow-hidden">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700/50">
+                <thead class="bg-slate-50 dark:bg-gray-800/50">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{{ t('hr.date') }}</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">{{ t('hr.category') }}</th>
@@ -122,13 +122,13 @@ const handleFileChange = (e) => {
         <!-- Modal -->
         <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center">
             <div class="fixed inset-0 bg-black/50" @click="showModal = false"></div>
-            <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
                 <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">{{ t('employee_portal.submit_expense') }}</h2>
                 <form @submit.prevent="submitExpense" class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.category') }}</label>
-                            <select v-model="form.expense_category_id" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                            <select v-model="form.expense_category_id" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
                                 <option value="">—</option>
                                 <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                             </select>
@@ -136,32 +136,32 @@ const handleFileChange = (e) => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.date') }}</label>
-                            <input v-model="form.date" type="date" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
+                            <input v-model="form.date" type="date" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                             <p v-if="form.errors.date" class="mt-1 text-xs text-rose-600">{{ form.errors.date }}</p>
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.vendor') }}</label>
-                        <input v-model="form.vendor" type="text" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
+                        <input v-model="form.vendor" type="text" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                         <p v-if="form.errors.vendor" class="mt-1 text-xs text-rose-600">{{ form.errors.vendor }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.description') }}</label>
-                        <textarea v-model="form.description" rows="2" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white"></textarea>
+                        <textarea v-model="form.description" rows="2" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"></textarea>
                     </div>
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.amount_ht') }}</label>
-                            <input v-model="form.amount_ht" type="number" step="0.01" min="0.01" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
+                            <input v-model="form.amount_ht" type="number" step="0.01" min="0.01" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                             <p v-if="form.errors.amount_ht" class="mt-1 text-xs text-rose-600">{{ form.errors.amount_ht }}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.vat_rate') }} %</label>
-                            <input v-model="form.vat_rate" type="number" step="0.01" min="0" max="100" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white" />
+                            <input v-model="form.vat_rate" type="number" step="0.01" min="0" max="100" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.payment_method') }}</label>
-                            <select v-model="form.payment_method" class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                            <select v-model="form.payment_method" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
                                 <option value="card">{{ t('hr.card') }}</option>
                                 <option value="cash">{{ t('hr.cash') }}</option>
                                 <option value="transfer">{{ t('hr.transfer') }}</option>
@@ -173,10 +173,10 @@ const handleFileChange = (e) => {
                         <input type="file" multiple accept=".jpg,.jpeg,.png,.pdf" @change="handleFileChange" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
                     </div>
                     <div class="flex justify-end space-x-3 pt-2">
-                        <button type="button" @click="showModal = false" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                        <button type="button" @click="showModal = false" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
                             {{ t('cancel') }}
                         </button>
-                        <button type="submit" :disabled="form.processing" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50">
+                        <button type="submit" :disabled="form.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white hover:bg-pink-500 disabled:opacity-50">
                             {{ t('employee_portal.submit_expense') }}
                         </button>
                     </div>

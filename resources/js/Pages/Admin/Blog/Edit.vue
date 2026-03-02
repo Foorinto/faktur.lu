@@ -333,7 +333,7 @@ const submit = () => {
                         <button
                             type="button"
                             @click="addNewTag"
-                            class="rounded-lg bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-slate-500"
+                            class="rounded-lg bg-slate-600 px-3 py-1.5 text-sm text-white hover:bg-gray-500"
                         >
                             +
                         </button>

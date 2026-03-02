@@ -55,7 +55,7 @@ const getTypeIcon = (type) => {
             <h1 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('employee_portal.my_documents') }}</h1>
         </div>
 
-        <div v-if="documents.length === 0" class="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div v-if="documents.length === 0" class="rounded-2xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-700 dark:bg-surface-card">
             <svg class="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
@@ -71,7 +71,7 @@ const getTypeIcon = (type) => {
                     {{ typeLabels[type] ? typeLabels[type]() : type }}
                     <span class="text-xs font-normal text-slate-400">({{ docs.length }})</span>
                 </h2>
-                <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 overflow-hidden">
+                <div class="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-surface-card overflow-hidden">
                     <div class="divide-y divide-slate-200 dark:divide-slate-700">
                         <div v-for="doc in docs" :key="doc.id" class="flex items-center justify-between px-4 py-3">
                             <div class="min-w-0 flex-1">

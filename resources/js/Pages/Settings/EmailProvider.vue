@@ -104,35 +104,35 @@ const getInputType = (field, fieldConfig) => {
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('business_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('email_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
                     Fournisseur Email
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Accès Comptable
                 </Link>
                 <Link
                     :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Abonnement
                 </Link>
@@ -141,8 +141,8 @@ const getInputType = (field, fieldConfig) => {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Provider Selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Provider d'envoi</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         Choisissez comment envoyer vos factures par email.
@@ -155,7 +155,7 @@ const getInputType = (field, fieldConfig) => {
                         class="relative flex items-start p-4 border rounded-xl cursor-pointer transition-colors"
                         :class="form.provider === key
                             ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 dark:border-primary-400'
-                            : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'"
+                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-slate-500'"
                         @click="form.provider = key"
                     >
                         <div class="flex items-center h-5">
@@ -164,7 +164,7 @@ const getInputType = (field, fieldConfig) => {
                                 type="radio"
                                 :value="key"
                                 v-model="form.provider"
-                                class="h-4 w-4 text-primary-600 border-slate-300 focus:ring-primary-500"
+                                class="h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500"
                             />
                         </div>
                         <div class="ml-3">
@@ -183,8 +183,8 @@ const getInputType = (field, fieldConfig) => {
             </div>
 
             <!-- Provider Configuration -->
-            <div v-if="needsConfiguration" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="needsConfiguration" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         Configuration {{ providers[form.provider] }}
                     </h2>
@@ -201,7 +201,7 @@ const getInputType = (field, fieldConfig) => {
                             v-if="fieldConfig.type === 'select'"
                             :id="field"
                             v-model="form.config[field]"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option v-for="(optLabel, optValue) in fieldConfig.options" :key="optValue" :value="optValue">
                                 {{ optLabel }}
@@ -215,7 +215,7 @@ const getInputType = (field, fieldConfig) => {
                                 :type="getInputType(field, fieldConfig)"
                                 v-model="form.config[field]"
                                 :required="fieldConfig.required"
-                                class="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white pr-10"
+                                class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white pr-10"
                             />
                             <button
                                 type="button"
@@ -239,7 +239,7 @@ const getInputType = (field, fieldConfig) => {
                             :type="fieldConfig.type || 'text'"
                             v-model="form.config[field]"
                             :required="fieldConfig.required"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         />
 
                         <!-- Help text -->
@@ -255,8 +255,8 @@ const getInputType = (field, fieldConfig) => {
             </div>
 
             <!-- From Address -->
-            <div v-if="needsConfiguration" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="needsConfiguration" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Expéditeur</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         Personnalisez l'adresse et le nom de l'expéditeur.
@@ -272,7 +272,7 @@ const getInputType = (field, fieldConfig) => {
                             type="email"
                             v-model="form.from_address"
                             placeholder="contact@votreentreprise.lu"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         />
                     </div>
                     <div>
@@ -284,14 +284,14 @@ const getInputType = (field, fieldConfig) => {
                             type="text"
                             v-model="form.from_name"
                             placeholder="Votre Entreprise"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         />
                     </div>
                 </div>
             </div>
 
             <!-- Verification Status -->
-            <div v-if="settings.provider !== 'faktur'" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div v-if="settings.provider !== 'faktur'" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-3">
@@ -319,7 +319,7 @@ const getInputType = (field, fieldConfig) => {
                             type="button"
                             @click="testConfiguration"
                             :disabled="testing || form.processing"
-                            class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                            class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                         >
                             <svg v-if="testing" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

@@ -21,7 +21,7 @@ const lastUpdated = '9 février 2026';
     <MarketingLayout>
         <!-- Content -->
         <div class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 lg:p-12">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 lg:p-12">
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Politique de confidentialité</h1>
                 <p class="text-sm text-slate-500 mb-8">Dernière mise à jour : {{ lastUpdated }}</p>
 
@@ -29,17 +29,17 @@ const lastUpdated = '9 février 2026';
                 <nav class="mb-10 p-4 bg-slate-50 rounded-xl">
                     <h2 class="font-semibold text-slate-900 mb-3">Sommaire</h2>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#introduction" class="text-[#9b5de5] hover:underline">1. Introduction</a></li>
-                        <li><a href="#responsable" class="text-[#9b5de5] hover:underline">2. Responsable du traitement</a></li>
-                        <li><a href="#donnees-collectees" class="text-[#9b5de5] hover:underline">3. Données collectées</a></li>
-                        <li><a href="#finalites" class="text-[#9b5de5] hover:underline">4. Finalités et bases légales</a></li>
-                        <li><a href="#conservation" class="text-[#9b5de5] hover:underline">5. Durée de conservation</a></li>
-                        <li><a href="#destinataires" class="text-[#9b5de5] hover:underline">6. Destinataires des données</a></li>
-                        <li><a href="#transferts" class="text-[#9b5de5] hover:underline">7. Transferts hors UE</a></li>
-                        <li><a href="#droits" class="text-[#9b5de5] hover:underline">8. Vos droits</a></li>
-                        <li><a href="#securite" class="text-[#9b5de5] hover:underline">9. Sécurité</a></li>
-                        <li><a href="#modifications" class="text-[#9b5de5] hover:underline">10. Modifications</a></li>
-                        <li><a href="#contact" class="text-[#9b5de5] hover:underline">11. Contact</a></li>
+                        <li><a href="#introduction" class="text-primary-500 hover:underline">1. Introduction</a></li>
+                        <li><a href="#responsable" class="text-primary-500 hover:underline">2. Responsable du traitement</a></li>
+                        <li><a href="#donnees-collectees" class="text-primary-500 hover:underline">3. Données collectées</a></li>
+                        <li><a href="#finalites" class="text-primary-500 hover:underline">4. Finalités et bases légales</a></li>
+                        <li><a href="#conservation" class="text-primary-500 hover:underline">5. Durée de conservation</a></li>
+                        <li><a href="#destinataires" class="text-primary-500 hover:underline">6. Destinataires des données</a></li>
+                        <li><a href="#transferts" class="text-primary-500 hover:underline">7. Transferts hors UE</a></li>
+                        <li><a href="#droits" class="text-primary-500 hover:underline">8. Vos droits</a></li>
+                        <li><a href="#securite" class="text-primary-500 hover:underline">9. Sécurité</a></li>
+                        <li><a href="#modifications" class="text-primary-500 hover:underline">10. Modifications</a></li>
+                        <li><a href="#contact" class="text-primary-500 hover:underline">11. Contact</a></li>
                     </ul>
                 </nav>
 
@@ -62,7 +62,7 @@ const lastUpdated = '9 février 2026';
                             <ul class="space-y-2 text-slate-700">
                                 <li><strong>Responsable :</strong> Alexandre Beaudier</li>
                                 <li><strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a></li>
+                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
                                 <li><strong>Numéro RCS :</strong> A46648</li>
                             </ul>
                         </div>
@@ -109,42 +109,42 @@ const lastUpdated = '9 février 2026';
                             <table class="w-full text-sm border-collapse">
                                 <thead>
                                     <tr class="bg-slate-100">
-                                        <th class="border border-slate-200 px-4 py-2 text-left font-medium">Finalité</th>
-                                        <th class="border border-slate-200 px-4 py-2 text-left font-medium">Base légale</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Finalité</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Base légale</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-slate-600">
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Fourniture du service de facturation</td>
-                                        <td class="border border-slate-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Fourniture du service de facturation</td>
+                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Gestion de votre compte utilisateur</td>
-                                        <td class="border border-slate-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Gestion de votre compte utilisateur</td>
+                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Facturation et paiement de l'abonnement</td>
-                                        <td class="border border-slate-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Facturation et paiement de l'abonnement</td>
+                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Support client</td>
-                                        <td class="border border-slate-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Support client</td>
+                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Obligations comptables et fiscales</td>
-                                        <td class="border border-slate-200 px-4 py-2">Obligation légale (Art. 6.1.c RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Obligations comptables et fiscales</td>
+                                        <td class="border border-gray-200 px-4 py-2">Obligation légale (Art. 6.1.c RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Sécurité et prévention des fraudes</td>
-                                        <td class="border border-slate-200 px-4 py-2">Intérêt légitime (Art. 6.1.f RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Sécurité et prévention des fraudes</td>
+                                        <td class="border border-gray-200 px-4 py-2">Intérêt légitime (Art. 6.1.f RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Amélioration du service</td>
-                                        <td class="border border-slate-200 px-4 py-2">Intérêt légitime (Art. 6.1.f RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Amélioration du service</td>
+                                        <td class="border border-gray-200 px-4 py-2">Intérêt légitime (Art. 6.1.f RGPD)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Communications marketing (si consentement)</td>
-                                        <td class="border border-slate-200 px-4 py-2">Consentement (Art. 6.1.a RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Communications marketing (si consentement)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Consentement (Art. 6.1.a RGPD)</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -159,30 +159,30 @@ const lastUpdated = '9 février 2026';
                             <table class="w-full text-sm border-collapse">
                                 <thead>
                                     <tr class="bg-slate-100">
-                                        <th class="border border-slate-200 px-4 py-2 text-left font-medium">Type de données</th>
-                                        <th class="border border-slate-200 px-4 py-2 text-left font-medium">Durée</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Type de données</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Durée</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-slate-600">
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Données de compte actif</td>
-                                        <td class="border border-slate-200 px-4 py-2">Durée de la relation contractuelle</td>
+                                        <td class="border border-gray-200 px-4 py-2">Données de compte actif</td>
+                                        <td class="border border-gray-200 px-4 py-2">Durée de la relation contractuelle</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Données après suppression du compte</td>
-                                        <td class="border border-slate-200 px-4 py-2">30 jours (période de grâce)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Données après suppression du compte</td>
+                                        <td class="border border-gray-200 px-4 py-2">30 jours (période de grâce)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Factures et documents comptables</td>
-                                        <td class="border border-slate-200 px-4 py-2">10 ans (obligation légale luxembourgeoise)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Factures et documents comptables</td>
+                                        <td class="border border-gray-200 px-4 py-2">10 ans (obligation légale luxembourgeoise)</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Logs de sécurité</td>
-                                        <td class="border border-slate-200 px-4 py-2">12 mois</td>
+                                        <td class="border border-gray-200 px-4 py-2">Logs de sécurité</td>
+                                        <td class="border border-gray-200 px-4 py-2">12 mois</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-slate-200 px-4 py-2">Données de paiement (chez Stripe)</td>
-                                        <td class="border border-slate-200 px-4 py-2">Selon politique Stripe</td>
+                                        <td class="border border-gray-200 px-4 py-2">Données de paiement (chez Stripe)</td>
+                                        <td class="border border-gray-200 px-4 py-2">Selon politique Stripe</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -262,12 +262,12 @@ const lastUpdated = '9 février 2026';
                         </div>
 
                         <p class="text-slate-600 mt-6">
-                            Pour exercer vos droits, contactez-nous à <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a>. Nous répondrons dans un délai d'un mois.
+                            Pour exercer vos droits, contactez-nous à <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a>. Nous répondrons dans un délai d'un mois.
                         </p>
 
                         <p class="text-slate-600 mt-4">
                             <strong>Réclamation :</strong> Vous pouvez introduire une réclamation auprès de la Commission Nationale pour la Protection des Données (CNPD) :
-                            <a href="https://cnpd.public.lu" target="_blank" rel="noopener" class="text-[#9b5de5]">https://cnpd.public.lu</a>
+                            <a href="https://cnpd.public.lu" target="_blank" rel="noopener" class="text-primary-500">https://cnpd.public.lu</a>
                         </p>
                     </section>
 
@@ -304,7 +304,7 @@ const lastUpdated = '9 février 2026';
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a></li>
+                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
                                 <li><strong>Adresse :</strong> Alexandre Beaudier, 13 Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
                             </ul>
                         </div>
@@ -314,11 +314,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-[#9b5de5]">Mentions légales</Link>
+                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-primary-500">Mentions légales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
+                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-primary-500">Conditions générales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">Politique cookies</Link>
             </div>
         </div>
     </MarketingLayout>

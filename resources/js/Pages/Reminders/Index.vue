@@ -89,7 +89,7 @@ const formatDate = (date) => {
                     {{ t('crm.reminders') }} ({{ upcoming.length }})
                 </h2>
                 <div v-if="upcoming.length > 0" class="space-y-3">
-                    <div v-for="reminder in upcoming" :key="reminder.id" class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
+                    <div v-for="reminder in upcoming" :key="reminder.id" class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-surface-card">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="font-medium text-slate-900 dark:text-white">{{ reminder.title }}</p>

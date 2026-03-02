@@ -77,7 +77,7 @@ const formatDate = (date) => {
             </h3>
             <button
                 @click="showForm = !showForm"
-                class="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-primary-600 dark:hover:bg-slate-700 dark:hover:text-primary-400"
+                class="rounded-lg p-1 text-slate-400 hover:bg-gray-50 hover:text-primary-600 dark:hover:bg-gray-800 dark:hover:text-primary-400"
             >
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -86,39 +86,39 @@ const formatDate = (date) => {
         </div>
 
         <!-- Add form -->
-        <div v-if="showForm" class="mb-3 rounded-xl border border-slate-200 p-3 dark:border-slate-700">
+        <div v-if="showForm" class="mb-3 rounded-xl border border-gray-200 p-3 dark:border-gray-700">
             <form @submit.prevent="submit" class="space-y-2">
                 <input
                     v-model="form.title"
                     type="text"
                     :placeholder="t('crm.reminder_title')"
-                    class="block w-full rounded-lg border-0 py-1.5 text-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                    class="block w-full rounded-lg border-0 py-1.5 text-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                 />
                 <div v-if="form.errors.title" class="text-xs text-rose-600">{{ form.errors.title }}</div>
                 <input
                     v-model="form.remind_at"
                     type="datetime-local"
-                    class="block w-full rounded-lg border-0 py-1.5 text-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                    class="block w-full rounded-lg border-0 py-1.5 text-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                 />
                 <div v-if="form.errors.remind_at" class="text-xs text-rose-600">{{ form.errors.remind_at }}</div>
                 <textarea
                     v-model="form.description"
                     rows="2"
                     :placeholder="t('crm.reminder_description')"
-                    class="block w-full rounded-lg border-0 py-1.5 text-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                    class="block w-full rounded-lg border-0 py-1.5 text-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                 ></textarea>
                 <div class="flex justify-end gap-2">
                     <button
                         type="button"
                         @click="showForm = false; form.reset()"
-                        class="rounded-lg px-2 py-1 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-400"
+                        class="rounded-lg px-2 py-1 text-xs text-slate-600 hover:bg-gray-50 dark:text-slate-400"
                     >
                         {{ t('cancel') }}
                     </button>
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="rounded-lg bg-primary-500 px-2 py-1 text-xs text-white hover:bg-primary-600 disabled:opacity-50"
+                        class="rounded-lg bg-accent-rose px-2 py-1 text-xs text-white hover:bg-pink-500 disabled:opacity-50"
                     >
                         {{ t('crm.add_reminder') }}
                     </button>
@@ -135,7 +135,7 @@ const formatDate = (date) => {
                     'rounded-xl border p-3',
                     isOverdue(reminder)
                         ? 'border-rose-200 bg-rose-50 dark:border-rose-800 dark:bg-rose-900/20'
-                        : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800'
+                        : 'border-gray-200 bg-white dark:border-gray-700 dark:bg-surface-card'
                 ]"
             >
                 <div class="flex items-start justify-between">

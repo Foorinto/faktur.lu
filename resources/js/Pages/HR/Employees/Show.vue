@@ -5,8 +5,10 @@ import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
+const { getAvatarClasses } = useAvatarColor();
 
 const props = defineProps({
     employee: { type: Object, required: true },
@@ -40,7 +42,7 @@ const getStatusBadgeClass = (status) => {
     const classes = {
         active: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
         long_leave: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
-        terminated: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        terminated: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
     };
     return classes[status] || classes.active;
 };
@@ -50,7 +52,7 @@ const getLeaveStatusClass = (status) => {
         pending: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
         approved: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
         rejected: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400',
-        cancelled: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        cancelled: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
     };
     return classes[status] || classes.pending;
 };
@@ -142,11 +144,11 @@ const getDocTypeLabel = (type) => {
 const getDocTypeBadgeClass = (type) => {
     const classes = {
         contract: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-        amendment: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
+        amendment: 'bg-indigo-100 text-gray-700 dark:bg-indigo-900/30 dark:text-indigo-400',
         payslip: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
         id_card: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
         certificate: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
-        other: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        other: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
     };
     return classes[type] || classes.other;
 };
@@ -250,8 +252,8 @@ const applyTemplate = () => {
                             :alt="employee.full_name"
                             class="h-10 w-10 rounded-xl object-cover"
                         />
-                        <div v-else class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
-                            <span class="text-sm font-medium text-primary-600 dark:text-primary-400">
+                        <div v-else :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(employee.first_name + ' ' + employee.last_name)]">
+                            <span class="text-sm font-bold">
                                 {{ employee.first_name.charAt(0) }}{{ employee.last_name.charAt(0) }}
                             </span>
                         </div>
@@ -287,13 +289,13 @@ const applyTemplate = () => {
                     <button
                         v-if="employee.account_id"
                         @click="deactivatePortal"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
                     >
                         {{ t('employee_portal.deactivate_portal') }}
                     </button>
                     <Link
                         :href="route('hr.employees.edit', employee.id)"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
@@ -313,15 +315,15 @@ const applyTemplate = () => {
         <HRNav class="mb-6" />
 
         <!-- Tabs -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8">
                 <Link
                     :href="route('hr.employees.show', employee.id)"
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'info'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('hr.info') }}
@@ -331,8 +333,8 @@ const applyTemplate = () => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'leaves'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('hr.leaves') }}
@@ -342,8 +344,8 @@ const applyTemplate = () => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'expenses'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('hr.expenses') }}
@@ -353,8 +355,8 @@ const applyTemplate = () => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'documents'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('hr.documents') }}
@@ -364,8 +366,8 @@ const applyTemplate = () => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'evaluations'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('hr.evaluations') }}
@@ -375,8 +377,8 @@ const applyTemplate = () => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'onboarding'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('hr.onboarding') }}
@@ -389,8 +391,8 @@ const applyTemplate = () => {
                 <!-- Info Tab -->
                 <template v-if="activeTab === 'info'">
                     <!-- Personal -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.personal_info') }}</h2>
                         </div>
                         <dl class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -440,8 +442,8 @@ const applyTemplate = () => {
                     </div>
 
                     <!-- Contract -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.contract_details') }}</h2>
                         </div>
                         <dl class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -490,8 +492,8 @@ const applyTemplate = () => {
                     </div>
 
                     <!-- Emergency Contact -->
-                    <div v-if="employee.emergency_contact?.name" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div v-if="employee.emergency_contact?.name" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.emergency_contact') }}</h2>
                         </div>
                         <dl class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -514,12 +516,12 @@ const applyTemplate = () => {
                 <!-- Leaves Tab -->
                 <template v-if="activeTab === 'leaves'">
                     <!-- Leave Balances -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_balances') }}</h2>
                             <button
                                 @click="showLeaveModal = true"
-                                class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-600"
+                                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500"
                             >
                                 + {{ t('hr.new_request') }}
                             </button>
@@ -542,13 +544,13 @@ const applyTemplate = () => {
                     </div>
 
                     <!-- Leave Requests -->
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_requests') }}</h2>
                         </div>
                         <div v-if="leaveRequests && leaveRequests.data && leaveRequests.data.length > 0">
                             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                                <thead class="bg-slate-50 dark:bg-slate-700">
+                                <thead class="bg-slate-50 dark:bg-gray-800">
                                     <tr>
                                         <th class="py-3 pl-6 pr-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.type') }}</th>
                                         <th class="px-3 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.period') }}</th>
@@ -585,13 +587,13 @@ const applyTemplate = () => {
 
                 <!-- Expenses Tab -->
                 <template v-if="activeTab === 'expenses'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.expenses') }}</h2>
                         </div>
                         <div v-if="expenseReports && expenseReports.length > 0">
                             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                                <thead class="bg-slate-50 dark:bg-slate-700">
+                                <thead class="bg-slate-50 dark:bg-gray-800">
                                     <tr>
                                         <th class="py-3 pl-6 pr-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.expense_date') }}</th>
                                         <th class="px-3 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400">{{ t('hr.category') }}</th>
@@ -628,12 +630,12 @@ const applyTemplate = () => {
 
                 <!-- Documents Tab -->
                 <template v-if="activeTab === 'documents'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.documents') }}</h2>
                             <button
                                 @click="showDocModal = true"
-                                class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-600"
+                                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500"
                             >
                                 + {{ t('hr.new_document') }}
                             </button>
@@ -690,12 +692,12 @@ const applyTemplate = () => {
 
                 <!-- Evaluations Tab -->
                 <template v-if="activeTab === 'evaluations'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.evaluations') }}</h2>
                             <button
                                 @click="showEvalModal = true"
-                                class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-600"
+                                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500"
                             >
                                 + {{ t('hr.add_evaluation') }}
                             </button>
@@ -705,7 +707,7 @@ const applyTemplate = () => {
                                 v-for="ev in evaluations"
                                 :key="ev.id"
                                 :href="route('hr.employees.evaluations.show', [employee.id, ev.id])"
-                                class="block px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                                class="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                             >
                                 <div class="flex items-center justify-between">
                                     <div class="min-w-0">
@@ -730,15 +732,15 @@ const applyTemplate = () => {
 
                 <!-- Onboarding Tab -->
                 <template v-if="activeTab === 'onboarding'">
-                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                             <div class="flex items-center justify-between gap-3">
                                 <h2 class="text-lg font-medium text-slate-900 dark:text-white flex-shrink-0">{{ t('hr.onboarding') }}</h2>
                                 <div class="flex items-center gap-2">
                                     <template v-if="onboardingTemplates.length > 0">
                                         <select
                                             v-model="selectedTemplate"
-                                            class="rounded-xl border-0 py-1.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                            class="rounded-xl border-0 py-1.5 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                         >
                                             <option value="">{{ t('hr.select_template') }}</option>
                                             <option v-for="tpl in onboardingTemplates" :key="tpl.id" :value="tpl.id">{{ tpl.name }}</option>
@@ -746,7 +748,7 @@ const applyTemplate = () => {
                                         <button
                                             @click="applyTemplate"
                                             :disabled="!selectedTemplate"
-                                            class="rounded-xl bg-primary-500 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                            class="rounded-xl bg-accent-rose px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                                         >
                                             {{ t('hr.apply_template') }}
                                         </button>
@@ -758,7 +760,7 @@ const applyTemplate = () => {
                             </div>
                             <!-- Progress bar -->
                             <div v-if="totalCount > 0" class="mt-3">
-                                <div class="h-2 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+                                <div class="h-2 w-full rounded-full bg-slate-200 dark:bg-gray-800">
                                     <div
                                         class="h-2 rounded-full transition-all duration-300"
                                         :class="progressPercent === 100 ? 'bg-emerald-500' : 'bg-primary-500'"
@@ -775,7 +777,7 @@ const applyTemplate = () => {
                                     <svg v-if="task.completed_at" class="h-5 w-5 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                                     </svg>
-                                    <div v-else class="h-5 w-5 rounded-full border-2 border-slate-300 dark:border-slate-600 hover:border-primary-400 dark:hover:border-primary-500"></div>
+                                    <div v-else class="h-5 w-5 rounded-full border-2 border-gray-300 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500"></div>
                                 </button>
                                 <span
                                     class="flex-1 text-sm"
@@ -798,19 +800,19 @@ const applyTemplate = () => {
                         </div>
 
                         <!-- Add task inline form -->
-                        <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-700">
+                        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
                             <form @submit.prevent="submitTask" class="flex items-center gap-3">
                                 <input
                                     v-model="taskForm.title"
                                     type="text"
                                     :placeholder="t('hr.task_title')"
                                     required
-                                    class="flex-1 rounded-xl border-0 py-1.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                    class="flex-1 rounded-xl border-0 py-1.5 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                 />
                                 <button
                                     type="submit"
                                     :disabled="taskForm.processing || !taskForm.title"
-                                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     +
                                 </button>
@@ -824,8 +826,8 @@ const applyTemplate = () => {
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Salary -->
-                <div v-if="employee.salary_gross" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div v-if="employee.salary_gross" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.salary_banking') }}</h2>
                     </div>
                     <div class="px-6 py-4 space-y-3">
@@ -843,8 +845,8 @@ const applyTemplate = () => {
                 </div>
 
                 <!-- Quick Leave Balances (info tab) -->
-                <div v-if="activeTab === 'info' && employee.leave_balances && employee.leave_balances.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div v-if="activeTab === 'info' && employee.leave_balances && employee.leave_balances.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_balances') }}</h2>
                     </div>
                     <div class="px-6 py-4 space-y-3">
@@ -856,8 +858,8 @@ const applyTemplate = () => {
                 </div>
 
                 <!-- Recent Leaves (info tab) -->
-                <div v-if="activeTab === 'info' && employee.leave_requests && employee.leave_requests.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div v-if="activeTab === 'info' && employee.leave_requests && employee.leave_requests.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.recent_leaves') }}</h2>
                     </div>
                     <div class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -874,7 +876,7 @@ const applyTemplate = () => {
                 </div>
 
                 <!-- Metadata -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4">
                         <dl class="space-y-2 text-sm">
                             <div class="flex justify-between">
@@ -895,12 +897,12 @@ const applyTemplate = () => {
         <Teleport to="body">
             <div v-if="showLeaveModal" class="fixed inset-0 z-50 flex items-center justify-center">
                 <div class="fixed inset-0 bg-slate-900/50" @click="showLeaveModal = false"></div>
-                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
+                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-surface-card">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('hr.new_leave_request') }}</h3>
                     <form @submit.prevent="submitLeave" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.leave_type') }} *</label>
-                            <select v-model="leaveForm.leave_type_id" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm">
+                            <select v-model="leaveForm.leave_type_id" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
                                 <option value="">{{ t('hr.select_type') }}</option>
                                 <option v-for="lt in leaveTypes" :key="lt.id" :value="lt.id">{{ lt.name }}</option>
                             </select>
@@ -909,17 +911,17 @@ const applyTemplate = () => {
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.start_date') }} *</label>
-                                <input v-model="leaveForm.start_date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                                <input v-model="leaveForm.start_date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.end_date') }} *</label>
-                                <input v-model="leaveForm.end_date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                                <input v-model="leaveForm.end_date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             </div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.business_days_count') }} *</label>
-                            <input v-model.number="leaveForm.days_count" type="number" min="0.5" step="0.5" :max="leaveRemainingDays ?? undefined" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" :class="{ 'ring-2 ring-rose-500 dark:ring-rose-500': leaveDaysExceeded }" />
-                            <div v-if="leaveRemainingDays !== null" class="mt-2 flex items-center justify-between rounded-lg px-3 py-2" :class="leaveDaysExceeded ? 'bg-rose-50 dark:bg-rose-900/20' : 'bg-slate-50 dark:bg-slate-700/50'">
+                            <input v-model.number="leaveForm.days_count" type="number" min="0.5" step="0.5" :max="leaveRemainingDays ?? undefined" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" :class="{ 'ring-2 ring-rose-500 dark:ring-rose-500': leaveDaysExceeded }" />
+                            <div v-if="leaveRemainingDays !== null" class="mt-2 flex items-center justify-between rounded-lg px-3 py-2" :class="leaveDaysExceeded ? 'bg-rose-50 dark:bg-rose-900/20' : 'bg-slate-50 dark:bg-gray-800/50'">
                                 <span class="text-xs font-medium" :class="leaveDaysExceeded ? 'text-rose-700 dark:text-rose-400' : 'text-slate-600 dark:text-slate-400'">
                                     {{ t('hr.remaining_days_info', { count: leaveRemainingDays }) }}
                                 </span>
@@ -931,13 +933,13 @@ const applyTemplate = () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.reason') }}</label>
-                            <textarea v-model="leaveForm.reason" rows="2" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
+                            <textarea v-model="leaveForm.reason" rows="2" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showLeaveModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600">
+                            <button type="button" @click="showLeaveModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="!canSubmitLeave" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <button type="submit" :disabled="!canSubmitLeave" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ t('hr.submit_request') }}
                             </button>
                         </div>
@@ -950,18 +952,18 @@ const applyTemplate = () => {
         <Teleport to="body">
             <div v-if="showEvalModal" class="fixed inset-0 z-50 flex items-center justify-center">
                 <div class="fixed inset-0 bg-slate-900/50" @click="showEvalModal = false"></div>
-                <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
+                <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl dark:bg-surface-card">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('hr.add_evaluation') }}</h3>
                     <form @submit.prevent="submitEvaluation" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.evaluation_title') }} *</label>
-                            <input v-model="evalForm.title" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <input v-model="evalForm.title" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             <p v-if="evalForm.errors.title" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.title }}</p>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.evaluator') }} *</label>
-                                <select v-model="evalForm.evaluator_id" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm">
+                                <select v-model="evalForm.evaluator_id" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
                                     <option value="">{{ t('hr.select_type') }}</option>
                                     <option v-for="ev in evaluators" :key="ev.id" :value="ev.id">{{ ev.last_name }} {{ ev.first_name }}</option>
                                 </select>
@@ -969,7 +971,7 @@ const applyTemplate = () => {
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.evaluation_date') }} *</label>
-                                <input v-model="evalForm.date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                                <input v-model="evalForm.date" type="date" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                                 <p v-if="evalForm.errors.date" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.date }}</p>
                             </div>
                         </div>
@@ -979,10 +981,10 @@ const applyTemplate = () => {
                             <p v-if="evalForm.errors.description" class="mt-1 text-xs text-rose-600">{{ evalForm.errors.description }}</p>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showEvalModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600">
+                            <button type="button" @click="showEvalModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="evalForm.processing" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <button type="submit" :disabled="evalForm.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ t('save') }}
                             </button>
                         </div>
@@ -995,12 +997,12 @@ const applyTemplate = () => {
         <Teleport to="body">
             <div v-if="showDocModal" class="fixed inset-0 z-50 flex items-center justify-center">
                 <div class="fixed inset-0 bg-slate-900/50" @click="showDocModal = false"></div>
-                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-800">
+                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-surface-card">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('hr.new_document') }}</h3>
                     <form @submit.prevent="submitDocument" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_type') }} *</label>
-                            <select v-model="docForm.type" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm">
+                            <select v-model="docForm.type" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
                                 <option value="">{{ t('hr.select_type') }}</option>
                                 <option v-for="dt in docTypes" :key="dt.value" :value="dt.value">{{ t('hr.' + dt.key) }}</option>
                             </select>
@@ -1008,7 +1010,7 @@ const applyTemplate = () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_name') }} *</label>
-                            <input v-model="docForm.name" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <input v-model="docForm.name" type="text" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             <p v-if="docForm.errors.name" class="mt-1 text-xs text-rose-600">{{ docForm.errors.name }}</p>
                         </div>
                         <div>
@@ -1018,19 +1020,19 @@ const applyTemplate = () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_expiry') }}</label>
-                            <input v-model="docForm.expiry_date" type="date" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                            <input v-model="docForm.expiry_date" type="date" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             <p v-if="docForm.errors.expiry_date" class="mt-1 text-xs text-rose-600">{{ docForm.errors.expiry_date }}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.document_notes') }}</label>
-                            <textarea v-model="docForm.notes" rows="2" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
+                            <textarea v-model="docForm.notes" rows="2" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
                             <p v-if="docForm.errors.notes" class="mt-1 text-xs text-rose-600">{{ docForm.errors.notes }}</p>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showDocModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600">
+                            <button type="button" @click="showDocModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="docForm.processing" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <button type="submit" :disabled="docForm.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ t('save') }}
                             </button>
                         </div>

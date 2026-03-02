@@ -39,7 +39,7 @@ watch(() => props.items, initializeGroups, { immediate: true, deep: true });
 
 const getStatusColor = (status) => {
     const colors = {
-        backlog: 'bg-slate-100 dark:bg-slate-700',
+        backlog: 'bg-slate-100 dark:bg-gray-800',
         next: 'bg-blue-50 dark:bg-blue-900/20',
         in_progress: 'bg-yellow-50 dark:bg-yellow-900/20',
         waiting_for: 'bg-orange-50 dark:bg-orange-900/20',
@@ -99,7 +99,7 @@ const onDragEnd = () => {
                     <h3 :class="['text-sm font-semibold', getStatusHeaderColor(status)]">
                         {{ label }}
                     </h3>
-                    <span class="rounded-full bg-white/50 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800/50 dark:text-slate-400">
+                    <span class="rounded-full bg-white/50 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-surface-card/50 dark:text-slate-400">
                         {{ itemsByStatus[status]?.length || 0 }}
                     </span>
                 </div>
@@ -115,7 +115,7 @@ const onDragEnd = () => {
             >
                 <template #item="{ element: item }">
                     <div
-                        class="rounded-xl bg-white p-4 shadow-sm cursor-move border border-slate-200 hover:shadow-md transition-shadow dark:bg-slate-800 dark:border-slate-700"
+                        class="rounded-xl bg-white p-4 shadow-sm cursor-move border border-gray-200 hover:shadow-md transition-shadow dark:bg-surface-card dark:border-gray-700"
                     >
                         <!-- Color indicator -->
                         <div class="flex items-start gap-3">
@@ -148,7 +148,7 @@ const onDragEnd = () => {
                                             'inline-flex items-center gap-1 rounded-lg px-2 py-0.5',
                                             item.is_overdue
                                                 ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400'
-                                                : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400'
+                                                : 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400'
                                         ]"
                                     >
                                         <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
@@ -160,7 +160,7 @@ const onDragEnd = () => {
                                     <!-- Time spent -->
                                     <span
                                         v-if="item.time_entries_sum_duration_seconds"
-                                        class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-0.5 text-slate-600 dark:bg-slate-700 dark:text-slate-400"
+                                        class="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-0.5 text-slate-600 dark:bg-gray-800 dark:text-slate-400"
                                     >
                                         <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />

@@ -23,10 +23,10 @@ const sizeClasses = {
         :type="type"
         :class="[
             'inline-flex items-center justify-center font-semibold transition-all duration-200',
-            'bg-white hover:bg-slate-50 text-slate-700 border border-slate-300',
+            'bg-white hover:bg-gray-50 text-gray-900 border border-gray-300',
             'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
             'disabled:opacity-50 disabled:cursor-not-allowed',
-            'dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-700 dark:focus:ring-offset-slate-800',
+            'dark:bg-surface-card dark:text-slate-200 dark:border-gray-700 dark:hover:bg-gray-800 dark:focus:ring-offset-surface-dark',
             sizeClasses[size],
         ]"
     >

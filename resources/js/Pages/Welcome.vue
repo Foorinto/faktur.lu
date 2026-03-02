@@ -186,7 +186,7 @@ const highlightFeatures = computed(() => [
         title: t('landing.features.items.invoicing.title'),
         description: t('landing.features.items.invoicing.description'),
         icon: 'document',
-        color: 'bg-[#9b5de5]',
+        color: 'bg-primary-500',
     },
     {
         title: t('landing.features.items.clients.title'),
@@ -216,7 +216,7 @@ const highlightFeatures = computed(() => [
         title: t('landing.features.items.faia.title'),
         description: t('landing.features.items.faia.description'),
         icon: 'download',
-        color: 'bg-[#9b5de5]',
+        color: 'bg-primary-500',
     },
 ]);
 
@@ -225,7 +225,7 @@ const featureCategories = computed(() => [
     {
         id: 'invoicing',
         title: t('landing.features.categories.invoicing.title'),
-        color: 'bg-[#9b5de5]',
+        color: 'bg-primary-500',
         icon: 'document',
         items: [
             { title: t('landing.features.categories.invoicing.items.invoices.title'), description: t('landing.features.categories.invoicing.items.invoices.description'), icon: 'document' },
@@ -361,7 +361,7 @@ const toggleFaq = (index) => {
 
     <div class="min-h-screen bg-slate-50">
         <!-- Header -->
-        <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-slate-200">
+        <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-200">
             <nav class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="flex h-16 items-center justify-between">
                     <!-- Logo -->
@@ -397,7 +397,7 @@ const toggleFaq = (index) => {
                         <div ref="langMenuRef" class="relative">
                             <button
                                 @click.stop="langMenuOpen = !langMenuOpen"
-                                class="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                class="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-gray-50 rounded-lg transition-colors"
                             >
                                 <span class="text-base">{{ localeFlags[currentLocale()] }}</span>
                                 <span class="uppercase text-xs">{{ currentLocale() }}</span>
@@ -417,7 +417,7 @@ const toggleFaq = (index) => {
                             >
                                 <div
                                     v-if="langMenuOpen"
-                                    class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50"
+                                    class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50"
                                 >
                                     <button
                                         v-for="(name, code) in availableLocales()"
@@ -426,8 +426,8 @@ const toggleFaq = (index) => {
                                         :class="[
                                             'w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors',
                                             currentLocale() === code
-                                                ? 'bg-[#9b5de5]/10 text-[#9b5de5] font-medium'
-                                                : 'text-slate-700 hover:bg-slate-50'
+                                                ? 'bg-primary-500/10 text-primary-500 font-medium'
+                                                : 'text-slate-700 hover:bg-gray-50'
                                         ]"
                                     >
                                         <span class="text-base">{{ localeFlags[code] }}</span>
@@ -458,7 +458,7 @@ const toggleFaq = (index) => {
                                 <Link
                                     v-if="canRegister"
                                     :href="route('register')"
-                                    class="bg-[#9b5de5] hover:bg-[#8b4ed5] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+                                    class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
                                 >
                                     {{ t('landing.nav.create_account') }}
                                 </Link>
@@ -469,7 +469,7 @@ const toggleFaq = (index) => {
                     <!-- Mobile menu button -->
                     <button
                         @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
                     >
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -479,13 +479,13 @@ const toggleFaq = (index) => {
                 </div>
 
                 <!-- Mobile menu -->
-                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-slate-200">
+                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200">
                     <div class="flex flex-col space-y-3">
                         <a href="#features" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.features') }}</a>
                         <a href="#how-it-works" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.how_it_works') }}</a>
                         <a href="#pricing" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.pricing') }}</a>
                         <a href="#faq" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.faq') }}</a>
-                        <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-[#9b5de5] hover:text-[#8b4ed5] py-2">{{ t('landing.nav.faia_validator') }}</Link>
+                        <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-primary-500 hover:text-primary-600 py-2">{{ t('landing.nav.faia_validator') }}</Link>
                         <Link :href="localizedRoute('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Blog</Link>
 
                         <!-- Mobile Language Selector -->
@@ -499,7 +499,7 @@ const toggleFaq = (index) => {
                                     :class="[
                                         'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
                                         currentLocale() === code
-                                            ? 'bg-[#9b5de5] text-white'
+                                            ? 'bg-primary-500 text-white'
                                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                     ]"
                                 >
@@ -511,7 +511,7 @@ const toggleFaq = (index) => {
 
                         <template v-if="canLogin && !$page.props.auth?.user">
                             <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.login') }}</Link>
-                            <Link v-if="canRegister" :href="route('register')" class="bg-[#9b5de5] text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">{{ t('landing.nav.create_account') }}</Link>
+                            <Link v-if="canRegister" :href="route('register')" class="bg-primary-500 text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">{{ t('landing.nav.create_account') }}</Link>
                         </template>
                     </div>
                 </div>
@@ -534,7 +534,7 @@ const toggleFaq = (index) => {
 
                         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
                             {{ t('landing.hero.title_1') }}
-                            <span class="text-[#9b5de5]">{{ t('landing.hero.title_2') }}</span>
+                            <span class="text-primary-500">{{ t('landing.hero.title_2') }}</span>
                             {{ t('landing.hero.title_3') }}
                         </h1>
 
@@ -546,7 +546,7 @@ const toggleFaq = (index) => {
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="inline-flex items-center gap-2 bg-[#9b5de5] hover:bg-[#8b4ed5] text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
+                                class="inline-flex items-center gap-2 bg-accent-rose hover:bg-pink-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
                             >
                                 {{ t('landing.hero.cta_start') }}
                                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -583,15 +583,15 @@ const toggleFaq = (index) => {
                     <!-- Right: Illustration -->
                     <div class="relative lg:pl-8">
                         <!-- Background decoration -->
-                        <div class="absolute -top-8 -right-8 w-72 h-72 bg-[#9b5de5]/10 rounded-full blur-3xl"></div>
+                        <div class="absolute -top-8 -right-8 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"></div>
                         <div class="absolute -bottom-8 -left-8 w-56 h-56 bg-[#00bbf9]/10 rounded-full blur-3xl"></div>
 
                         <!-- Main card -->
-                        <div class="relative bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 p-6">
+                        <div class="relative bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-200 p-6">
                             <!-- Invoice preview -->
                             <div class="flex items-center justify-between mb-6">
                                 <div class="flex items-center gap-3">
-                                    <div class="bg-[#9b5de5] p-2.5 rounded-xl">
+                                    <div class="bg-primary-500 p-2.5 rounded-xl">
                                         <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
@@ -627,7 +627,7 @@ const toggleFaq = (index) => {
                                 <div class="text-xs text-slate-500">{{ t('landing.preview.vat') }} : 187 €</div>
                                 <div class="text-right">
                                     <p class="text-xs text-slate-500">{{ t('landing.preview.total_ttc') }}</p>
-                                    <p class="text-2xl font-bold text-[#9b5de5]">1 287 €</p>
+                                    <p class="text-2xl font-bold text-primary-500">1 287 €</p>
                                 </div>
                             </div>
                         </div>
@@ -666,7 +666,7 @@ const toggleFaq = (index) => {
         </section>
 
         <!-- Logos / Trust Section -->
-        <section class="py-12 border-y border-slate-200 bg-white">
+        <section class="py-12 border-y border-gray-200 bg-white">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <p class="text-center text-sm text-slate-500 mb-8">{{ t('landing.trust.compliant_with') }}</p>
                 <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
@@ -734,7 +734,7 @@ const toggleFaq = (index) => {
                         <article
                             v-for="(item, index) in category.items"
                             :key="index"
-                            class="bg-white rounded-2xl p-6 border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all"
+                            class="bg-white rounded-2xl p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all"
                         >
                             <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" :class="category.color">
                                     <!-- Icons -->
@@ -824,7 +824,7 @@ const toggleFaq = (index) => {
                 <div class="mt-12 text-center">
                     <Link
                         :href="localizedRoute('features.index')"
-                        class="inline-flex items-center gap-2 text-[#9b5de5] hover:text-[#8b4ed5] font-semibold transition-colors"
+                        class="inline-flex items-center gap-2 text-primary-500 hover:text-primary-600 font-semibold transition-colors"
                     >
                         {{ t('landing.features.all_features') }}
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -863,7 +863,7 @@ const toggleFaq = (index) => {
                     <Link
                         v-if="canRegister"
                         :href="route('register')"
-                        class="inline-flex items-center gap-2 bg-[#9b5de5] hover:bg-[#8b4ed5] text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
+                        class="inline-flex items-center gap-2 bg-accent-rose hover:bg-pink-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
                     >
                         {{ t('landing.how_it_works.cta') }}
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -877,7 +877,7 @@ const toggleFaq = (index) => {
         <!-- Stats Section -->
         <section class="py-20">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="bg-[#9b5de5] rounded-3xl p-10 sm:p-12">
+                <div class="bg-primary-500 rounded-3xl p-10 sm:p-12">
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
                         <div class="text-center">
                             <p class="text-4xl sm:text-5xl font-bold text-white">100%</p>
@@ -925,7 +925,7 @@ const toggleFaq = (index) => {
                         <button
                             @click="billingPeriod = billingPeriod === 'monthly' ? 'yearly' : 'monthly'"
                             class="relative inline-flex h-7 w-12 items-center rounded-full transition-colors"
-                            :class="billingPeriod === 'yearly' ? 'bg-[#9b5de5]' : 'bg-slate-300'"
+                            :class="billingPeriod === 'yearly' ? 'bg-primary-500' : 'bg-slate-300'"
                         >
                             <span
                                 class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform"
@@ -1014,14 +1014,14 @@ const toggleFaq = (index) => {
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="block w-full py-3.5 text-center font-semibold text-slate-700 border-2 border-slate-200 rounded-xl hover:bg-slate-100 transition-colors"
+                            class="block w-full py-3.5 text-center font-semibold text-slate-700 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
                         >
                             {{ t('landing.pricing.start') }}
                         </Link>
                     </div>
 
                     <!-- Plan Pro -->
-                    <div class="bg-[#9b5de5] rounded-3xl p-8 relative">
+                    <div class="bg-primary-500 rounded-3xl p-8 relative">
                         <div class="absolute -top-3 left-1/2 -translate-x-1/2">
                             <span class="px-4 py-1.5 text-xs font-bold bg-[#fee440] text-slate-900 rounded-full">{{ t('landing.pricing.popular') }}</span>
                         </div>
@@ -1067,7 +1067,7 @@ const toggleFaq = (index) => {
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="block w-full py-3.5 text-center font-semibold text-[#9b5de5] bg-white rounded-xl hover:bg-slate-50 transition-colors"
+                            class="block w-full py-3.5 text-center font-semibold text-primary-500 bg-white rounded-xl hover:bg-gray-50 transition-colors"
                         >
                             {{ t('landing.pricing.sign_up') }}
                         </Link>
@@ -1079,13 +1079,13 @@ const toggleFaq = (index) => {
                     <h3 class="text-xl font-semibold text-slate-900 text-center mb-8">
                         Comparatif détaillé des fonctionnalités
                     </h3>
-                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
                         <table class="w-full">
                             <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200">
+                                <tr class="bg-slate-50 border-b border-gray-200">
                                     <th class="text-left py-4 px-6 text-sm font-semibold text-slate-900">Fonctionnalité</th>
                                     <th class="text-center py-4 px-6 text-sm font-semibold text-slate-900 w-28">Essentiel</th>
-                                    <th class="text-center py-4 px-6 text-sm font-semibold text-[#9b5de5] w-28">Pro</th>
+                                    <th class="text-center py-4 px-6 text-sm font-semibold text-primary-500 w-28">Pro</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
@@ -1096,22 +1096,22 @@ const toggleFaq = (index) => {
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Clients</td>
                                     <td class="py-3 px-6 text-center text-sm text-slate-600">10</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Factures / mois</td>
                                     <td class="py-3 px-6 text-center text-sm text-slate-600">20</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Devis / mois</td>
                                     <td class="py-3 px-6 text-center text-sm text-slate-600">20</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Emails / mois</td>
                                     <td class="py-3 px-6 text-center text-sm text-slate-600">30</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-[#9b5de5]">Illimité</td>
+                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
 
                                 <!-- Fonctionnalités de base -->
@@ -1316,7 +1316,7 @@ const toggleFaq = (index) => {
                     <div
                         v-for="(faq, index) in faqs"
                         :key="index"
-                        class="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+                        class="bg-white rounded-2xl border border-gray-200 overflow-hidden"
                     >
                         <button
                             @click="toggleFaq(index)"
@@ -1348,7 +1348,7 @@ const toggleFaq = (index) => {
         <!-- CTA Section -->
         <section class="py-20 bg-white">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center relative overflow-hidden">
+                <div class="bg-gradient-to-br from-primary-400 to-primary-600 rounded-3xl px-8 py-16 sm:px-16 sm:py-20 text-center relative overflow-hidden">
                     <!-- Decorative elements -->
                     <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                     <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -1363,7 +1363,7 @@ const toggleFaq = (index) => {
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#9b5de5] font-semibold rounded-xl hover:bg-slate-50 transition-colors"
+                            class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-500 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
                         >
                             {{ t('landing.cta.button') }}
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1401,11 +1401,11 @@ const toggleFaq = (index) => {
                                     class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
-                            <div v-else class="aspect-[16/9] bg-gradient-to-br from-[#9b5de5] to-[#7c3aed]"></div>
+                            <div v-else class="aspect-[16/9] bg-gradient-to-br from-primary-400 to-primary-600"></div>
 
                             <div class="p-6">
                                 <div class="flex items-center gap-2 text-sm text-slate-500 mb-2">
-                                    <span v-if="post.category" class="text-[#9b5de5] font-medium">
+                                    <span v-if="post.category" class="text-primary-500 font-medium">
                                         {{ post.category }}
                                     </span>
                                     <span v-if="post.category">•</span>
@@ -1414,7 +1414,7 @@ const toggleFaq = (index) => {
                                     </time>
                                 </div>
 
-                                <h3 class="text-lg font-semibold text-slate-900 group-hover:text-[#9b5de5] transition-colors mb-2">
+                                <h3 class="text-lg font-semibold text-slate-900 group-hover:text-primary-500 transition-colors mb-2">
                                     {{ post.title }}
                                 </h3>
 
@@ -1436,7 +1436,7 @@ const toggleFaq = (index) => {
                 <div class="text-center mt-10">
                     <Link
                         :href="localizedRoute('blog.index')"
-                        class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-700 font-semibold rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-colors"
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-slate-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-colors"
                     >
                         Voir tous les articles
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1448,7 +1448,7 @@ const toggleFaq = (index) => {
         </section>
 
         <!-- Footer -->
-        <footer class="border-t border-slate-200 py-12">
+        <footer class="border-t border-gray-200 py-12">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="grid md:grid-cols-5 gap-8 mb-8">
                     <div class="md:col-span-2">
@@ -1487,7 +1487,7 @@ const toggleFaq = (index) => {
                         </ul>
                     </div>
                 </div>
-                <div class="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="flex items-center gap-2 text-sm text-slate-600">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00f5d4]/10 text-[#00a896] text-xs font-medium">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">

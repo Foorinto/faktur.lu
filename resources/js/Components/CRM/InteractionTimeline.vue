@@ -48,7 +48,7 @@ const typeIcons = {
 };
 
 const typeColors = {
-    note: 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300',
+    note: 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-300',
     call: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900 dark:text-emerald-300',
     email: 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300',
     meeting: 'bg-violet-100 text-violet-600 dark:bg-violet-900 dark:text-violet-300',
@@ -153,7 +153,7 @@ watch(items, checkOverflows);
             <button
                 v-if="!showForm"
                 @click="showForm = true"
-                class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
             >
                 <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -163,13 +163,13 @@ watch(items, checkOverflows);
         </div>
 
         <!-- Add form -->
-        <div v-if="showForm" class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
+        <div v-if="showForm" class="mb-6 rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-surface-card">
             <h3 class="mb-3 text-sm font-medium text-slate-900 dark:text-white">{{ t('crm.new_interaction') }}</h3>
             <form @submit.prevent="submit" class="space-y-3">
                 <div class="flex gap-3">
                     <select
                         v-model="form.type"
-                        class="rounded-xl border-0 py-1.5 text-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                        class="rounded-xl border-0 py-1.5 text-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                     >
                         <option v-for="type in interactionTypes" :key="type" :value="type">
                             {{ t(`crm.type_${type}`) }}
@@ -178,7 +178,7 @@ watch(items, checkOverflows);
                     <input
                         v-model="form.contacted_at"
                         type="datetime-local"
-                        class="rounded-xl border-0 py-1.5 text-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                        class="rounded-xl border-0 py-1.5 text-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                     />
                 </div>
                 <!-- Email-specific fields -->
@@ -187,14 +187,14 @@ watch(items, checkOverflows);
                         v-model="form.subject"
                         type="text"
                         :placeholder="t('crm.email_subject')"
-                        class="block w-full rounded-xl border-0 py-1.5 text-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                        class="block w-full rounded-xl border-0 py-1.5 text-sm ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                     />
                     <div v-if="form.errors.subject" class="text-sm text-rose-600">{{ form.errors.subject }}</div>
                     <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
                         <input
                             v-model="form.send_email"
                             type="checkbox"
-                            class="rounded border-slate-300 text-primary-500 focus:ring-primary-500 dark:border-slate-600"
+                            class="rounded border-gray-300 text-primary-500 focus:ring-primary-500 dark:border-gray-700"
                         />
                         {{ t('crm.send_email') }}
                     </label>
@@ -205,14 +205,14 @@ watch(items, checkOverflows);
                     <button
                         type="button"
                         @click="showForm = false; form.reset()"
-                        class="rounded-xl px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700"
+                        class="rounded-xl px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         {{ t('cancel') }}
                     </button>
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="rounded-xl bg-primary-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-primary-600 disabled:opacity-50"
+                        class="rounded-xl bg-accent-rose px-3 py-1.5 text-sm font-semibold text-white hover:bg-pink-500 disabled:opacity-50"
                     >
                         {{ form.type === 'email' && form.send_email ? t('crm.send_email') : t('save') }}
                     </button>
@@ -226,7 +226,7 @@ watch(items, checkOverflows);
                 <li v-for="(interaction, index) in items" :key="interaction.id" class="relative pb-8">
                     <span
                         v-if="index < items.length - 1"
-                        class="absolute left-5 top-5 -ml-px h-full w-0.5 bg-slate-200 dark:bg-slate-700"
+                        class="absolute left-5 top-5 -ml-px h-full w-0.5 bg-slate-200 dark:bg-gray-800"
                     ></span>
                     <div class="relative flex items-start space-x-3">
                         <div :class="typeColors[interaction.type] || typeColors.other" class="flex h-10 w-10 items-center justify-center rounded-xl">
@@ -236,11 +236,11 @@ watch(items, checkOverflows);
                         </div>
                         <div class="min-w-0 flex-1">
                             <!-- Edit mode -->
-                            <div v-if="editingId === interaction.id" class="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
+                            <div v-if="editingId === interaction.id" class="rounded-xl border border-gray-200 p-3 dark:border-gray-700">
                                 <div class="flex gap-2 mb-2">
                                     <select
                                         v-model="editForm.type"
-                                        class="rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                        class="rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                     >
                                         <option v-for="type in interactionTypes" :key="type" :value="type">
                                             {{ t(`crm.type_${type}`) }}
@@ -249,15 +249,15 @@ watch(items, checkOverflows);
                                     <input
                                         v-model="editForm.contacted_at"
                                         type="datetime-local"
-                                        class="rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                        class="rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                     />
                                 </div>
                                 <RichTextEditor v-model="editForm.content" />
                                 <div class="mt-2 flex justify-end gap-2">
-                                    <button @click="cancelEdit" class="rounded-lg px-2 py-1 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700">
+                                    <button @click="cancelEdit" class="rounded-lg px-2 py-1 text-xs text-slate-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:bg-gray-800">
                                         {{ t('cancel') }}
                                     </button>
-                                    <button @click="saveEdit(interaction)" class="rounded-lg bg-primary-500 px-2 py-1 text-xs text-white hover:bg-primary-600">
+                                    <button @click="saveEdit(interaction)" class="rounded-lg bg-accent-rose px-2 py-1 text-xs text-white hover:bg-pink-500">
                                         {{ t('save') }}
                                     </button>
                                 </div>
@@ -272,7 +272,7 @@ watch(items, checkOverflows);
                                     <div class="flex items-center gap-1">
                                         <button
                                             @click="startEdit(interaction)"
-                                            class="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-primary-600 dark:hover:bg-slate-700"
+                                            class="rounded-lg p-1 text-slate-400 hover:bg-gray-50 hover:text-primary-600 dark:hover:bg-gray-800"
                                         >
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                 <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />

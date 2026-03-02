@@ -42,35 +42,35 @@ const reminderLevelNames = {
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('business_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
                     {{ t('email_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Fournisseur Email
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Accès Comptable
                 </Link>
                 <Link
                     :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Abonnement
                 </Link>
@@ -79,8 +79,8 @@ const reminderLevelNames = {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Default Email Message -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('default_email_message') }}</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         Ce message sera utilisé par défaut lors de l'envoi de factures par email.
@@ -95,7 +95,7 @@ const reminderLevelNames = {
                             id="default_message"
                             v-model="form.default_message"
                             rows="4"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             placeholder="Laissez vide pour utiliser le message par défaut du système..."
                         ></textarea>
                     </div>
@@ -108,7 +108,7 @@ const reminderLevelNames = {
                             id="signature"
                             v-model="form.signature"
                             rows="3"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             placeholder="Signature qui sera ajoutée à vos emails..."
                         ></textarea>
                     </div>
@@ -118,7 +118,7 @@ const reminderLevelNames = {
                             <input
                                 type="checkbox"
                                 v-model="form.send_copy_to_self"
-                                class="h-4 w-4 text-primary-600 border-slate-300 rounded focus:ring-primary-500"
+                                class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                             />
                             <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                 {{ t('send_copy_to_self') }} (par défaut)
@@ -129,8 +129,8 @@ const reminderLevelNames = {
             </div>
 
             <!-- Reminder Settings -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">Relances de paiement</h2>
@@ -142,7 +142,7 @@ const reminderLevelNames = {
                             <input
                                 type="checkbox"
                                 v-model="form.reminders_enabled"
-                                class="h-4 w-4 text-primary-600 border-slate-300 rounded focus:ring-primary-500"
+                                class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                             />
                             <span class="ml-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                                 {{ t('reminders_enabled') }}
@@ -155,8 +155,8 @@ const reminderLevelNames = {
                         <div
                             v-for="(level, key) in form.reminder_levels"
                             :key="key"
-                            class="border rounded-xl p-4 dark:border-slate-600"
-                            :class="level.enabled ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20' : 'border-slate-200'"
+                            class="border rounded-xl p-4 dark:border-gray-700"
+                            :class="level.enabled ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20' : 'border-gray-200'"
                         >
                             <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center space-x-3">
@@ -173,7 +173,7 @@ const reminderLevelNames = {
                                     <input
                                         type="checkbox"
                                         v-model="level.enabled"
-                                        class="h-4 w-4 text-primary-600 border-slate-300 rounded focus:ring-primary-500"
+                                        class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                                     />
                                     <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">Activé</span>
                                 </label>
@@ -190,7 +190,7 @@ const reminderLevelNames = {
                                             v-model.number="level.days_after_due"
                                             min="1"
                                             max="365"
-                                            class="w-20 rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                            class="w-20 rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         />
                                         <span class="text-sm text-slate-500 dark:text-slate-400">jours</span>
                                     </div>
@@ -203,7 +203,7 @@ const reminderLevelNames = {
                                     <input
                                         type="text"
                                         v-model="level.subject"
-                                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     />
                                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                         Variables: {numero}, {client_nom}, {montant}, {date_echeance}
@@ -217,7 +217,7 @@ const reminderLevelNames = {
                                     <textarea
                                         v-model="level.body"
                                         rows="4"
-                                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     ></textarea>
                                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                         Variables: {numero}, {client_nom}, {montant}, {date_echeance}, {jours_retard}, {entreprise}

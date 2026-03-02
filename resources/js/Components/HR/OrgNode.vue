@@ -12,7 +12,7 @@ defineProps({
         <!-- Node card -->
         <Link
             :href="route('hr.employees.show', node.id)"
-            class="group relative rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm transition-all hover:shadow-md hover:border-primary-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:border-primary-600"
+            class="group relative rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-all hover:shadow-md hover:border-primary-300 dark:border-gray-700 dark:bg-surface-card dark:hover:border-primary-600"
             :class="depth === 0 ? 'min-w-[180px]' : 'min-w-[160px]'"
         >
             <!-- Photo or initials -->
@@ -21,7 +21,7 @@ defineProps({
                     v-if="node.photo_path"
                     :src="`/storage/${node.photo_path}`"
                     :alt="node.full_name"
-                    class="rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700"
+                    class="rounded-full object-cover ring-2 ring-slate-100 dark:ring-gray-700"
                     :class="depth === 0 ? 'h-16 w-16' : 'h-12 w-12'"
                 />
                 <div

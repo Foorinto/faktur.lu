@@ -308,35 +308,35 @@ const cancelPaymentQrcodeUpload = () => {
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
                     {{ t('business_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('email_settings') }}
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Fournisseur Email
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Accès Comptable
                 </Link>
                 <Link
                     :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Abonnement
                 </Link>
@@ -345,8 +345,8 @@ const cancelPaymentQrcodeUpload = () => {
 
         <div class="mx-auto max-w-3xl space-y-8">
             <!-- Logo -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         {{ t('logo') }}
                     </h2>
@@ -360,7 +360,7 @@ const cancelPaymentQrcodeUpload = () => {
                         <div class="flex-shrink-0">
                             <div
                                 v-if="logoPreview"
-                                class="w-32 h-32 rounded-xl border border-slate-200 dark:border-slate-600 overflow-hidden bg-white flex items-center justify-center"
+                                class="w-32 h-32 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white flex items-center justify-center"
                             >
                                 <img
                                     :src="logoPreview"
@@ -370,7 +370,7 @@ const cancelPaymentQrcodeUpload = () => {
                             </div>
                             <div
                                 v-else
-                                class="w-32 h-32 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center"
+                                class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center"
                             >
                                 <svg class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -412,7 +412,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     <button
                                         type="button"
                                         @click="cancelLogoUpload"
-                                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                                     >
                                         {{ t('cancel') }}
                                     </button>
@@ -429,7 +429,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     <button
                                         type="button"
                                         @click="selectLogo"
-                                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                                     >
                                         <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -440,7 +440,7 @@ const cancelPaymentQrcodeUpload = () => {
                                         v-if="settings?.logo_path"
                                         type="button"
                                         @click="deleteLogo"
-                                        class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-slate-700 dark:text-pink-400"
+                                        class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800 dark:text-pink-400"
                                     >
                                         <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -456,8 +456,8 @@ const cancelPaymentQrcodeUpload = () => {
 
             <form @submit.prevent="submit" class="space-y-8">
                 <!-- Informations légales -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('legal_information') }}
                         </h2>
@@ -499,7 +499,7 @@ const cancelPaymentQrcodeUpload = () => {
                             <textarea
                                 id="address"
                                 v-model="form.address"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 rows="2"
                                 required
                                 placeholder="1 Rue Exemple"
@@ -539,7 +539,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 <select
                                     id="country_code"
                                     v-model="form.country_code"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     required
                                 >
                                     <option
@@ -559,7 +559,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 <select
                                     id="activity_type"
                                     v-model="form.activity_type"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 >
                                     <option
                                         v-for="type in activityTypes"
@@ -579,8 +579,8 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Identifiants fiscaux -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('tax_identifiers') }}
                         </h2>
@@ -679,14 +679,14 @@ const cancelPaymentQrcodeUpload = () => {
                                     :class="[
                                         form.vat_regime === 'franchise'
                                             ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                                            : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-slate-500'
                                     ]"
                                 >
                                     <input
                                         type="radio"
                                         v-model="form.vat_regime"
                                         value="franchise"
-                                        class="mt-0.5 h-4 w-4 border-slate-300 text-primary-600 focus:ring-primary-500"
+                                        class="mt-0.5 h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
                                     />
                                     <div class="ml-3">
                                         <span class="block text-sm font-medium text-slate-900 dark:text-white">
@@ -707,14 +707,14 @@ const cancelPaymentQrcodeUpload = () => {
                                     :class="[
                                         form.vat_regime === 'assujetti'
                                             ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                                            : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-slate-500'
                                     ]"
                                 >
                                     <input
                                         type="radio"
                                         v-model="form.vat_regime"
                                         value="assujetti"
-                                        class="mt-0.5 h-4 w-4 border-slate-300 text-primary-600 focus:ring-primary-500"
+                                        class="mt-0.5 h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
                                     />
                                     <div class="ml-3">
                                         <span class="block text-sm font-medium text-slate-900 dark:text-white">
@@ -732,8 +732,8 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Coordonnées bancaires -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('bank_details') }}
                         </h2>
@@ -786,7 +786,7 @@ const cancelPaymentQrcodeUpload = () => {
                             <input
                                 type="checkbox"
                                 v-model="form.show_payment_qrcode"
-                                class="mt-0.5 rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
+                                class="mt-0.5 rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
                             />
                             <span class="ml-2">
                                 <span class="text-sm text-slate-700 dark:text-slate-300">{{ t('show_payment_qrcode') }}</span>
@@ -795,7 +795,7 @@ const cancelPaymentQrcodeUpload = () => {
                         </label>
 
                         <!-- Custom Payment QR Code upload (Payconiq, PayPal, etc.) -->
-                        <div v-if="form.show_payment_qrcode" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600">
+                        <div v-if="form.show_payment_qrcode" class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
                             <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('payment_qrcode_title') }}</p>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">{{ t('payment_qrcode_help') }}</p>
 
@@ -804,13 +804,13 @@ const cancelPaymentQrcodeUpload = () => {
                                 <div class="flex-shrink-0">
                                     <div
                                         v-if="paymentQrcodePreview"
-                                        class="w-24 h-24 rounded-lg border border-slate-200 dark:border-slate-600 overflow-hidden bg-white flex items-center justify-center"
+                                        class="w-24 h-24 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden bg-white flex items-center justify-center"
                                     >
                                         <img :src="paymentQrcodePreview" alt="QR Code" class="max-w-full max-h-full object-contain" />
                                     </div>
                                     <div
                                         v-else
-                                        class="w-24 h-24 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center"
+                                        class="w-24 h-24 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center"
                                     >
                                         <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
@@ -849,7 +849,7 @@ const cancelPaymentQrcodeUpload = () => {
                                             <button
                                                 type="button"
                                                 @click="cancelPaymentQrcodeUpload"
-                                                class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                                class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                                             >
                                                 {{ t('cancel') }}
                                             </button>
@@ -865,7 +865,7 @@ const cancelPaymentQrcodeUpload = () => {
                                             <button
                                                 type="button"
                                                 @click="selectPaymentQrcode"
-                                                class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                                class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                                             >
                                                 <svg class="h-3.5 w-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
@@ -876,7 +876,7 @@ const cancelPaymentQrcodeUpload = () => {
                                                 v-if="settings?.payment_qrcode_path"
                                                 type="button"
                                                 @click="deletePaymentQrcode"
-                                                class="inline-flex items-center rounded-lg border border-pink-300 bg-white px-2.5 py-1.5 text-xs font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-slate-700 dark:text-pink-400"
+                                                class="inline-flex items-center rounded-lg border border-pink-300 bg-white px-2.5 py-1.5 text-xs font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800 dark:text-pink-400"
                                             >
                                                 <svg class="h-3.5 w-3.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -892,8 +892,8 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Peppol e-Invoicing -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             Peppol e-Invoicing
                         </h2>
@@ -908,7 +908,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 <select
                                     id="peppol_endpoint_scheme"
                                     v-model="form.peppol_endpoint_scheme"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 >
                                     <option value="">-- Sélectionner --</option>
                                     <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
@@ -956,8 +956,8 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Tarification -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('pricing') }}
                         </h2>
@@ -991,8 +991,8 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Personnalisation des factures -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('invoice_customization') }}
                         </h2>
@@ -1007,7 +1007,7 @@ const cancelPaymentQrcodeUpload = () => {
                             <select
                                 id="default_vat_mention"
                                 v-model="form.default_vat_mention"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option v-for="option in dynamicVatMentionOptions" :key="option.value" :value="option.value">
                                     {{ option.label }}
@@ -1026,7 +1026,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 id="default_custom_vat_mention"
                                 v-model="form.default_custom_vat_mention"
                                 rows="2"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="t('custom_vat_placeholder')"
                             ></textarea>
                             <InputError :message="form.errors.default_custom_vat_mention" class="mt-2" />
@@ -1045,7 +1045,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     type="button"
                                     @click="form.default_pdf_color = preset.value"
                                     class="w-10 h-10 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                    :class="form.default_pdf_color === preset.value ? 'border-slate-900 dark:border-white ring-2 ring-offset-2' : 'border-slate-300 dark:border-slate-600 hover:border-slate-400'"
+                                    :class="form.default_pdf_color === preset.value ? 'border-slate-900 dark:border-white ring-2 ring-offset-2' : 'border-gray-300 dark:border-gray-700 hover:border-slate-400'"
                                     :style="{ backgroundColor: preset.value }"
                                     :title="preset.label"
                                 >
@@ -1065,12 +1065,12 @@ const cancelPaymentQrcodeUpload = () => {
                                 <input
                                     type="color"
                                     v-model="form.default_pdf_color"
-                                    class="w-10 h-10 rounded-xl cursor-pointer border border-slate-300 dark:border-slate-600"
+                                    class="w-10 h-10 rounded-xl cursor-pointer border border-gray-300 dark:border-gray-700"
                                 />
                                 <input
                                     type="text"
                                     v-model="form.default_pdf_color"
-                                    class="w-28 px-2 py-1 rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm font-mono uppercase"
+                                    class="w-28 px-2 py-1 rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm font-mono uppercase"
                                     placeholder="#7c3aed"
                                     maxlength="7"
                                 />
@@ -1085,7 +1085,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 id="default_invoice_footer"
                                 v-model="form.default_invoice_footer"
                                 rows="3"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 placeholder="Merci pour votre confiance !"
                             ></textarea>
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -1097,8 +1097,8 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Contact -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('contact_label') }}
                         </h2>
@@ -1119,7 +1119,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     <input
                                         type="checkbox"
                                         v-model="form.show_email_on_invoice"
-                                        class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
+                                        class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
                                     />
                                     <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">
                                         {{ t('show_on_invoices') }}
@@ -1141,7 +1141,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     <input
                                         type="checkbox"
                                         v-model="form.show_phone_on_invoice"
-                                        class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700"
+                                        class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
                                     />
                                     <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">
                                         {{ t('show_on_invoices') }}

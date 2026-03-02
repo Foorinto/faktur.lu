@@ -58,7 +58,7 @@ const submit = () => {
             <div class="flex items-center gap-4">
                 <Link
                     :href="route('support.index')"
-                    class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                    class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                 >
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
@@ -71,14 +71,14 @@ const submit = () => {
         </template>
 
         <div class="mx-auto max-w-2xl">
-            <form @submit.prevent="submit" class="rounded-2xl bg-white p-6 shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <form @submit.prevent="submit" class="rounded-2xl bg-white p-6 shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <!-- Category -->
                 <div class="mb-6">
                     <InputLabel for="category" :value="t('category')" required />
                     <select
                         id="category"
                         v-model="form.category"
-                        class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                        class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                     >
                         <option v-for="(label, value) in categories" :key="value" :value="value">
                             {{ label }}
@@ -108,7 +108,7 @@ const submit = () => {
                         id="message"
                         v-model="form.message"
                         rows="6"
-                        class="mt-1 block w-full rounded-xl border-0 py-2 px-3 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
+                        class="mt-1 block w-full rounded-xl border-0 py-2 px-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
                         :placeholder="t('message_placeholder')"
                         required
                     />
@@ -119,7 +119,7 @@ const submit = () => {
                 <div class="mb-6">
                     <InputLabel for="attachment" :value="t('attachment_optional')" />
                     <div class="mt-1">
-                        <div v-if="fileName" class="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-700">
+                        <div v-if="fileName" class="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-gray-800">
                             <div class="flex items-center gap-2">
                                 <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd" />
@@ -129,7 +129,7 @@ const submit = () => {
                             <button
                                 type="button"
                                 @click="removeFile"
-                                class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600"
+                                class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800"
                             >
                                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -138,7 +138,7 @@ const submit = () => {
                         </div>
                         <label
                             v-else
-                            class="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 p-6 text-slate-500 hover:border-primary-400 hover:text-primary-600 dark:border-slate-600 dark:hover:border-primary-500 dark:hover:text-primary-400"
+                            class="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 p-6 text-slate-500 hover:border-primary-400 hover:text-primary-600 dark:border-gray-700 dark:hover:border-primary-500 dark:hover:text-primary-400"
                         >
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />

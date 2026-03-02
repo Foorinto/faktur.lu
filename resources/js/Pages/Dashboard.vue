@@ -46,7 +46,7 @@ const maxRevenue = computed(() => {
 
 // Progress bar color based on percentage
 const getProgressBarColor = (percentage) => {
-    if (percentage >= 100) return 'bg-accent-pink';
+    if (percentage >= 100) return 'bg-accent-rose';
     if (percentage >= 80) return 'bg-amber-500';
     return 'bg-primary-500';
 };
@@ -67,7 +67,7 @@ const getAlertIcon = (level) => {
 // Status badge for invoices
 const getStatusBadge = (status) => {
     const badges = {
-        draft: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        draft: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         finalized: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
         sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
         paid: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
@@ -96,7 +96,7 @@ const getStatusLabel = (status) => {
                         id="year"
                         v-model="selectedYear"
                         @change="changeYear(selectedYear)"
-                        class="rounded-xl border-slate-300 py-1.5 pl-3 pr-8 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        class="rounded-xl border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                     >
                         <option v-for="year in availableYears" :key="year" :value="year">
                             {{ year }}
@@ -133,7 +133,7 @@ const getStatusLabel = (status) => {
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <!-- CA Annuel -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -169,7 +169,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Bénéfice Net -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -208,13 +208,13 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Factures impayées -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
                             <div :class="[
                                 'flex h-12 w-12 items-center justify-center rounded-xl',
-                                kpis?.unpaid_invoices?.overdue_count > 0 ? 'bg-accent-pink' : 'bg-accent-blue'
+                                kpis?.unpaid_invoices?.overdue_count > 0 ? 'bg-accent-rose' : 'bg-accent-blue'
                             ]">
                                 <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -244,7 +244,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Temps non facturé -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -277,7 +277,7 @@ const getStatusLabel = (status) => {
         <!-- Second Row: Progress Bars -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- VAT Franchise Threshold -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('vat_franchise_threshold') }}
@@ -294,7 +294,7 @@ const getStatusLabel = (status) => {
                                 {{ kpis?.vat_franchise_progress?.percentage?.toFixed(1) || 0 }}%
                             </span>
                         </div>
-                        <div class="mt-2 h-3 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+                        <div class="mt-2 h-3 w-full rounded-full bg-slate-200 dark:bg-gray-800">
                             <div
                                 :class="['h-3 rounded-full transition-all', getProgressBarColor(kpis?.vat_franchise_progress?.percentage)]"
                                 :style="{ width: `${Math.min(100, kpis?.vat_franchise_progress?.percentage || 0)}%` }"
@@ -311,7 +311,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Simplified Accounting Threshold -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('simplified_accounting_threshold') }}
@@ -328,7 +328,7 @@ const getStatusLabel = (status) => {
                                 {{ kpis?.simplified_accounting_progress?.percentage?.toFixed(1) || 0 }}%
                             </span>
                         </div>
-                        <div class="mt-2 h-3 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+                        <div class="mt-2 h-3 w-full rounded-full bg-slate-200 dark:bg-gray-800">
                             <div
                                 :class="['h-3 rounded-full transition-all', getProgressBarColor(kpis?.simplified_accounting_progress?.percentage)]"
                                 :style="{ width: `${Math.min(100, kpis?.simplified_accounting_progress?.percentage || 0)}%` }"
@@ -348,7 +348,7 @@ const getStatusLabel = (status) => {
         <!-- Third Row: Revenue Chart & VAT Summary -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- Revenue Chart -->
-            <div class="lg:col-span-2 overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="lg:col-span-2 overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('monthly_revenue') }}
@@ -361,7 +361,7 @@ const getStatusLabel = (status) => {
                                 class="flex flex-1 flex-col items-center"
                             >
                                 <div
-                                    class="w-full rounded-t-lg bg-primary-500 hover:bg-primary-600 transition-colors cursor-pointer"
+                                    class="w-full rounded-t-lg bg-accent-rose hover:bg-pink-500 transition-colors cursor-pointer"
                                     :style="{ height: `${(month.revenue / maxRevenue) * 100}%`, minHeight: month.revenue > 0 ? '4px' : '0' }"
                                     :title="`${month.label}: ${formatCurrency(month.revenue)}`"
                                 ></div>
@@ -373,7 +373,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- VAT Summary -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('vat_summary', { year: selectedYear }) }}
@@ -391,7 +391,7 @@ const getStatusLabel = (status) => {
                                 {{ formatCurrency(kpis?.vat_summary?.deductible) }}
                             </dd>
                         </div>
-                        <div class="border-t border-slate-200 dark:border-slate-700 pt-4 flex justify-between">
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 flex justify-between">
                             <dt class="text-sm font-semibold text-slate-900 dark:text-white">{{ t('balance') }}</dt>
                             <dd :class="[
                                 'text-sm font-bold',
@@ -414,7 +414,7 @@ const getStatusLabel = (status) => {
         <!-- Fourth Row: Lists -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- Unpaid Invoices -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-900 dark:text-white">
@@ -459,7 +459,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Unbilled Time by Client -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-base font-semibold text-slate-900 dark:text-white">
@@ -497,7 +497,7 @@ const getStatusLabel = (status) => {
         </div>
 
         <!-- Recent Invoices -->
-        <div class="mt-6 overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+        <div class="mt-6 overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
@@ -523,7 +523,7 @@ const getStatusLabel = (status) => {
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
-                                <tr v-for="invoice in recentInvoices" :key="invoice.id" class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                <tr v-for="invoice in recentInvoices" :key="invoice.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                                     <td class="whitespace-nowrap px-3 py-3">
                                         <Link :href="route('invoices.show', invoice.id)" class="text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
                                             {{ invoice.number }}
@@ -560,7 +560,7 @@ const getStatusLabel = (status) => {
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Link
                     :href="route('invoices.create')"
-                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 p-6 text-center hover:border-primary-500 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all dark:border-slate-600 dark:hover:border-primary-400 dark:hover:bg-primary-900/20"
+                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 p-6 text-center hover:border-primary-500 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all dark:border-gray-700 dark:hover:border-primary-400 dark:hover:bg-primary-900/20"
                 >
                     <div>
                         <div class="mx-auto h-12 w-12 rounded-xl bg-primary-100 flex items-center justify-center group-hover:bg-primary-500 transition-colors dark:bg-primary-900/30">
@@ -576,7 +576,7 @@ const getStatusLabel = (status) => {
 
                 <Link
                     :href="route('clients.create')"
-                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 p-6 text-center hover:border-accent-blue hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 transition-all dark:border-slate-600 dark:hover:border-accent-blue dark:hover:bg-sky-900/20"
+                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 p-6 text-center hover:border-accent-blue hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 transition-all dark:border-gray-700 dark:hover:border-accent-blue dark:hover:bg-sky-900/20"
                 >
                     <div>
                         <div class="mx-auto h-12 w-12 rounded-xl bg-sky-100 flex items-center justify-center group-hover:bg-accent-blue transition-colors dark:bg-sky-900/30">
@@ -592,7 +592,7 @@ const getStatusLabel = (status) => {
 
                 <Link
                     :href="route('time-entries.index')"
-                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 p-6 text-center hover:border-accent-yellow hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 transition-all dark:border-slate-600 dark:hover:border-accent-yellow dark:hover:bg-amber-900/20"
+                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 p-6 text-center hover:border-accent-yellow hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2 transition-all dark:border-gray-700 dark:hover:border-accent-yellow dark:hover:bg-amber-900/20"
                 >
                     <div>
                         <div class="mx-auto h-12 w-12 rounded-xl bg-amber-100 flex items-center justify-center group-hover:bg-accent-yellow transition-colors dark:bg-amber-900/30">
@@ -608,10 +608,10 @@ const getStatusLabel = (status) => {
 
                 <Link
                     :href="route('expenses.create')"
-                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-slate-300 p-6 text-center hover:border-accent-pink hover:bg-pink-50 focus:outline-none focus:ring-2 focus:ring-accent-pink focus:ring-offset-2 transition-all dark:border-slate-600 dark:hover:border-accent-pink dark:hover:bg-pink-900/20"
+                    class="group flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 p-6 text-center hover:border-accent-rose hover:bg-pink-50 focus:outline-none focus:ring-2 focus:ring-accent-rose focus:ring-offset-2 transition-all dark:border-gray-700 dark:hover:border-accent-rose dark:hover:bg-pink-900/20"
                 >
                     <div>
-                        <div class="mx-auto h-12 w-12 rounded-xl bg-pink-100 flex items-center justify-center group-hover:bg-accent-pink transition-colors dark:bg-pink-900/30">
+                        <div class="mx-auto h-12 w-12 rounded-xl bg-pink-100 flex items-center justify-center group-hover:bg-accent-rose transition-colors dark:bg-pink-900/30">
                             <svg class="h-6 w-6 text-pink-600 group-hover:text-white transition-colors dark:text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>

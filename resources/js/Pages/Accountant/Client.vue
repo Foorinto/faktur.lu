@@ -99,7 +99,7 @@ const getExportUrl = (type) => {
         </div>
 
         <!-- Period selector -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow p-6 mb-6">
+        <div class="bg-white dark:bg-surface-card rounded-2xl shadow p-6 mb-6">
             <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Période</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -109,7 +109,7 @@ const getExportUrl = (type) => {
                     <select
                         id="year"
                         v-model="selectedYear"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                     >
                         <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
                     </select>
@@ -121,7 +121,7 @@ const getExportUrl = (type) => {
                     <select
                         id="quarter"
                         v-model="selectedQuarter"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                     >
                         <option v-for="q in quarters" :key="q.value" :value="q.value">{{ q.label }}</option>
                     </select>
@@ -130,13 +130,13 @@ const getExportUrl = (type) => {
         </div>
 
         <!-- Export options -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow p-6 mb-6">
+        <div class="bg-white dark:bg-surface-card rounded-2xl shadow p-6 mb-6">
             <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Exports disponibles</h2>
             <div class="space-y-4">
                 <div
                     v-for="exp in exports"
                     :key="exp.type"
-                    class="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-2xl"
+                    class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-2xl"
                 >
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
@@ -163,7 +163,7 @@ const getExportUrl = (type) => {
         </div>
 
         <!-- Recent downloads -->
-        <div v-if="recentDownloads.length > 0" class="bg-white dark:bg-slate-800 rounded-2xl shadow p-6">
+        <div v-if="recentDownloads.length > 0" class="bg-white dark:bg-surface-card rounded-2xl shadow p-6">
             <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Téléchargements récents</h2>
             <ul class="divide-y divide-slate-200 dark:divide-slate-700">
                 <li v-for="download in recentDownloads" :key="download.id" class="py-3 flex items-center justify-between">

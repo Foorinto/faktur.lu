@@ -36,7 +36,7 @@ function toggleTheme() {
     <button
         type="button"
         @click="toggleTheme"
-        class="rounded-xl p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+        class="rounded-xl p-2 text-slate-500 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-300"
         :title="isDark ? 'Passer en mode clair' : 'Passer en mode sombre'"
     >
         <!-- Sun icon (shown in dark mode) -->

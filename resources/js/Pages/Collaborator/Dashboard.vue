@@ -49,7 +49,7 @@ const stopTimer = () => {
 
 const getStatusColor = (status) => {
     const colors = {
-        backlog: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        backlog: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         todo: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
         in_progress: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
         review: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
@@ -107,7 +107,7 @@ const getStatusColor = (status) => {
 
         <!-- Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-5">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-5">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
                         <svg class="h-6 w-6 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -121,7 +121,7 @@ const getStatusColor = (status) => {
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-5">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-5">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl">
                         <svg class="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -135,7 +135,7 @@ const getStatusColor = (status) => {
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-5">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-5">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
                         <svg class="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -151,8 +151,8 @@ const getStatusColor = (status) => {
         </div>
 
         <!-- Recent Projects -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+        <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('recent_projects') || 'Projets récents' }}</h2>
                 <Link
                     :href="route('collaborator.projects.index')"
@@ -170,7 +170,7 @@ const getStatusColor = (status) => {
                 <li v-for="project in projects" :key="project.id">
                     <Link
                         :href="route('collaborator.projects.show', project.id)"
-                        class="block px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                        class="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
                     >
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3">
@@ -192,7 +192,7 @@ const getStatusColor = (status) => {
                                 <p class="text-sm text-slate-500 dark:text-slate-400">
                                     {{ project.completed_tasks_count }}/{{ project.tasks_count }} {{ t('tasks') || 'tâches' }}
                                 </p>
-                                <div v-if="project.tasks_count > 0" class="mt-1 w-20 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div v-if="project.tasks_count > 0" class="mt-1 w-20 h-1.5 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
                                     <div
                                         class="h-full bg-primary-500 rounded-full"
                                         :style="{ width: Math.round((project.completed_tasks_count / project.tasks_count) * 100) + '%' }"

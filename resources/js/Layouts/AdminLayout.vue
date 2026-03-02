@@ -26,7 +26,7 @@ const isCurrentRoute = (routeName) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-900">
+    <div class="min-h-screen bg-surface-dark">
         <!-- Mobile sidebar backdrop -->
         <div
             v-if="sidebarOpen"
@@ -37,12 +37,12 @@ const isCurrentRoute = (routeName) => {
         <!-- Sidebar -->
         <aside
             :class="[
-                'fixed inset-y-0 left-0 z-50 w-64 transform bg-slate-800 transition-transform duration-300 ease-in-out lg:translate-x-0',
+                'fixed inset-y-0 left-0 z-50 w-64 transform bg-surface-dark transition-transform duration-300 ease-in-out lg:translate-x-0',
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full',
             ]"
         >
             <!-- Logo -->
-            <div class="flex h-16 items-center justify-center border-b border-slate-700 px-4">
+            <div class="flex h-16 items-center justify-center border-b border-gray-700 px-4">
                 <ApplicationLogo size="sm" />
             </div>
 
@@ -55,8 +55,8 @@ const isCurrentRoute = (routeName) => {
                             :class="[
                                 'flex items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors',
                                 isCurrentRoute(item.href)
-                                    ? 'bg-purple-600 text-white'
-                                    : 'text-slate-300 hover:bg-slate-700 hover:text-white',
+                                    ? 'bg-accent-rose text-white'
+                                    : 'text-slate-300 hover:bg-gray-800 hover:text-white',
                             ]"
                         >
                             <!-- Icons -->
@@ -86,10 +86,10 @@ const isCurrentRoute = (routeName) => {
             </nav>
 
             <!-- Logout button -->
-            <div class="absolute bottom-0 left-0 right-0 border-t border-slate-700 p-4">
+            <div class="absolute bottom-0 left-0 right-0 border-t border-gray-700 p-4">
                 <button
                     @click="logout"
-                    class="flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
+                    class="flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-gray-800 hover:text-white"
                 >
                     <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -102,7 +102,7 @@ const isCurrentRoute = (routeName) => {
         <!-- Main content -->
         <div class="lg:pl-64">
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-slate-700 bg-slate-800 px-4 lg:px-6">
+            <header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-gray-700 bg-surface-dark px-4 lg:px-6">
                 <!-- Mobile menu button -->
                 <button
                     @click="sidebarOpen = true"

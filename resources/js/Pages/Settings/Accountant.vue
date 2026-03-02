@@ -60,35 +60,35 @@ const revokeAccess = (accountantId, accountantName) => {
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Entreprise
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Email
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Fournisseur Email
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
                     Accès Comptable
                 </Link>
                 <Link
                     :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Abonnement
                 </Link>
@@ -116,8 +116,8 @@ const revokeAccess = (accountantId, accountantName) => {
             </div>
 
             <!-- Active Accountants -->
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h3 class="text-base font-medium text-slate-900 dark:text-white">Comptables actifs</h3>
                 </div>
                 <div v-if="accountants.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
@@ -146,8 +146,8 @@ const revokeAccess = (accountantId, accountantName) => {
             </div>
 
             <!-- Pending Invitations -->
-            <div v-if="pendingInvitations.length > 0" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="pendingInvitations.length > 0" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h3 class="text-base font-medium text-slate-900 dark:text-white">Invitations en attente</h3>
                 </div>
                 <ul class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -180,8 +180,8 @@ const revokeAccess = (accountantId, accountantName) => {
             </div>
 
             <!-- Recent Downloads -->
-            <div v-if="recentDownloads.length > 0" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="recentDownloads.length > 0" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h3 class="text-base font-medium text-slate-900 dark:text-white">Téléchargements récents</h3>
                 </div>
                 <ul class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -210,7 +210,7 @@ const revokeAccess = (accountantId, accountantName) => {
                 <div class="flex min-h-full items-center justify-center p-4">
                     <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showInviteModal = false"></div>
 
-                    <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-md w-full p-6">
+                    <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl max-w-md w-full p-6">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             Inviter un comptable
                         </h3>
@@ -225,7 +225,7 @@ const revokeAccess = (accountantId, accountantName) => {
                                     v-model="inviteForm.email"
                                     type="email"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     placeholder="comptable@fiduciaire.lu"
                                 />
                                 <p v-if="inviteForm.errors.email" class="mt-1 text-sm text-pink-600">{{ inviteForm.errors.email }}</p>
@@ -239,7 +239,7 @@ const revokeAccess = (accountantId, accountantName) => {
                                     id="invite_name"
                                     v-model="inviteForm.name"
                                     type="text"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     placeholder="Jean Dupont"
                                 />
                             </div>

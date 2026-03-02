@@ -35,11 +35,11 @@ const formatDate = (date) => {
                 <nav class="mb-8">
                     <ol class="flex items-center gap-2 text-sm text-gray-500">
                         <li>
-                            <Link href="/" class="hover:text-[#9b5de5]">Accueil</Link>
+                            <Link href="/" class="hover:text-primary-500">Accueil</Link>
                         </li>
                         <li>/</li>
                         <li>
-                            <Link :href="localizedRoute('blog.index')" class="hover:text-[#9b5de5]">Blog</Link>
+                            <Link :href="localizedRoute('blog.index')" class="hover:text-primary-500">Blog</Link>
                         </li>
                         <li>/</li>
                         <li class="text-gray-900 font-medium">#{{ tag.name }}</li>
@@ -48,7 +48,7 @@ const formatDate = (date) => {
 
                 <!-- Header -->
                 <div class="text-center mb-12">
-                    <div class="inline-block rounded-full bg-[#9b5de5]/20 px-4 py-2 text-[#9b5de5] font-medium mb-4">
+                    <div class="inline-block rounded-full bg-primary-500/20 px-4 py-2 text-primary-500 font-medium mb-4">
                         #{{ tag.name }}
                     </div>
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -74,7 +74,7 @@ const formatDate = (date) => {
 
                             <div class="p-6 flex-1">
                                 <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                                    <span v-if="post.category" class="text-[#9b5de5] font-medium">
+                                    <span v-if="post.category" class="text-primary-500 font-medium">
                                         {{ post.category.name }}
                                     </span>
                                     <span v-if="post.category">•</span>
@@ -83,7 +83,7 @@ const formatDate = (date) => {
                                     </time>
                                 </div>
 
-                                <h2 class="text-xl font-semibold text-gray-900 group-hover:text-[#9b5de5] transition-colors">
+                                <h2 class="text-xl font-semibold text-gray-900 group-hover:text-primary-500 transition-colors">
                                     {{ post.title }}
                                 </h2>
 
@@ -101,7 +101,7 @@ const formatDate = (date) => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                     </svg>
                     <h3 class="mt-2 text-lg font-medium text-gray-900">Aucun article avec ce tag</h3>
-                    <Link :href="localizedRoute('blog.index')" class="mt-4 inline-block text-[#9b5de5] hover:text-[#9b5de5]">
+                    <Link :href="localizedRoute('blog.index')" class="mt-4 inline-block text-primary-500 hover:text-primary-500">
                         Retour au blog
                     </Link>
                 </div>
@@ -115,7 +115,7 @@ const formatDate = (date) => {
                             :class="[
                                 'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
                                 link.active
-                                    ? 'bg-[#9b5de5] text-white'
+                                    ? 'bg-primary-500 text-white'
                                     : 'bg-white text-gray-700 hover:bg-gray-100',
                             ]"
                             v-html="link.label"
@@ -132,7 +132,7 @@ const formatDate = (date) => {
                 <div class="mt-8 text-center">
                     <Link
                         :href="localizedRoute('blog.index')"
-                        class="inline-flex items-center text-[#9b5de5] hover:text-[#9b5de5] font-medium"
+                        class="inline-flex items-center text-primary-500 hover:text-primary-500 font-medium"
                     >
                         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />

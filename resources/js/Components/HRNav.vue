@@ -30,8 +30,8 @@ const isActive = (match) => {
             :class="[
                 'whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
                 isActive(link.match)
-                    ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                    : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-300'
+                    ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
+                    : 'text-slate-500 hover:bg-gray-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-300'
             ]"
         >
             {{ link.label() }}

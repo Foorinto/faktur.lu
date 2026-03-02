@@ -174,9 +174,9 @@ const getStatusColor = (status) => {
 </script>
 
 <template>
-    <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+    <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
         <!-- Toolbar -->
-        <div class="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+        <div class="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-gray-700">
             <div class="flex items-center gap-2">
                 <button
                     @click="zoomLevel = 'week'"
@@ -184,7 +184,7 @@ const getStatusColor = (status) => {
                         'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
                         zoomLevel === 'week'
                             ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                            : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700'
+                            : 'text-slate-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:bg-gray-800'
                     ]"
                 >
                     {{ t('this_week') }}
@@ -195,7 +195,7 @@ const getStatusColor = (status) => {
                         'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
                         zoomLevel === 'month'
                             ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                            : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700'
+                            : 'text-slate-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:bg-gray-800'
                     ]"
                 >
                     {{ t('this_month') }}
@@ -206,7 +206,7 @@ const getStatusColor = (status) => {
                         'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
                         zoomLevel === 'quarter'
                             ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400'
-                            : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700'
+                            : 'text-slate-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:bg-gray-800'
                     ]"
                 >
                     Trimestre
@@ -226,15 +226,15 @@ const getStatusColor = (status) => {
         <!-- Timeline -->
         <div class="flex">
             <!-- Project names column -->
-            <div class="flex-shrink-0 w-48 border-r border-slate-200 dark:border-slate-700">
+            <div class="flex-shrink-0 w-48 border-r border-gray-200 dark:border-gray-700">
                 <!-- Header spacer -->
-                <div class="h-10 border-b border-slate-200 dark:border-slate-700"></div>
+                <div class="h-10 border-b border-gray-200 dark:border-gray-700"></div>
                 <!-- Project names -->
-                <div v-for="project in projects" :key="project.id" class="h-12 flex items-center px-3 border-b border-slate-100 dark:border-slate-700">
+                <div v-for="project in projects" :key="project.id" class="h-12 flex items-center px-3 border-b border-slate-100 dark:border-gray-700">
                     <div class="flex items-center gap-2 min-w-0">
                         <span
                             class="h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                            :style="{ backgroundColor: project.color || '#9b5de5' }"
+                            :style="{ backgroundColor: project.color || '#7c3aed' }"
                         ></span>
                         <Link
                             :href="route('projects.show', project.id)"
@@ -250,13 +250,13 @@ const getStatusColor = (status) => {
             <div ref="scrollContainer" class="flex-1 overflow-x-auto">
                 <div :style="{ width: timelineWidth + 'px' }">
                     <!-- Header with dates -->
-                    <div class="h-10 flex border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700">
+                    <div class="h-10 flex border-b border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800">
                         <template v-if="zoomLevel === 'week'">
                             <div
                                 v-for="date in headerDates"
                                 :key="date.date.toISOString()"
                                 :class="[
-                                    'flex-shrink-0 flex items-center justify-center text-xs border-r border-slate-200 dark:border-slate-600',
+                                    'flex-shrink-0 flex items-center justify-center text-xs border-r border-gray-200 dark:border-gray-700',
                                     date.isToday ? 'bg-primary-100 font-bold text-primary-700 dark:bg-primary-900/30 dark:text-primary-400' : '',
                                     date.isWeekend ? 'bg-slate-100 dark:bg-slate-600' : ''
                                 ]"
@@ -269,7 +269,7 @@ const getStatusColor = (status) => {
                             <div
                                 v-for="month in headerDates"
                                 :key="month.date.toISOString()"
-                                class="flex-shrink-0 flex items-center justify-center text-xs font-medium text-slate-600 dark:text-slate-300 border-r border-slate-200 dark:border-slate-600"
+                                class="flex-shrink-0 flex items-center justify-center text-xs font-medium text-slate-600 dark:text-slate-300 border-r border-gray-200 dark:border-gray-700"
                                 :style="{ width: month.width + 'px' }"
                             >
                                 {{ month.label }}
@@ -294,7 +294,7 @@ const getStatusColor = (status) => {
                         <div
                             v-for="project in projects"
                             :key="project.id"
-                            class="relative h-12 border-b border-slate-100 dark:border-slate-700"
+                            class="relative h-12 border-b border-slate-100 dark:border-gray-700"
                         >
                             <!-- Bar -->
                             <div
@@ -302,7 +302,7 @@ const getStatusColor = (status) => {
                                 :style="{
                                     left: getProjectBar(project).left + 'px',
                                     width: getProjectBar(project).width + 'px',
-                                    backgroundColor: project.color || '#9b5de5',
+                                    backgroundColor: project.color || '#7c3aed',
                                 }"
                             >
                                 <span class="truncate text-xs font-medium text-white drop-shadow-sm">

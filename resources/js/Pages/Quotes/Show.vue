@@ -63,7 +63,7 @@ const openPreview = () => {
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        draft: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
+        draft: 'bg-slate-100 text-slate-800 dark:bg-gray-800 dark:text-slate-300',
         sent: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
         accepted: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
         declined: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
@@ -160,7 +160,7 @@ const convertToInvoice = () => {
                     <button
                         type="button"
                         @click="openPreview"
-                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
@@ -187,7 +187,7 @@ const convertToInvoice = () => {
                         v-if="quote.status === 'sent'"
                         @click="markAsDeclined"
                         :disabled="processing"
-                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-slate-700 dark:text-red-400 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
@@ -216,8 +216,8 @@ const convertToInvoice = () => {
             <!-- Quote Header Info -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <!-- Seller Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('issuer') }}</h2>
                     </div>
                     <div class="px-6 py-4">
@@ -241,8 +241,8 @@ const convertToInvoice = () => {
                 </div>
 
                 <!-- Buyer Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('client') }}</h2>
                     </div>
                     <div class="px-6 py-4">
@@ -268,8 +268,8 @@ const convertToInvoice = () => {
             </div>
 
             <!-- Quote Details -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -310,13 +310,13 @@ const convertToInvoice = () => {
             </div>
 
             <!-- Quote Items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('quote_lines') }}</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-700">
+                        <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ t('description') }}
@@ -335,7 +335,7 @@ const convertToInvoice = () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-for="item in quote.items" :key="item.id">
                                 <td class="py-4 pl-6 pr-3 text-sm">
                                     <div class="font-medium text-slate-900 dark:text-white">{{ item.title }}</div>
@@ -355,7 +355,7 @@ const convertToInvoice = () => {
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot class="bg-slate-50 dark:bg-slate-700">
+                        <tfoot class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
                                     {{ t('total_ht') }}
@@ -372,7 +372,7 @@ const convertToInvoice = () => {
                                     {{ formatCurrency(quote.total_vat, quote.currency) }}
                                 </td>
                             </tr>
-                            <tr class="border-t-2 border-slate-300 dark:border-slate-600">
+                            <tr class="border-t-2 border-gray-300 dark:border-gray-700">
                                 <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-bold text-slate-900 dark:text-white">
                                     {{ t('total_ttc') }}
                                 </td>
@@ -386,8 +386,8 @@ const convertToInvoice = () => {
             </div>
 
             <!-- Notes -->
-            <div v-if="quote.notes" class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="quote.notes" class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -401,15 +401,15 @@ const convertToInvoice = () => {
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="showPreviewModal = false"></div>
 
-                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ quote.reference }}
                         </h3>
                         <div class="flex items-center space-x-2">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
+                            <div class="flex items-center border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden">
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
@@ -419,7 +419,7 @@ const convertToInvoice = () => {
                                     class="px-2 py-1.5 text-base transition-colors"
                                     :class="pdfLocale === lang.value
                                         ? 'bg-primary-100 dark:bg-primary-900'
-                                        : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600'"
+                                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
                                     {{ lang.flag }}
                                 </button>
@@ -427,7 +427,7 @@ const convertToInvoice = () => {
                             <a
                                 :href="pdfUrl"
                                 target="_blank"
-                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                             >
                                 <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -448,9 +448,9 @@ const convertToInvoice = () => {
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-slate-900">
+                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-surface-dark">
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
                         </div>
                         <div
                             v-else
@@ -461,11 +461,11 @@ const convertToInvoice = () => {
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50">
                         <button
                             type="button"
                             @click="showPreviewModal = false"
-                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
+                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
                             {{ t('close') }}
                         </button>

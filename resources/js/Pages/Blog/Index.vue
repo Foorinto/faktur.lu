@@ -62,7 +62,7 @@ const formatDate = (date) => {
                                             class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         />
                                     </div>
-                                    <div v-else class="aspect-[16/9] bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] flex items-center justify-center">
+                                    <div v-else class="aspect-[16/9] bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
                                         <svg class="h-16 w-16 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                                         </svg>
@@ -70,7 +70,7 @@ const formatDate = (date) => {
 
                                     <div class="p-6">
                                         <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                                            <span v-if="post.category" class="text-[#9b5de5] font-medium">
+                                            <span v-if="post.category" class="text-primary-500 font-medium">
                                                 {{ post.category.name }}
                                             </span>
                                             <span v-if="post.category">•</span>
@@ -79,7 +79,7 @@ const formatDate = (date) => {
                                             </time>
                                         </div>
 
-                                        <h2 class="text-xl font-semibold text-gray-900 group-hover:text-[#9b5de5] transition-colors">
+                                        <h2 class="text-xl font-semibold text-gray-900 group-hover:text-primary-500 transition-colors">
                                             {{ post.title }}
                                         </h2>
 
@@ -87,7 +87,7 @@ const formatDate = (date) => {
                                             {{ post.excerpt }}
                                         </p>
 
-                                        <div class="mt-4 flex items-center text-[#9b5de5] font-medium">
+                                        <div class="mt-4 flex items-center text-primary-500 font-medium">
                                             {{ t('blog.read_more') }}
                                             <svg class="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -116,7 +116,7 @@ const formatDate = (date) => {
                                     :class="[
                                         'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
                                         link.active
-                                            ? 'bg-[#9b5de5] text-white'
+                                            ? 'bg-primary-500 text-white'
                                             : 'bg-white text-gray-700 hover:bg-gray-100',
                                     ]"
                                     v-html="link.label"
@@ -139,7 +139,7 @@ const formatDate = (date) => {
                                 <li v-for="category in categories" :key="category.id">
                                     <Link
                                         :href="localizedRoute('blog.category', category.slug)"
-                                        class="flex items-center justify-between text-gray-600 hover:text-[#9b5de5] transition-colors"
+                                        class="flex items-center justify-between text-gray-600 hover:text-primary-500 transition-colors"
                                     >
                                         <span>{{ category.name }}</span>
                                         <span class="text-sm text-gray-400">{{ category.posts_count }}</span>
@@ -158,7 +158,7 @@ const formatDate = (date) => {
                                 <li v-for="post in recentPosts" :key="post.id">
                                     <Link
                                         :href="localizedRoute('blog.show', post.slug)"
-                                        class="block text-gray-600 hover:text-[#9b5de5] transition-colors"
+                                        class="block text-gray-600 hover:text-primary-500 transition-colors"
                                     >
                                         <span class="font-medium">{{ post.title }}</span>
                                         <span class="block text-sm text-gray-400 mt-1">
@@ -173,14 +173,14 @@ const formatDate = (date) => {
                         </div>
 
                         <!-- CTA -->
-                        <div class="bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] rounded-2xl p-6 text-white">
+                        <div class="bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl p-6 text-white">
                             <h3 class="text-lg font-semibold mb-2">{{ t('blog.cta_title') }}</h3>
                             <p class="text-white/80 text-sm mb-4">
                                 {{ t('blog.cta_subtitle') }}
                             </p>
                             <Link
                                 :href="route('register')"
-                                class="inline-block bg-white text-[#9b5de5] font-medium px-4 py-2 rounded-lg hover:bg-[#9b5de5]/10 transition-colors"
+                                class="inline-block bg-white text-primary-500 font-medium px-4 py-2 rounded-lg hover:bg-primary-500/10 transition-colors"
                             >
                                 {{ t('blog.cta_button') }}
                             </Link>

@@ -33,9 +33,9 @@ const stopImpersonation = () => {
             </button>
         </div>
 
-        <div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+        <div class="min-h-screen bg-gray-50 dark:bg-surface-dark">
             <nav
-                class="border-b border-slate-100 bg-white dark:border-slate-700 dark:bg-slate-800"
+                class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-surface-card"
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -71,7 +71,7 @@ const stopImpersonation = () => {
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-xl border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-500 transition duration-150 ease-in-out hover:text-slate-700 focus:outline-none dark:bg-slate-800 dark:text-slate-400 dark:hover:text-slate-300"
+                                                class="inline-flex items-center rounded-xl border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-500 transition duration-150 ease-in-out hover:text-slate-700 focus:outline-none dark:bg-surface-card dark:text-slate-400 dark:hover:text-slate-300"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -116,7 +116,7 @@ const stopImpersonation = () => {
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-xl p-2 text-slate-400 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 focus:outline-none dark:text-slate-500 dark:hover:bg-slate-900 dark:hover:text-slate-400 dark:focus:bg-slate-900 dark:focus:text-slate-400"
+                                class="inline-flex items-center justify-center rounded-xl p-2 text-slate-400 transition duration-150 ease-in-out hover:bg-gray-50 hover:text-slate-500 focus:bg-gray-50 focus:text-slate-500 focus:outline-none dark:text-slate-500 dark:hover:bg-surface-dark dark:hover:text-slate-400 dark:focus:bg-surface-dark dark:focus:text-slate-400"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -171,7 +171,7 @@ const stopImpersonation = () => {
 
                     <!-- Responsive Settings Options -->
                     <div
-                        class="border-t border-slate-200 pb-1 pt-4 dark:border-slate-600"
+                        class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-700"
                     >
                         <div class="px-4">
                             <div
@@ -202,7 +202,7 @@ const stopImpersonation = () => {
 
             <!-- Page Heading -->
             <header
-                class="bg-white shadow dark:bg-slate-800"
+                class="bg-white shadow dark:bg-surface-card"
                 v-if="$slots.header"
             >
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

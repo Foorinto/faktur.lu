@@ -99,7 +99,7 @@ const switchView = (view) => {
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        backlog: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        backlog: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         next: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
         in_progress: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
         waiting_for: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
@@ -150,7 +150,7 @@ const updateProjectStatus = (project, newStatus) => {
                 </h1>
                 <Link
                     :href="route('projects.create')"
-                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -162,19 +162,19 @@ const updateProjectStatus = (project, newStatus) => {
 
         <!-- Stats cards -->
         <div class="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-            <div class="rounded-2xl bg-white p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div class="rounded-2xl bg-white p-4 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.total }}</div>
                 <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('projects') }}</div>
             </div>
-            <div class="rounded-2xl bg-white p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div class="rounded-2xl bg-white p-4 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{{ stats.in_progress }}</div>
                 <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('project_status.in_progress') }}</div>
             </div>
-            <div class="rounded-2xl bg-white p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div class="rounded-2xl bg-white p-4 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="text-2xl font-bold text-pink-600 dark:text-pink-400">{{ stats.overdue }}</div>
                 <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('overdue') }}</div>
             </div>
-            <div class="rounded-2xl bg-white p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div class="rounded-2xl bg-white p-4 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ stats.done_this_week }}</div>
                 <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('project_status.done') }} (semaine)</div>
             </div>
@@ -184,13 +184,13 @@ const updateProjectStatus = (project, newStatus) => {
         <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
             <!-- View tabs -->
             <div class="flex items-center gap-2">
-            <div class="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
+            <div class="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-surface-card">
                 <button
                     @click="switchView('list')"
                     :class="[
                         'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                         currentView === 'list'
-                            ? 'bg-white text-slate-900 shadow dark:bg-slate-700 dark:text-white'
+                            ? 'bg-white text-slate-900 shadow dark:bg-gray-800 dark:text-white'
                             : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                     ]"
                 >
@@ -201,7 +201,7 @@ const updateProjectStatus = (project, newStatus) => {
                     :class="[
                         'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                         currentView === 'kanban'
-                            ? 'bg-white text-slate-900 shadow dark:bg-slate-700 dark:text-white'
+                            ? 'bg-white text-slate-900 shadow dark:bg-gray-800 dark:text-white'
                             : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                     ]"
                 >
@@ -212,7 +212,7 @@ const updateProjectStatus = (project, newStatus) => {
                     :class="[
                         'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                         currentView === 'timeline'
-                            ? 'bg-white text-slate-900 shadow dark:bg-slate-700 dark:text-white'
+                            ? 'bg-white text-slate-900 shadow dark:bg-gray-800 dark:text-white'
                             : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                     ]"
                 >
@@ -248,13 +248,13 @@ const updateProjectStatus = (project, newStatus) => {
                         v-model="search"
                         type="text"
                         :placeholder="t('search') + '...'"
-                        class="block w-48 rounded-xl border-0 py-2 pl-9 pr-3 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-700 sm:text-sm"
+                        class="block w-48 rounded-xl border-0 py-2 pl-9 pr-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-gray-700 sm:text-sm"
                     />
                 </div>
 
                 <select
                     v-model="statusFilter"
-                    class="rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-700 sm:text-sm"
+                    class="rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-gray-700 sm:text-sm"
                 >
                     <option value="">{{ t('all_statuses') }}</option>
                     <option v-for="(label, value) in statuses" :key="value" :value="value">
@@ -264,7 +264,7 @@ const updateProjectStatus = (project, newStatus) => {
 
                 <select
                     v-model="clientFilter"
-                    class="rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-700 sm:text-sm"
+                    class="rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-gray-700 sm:text-sm"
                 >
                     <option value="">{{ t('all_clients') }}</option>
                     <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -276,7 +276,7 @@ const updateProjectStatus = (project, newStatus) => {
                     <input
                         type="checkbox"
                         v-model="showArchived"
-                        class="rounded border-slate-300 text-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-800"
+                        class="rounded border-gray-300 text-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-surface-card"
                     />
                     {{ t('show_archived') }}
                 </label>
@@ -284,7 +284,7 @@ const updateProjectStatus = (project, newStatus) => {
         </div>
 
         <!-- List View -->
-        <div v-if="currentView === 'list'" class="overflow-hidden rounded-2xl bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+        <div v-if="currentView === 'list'" class="overflow-hidden rounded-2xl bg-white border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead>
                     <tr>
@@ -330,7 +330,7 @@ const updateProjectStatus = (project, newStatus) => {
                         v-for="project in projectsData"
                         :key="project.id"
                         :class="[
-                            'hover:bg-slate-50 dark:hover:bg-slate-700/50',
+                            'hover:bg-gray-50 dark:hover:bg-gray-800/50',
                             project.is_archived ? 'opacity-60' : ''
                         ]"
                     >
@@ -400,7 +400,7 @@ const updateProjectStatus = (project, newStatus) => {
                             <div class="flex items-center justify-end gap-2">
                                 <Link
                                     :href="route('projects.show', project.id)"
-                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                                     title="Voir"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -410,7 +410,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 </Link>
                                 <Link
                                     :href="route('projects.edit', project.id)"
-                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                                     title="Modifier"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -420,7 +420,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 <button
                                     v-if="!project.is_archived"
                                     @click="archiveProject(project, 'archive')"
-                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                                     title="Archiver"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -431,7 +431,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 <button
                                     v-else
                                     @click="archiveProject(project, 'unarchive')"
-                                    class="rounded-lg p-1.5 text-emerald-400 hover:bg-slate-100 hover:text-emerald-600 dark:hover:bg-slate-700"
+                                    class="rounded-lg p-1.5 text-emerald-400 hover:bg-gray-50 hover:text-emerald-600 dark:hover:bg-gray-800"
                                     title="Désarchiver"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -441,7 +441,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 </button>
                                 <button
                                     @click="deleteProject(project)"
-                                    class="rounded-lg p-1.5 text-red-400 hover:bg-slate-100 hover:text-red-600 dark:hover:bg-slate-700"
+                                    class="rounded-lg p-1.5 text-red-400 hover:bg-gray-50 hover:text-red-600 dark:hover:bg-gray-800"
                                     title="Supprimer"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -455,7 +455,7 @@ const updateProjectStatus = (project, newStatus) => {
             </table>
 
             <!-- Pagination -->
-            <div v-if="props.projects.links && props.projects.links.length > 3" class="border-t border-slate-200 px-4 py-3 dark:border-slate-700">
+            <div v-if="props.projects.links && props.projects.links.length > 3" class="border-t border-gray-200 px-4 py-3 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-slate-700 dark:text-slate-400">
                         {{ props.projects.from }} - {{ props.projects.to }} sur {{ props.projects.total }}
@@ -467,8 +467,8 @@ const updateProjectStatus = (project, newStatus) => {
                                 :href="link.url"
                                 :class="[
                                     link.active
-                                        ? 'z-10 bg-primary-500 text-white'
-                                        : 'bg-white text-slate-900 ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-700',
+                                        ? 'z-10 bg-accent-rose text-white'
+                                        : 'bg-white text-slate-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-surface-card dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                                     'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                                     index === 0 ? 'rounded-l-xl' : '',
                                     index === props.projects.links.length - 1 ? 'rounded-r-xl' : '',

@@ -133,7 +133,7 @@ const featureIcons = {
 
     <div class="min-h-screen bg-slate-50">
         <!-- Navigation -->
-        <nav class="bg-white border-b border-slate-200">
+        <nav class="bg-white border-b border-gray-200">
             <div class="max-w-6xl mx-auto px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
@@ -151,7 +151,7 @@ const featureIcons = {
                         <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.login') }}
                         </Link>
-                        <Link :href="route('register')" class="bg-[#9b5de5] hover:bg-[#8b4ed5] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
+                        <Link :href="route('register')" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
                             {{ t('landing.nav.create_account') }}
                         </Link>
                     </div>
@@ -192,7 +192,7 @@ const featureIcons = {
                     </p>
 
                     <div class="mt-10 flex flex-wrap gap-4">
-                        <Link :href="route('register')" class="inline-flex items-center px-8 py-4 bg-[#9b5de5] hover:bg-[#8b4ed5] text-white font-semibold rounded-xl text-lg transition-colors">
+                        <Link :href="route('register')" class="inline-flex items-center px-8 py-4 bg-accent-rose hover:bg-pink-500 text-white font-semibold rounded-xl text-lg transition-colors">
                             {{ t('landing.hero.cta_start') }}
                         </Link>
                     </div>
@@ -211,7 +211,7 @@ const featureIcons = {
                     <div
                         v-for="(item, index) in featureItems"
                         :key="index"
-                        class="p-6 rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-sm transition-all"
+                        class="p-6 rounded-2xl border border-slate-100 hover:border-gray-200 hover:shadow-sm transition-all"
                     >
                         <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" :style="{ backgroundColor: feature.color + '15' }">
                             <svg class="w-5 h-5" :style="{ color: feature.color }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -236,7 +236,7 @@ const featureIcons = {
                     <div
                         v-for="(faq, index) in featureFaqs"
                         :key="index"
-                        class="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+                        class="bg-white rounded-2xl border border-gray-200 overflow-hidden"
                     >
                         <button
                             @click="toggleFaq(index)"
@@ -272,7 +272,7 @@ const featureIcons = {
                         v-for="other in otherFeatures"
                         :key="other.slug"
                         :href="localizedRoute('features.show', { slug: other.slug })"
-                        class="group p-6 rounded-2xl border border-slate-200 hover:shadow-md hover:border-slate-300 transition-all"
+                        class="group p-6 rounded-2xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all"
                     >
                         <div
                             class="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
@@ -282,7 +282,7 @@ const featureIcons = {
                                 <path stroke-linecap="round" stroke-linejoin="round" :d="featureIcons[other.icon]" />
                             </svg>
                         </div>
-                        <h3 class="font-semibold text-slate-900 group-hover:text-[#9b5de5] transition-colors">
+                        <h3 class="font-semibold text-slate-900 group-hover:text-primary-500 transition-colors">
                             {{ t(`features.${other.id}.title`) }}
                         </h3>
                     </Link>
@@ -291,12 +291,12 @@ const featureIcons = {
         </section>
 
         <!-- CTA -->
-        <section class="py-20 bg-[#9b5de5]">
+        <section class="py-20 bg-primary-500">
             <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
                 <h2 class="text-3xl font-bold text-white">{{ t('landing.cta.heading') }}</h2>
                 <p class="mt-4 text-lg text-white/80">{{ t('landing.cta.subtitle') }}</p>
                 <div class="mt-8">
-                    <Link :href="route('register')" class="inline-flex items-center px-8 py-4 bg-white text-[#9b5de5] font-semibold rounded-xl text-lg hover:bg-slate-50 transition-colors">
+                    <Link :href="route('register')" class="inline-flex items-center px-8 py-4 bg-white text-primary-500 font-semibold rounded-xl text-lg hover:bg-gray-50 transition-colors">
                         {{ t('landing.hero.cta_start') }}
                     </Link>
                 </div>

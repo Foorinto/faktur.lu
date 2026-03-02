@@ -251,8 +251,8 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-8">
         <!-- Type de client -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_type') }}
                 </h2>
@@ -266,14 +266,14 @@ const submit = () => {
                         :class="[
                             form.type === clientType.value
                                 ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                                : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'
+                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-slate-500'
                         ]"
                     >
                         <input
                             type="radio"
                             v-model="form.type"
                             :value="clientType.value"
-                            class="mt-0.5 h-4 w-4 border-slate-300 text-primary-500 focus:ring-primary-500"
+                            class="mt-0.5 h-4 w-4 border-gray-300 text-primary-500 focus:ring-primary-500"
                         />
                         <div class="ml-3">
                             <span class="block text-sm font-medium text-slate-900 dark:text-white">
@@ -290,8 +290,8 @@ const submit = () => {
         </div>
 
         <!-- CRM - Statut & Informations commerciales -->
-        <div v-if="clientStatuses && clientStatuses.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <div v-if="clientStatuses && clientStatuses.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('crm.commercial_info') }}
                 </h2>
@@ -303,7 +303,7 @@ const submit = () => {
                         <select
                             id="status"
                             v-model="form.status"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option v-for="status in clientStatuses" :key="status" :value="status">
                                 {{ t(`crm.status_${status}`) }}
@@ -316,7 +316,7 @@ const submit = () => {
                         <select
                             id="source"
                             v-model="form.source"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option :value="null">-</option>
                             <option v-for="src in clientSources" :key="src" :value="src">
@@ -343,8 +343,8 @@ const submit = () => {
         </div>
 
         <!-- Informations du client -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_info') }}
                 </h2>
@@ -406,7 +406,7 @@ const submit = () => {
                     <textarea
                         id="address"
                         v-model="form.address"
-                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         rows="2"
                         placeholder="10 Rue Fictive"
                     ></textarea>
@@ -443,7 +443,7 @@ const submit = () => {
                         <select
                             id="country_code"
                             v-model="form.country_code"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             required
                         >
                             <option v-for="country in countries" :key="country.code" :value="country.code">
@@ -509,7 +509,7 @@ const submit = () => {
                 <div class="rounded-xl border p-4" :class="[
                     vatScenario.rate === 0
                         ? 'border-sky-200 bg-sky-50 dark:border-sky-800 dark:bg-sky-900/20'
-                        : 'border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800'
+                        : 'border-gray-200 bg-slate-50 dark:border-gray-700 dark:bg-surface-card'
                 ]">
                     <div class="flex items-center justify-between">
                         <div>
@@ -550,7 +550,7 @@ const submit = () => {
                 </div>
 
                 <!-- Peppol Endpoint (B2B only) -->
-                <div v-if="isB2B && peppolSchemes.length > 0" class="border-t border-slate-200 dark:border-slate-700 pt-4 mt-4">
+                <div v-if="isB2B && peppolSchemes.length > 0" class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
                     <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
                         Identifiant Peppol (optionnel)
                     </h3>
@@ -563,7 +563,7 @@ const submit = () => {
                             <select
                                 id="peppol_endpoint_scheme"
                                 v-model="form.peppol_endpoint_scheme"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                             >
                                 <option value="">Aucun</option>
                                 <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
@@ -590,8 +590,8 @@ const submit = () => {
         </div>
 
         <!-- Facturation -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('billing_settings') }}
                 </h2>
@@ -603,7 +603,7 @@ const submit = () => {
                         <select
                             id="currency"
                             v-model="form.currency"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             required
                         >
                             <option v-for="currency in currencies" :key="currency.value" :value="currency.value">
@@ -618,7 +618,7 @@ const submit = () => {
                         <select
                             id="locale"
                             v-model="form.locale"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option v-for="(label, code) in page.props.availableLocales" :key="code" :value="code">
                                 {{ label }}
@@ -641,7 +641,7 @@ const submit = () => {
                         <select
                             id="default_vat_rate"
                             v-model="selectedVatRateOption"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option value="">Automatique (selon scénario TVA)</option>
                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
@@ -690,7 +690,7 @@ const submit = () => {
                     <textarea
                         id="notes"
                         v-model="form.notes"
-                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         rows="3"
                         :placeholder="t('internal_notes')"
                     ></textarea>
@@ -706,7 +706,7 @@ const submit = () => {
         <div class="flex justify-end space-x-3">
             <Link
                 :href="cancelRouteParams ? route(cancelRoute, cancelRouteParams) : route(cancelRoute)"
-                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
             >
                 {{ t('cancel') }}
             </Link>

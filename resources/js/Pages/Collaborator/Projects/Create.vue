@@ -43,7 +43,7 @@ const submit = () => {
         <div class="max-w-2xl">
             <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">{{ t('new_project') || 'Nouveau projet' }}</h1>
 
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-6">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-6">
                 <form @submit.prevent="submit" class="space-y-5">
                     <div>
                         <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -54,7 +54,7 @@ const submit = () => {
                             v-model="form.title"
                             type="text"
                             required
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         />
                         <p v-if="form.errors.title" class="mt-1 text-sm text-pink-600">{{ form.errors.title }}</p>
                     </div>
@@ -67,7 +67,7 @@ const submit = () => {
                             id="description"
                             v-model="form.description"
                             rows="3"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         ></textarea>
                     </div>
 
@@ -79,7 +79,7 @@ const submit = () => {
                             <select
                                 id="status"
                                 v-model="form.status"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option v-for="(label, key) in statuses" :key="key" :value="key">{{ label }}</option>
                             </select>
@@ -113,7 +113,7 @@ const submit = () => {
                                 id="due_date"
                                 v-model="form.due_date"
                                 type="date"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
 
@@ -127,7 +127,7 @@ const submit = () => {
                                 type="number"
                                 min="0"
                                 step="0.5"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                     </div>

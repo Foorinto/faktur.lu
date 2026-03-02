@@ -83,7 +83,7 @@ watch(() => localFilters.value.search, () => {
                 </h2>
                 <button
                     @click="exportCsv"
-                    class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-700 dark:text-slate-200 dark:ring-slate-600 dark:hover:bg-slate-600"
+                    class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-200 dark:ring-slate-600 dark:hover:bg-gray-800"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -96,7 +96,7 @@ watch(() => localFilters.value.search, () => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <!-- Filters -->
-                <div class="mb-6 rounded-2xl bg-white p-4 shadow dark:bg-slate-800">
+                <div class="mb-6 rounded-2xl bg-white p-4 shadow dark:bg-surface-card">
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-5">
                         <!-- Category filter -->
                         <div>
@@ -104,7 +104,7 @@ watch(() => localFilters.value.search, () => {
                             <select
                                 v-model="localFilters.category"
                                 @change="applyFilters"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200"
                             >
                                 <option value="">{{ t('all') }}</option>
                                 <option v-for="cat in categories" :key="cat.value" :value="cat.value">
@@ -120,7 +120,7 @@ watch(() => localFilters.value.search, () => {
                                 type="date"
                                 v-model="localFilters.from"
                                 @change="applyFilters"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200"
                             />
                         </div>
 
@@ -131,7 +131,7 @@ watch(() => localFilters.value.search, () => {
                                 type="date"
                                 v-model="localFilters.to"
                                 @change="applyFilters"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200"
                             />
                         </div>
 
@@ -141,7 +141,7 @@ watch(() => localFilters.value.search, () => {
                             <select
                                 v-model="localFilters.status"
                                 @change="applyFilters"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200"
                             >
                                 <option value="">{{ t('all') }}</option>
                                 <option value="success">{{ t('success') }}</option>
@@ -156,7 +156,7 @@ watch(() => localFilters.value.search, () => {
                                 type="text"
                                 v-model="localFilters.search"
                                 :placeholder="t('search_placeholder')"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200"
                             />
                         </div>
                     </div>
@@ -172,9 +172,9 @@ watch(() => localFilters.value.search, () => {
                 </div>
 
                 <!-- Logs table -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-700">
+                        <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-300">
                                     {{ t('date_time') }}
@@ -196,11 +196,11 @@ watch(() => localFilters.value.search, () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr
                                 v-for="log in logs.data"
                                 :key="log.id"
-                                class="hover:bg-slate-50 dark:hover:bg-slate-700"
+                                class="hover:bg-gray-50 dark:hover:bg-gray-800"
                             >
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-900 dark:text-slate-200">
                                     <div>{{ log.created_at }}</div>
@@ -245,7 +245,7 @@ watch(() => localFilters.value.search, () => {
                     </table>
 
                     <!-- Pagination -->
-                    <div v-if="logs.data.length > 0" class="border-t border-slate-200 px-4 py-3 dark:border-slate-700">
+                    <div v-if="logs.data.length > 0" class="border-t border-gray-200 px-4 py-3 dark:border-gray-700">
                         <Pagination :links="logs.links" />
                     </div>
                 </div>
@@ -256,13 +256,13 @@ watch(() => localFilters.value.search, () => {
         <div v-if="showModal" class="fixed inset-0 z-50 overflow-y-auto" @click.self="closeModal">
             <div class="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                    <div class="absolute inset-0 bg-slate-500 opacity-75 dark:bg-slate-900"></div>
+                    <div class="absolute inset-0 bg-slate-500 opacity-75 dark:bg-surface-dark"></div>
                 </div>
 
                 <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-2xl sm:align-middle">
-                    <div class="bg-white px-4 pb-4 pt-5 dark:bg-slate-800 sm:p-6 sm:pb-4">
+                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-2xl sm:align-middle">
+                    <div class="bg-white px-4 pb-4 pt-5 dark:bg-surface-card sm:p-6 sm:pb-4">
                         <div class="flex items-start justify-between">
                             <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-slate-100">
                                 {{ selectedLog?.action_emoji }} {{ selectedLog?.action_label }}
@@ -304,9 +304,9 @@ watch(() => localFilters.value.search, () => {
                             <!-- Changes diff -->
                             <div v-if="selectedLog?.changed_fields && Object.keys(selectedLog.changed_fields).length > 0">
                                 <h4 class="mb-2 font-medium text-slate-900 dark:text-slate-100">{{ t('changes') }} :</h4>
-                                <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-600">
+                                <div class="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700">
                                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-600">
-                                        <thead class="bg-slate-50 dark:bg-slate-700">
+                                        <thead class="bg-slate-50 dark:bg-gray-800">
                                             <tr>
                                                 <th class="px-4 py-2 text-left text-xs font-medium text-slate-500 dark:text-slate-300">{{ t('field') }}</th>
                                                 <th class="px-4 py-2 text-left text-xs font-medium text-slate-500 dark:text-slate-300">{{ t('before') }}</th>
@@ -331,7 +331,7 @@ watch(() => localFilters.value.search, () => {
                             <!-- Metadata -->
                             <div v-if="selectedLog?.metadata && Object.keys(selectedLog.metadata).length > 0">
                                 <h4 class="mb-2 font-medium text-slate-900 dark:text-slate-100">{{ t('metadata') }} :</h4>
-                                <pre class="overflow-auto rounded-2xl bg-slate-100 p-3 text-xs dark:bg-slate-700">{{ JSON.stringify(selectedLog.metadata, null, 2) }}</pre>
+                                <pre class="overflow-auto rounded-2xl bg-slate-100 p-3 text-xs dark:bg-gray-800">{{ JSON.stringify(selectedLog.metadata, null, 2) }}</pre>
                             </div>
 
                             <!-- User agent -->
@@ -342,10 +342,10 @@ watch(() => localFilters.value.search, () => {
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 px-4 py-3 dark:bg-slate-700 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
                         <button
                             @click="closeModal"
-                            class="mt-3 inline-flex w-full justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-base font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-600 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm"
+                            class="mt-3 inline-flex w-full justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-base font-medium text-slate-700 shadow-sm hover:bg-gray-50 focus:outline-none dark:border-gray-700 dark:bg-surface-card dark:text-slate-200 dark:hover:bg-gray-800 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm"
                         >
                             {{ t('close') }}
                         </button>

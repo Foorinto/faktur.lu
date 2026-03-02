@@ -7,8 +7,10 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 import ReadOnlyBanner from '@/Components/ReadOnlyBanner.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
+const { getAvatarClasses } = useAvatarColor();
 const showingSidebar = ref(true);
 const page = usePage();
 
@@ -64,12 +66,12 @@ const routeExists = (routeName) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div class="min-h-screen bg-gray-50 dark:bg-surface-dark">
         <!-- Background decorations -->
         <div class="fixed inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl"></div>
             <div class="absolute top-1/2 -left-40 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-40 right-1/3 w-80 h-80 bg-accent-pink/5 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 right-1/3 w-80 h-80 bg-accent-rose/5 rounded-full blur-3xl"></div>
         </div>
 
         <!-- Impersonation Banner -->
@@ -102,12 +104,12 @@ const routeExists = (routeName) => {
             :class="[
                 showingSidebar ? 'translate-x-0' : '-translate-x-full',
                 page.props.impersonating ? 'top-10' : 'top-0',
-                'fixed inset-y-0 left-0 z-50 w-64 transform bg-white border-r border-slate-200 transition-transform duration-300 ease-in-out dark:bg-slate-800 dark:border-slate-700 lg:translate-x-0',
+                'fixed inset-y-0 left-0 z-50 w-64 transform bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out dark:bg-surface-card dark:border-gray-700 lg:translate-x-0',
             ]"
         >
             <div class="flex h-full flex-col">
                 <!-- Logo -->
-                <div class="flex h-16 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-700">
+                <div class="flex h-16 items-center justify-between border-b border-gray-200 px-4 dark:border-gray-700">
                     <Link :href="route('dashboard')" class="flex items-center">
                         <ApplicationLogo size="sm" />
                     </Link>
@@ -121,8 +123,8 @@ const routeExists = (routeName) => {
                             :href="route(item.href)"
                             :class="[
                                 isCurrentRoute(item.href)
-                                    ? 'bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400'
-                                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200',
+                                    ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
+                                    : 'text-slate-600 hover:bg-gray-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200',
                                 'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
                             ]"
                         >
@@ -274,15 +276,15 @@ const routeExists = (routeName) => {
                 </div>
 
                 <!-- User menu at bottom -->
-                <div class="border-t border-slate-200 p-4 dark:border-slate-700">
+                <div class="border-t border-gray-200 p-4 dark:border-gray-700">
                     <Dropdown align="top-left" width="48">
                         <template #trigger>
                             <button
                                 type="button"
-                                class="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-700"
+                                class="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-gray-50 transition-colors dark:text-slate-300 dark:hover:bg-gray-800"
                             >
-                                <div class="relative flex h-9 w-9 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
-                                    <span class="text-sm font-semibold text-primary-600 dark:text-primary-400">
+                                <div :class="['relative flex h-9 w-9 items-center justify-center rounded-xl', getAvatarClasses($page.props.auth.user.name)]">
+                                    <span class="text-sm font-bold">
                                         {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
                                     </span>
                                     <span
@@ -338,7 +340,7 @@ const routeExists = (routeName) => {
         <!-- Main content -->
         <div :class="['lg:pl-64 relative', page.props.impersonating ? 'pt-10' : '']">
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 backdrop-blur-md px-4 dark:border-slate-700 dark:bg-slate-800/80 sm:px-6 lg:px-8">
+            <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 dark:border-gray-700 dark:bg-surface-card/80 sm:px-6 lg:px-8">
                 <!-- Mobile menu button -->
                 <button
                     type="button"

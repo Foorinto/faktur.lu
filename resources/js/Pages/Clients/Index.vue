@@ -5,8 +5,10 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed } from 'vue';
 import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
+const { getAvatarClasses } = useAvatarColor();
 
 const props = defineProps({
     clients: { type: Object, required: true },
@@ -79,7 +81,7 @@ const getTypeLabel = (type) => {
 const getTypeBadgeClass = (type) => {
     return type === 'b2b'
         ? 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
-        : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
+        : 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300';
 };
 
 const formatCurrency = (amount) => {
@@ -104,7 +106,7 @@ const showNewDropdown = ref(false);
                 <div class="relative">
                     <button
                         @click="showNewDropdown = !showNewDropdown"
-                        class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                        class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -114,18 +116,18 @@ const showNewDropdown = ref(false);
                             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <div v-if="showNewDropdown" class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
+                    <div v-if="showNewDropdown" class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-gray-200 dark:bg-surface-card dark:ring-gray-700">
                         <Link
                             :href="route('clients.create', { status: 'active' })"
                             @click="showNewDropdown = false"
-                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 rounded-t-xl"
+                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-t-xl"
                         >
                             {{ t('new_client') }}
                         </Link>
                         <Link
                             :href="route('clients.create', { status: 'prospect' })"
                             @click="showNewDropdown = false"
-                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700 rounded-b-xl"
+                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-b-xl"
                         >
                             {{ t('crm.new_prospect') }}
                         </Link>
@@ -135,7 +137,7 @@ const showNewDropdown = ref(false);
         </template>
 
         <!-- Status tabs -->
-        <div class="mb-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-4 overflow-x-auto" aria-label="Status tabs">
                 <button
                     v-for="tab in statusTabs"
@@ -144,8 +146,8 @@ const showNewDropdown = ref(false);
                     :class="[
                         'whitespace-nowrap py-3 px-1 border-b-2 text-sm font-medium transition-colors',
                         statusFilter === tab.value
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ tab.label }}
@@ -154,8 +156,8 @@ const showNewDropdown = ref(false);
                         :class="[
                             'ml-1.5 rounded-full px-2 py-0.5 text-xs',
                             statusFilter === tab.value
-                                ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
-                                : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400'
+                                ? 'bg-pink-100 text-accent-rose dark:bg-pink-900/30 dark:text-pink-300'
+                                : 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400'
                         ]"
                     >
                         {{ tab.count }}
@@ -177,13 +179,13 @@ const showNewDropdown = ref(false);
                         v-model="search"
                         type="text"
                         :placeholder="t('search_client')"
-                        class="block w-full rounded-xl border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
+                        class="block w-full rounded-xl border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
                     />
                 </div>
 
                 <select
                     v-model="typeFilter"
-                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                 >
                     <option value="">{{ t('all_types') }}</option>
                     <option v-for="type in clientTypes" :key="type.value" :value="type.value">
@@ -194,7 +196,7 @@ const showNewDropdown = ref(false);
                 <select
                     v-if="tags.length > 0"
                     v-model="tagFilter"
-                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                 >
                     <option value="">{{ t('crm.all_tags') }}</option>
                     <option v-for="tag in tags" :key="tag.id" :value="tag.id">
@@ -205,9 +207,9 @@ const showNewDropdown = ref(false);
         </div>
 
         <!-- Clients list -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('client') }}
@@ -235,7 +237,7 @@ const showNewDropdown = ref(false);
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="clients.data.length === 0">
                         <td colspan="8" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -253,12 +255,12 @@ const showNewDropdown = ref(false);
                             </Link>
                         </td>
                     </tr>
-                    <tr v-for="client in clients.data" :key="client.id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <tr v-for="client in clients.data" :key="client.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                             <div class="flex items-center">
                                 <div class="h-10 w-10 flex-shrink-0">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
-                                        <span class="text-sm font-medium text-primary-600 dark:text-primary-400">
+                                    <div :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(client.name)]">
+                                        <span class="text-sm font-bold">
                                             {{ client.name.charAt(0).toUpperCase() }}
                                         </span>
                                     </div>
@@ -316,7 +318,7 @@ const showNewDropdown = ref(false);
                             <div class="flex items-center justify-end space-x-1">
                                 <Link
                                     :href="route('clients.edit', client.id)"
-                                    class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-primary-600 dark:hover:bg-slate-700 dark:hover:text-primary-400"
+                                    class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-primary-600 dark:hover:bg-gray-800 dark:hover:text-primary-400"
                                     :title="t('edit')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -352,8 +354,8 @@ const showNewDropdown = ref(false);
                         :href="link.url"
                         :class="[
                             link.active
-                                ? 'z-10 bg-primary-500 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
-                                : 'text-slate-900 ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-700',
+                                ? 'z-10 bg-accent-rose text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
+                                : 'text-slate-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                             'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                             index === 0 ? 'rounded-l-xl' : '',
                             index === clients.links.length - 1 ? 'rounded-r-xl' : '',

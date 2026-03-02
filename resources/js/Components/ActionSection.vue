@@ -20,7 +20,7 @@ defineProps({
         </div>
 
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <div class="px-4 py-5 sm:p-6 bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 sm:rounded-2xl">
+            <div class="px-4 py-5 sm:p-6 bg-white dark:bg-surface-card shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 sm:rounded-2xl">
                 <slot name="content" />
             </div>
         </div>

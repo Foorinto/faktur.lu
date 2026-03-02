@@ -128,7 +128,7 @@ const getStatusBadge = (status) => {
         case 'failed':
             return { class: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', text: t('faia.status_failed') };
         default:
-            return { class: 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-300', text: t('faia.status_pending') };
+            return { class: 'bg-slate-100 text-slate-800 dark:bg-surface-dark dark:text-slate-300', text: t('faia.status_pending') };
     }
 };
 </script>
@@ -147,7 +147,7 @@ const getStatusBadge = (status) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Export Form -->
-                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                    <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('faia.new_export') }}
                         </h2>
@@ -166,7 +166,7 @@ const getStatusBadge = (status) => {
                                         :key="year"
                                         type="button"
                                         @click="setYear(year)"
-                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-slate-700 dark:text-slate-300"
                                     >
                                         {{ year }}
                                     </button>
@@ -178,7 +178,7 @@ const getStatusBadge = (status) => {
                                         :key="`q${q}`"
                                         type="button"
                                         @click="setQuarter(defaultYear, q)"
-                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-slate-700 dark:text-slate-300"
                                     >
                                         T{{ q }} {{ defaultYear }}
                                     </button>
@@ -187,7 +187,7 @@ const getStatusBadge = (status) => {
                                         :key="`s${s}`"
                                         type="button"
                                         @click="setSemester(defaultYear, s)"
-                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-slate-700 dark:text-slate-300"
                                     >
                                         S{{ s }} {{ defaultYear }}
                                     </button>
@@ -200,7 +200,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.period_start"
                                             type="date"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         />
                                     </div>
                                     <div>
@@ -208,7 +208,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.period_end"
                                             type="date"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         />
                                     </div>
                                 </div>
@@ -226,7 +226,7 @@ const getStatusBadge = (status) => {
                                         class="flex items-center p-3 border rounded-2xl cursor-pointer transition-colors"
                                         :class="form.format === value
                                             ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20'
-                                            : 'border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700'"
+                                            : 'border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                     >
                                         <input
                                             v-model="form.format"
@@ -251,7 +251,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.include_credit_notes"
                                             type="checkbox"
-                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
+                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-700"
                                         />
                                         <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                             {{ t('faia.include_credit_notes') }}
@@ -261,7 +261,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.anonymize"
                                             type="checkbox"
-                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
+                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-700"
                                         />
                                         <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                             {{ t('faia.anonymize_data') }}
@@ -271,7 +271,7 @@ const getStatusBadge = (status) => {
                             </div>
 
                             <!-- Preview -->
-                            <div v-if="preview || previewLoading || previewError" class="rounded-2xl bg-slate-50 dark:bg-slate-700 p-4">
+                            <div v-if="preview || previewLoading || previewError" class="rounded-2xl bg-slate-50 dark:bg-gray-800 p-4">
                                 <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">{{ t('faia.preview') }}</h3>
 
                                 <div v-if="previewLoading" class="flex items-center justify-center py-4">
@@ -295,7 +295,7 @@ const getStatusBadge = (status) => {
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('faia.credit_notes') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ preview.credit_notes_count }}</span>
                                     </div>
-                                    <div class="flex justify-between text-sm pt-2 border-t border-slate-200 dark:border-slate-600">
+                                    <div class="flex justify-between text-sm pt-2 border-t border-gray-200 dark:border-gray-700">
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('faia.total_ht') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.total_ht) }}</span>
                                     </div>
@@ -309,7 +309,7 @@ const getStatusBadge = (status) => {
                                     </div>
 
                                     <!-- Sequence validation -->
-                                    <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-600">
+                                    <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                                         <div v-if="preview.sequence_valid" class="flex items-center text-sm text-green-600 dark:text-green-400">
                                             <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -347,7 +347,7 @@ const getStatusBadge = (status) => {
                     </div>
 
                     <!-- Export History -->
-                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                    <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('faia.export_history') }}
                         </h2>
@@ -360,7 +360,7 @@ const getStatusBadge = (status) => {
                             <div
                                 v-for="exportItem in exports"
                                 :key="exportItem.id"
-                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-2xl"
+                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-gray-800 rounded-2xl"
                             >
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center gap-2">

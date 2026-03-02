@@ -38,7 +38,7 @@ defineProps({
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                 <div
-                    class="bg-white p-4 shadow-xl shadow-slate-200/50 border border-slate-200 sm:rounded-2xl sm:p-8 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50"
+                    class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
                 >
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
@@ -48,13 +48,13 @@ defineProps({
                 </div>
 
                 <div
-                    class="bg-white p-4 shadow-xl shadow-slate-200/50 border border-slate-200 sm:rounded-2xl sm:p-8 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50"
+                    class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
                 >
                     <UpdatePasswordForm class="max-w-xl" />
                 </div>
 
                 <div
-                    class="bg-white p-4 shadow-xl shadow-slate-200/50 border border-slate-200 sm:rounded-2xl sm:p-8 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50"
+                    class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
                 >
                     <TwoFactorAuthenticationForm
                         :requires-confirmation="confirmsTwoFactorAuthentication"
@@ -62,7 +62,7 @@ defineProps({
                 </div>
 
                 <div
-                    class="bg-white p-4 shadow-xl shadow-slate-200/50 border border-slate-200 sm:rounded-2xl sm:p-8 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50"
+                    class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
                 >
                     <DeleteUserForm class="max-w-xl" />
                 </div>

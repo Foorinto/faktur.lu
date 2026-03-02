@@ -92,7 +92,7 @@ watch([statusFilter, yearFilter, clientFilter], updateFilters);
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        draft: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
+        draft: 'bg-slate-100 text-slate-800 dark:bg-gray-800 dark:text-slate-300',
         sent: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
         accepted: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
         declined: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
@@ -156,7 +156,7 @@ const canEdit = (quote) => {
         <div class="mb-6 flex flex-wrap gap-4">
             <select
                 v-model="statusFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_statuses') }}</option>
                 <option v-for="status in statuses" :key="status.value" :value="status.value">
@@ -166,7 +166,7 @@ const canEdit = (quote) => {
 
             <select
                 v-model="yearFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_years') }}</option>
                 <option v-for="year in years" :key="year" :value="year">
@@ -176,7 +176,7 @@ const canEdit = (quote) => {
 
             <select
                 v-model="clientFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_clients') }}</option>
                 <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -186,9 +186,9 @@ const canEdit = (quote) => {
         </div>
 
         <!-- Quotes list -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('reference') }}
@@ -213,7 +213,7 @@ const canEdit = (quote) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="quotes.data.length === 0">
                         <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -228,7 +228,7 @@ const canEdit = (quote) => {
                             </Link>
                         </td>
                     </tr>
-                    <tr v-for="quote in quotes.data" :key="quote.id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <tr v-for="quote in quotes.data" :key="quote.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                             <Link
                                 :href="canEdit(quote) ? route('quotes.edit', quote.id) : route('quotes.show', quote.id)"
@@ -306,7 +306,7 @@ const canEdit = (quote) => {
                         :class="[
                             link.active
                                 ? 'z-10 bg-primary-600 text-white'
-                                : 'text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-700',
+                                : 'text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                             'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                             index === 0 ? 'rounded-l-md' : '',
                             index === quotes.links.length - 1 ? 'rounded-r-md' : '',
@@ -323,15 +323,15 @@ const canEdit = (quote) => {
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="closePreview"></div>
 
-                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ previewQuote?.reference }}
                         </h3>
                         <div class="flex items-center space-x-2">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
+                            <div class="flex items-center border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden">
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
@@ -341,7 +341,7 @@ const canEdit = (quote) => {
                                     class="px-2 py-1.5 text-base transition-colors"
                                     :class="pdfLocale === lang.value
                                         ? 'bg-primary-100 dark:bg-primary-900'
-                                        : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600'"
+                                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
                                     {{ lang.flag }}
                                 </button>
@@ -349,7 +349,7 @@ const canEdit = (quote) => {
                             <a
                                 :href="pdfUrl"
                                 target="_blank"
-                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                             >
                                 <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -370,9 +370,9 @@ const canEdit = (quote) => {
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-slate-900">
+                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-surface-dark">
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
                         </div>
                         <div
                             v-else
@@ -383,11 +383,11 @@ const canEdit = (quote) => {
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50">
                         <button
                             type="button"
                             @click="closePreview"
-                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
+                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
                             {{ t('close') }}
                         </button>

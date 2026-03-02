@@ -12,7 +12,7 @@ defineProps({
 <template>
     <Head :title="t('invalid_invitation') || 'Invitation invalide'" />
 
-    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-slate-900">
+    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-surface-dark">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <div class="flex justify-center">
                 <svg class="h-12 w-12 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -25,7 +25,7 @@ defineProps({
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white dark:bg-slate-800 py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-200 dark:border-slate-700">
+            <div class="bg-white dark:bg-surface-card py-8 px-4 shadow-xl shadow-gray-200/50 sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-gray-700">
                 <div class="text-center">
                     <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">
                         {{ message }}

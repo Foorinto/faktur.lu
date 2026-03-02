@@ -281,7 +281,7 @@ const deleteTask = (task) => {
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        backlog: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        backlog: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         next: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
         in_progress: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
         waiting_for: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
@@ -292,7 +292,7 @@ const getStatusBadgeClass = (status) => {
 
 const getPriorityBadgeClass = (priority) => {
     const classes = {
-        low: 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400',
+        low: 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400',
         normal: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
         high: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
     };
@@ -419,7 +419,7 @@ const onKanbanDragEnd = () => {
             <div class="flex items-center gap-4">
                 <Link
                     :href="route('projects.index')"
-                    class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                    class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                 >
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
@@ -442,7 +442,7 @@ const onKanbanDragEnd = () => {
             <!-- Main content -->
             <div class="lg:col-span-2 space-y-6">
                 <!-- Project header card -->
-                <div class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                     <div class="flex items-start justify-between">
                         <div>
                             <RichTextDisplay v-if="project.description" :content="project.description" class="mb-4" />
@@ -463,7 +463,7 @@ const onKanbanDragEnd = () => {
                         </div>
                         <Link
                             :href="route('projects.edit', project.id)"
-                            class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                            class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                         >
                             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
@@ -489,7 +489,7 @@ const onKanbanDragEnd = () => {
                 </div>
 
                 <!-- Tasks section -->
-                <div class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('tasks') }}</h2>
                         <div class="flex items-center gap-3">
@@ -499,7 +499,7 @@ const onKanbanDragEnd = () => {
                                 <select
                                     :value="currentSort"
                                     @change="switchSort($event.target.value)"
-                                    class="rounded-lg border-0 py-1 pl-2 pr-7 text-xs text-slate-700 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600"
+                                    class="rounded-lg border-0 py-1 pl-2 pr-7 text-xs text-slate-700 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
                                 >
                                     <option v-for="option in sortOptions" :key="option.value" :value="option.value">
                                         {{ option.label }}
@@ -507,7 +507,7 @@ const onKanbanDragEnd = () => {
                                 </select>
                             </div>
                             <!-- View toggle -->
-                            <div class="inline-flex rounded-lg bg-slate-100 p-0.5 dark:bg-slate-700">
+                            <div class="inline-flex rounded-lg bg-slate-100 p-0.5 dark:bg-gray-800">
                                 <button
                                     @click="switchTaskView('list')"
                                     :class="[
@@ -533,7 +533,7 @@ const onKanbanDragEnd = () => {
                             </div>
                             <button
                                 @click="showAddTask = !showAddTask"
-                                class="inline-flex items-center rounded-lg bg-primary-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-600"
+                                class="inline-flex items-center rounded-lg bg-accent-rose px-3 py-1.5 text-sm font-medium text-white hover:bg-pink-500"
                             >
                                 <svg class="mr-1 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -544,19 +544,19 @@ const onKanbanDragEnd = () => {
                     </div>
 
                     <!-- Add task form -->
-                    <div v-if="showAddTask" class="mb-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-700/50">
+                    <div v-if="showAddTask" class="mb-4 rounded-xl bg-slate-50 p-4 dark:bg-gray-800/50">
                         <form @submit.prevent="submitTask" class="space-y-3">
                             <input
                                 v-model="taskForm.title"
                                 type="text"
                                 :placeholder="t('task') + '...'"
-                                class="block w-full rounded-lg border-0 py-2 px-3 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                                class="block w-full rounded-lg border-0 py-2 px-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                                 required
                             />
                             <div class="flex items-center gap-3">
                                 <select
                                     v-model="taskForm.priority"
-                                    class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600"
+                                    class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600"
                                 >
                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">
                                         {{ label }}
@@ -565,7 +565,7 @@ const onKanbanDragEnd = () => {
                                 <input
                                     v-model="taskForm.due_date"
                                     type="date"
-                                    class="rounded-lg border-0 py-1.5 px-3 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600"
+                                    class="rounded-lg border-0 py-1.5 px-3 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600"
                                 />
                                 <div class="flex-1" />
                                 <button
@@ -578,7 +578,7 @@ const onKanbanDragEnd = () => {
                                 <button
                                     type="submit"
                                     :disabled="taskForm.processing"
-                                    class="rounded-lg bg-primary-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-50"
+                                    class="rounded-lg bg-accent-rose px-3 py-1.5 text-sm font-medium text-white hover:bg-pink-500 disabled:opacity-50"
                                 >
                                     {{ t('add') }}
                                 </button>
@@ -604,7 +604,7 @@ const onKanbanDragEnd = () => {
                             <template #item="{ element: task }">
                                 <div class="task-item">
                                     <!-- Parent task row -->
-                                    <div :class="['group flex items-center gap-2 rounded-xl p-3 transition-colors', task.is_completed ? 'bg-slate-50 dark:bg-slate-700/30' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50']">
+                                    <div :class="['group flex items-center gap-2 rounded-xl p-3 transition-colors', task.is_completed ? 'bg-slate-50 dark:bg-gray-800/30' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50']">
                                         <!-- Drag handle -->
                                         <div v-if="currentSort === 'manual'" class="drag-handle shrink-0 cursor-move rounded p-0.5 text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400">
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -619,7 +619,7 @@ const onKanbanDragEnd = () => {
                                         </button>
                                         <div v-else-if="currentSort !== 'manual'" class="w-5 shrink-0"></div>
                                         <!-- Checkbox -->
-                                        <button @click="toggleTask(task)" :class="['flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors', task.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-slate-300 hover:border-primary-500 dark:border-slate-600']">
+                                        <button @click="toggleTask(task)" :class="['flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors', task.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 hover:border-primary-500 dark:border-gray-700']">
                                             <svg v-if="task.is_completed" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
                                             </svg>
@@ -630,27 +630,27 @@ const onKanbanDragEnd = () => {
                                                 <span :class="['text-sm', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</span>
                                                 <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] }}</span>
                                                 <span v-if="task.due_date" :class="task.is_overdue ? 'text-pink-500' : 'text-slate-400'" class="text-xs">{{ formatDateDisplay(task.due_date) }}</span>
-                                                <span v-if="task.children && task.children.length > 0" class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-700 dark:text-slate-400">
+                                                <span v-if="task.children && task.children.length > 0" class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-gray-800 dark:text-slate-400">
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" /></svg>
                                                     {{ task.children.filter(c => c.is_completed).length }}/{{ task.children.length }}
                                                 </span>
                                             </div>
                                             <div v-else class="flex items-center gap-2">
-                                                <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600" />
-                                                <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600">
+                                                <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
+                                                <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
                                                 </select>
-                                                <input v-model="editForm.due_date" type="date" class="rounded-lg border-0 py-1 px-2 text-xs text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600" />
+                                                <input v-model="editForm.due_date" type="date" class="rounded-lg border-0 py-1 px-2 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
                                                 <button @click="saveEditTask(task)" class="text-emerald-500 hover:text-emerald-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg></button>
                                                 <button @click="cancelEditTask" class="text-slate-400 hover:text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg></button>
                                             </div>
                                         </div>
                                         <!-- Actions -->
                                         <div v-if="editingTask !== task.id" class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button @click="startAddSubtask(task.id)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600" title="Ajouter une sous-tâche">
+                                            <button @click="startAddSubtask(task.id)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800" title="Ajouter une sous-tâche">
                                                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
                                             </button>
-                                            <button @click="startEditTask(task)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600">
+                                            <button @click="startEditTask(task)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800">
                                                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg>
                                             </button>
                                             <button @click="deleteTask(task)" class="rounded p-1 text-slate-400 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30">
@@ -659,9 +659,9 @@ const onKanbanDragEnd = () => {
                                         </div>
                                     </div>
                                     <!-- Subtasks -->
-                                    <div v-if="(task.children && task.children.length > 0 && isTaskExpanded(task.id)) || addingSubtaskTo === task.id" class="ml-7 space-y-1 border-l-2 border-slate-200 pl-4 dark:border-slate-600">
-                                        <div v-for="subtask in getSortedChildren(task)" :key="subtask.id" :class="['group flex items-center gap-2 rounded-lg p-2 transition-colors', subtask.is_completed ? 'bg-slate-50 dark:bg-slate-700/30' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50']">
-                                            <button @click="toggleTask(subtask)" :class="['flex h-4 w-4 shrink-0 items-center justify-center rounded border-2 transition-colors', subtask.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-slate-300 hover:border-primary-500 dark:border-slate-600']">
+                                    <div v-if="(task.children && task.children.length > 0 && isTaskExpanded(task.id)) || addingSubtaskTo === task.id" class="ml-7 space-y-1 border-l-2 border-gray-200 pl-4 dark:border-gray-700">
+                                        <div v-for="subtask in getSortedChildren(task)" :key="subtask.id" :class="['group flex items-center gap-2 rounded-lg p-2 transition-colors', subtask.is_completed ? 'bg-slate-50 dark:bg-gray-800/30' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50']">
+                                            <button @click="toggleTask(subtask)" :class="['flex h-4 w-4 shrink-0 items-center justify-center rounded border-2 transition-colors', subtask.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 hover:border-primary-500 dark:border-gray-700']">
                                                 <svg v-if="subtask.is_completed" class="h-2.5 w-2.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>
                                             </button>
                                             <template v-if="editingTask !== subtask.id">
@@ -669,26 +669,26 @@ const onKanbanDragEnd = () => {
                                                 <span :class="getPriorityBadgeClass(subtask.priority)" class="inline-flex items-center rounded px-1 py-0.5 text-xs font-medium">{{ taskPriorities[subtask.priority] }}</span>
                                                 <span v-if="subtask.due_date" :class="subtask.is_overdue ? 'text-pink-500' : 'text-slate-400'" class="text-xs">{{ formatDateDisplay(subtask.due_date) }}</span>
                                                 <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <button @click="startEditTask(subtask)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg></button>
+                                                    <button @click="startEditTask(subtask)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg></button>
                                                     <button @click="deleteTask(subtask)" class="rounded p-1 text-slate-400 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" /></svg></button>
                                                 </div>
                                             </template>
                                             <template v-else>
-                                                <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600" />
-                                                <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600">
+                                                <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
+                                                <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
                                                 </select>
-                                                <input v-model="editForm.due_date" type="date" class="rounded-lg border-0 py-1 px-2 text-xs text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600" />
+                                                <input v-model="editForm.due_date" type="date" class="rounded-lg border-0 py-1 px-2 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
                                                 <button @click="saveEditTask(subtask)" class="text-emerald-500 hover:text-emerald-600"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg></button>
                                                 <button @click="cancelEditTask" class="text-slate-400 hover:text-slate-600"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg></button>
                                             </template>
                                         </div>
-                                        <div v-if="addingSubtaskTo === task.id" class="flex items-center gap-2 rounded-lg bg-slate-100 p-2 dark:bg-slate-700/50">
-                                            <input v-model="subtaskForm.title" type="text" placeholder="Nouvelle sous-tâche..." class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600" @keyup.enter="submitSubtask(task)" @keyup.escape="cancelAddSubtask" />
-                                            <select v-model="subtaskForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600">
+                                        <div v-if="addingSubtaskTo === task.id" class="flex items-center gap-2 rounded-lg bg-slate-100 p-2 dark:bg-gray-800/50">
+                                            <input v-model="subtaskForm.title" type="text" placeholder="Nouvelle sous-tâche..." class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" @keyup.enter="submitSubtask(task)" @keyup.escape="cancelAddSubtask" />
+                                            <select v-model="subtaskForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                 <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
                                             </select>
-                                            <button @click="submitSubtask(task)" :disabled="subtaskForm.processing || !subtaskForm.title" class="rounded-lg bg-primary-500 px-2 py-1 text-xs font-medium text-white hover:bg-primary-600 disabled:opacity-50">Ajouter</button>
+                                            <button @click="submitSubtask(task)" :disabled="subtaskForm.processing || !subtaskForm.title" class="rounded-lg bg-accent-rose px-2 py-1 text-xs font-medium text-white hover:bg-pink-500 disabled:opacity-50">Ajouter</button>
                                             <button @click="cancelAddSubtask" class="text-slate-400 hover:text-slate-600"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg></button>
                                         </div>
                                     </div>
@@ -705,7 +705,7 @@ const onKanbanDragEnd = () => {
                             <select
                                 :value="currentSort"
                                 @change="switchSort($event.target.value)"
-                                class="rounded-lg border-0 py-1 pl-2 pr-7 text-xs text-slate-700 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-slate-300 dark:ring-slate-600"
+                                class="rounded-lg border-0 py-1 pl-2 pr-7 text-xs text-slate-700 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
                             >
                                 <option v-for="option in sortOptions" :key="option.value" :value="option.value">
                                     {{ option.label }}
@@ -731,12 +731,12 @@ const onKanbanDragEnd = () => {
                                     item-key="id"
                                     :disabled="currentSort !== 'manual'"
                                     @end="onKanbanDragEnd"
-                                    class="min-h-[100px] space-y-2 rounded-xl bg-slate-100 p-2 dark:bg-slate-700/50"
+                                    class="min-h-[100px] space-y-2 rounded-xl bg-slate-100 p-2 dark:bg-gray-800/50"
                                 >
                                     <template #item="{ element: task }">
                                         <div
                                             :class="[
-                                                'rounded-lg bg-white p-3 shadow-sm dark:bg-slate-800',
+                                                'rounded-lg bg-white p-3 shadow-sm dark:bg-surface-card',
                                                 currentSort === 'manual' ? 'cursor-move' : '',
                                                 task.is_completed ? 'opacity-60' : ''
                                             ]"
@@ -748,7 +748,7 @@ const onKanbanDragEnd = () => {
                                                         'mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors',
                                                         task.is_completed
                                                             ? 'border-emerald-500 bg-emerald-500 text-white'
-                                                            : 'border-slate-300 dark:border-slate-600'
+                                                            : 'border-gray-300 dark:border-gray-700'
                                                     ]"
                                                 >
                                                     <svg v-if="task.is_completed" class="h-2.5 w-2.5" viewBox="0 0 20 20" fill="currentColor">
@@ -772,7 +772,7 @@ const onKanbanDragEnd = () => {
                                                 <!-- Subtask count badge -->
                                                 <span
                                                     v-if="task.children && task.children.length > 0"
-                                                    class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600 dark:bg-slate-700 dark:text-slate-400"
+                                                    class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600 dark:bg-gray-800 dark:text-slate-400"
                                                 >
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
@@ -792,7 +792,7 @@ const onKanbanDragEnd = () => {
             <!-- Sidebar -->
             <div class="space-y-6">
                 <!-- Stats -->
-                <div class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Statistiques</h3>
                     <div class="space-y-4">
                         <div>
@@ -818,7 +818,7 @@ const onKanbanDragEnd = () => {
                 </div>
 
                 <!-- Recent time entries -->
-                <div v-if="project.time_entries && project.time_entries.length > 0" class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                <div v-if="project.time_entries && project.time_entries.length > 0" class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                     <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Temps récent</h3>
                     <div class="space-y-3">
                         <div

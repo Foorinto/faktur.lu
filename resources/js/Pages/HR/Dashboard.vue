@@ -49,7 +49,7 @@ const settingsSections = [
         <template #header>
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-white">{{ t('hr.dashboard') }}</h2>
-                <Link :href="route('hr.employees.create')" class="rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600">
+                <Link :href="route('hr.employees.create')" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500">
                     + {{ t('hr.new_employee') }}
                 </Link>
             </div>
@@ -60,27 +60,27 @@ const settingsSections = [
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <!-- KPI Cards -->
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 mb-8">
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.total_employees') }}</p>
                         <p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">{{ widgets.total_employees }}</p>
                     </div>
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.entries_this_month') }}</p>
                         <p class="mt-1 text-3xl font-bold text-emerald-600">{{ widgets.entries_this_month }}</p>
                     </div>
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.exits_this_month') }}</p>
                         <p class="mt-1 text-3xl font-bold text-rose-600">{{ widgets.exits_this_month }}</p>
                     </div>
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.absences_today') }}</p>
                         <p class="mt-1 text-3xl font-bold text-amber-600">{{ widgets.absences_today }}</p>
                     </div>
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.pending_requests') }}</p>
                         <p class="mt-1 text-3xl font-bold text-blue-600">{{ widgets.pending_requests }}</p>
                     </div>
-                    <Link :href="route('hr.expenses.index', { status: 'pending' })" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700">
+                    <Link :href="route('hr.expenses.index', { status: 'pending' })" class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-surface-card dark:hover:bg-gray-800">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.pending_expenses') }}</p>
                         <p class="mt-1 text-3xl font-bold text-orange-600">{{ widgets.pending_expenses }}</p>
                         <p v-if="widgets.pending_expenses_total > 0" class="mt-1 text-sm font-medium text-slate-500 dark:text-slate-400">
@@ -92,10 +92,10 @@ const settingsSections = [
                 <!-- Widget Lists -->
                 <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     <!-- Upcoming Birthdays -->
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{{ t('hr.upcoming_birthdays') }}</h3>
                         <div v-if="widgets.upcoming_birthdays.length > 0" class="space-y-3">
-                            <Link v-for="item in widgets.upcoming_birthdays" :key="item.id" :href="route('hr.employees.show', item.id)" class="flex items-center justify-between text-sm hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg p-2 -mx-2">
+                            <Link v-for="item in widgets.upcoming_birthdays" :key="item.id" :href="route('hr.employees.show', item.id)" class="flex items-center justify-between text-sm hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 -mx-2">
                                 <span class="text-slate-700 dark:text-slate-300">{{ item.full_name }}</span>
                                 <span class="text-slate-500 dark:text-slate-400">{{ item.birth_date }}</span>
                             </Link>
@@ -104,10 +104,10 @@ const settingsSections = [
                     </div>
 
                     <!-- Trial Periods Ending -->
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{{ t('hr.trial_periods_ending') }}</h3>
                         <div v-if="widgets.trial_periods_ending.length > 0" class="space-y-3">
-                            <Link v-for="item in widgets.trial_periods_ending" :key="item.id" :href="route('hr.employees.show', item.id)" class="flex items-center justify-between text-sm hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg p-2 -mx-2">
+                            <Link v-for="item in widgets.trial_periods_ending" :key="item.id" :href="route('hr.employees.show', item.id)" class="flex items-center justify-between text-sm hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 -mx-2">
                                 <span class="text-slate-700 dark:text-slate-300">{{ item.full_name }}</span>
                                 <span class="text-amber-600 dark:text-amber-400">{{ item.days_left }} {{ t('hr.days_left') }}</span>
                             </Link>
@@ -116,10 +116,10 @@ const settingsSections = [
                     </div>
 
                     <!-- Contracts to Renew -->
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{{ t('hr.contracts_to_renew') }}</h3>
                         <div v-if="widgets.contracts_to_renew.length > 0" class="space-y-3">
-                            <Link v-for="item in widgets.contracts_to_renew" :key="item.id" :href="route('hr.employees.show', item.id)" class="flex items-center justify-between text-sm hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg p-2 -mx-2">
+                            <Link v-for="item in widgets.contracts_to_renew" :key="item.id" :href="route('hr.employees.show', item.id)" class="flex items-center justify-between text-sm hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 -mx-2">
                                 <span class="text-slate-700 dark:text-slate-300">{{ item.full_name }}</span>
                                 <span class="text-rose-600 dark:text-rose-400">{{ item.contract_end }}</span>
                             </Link>
@@ -135,7 +135,7 @@ const settingsSections = [
                         v-for="section in settingsSections"
                         :key="section.route"
                         :href="route(section.route)"
-                        class="group overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm p-5 transition-all hover:border-primary-300 hover:shadow-primary-100/50 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-primary-600"
+                        class="group overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-sm p-5 transition-all hover:border-primary-300 hover:shadow-primary-100/50 dark:bg-surface-card dark:border-gray-700 dark:hover:border-primary-600"
                     >
                         <div class="flex items-start gap-3">
                             <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">

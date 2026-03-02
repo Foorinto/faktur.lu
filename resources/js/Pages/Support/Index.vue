@@ -23,7 +23,7 @@ const getStatusBadgeClass = (status) => {
         in_progress: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
         waiting: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
         resolved: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
-        closed: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-400',
+        closed: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-400',
     };
     return classes[status] || classes.closed;
 };
@@ -62,7 +62,7 @@ const formatTimeAgo = (dateString) => {
                 </h1>
                 <Link
                     :href="route('support.create')"
-                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -78,7 +78,7 @@ const formatTimeAgo = (dateString) => {
                 {{ t('your_requests') }} ({{ tickets.total }})
             </h2>
 
-            <div v-if="tickets.data.length === 0" class="rounded-2xl bg-white p-12 text-center shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div v-if="tickets.data.length === 0" class="rounded-2xl bg-white p-12 text-center shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                 </svg>
@@ -96,7 +96,7 @@ const formatTimeAgo = (dateString) => {
                     v-for="ticket in tickets.data"
                     :key="ticket.id"
                     :href="route('support.show', ticket.id)"
-                    class="block rounded-2xl bg-white p-6 border border-slate-200 hover:border-primary-300 hover:shadow-primary-200/30 transition-all dark:bg-slate-800 dark:border-slate-700 dark:hover:border-primary-500/50"
+                    class="block rounded-2xl bg-white p-6 border border-gray-200 hover:border-primary-300 hover:shadow-primary-200/30 transition-all dark:bg-surface-card dark:border-gray-700 dark:hover:border-primary-500/50"
                 >
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -141,8 +141,8 @@ const formatTimeAgo = (dateString) => {
                             :href="link.url"
                             :class="[
                                 link.active
-                                    ? 'z-10 bg-primary-500 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
-                                    : 'text-slate-900 ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-700',
+                                    ? 'z-10 bg-accent-rose text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500'
+                                    : 'text-slate-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                                 'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                                 index === 0 ? 'rounded-l-xl' : '',
                                 index === tickets.links.length - 1 ? 'rounded-r-xl' : '',

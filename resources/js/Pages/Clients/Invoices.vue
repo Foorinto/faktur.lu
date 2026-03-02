@@ -38,7 +38,7 @@ const getTypeLabel = (type) => {
 const getTypeBadgeClass = (type) => {
     return type === 'b2b'
         ? 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
-        : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
+        : 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300';
 };
 
 const getStatusLabel = (status) => {
@@ -47,11 +47,11 @@ const getStatusLabel = (status) => {
 
 const getStatusClass = (status) => {
     const classes = {
-        draft: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        draft: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         sent: 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300',
         paid: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
         overdue: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300',
-        cancelled: 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400',
+        cancelled: 'bg-slate-100 text-slate-500 dark:bg-gray-800 dark:text-slate-400',
     };
     return classes[status] || classes.draft;
 };
@@ -97,7 +97,7 @@ const formatDate = (date) => {
                 <div class="flex items-center space-x-3">
                     <Link
                         :href="route('clients.edit', client.id)"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
@@ -119,15 +119,15 @@ const formatDate = (date) => {
         </template>
 
         <!-- Tabs Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8" aria-label="Client tabs">
                 <Link
                     :href="route('clients.show', client.id)"
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'info'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('tab_info') }}
@@ -137,8 +137,8 @@ const formatDate = (date) => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'invoices'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('tab_invoices') }} ({{ client.invoices_count || 0 }})
@@ -148,8 +148,8 @@ const formatDate = (date) => {
                     :class="[
                         'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
                         activeTab === 'interactions'
-                            ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            ? 'border-accent-rose text-accent-rose dark:text-pink-400'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
                     {{ t('crm.interactions') || 'Interactions' }}
@@ -159,19 +159,19 @@ const formatDate = (date) => {
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-6">
-            <div class="overflow-hidden rounded-2xl bg-white shadow-lg border border-slate-200 dark:bg-slate-800 dark:border-slate-700 p-6">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200 dark:bg-surface-card dark:border-gray-700 p-6">
                 <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_invoiced') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ formatCurrency(stats.total_invoiced) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow-lg border border-slate-200 dark:bg-slate-800 dark:border-slate-700 p-6">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200 dark:bg-surface-card dark:border-gray-700 p-6">
                 <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_paid') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-emerald-600 dark:text-emerald-400">
                     {{ formatCurrency(stats.total_paid) }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow-lg border border-slate-200 dark:bg-slate-800 dark:border-slate-700 p-6">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-lg border border-gray-200 dark:bg-surface-card dark:border-gray-700 p-6">
                 <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('pending_amount') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-400">
                     {{ formatCurrency(stats.pending) }}
@@ -183,7 +183,7 @@ const formatDate = (date) => {
         <div class="mb-6 flex items-center gap-3">
             <Link
                 :href="route('invoices.create', { client_id: client.id })"
-                class="inline-flex items-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+                class="inline-flex items-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
             >
                 <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -192,7 +192,7 @@ const formatDate = (date) => {
             </Link>
             <Link
                 :href="route('quotes.create', { client_id: client.id })"
-                class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"
+                class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
             >
                 <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -202,7 +202,7 @@ const formatDate = (date) => {
         </div>
 
         <!-- Invoices Table -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+        <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div v-if="invoices.data.length === 0" class="px-6 py-12 text-center">
                 <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -214,7 +214,7 @@ const formatDate = (date) => {
                 <div class="mt-6">
                     <Link
                         :href="route('invoices.create', { client_id: client.id })"
-                        class="inline-flex items-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+                        class="inline-flex items-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -225,7 +225,7 @@ const formatDate = (date) => {
             </div>
 
             <table v-else class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700/50">
+                <thead class="bg-slate-50 dark:bg-gray-800/50">
                     <tr>
                         <th scope="col" class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
                             {{ t('number') }}
@@ -248,7 +248,7 @@ const formatDate = (date) => {
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                    <tr v-for="invoice in invoices.data" :key="invoice.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                         <td class="whitespace-nowrap py-4 pl-6 pr-3">
                             <Link
                                 :href="route('invoices.show', invoice.id)"
@@ -287,7 +287,7 @@ const formatDate = (date) => {
             </table>
 
             <!-- Pagination -->
-            <div v-if="invoices.data.length > 0 && invoices.last_page > 1" class="border-t border-slate-200 dark:border-slate-700 px-6 py-4">
+            <div v-if="invoices.data.length > 0 && invoices.last_page > 1" class="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
                 <Pagination :links="invoices.links" />
             </div>
         </div>

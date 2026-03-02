@@ -3,8 +3,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, useForm, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
+const { getAvatarClasses } = useAvatarColor();
 
 const props = defineProps({
     organization: Object,
@@ -94,41 +96,41 @@ const toggleProjectVisibility = (projectId) => {
         </template>
 
         <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-8 overflow-x-auto" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('business') }}
                 </Link>
                 <Link
                     :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Email
                 </Link>
                 <Link
                     :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('email_provider') || 'Fournisseur Email' }}
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('accountant_access') }}
                 </Link>
                 <Link
                     :href="route('settings.organization.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-primary-500 text-primary-600 dark:text-primary-400"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
                     {{ t('organization') }}
                 </Link>
                 <Link
                     :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     {{ t('subscription') }}
                 </Link>
@@ -137,7 +139,7 @@ const toggleProjectVisibility = (projectId) => {
 
         <div class="space-y-6">
             <!-- Create Organization -->
-            <div v-if="!organization" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-6">
+            <div v-if="!organization" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-6">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-2">{{ t('create_organization') }}</h2>
                 <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">
                     {{ t('create_organization_description') || 'Créez une organisation pour inviter des collaborateurs à travailler sur vos projets.' }}
@@ -153,7 +155,7 @@ const toggleProjectVisibility = (projectId) => {
                             v-model="createForm.name"
                             type="text"
                             required
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             :placeholder="t('organization_name_placeholder') || 'Mon entreprise'"
                         />
                         <p v-if="createForm.errors.name" class="mt-1 text-sm text-pink-600">{{ createForm.errors.name }}</p>
@@ -171,7 +173,7 @@ const toggleProjectVisibility = (projectId) => {
             <!-- Organization Settings -->
             <template v-if="organization">
                 <!-- Org Name -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 p-6">
+                <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-6">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('organization') }}</h2>
                     <form @submit.prevent="submitUpdate" class="max-w-md flex items-end gap-3">
                         <div class="flex-1">
@@ -183,7 +185,7 @@ const toggleProjectVisibility = (projectId) => {
                                 v-model="updateForm.name"
                                 type="text"
                                 required
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <p v-if="updateForm.errors.name" class="mt-1 text-sm text-pink-600">{{ updateForm.errors.name }}</p>
                         </div>
@@ -198,8 +200,8 @@ const toggleProjectVisibility = (projectId) => {
                 </div>
 
                 <!-- Members -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                         <div>
                             <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('collaborators') }}</h3>
                             <p class="text-sm text-slate-500 dark:text-slate-400">
@@ -225,8 +227,8 @@ const toggleProjectVisibility = (projectId) => {
                         <li v-for="member in members" :key="member.id" class="px-6 py-4">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30">
-                                        <span class="text-sm font-semibold text-primary-600 dark:text-primary-400">
+                                    <div :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(member.name)]">
+                                        <span class="text-sm font-bold">
                                             {{ member.name.charAt(0).toUpperCase() }}
                                         </span>
                                     </div>
@@ -250,8 +252,8 @@ const toggleProjectVisibility = (projectId) => {
                 </div>
 
                 <!-- Pending Invitations -->
-                <div v-if="pendingInvitations.length > 0" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div v-if="pendingInvitations.length > 0" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('pending_invitations') }}</h3>
                     </div>
                     <ul class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -284,8 +286,8 @@ const toggleProjectVisibility = (projectId) => {
                 </div>
 
                 <!-- Project Visibility -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('project_visibility') || 'Visibilité des projets' }}</h3>
                         <p class="text-sm text-slate-500 dark:text-slate-400">
                             {{ t('project_visibility_description') || 'Choisissez quels projets sont visibles par vos collaborateurs.' }}
@@ -321,7 +323,7 @@ const toggleProjectVisibility = (projectId) => {
                 <div class="flex min-h-full items-center justify-center p-4">
                     <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showInviteModal = false"></div>
 
-                    <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-md w-full p-6">
+                    <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl max-w-md w-full p-6">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('invite_collaborator') }}
                         </h3>
@@ -336,7 +338,7 @@ const toggleProjectVisibility = (projectId) => {
                                     v-model="inviteForm.email"
                                     type="email"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     placeholder="collaborateur@example.com"
                                 />
                                 <p v-if="inviteForm.errors.email" class="mt-1 text-sm text-pink-600">{{ inviteForm.errors.email }}</p>
@@ -350,7 +352,7 @@ const toggleProjectVisibility = (projectId) => {
                                     id="invite_name"
                                     v-model="inviteForm.name"
                                     type="text"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                             </div>
 

@@ -3,9 +3,11 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useAvatarColor } from '@/Composables/useAvatarColor';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 
 const { t } = useTranslations();
+const { getAvatarClasses } = useAvatarColor();
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
 const mobileMenuOpen = ref(false);
@@ -29,9 +31,9 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900">
+    <div class="min-h-screen flex flex-col bg-gray-50 dark:bg-surface-dark">
         <!-- Header -->
-        <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+        <header class="bg-white dark:bg-surface-card border-b border-gray-200 dark:border-gray-700">
             <!-- Top bar: logo + user -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
@@ -46,14 +48,14 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                         <!-- User menu -->
                         <div class="hidden sm:flex items-center gap-3">
                             <div class="flex items-center gap-2">
-                                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
-                                    <span class="text-sm font-semibold text-primary-600 dark:text-primary-400">{{ userInitial }}</span>
+                                <div :class="['flex h-8 w-8 items-center justify-center rounded-full', getAvatarClasses(user?.name)]">
+                                    <span class="text-sm font-bold">{{ userInitial }}</span>
                                 </div>
                                 <span class="text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[150px] truncate">{{ user?.name }}</span>
                             </div>
                             <button
                                 @click="logout"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-700 transition-colors"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-gray-800 transition-colors"
                             >
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -63,7 +65,7 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                         </div>
 
                         <!-- Mobile menu button -->
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                             <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
@@ -85,7 +87,7 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                         class="flex items-center gap-1.5 px-4 py-3 text-sm font-medium border-b-2 transition-colors"
                         :class="isActive(item.href.replace('.index', '').replace('.edit', ''))
                             ? 'border-primary-500 text-primary-600 dark:text-primary-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-300'"
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'"
                     >
                         <!-- Home -->
                         <svg v-if="item.icon === 'home'" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +119,7 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
             </nav>
 
             <!-- Mobile navigation -->
-            <nav v-if="mobileMenuOpen" class="md:hidden border-t border-slate-200 dark:border-slate-700">
+            <nav v-if="mobileMenuOpen" class="md:hidden border-t border-gray-200 dark:border-gray-700">
                 <div class="px-4 py-3 space-y-1">
                     <Link
                         v-for="item in navigation"
@@ -125,8 +127,8 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                         :href="route(item.href)"
                         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors"
                         :class="isActive(item.href.replace('.index', '').replace('.edit', ''))
-                            ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
-                            : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700'"
+                            ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
+                            : 'text-slate-600 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800'"
                         @click="mobileMenuOpen = false"
                     >
                         <!-- Home -->
@@ -156,10 +158,10 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                         {{ item.name() }}
                     </Link>
                 </div>
-                <div class="border-t border-slate-200 dark:border-slate-700 px-4 py-3 flex items-center justify-between">
+                <div class="border-t border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
-                            <span class="text-sm font-semibold text-primary-600 dark:text-primary-400">{{ userInitial }}</span>
+                        <div :class="['flex h-8 w-8 items-center justify-center rounded-full', getAvatarClasses(user?.name)]">
+                            <span class="text-sm font-bold">{{ userInitial }}</span>
                         </div>
                         <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ user?.name }}</span>
                     </div>
@@ -196,7 +198,7 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
         </main>
 
         <!-- Footer -->
-        <footer class="border-t border-slate-200 dark:border-slate-700">
+        <footer class="border-t border-gray-200 dark:border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <p class="text-center text-sm text-slate-400 dark:text-slate-500">
                     faktur.lu - {{ t('employee_portal.nav_title') }}

@@ -22,7 +22,7 @@ const submit = () => {
 <template>
     <Head title="Accepter l'invitation" />
 
-    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-slate-900">
+    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-surface-dark">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <div class="flex justify-center">
                 <svg class="h-12 w-12 text-primary-600" viewBox="0 0 24 24" fill="currentColor">
@@ -38,7 +38,7 @@ const submit = () => {
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white dark:bg-slate-800 py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-200 dark:border-slate-700">
+            <div class="bg-white dark:bg-surface-card py-8 px-4 shadow-xl shadow-gray-200/50 sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-gray-700">
                 <div class="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
                     <p class="text-sm text-primary-700 dark:text-primary-300">
                         En acceptant cette invitation, vous pourrez télécharger :
@@ -65,7 +65,7 @@ const submit = () => {
                                 v-model="form.password"
                                 type="password"
                                 required
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <p v-if="form.errors.password" class="mt-1 text-sm text-pink-600">{{ form.errors.password }}</p>
                         </div>
@@ -85,7 +85,7 @@ const submit = () => {
                                 type="email"
                                 :value="invitation.email"
                                 disabled
-                                class="mt-1 block w-full rounded-xl border-slate-300 bg-slate-100 shadow-sm dark:border-slate-600 dark:bg-slate-600 dark:text-slate-300"
+                                class="mt-1 block w-full rounded-xl border-gray-300 bg-slate-100 shadow-sm dark:border-gray-700 dark:bg-slate-600 dark:text-slate-300"
                             />
                         </div>
 
@@ -98,7 +98,7 @@ const submit = () => {
                                 v-model="form.name"
                                 type="text"
                                 required
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <p v-if="form.errors.name" class="mt-1 text-sm text-pink-600">{{ form.errors.name }}</p>
                         </div>
@@ -112,7 +112,7 @@ const submit = () => {
                                 v-model="form.password"
                                 type="password"
                                 required
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <p v-if="form.errors.password" class="mt-1 text-sm text-pink-600">{{ form.errors.password }}</p>
                         </div>
@@ -126,7 +126,7 @@ const submit = () => {
                                 v-model="form.password_confirmation"
                                 type="password"
                                 required
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                     </template>

@@ -49,7 +49,7 @@ const formatCurrency = (amount) => {
                 </h1>
                 <Link
                     :href="route('time-entries.index')"
-                    class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                    class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
@@ -63,7 +63,7 @@ const formatCurrency = (amount) => {
         <div class="mb-6 flex flex-wrap gap-4">
             <select
                 v-model="clientFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t('all_clients') }}</option>
                 <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -74,21 +74,21 @@ const formatCurrency = (amount) => {
             <input
                 v-model="startDate"
                 type="date"
-                class="rounded-xl border-0 py-1.5 px-3 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 px-3 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 :placeholder="t('start_date')"
             />
 
             <input
                 v-model="endDate"
                 type="date"
-                class="rounded-xl border-0 py-1.5 px-3 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 px-3 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 :placeholder="t('end_date')"
             />
         </div>
 
         <!-- Global Summary -->
         <div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.total_formatted }}
@@ -97,7 +97,7 @@ const formatCurrency = (amount) => {
                     {{ summary.total_hours }} {{ t('hours') }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('unbilled_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-400">
                     {{ summary.unbilled_formatted }}
@@ -106,7 +106,7 @@ const formatCurrency = (amount) => {
                     {{ summary.unbilled_hours }} {{ t('hours') }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('billed_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-green-600 dark:text-green-400">
                     {{ summary.billed_formatted }}
@@ -115,7 +115,7 @@ const formatCurrency = (amount) => {
                     {{ summary.billed_hours }} {{ t('hours') }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('entries_count') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.count }}
@@ -124,12 +124,12 @@ const formatCurrency = (amount) => {
         </div>
 
         <!-- By Client -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-base font-semibold text-slate-900 dark:text-white">{{ t('by_client') }}</h3>
             </div>
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('client') }}
@@ -145,13 +145,13 @@ const formatCurrency = (amount) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="byClient.length === 0">
                         <td colspan="4" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             {{ t('no_data_available') }}
                         </td>
                     </tr>
-                    <tr v-for="item in byClient" :key="item.client_id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <tr v-for="item in byClient" :key="item.client_id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                             <div class="font-medium text-slate-900 dark:text-white">
                                 {{ item.client_name }}

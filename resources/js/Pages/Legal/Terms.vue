@@ -21,7 +21,7 @@ const lastUpdated = '9 février 2026';
     <MarketingLayout>
         <!-- Content -->
         <div class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 lg:p-12">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 lg:p-12">
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Conditions Générales d'Utilisation et de Vente</h1>
                 <p class="text-sm text-slate-500 mb-8">Dernière mise à jour : {{ lastUpdated }}</p>
 
@@ -29,22 +29,22 @@ const lastUpdated = '9 février 2026';
                 <nav class="mb-10 p-4 bg-slate-50 rounded-xl">
                     <h2 class="font-semibold text-slate-900 mb-3">Sommaire</h2>
                     <ul class="space-y-2 text-sm grid md:grid-cols-2 gap-x-8">
-                        <li><a href="#objet" class="text-[#9b5de5] hover:underline">1. Objet</a></li>
-                        <li><a href="#definitions" class="text-[#9b5de5] hover:underline">2. Définitions</a></li>
-                        <li><a href="#acces" class="text-[#9b5de5] hover:underline">3. Accès au service</a></li>
-                        <li><a href="#description" class="text-[#9b5de5] hover:underline">4. Description du service</a></li>
-                        <li><a href="#abonnements" class="text-[#9b5de5] hover:underline">5. Abonnements et tarifs</a></li>
-                        <li><a href="#paiement" class="text-[#9b5de5] hover:underline">6. Paiement</a></li>
-                        <li><a href="#retractation" class="text-[#9b5de5] hover:underline">7. Droit de rétractation</a></li>
-                        <li><a href="#obligations-utilisateur" class="text-[#9b5de5] hover:underline">8. Obligations de l'utilisateur</a></li>
-                        <li><a href="#obligations-faktur" class="text-[#9b5de5] hover:underline">9. Obligations de faktur.lu</a></li>
-                        <li><a href="#donnees" class="text-[#9b5de5] hover:underline">10. Données et propriété</a></li>
-                        <li><a href="#propriete-intellectuelle" class="text-[#9b5de5] hover:underline">11. Propriété intellectuelle</a></li>
-                        <li><a href="#responsabilite" class="text-[#9b5de5] hover:underline">12. Responsabilité</a></li>
-                        <li><a href="#resiliation" class="text-[#9b5de5] hover:underline">13. Résiliation</a></li>
-                        <li><a href="#modifications" class="text-[#9b5de5] hover:underline">14. Modifications</a></li>
-                        <li><a href="#droit-applicable" class="text-[#9b5de5] hover:underline">15. Droit applicable</a></li>
-                        <li><a href="#contact" class="text-[#9b5de5] hover:underline">16. Contact</a></li>
+                        <li><a href="#objet" class="text-primary-500 hover:underline">1. Objet</a></li>
+                        <li><a href="#definitions" class="text-primary-500 hover:underline">2. Définitions</a></li>
+                        <li><a href="#acces" class="text-primary-500 hover:underline">3. Accès au service</a></li>
+                        <li><a href="#description" class="text-primary-500 hover:underline">4. Description du service</a></li>
+                        <li><a href="#abonnements" class="text-primary-500 hover:underline">5. Abonnements et tarifs</a></li>
+                        <li><a href="#paiement" class="text-primary-500 hover:underline">6. Paiement</a></li>
+                        <li><a href="#retractation" class="text-primary-500 hover:underline">7. Droit de rétractation</a></li>
+                        <li><a href="#obligations-utilisateur" class="text-primary-500 hover:underline">8. Obligations de l'utilisateur</a></li>
+                        <li><a href="#obligations-faktur" class="text-primary-500 hover:underline">9. Obligations de faktur.lu</a></li>
+                        <li><a href="#donnees" class="text-primary-500 hover:underline">10. Données et propriété</a></li>
+                        <li><a href="#propriete-intellectuelle" class="text-primary-500 hover:underline">11. Propriété intellectuelle</a></li>
+                        <li><a href="#responsabilite" class="text-primary-500 hover:underline">12. Responsabilité</a></li>
+                        <li><a href="#resiliation" class="text-primary-500 hover:underline">13. Résiliation</a></li>
+                        <li><a href="#modifications" class="text-primary-500 hover:underline">14. Modifications</a></li>
+                        <li><a href="#droit-applicable" class="text-primary-500 hover:underline">15. Droit applicable</a></li>
+                        <li><a href="#contact" class="text-primary-500 hover:underline">16. Contact</a></li>
                     </ul>
                 </nav>
 
@@ -234,7 +234,7 @@ const lastUpdated = '9 février 2026';
 
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">9.2 Support</h3>
                         <p class="text-slate-600 mb-4">
-                            Un support technique est disponible par email à <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a>. Le délai de réponse varie selon la formule d'abonnement.
+                            Un support technique est disponible par email à <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a>. Le délai de réponse varie selon la formule d'abonnement.
                         </p>
 
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">9.3 Sécurité et sauvegarde</h3>
@@ -265,7 +265,7 @@ const lastUpdated = '9 février 2026';
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">10.4 Protection des données</h3>
                         <p class="text-slate-600">
                             Le traitement des données personnelles est régi par notre
-                            <Link :href="localizedRoute('legal.privacy')" class="text-[#9b5de5] hover:underline">Politique de confidentialité</Link>.
+                            <Link :href="localizedRoute('legal.privacy')" class="text-primary-500 hover:underline">Politique de confidentialité</Link>.
                         </p>
                     </section>
 
@@ -360,7 +360,7 @@ const lastUpdated = '9 février 2026';
                             En cas de litige, les parties s'efforceront de trouver une solution amiable. À défaut, les tribunaux de Luxembourg seront seuls compétents.
                         </p>
                         <p class="text-slate-600">
-                            <strong>Médiation :</strong> Conformément à la réglementation européenne, en cas de litige non résolu, le consommateur peut recourir gratuitement au service de médiation. Plateforme de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" class="text-[#9b5de5]">https://ec.europa.eu/consumers/odr</a>
+                            <strong>Médiation :</strong> Conformément à la réglementation européenne, en cas de litige non résolu, le consommateur peut recourir gratuitement au service de médiation. Plateforme de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" class="text-primary-500">https://ec.europa.eu/consumers/odr</a>
                         </p>
                     </section>
 
@@ -372,7 +372,7 @@ const lastUpdated = '9 février 2026';
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a></li>
+                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
                                 <li><strong>Adresse :</strong> Alexandre Beaudier, 13 Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
                             </ul>
                         </div>
@@ -382,11 +382,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-[#9b5de5]">Mentions légales</Link>
+                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-primary-500">Mentions légales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-[#9b5de5]">Politique de confidentialité</Link>
+                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-primary-500">Politique de confidentialité</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">Politique cookies</Link>
             </div>
         </div>
     </MarketingLayout>

@@ -182,7 +182,7 @@ onUnmounted(() => {
 
 const getPeppolStatusBadgeClass = (status) => {
     const classes = {
-        pending: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        pending: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         processing: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
         sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
         delivered: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
@@ -316,7 +316,7 @@ const partialTotal = computed(() => {
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        draft: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        draft: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         finalized: 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300',
         sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
         paid: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
@@ -447,7 +447,7 @@ const submitCreditNote = () => {
                     <button
                         type="button"
                         @click="openPreview"
-                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
@@ -488,7 +488,7 @@ const submitCreditNote = () => {
                         v-if="canSendEmail"
                         @click="openEmailModal"
                         :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50"
+                        class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
@@ -516,7 +516,7 @@ const submitCreditNote = () => {
                         v-if="canSendEmail"
                         @click="openEmailHistory"
                         type="button"
-                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                         :title="t('email_history')"
                     >
                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -528,7 +528,7 @@ const submitCreditNote = () => {
                     <a
                         v-if="canExportPeppol"
                         :href="route('invoices.peppol', invoice.id)"
-                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                         title="Export Peppol BIS 3.0"
                     >
                         <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
@@ -541,7 +541,7 @@ const submitCreditNote = () => {
                     <a
                         v-if="invoice.status !== 'draft'"
                         :href="route('invoices.facturx', invoice.id)"
-                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                         title="Télécharger Factur-X / ZUGFeRD (PDF hybride)"
                     >
                         <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
@@ -589,7 +589,7 @@ const submitCreditNote = () => {
                         v-if="invoice.type === 'invoice' && ['finalized', 'sent', 'paid'].includes(invoice.status) && !invoice.credit_note"
                         @click="openCreditNoteModal"
                         :disabled="processing"
-                        class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-slate-700 dark:text-pink-400 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800 dark:text-pink-400 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2.121 2.121 0 013 3l-4.9 4.9a2.121 2.121 0 01-1.5.621h-1a.5.5 0 01-.5-.5v-1a2.121 2.121 0 01.621-1.5z" clip-rule="evenodd" />
@@ -604,8 +604,8 @@ const submitCreditNote = () => {
             <!-- Invoice Header Info -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <!-- Seller Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('issuer') }}</h2>
                     </div>
                     <div class="px-6 py-4">
@@ -627,8 +627,8 @@ const submitCreditNote = () => {
                 </div>
 
                 <!-- Buyer Info -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('client') }}</h2>
                     </div>
                     <div class="px-6 py-4">
@@ -648,8 +648,8 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Invoice Details -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -700,13 +700,13 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Invoice Items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-700">
+                        <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ t('description') }}
@@ -725,7 +725,7 @@ const submitCreditNote = () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-for="item in invoice.items" :key="item.id">
                                 <td class="py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white">
                                     {{ item.description }}
@@ -744,7 +744,7 @@ const submitCreditNote = () => {
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot class="bg-slate-50 dark:bg-slate-700">
+                        <tfoot class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
                                     {{ t('total_ht') }}
@@ -761,7 +761,7 @@ const submitCreditNote = () => {
                                     {{ formatCurrency(invoice.total_vat, invoice.currency) }}
                                 </td>
                             </tr>
-                            <tr class="border-t-2 border-slate-300 dark:border-slate-600">
+                            <tr class="border-t-2 border-gray-300 dark:border-gray-700">
                                 <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-bold text-slate-900 dark:text-white">
                                     {{ t('total_ttc') }}
                                 </td>
@@ -777,8 +777,8 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Notes -->
-            <div v-if="invoice.notes" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="invoice.notes" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -787,8 +787,8 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Credit Notes linked to this invoice -->
-            <div v-if="invoice.credit_notes && invoice.credit_notes.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="invoice.credit_notes && invoice.credit_notes.length > 0" class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('related_credit_notes') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -814,7 +814,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="closeCreditNoteModal"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <div class="px-4 pt-5 pb-4 sm:p-6">
                         <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
                             {{ t('create_credit_note_for').replace(':number', invoice.number) }}
@@ -831,7 +831,7 @@ const submitCreditNote = () => {
                                         type="radio"
                                         v-model="creditNoteType"
                                         value="full"
-                                        class="h-4 w-4 text-primary-500 border-slate-300 focus:ring-primary-500"
+                                        class="h-4 w-4 text-primary-500 border-gray-300 focus:ring-primary-500"
                                     />
                                     <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">{{ t('full_credit_note') }}</span>
                                 </label>
@@ -840,7 +840,7 @@ const submitCreditNote = () => {
                                         type="radio"
                                         v-model="creditNoteType"
                                         value="partial"
-                                        class="h-4 w-4 text-primary-500 border-slate-300 focus:ring-primary-500"
+                                        class="h-4 w-4 text-primary-500 border-gray-300 focus:ring-primary-500"
                                     />
                                     <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">{{ t('partial_credit_note') }}</span>
                                 </label>
@@ -855,7 +855,7 @@ const submitCreditNote = () => {
                             <select
                                 id="credit_note_reason"
                                 v-model="creditNoteForm.reason"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option v-for="(label, value) in creditNoteReasons" :key="value" :value="value">
                                     {{ label }}
@@ -868,17 +868,17 @@ const submitCreditNote = () => {
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 {{ t('lines_to_cancel') }}
                             </label>
-                            <div class="border border-slate-200 rounded-xl divide-y divide-slate-200 dark:border-slate-600 dark:divide-slate-600 max-h-48 overflow-y-auto">
+                            <div class="border border-gray-200 rounded-xl divide-y divide-slate-200 dark:border-gray-700 dark:divide-slate-600 max-h-48 overflow-y-auto">
                                 <label
                                     v-for="item in invoice.items"
                                     :key="item.id"
-                                    class="flex items-center px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700 cursor-pointer"
+                                    class="flex items-center px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
                                 >
                                     <input
                                         type="checkbox"
                                         :checked="selectedItemIds.includes(item.id)"
                                         @change="toggleItemSelection(item.id)"
-                                        class="h-4 w-4 text-primary-500 border-slate-300 rounded focus:ring-primary-500"
+                                        class="h-4 w-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
                                     />
                                     <span class="ml-3 flex-1 text-sm text-slate-700 dark:text-slate-300">
                                         {{ item.title || item.description }}
@@ -894,7 +894,7 @@ const submitCreditNote = () => {
                         </div>
 
                         <!-- Summary -->
-                        <div class="bg-slate-50 dark:bg-slate-700 rounded-xl p-3 mb-4">
+                        <div class="bg-slate-50 dark:bg-gray-800 rounded-xl p-3 mb-4">
                             <div class="flex justify-between items-center">
                                 <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
                                     {{ t('credit_note_amount') }} :
@@ -913,7 +913,7 @@ const submitCreditNote = () => {
                         </p>
                     </div>
 
-                    <div class="bg-slate-50 px-4 py-3 dark:bg-slate-700 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
                         <button
                             type="button"
                             @click="submitCreditNote"
@@ -925,7 +925,7 @@ const submitCreditNote = () => {
                         <button
                             type="button"
                             @click="closeCreditNoteModal"
-                            class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
+                            class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                         >
                             {{ t('cancel') }}
                         </button>
@@ -939,16 +939,16 @@ const submitCreditNote = () => {
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showPreviewModal = false"></div>
 
-                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white">
                             <span v-if="invoice.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">{{ t('credit_note') }} </span>
                             {{ invoice.number }}
                         </h3>
                         <div class="flex items-center space-x-2">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden">
+                            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
@@ -958,7 +958,7 @@ const submitCreditNote = () => {
                                     class="px-2 py-1.5 text-base transition-colors"
                                     :class="pdfLocale === lang.value
                                         ? 'bg-primary-100 dark:bg-primary-900'
-                                        : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600'"
+                                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
                                     {{ lang.flag }}
                                 </button>
@@ -966,7 +966,7 @@ const submitCreditNote = () => {
                             <a
                                 :href="pdfUrl"
                                 target="_blank"
-                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                             >
                                 <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -987,7 +987,7 @@ const submitCreditNote = () => {
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-slate-900">
+                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-surface-dark">
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
                             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                         </div>
@@ -1000,11 +1000,11 @@ const submitCreditNote = () => {
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50">
                         <button
                             type="button"
                             @click="showPreviewModal = false"
-                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
+                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
                             {{ t('close') }}
                         </button>
@@ -1018,7 +1018,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showEmailModal = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <form @submit.prevent="sendEmail">
                         <div class="px-4 pt-5 pb-4 sm:p-6">
                             <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
@@ -1035,7 +1035,7 @@ const submitCreditNote = () => {
                                     id="recipient_email"
                                     v-model="emailForm.recipient_email"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                                 <p v-if="emailForm.errors.recipient_email" class="mt-1 text-sm text-pink-600">
                                     {{ emailForm.errors.recipient_email }}
@@ -1052,7 +1052,7 @@ const submitCreditNote = () => {
                                     id="subject"
                                     v-model="emailForm.subject"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                                 <p v-if="emailForm.errors.subject" class="mt-1 text-sm text-pink-600">
                                     {{ emailForm.errors.subject }}
@@ -1068,7 +1068,7 @@ const submitCreditNote = () => {
                                     id="message"
                                     v-model="emailForm.message"
                                     rows="4"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     :placeholder="t('leave_empty_for_default')"
                                 ></textarea>
                                 <p v-if="emailForm.errors.message" class="mt-1 text-sm text-pink-600">
@@ -1082,7 +1082,7 @@ const submitCreditNote = () => {
                                     <input
                                         type="checkbox"
                                         v-model="emailForm.send_copy_to_self"
-                                        class="h-4 w-4 text-primary-500 border-slate-300 rounded focus:ring-primary-500"
+                                        class="h-4 w-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
                                     />
                                     <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                         {{ t('send_copy_to_self') }}
@@ -1098,11 +1098,11 @@ const submitCreditNote = () => {
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 px-4 py-3 dark:bg-slate-700 sm:flex sm:flex-row-reverse sm:px-6">
+                        <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
                             <button
                                 type="submit"
                                 :disabled="emailForm.processing"
-                                class="inline-flex w-full justify-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 disabled:opacity-50 sm:ml-3 sm:w-auto"
+                                class="inline-flex w-full justify-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
                             >
                                 <svg v-if="emailForm.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -1113,7 +1113,7 @@ const submitCreditNote = () => {
                             <button
                                 type="button"
                                 @click="showEmailModal = false"
-                                class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
+                                class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                             >
                                 {{ t('cancel') }}
                             </button>
@@ -1128,7 +1128,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showReminderModal = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <form @submit.prevent="sendReminder">
                         <div class="px-4 pt-5 pb-4 sm:p-6">
                             <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
@@ -1144,7 +1144,7 @@ const submitCreditNote = () => {
                                     <button
                                         type="button"
                                         @click="openReminderModal(1)"
-                                        :class="reminderLevel === 1 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-slate-200 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300'"
+                                        :class="reminderLevel === 1 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
                                         class="flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
                                         {{ t('level') }} 1 - {{ t('reminder') }}
@@ -1152,7 +1152,7 @@ const submitCreditNote = () => {
                                     <button
                                         type="button"
                                         @click="openReminderModal(2)"
-                                        :class="reminderLevel === 2 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-slate-200 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300'"
+                                        :class="reminderLevel === 2 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
                                         class="flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
                                         {{ t('level') }} 2 - {{ t('follow_up') }}
@@ -1160,7 +1160,7 @@ const submitCreditNote = () => {
                                     <button
                                         type="button"
                                         @click="openReminderModal(3)"
-                                        :class="reminderLevel === 3 ? 'bg-pink-100 border-pink-500 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300' : 'bg-white border-slate-200 text-slate-700 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300'"
+                                        :class="reminderLevel === 3 ? 'bg-pink-100 border-pink-500 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
                                         class="flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
                                         {{ t('level') }} 3 - {{ t('formal_notice') }}
@@ -1190,7 +1190,7 @@ const submitCreditNote = () => {
                                     id="reminder_email"
                                     v-model="reminderForm.recipient_email"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                             </div>
 
@@ -1204,7 +1204,7 @@ const submitCreditNote = () => {
                                     id="reminder_subject"
                                     v-model="reminderForm.subject"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                             </div>
 
@@ -1218,7 +1218,7 @@ const submitCreditNote = () => {
                                     v-model="reminderForm.message"
                                     rows="6"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 ></textarea>
                             </div>
 
@@ -1230,7 +1230,7 @@ const submitCreditNote = () => {
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 px-4 py-3 dark:bg-slate-700 sm:flex sm:flex-row-reverse sm:px-6">
+                        <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
                             <button
                                 type="submit"
                                 :disabled="reminderForm.processing"
@@ -1245,7 +1245,7 @@ const submitCreditNote = () => {
                             <button
                                 type="button"
                                 @click="showReminderModal = false"
-                                class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
+                                class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                             >
                                 {{ t('cancel') }}
                             </button>
@@ -1260,7 +1260,7 @@ const submitCreditNote = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showEmailHistory = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <div class="px-4 pt-5 pb-4 sm:p-6">
                         <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
                             {{ t('email_history') }}
@@ -1283,8 +1283,8 @@ const submitCreditNote = () => {
                             <div
                                 v-for="email in emailHistory"
                                 :key="email.id"
-                                class="border rounded-xl p-3 dark:border-slate-600"
-                                :class="email.status === 'failed' ? 'border-pink-300 bg-pink-50 dark:border-pink-600 dark:bg-pink-900/20' : 'border-slate-200 dark:border-slate-600'"
+                                class="border rounded-xl p-3 dark:border-gray-700"
+                                :class="email.status === 'failed' ? 'border-pink-300 bg-pink-50 dark:border-pink-600 dark:bg-pink-900/20' : 'border-gray-200 dark:border-gray-700'"
                             >
                                 <div class="flex items-center justify-between mb-2">
                                     <span
@@ -1313,11 +1313,11 @@ const submitCreditNote = () => {
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 px-4 py-3 dark:bg-slate-700 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
                         <button
                             type="button"
                             @click="showEmailHistory = false"
-                            class="inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:w-auto"
+                            class="inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:w-auto"
                         >
                             {{ t('close') }}
                         </button>

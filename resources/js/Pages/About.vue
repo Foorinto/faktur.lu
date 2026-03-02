@@ -26,7 +26,7 @@ const values = [
 
     <div class="min-h-screen bg-slate-50">
         <!-- Navigation -->
-        <nav class="bg-white border-b border-slate-200">
+        <nav class="bg-white border-b border-gray-200">
             <div class="max-w-6xl mx-auto px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
@@ -44,7 +44,7 @@ const values = [
                         <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.login') }}
                         </Link>
-                        <Link :href="route('register')" class="bg-[#9b5de5] hover:bg-[#8b4ed5] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
+                        <Link :href="route('register')" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
                             {{ t('landing.nav.create_account') }}
                         </Link>
                     </div>
@@ -64,7 +64,7 @@ const values = [
         <!-- Hero -->
         <section class="py-16 sm:py-24">
             <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#9b5de5]/10 text-[#9b5de5] text-sm font-medium mb-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-500/10 text-primary-500 text-sm font-medium mb-6">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
@@ -82,7 +82,7 @@ const values = [
         <!-- Mission -->
         <section class="pb-16">
             <div class="max-w-4xl mx-auto px-6 lg:px-8">
-                <div class="bg-white rounded-2xl p-8 sm:p-12 shadow-sm border border-slate-200">
+                <div class="bg-white rounded-2xl p-8 sm:p-12 shadow-sm border border-gray-200">
                     <h2 class="text-2xl font-bold text-slate-900 mb-4">{{ t('about.mission_title') }}</h2>
                     <p class="text-lg text-slate-600 leading-relaxed">
                         {{ t('about.mission_text') }}
@@ -99,10 +99,10 @@ const values = [
                     <div
                         v-for="value in values"
                         :key="value.key"
-                        class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200"
+                        class="bg-white rounded-2xl p-8 shadow-sm border border-gray-200"
                     >
-                        <div class="w-12 h-12 bg-[#9b5de5]/10 rounded-xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <div class="w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" :d="value.icon" />
                             </svg>
                         </div>
@@ -122,15 +122,15 @@ const values = [
                 </p>
                 <div class="grid sm:grid-cols-3 gap-6">
                     <div class="text-center p-6">
-                        <div class="text-3xl font-bold text-[#9b5de5]">100%</div>
+                        <div class="text-3xl font-bold text-primary-500">100%</div>
                         <div class="mt-2 text-sm text-slate-600">{{ t('about.stats.compliant') }}</div>
                     </div>
                     <div class="text-center p-6">
-                        <div class="text-3xl font-bold text-[#9b5de5]">4</div>
+                        <div class="text-3xl font-bold text-primary-500">4</div>
                         <div class="mt-2 text-sm text-slate-600">{{ t('about.stats.languages') }}</div>
                     </div>
                     <div class="text-center p-6">
-                        <div class="text-3xl font-bold text-[#9b5de5]">FAIA</div>
+                        <div class="text-3xl font-bold text-primary-500">FAIA</div>
                         <div class="mt-2 text-sm text-slate-600">{{ t('about.stats.faia') }}</div>
                     </div>
                 </div>
@@ -138,12 +138,12 @@ const values = [
         </section>
 
         <!-- CTA -->
-        <section class="py-20 bg-[#9b5de5]">
+        <section class="py-20 bg-primary-500">
             <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
                 <h2 class="text-3xl font-bold text-white">{{ t('about.cta_title') }}</h2>
                 <p class="mt-4 text-lg text-white/80">{{ t('about.cta_subtitle') }}</p>
                 <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link :href="route('register')" class="inline-flex items-center justify-center px-8 py-4 bg-white text-[#9b5de5] font-semibold rounded-xl text-lg hover:bg-slate-50 transition-colors">
+                    <Link :href="route('register')" class="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-500 font-semibold rounded-xl text-lg hover:bg-gray-50 transition-colors">
                         {{ t('landing.hero.cta_start') }}
                     </Link>
                     <Link :href="localizedRoute('contact')" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl text-lg hover:bg-white/10 transition-colors">

@@ -51,9 +51,9 @@ const proFeatures = [
         route-name="pricing"
     />
 
-    <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div class="min-h-screen bg-slate-50 dark:bg-surface-dark">
         <!-- Navigation -->
-        <nav class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+        <nav class="bg-white dark:bg-surface-card border-b border-gray-200 dark:border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
@@ -70,7 +70,7 @@ const proFeatures = [
                         </Link>
                         <Link
                             :href="route('register')"
-                            class="inline-flex items-center px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-colors"
+                            class="inline-flex items-center px-4 py-2 bg-accent-rose hover:bg-pink-500 text-white font-semibold rounded-xl transition-colors"
                         >
                             Essayer gratuitement
                         </Link>
@@ -140,7 +140,7 @@ const proFeatures = [
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Essentiel Plan -->
-                    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 p-8">
+                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
                         <div class="flex items-center justify-between">
                             <div>
                                 <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
@@ -168,7 +168,7 @@ const proFeatures = [
                         <div class="mt-8">
                             <Link
                                 :href="route('register')"
-                                class="block w-full text-center px-6 py-3 border-2 border-primary-500 text-primary-600 dark:text-primary-400 font-semibold rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                                class="block w-full text-center px-6 py-3 border-2 border-accent-rose text-accent-rose dark:text-pink-400 font-semibold rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
                             >
                                 Essayer 14 jours gratuits
                             </Link>
@@ -192,7 +192,7 @@ const proFeatures = [
                             </ul>
                         </div>
 
-                        <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
+                        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                             <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Inclus :</p>
                             <ul class="space-y-3">
                                 <li
@@ -210,7 +210,7 @@ const proFeatures = [
                     </div>
 
                     <!-- Pro Plan -->
-                    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border-2 border-primary-500 p-8 relative">
+                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border-2 border-primary-500 p-8 relative">
                         <div class="absolute -top-4 left-1/2 -translate-x-1/2">
                             <span class="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-primary-500 text-white">
                                 Recommandé
@@ -244,7 +244,7 @@ const proFeatures = [
                         <div class="mt-8">
                             <Link
                                 :href="route('register')"
-                                class="block w-full text-center px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-colors"
+                                class="block w-full text-center px-6 py-3 bg-accent-rose hover:bg-pink-500 text-white font-semibold rounded-xl transition-colors"
                             >
                                 Essayer 14 jours gratuits
                             </Link>
@@ -274,7 +274,7 @@ const proFeatures = [
                             </ul>
                         </div>
 
-                        <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
+                        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                             <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Tout de Essentiel, plus :</p>
                             <ul class="space-y-3">
                                 <li
@@ -295,7 +295,7 @@ const proFeatures = [
         </div>
 
         <!-- FAQ -->
-        <div class="bg-white dark:bg-slate-800 py-24">
+        <div class="bg-white dark:bg-surface-card py-24">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">
                     Questions fréquentes
@@ -367,7 +367,7 @@ const proFeatures = [
                 <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <Link
                         :href="route('register')"
-                        class="inline-flex items-center px-8 py-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl text-lg transition-colors"
+                        class="inline-flex items-center px-8 py-4 bg-accent-rose hover:bg-pink-500 text-white font-semibold rounded-xl text-lg transition-colors"
                     >
                         Essayer 14 jours gratuitement
                     </Link>

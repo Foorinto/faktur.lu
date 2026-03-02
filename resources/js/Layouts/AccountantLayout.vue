@@ -15,9 +15,9 @@ const logout = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+    <div class="min-h-screen bg-gray-50 dark:bg-surface-dark">
         <!-- Header -->
-        <header class="bg-white dark:bg-slate-800 shadow">
+        <header class="bg-white dark:bg-surface-card shadow">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="flex items-center space-x-4">
@@ -31,7 +31,7 @@ const logout = () => {
                         <span class="text-sm text-slate-600 dark:text-slate-300">{{ accountant.name || accountant.email }}</span>
                         <button
                             @click="logout"
-                            class="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600"
+                            class="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-600"
                         >
                             Déconnexion
                         </button>
@@ -48,7 +48,7 @@ const logout = () => {
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-auto">
+        <footer class="bg-white dark:bg-surface-card border-t border-gray-200 dark:border-gray-700 mt-auto">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <p class="text-center text-sm text-slate-500 dark:text-slate-400">
                     faktur.lu - Espace Comptable

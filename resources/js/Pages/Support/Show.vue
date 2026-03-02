@@ -65,7 +65,7 @@ const getStatusBadgeClass = (status) => {
         in_progress: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
         waiting: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
         resolved: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
-        closed: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-400',
+        closed: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-400',
     };
     return classes[status] || classes.closed;
 };
@@ -90,7 +90,7 @@ const formatDateTime = (dateString) => {
             <div class="flex items-center gap-4">
                 <Link
                     :href="route('support.index')"
-                    class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+                    class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
                 >
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
@@ -106,7 +106,7 @@ const formatDateTime = (dateString) => {
 
         <div class="mx-auto max-w-3xl">
             <!-- Ticket header -->
-            <div class="mb-6 rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div class="mb-6 rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="flex items-start justify-between">
                     <div>
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
@@ -134,7 +134,7 @@ const formatDateTime = (dateString) => {
                         'rounded-2xl p-4',
                         message.sender_type === 'admin' || message.sender_type === 'App\\Models\\AdminSession'
                             ? 'bg-primary-50 border border-primary-100 dark:bg-primary-900/20 dark:border-primary-800'
-                            : 'bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-700'
+                            : 'bg-white border border-gray-200 dark:bg-surface-card dark:border-gray-700'
                     ]"
                 >
                     <div class="flex items-center gap-2 mb-2">
@@ -177,7 +177,7 @@ const formatDateTime = (dateString) => {
 
                     <!-- Attachments -->
                     <div v-if="message.attachments && message.attachments.length > 0" class="mt-3 pl-10">
-                        <div v-for="attachment in message.attachments" :key="attachment.id" class="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-sm dark:bg-slate-700">
+                        <div v-for="attachment in message.attachments" :key="attachment.id" class="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-sm dark:bg-gray-800">
                             <svg class="h-4 w-4 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd" />
                             </svg>
@@ -191,7 +191,7 @@ const formatDateTime = (dateString) => {
             </div>
 
             <!-- Reply form -->
-            <div v-if="canReply" class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <div v-if="canReply" class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                     {{ t('reply') }}
                 </h3>
@@ -199,7 +199,7 @@ const formatDateTime = (dateString) => {
                     <textarea
                         v-model="form.message"
                         rows="4"
-                        class="block w-full rounded-xl border-0 py-2 px-3 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
+                        class="block w-full rounded-xl border-0 py-2 px-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
                         :placeholder="t('your_reply')"
                         required
                     />
@@ -207,7 +207,7 @@ const formatDateTime = (dateString) => {
 
                     <!-- Attachment -->
                     <div class="mt-4">
-                        <div v-if="fileName" class="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-700">
+                        <div v-if="fileName" class="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-gray-800">
                             <div class="flex items-center gap-2">
                                 <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 00-4.242 0l-7 7a3 3 0 004.241 4.243h.001l.497-.5a.75.75 0 011.064 1.057l-.498.501-.002.002a4.5 4.5 0 01-6.364-6.364l7-7a4.5 4.5 0 016.368 6.36l-3.455 3.553A2.625 2.625 0 119.52 9.52l3.45-3.451a.75.75 0 111.061 1.06l-3.45 3.451a1.125 1.125 0 001.587 1.595l3.454-3.553a3 3 0 000-4.242z" clip-rule="evenodd" />
@@ -217,7 +217,7 @@ const formatDateTime = (dateString) => {
                             <button
                                 type="button"
                                 @click="removeFile"
-                                class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-slate-600"
+                                class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800"
                             >
                                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -251,7 +251,7 @@ const formatDateTime = (dateString) => {
             </div>
 
             <!-- Closed ticket message -->
-            <div v-else class="rounded-2xl bg-slate-50 p-6 text-center dark:bg-slate-800/50">
+            <div v-else class="rounded-2xl bg-slate-50 p-6 text-center dark:bg-surface-card/50">
                 <p class="text-sm text-slate-500 dark:text-slate-400">
                     {{ t('ticket_closed_message') }}
                 </p>

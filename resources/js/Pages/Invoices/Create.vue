@@ -155,8 +155,8 @@ if (form.items.length === 0) {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->
-            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Client</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -166,7 +166,7 @@ if (form.items.length === 0) {
                             <select
                                 id="client_id"
                                 v-model="form.client_id"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 required
                             >
                                 <option value="">{{ t('select_client') }}</option>
@@ -187,7 +187,7 @@ if (form.items.length === 0) {
                                 id="title"
                                 v-model="form.title"
                                 type="text"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="t('example_placeholder')"
                             />
                             <InputError :message="form.errors.title" class="mt-2" />
@@ -201,7 +201,7 @@ if (form.items.length === 0) {
                                 id="issued_at"
                                 v-model="form.issued_at"
                                 type="date"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <InputError :message="form.errors.issued_at" class="mt-2" />
                         </div>
@@ -211,7 +211,7 @@ if (form.items.length === 0) {
                                 id="due_at"
                                 v-model="form.due_at"
                                 type="date"
-                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('default_30_days_after') }}
@@ -223,8 +223,8 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Invoice items -->
-            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -232,7 +232,7 @@ if (form.items.length === 0) {
                         <div
                             v-for="(item, index) in form.items"
                             :key="index"
-                            class="p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3"
+                            class="p-4 rounded-xl border border-gray-200 dark:border-gray-700 space-y-3"
                         >
                             <div class="flex flex-wrap gap-4 items-end">
                                 <div class="flex-1 min-w-[200px]">
@@ -241,7 +241,7 @@ if (form.items.length === 0) {
                                         :id="`item-${index}-title`"
                                         v-model="item.title"
                                         type="text"
-                                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         :placeholder="t('service_title_placeholder')"
                                         required
                                     />
@@ -254,7 +254,7 @@ if (form.items.length === 0) {
                                         :id="`item-${index}-description`"
                                         v-model="item.description"
                                         rows="2"
-                                        class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         :placeholder="t('additional_details')"
                                     ></textarea>
                                 </div>
@@ -267,7 +267,7 @@ if (form.items.length === 0) {
                                     type="number"
                                     step="0.01"
                                     min="0.01"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     required
                                 />
                             </div>
@@ -277,7 +277,7 @@ if (form.items.length === 0) {
                                 <select
                                     :id="`item-${index}-unit`"
                                     v-model="item.unit"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 >
                                     <option value="">-</option>
                                     <option v-for="unit in units" :key="unit.value" :value="unit.value">
@@ -294,7 +294,7 @@ if (form.items.length === 0) {
                                     type="number"
                                     step="0.01"
                                     min="0"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     required
                                 />
                             </div>
@@ -305,7 +305,7 @@ if (form.items.length === 0) {
                                     :id="`item-${index}-vat_rate`"
                                     :value="item.vat_rate_select ?? item.vat_rate"
                                     @change="handleVatRateChange(index, $event.target.value === 'custom' ? 'custom' : parseFloat($event.target.value))"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     required
                                 >
                                     <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
@@ -325,7 +325,7 @@ if (form.items.length === 0) {
                                     max="100"
                                     :value="customVatRates[index]"
                                     @input="handleCustomVatRateChange(index, $event.target.value)"
-                                    class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     placeholder="Ex: 12"
                                 />
                             </div>
@@ -344,7 +344,7 @@ if (form.items.length === 0) {
                         <button
                             type="button"
                             @click="addItem"
-                            class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                            class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                         >
                             <span class="material-symbols-outlined -ml-0.5 mr-1.5 text-xl">add</span>
                             {{ t('add_line') }}
@@ -354,8 +354,8 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Notes & Options -->
-            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes_optional') }}</h2>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -365,7 +365,7 @@ if (form.items.length === 0) {
                             id="notes"
                             v-model="form.notes"
                             rows="3"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             :placeholder="t('notes_placeholder')"
                         ></textarea>
                         <InputError :message="form.errors.notes" class="mt-2" />
@@ -376,7 +376,7 @@ if (form.items.length === 0) {
                         <select
                             id="vat_mention"
                             v-model="form.vat_mention"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <option value="">{{ t('use_default_mention') }}</option>
                             <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
@@ -394,7 +394,7 @@ if (form.items.length === 0) {
                             id="custom_vat_mention"
                             v-model="form.custom_vat_mention"
                             rows="2"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             :placeholder="t('custom_vat_mention_placeholder')"
                         ></textarea>
                     </div>
@@ -405,7 +405,7 @@ if (form.items.length === 0) {
                             id="footer_message"
                             v-model="form.footer_message"
                             rows="2"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             :placeholder="defaultInvoiceFooter"
                         ></textarea>
                         <p v-if="defaultInvoiceFooter" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -419,7 +419,7 @@ if (form.items.length === 0) {
             <div class="flex justify-end space-x-3">
                 <Link
                     :href="route('invoices.index')"
-                    class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                    class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 >
                     {{ t('cancel') }}
                 </Link>

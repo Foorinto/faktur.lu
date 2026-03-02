@@ -142,7 +142,7 @@ const progressWidth = computed(() => {
                 </div>
 
                 <!-- Statistics -->
-                <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6 mb-6">
+                <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6 mb-6">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                         {{ t('global_status') }}
                     </h2>
@@ -152,7 +152,7 @@ const progressWidth = computed(() => {
                             <span>{{ t('documents_archived', { count: stats.total_archived, total: stats.total_finalized }) }}</span>
                             <span>{{ stats.archive_percentage }}%</span>
                         </div>
-                        <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3">
+                        <div class="w-full bg-slate-200 dark:bg-gray-800 rounded-full h-3">
                             <div
                                 class="bg-violet-600 h-3 rounded-full transition-all duration-500"
                                 :style="{ width: progressWidth }"
@@ -161,7 +161,7 @@ const progressWidth = computed(() => {
                     </div>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="text-center p-3 bg-slate-50 dark:bg-slate-700 rounded-2xl">
+                        <div class="text-center p-3 bg-slate-50 dark:bg-gray-800 rounded-2xl">
                             <div class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.total_finalized }}</div>
                             <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('total_finalized') }}</div>
                         </div>
@@ -180,13 +180,13 @@ const progressWidth = computed(() => {
                     </div>
 
                     <!-- Format breakdown -->
-                    <div v-if="Object.keys(stats.by_format).length > 0" class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <div v-if="Object.keys(stats.by_format).length > 0" class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                         <div class="text-sm text-slate-600 dark:text-slate-400">{{ t('by_format') }}</div>
                         <div class="flex gap-4 mt-2">
                             <span
                                 v-for="(count, format) in stats.by_format"
                                 :key="format"
-                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300"
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-gray-800 text-slate-800 dark:text-slate-300"
                             >
                                 {{ getFormatLabel(format) }}: {{ count }}
                             </span>
@@ -196,7 +196,7 @@ const progressWidth = computed(() => {
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Pending archives -->
-                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                    <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                                 {{ t('unarchived_documents', { count: pendingInvoices.length }) }}
@@ -204,7 +204,7 @@ const progressWidth = computed(() => {
 
                             <select
                                 v-model="batchForm.format"
-                                class="text-sm rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="text-sm rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option v-for="(label, value) in formats" :key="value" :value="value">
                                     {{ label }}
@@ -217,13 +217,13 @@ const progressWidth = computed(() => {
                         </div>
 
                         <div v-else>
-                            <div class="flex items-center gap-4 mb-3 pb-3 border-b border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center gap-4 mb-3 pb-3 border-b border-gray-200 dark:border-gray-700">
                                 <label class="flex items-center">
                                     <input
                                         v-model="selectAll"
                                         @change="toggleSelectAll"
                                         type="checkbox"
-                                        class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
+                                        class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-700"
                                     />
                                     <span class="ml-2 text-sm text-slate-600 dark:text-slate-400">{{ t('select_all') }}</span>
                                 </label>
@@ -243,14 +243,14 @@ const progressWidth = computed(() => {
                                 <div
                                     v-for="invoice in pendingInvoices"
                                     :key="invoice.id"
-                                    class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-2xl"
+                                    class="flex items-center justify-between p-3 bg-slate-50 dark:bg-gray-800 rounded-2xl"
                                 >
                                     <div class="flex items-center gap-3">
                                         <input
                                             type="checkbox"
                                             :checked="selectedIds.includes(invoice.id)"
                                             @change="toggleSelect(invoice.id)"
-                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
+                                            class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-700"
                                         />
                                         <div>
                                             <div class="text-sm font-medium text-slate-900 dark:text-white">
@@ -277,7 +277,7 @@ const progressWidth = computed(() => {
                     </div>
 
                     <!-- Recently archived -->
-                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                    <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('recently_archived') }}
                         </h2>
@@ -290,7 +290,7 @@ const progressWidth = computed(() => {
                             <div
                                 v-for="invoice in recentlyArchived"
                                 :key="invoice.id"
-                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-2xl"
+                                class="flex items-center justify-between p-3 bg-slate-50 dark:bg-gray-800 rounded-2xl"
                             >
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center gap-2">
@@ -323,7 +323,7 @@ const progressWidth = computed(() => {
                                     </a>
                                     <button
                                         @click="verifyIntegrity(invoice)"
-                                        class="p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-600 rounded-2xl"
+                                        class="p-2 text-slate-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:bg-gray-800 rounded-2xl"
                                         :title="t('verify_integrity')"
                                     >
                                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

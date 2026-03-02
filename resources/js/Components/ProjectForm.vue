@@ -46,7 +46,7 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-6">
         <!-- Basic info -->
-        <div class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+        <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Informations</h3>
 
             <div class="space-y-4">
@@ -76,7 +76,7 @@ const submit = () => {
                     <select
                         id="status"
                         v-model="form.status"
-                        class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                        class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                     >
                         <option v-for="(label, value) in statuses" :key="value" :value="value">
                             {{ label }}
@@ -107,7 +107,7 @@ const submit = () => {
         </div>
 
         <!-- Client & Dates -->
-        <div class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+        <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Client & Dates</h3>
 
             <div class="space-y-4">
@@ -116,7 +116,7 @@ const submit = () => {
                     <select
                         id="client_id"
                         v-model="form.client_id"
-                        class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                        class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                     >
                         <option value="">Aucun client</option>
                         <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -140,7 +140,7 @@ const submit = () => {
         </div>
 
         <!-- Budget -->
-        <div class="rounded-2xl bg-white p-6 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+        <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Budget</h3>
 
             <div>

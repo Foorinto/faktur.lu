@@ -50,9 +50,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50">
+    <div class="min-h-screen bg-gray-50">
         <!-- Header -->
-        <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200">
+        <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
             <nav class="mx-auto max-w-6xl px-6 lg:px-8 py-4">
                 <div class="flex items-center justify-between">
                     <!-- Logo -->
@@ -88,7 +88,7 @@ onUnmounted(() => {
                         <div ref="langMenuRef" class="relative">
                             <button
                                 @click.stop="langMenuOpen = !langMenuOpen"
-                                class="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                                class="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-gray-50 rounded-lg transition-colors"
                             >
                                 <span class="text-base">{{ localeFlags[currentLocale()] }}</span>
                                 <span class="uppercase text-xs">{{ currentLocale() }}</span>
@@ -108,7 +108,7 @@ onUnmounted(() => {
                             >
                                 <div
                                     v-if="langMenuOpen"
-                                    class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50"
+                                    class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50"
                                 >
                                     <button
                                         v-for="(name, code) in availableLocales()"
@@ -117,8 +117,8 @@ onUnmounted(() => {
                                         :class="[
                                             'w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors',
                                             currentLocale() === code
-                                                ? 'bg-[#9b5de5]/10 text-[#9b5de5] font-medium'
-                                                : 'text-slate-700 hover:bg-slate-50'
+                                                ? 'bg-primary-500/10 text-primary-500 font-medium'
+                                                : 'text-slate-700 hover:bg-gray-50'
                                         ]"
                                     >
                                         <span class="text-base">{{ localeFlags[code] }}</span>
@@ -148,7 +148,7 @@ onUnmounted(() => {
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="bg-[#9b5de5] hover:bg-[#8b4ed5] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+                                class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
                             >
                                 {{ t('landing.nav.free_trial') }}
                             </Link>
@@ -158,7 +158,7 @@ onUnmounted(() => {
                     <!-- Mobile menu button -->
                     <button
                         @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
                     >
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -168,7 +168,7 @@ onUnmounted(() => {
                 </div>
 
                 <!-- Mobile menu -->
-                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-slate-200 mt-4">
+                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200 mt-4">
                     <div class="flex flex-col space-y-3">
                         <Link :href="localizedRoute('home') + '#features'" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.features') }}</Link>
                         <Link :href="localizedRoute('home') + '#how-it-works'" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.how_it_works') }}</Link>
@@ -178,7 +178,7 @@ onUnmounted(() => {
                         <Link :href="localizedRoute('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.blog') }}</Link>
 
                         <!-- Mobile Language Selector -->
-                        <div class="pt-3 border-t border-slate-100">
+                        <div class="pt-3 border-t border-gray-200">
                             <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2">{{ t('landing.nav.language') }}</p>
                             <div class="flex flex-wrap gap-2">
                                 <button
@@ -188,7 +188,7 @@ onUnmounted(() => {
                                     :class="[
                                         'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
                                         currentLocale() === code
-                                            ? 'bg-[#9b5de5] text-white'
+                                            ? 'bg-primary-500 text-white'
                                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                     ]"
                                 >
@@ -200,7 +200,7 @@ onUnmounted(() => {
 
                         <template v-if="!$page.props.auth?.user">
                             <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.login') }}</Link>
-                            <Link v-if="canRegister" :href="route('register')" class="bg-[#9b5de5] text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">{{ t('landing.nav.free_trial') }}</Link>
+                            <Link v-if="canRegister" :href="route('register')" class="bg-primary-500 text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">{{ t('landing.nav.free_trial') }}</Link>
                         </template>
                     </div>
                 </div>
@@ -213,7 +213,7 @@ onUnmounted(() => {
         </main>
 
         <!-- Footer -->
-        <footer class="border-t border-slate-200 py-12 bg-white">
+        <footer class="border-t border-gray-200 py-12 bg-white">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="grid md:grid-cols-5 gap-8 mb-8">
                     <div class="md:col-span-2">
@@ -251,7 +251,7 @@ onUnmounted(() => {
                         </ul>
                     </div>
                 </div>
-                <div class="pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="flex items-center gap-2 text-sm text-slate-600">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00f5d4]/10 text-[#00a896] text-xs font-medium">
                             <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -271,7 +271,7 @@ onUnmounted(() => {
                             :class="[
                                 'px-2 py-1 text-sm rounded transition-colors',
                                 currentLocale() === code
-                                    ? 'text-[#9b5de5] font-medium'
+                                    ? 'text-primary-500 font-medium'
                                     : 'text-slate-400 hover:text-slate-600'
                             ]"
                             :title="name"

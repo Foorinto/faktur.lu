@@ -76,7 +76,7 @@ const submit = () => {
             <div class="mt-6 flex items-center justify-between">
                 <button
                     type="button"
-                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-slate-800"
+                    class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 cursor-pointer dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-surface-dark"
                     @click="toggleRecovery"
                 >
                     <template v-if="!recovery">

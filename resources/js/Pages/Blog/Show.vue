@@ -57,7 +57,7 @@ const shareOnFacebook = () => {
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 </div>
-                <div v-else class="bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] py-20"></div>
+                <div v-else class="bg-gradient-to-br from-primary-400 to-primary-600 py-20"></div>
 
                 <div class="absolute inset-0 flex items-end">
                     <div class="mx-auto max-w-4xl px-4 pb-8 sm:px-6 lg:px-8 w-full">
@@ -101,7 +101,7 @@ const shareOnFacebook = () => {
                         v-for="tag in post.tags"
                         :key="tag.slug"
                         :href="localizedRoute('blog.tag', tag.slug)"
-                        class="inline-block rounded-full bg-[#9b5de5]/20 px-3 py-1 text-sm font-medium text-[#9b5de5] hover:bg-purple-200 transition-colors"
+                        class="inline-block rounded-full bg-primary-500/20 px-3 py-1 text-sm font-medium text-primary-500 hover:bg-primary-200 transition-colors"
                     >
                         #{{ tag.name }}
                     </Link>
@@ -111,20 +111,20 @@ const shareOnFacebook = () => {
                 <div
                     class="prose prose-lg max-w-none
                         prose-headings:font-bold prose-headings:text-slate-900 prose-headings:mt-10 prose-headings:mb-4
-                        prose-h2:text-2xl prose-h2:border-b prose-h2:border-slate-200 prose-h2:pb-3
+                        prose-h2:text-2xl prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-3
                         prose-h3:text-xl prose-h3:text-slate-800
                         prose-p:text-slate-600 prose-p:leading-relaxed prose-p:mb-6
-                        prose-a:text-[#9b5de5] prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+                        prose-a:text-primary-500 prose-a:font-medium prose-a:no-underline hover:prose-a:underline
                         prose-strong:text-slate-900 prose-strong:font-semibold
                         prose-ul:my-6 prose-ul:space-y-2
                         prose-ol:my-6 prose-ol:space-y-2
                         prose-li:text-slate-600 prose-li:leading-relaxed
                         prose-img:rounded-2xl prose-img:shadow-lg prose-img:my-8
-                        prose-blockquote:border-l-4 prose-blockquote:border-[#9b5de5] prose-blockquote:bg-slate-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
-                        prose-table:my-8 prose-table:overflow-hidden prose-table:rounded-xl prose-table:border prose-table:border-slate-200
+                        prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:bg-slate-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
+                        prose-table:my-8 prose-table:overflow-hidden prose-table:rounded-xl prose-table:border prose-table:border-gray-200
                         prose-th:bg-slate-100 prose-th:text-slate-900 prose-th:font-semibold
-                        prose-td:border-slate-200
-                        prose-code:text-[#9b5de5] prose-code:bg-[#9b5de5]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
+                        prose-td:border-gray-200
+                        prose-code:text-primary-500 prose-code:bg-primary-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
                         prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:shadow-lg"
                     v-html="post.content"
                 />
@@ -164,14 +164,14 @@ const shareOnFacebook = () => {
                 </div>
 
                 <!-- CTA -->
-                <div class="mt-12 rounded-2xl bg-gradient-to-br from-[#9b5de5] to-[#7c3aed] p-8 text-center text-white">
+                <div class="mt-12 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 p-8 text-center text-white">
                     <h3 class="text-2xl font-bold mb-2">Prêt à simplifier votre facturation ?</h3>
-                    <p class="text-[#9b5de5]/20 mb-6">
+                    <p class="text-primary-500/20 mb-6">
                         Créez des factures conformes au Luxembourg en quelques clics avec faktur.lu
                     </p>
                     <Link
                         :href="route('register')"
-                        class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-[#9b5de5] hover:bg-[#9b5de5]/10 transition-colors"
+                        class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-primary-500 hover:bg-primary-500/10 transition-colors"
                     >
                         Essai gratuit 14 jours
                     </Link>
@@ -197,15 +197,15 @@ const shareOnFacebook = () => {
                                         class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                     />
                                 </div>
-                                <div v-else class="aspect-[16/9] bg-gradient-to-br from-[#9b5de5] to-[#7c3aed]"></div>
+                                <div v-else class="aspect-[16/9] bg-gradient-to-br from-primary-400 to-primary-600"></div>
 
                                 <div class="p-6">
                                     <div class="text-sm text-gray-500 mb-2">
-                                        <span v-if="relatedPost.category" class="text-[#9b5de5]">{{ relatedPost.category }}</span>
+                                        <span v-if="relatedPost.category" class="text-primary-500">{{ relatedPost.category }}</span>
                                         <span v-if="relatedPost.category"> • </span>
                                         {{ formatDate(relatedPost.published_at) }}
                                     </div>
-                                    <h3 class="font-semibold text-gray-900 group-hover:text-[#9b5de5] transition-colors">
+                                    <h3 class="font-semibold text-gray-900 group-hover:text-primary-500 transition-colors">
                                         {{ relatedPost.title }}
                                     </h3>
                                 </div>

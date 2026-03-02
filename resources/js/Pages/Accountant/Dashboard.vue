@@ -183,12 +183,12 @@ const exportSingleClient = (clientId) => {
         </div>
 
         <!-- Toolbar -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow p-4 mb-6">
+        <div class="bg-white dark:bg-surface-card rounded-2xl shadow p-4 mb-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('year') }}</label>
                     <select v-model="selectedYear"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm">
+                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm">
                         <option v-for="y in years" :key="y" :value="y">{{ y }}</option>
                     </select>
                 </div>
@@ -196,7 +196,7 @@ const exportSingleClient = (clientId) => {
                 <div>
                     <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('quarter') }}</label>
                     <select v-model="selectedQuarter"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm">
+                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm">
                         <option v-for="q in quarters" :key="q.value" :value="q.value">{{ q.label }}</option>
                     </select>
                 </div>
@@ -204,7 +204,7 @@ const exportSingleClient = (clientId) => {
                 <div>
                     <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('format') }}</label>
                     <select v-model="selectedFormat"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm">
+                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm">
                         <option v-for="f in formats" :key="f.value" :value="f.value">{{ f.label }}</option>
                     </select>
                 </div>
@@ -212,7 +212,7 @@ const exportSingleClient = (clientId) => {
                 <div>
                     <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('search_client') }}</label>
                     <input v-model="searchQuery" @input="onSearchInput" type="text" :placeholder="t('search_client') + '...'"
-                        class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm" />
+                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm" />
                 </div>
             </div>
         </div>
@@ -232,7 +232,7 @@ const exportSingleClient = (clientId) => {
                     {{ massExportLoading ? t('exporting') + '...' : t('export_selection') }}
                 </button>
                 <button @click="submitConsolidatedReport" :disabled="consolidatedLoading"
-                    class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium text-violet-700 bg-white border border-violet-300 hover:bg-violet-50 dark:bg-slate-800 dark:text-violet-300 dark:border-violet-600 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors">
+                    class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium text-violet-700 bg-white border border-violet-300 hover:bg-violet-50 dark:bg-surface-card dark:text-violet-300 dark:border-violet-600 dark:hover:bg-gray-800 disabled:opacity-50 transition-colors">
                     <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -253,13 +253,13 @@ const exportSingleClient = (clientId) => {
         </div>
 
         <!-- Client table -->
-        <div v-else class="overflow-hidden rounded-2xl bg-white shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+        <div v-else class="overflow-hidden rounded-2xl bg-white shadow border border-gray-200 dark:bg-surface-card dark:border-gray-700">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700/50">
+                <thead class="bg-slate-50 dark:bg-gray-800/50">
                     <tr>
                         <th class="py-3.5 pl-4 pr-2 w-10">
                             <input type="checkbox" v-model="selectAll" @change="toggleSelectAll"
-                                class="rounded border-slate-300 text-violet-600 focus:ring-violet-500 dark:border-slate-500 dark:bg-slate-600" />
+                                class="rounded border-gray-300 text-violet-600 focus:ring-violet-500 dark:border-slate-500 dark:bg-slate-600" />
                         </th>
                         <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">Client</th>
                         <th class="hidden lg:table-cell px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">{{ t('ca_ht') }}</th>
@@ -272,10 +272,10 @@ const exportSingleClient = (clientId) => {
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                     <tr v-for="client in filteredClients" :key="client.id"
-                        class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                        class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                         <td class="py-4 pl-4 pr-2">
                             <input type="checkbox" :value="client.id" v-model="selectedClientIds"
-                                class="rounded border-slate-300 text-violet-600 focus:ring-violet-500 dark:border-slate-500 dark:bg-slate-600" />
+                                class="rounded border-gray-300 text-violet-600 focus:ring-violet-500 dark:border-slate-500 dark:bg-slate-600" />
                         </td>
                         <td class="px-3 py-4">
                             <Link :href="route('accountant.client', client.id)"
@@ -317,7 +317,7 @@ const exportSingleClient = (clientId) => {
                     </tr>
                 </tbody>
                 <!-- Footer totals -->
-                <tfoot v-if="filteredClients.length > 1" class="bg-slate-50 dark:bg-slate-700/50">
+                <tfoot v-if="filteredClients.length > 1" class="bg-slate-50 dark:bg-gray-800/50">
                     <tr>
                         <td class="py-3 pl-4 pr-2"></td>
                         <td class="px-3 py-3 text-sm font-semibold text-slate-900 dark:text-white">

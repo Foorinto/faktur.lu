@@ -21,7 +21,7 @@ const lastUpdated = '9 février 2026';
     <MarketingLayout>
         <!-- Content -->
         <div class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 lg:p-12">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 lg:p-12">
                 <h1 class="text-3xl font-bold text-slate-900 mb-2">Mentions légales</h1>
                 <p class="text-sm text-slate-500 mb-8">Dernière mise à jour : {{ lastUpdated }}</p>
 
@@ -29,12 +29,12 @@ const lastUpdated = '9 février 2026';
                 <nav class="mb-10 p-4 bg-slate-50 rounded-xl">
                     <h2 class="font-semibold text-slate-900 mb-3">Sommaire</h2>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#editeur" class="text-[#9b5de5] hover:underline">1. Éditeur du site</a></li>
-                        <li><a href="#hebergeur" class="text-[#9b5de5] hover:underline">2. Hébergeur</a></li>
-                        <li><a href="#propriete" class="text-[#9b5de5] hover:underline">3. Propriété intellectuelle</a></li>
-                        <li><a href="#donnees" class="text-[#9b5de5] hover:underline">4. Protection des données</a></li>
-                        <li><a href="#cookies" class="text-[#9b5de5] hover:underline">5. Cookies</a></li>
-                        <li><a href="#contact" class="text-[#9b5de5] hover:underline">6. Contact</a></li>
+                        <li><a href="#editeur" class="text-primary-500 hover:underline">1. Éditeur du site</a></li>
+                        <li><a href="#hebergeur" class="text-primary-500 hover:underline">2. Hébergeur</a></li>
+                        <li><a href="#propriete" class="text-primary-500 hover:underline">3. Propriété intellectuelle</a></li>
+                        <li><a href="#donnees" class="text-primary-500 hover:underline">4. Protection des données</a></li>
+                        <li><a href="#cookies" class="text-primary-500 hover:underline">5. Cookies</a></li>
+                        <li><a href="#contact" class="text-primary-500 hover:underline">6. Contact</a></li>
                     </ul>
                 </nav>
 
@@ -52,7 +52,7 @@ const lastUpdated = '9 février 2026';
                                 <li><strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
                                 <li><strong>Numéro RCS Luxembourg :</strong> A46648</li>
                                 <li><strong>Numéro de TVA intracommunautaire :</strong> LU37176916</li>
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a></li>
+                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
                                 <li><strong>Directeur de la publication :</strong> Alexandre Beaudier</li>
                             </ul>
                         </div>
@@ -68,7 +68,7 @@ const lastUpdated = '9 février 2026';
                             <ul class="space-y-2 text-slate-700">
                                 <li><strong>Nom :</strong> o2switch</li>
                                 <li><strong>Adresse :</strong> Chemin des Pardiaux, 63000 Clermont-Ferrand, France</li>
-                                <li><strong>Site web :</strong> <a href="https://www.o2switch.fr" target="_blank" rel="noopener" class="text-[#9b5de5]">www.o2switch.fr</a></li>
+                                <li><strong>Site web :</strong> <a href="https://www.o2switch.fr" target="_blank" rel="noopener" class="text-primary-500">www.o2switch.fr</a></li>
                             </ul>
                         </div>
                     </section>
@@ -95,11 +95,11 @@ const lastUpdated = '9 février 2026';
                         </p>
                         <p class="text-slate-600 mb-4">
                             Pour plus d'informations sur le traitement de vos données et l'exercice de vos droits, veuillez consulter notre
-                            <Link :href="localizedRoute('legal.privacy')" class="text-[#9b5de5] hover:underline">Politique de confidentialité</Link>.
+                            <Link :href="localizedRoute('legal.privacy')" class="text-primary-500 hover:underline">Politique de confidentialité</Link>.
                         </p>
                         <p class="text-slate-600">
                             <strong>Autorité de contrôle :</strong> Commission Nationale pour la Protection des Données (CNPD)<br>
-                            <a href="https://cnpd.public.lu" target="_blank" rel="noopener" class="text-[#9b5de5]">https://cnpd.public.lu</a>
+                            <a href="https://cnpd.public.lu" target="_blank" rel="noopener" class="text-primary-500">https://cnpd.public.lu</a>
                         </p>
                     </section>
 
@@ -111,7 +111,7 @@ const lastUpdated = '9 février 2026';
                         </p>
                         <p class="text-slate-600">
                             Pour en savoir plus sur les cookies utilisés et gérer vos préférences, consultez notre
-                            <Link :href="localizedRoute('legal.cookies')" class="text-[#9b5de5] hover:underline">Politique relative aux cookies</Link>.
+                            <Link :href="localizedRoute('legal.cookies')" class="text-primary-500 hover:underline">Politique relative aux cookies</Link>.
                         </p>
                     </section>
 
@@ -122,7 +122,7 @@ const lastUpdated = '9 février 2026';
                             Pour toute question concernant ces mentions légales, vous pouvez nous contacter :
                         </p>
                         <ul class="text-slate-600 space-y-1">
-                            <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-[#9b5de5]">contact@faktur.lu</a></li>
+                            <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
                             <li><strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
                         </ul>
                     </section>
@@ -131,11 +131,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-[#9b5de5]">Politique de confidentialité</Link>
+                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-primary-500">Politique de confidentialité</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-[#9b5de5]">Conditions générales</Link>
+                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-primary-500">Conditions générales</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-[#9b5de5]">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">Politique cookies</Link>
             </div>
         </div>
     </MarketingLayout>

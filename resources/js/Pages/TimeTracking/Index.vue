@@ -361,7 +361,7 @@ const formatTime = (date) => {
                 </h1>
                 <Link
                     :href="route('time-entries.summary')"
-                    class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                    class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0016.5 2h-1zM9.5 6A1.5 1.5 0 008 7.5v9A1.5 1.5 0 009.5 18h1a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 6h-1zM3.5 10A1.5 1.5 0 002 11.5v5A1.5 1.5 0 003.5 18h1A1.5 1.5 0 006 16.5v-5A1.5 1.5 0 004.5 10h-1z" />
@@ -464,19 +464,19 @@ const formatTime = (date) => {
 
         <!-- Summary Cards -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('total_time') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
                     {{ summary.total_formatted }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('unbilled') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-amber-600 dark:text-amber-400">
                     {{ summary.unbilled_formatted }}
                 </dd>
             </div>
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 px-4 py-5">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                 <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('selected') }}</dt>
                 <dd class="mt-1 text-2xl font-semibold text-primary-600 dark:text-primary-400">
                     {{ selectedEntries.length }}
@@ -485,8 +485,8 @@ const formatTime = (date) => {
         </div>
 
         <!-- Manual Entry Form -->
-        <div class="mb-6 overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <div class="mb-6 overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-sm font-medium text-slate-900 dark:text-white">{{ t('add_manual_entry') }}</h3>
             </div>
             <form @submit.prevent="addManualEntry" class="px-6 py-4">
@@ -497,7 +497,7 @@ const formatTime = (date) => {
                             v-model="manualForm.date"
                             type="date"
                             required
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         />
                     </div>
                     <div class="sm:col-span-1">
@@ -505,7 +505,7 @@ const formatTime = (date) => {
                         <select
                             v-model="manualForm.client_id"
                             required
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         >
                             <option value="">{{ t('select') }}</option>
                             <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -518,7 +518,7 @@ const formatTime = (date) => {
                         <select
                             v-if="manualProjects.length > 0"
                             v-model="manualForm.project_id"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         >
                             <option value="">{{ t('select') }}</option>
                             <option v-for="project in manualProjects" :key="project.id" :value="project.id">
@@ -530,7 +530,7 @@ const formatTime = (date) => {
                             v-model="manualForm.project_name"
                             type="text"
                             :placeholder="t('project_name')"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         />
                     </div>
                     <div class="sm:col-span-1">
@@ -541,7 +541,7 @@ const formatTime = (date) => {
                             required
                             placeholder="1:30"
                             pattern="\d+:\d{2}"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         />
                     </div>
                     <div class="sm:col-span-1">
@@ -550,7 +550,7 @@ const formatTime = (date) => {
                             v-model="manualForm.description"
                             type="text"
                             :placeholder="t('description')"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         />
                     </div>
                     <div class="sm:col-span-1 flex items-end">
@@ -571,7 +571,7 @@ const formatTime = (date) => {
             <div class="flex flex-wrap gap-4">
                 <select
                     v-model="clientFilter"
-                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 >
                     <option value="">{{ t('all_clients') }}</option>
                     <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -581,7 +581,7 @@ const formatTime = (date) => {
 
                 <select
                     v-model="billedFilter"
-                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 >
                     <option value="">{{ t('all_statuses') }}</option>
                     <option value="0">{{ t('unbilled') }}</option>
@@ -590,7 +590,7 @@ const formatTime = (date) => {
 
                 <select
                     v-model="periodFilter"
-                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 >
                     <option value="">{{ t('all_periods') }}</option>
                     <option v-for="period in periods" :key="period.value" :value="period.value">
@@ -612,16 +612,16 @@ const formatTime = (date) => {
         </div>
 
         <!-- Time Entries Table -->
-        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+        <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead class="bg-slate-50 dark:bg-slate-700">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th class="py-3.5 pl-4 pr-3 sm:pl-6">
                             <input
                                 type="checkbox"
                                 :checked="selectedEntries.length > 0 && selectedEntries.length === entries.data.filter(e => !e.is_billed).length"
                                 @change="toggleAllEntries"
-                                class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                                class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                             />
                         </th>
                         <th class="py-3.5 px-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
@@ -647,7 +647,7 @@ const formatTime = (date) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="entries.data.length === 0">
                         <td colspan="8" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -657,14 +657,14 @@ const formatTime = (date) => {
                             <p class="mt-1 text-xs">{{ t('start_new_timer') }}</p>
                         </td>
                     </tr>
-                    <tr v-for="entry in entries.data" :key="entry.id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                    <tr v-for="entry in entries.data" :key="entry.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                         <td class="py-4 pl-4 pr-3 sm:pl-6">
                             <input
                                 v-if="!entry.is_billed"
                                 type="checkbox"
                                 :checked="selectedEntries.includes(entry.id)"
                                 @change="toggleEntrySelection(entry.id)"
-                                class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                                class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                             />
                         </td>
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-slate-500 dark:text-slate-400">
@@ -747,7 +747,7 @@ const formatTime = (date) => {
                         :class="[
                             link.active
                                 ? 'z-10 bg-primary-600 text-white'
-                                : 'text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-slate-700',
+                                : 'text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                             'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                             index === 0 ? 'rounded-l-md' : '',
                             index === entries.links.length - 1 ? 'rounded-r-md' : '',
@@ -764,7 +764,7 @@ const formatTime = (date) => {
             <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
             <div class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div class="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                    <div class="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                                 {{ t('convert_to_invoice') }}
@@ -786,7 +786,7 @@ const formatTime = (date) => {
                                         step="0.01"
                                         min="0"
                                         required
-                                        class="block w-full rounded-xl border-slate-300 pr-12 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                                        class="block w-full rounded-xl border-gray-300 pr-12 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                                     />
                                     <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                                         <span class="text-slate-500 dark:text-slate-400 sm:text-sm">EUR/h</span>
@@ -801,7 +801,7 @@ const formatTime = (date) => {
                                 <select
                                     v-if="!isVatExempt"
                                     v-model="convertForm.vat_rate"
-                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                                    class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                                 >
                                     <option :value="0">0%</option>
                                     <option :value="3">3%</option>
@@ -811,7 +811,7 @@ const formatTime = (date) => {
                                 </select>
                                 <div
                                     v-else
-                                    class="mt-1 block w-full rounded-xl border border-slate-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-slate-600 dark:bg-slate-600 dark:text-slate-400 sm:text-sm"
+                                    class="mt-1 block w-full rounded-xl border border-gray-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-gray-700 dark:bg-slate-600 dark:text-slate-400 sm:text-sm"
                                 >
                                     0%
                                 </div>
@@ -822,7 +822,7 @@ const formatTime = (date) => {
                                     v-model="convertForm.group_by_project"
                                     type="checkbox"
                                     id="group_by_project"
-                                    class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                                    class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                                 />
                                 <label for="group_by_project" class="ml-2 block text-sm text-slate-700 dark:text-slate-300">
                                     {{ t('group_by_project') }}
@@ -833,7 +833,7 @@ const formatTime = (date) => {
                                 <button
                                     type="button"
                                     @click="showConvertModal = false"
-                                    class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                                    class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                                 >
                                     {{ t('cancel') }}
                                 </button>
@@ -856,7 +856,7 @@ const formatTime = (date) => {
             <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity"></div>
             <div class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div class="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                    <div class="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                                 {{ t('add_to_invoice') }}
@@ -886,7 +886,7 @@ const formatTime = (date) => {
                                 <select
                                     v-model="addToInvoiceForm.invoice_id"
                                     required
-                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                                    class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                                 >
                                     <option value="">{{ t('select') }}</option>
                                     <option v-for="invoice in availableInvoicesForEntry" :key="invoice.id" :value="invoice.id">
@@ -907,7 +907,7 @@ const formatTime = (date) => {
                                             step="0.01"
                                             min="0"
                                             required
-                                            class="block w-full rounded-xl border-slate-300 pr-12 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                                            class="block w-full rounded-xl border-gray-300 pr-12 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                                         />
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                             <span class="text-slate-500 dark:text-slate-400 sm:text-sm">€/h</span>
@@ -921,7 +921,7 @@ const formatTime = (date) => {
                                     <select
                                         v-if="!isVatExempt"
                                         v-model="addToInvoiceForm.vat_rate"
-                                        class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:text-sm"
+                                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                                     >
                                         <option :value="0">0%</option>
                                         <option :value="3">3%</option>
@@ -931,7 +931,7 @@ const formatTime = (date) => {
                                     </select>
                                     <div
                                         v-else
-                                        class="mt-1 block w-full rounded-xl border border-slate-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-slate-600 dark:bg-slate-600 dark:text-slate-400 sm:text-sm"
+                                        class="mt-1 block w-full rounded-xl border border-gray-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-gray-700 dark:bg-slate-600 dark:text-slate-400 sm:text-sm"
                                     >
                                         0%
                                     </div>
@@ -942,7 +942,7 @@ const formatTime = (date) => {
                                 <button
                                     type="button"
                                     @click="showAddToInvoiceModal = false; selectedEntryForInvoice = null;"
-                                    class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                                    class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                                 >
                                     {{ t('cancel') }}
                                 </button>

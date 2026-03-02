@@ -6,8 +6,10 @@ import { Head, router } from '@inertiajs/vue3';
 import { ref, watch, computed } from 'vue';
 import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
+const { getAvatarClasses } = useAvatarColor();
 
 const props = defineProps({
     employees: { type: Array, required: true },
@@ -70,7 +72,7 @@ const orgTree = computed(() => {
                 </h1>
                 <button
                     @click="downloadPdf"
-                    class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
                 >
                     <svg class="-ml-0.5 mr-1.5 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -96,13 +98,13 @@ const orgTree = computed(() => {
                             v-model="search"
                             type="text"
                             :placeholder="t('hr.search_employee')"
-                            class="block w-full rounded-xl border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
+                            class="block w-full rounded-xl border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
                         />
                     </div>
                     <select
                         v-if="viewMode === 'grid'"
                         v-model="departmentFilter"
-                        class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                        class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                     >
                         <option value="">{{ t('hr.all_departments') }}</option>
                         <option v-for="dept in departments" :key="dept.id" :value="dept.id">
@@ -111,7 +113,7 @@ const orgTree = computed(() => {
                     </select>
 
                     <!-- View toggle -->
-                    <div class="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-700 sm:ml-auto">
+                    <div class="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-gray-800 sm:ml-auto">
                         <button
                             @click="viewMode = 'grid'"
                             :class="[
@@ -155,7 +157,7 @@ const orgTree = computed(() => {
                         <div
                             v-for="employee in employees"
                             :key="employee.id"
-                            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm text-center transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800"
+                            class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm text-center transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-surface-card"
                         >
                             <!-- Photo or initials -->
                             <div class="mx-auto mb-3 h-20 w-20">
@@ -163,10 +165,10 @@ const orgTree = computed(() => {
                                     v-if="employee.photo_path"
                                     :src="`/storage/${employee.photo_path}`"
                                     :alt="employee.full_name"
-                                    class="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-700"
+                                    class="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-gray-700"
                                 />
-                                <div v-else class="flex h-20 w-20 items-center justify-center rounded-full bg-primary-100 ring-2 ring-primary-50 dark:bg-primary-900/30 dark:ring-primary-900/50">
-                                    <span class="text-lg font-semibold text-primary-600 dark:text-primary-400">
+                                <div v-else :class="['flex h-20 w-20 items-center justify-center rounded-full ring-2 ring-white/50 dark:ring-gray-700/50', getAvatarClasses(employee.first_name + ' ' + employee.last_name)]">
+                                    <span class="text-lg font-bold">
                                         {{ employee.first_name?.charAt(0) }}{{ employee.last_name?.charAt(0) }}
                                     </span>
                                 </div>
@@ -205,7 +207,7 @@ const orgTree = computed(() => {
                     </div>
 
                     <!-- Empty state -->
-                    <div v-else class="rounded-2xl border border-slate-200 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-800">
+                    <div v-else class="rounded-2xl border border-gray-200 bg-white p-12 text-center dark:border-gray-700 dark:bg-surface-card">
                         <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                         </svg>
@@ -224,7 +226,7 @@ const orgTree = computed(() => {
                     </div>
 
                     <!-- Empty state -->
-                    <div v-else class="rounded-2xl border border-slate-200 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-800">
+                    <div v-else class="rounded-2xl border border-gray-200 bg-white p-12 text-center dark:border-gray-700 dark:bg-surface-card">
                         <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                         </svg>

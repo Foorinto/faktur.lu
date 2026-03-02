@@ -146,7 +146,7 @@ const getStatusBadge = (status) => {
         case 'failed':
             return { class: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', text: t('failed') };
         default:
-            return { class: 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-300', text: t('pending') };
+            return { class: 'bg-slate-100 text-slate-800 dark:bg-surface-dark dark:text-slate-300', text: t('pending') };
     }
 };
 </script>
@@ -165,7 +165,7 @@ const getStatusBadge = (status) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Export Form -->
-                    <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                    <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('new_export') }}
                         </h2>
@@ -182,7 +182,7 @@ const getStatusBadge = (status) => {
                                         :key="year"
                                         type="button"
                                         @click="setYear(year)"
-                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-slate-700 dark:text-slate-300"
                                     >
                                         {{ year }}
                                     </button>
@@ -193,7 +193,7 @@ const getStatusBadge = (status) => {
                                         :key="`q${q}`"
                                         type="button"
                                         @click="setQuarter(defaultYear, q)"
-                                        class="px-3 py-1 text-sm rounded-full border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
+                                        class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-slate-700 dark:text-slate-300"
                                     >
                                         T{{ q }} {{ defaultYear }}
                                     </button>
@@ -204,7 +204,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.period_start"
                                             type="date"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         />
                                     </div>
                                     <div>
@@ -212,7 +212,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="form.period_end"
                                             type="date"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         />
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@ const getStatusBadge = (status) => {
                                         class="flex items-center p-3 border rounded-2xl cursor-pointer transition-colors"
                                         :class="form.format === value
                                             ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20'
-                                            : 'border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700'"
+                                            : 'border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                     >
                                         <input
                                             v-model="form.format"
@@ -251,7 +251,7 @@ const getStatusBadge = (status) => {
                                     <input
                                         v-model="form.include_credit_notes"
                                         type="checkbox"
-                                        class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-slate-300 dark:border-slate-600"
+                                        class="h-4 w-4 rounded text-violet-600 focus:ring-violet-500 border-gray-300 dark:border-gray-700"
                                     />
                                     <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
                                         {{ t('include_credit_notes') }}
@@ -260,7 +260,7 @@ const getStatusBadge = (status) => {
                             </div>
 
                             <!-- Preview -->
-                            <div v-if="preview || previewLoading" class="rounded-2xl bg-slate-50 dark:bg-slate-700 p-4">
+                            <div v-if="preview || previewLoading" class="rounded-2xl bg-slate-50 dark:bg-gray-800 p-4">
                                 <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">{{ t('preview') }}</h3>
 
                                 <div v-if="previewLoading" class="flex items-center justify-center py-4">
@@ -279,7 +279,7 @@ const getStatusBadge = (status) => {
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('credit_notes') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ preview.credit_notes_count }}</span>
                                     </div>
-                                    <div class="flex justify-between text-sm pt-2 border-t border-slate-200 dark:border-slate-600">
+                                    <div class="flex justify-between text-sm pt-2 border-t border-gray-200 dark:border-gray-700">
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('total_ht') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.total_ht) }}</span>
                                     </div>
@@ -300,7 +300,7 @@ const getStatusBadge = (status) => {
                                     type="button"
                                     @click="downloadPdfArchive"
                                     :disabled="pdfArchiveLoading || !preview || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
-                                    class="px-4 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                                    class="px-4 py-2 border border-gray-300 dark:border-gray-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                                 >
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -323,7 +323,7 @@ const getStatusBadge = (status) => {
                     <!-- Right column: History + Settings -->
                     <div class="space-y-6">
                         <!-- Export History -->
-                        <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                        <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                                 {{ t('export_history') }}
                             </h2>
@@ -336,7 +336,7 @@ const getStatusBadge = (status) => {
                                 <div
                                     v-for="exportItem in exports"
                                     :key="exportItem.id"
-                                    class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-2xl"
+                                    class="flex items-center justify-between p-3 bg-slate-50 dark:bg-gray-800 rounded-2xl"
                                 >
                                     <div class="flex-1 min-w-0">
                                         <div class="flex items-center gap-2">
@@ -381,7 +381,7 @@ const getStatusBadge = (status) => {
                         </div>
 
                         <!-- Accounting Settings -->
-                        <div class="bg-white dark:bg-slate-800 shadow rounded-2xl p-6">
+                        <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                             <button
                                 @click="settingsOpen = !settingsOpen"
                                 class="w-full flex items-center justify-between text-lg font-medium text-slate-900 dark:text-white"
@@ -402,7 +402,7 @@ const getStatusBadge = (status) => {
                                     <input
                                         v-model="settingsForm.sales_account"
                                         type="text"
-                                        class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                        class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                         placeholder="702000"
                                     />
                                 </div>
@@ -415,7 +415,7 @@ const getStatusBadge = (status) => {
                                             <input
                                                 v-model="settingsForm.vat_collected_accounts[rate]"
                                                 type="text"
-                                                class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500 text-sm"
+                                                class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500 text-sm"
                                             />
                                         </div>
                                     </div>
@@ -427,7 +427,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="settingsForm.clients_account"
                                             type="text"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                             placeholder="411000"
                                         />
                                     </div>
@@ -436,7 +436,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="settingsForm.bank_account"
                                             type="text"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                             placeholder="512000"
                                         />
                                     </div>
@@ -448,7 +448,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="settingsForm.sales_journal"
                                             type="text"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                             placeholder="VE"
                                         />
                                     </div>
@@ -457,7 +457,7 @@ const getStatusBadge = (status) => {
                                         <input
                                             v-model="settingsForm.client_prefix"
                                             type="text"
-                                            class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
+                                            class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                             placeholder="C"
                                         />
                                     </div>

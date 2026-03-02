@@ -17,7 +17,7 @@ const submit = () => {
 <template>
     <Head title="Connexion Comptable" />
 
-    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-slate-900">
+    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-surface-dark">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <div class="flex justify-center">
                 <svg class="h-12 w-12 text-primary-600" viewBox="0 0 24 24" fill="currentColor">
@@ -33,7 +33,7 @@ const submit = () => {
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white dark:bg-slate-800 py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-200 dark:border-slate-700">
+            <div class="bg-white dark:bg-surface-card py-8 px-4 shadow-xl shadow-gray-200/50 sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-gray-700">
                 <form @submit.prevent="submit" class="space-y-6">
                     <div>
                         <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -46,7 +46,7 @@ const submit = () => {
                             required
                             autofocus
                             autocomplete="email"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         />
                         <p v-if="form.errors.email" class="mt-1 text-sm text-pink-600">{{ form.errors.email }}</p>
                     </div>
@@ -61,7 +61,7 @@ const submit = () => {
                             type="password"
                             required
                             autocomplete="current-password"
-                            class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         />
                         <p v-if="form.errors.password" class="mt-1 text-sm text-pink-600">{{ form.errors.password }}</p>
                     </div>
@@ -71,7 +71,7 @@ const submit = () => {
                             id="remember"
                             v-model="form.remember"
                             type="checkbox"
-                            class="h-4 w-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+                            class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                         />
                         <label for="remember" class="ml-2 block text-sm text-slate-700 dark:text-slate-300">
                             Se souvenir de moi

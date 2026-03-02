@@ -23,9 +23,9 @@ const logout = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+    <div class="min-h-screen bg-gray-50 dark:bg-surface-dark">
         <!-- Header -->
-        <header class="bg-white dark:bg-slate-800 shadow">
+        <header class="bg-white dark:bg-surface-card shadow">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="flex items-center space-x-4">
@@ -43,8 +43,8 @@ const logout = () => {
                             :href="route(item.href)"
                             class="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                             :class="isActive(item.href.replace('.index', ''))
-                                ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
-                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700'"
+                                ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
+                                : 'text-slate-600 hover:text-slate-900 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800'"
                         >
                             {{ item.name }}
                         </Link>
@@ -54,13 +54,13 @@ const logout = () => {
                         <span class="text-sm text-slate-600 dark:text-slate-300 hidden sm:inline">{{ user?.name }}</span>
                         <button
                             @click="logout"
-                            class="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600"
+                            class="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-slate-600"
                         >
                             {{ t('logout') }}
                         </button>
 
                         <!-- Mobile menu button -->
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-slate-500 hover:bg-gray-50 dark:hover:bg-gray-800">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
@@ -76,8 +76,8 @@ const logout = () => {
                         :href="route(item.href)"
                         class="block px-3 py-2 rounded-lg text-sm font-medium"
                         :class="isActive(item.href.replace('.index', ''))
-                            ? 'bg-primary-50 text-primary-700'
-                            : 'text-slate-600 hover:bg-slate-100'"
+                            ? 'bg-accent-rose text-white'
+                            : 'text-slate-600 hover:bg-gray-50'"
                         @click="mobileMenuOpen = false"
                     >
                         {{ item.name }}
@@ -106,7 +106,7 @@ const logout = () => {
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-auto">
+        <footer class="bg-white dark:bg-surface-card border-t border-gray-200 dark:border-gray-700 mt-auto">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <p class="text-center text-sm text-slate-500 dark:text-slate-400">
                     faktur.lu - {{ t('collaborator_space') }}

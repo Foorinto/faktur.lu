@@ -98,7 +98,7 @@ const createAndAttach = async () => {
             <div class="relative">
                 <button
                     @click="showDropdown = !showDropdown"
-                    class="inline-flex items-center rounded-lg border border-dashed border-slate-300 px-2 py-1 text-xs text-slate-500 hover:border-primary-400 hover:text-primary-600 dark:border-slate-600 dark:text-slate-400 dark:hover:border-primary-500 dark:hover:text-primary-400"
+                    class="inline-flex items-center rounded-lg border border-dashed border-gray-300 px-2 py-1 text-xs text-slate-500 hover:border-primary-400 hover:text-primary-600 dark:border-gray-700 dark:text-slate-400 dark:hover:border-primary-500 dark:hover:text-primary-400"
                 >
                     <svg class="mr-1 h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -109,7 +109,7 @@ const createAndAttach = async () => {
                 <!-- Dropdown -->
                 <div
                     v-if="showDropdown"
-                    class="absolute left-0 top-full z-10 mt-1 w-56 rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800"
+                    class="absolute left-0 top-full z-10 mt-1 w-56 rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-surface-card"
                 >
                     <!-- Existing tags -->
                     <div v-if="unassignedTags().length > 0" class="max-h-40 overflow-y-auto p-2">
@@ -117,7 +117,7 @@ const createAndAttach = async () => {
                             v-for="tag in unassignedTags()"
                             :key="tag.id"
                             @click="attachTag(tag)"
-                            class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-slate-100 dark:hover:bg-slate-700"
+                            class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
                         >
                             <span class="h-3 w-3 rounded-full" :style="{ backgroundColor: tag.color }"></span>
                             <span class="text-slate-900 dark:text-white">{{ tag.name }}</span>
@@ -128,7 +128,7 @@ const createAndAttach = async () => {
                     </div>
 
                     <!-- Create new -->
-                    <div class="border-t border-slate-200 p-2 dark:border-slate-700">
+                    <div class="border-t border-gray-200 p-2 dark:border-gray-700">
                         <button
                             v-if="!showCreateForm"
                             @click="showCreateForm = true"
@@ -144,7 +144,7 @@ const createAndAttach = async () => {
                                 v-model="newTagName"
                                 type="text"
                                 :placeholder="t('crm.tag_name')"
-                                class="block w-full rounded-lg border-0 py-1 text-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-primary-500 dark:bg-slate-700 dark:text-white dark:ring-slate-600"
+                                class="block w-full rounded-lg border-0 py-1 text-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                 @keyup.enter="createAndAttach"
                             />
                             <div class="flex flex-wrap gap-1">
@@ -158,10 +158,10 @@ const createAndAttach = async () => {
                                 ></button>
                             </div>
                             <div class="flex justify-end gap-1">
-                                <button @click="showCreateForm = false" class="rounded-lg px-2 py-1 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-400">
+                                <button @click="showCreateForm = false" class="rounded-lg px-2 py-1 text-xs text-slate-600 hover:bg-gray-50 dark:text-slate-400">
                                     {{ t('cancel') }}
                                 </button>
-                                <button @click="createAndAttach" class="rounded-lg bg-primary-500 px-2 py-1 text-xs text-white hover:bg-primary-600">
+                                <button @click="createAndAttach" class="rounded-lg bg-accent-rose px-2 py-1 text-xs text-white hover:bg-pink-500">
                                     {{ t('crm.create_tag') }}
                                 </button>
                             </div>

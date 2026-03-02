@@ -48,7 +48,7 @@ const deleteTask = (taskId) => {
 
 const getStatusColor = (status) => {
     const colors = {
-        backlog: 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300',
+        backlog: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
         todo: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
         in_progress: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
         review: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
@@ -107,19 +107,19 @@ const getPriorityColor = (priority) => {
 
         <!-- Progress Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center">
+            <div class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.completion_percentage }}%</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('completion') || 'Complétion' }}</p>
             </div>
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center">
+            <div class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.tasks.length }}</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('tasks') || 'Tâches' }}</p>
             </div>
-            <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center">
+            <div class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.total_time_spent || '0h' }}</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('time_spent') || 'Temps passé' }}</p>
             </div>
-            <div v-if="project.budget_hours" class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center">
+            <div v-if="project.budget_hours" class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.budget_hours }}h</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('budget') || 'Budget' }}</p>
             </div>
@@ -128,8 +128,8 @@ const getPriorityColor = (priority) => {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Tasks -->
             <div class="lg:col-span-2">
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                         <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('tasks') || 'Tâches' }}</h2>
                         <button
                             @click="showAddTask = !showAddTask"
@@ -143,19 +143,19 @@ const getPriorityColor = (priority) => {
                     </div>
 
                     <!-- Add task form -->
-                    <div v-if="showAddTask" class="px-6 py-4 bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
+                    <div v-if="showAddTask" class="px-6 py-4 bg-slate-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                         <form @submit.prevent="submitTask" class="space-y-3">
                             <input
                                 v-model="taskForm.title"
                                 type="text"
                                 :placeholder="t('task_title') || 'Titre de la tâche'"
                                 required
-                                class="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                             />
                             <div class="flex items-center gap-3">
                                 <select
                                     v-model="taskForm.priority"
-                                    class="rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                    class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                 >
                                     <option value="low">{{ t('low') || 'Basse' }}</option>
                                     <option value="normal">{{ t('normal') || 'Normale' }}</option>
@@ -164,7 +164,7 @@ const getPriorityColor = (priority) => {
                                 <input
                                     v-model="taskForm.due_date"
                                     type="date"
-                                    class="rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                    class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                 />
                                 <button
                                     type="submit"
@@ -191,7 +191,7 @@ const getPriorityColor = (priority) => {
                                         class="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors"
                                         :class="task.is_completed
                                             ? 'bg-primary-500 border-primary-500'
-                                            : 'border-slate-300 dark:border-slate-600 hover:border-primary-400'"
+                                            : 'border-gray-300 dark:border-gray-700 hover:border-primary-400'"
                                     >
                                         <svg v-if="task.is_completed" class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -228,7 +228,7 @@ const getPriorityColor = (priority) => {
                                             class="flex-shrink-0 w-4 h-4 rounded border-2 flex items-center justify-center transition-colors"
                                             :class="child.is_completed
                                                 ? 'bg-primary-500 border-primary-500'
-                                                : 'border-slate-300 dark:border-slate-600 hover:border-primary-400'"
+                                                : 'border-gray-300 dark:border-gray-700 hover:border-primary-400'"
                                         >
                                             <svg v-if="child.is_completed" class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -247,8 +247,8 @@ const getPriorityColor = (priority) => {
 
             <!-- Time Entries -->
             <div>
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 dark:border-slate-700 dark:shadow-slate-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('my_time') }}</h2>
                     </div>
 
@@ -272,7 +272,7 @@ const getPriorityColor = (priority) => {
                         </li>
                     </ul>
 
-                    <div class="px-6 py-3 border-t border-slate-200 dark:border-slate-700">
+                    <div class="px-6 py-3 border-t border-gray-200 dark:border-gray-700">
                         <Link
                             :href="route('collaborator.time.index')"
                             class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400"

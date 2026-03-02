@@ -34,15 +34,15 @@ const formatDate = (date) => {
 
         <!-- KPIs -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 mb-8">
-            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                 <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('employee_portal.pending_leave_requests') }}</p>
                 <p class="mt-1 text-3xl font-bold" :class="pendingLeaves > 0 ? 'text-amber-600' : 'text-slate-900 dark:text-white'">{{ pendingLeaves }}</p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                 <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('employee_portal.pending_expense_reports') }}</p>
                 <p class="mt-1 text-3xl font-bold" :class="pendingExpenses > 0 ? 'text-amber-600' : 'text-slate-900 dark:text-white'">{{ pendingExpenses }}</p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                 <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('employee_portal.my_documents') }}</p>
                 <p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">{{ recentDocuments.length }}</p>
             </div>
@@ -55,7 +55,7 @@ const formatDate = (date) => {
                 <div
                     v-for="balance in employee.leave_balances"
                     :key="balance.id"
-                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+                    class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-surface-card"
                 >
                     <div class="flex items-center justify-between">
                         <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ balance.leave_type?.name }}</span>
@@ -75,12 +75,12 @@ const formatDate = (date) => {
         <!-- Quick Actions + Recent Documents -->
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- Quick Actions -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                 <h2 class="text-sm font-semibold text-slate-900 dark:text-white mb-4">{{ t('employee_portal.quick_actions') }}</h2>
                 <div class="space-y-3">
                     <Link
                         :href="route('employee-portal.leaves.index')"
-                        class="flex items-center justify-between rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                        class="flex items-center justify-between rounded-xl p-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
                         <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('employee_portal.submit_leave') }}</span>
                         <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
@@ -89,7 +89,7 @@ const formatDate = (date) => {
                     </Link>
                     <Link
                         :href="route('employee-portal.expenses.index')"
-                        class="flex items-center justify-between rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                        class="flex items-center justify-between rounded-xl p-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
                         <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('employee_portal.submit_expense') }}</span>
                         <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
@@ -98,7 +98,7 @@ const formatDate = (date) => {
                     </Link>
                     <Link
                         :href="route('employee-portal.profile.edit')"
-                        class="flex items-center justify-between rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                        class="flex items-center justify-between rounded-xl p-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
                         <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('employee_portal.my_profile') }}</span>
                         <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
@@ -109,7 +109,7 @@ const formatDate = (date) => {
             </div>
 
             <!-- Recent Documents -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                 <h2 class="text-sm font-semibold text-slate-900 dark:text-white mb-4">{{ t('employee_portal.recent_documents') }}</h2>
                 <div v-if="recentDocuments.length > 0" class="space-y-3">
                     <div v-for="doc in recentDocuments" :key="doc.id" class="flex items-center justify-between text-sm">

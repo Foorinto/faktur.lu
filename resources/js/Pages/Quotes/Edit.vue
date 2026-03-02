@@ -256,7 +256,7 @@ const openPreview = () => {
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        draft: 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300',
+        draft: 'bg-slate-100 text-slate-800 dark:bg-gray-800 dark:text-slate-300',
         sent: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
         accepted: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
         declined: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
@@ -308,7 +308,7 @@ const getStatusLabel = (status) => {
                     <button
                         type="button"
                         @click="openPreview"
-                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
@@ -319,7 +319,7 @@ const getStatusLabel = (status) => {
                     <button
                         type="button"
                         @click="deleteQuote"
-                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-slate-700 dark:text-red-400 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
                     >
                         Supprimer
                     </button>
@@ -351,7 +351,7 @@ const getStatusLabel = (status) => {
                         v-if="quote.status === 'sent'"
                         type="button"
                         @click="markAsDeclined"
-                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-slate-700 dark:text-red-400 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
@@ -378,8 +378,8 @@ const getStatusLabel = (status) => {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div class="lg:col-span-2 space-y-6">
                 <!-- Client & Settings -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Informations</h2>
                     </div>
                     <div class="px-6 py-4">
@@ -390,7 +390,7 @@ const getStatusLabel = (status) => {
                                     id="client_id"
                                     v-model="form.client_id"
                                     @change="updateQuote"
-                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 >
                                     <option v-for="client in clients" :key="client.id" :value="client.id">
                                         {{ client.name }}
@@ -406,7 +406,7 @@ const getStatusLabel = (status) => {
                                     v-model="form.valid_until"
                                     @change="updateQuote"
                                     type="date"
-                                    class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                    class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                                 <InputError :message="form.errors.valid_until" class="mt-2" />
                             </div>
@@ -419,7 +419,7 @@ const getStatusLabel = (status) => {
                                 v-model="form.notes"
                                 @blur="updateQuote"
                                 rows="2"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 placeholder="Conditions particulières..."
                             ></textarea>
                         </div>
@@ -430,7 +430,7 @@ const getStatusLabel = (status) => {
                                 id="vat_mention"
                                 v-model="form.vat_mention"
                                 @change="updateQuote"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option value="">Mention par défaut</option>
                                 <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
@@ -449,7 +449,7 @@ const getStatusLabel = (status) => {
                                 v-model="form.custom_vat_mention"
                                 @blur="updateQuote"
                                 rows="2"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 placeholder="Entrez votre mention TVA personnalisée..."
                             ></textarea>
                         </div>
@@ -461,7 +461,7 @@ const getStatusLabel = (status) => {
                                 v-model="form.footer_message"
                                 @blur="updateQuote"
                                 rows="2"
-                                class="mt-1 block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="defaultQuoteFooter"
                             ></textarea>
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -472,8 +472,8 @@ const getStatusLabel = (status) => {
                 </div>
 
                 <!-- Quote items -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Lignes du devis</h2>
                     </div>
                     <div class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -491,7 +491,7 @@ const getStatusLabel = (status) => {
                                         <input
                                             v-model="editItemForm.title"
                                             type="text"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             placeholder="Titre de la prestation"
                                             required
                                         />
@@ -502,7 +502,7 @@ const getStatusLabel = (status) => {
                                         <textarea
                                             v-model="editItemForm.description"
                                             rows="2"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             placeholder="Description détaillée"
                                         ></textarea>
                                         <InputError :message="editItemForm.errors.description" class="mt-1" />
@@ -516,7 +516,7 @@ const getStatusLabel = (status) => {
                                             type="number"
                                             step="0.01"
                                             min="0.01"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
@@ -524,7 +524,7 @@ const getStatusLabel = (status) => {
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Unité</label>
                                         <select
                                             v-model="editItemForm.unit"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option value="">Sans unité</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
@@ -539,7 +539,7 @@ const getStatusLabel = (status) => {
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
@@ -548,7 +548,7 @@ const getStatusLabel = (status) => {
                                         <select
                                             v-if="!isVatExempt"
                                             v-model.number="editItemForm.vat_rate"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                                 {{ rate.value }}%
@@ -556,7 +556,7 @@ const getStatusLabel = (status) => {
                                         </select>
                                         <div
                                             v-else
-                                            class="block w-full rounded-xl border border-slate-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-slate-600 dark:bg-slate-600 dark:text-slate-400 text-sm"
+                                            class="block w-full rounded-xl border border-gray-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-gray-700 dark:bg-slate-600 dark:text-slate-400 text-sm"
                                         >
                                             0%
                                         </div>
@@ -575,7 +575,7 @@ const getStatusLabel = (status) => {
                                         <button
                                             type="button"
                                             @click="cancelEditItem"
-                                            class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                            class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                                         >
                                             <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                 <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
@@ -661,7 +661,7 @@ const getStatusLabel = (status) => {
                                         <input
                                             v-model="itemForm.title"
                                             type="text"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             placeholder="Titre de la prestation"
                                             required
                                         />
@@ -671,7 +671,7 @@ const getStatusLabel = (status) => {
                                         <textarea
                                             v-model="itemForm.description"
                                             rows="2"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             placeholder="Description détaillée (optionnel)"
                                         ></textarea>
                                         <InputError :message="itemForm.errors.description" class="mt-1" />
@@ -686,7 +686,7 @@ const getStatusLabel = (status) => {
                                             type="number"
                                             step="0.01"
                                             min="0.01"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
@@ -694,7 +694,7 @@ const getStatusLabel = (status) => {
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Unité</label>
                                         <select
                                             v-model="itemForm.unit"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option value="">Sans unité</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
@@ -709,7 +709,7 @@ const getStatusLabel = (status) => {
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             required
                                         />
                                     </div>
@@ -718,7 +718,7 @@ const getStatusLabel = (status) => {
                                         <select
                                             v-if="!isVatExempt"
                                             v-model.number="itemForm.vat_rate"
-                                            class="block w-full rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm"
+                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                                 {{ rate.value }}%
@@ -726,7 +726,7 @@ const getStatusLabel = (status) => {
                                         </select>
                                         <div
                                             v-else
-                                            class="block w-full rounded-xl border border-slate-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-slate-600 dark:bg-slate-600 dark:text-slate-400 text-sm"
+                                            class="block w-full rounded-xl border border-gray-300 bg-slate-100 px-3 py-2 text-slate-500 dark:border-gray-700 dark:bg-slate-600 dark:text-slate-400 text-sm"
                                         >
                                             0%
                                         </div>
@@ -750,8 +750,8 @@ const getStatusLabel = (status) => {
 
             <!-- Sidebar with totals -->
             <div class="space-y-6">
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 sticky top-20">
-                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card sticky top-20">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Résumé</h2>
                     </div>
                     <div class="px-6 py-4 space-y-3">
@@ -763,14 +763,14 @@ const getStatusLabel = (status) => {
                             <span class="text-slate-500 dark:text-slate-400">TVA</span>
                             <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(totals.vat) }}</span>
                         </div>
-                        <div class="border-t border-slate-200 dark:border-slate-700 pt-3">
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
                             <div class="flex justify-between">
                                 <span class="text-base font-medium text-slate-900 dark:text-white">Total TTC</span>
                                 <span class="text-lg font-bold text-slate-900 dark:text-white">{{ formatCurrency(totals.ttc) }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-gray-800/50">
                         <p class="text-xs text-slate-500 dark:text-slate-400">
                             {{ quote.items?.length || 0 }} ligne(s)
                         </p>
@@ -784,15 +784,15 @@ const getStatusLabel = (status) => {
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="showPreviewModal = false"></div>
 
-                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white">
                             Aperçu du devis
                         </h3>
                         <div class="flex items-center space-x-2">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-xl overflow-hidden">
+                            <div class="flex items-center border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden">
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
@@ -802,7 +802,7 @@ const getStatusLabel = (status) => {
                                     class="px-2 py-1.5 text-base transition-colors"
                                     :class="pdfLocale === lang.value
                                         ? 'bg-primary-100 dark:bg-primary-900'
-                                        : 'bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600'"
+                                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
                                     {{ lang.flag }}
                                 </button>
@@ -810,7 +810,7 @@ const getStatusLabel = (status) => {
                             <a
                                 :href="pdfUrl"
                                 target="_blank"
-                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                             >
                                 <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
@@ -822,7 +822,7 @@ const getStatusLabel = (status) => {
                                 type="button"
                                 @click="loadPreview"
                                 :disabled="loadingPreview"
-                                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 disabled:opacity-50"
+                                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 disabled:opacity-50"
                             >
                                 <svg class="h-4 w-4 mr-1" :class="{ 'animate-spin': loadingPreview }" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
@@ -842,9 +842,9 @@ const getStatusLabel = (status) => {
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-slate-900">
+                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-surface-dark">
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
                         </div>
                         <div
                             v-else
@@ -855,11 +855,11 @@ const getStatusLabel = (status) => {
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50">
                         <button
                             type="button"
                             @click="showPreviewModal = false"
-                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
+                            class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
                             Fermer
                         </button>

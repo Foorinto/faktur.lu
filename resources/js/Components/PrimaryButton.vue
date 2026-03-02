@@ -23,10 +23,10 @@ const sizeClasses = {
         :type="type"
         :class="[
             'inline-flex items-center justify-center font-semibold transition-all duration-200',
-            'bg-primary-500 hover:bg-primary-600 text-white',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+            'bg-accent-rose hover:bg-pink-500 text-white',
+            'focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2',
             'disabled:opacity-50 disabled:cursor-not-allowed',
-            'dark:hover:bg-primary-400 dark:focus:ring-offset-slate-800',
+            'dark:hover:bg-pink-300 dark:focus:ring-offset-surface-dark',
             sizeClasses[size],
         ]"
     >

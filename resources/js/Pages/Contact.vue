@@ -37,7 +37,7 @@ const submit = () => {
 
     <div class="min-h-screen bg-slate-50">
         <!-- Navigation -->
-        <nav class="bg-white border-b border-slate-200">
+        <nav class="bg-white border-b border-gray-200">
             <div class="max-w-6xl mx-auto px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
@@ -55,7 +55,7 @@ const submit = () => {
                         <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.login') }}
                         </Link>
-                        <Link :href="route('register')" class="bg-[#9b5de5] hover:bg-[#8b4ed5] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
+                        <Link :href="route('register')" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
                             {{ t('landing.nav.create_account') }}
                         </Link>
                     </div>
@@ -78,7 +78,7 @@ const submit = () => {
                 <div class="grid lg:grid-cols-2 gap-16">
                     <!-- Left: Info -->
                     <div>
-                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#9b5de5]/10 text-[#9b5de5] text-sm font-medium mb-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-500/10 text-primary-500 text-sm font-medium mb-6">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
@@ -93,8 +93,8 @@ const submit = () => {
 
                         <div class="mt-12 space-y-6">
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 bg-[#9b5de5]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <div class="w-10 h-10 bg-primary-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                 </div>
@@ -104,8 +104,8 @@ const submit = () => {
                                 </div>
                             </div>
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 bg-[#9b5de5]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <div class="w-10 h-10 bg-primary-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
@@ -115,8 +115,8 @@ const submit = () => {
                                 </div>
                             </div>
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 bg-[#9b5de5]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <div class="w-10 h-10 bg-primary-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
@@ -130,7 +130,7 @@ const submit = () => {
                     </div>
 
                     <!-- Right: Form -->
-                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                    <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
                         <!-- Success message -->
                         <div v-if="success" class="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
                             <div class="flex items-center gap-3">
@@ -149,7 +149,7 @@ const submit = () => {
                                     v-model="form.name"
                                     type="text"
                                     :placeholder="t('contact.form.name_placeholder')"
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#9b5de5] focus:border-[#9b5de5] transition-colors"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                 />
                                 <p v-if="form.errors.name" class="mt-1 text-sm text-red-600">{{ form.errors.name }}</p>
                             </div>
@@ -161,7 +161,7 @@ const submit = () => {
                                     v-model="form.email"
                                     type="email"
                                     :placeholder="t('contact.form.email_placeholder')"
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#9b5de5] focus:border-[#9b5de5] transition-colors"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                 />
                                 <p v-if="form.errors.email" class="mt-1 text-sm text-red-600">{{ form.errors.email }}</p>
                             </div>
@@ -173,7 +173,7 @@ const submit = () => {
                                     v-model="form.subject"
                                     type="text"
                                     :placeholder="t('contact.form.subject_placeholder')"
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#9b5de5] focus:border-[#9b5de5] transition-colors"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                 />
                                 <p v-if="form.errors.subject" class="mt-1 text-sm text-red-600">{{ form.errors.subject }}</p>
                             </div>
@@ -185,7 +185,7 @@ const submit = () => {
                                     v-model="form.message"
                                     rows="5"
                                     :placeholder="t('contact.form.message_placeholder')"
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#9b5de5] focus:border-[#9b5de5] transition-colors resize-none"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
                                 ></textarea>
                                 <p v-if="form.errors.message" class="mt-1 text-sm text-red-600">{{ form.errors.message }}</p>
                             </div>
@@ -193,7 +193,7 @@ const submit = () => {
                             <button
                                 type="submit"
                                 :disabled="form.processing"
-                                class="w-full py-3.5 bg-[#9b5de5] hover:bg-[#8b4ed5] disabled:opacity-50 text-white font-semibold rounded-xl transition-colors"
+                                class="w-full py-3.5 bg-accent-rose hover:bg-pink-500 disabled:opacity-50 text-white font-semibold rounded-xl transition-colors"
                             >
                                 <span v-if="form.processing">{{ t('contact.form.sending') }}</span>
                                 <span v-else>{{ t('contact.form.submit') }}</span>

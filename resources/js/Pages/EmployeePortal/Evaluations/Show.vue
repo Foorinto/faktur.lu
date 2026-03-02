@@ -29,7 +29,7 @@ const getScoreClass = (score) => {
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-3">
-                <Link :href="route('employee-portal.evaluations.index')" class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700">
+                <Link :href="route('employee-portal.evaluations.index')" class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 dark:hover:bg-gray-800">
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
                     </svg>
@@ -39,7 +39,7 @@ const getScoreClass = (score) => {
             <a
                 :href="route('employee-portal.evaluations.pdf', evaluation.id)"
                 target="_blank"
-                class="inline-flex items-center gap-1.5 rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-600"
+                class="inline-flex items-center gap-1.5 rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
             >
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -51,7 +51,7 @@ const getScoreClass = (score) => {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- Main content -->
             <div class="lg:col-span-2">
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                     <div v-if="evaluation.description" class="prose prose-sm dark:prose-invert max-w-none" v-html="evaluation.description"></div>
                     <p v-else class="text-sm text-slate-500 dark:text-slate-400">{{ t('hr.no_data') }}</p>
                 </div>
@@ -60,7 +60,7 @@ const getScoreClass = (score) => {
             <!-- Sidebar -->
             <div class="space-y-4">
                 <!-- Score -->
-                <div v-if="evaluation.overall_score" class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800 text-center">
+                <div v-if="evaluation.overall_score" class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card text-center">
                     <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('hr.overall_score') }}</p>
                     <p class="text-4xl font-bold" :class="getScoreClass(evaluation.overall_score)">
                         {{ evaluation.overall_score }}
@@ -69,7 +69,7 @@ const getScoreClass = (score) => {
                 </div>
 
                 <!-- Details -->
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                     <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{{ t('hr.details') }}</h3>
                     <dl class="space-y-3 text-sm">
                         <div>

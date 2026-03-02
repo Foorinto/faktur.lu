@@ -86,7 +86,7 @@ const exportCsv = () => {
                     <button
                         type="button"
                         @click="exportCsv"
-                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -109,8 +109,8 @@ const exportCsv = () => {
 
         <div class="space-y-6">
             <!-- Period Selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('period') }}</h2>
                 </div>
                 <div class="px-6 py-4">
@@ -125,7 +125,7 @@ const exportCsv = () => {
                                 v-model="startDate"
                                 type="date"
                                 @change="updateFilters"
-                                class="rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                         <div>
@@ -137,7 +137,7 @@ const exportCsv = () => {
                                 v-model="endDate"
                                 type="date"
                                 @change="updateFilters"
-                                class="rounded-xl border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                                class="rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
 
@@ -152,7 +152,7 @@ const exportCsv = () => {
                                     'px-3 py-2 text-sm rounded-xl border',
                                     startDate === period.start && endDate === period.end
                                         ? 'bg-primary-100 border-primary-300 text-primary-700 dark:bg-primary-900 dark:border-primary-700 dark:text-primary-300'
-                                        : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-600'
+                                        : 'bg-white border-gray-300 text-slate-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300 dark:hover:bg-gray-800'
                                 ]"
                             >
                                 {{ period.label }}
@@ -172,7 +172,7 @@ const exportCsv = () => {
                                 'px-3 py-1 text-sm rounded-xl border',
                                 startDate === `${year}-01-01` && endDate === `${year}-12-31`
                                     ? 'bg-primary-100 border-primary-300 text-primary-700 dark:bg-primary-900 dark:border-primary-700 dark:text-primary-300'
-                                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-600'
+                                    : 'bg-white border-gray-300 text-slate-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300 dark:hover:bg-gray-800'
                             ]"
                         >
                             {{ year }}
@@ -183,7 +183,7 @@ const exportCsv = () => {
 
             <!-- Summary Cards -->
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -205,7 +205,7 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -227,7 +227,7 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -249,7 +249,7 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
@@ -273,13 +273,13 @@ const exportCsv = () => {
             </div>
 
             <!-- VAT Breakdown -->
-            <div v-if="vatBreakdown.length > 0" class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div v-if="vatBreakdown.length > 0" class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('vat_summary_title') }}</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-700">
+                        <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ t('vat_rate_label') }}
@@ -292,7 +292,7 @@ const exportCsv = () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-for="vat in vatBreakdown" :key="vat.rate">
                                 <td class="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white">
                                     {{ vat.rate }}%
@@ -305,7 +305,7 @@ const exportCsv = () => {
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot class="bg-slate-50 dark:bg-slate-700">
+                        <tfoot class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <td class="whitespace-nowrap py-3.5 pl-6 pr-3 text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ t('total') }}
@@ -323,8 +323,8 @@ const exportCsv = () => {
             </div>
 
             <!-- Invoices Table -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
-                <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+            <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         {{ t('revenue_details') }}
                         <span class="text-sm font-normal text-slate-500 dark:text-slate-400">
@@ -334,7 +334,7 @@ const exportCsv = () => {
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                        <thead class="bg-slate-50 dark:bg-slate-700">
+                        <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
                                     {{ t('payment_date') }}
@@ -356,7 +356,7 @@ const exportCsv = () => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-slate-800">
+                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-if="invoices.length === 0">
                                 <td colspan="6" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
                                     <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -365,7 +365,7 @@ const exportCsv = () => {
                                     <p class="mt-2">{{ t('no_revenue_this_period') }}</p>
                                 </td>
                             </tr>
-                            <tr v-for="invoice in invoices" :key="invoice.id" class="hover:bg-slate-50 dark:hover:bg-slate-700">
+                            <tr v-for="invoice in invoices" :key="invoice.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
                                 <td class="whitespace-nowrap py-4 pl-6 pr-3 text-sm text-slate-500 dark:text-slate-400">
                                     {{ formatDate(invoice.paid_at) }}
                                 </td>
@@ -391,7 +391,7 @@ const exportCsv = () => {
                                 </td>
                             </tr>
                         </tbody>
-                        <tfoot v-if="invoices.length > 0" class="bg-slate-50 dark:bg-slate-700">
+                        <tfoot v-if="invoices.length > 0" class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <td colspan="3" class="whitespace-nowrap py-3.5 pl-6 pr-3 text-sm font-semibold text-slate-900 dark:text-white">
                                     Total ({{ totals.count }} facture{{ totals.count > 1 ? 's' : '' }})
