@@ -20,6 +20,7 @@ class StoreInvoiceRequest extends FormRequest
         return [
             'client_id' => ['required', 'integer', new BelongsToAuthUser(Client::class)],
             'title' => ['nullable', 'string', 'max:255'],
+            'issued_at' => ['nullable', 'date'],
             'due_at' => ['nullable', 'date', 'after_or_equal:today'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'currency' => ['nullable', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],

@@ -252,9 +252,14 @@ const deleteInvoice = () => {
 };
 
 const finalizeInvoice = () => {
-    router.post(route('invoices.finalize', props.invoice.id), {}, {
+    form.put(route('invoices.update', props.invoice.id), {
+        preserveScroll: true,
         onSuccess: () => {
-            showFinalizeModal.value = false;
+            router.post(route('invoices.finalize', props.invoice.id), {}, {
+                onSuccess: () => {
+                    showFinalizeModal.value = false;
+                },
+            });
         },
     });
 };
@@ -299,9 +304,7 @@ const openPreview = () => {
                         :href="route('invoices.index')"
                         class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
                     >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
+                        <span class="material-symbols-outlined text-xl">arrow_back</span>
                     </Link>
                     <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                         {{ invoice.title || t('draft_invoice') }}
@@ -316,10 +319,7 @@ const openPreview = () => {
                         @click="openPreview"
                         class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                     >
-                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                        </svg>
+                        <span class="material-symbols-outlined text-lg mr-1.5">visibility</span>
                         {{ t('preview') }}
                     </button>
                     <button
@@ -344,7 +344,7 @@ const openPreview = () => {
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <div class="lg:col-span-2 space-y-6">
                 <!-- Client & Settings -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-xl bg-white shadow dark:bg-slate-800">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('information') }}</h2>
                     </div>
@@ -467,10 +467,7 @@ const openPreview = () => {
                                 :disabled="form.processing"
                                 class="inline-flex items-center rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                             >
-                                <svg v-if="form.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
+                                <span v-if="form.processing" class="material-symbols-outlined animate-spin -ml-1 mr-2 text-lg text-white">progress_activity</span>
                                 {{ form.processing ? t('saving') : t('save') }}
                             </button>
                         </div>
@@ -478,7 +475,7 @@ const openPreview = () => {
                 </div>
 
                 <!-- Invoice items -->
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800">
+                <div class="overflow-hidden rounded-xl bg-white shadow dark:bg-slate-800">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
                     </div>
@@ -567,18 +564,14 @@ const openPreview = () => {
                                             :disabled="editItemForm.processing"
                                             class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50"
                                         >
-                                            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                            </svg>
+                                            <span class="material-symbols-outlined text-lg">check</span>
                                         </button>
                                         <button
                                             type="button"
                                             @click="cancelEditItem"
                                             class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                                         >
-                                            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-                                            </svg>
+                                            <span class="material-symbols-outlined text-lg">close</span>
                                         </button>
                                     </div>
                                 </div>
@@ -595,9 +588,7 @@ const openPreview = () => {
                                         class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed"
                                         :title="t('move_up')"
                                     >
-                                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z" clip-rule="evenodd" />
-                                        </svg>
+                                        <span class="material-symbols-outlined text-lg">expand_less</span>
                                     </button>
                                     <button
                                         type="button"
@@ -606,9 +597,7 @@ const openPreview = () => {
                                         class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed"
                                         :title="t('move_down')"
                                     >
-                                        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                        </svg>
+                                        <span class="material-symbols-outlined text-lg">expand_more</span>
                                     </button>
                                 </div>
                                 <div class="flex-1 cursor-pointer" @click="startEditItem(item)">
@@ -632,9 +621,7 @@ const openPreview = () => {
                                         class="p-1 text-slate-400 hover:text-primary-600 dark:hover:text-primary-400"
                                         :title="t('edit')"
                                     >
-                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
-                                        </svg>
+                                        <span class="material-symbols-outlined text-xl">edit</span>
                                     </button>
                                     <button
                                         type="button"
@@ -642,9 +629,7 @@ const openPreview = () => {
                                         class="p-1 text-slate-400 hover:text-red-600 dark:hover:text-red-400"
                                         :title="t('delete')"
                                     >
-                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5z" clip-rule="evenodd" />
-                                        </svg>
+                                        <span class="material-symbols-outlined text-xl">delete</span>
                                     </button>
                                 </div>
                             </div>
@@ -728,9 +713,7 @@ const openPreview = () => {
                                         :disabled="itemForm.processing"
                                         class="inline-flex items-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                                     >
-                                        <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                        </svg>
+                                        <span class="material-symbols-outlined text-lg mr-1">add</span>
                                         {{ t('add') }}
                                     </button>
                                 </div>
@@ -742,7 +725,7 @@ const openPreview = () => {
 
             <!-- Sidebar with totals -->
             <div class="space-y-6">
-                <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-slate-800 sticky top-20">
+                <div class="overflow-hidden rounded-xl bg-white shadow dark:bg-slate-800 sticky top-20">
                     <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('summary') }}</h2>
                     </div>
@@ -776,7 +759,7 @@ const openPreview = () => {
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="showPreviewModal = false"></div>
 
-                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div class="relative bg-white dark:bg-slate-800 rounded-xl shadow-sm w-full max-w-5xl max-h-[90vh] flex flex-col">
                     <!-- Modal header -->
                     <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white">
@@ -804,10 +787,7 @@ const openPreview = () => {
                                 target="_blank"
                                 class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300"
                             >
-                                <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
-                                    <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
-                                </svg>
+                                <span class="material-symbols-outlined text-lg mr-1">download</span>
                                 PDF
                             </a>
                             <button
@@ -816,9 +796,7 @@ const openPreview = () => {
                                 :disabled="loadingPreview"
                                 class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 disabled:opacity-50"
                             >
-                                <svg class="h-4 w-4 mr-1" :class="{ 'animate-spin': loadingPreview }" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
-                                </svg>
+                                <span class="material-symbols-outlined text-lg mr-1" :class="{ 'animate-spin': loadingPreview }">refresh</span>
                                 {{ t('refresh') }}
                             </button>
                             <button
@@ -826,9 +804,7 @@ const openPreview = () => {
                                 @click="showPreviewModal = false"
                                 class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
                             >
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                                <span class="material-symbols-outlined text-2xl">close</span>
                             </button>
                         </div>
                     </div>
@@ -868,13 +844,11 @@ const openPreview = () => {
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 bg-slate-500 bg-opacity-75 transition-opacity" @click="showFinalizeModal = false"></div>
 
-                <div class="inline-block transform overflow-hidden rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div class="inline-block transform overflow-hidden rounded-xl bg-white text-left align-bottom shadow-sm transition-all dark:bg-slate-800 sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
                     <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
                             <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
-                                <svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
+                                <span class="material-symbols-outlined text-2xl text-yellow-600">warning</span>
                             </div>
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white">

@@ -151,6 +151,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::create([
             'client_id' => $client->id,
             'currency' => $request->validated('currency') ?? $client->currency,
+            'issued_at' => $request->validated('issued_at'),
             'due_at' => $request->validated('due_at'),
             'notes' => $request->validated('notes'),
             'vat_mention' => $request->validated('vat_mention'),

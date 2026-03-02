@@ -52,6 +52,7 @@ const clientVatScenario = computed(() => {
 const form = useForm({
     client_id: props.defaultClientId || '',
     title: '',
+    issued_at: new Date().toISOString().split('T')[0],
     due_at: '',
     notes: '',
     currency: 'EUR',
@@ -144,9 +145,7 @@ if (form.items.length === 0) {
                     :href="route('invoices.index')"
                     class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
                 >
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                    </svg>
+                    <span class="material-symbols-outlined text-xl">arrow_back</span>
                 </Link>
                 <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
                     {{ t('new_invoice') }}
@@ -156,7 +155,7 @@ if (form.items.length === 0) {
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Client</h2>
                 </div>
@@ -195,24 +194,36 @@ if (form.items.length === 0) {
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <InputLabel for="due_at" :value="t('due_date_optional')" />
-                        <input
-                            id="due_at"
-                            v-model="form.due_at"
-                            type="date"
-                            class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white sm:max-w-xs"
-                        />
-                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            {{ t('default_30_days_after') }}
-                        </p>
-                        <InputError :message="form.errors.due_at" class="mt-2" />
+                    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                            <InputLabel for="issued_at" :value="t('issue_date')" />
+                            <input
+                                id="issued_at"
+                                v-model="form.issued_at"
+                                type="date"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            />
+                            <InputError :message="form.errors.issued_at" class="mt-2" />
+                        </div>
+                        <div>
+                            <InputLabel for="due_at" :value="t('due_date_optional')" />
+                            <input
+                                id="due_at"
+                                v-model="form.due_at"
+                                type="date"
+                                class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+                            />
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('default_30_days_after') }}
+                            </p>
+                            <InputError :message="form.errors.due_at" class="mt-2" />
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Invoice items -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
                 </div>
@@ -239,13 +250,13 @@ if (form.items.length === 0) {
                             <div class="flex flex-wrap gap-4 items-end">
                                 <div class="flex-1 min-w-[200px]">
                                     <InputLabel :for="`item-${index}-description`" :value="t('description_optional')" />
-                                    <input
+                                    <textarea
                                         :id="`item-${index}-description`"
                                         v-model="item.description"
-                                        type="text"
+                                        rows="2"
                                         class="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
                                         :placeholder="t('additional_details')"
-                                    />
+                                    ></textarea>
                                 </div>
 
                             <div class="w-24">
@@ -323,11 +334,9 @@ if (form.items.length === 0) {
                                 v-if="form.items.length > 1"
                                 type="button"
                                 @click="removeItem(index)"
-                                class="p-2 text-pink-600 hover:text-pink-800 dark:text-pink-400 dark:hover:text-pink-300"
+                                class="p-2 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                             >
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5z" clip-rule="evenodd" />
-                                </svg>
+                                <span class="material-symbols-outlined text-xl">delete</span>
                             </button>
                         </div>
                         </div>
@@ -337,9 +346,7 @@ if (form.items.length === 0) {
                             @click="addItem"
                             class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                         >
-                            <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                            </svg>
+                            <span class="material-symbols-outlined -ml-0.5 mr-1.5 text-xl">add</span>
                             {{ t('add_line') }}
                         </button>
                     </div>
@@ -347,7 +354,7 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Notes & Options -->
-            <div class="overflow-hidden rounded-2xl bg-white shadow-xl shadow-slate-200/50 border border-slate-200 dark:bg-slate-800 dark:border-slate-700 dark:shadow-slate-900/50">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
                 <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes_optional') }}</h2>
                 </div>
