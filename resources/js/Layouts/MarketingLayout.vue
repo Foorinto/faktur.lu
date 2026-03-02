@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Link, usePage, router } from '@inertiajs/vue3';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
 
@@ -55,13 +56,8 @@ onUnmounted(() => {
             <nav class="mx-auto max-w-6xl px-6 lg:px-8 py-4">
                 <div class="flex items-center justify-between">
                     <!-- Logo -->
-                    <Link :href="localizedRoute('home')" class="flex items-center space-x-2.5">
-                        <div class="bg-[#9b5de5] p-2 rounded-xl">
-                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="font-bold text-slate-900">faktur.lu</span>
+                    <Link :href="localizedRoute('home')" class="flex items-center">
+                        <ApplicationLogo size="sm" />
                     </Link>
 
                     <!-- Desktop Navigation -->
@@ -221,13 +217,8 @@ onUnmounted(() => {
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="grid md:grid-cols-5 gap-8 mb-8">
                     <div class="md:col-span-2">
-                        <Link :href="localizedRoute('home')" class="flex items-center space-x-2.5 mb-4">
-                            <div class="bg-[#9b5de5] p-2 rounded-xl">
-                                <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </div>
-                            <span class="font-bold text-slate-900">faktur.lu</span>
+                        <Link :href="localizedRoute('home')" class="flex items-center mb-4">
+                            <ApplicationLogo size="sm" />
                         </Link>
                         <p class="text-slate-600 text-sm max-w-xs">
                             {{ t('landing.footer.tagline') }}
