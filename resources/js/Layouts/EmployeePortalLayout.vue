@@ -1,6 +1,7 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 
@@ -35,15 +36,8 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <Link :href="route('employee-portal.dashboard')" class="flex items-center gap-3">
-                        <div class="bg-primary-500 p-2 rounded-xl">
-                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="text-lg font-bold text-slate-900 dark:text-white">faktur.lu</span>
-                            <span class="hidden sm:inline ml-2 text-xs font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-2 py-0.5 rounded-full">{{ t('employee_portal.nav_title') }}</span>
-                        </div>
+                        <ApplicationLogo size="sm" />
+                        <span class="hidden sm:inline text-xs font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-2 py-0.5 rounded-full">{{ t('employee_portal.nav_title') }}</span>
                     </Link>
 
                     <div class="flex items-center gap-3">

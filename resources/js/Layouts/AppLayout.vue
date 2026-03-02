@@ -108,13 +108,8 @@ const routeExists = (routeName) => {
             <div class="flex h-full flex-col">
                 <!-- Logo -->
                 <div class="flex h-16 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-700">
-                    <Link :href="route('dashboard')" class="flex items-center space-x-2.5">
-                        <div class="bg-primary-500 p-2 rounded-xl">
-                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <span class="text-lg font-bold text-slate-900 dark:text-white">faktur.lu</span>
+                    <Link :href="route('dashboard')" class="flex items-center">
+                        <ApplicationLogo size="sm" />
                     </Link>
                 </div>
 

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 const page = usePage();
 
@@ -41,8 +42,8 @@ const isCurrentRoute = (routeName) => {
             ]"
         >
             <!-- Logo -->
-            <div class="flex h-16 items-center justify-center border-b border-slate-700">
-                <span class="text-xl font-bold text-purple-400">faktur.lu Admin</span>
+            <div class="flex h-16 items-center justify-center border-b border-slate-700 px-4">
+                <ApplicationLogo size="sm" />
             </div>
 
             <!-- Navigation -->

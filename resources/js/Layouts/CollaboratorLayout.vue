@@ -1,6 +1,7 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -28,11 +29,8 @@ const logout = () => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="flex items-center space-x-4">
-                        <Link :href="route('collaborator.dashboard')" class="flex items-center space-x-2">
-                            <svg class="h-8 w-8 text-primary-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H6v-2h6v2zm4-4H6v-2h10v2zm0-4H6V7h10v2z"/>
-                            </svg>
-                            <span class="text-xl font-bold text-slate-900 dark:text-white">faktur.lu</span>
+                        <Link :href="route('collaborator.dashboard')" class="flex items-center">
+                            <ApplicationLogo size="sm" />
                         </Link>
                         <span class="text-sm text-slate-500 dark:text-slate-400 hidden sm:inline">{{ t('collaborator_space') }}</span>
                     </div>
