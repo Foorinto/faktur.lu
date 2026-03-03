@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -435,6 +436,8 @@ const onKanbanDragEnd = () => {
                 </h1>
             </div>
         </template>
+
+        <ProductivityNav class="mb-6" />
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
             <!-- Main content -->

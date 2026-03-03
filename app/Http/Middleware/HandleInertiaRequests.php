@@ -98,6 +98,7 @@ class HandleInertiaRequests extends Middleware
             ]),
             'translations' => $this->getTranslations($locale),
             'unreadSupportCount' => fn () => $this->getUnreadSupportCount($request),
+            'pendingRemindersCount' => fn () => $this->getPendingRemindersCount($request),
         ];
     }
 
@@ -121,6 +122,20 @@ class HandleInertiaRequests extends Middleware
                 });
             })
             ->count();
+    }
+
+    /**
+     * Get the count of pending reminders for the current user.
+     */
+    protected function getPendingRemindersCount(Request $request): int
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return 0;
+        }
+
+        return \App\Models\Reminder::where('user_id', $user->id)->pending()->count();
     }
 
     /**

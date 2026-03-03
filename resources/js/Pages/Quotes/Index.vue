@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed } from 'vue';
 import axios from 'axios';
@@ -151,6 +152,8 @@ const canEdit = (quote) => {
                 {{ t('new_quote') }}
             </Link>
         </template>
+
+        <BillingNav class="mb-6" />
 
         <!-- Filters -->
         <div class="mb-6 flex flex-wrap gap-4">

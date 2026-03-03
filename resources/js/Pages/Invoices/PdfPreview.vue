@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -84,6 +85,8 @@ const sendEmail = () => {
                 Envoyer par email
             </button>
         </template>
+
+        <BillingNav class="mb-6" />
 
         <!-- PDF Preview -->
         <div class="bg-slate-100 dark:bg-surface-dark rounded-2xl p-4">

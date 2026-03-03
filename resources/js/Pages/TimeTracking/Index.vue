@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -370,6 +371,8 @@ const formatTime = (date) => {
                 {{ t('reports') }}
             </Link>
         </template>
+
+        <ProductivityNav class="mb-6" />
 
         <!-- Running Timer Section -->
         <div class="mb-6 overflow-x-auto rounded-2xl bg-gradient-to-r from-primary-500 to-purple-600 shadow-lg">

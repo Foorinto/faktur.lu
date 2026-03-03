@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
@@ -597,6 +598,8 @@ const submitCreditNote = () => {
                 {{ t('credit_note') }}
             </button>
         </template>
+
+        <BillingNav class="mb-6" />
 
         <div class="space-y-6">
             <!-- Invoice Header Info -->

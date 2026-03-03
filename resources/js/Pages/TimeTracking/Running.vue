@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -58,6 +59,8 @@ const stopTimer = () => {
                 {{ t('running_timer') }}
             </h1>
         </template>
+
+        <ProductivityNav class="mb-6" />
 
         <div v-if="timer" class="max-w-2xl mx-auto">
             <div class="overflow-hidden rounded-lg bg-gradient-to-r from-primary-500 to-purple-600 shadow-lg">

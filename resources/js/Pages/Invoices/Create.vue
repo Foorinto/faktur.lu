@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -150,6 +151,8 @@ if (form.items.length === 0) {
                 {{ t('new_invoice') }}
             </h1>
         </template>
+
+        <BillingNav class="mb-6" />
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->

@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -160,6 +161,8 @@ const getStatusBadge = (status) => {
                 {{ t('accounting_export') }}
             </h1>
         </template>
+
+        <AccountingNav class="mb-6" />
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

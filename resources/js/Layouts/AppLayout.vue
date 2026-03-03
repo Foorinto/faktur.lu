@@ -28,23 +28,15 @@ const navigation = computed(() => {
     const items = [
         { name: t('dashboard'), href: 'dashboard', icon: 'chart-bar' },
         { name: t('clients'), href: 'clients.index', icon: 'users' },
-        { name: t('quotes'), href: 'quotes.index', icon: 'clipboard-list' },
-        { name: t('invoices'), href: 'invoices.index', icon: 'document-text' },
+        { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices'] },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
-        { name: t('time_tracking'), href: 'time-entries.index', icon: 'clock' },
-        { name: t('projects'), href: 'projects.index', icon: 'folder' },
-        { name: t('revenue_book'), href: 'reports.revenue-book', icon: 'book-open' },
-        { name: t('faia_export'), href: 'exports.audit.index', icon: 'document-download' },
-        { name: t('accounting_export'), href: 'exports.accounting.index', icon: 'calculator' },
-        { name: t('crm.reminders'), href: 'reminders.index', icon: 'bell' },
+        { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'] },
+        { name: t('accounting'), href: 'reports.revenue-book', icon: 'calculator', routes: ['reports', 'exports'] },
         { name: t('hr.nav_title'), href: 'hr.dashboard', icon: 'identification' },
         { name: t('archive'), href: 'archive.index', icon: 'archive' },
-        { name: t('settings'), href: 'settings.business.edit', icon: 'cog' },
+        { name: t('business'), href: 'settings.business.edit', icon: 'building', routes: ['settings.business', 'settings.organization'] },
+        { name: t('settings'), href: 'settings.email', icon: 'cog', routes: ['settings.email', 'settings.accountant', 'subscription'] },
     ];
-
-    if (page.props.auth?.user?.is_pro) {
-        items.push({ name: t('organization'), href: 'settings.organization.index', icon: 'user-group' });
-    }
 
     if (page.props.auth?.user?.is_employee) {
         items.push({ name: t('employee_portal.nav_title'), href: 'employee-portal.dashboard', icon: 'user-circle' });
@@ -53,8 +45,11 @@ const navigation = computed(() => {
     return items;
 });
 
-const isCurrentRoute = (routeName) => {
+const isCurrentRoute = (routeName, routes) => {
     try {
+        if (routes) {
+            return routes.some(r => route().current(r) || route().current(r + '.*'));
+        }
         return route().current(routeName) || route().current(routeName + '.*');
     } catch {
         return false;
@@ -141,7 +136,7 @@ const routeExists = (routeName) => {
                             :href="route(item.href)"
                             :title="sidebarCollapsed ? item.name : undefined"
                             :class="[
-                                isCurrentRoute(item.href)
+                                isCurrentRoute(item.href, item.routes)
                                     ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
                                     : 'text-slate-600 hover:bg-gray-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-200',
                                 sidebarCollapsed
@@ -157,11 +152,7 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'users'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
-                            <!-- Clipboard List Icon (Devis) -->
-                            <svg v-else-if="item.icon === 'clipboard-list'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                            </svg>
-                            <!-- Document Icon -->
+                            <!-- Document Icon (Facturation) -->
                             <svg v-else-if="item.icon === 'document-text'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
@@ -169,29 +160,13 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'credit-card'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
-                            <!-- Clock Icon -->
+                            <!-- Clock Icon (Productivité) -->
                             <svg v-else-if="item.icon === 'clock'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <!-- Folder Icon (Projects) -->
-                            <svg v-else-if="item.icon === 'folder'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                            </svg>
-                            <!-- Book Open Icon (Recettes) -->
-                            <svg v-else-if="item.icon === 'book-open'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <!-- Document Download Icon (Export FAIA) -->
-                            <svg v-else-if="item.icon === 'document-download'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <!-- Calculator Icon (Export Comptable) -->
+                            <!-- Calculator Icon (Comptabilité) -->
                             <svg v-else-if="item.icon === 'calculator'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                            <!-- Bell Icon (Rappels) -->
-                            <svg v-else-if="item.icon === 'bell'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
                             <!-- Identification Icon (RH) -->
                             <svg v-else-if="item.icon === 'identification'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -201,14 +176,14 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'archive'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                             </svg>
+                            <!-- Building Icon (Entreprise) -->
+                            <svg v-else-if="item.icon === 'building'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
                             <!-- Cog Icon -->
                             <svg v-else-if="item.icon === 'cog'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <!-- User Group Icon (Organisation) -->
-                            <svg v-else-if="item.icon === 'user-group'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <!-- User Circle Icon (Employee Portal) -->
                             <svg v-else-if="item.icon === 'user-circle'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -232,9 +207,6 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'users'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'clipboard-list'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                            </svg>
                             <svg v-else-if="item.icon === 'document-text'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
@@ -244,17 +216,8 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'clock'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <svg v-else-if="item.icon === 'folder'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                            </svg>
-                            <svg v-else-if="item.icon === 'document-download'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
                             <svg v-else-if="item.icon === 'calculator'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                            <svg v-else-if="item.icon === 'bell'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
                             <svg v-else-if="item.icon === 'identification'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
@@ -262,12 +225,12 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'archive'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                             </svg>
+                            <svg v-else-if="item.icon === 'building'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
                             <svg v-else-if="item.icon === 'cog'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            <svg v-else-if="item.icon === 'user-group'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <svg v-else-if="item.icon === 'user-circle'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -411,8 +374,24 @@ const routeExists = (routeName) => {
                         </div>
                     </div>
 
-                    <!-- Theme toggle -->
-                    <div class="order-3 flex h-16 items-center flex-shrink-0 ml-4 sm:order-4">
+                    <!-- Reminders bell + Theme toggle -->
+                    <div class="order-3 flex h-16 items-center flex-shrink-0 ml-4 gap-2 sm:order-4">
+                        <Link
+                            v-if="routeExists('reminders.index')"
+                            :href="route('reminders.index')"
+                            class="relative flex items-center justify-center rounded-lg p-2 text-slate-500 hover:bg-gray-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-300 transition-colors"
+                            :title="t('crm.reminders')"
+                        >
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span
+                                v-if="$page.props.pendingRemindersCount > 0"
+                                class="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent-rose text-[10px] font-bold text-white"
+                            >
+                                {{ $page.props.pendingRemindersCount > 9 ? '9+' : $page.props.pendingRemindersCount }}
+                            </span>
+                        </Link>
                         <ThemeToggle />
                     </div>
                 </div>

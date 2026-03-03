@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -58,6 +59,8 @@ const formatCurrency = (amount) => {
                 {{ t('back') }}
             </Link>
         </template>
+
+        <ProductivityNav class="mb-6" />
 
         <!-- Filters -->
         <div class="mb-6 flex flex-wrap gap-4">

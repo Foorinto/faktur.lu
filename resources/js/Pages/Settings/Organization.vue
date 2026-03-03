@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Head, useForm, Link, router } from '@inertiajs/vue3';
+import EntrepriseNav from '@/Components/EntrepriseNav.vue';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
@@ -91,51 +92,11 @@ const toggleProjectVisibility = (projectId) => {
     <AppLayout>
         <template #header>
             <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                {{ t('settings') }}
+                {{ t('business') }}
             </h1>
         </template>
 
-        <!-- Settings Navigation -->
-        <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-8 overflow-x-auto" aria-label="Settings tabs">
-                <Link
-                    :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                    {{ t('business') }}
-                </Link>
-                <Link
-                    :href="route('settings.email')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                    Email
-                </Link>
-                <Link
-                    :href="route('settings.email.provider')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                    {{ t('email_provider') || 'Fournisseur Email' }}
-                </Link>
-                <Link
-                    :href="route('settings.accountant')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                    {{ t('accountant_access') }}
-                </Link>
-                <Link
-                    :href="route('settings.organization.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
-                >
-                    {{ t('organization') }}
-                </Link>
-                <Link
-                    :href="route('subscription.index')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                    {{ t('subscription') }}
-                </Link>
-            </nav>
-        </div>
+        <EntrepriseNav class="mb-6" />
 
         <div class="space-y-6">
             <!-- Create Organization -->

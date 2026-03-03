@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -104,6 +105,8 @@ const exportCsv = () => {
                 PDF
             </button>
         </template>
+
+        <AccountingNav class="mb-6" />
 
         <div class="space-y-6">
             <!-- Period Selection -->

@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed } from 'vue';
 import axios from 'axios';
@@ -205,6 +206,8 @@ const changeStatus = (invoice, newStatus) => {
                 {{ t('new_invoice') }}
             </Link>
         </template>
+
+        <BillingNav class="mb-6" />
 
         <!-- Filters -->
         <div class="mb-6 flex flex-wrap gap-4">

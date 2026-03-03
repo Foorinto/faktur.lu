@@ -45,12 +45,6 @@ const reminderLevelNames = {
         <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-4 sm:space-x-8 overflow-x-auto" aria-label="Settings tabs">
                 <Link
-                    :href="route('settings.business.edit')"
-                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
-                >
-                    {{ t('business_settings') }}
-                </Link>
-                <Link
                     :href="route('settings.email')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >

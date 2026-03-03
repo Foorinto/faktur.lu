@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
 import ProjectForm from '@/Components/ProjectForm.vue';
@@ -53,6 +54,8 @@ const submit = () => {
                 {{ t('new_project') }}
             </h1>
         </template>
+
+        <ProductivityNav class="mb-6" />
 
         <div class="mx-auto max-w-2xl">
             <ProjectForm

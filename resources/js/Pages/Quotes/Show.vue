@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import axios from 'axios';
@@ -208,6 +209,8 @@ const convertToInvoice = () => {
                 {{ t('convert_to_invoice') }}
             </button>
         </template>
+
+        <BillingNav class="mb-6" />
 
         <div class="space-y-6">
             <!-- Quote Header Info -->

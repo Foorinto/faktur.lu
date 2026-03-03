@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -159,6 +160,8 @@ const updateProjectStatus = (project, newStatus) => {
                 {{ t('new_project') }}
             </Link>
         </template>
+
+        <ProductivityNav class="mb-6" />
 
         <!-- Stats cards -->
         <div class="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
