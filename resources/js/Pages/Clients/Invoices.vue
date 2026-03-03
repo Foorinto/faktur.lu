@@ -275,9 +275,12 @@ const formatDate = (date) => {
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm">
                             <Link
                                 :href="route('invoices.show', invoice.id)"
-                                class="text-primary-600 hover:text-primary-500 dark:text-primary-400 font-medium"
+                                class="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
+                                :title="t('view')"
                             >
-                                {{ t('view') }}
+                                <svg class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                </svg>
                             </Link>
                         </td>
                     </tr>
