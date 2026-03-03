@@ -284,95 +284,93 @@ const getStatusLabel = (status) => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <Link
-                        :href="route('quotes.index')"
-                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        Devis {{ quote.reference }}
-                    </h1>
-                    <span
-                        :class="getStatusBadgeClass(quote.status)"
-                        class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                    >
-                        {{ getStatusLabel(quote.status) }}
-                    </span>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button
-                        type="button"
-                        @click="openPreview"
-                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                    >
-                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                        </svg>
-                        Aperçu
-                    </button>
-                    <button
-                        type="button"
-                        @click="deleteQuote"
-                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
-                    >
-                        Supprimer
-                    </button>
-                    <button
-                        v-if="quote.status === 'draft'"
-                        type="button"
-                        @click="markAsSent"
-                        :disabled="!quote.items || quote.items.length === 0"
-                        class="inline-flex items-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Marquer envoyé
-                    </button>
-
-                    <!-- Accept button (for sent quotes) -->
-                    <button
-                        v-if="quote.status === 'sent'"
-                        type="button"
-                        @click="markAsAccepted"
-                        class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                        </svg>
-                        Accepter
-                    </button>
-
-                    <!-- Decline button (for sent quotes) -->
-                    <button
-                        v-if="quote.status === 'sent'"
-                        type="button"
-                        @click="markAsDeclined"
-                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-                        </svg>
-                        Refuser
-                    </button>
-
-                    <!-- Convert to Invoice button (for accepted quotes) -->
-                    <button
-                        v-if="quote.status === 'accepted'"
-                        type="button"
-                        @click="convertToInvoice"
-                        class="inline-flex items-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.75 14.5a.75.75 0 000 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 00-1.5 0v.784a.272.272 0 01-.35.25A49.043 49.043 0 001.75 14.5z" clip-rule="evenodd" />
-                        </svg>
-                        Convertir en facture
-                    </button>
-                </div>
+            <div class="flex items-center space-x-4">
+                <Link
+                    :href="route('quotes.index')"
+                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+                >
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                    Devis {{ quote.reference }}
+                </h1>
+                <span
+                    :class="getStatusBadgeClass(quote.status)"
+                    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                >
+                    {{ getStatusLabel(quote.status) }}
+                </span>
             </div>
+        </template>
+        <template #header-actions>
+            <button
+                type="button"
+                @click="openPreview"
+                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+            >
+                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                    <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                </svg>
+                Aperçu
+            </button>
+            <button
+                type="button"
+                @click="deleteQuote"
+                class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
+            >
+                Supprimer
+            </button>
+            <button
+                v-if="quote.status === 'draft'"
+                type="button"
+                @click="markAsSent"
+                :disabled="!quote.items || quote.items.length === 0"
+                class="inline-flex items-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                Marquer envoyé
+            </button>
+
+            <!-- Accept button (for sent quotes) -->
+            <button
+                v-if="quote.status === 'sent'"
+                type="button"
+                @click="markAsAccepted"
+                class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                Accepter
+            </button>
+
+            <!-- Decline button (for sent quotes) -->
+            <button
+                v-if="quote.status === 'sent'"
+                type="button"
+                @click="markAsDeclined"
+                class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                </svg>
+                Refuser
+            </button>
+
+            <!-- Convert to Invoice button (for accepted quotes) -->
+            <button
+                v-if="quote.status === 'accepted'"
+                type="button"
+                @click="convertToInvoice"
+                class="inline-flex items-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.75 14.5a.75.75 0 000 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 00-1.5 0v.784a.272.272 0 01-.35.25A49.043 49.043 0 001.75 14.5z" clip-rule="evenodd" />
+                </svg>
+                Convertir en facture
+            </button>
         </template>
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">

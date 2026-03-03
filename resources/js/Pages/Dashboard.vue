@@ -85,24 +85,23 @@ const getStatusLabel = (status) => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-bold text-slate-900 dark:text-white">
-                    {{ t('dashboard') }}
-                </h1>
-                <!-- Year Selector -->
-                <div class="flex items-center space-x-2">
-                    <label for="year" class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('year') }} :</label>
-                    <select
-                        id="year"
-                        v-model="selectedYear"
-                        @change="changeYear(selectedYear)"
-                        class="rounded-xl border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                    >
-                        <option v-for="year in availableYears" :key="year" :value="year">
-                            {{ year }}
-                        </option>
-                    </select>
-                </div>
+            <h1 class="text-xl font-bold text-slate-900 dark:text-white">
+                {{ t('dashboard') }}
+            </h1>
+        </template>
+        <template #header-actions>
+            <div class="flex items-center space-x-2">
+                <label for="year" class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ t('year') }} :</label>
+                <select
+                    id="year"
+                    v-model="selectedYear"
+                    @change="changeYear(selectedYear)"
+                    class="rounded-xl border-gray-300 py-1.5 pl-3 pr-8 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                >
+                    <option v-for="year in availableYears" :key="year" :value="year">
+                        {{ year }}
+                    </option>
+                </select>
             </div>
         </template>
 

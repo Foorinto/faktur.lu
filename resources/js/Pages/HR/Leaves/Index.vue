@@ -194,36 +194,34 @@ const submitNew = () => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('hr.leave_requests') }}
-                </h1>
-                <div class="flex items-center gap-3">
-                    <Link
-                        :href="route('hr.leaves.calendar')"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        {{ t('hr.calendar') }}
-                    </Link>
-                    <button
-                        @click="showNewModal = true"
-                        class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                        </svg>
-                        {{ t('hr.new_request') }}
-                    </button>
-                </div>
-            </div>
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('hr.leave_requests') }}
+            </h1>
+        </template>
+        <template #header-actions>
+            <Link
+                :href="route('hr.leaves.calendar')"
+                class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                {{ t('hr.calendar') }}
+            </Link>
+            <button
+                @click="showNewModal = true"
+                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                </svg>
+                {{ t('hr.new_request') }}
+            </button>
         </template>
 
         <HRNav class="mb-6" />
 
         <!-- Status tabs -->
         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-4 overflow-x-auto">
+            <nav class="flex space-x-2 sm:space-x-4 overflow-x-auto">
                 <button
                     v-for="tab in statusTabs"
                     :key="tab.value"

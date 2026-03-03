@@ -140,17 +140,15 @@ if (form.items.length === 0) {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center space-x-4">
-                <Link
-                    :href="route('invoices.index')"
-                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                >
-                    <span class="material-symbols-outlined text-xl">arrow_back</span>
-                </Link>
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('new_invoice') }}
-                </h1>
-            </div>
+            <Link
+                :href="route('invoices.index')"
+                class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+            >
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" /></svg>
+            </Link>
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('new_invoice') }}
+            </h1>
         </template>
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -336,7 +334,7 @@ if (form.items.length === 0) {
                                 @click="removeItem(index)"
                                 class="p-2 text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                             >
-                                <span class="material-symbols-outlined text-xl">delete</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 01.78.72l.5 6a.75.75 0 01-1.5.12l-.5-6a.75.75 0 01.72-.78zm3.62.72a.75.75 0 10-1.5-.12l-.5 6a.75.75 0 101.5.12l.5-6z" clip-rule="evenodd" /></svg>
                             </button>
                         </div>
                         </div>
@@ -346,7 +344,7 @@ if (form.items.length === 0) {
                             @click="addItem"
                             class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                         >
-                            <span class="material-symbols-outlined -ml-0.5 mr-1.5 text-xl">add</span>
+                            <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
                             {{ t('add_line') }}
                         </button>
                     </div>

@@ -28,7 +28,7 @@ const isActive = (match) => {
             :key="link.href"
             :href="route(link.href)"
             :class="[
-                'whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
+                'whitespace-nowrap rounded-lg px-2 sm:px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors',
                 isActive(link.match)
                     ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
                     : 'text-slate-500 hover:bg-gray-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-300'

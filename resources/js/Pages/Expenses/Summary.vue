@@ -59,30 +59,29 @@ const getCategoryData = (categoryKey) => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <Link
-                        :href="route('expenses.index')"
-                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        {{ t('expenses_summary') }}
-                    </h1>
-                </div>
-
-                <select
-                    v-model="yearFilter"
-                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
+            <div class="flex items-center space-x-4">
+                <Link
+                    :href="route('expenses.index')"
+                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
                 >
-                    <option v-for="y in years" :key="y" :value="y">
-                        {{ y }}
-                    </option>
-                </select>
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                    {{ t('expenses_summary') }}
+                </h1>
             </div>
+        </template>
+        <template #header-actions>
+            <select
+                v-model="yearFilter"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
+            >
+                <option v-for="y in years" :key="y" :value="y">
+                    {{ y }}
+                </option>
+            </select>
         </template>
 
         <!-- Year Summary Cards -->

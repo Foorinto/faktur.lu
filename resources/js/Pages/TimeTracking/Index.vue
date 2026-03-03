@@ -355,20 +355,20 @@ const formatTime = (date) => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('time_tracking') }}
-                </h1>
-                <Link
-                    :href="route('time-entries.summary')"
-                    class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                >
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0016.5 2h-1zM9.5 6A1.5 1.5 0 008 7.5v9A1.5 1.5 0 009.5 18h1a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 6h-1zM3.5 10A1.5 1.5 0 002 11.5v5A1.5 1.5 0 003.5 18h1A1.5 1.5 0 006 16.5v-5A1.5 1.5 0 004.5 10h-1z" />
-                    </svg>
-                    {{ t('reports') }}
-                </Link>
-            </div>
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('time_tracking') }}
+            </h1>
+        </template>
+        <template #header-actions>
+            <Link
+                :href="route('time-entries.summary')"
+                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-13A1.5 1.5 0 0016.5 2h-1zM9.5 6A1.5 1.5 0 008 7.5v9A1.5 1.5 0 009.5 18h1a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 6h-1zM3.5 10A1.5 1.5 0 002 11.5v5A1.5 1.5 0 003.5 18h1A1.5 1.5 0 006 16.5v-5A1.5 1.5 0 004.5 10h-1z" />
+                </svg>
+                {{ t('reports') }}
+            </Link>
         </template>
 
         <!-- Running Timer Section -->
@@ -401,11 +401,11 @@ const formatTime = (date) => {
 
                 <div v-else>
                     <p class="mb-4 text-sm font-medium text-primary-100">{{ t('start_new_timer') }}</p>
-                    <form @submit.prevent="startTimer" class="flex flex-wrap gap-3">
+                    <form @submit.prevent="startTimer" class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-3">
                         <select
                             v-model="timerForm.client_id"
                             required
-                            class="rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                            class="w-full sm:w-auto rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
                         >
                             <option value="" class="text-slate-900">{{ t('select_client') }}</option>
                             <option v-for="client in clients" :key="client.id" :value="client.id" class="text-slate-900">
@@ -415,7 +415,7 @@ const formatTime = (date) => {
                         <select
                             v-if="timerProjects.length > 0"
                             v-model="timerForm.project_id"
-                            class="rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                            class="w-full sm:w-auto rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
                         >
                             <option value="" class="text-slate-900">{{ t('project') }} ({{ t('optional') }})</option>
                             <option v-for="project in timerProjects" :key="project.id" :value="project.id" class="text-slate-900">
@@ -427,12 +427,12 @@ const formatTime = (date) => {
                             v-model="timerForm.project_name"
                             type="text"
                             :placeholder="t('project_name')"
-                            class="rounded-xl border-0 bg-white/10 py-2 px-3 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                            class="w-full sm:w-auto rounded-xl border-0 bg-white/10 py-2 px-3 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
                         />
                         <select
                             v-if="timerTasks.length > 0"
                             v-model="timerForm.task_id"
-                            class="rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                            class="w-full sm:w-auto rounded-xl border-0 bg-white/10 py-2 pl-3 pr-10 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
                         >
                             <option value="" class="text-slate-900">{{ t('task') }} ({{ t('optional') }})</option>
                             <option v-for="task in timerTasks" :key="task.id" :value="task.id" class="text-slate-900">
@@ -445,12 +445,12 @@ const formatTime = (date) => {
                             rows="1"
                             @input="autoResizeTextarea"
                             ref="timerDescriptionRef"
-                            class="flex-1 rounded-xl border-0 bg-white/10 py-2 px-3 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm resize-y min-h-[38px] max-h-32"
+                            class="w-full sm:flex-1 rounded-xl border-0 bg-white/10 py-2 px-3 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm resize-y min-h-[38px] max-h-32"
                         ></textarea>
                         <button
                             type="submit"
                             :disabled="timerForm.processing || !timerForm.client_id"
-                            class="inline-flex items-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary-600 shadow-sm hover:bg-primary-50 disabled:opacity-50"
+                            class="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-primary-600 shadow-sm hover:bg-primary-50 disabled:opacity-50"
                         >
                             <svg class="mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />

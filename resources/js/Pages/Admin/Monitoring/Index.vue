@@ -111,36 +111,36 @@ onUnmounted(() => {
 
     <AdminLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-white">Monitoring</h1>
-                <div class="flex items-center gap-3">
-                    <!-- Period selector -->
-                    <div class="flex rounded-lg bg-slate-700 p-1">
-                        <button
-                            v-for="p in periods"
-                            :key="p.value"
-                            :class="[
-                                'rounded-md px-3 py-1 text-sm font-medium transition-colors',
-                                selectedPeriod === p.value
-                                    ? 'bg-purple-600 text-white'
-                                    : 'text-slate-400 hover:text-white',
-                            ]"
-                            @click="changePeriod(p.value)"
-                        >
-                            {{ p.label }}
-                        </button>
-                    </div>
-                    <SecondaryButton
-                        :disabled="isRefreshing"
-                        @click="refresh"
+            <h1 class="text-xl font-semibold text-white">Monitoring</h1>
+        </template>
+        <template #header-actions>
+            <div class="flex items-center gap-3">
+                <!-- Period selector -->
+                <div class="flex rounded-lg bg-slate-700 p-1">
+                    <button
+                        v-for="p in periods"
+                        :key="p.value"
+                        :class="[
+                            'rounded-md px-3 py-1 text-sm font-medium transition-colors',
+                            selectedPeriod === p.value
+                                ? 'bg-purple-600 text-white'
+                                : 'text-slate-400 hover:text-white',
+                        ]"
+                        @click="changePeriod(p.value)"
                     >
-                        <svg v-if="isRefreshing" class="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        {{ isRefreshing ? 'Actualisation...' : 'Actualiser' }}
-                    </SecondaryButton>
+                        {{ p.label }}
+                    </button>
                 </div>
+                <SecondaryButton
+                    :disabled="isRefreshing"
+                    @click="refresh"
+                >
+                    <svg v-if="isRefreshing" class="mr-2 h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    {{ isRefreshing ? 'Actualisation...' : 'Actualiser' }}
+                </SecondaryButton>
             </div>
         </template>
 

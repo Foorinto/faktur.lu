@@ -95,27 +95,27 @@ const getContractBadgeClass = (type) => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('hr.employees') }}
-                </h1>
-                <Link
-                    :href="route('hr.employees.create')"
-                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
-                >
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                    </svg>
-                    {{ t('hr.new_employee') }}
-                </Link>
-            </div>
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('hr.employees') }}
+            </h1>
+        </template>
+        <template #header-actions>
+            <Link
+                :href="route('hr.employees.create')"
+                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                </svg>
+                {{ t('hr.new_employee') }}
+            </Link>
         </template>
 
         <HRNav class="mb-6" />
 
         <!-- Status tabs -->
         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-4 overflow-x-auto" aria-label="Status tabs">
+            <nav class="flex space-x-2 sm:space-x-4 overflow-x-auto" aria-label="Status tabs">
                 <button
                     v-for="tab in statusTabs"
                     :key="tab.value"

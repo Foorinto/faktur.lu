@@ -383,26 +383,38 @@ const routeExists = (routeName) => {
         <!-- Main content -->
         <div :class="[sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64', 'relative transition-all duration-300', page.props.impersonating ? 'pt-10' : '']">
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white/80 backdrop-blur-md px-4 dark:border-gray-700 dark:bg-surface-card/80 sm:px-6 lg:px-8">
-                <!-- Mobile menu button -->
-                <button
-                    type="button"
-                    class="text-slate-500 hover:text-slate-700 lg:hidden dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
-                    @click="showingSidebar = !showingSidebar"
-                >
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+            <header class="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-surface-card/80 px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center">
+                    <!-- Mobile menu button -->
+                    <button
+                        type="button"
+                        class="order-1 flex h-16 items-center pr-3 text-slate-500 hover:text-slate-700 lg:hidden dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
+                        @click="showingSidebar = !showingSidebar"
+                    >
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
 
-                <!-- Page title slot -->
-                <div class="flex-1 lg:ml-0">
-                    <slot name="header" />
-                </div>
+                    <!-- Page title -->
+                    <div class="order-2 flex h-16 flex-1 items-center min-w-0">
+                        <slot name="header" />
+                    </div>
 
-                <!-- Right side actions -->
-                <div class="flex items-center space-x-4">
-                    <ThemeToggle />
+                    <!-- Page actions (line 2 on mobile, inline on sm+) -->
+                    <div
+                        v-if="$slots['header-actions']"
+                        class="order-4 w-full pb-3 sm:order-3 sm:w-auto sm:pb-0 sm:ml-4 sm:flex sm:h-16 sm:items-center sm:flex-shrink-0"
+                    >
+                        <div class="flex flex-wrap items-center gap-2">
+                            <slot name="header-actions" />
+                        </div>
+                    </div>
+
+                    <!-- Theme toggle -->
+                    <div class="order-3 flex h-16 items-center flex-shrink-0 ml-4 sm:order-4">
+                        <ThemeToggle />
+                    </div>
                 </div>
             </header>
 

@@ -29,39 +29,37 @@ const deleteEvaluation = () => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <Link
-                        :href="route('hr.employees.evaluations', employee.id)"
-                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        {{ evaluation.title }}
-                    </h1>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <a
-                        :href="route('hr.employees.evaluations.pdf', [employee.id, evaluation.id])"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
-                            <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
-                        </svg>
-                        {{ t('hr.export_pdf') }}
-                    </a>
-                    <button
-                        @click="deleteEvaluation"
-                        class="inline-flex items-center rounded-xl bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
-                    >
-                        {{ t('delete') }}
-                    </button>
-                </div>
+            <div class="flex items-center space-x-4">
+                <Link
+                    :href="route('hr.employees.evaluations', employee.id)"
+                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+                >
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                    {{ evaluation.title }}
+                </h1>
             </div>
+        </template>
+        <template #header-actions>
+            <a
+                :href="route('hr.employees.evaluations.pdf', [employee.id, evaluation.id])"
+                class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
+                    <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+                </svg>
+                {{ t('hr.export_pdf') }}
+            </a>
+            <button
+                @click="deleteEvaluation"
+                class="inline-flex items-center rounded-xl bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+            >
+                {{ t('delete') }}
+            </button>
         </template>
 
         <HRNav class="mb-6" />

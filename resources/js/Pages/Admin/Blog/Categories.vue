@@ -72,19 +72,17 @@ const deleteCategory = (category) => {
 
     <AdminLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <Link :href="route('admin.blog.index')" class="text-slate-400 hover:text-white">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </Link>
-                    <h1 class="text-xl font-semibold text-white">Catégories du blog</h1>
-                </div>
-                <PrimaryButton @click="openCreateModal">
-                    Nouvelle catégorie
-                </PrimaryButton>
-            </div>
+            <Link :href="route('admin.blog.index')" class="text-slate-400 hover:text-white">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </Link>
+            <h1 class="text-xl font-semibold text-white">Catégories du blog</h1>
+        </template>
+        <template #header-actions>
+            <PrimaryButton @click="openCreateModal">
+                Nouvelle catégorie
+            </PrimaryButton>
         </template>
 
         <!-- Categories list -->

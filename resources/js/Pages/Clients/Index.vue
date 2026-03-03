@@ -99,46 +99,46 @@ const showNewDropdown = ref(false);
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('clients') }}
-                </h1>
-                <div class="relative">
-                    <button
-                        @click="showNewDropdown = !showNewDropdown"
-                        class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('clients') }}
+            </h1>
+        </template>
+        <template #header-actions>
+            <div class="relative">
+                <button
+                    @click="showNewDropdown = !showNewDropdown"
+                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
+                >
+                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                    </svg>
+                    {{ t('new_client') }}
+                    <svg class="ml-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <div v-if="showNewDropdown" class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-gray-200 dark:bg-surface-card dark:ring-gray-700">
+                    <Link
+                        :href="route('clients.create', { status: 'active' })"
+                        @click="showNewDropdown = false"
+                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-t-xl"
                     >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                        </svg>
                         {{ t('new_client') }}
-                        <svg class="ml-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <div v-if="showNewDropdown" class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-gray-200 dark:bg-surface-card dark:ring-gray-700">
-                        <Link
-                            :href="route('clients.create', { status: 'active' })"
-                            @click="showNewDropdown = false"
-                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-t-xl"
-                        >
-                            {{ t('new_client') }}
-                        </Link>
-                        <Link
-                            :href="route('clients.create', { status: 'prospect' })"
-                            @click="showNewDropdown = false"
-                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-b-xl"
-                        >
-                            {{ t('crm.new_prospect') }}
-                        </Link>
-                    </div>
+                    </Link>
+                    <Link
+                        :href="route('clients.create', { status: 'prospect' })"
+                        @click="showNewDropdown = false"
+                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-b-xl"
+                    >
+                        {{ t('crm.new_prospect') }}
+                    </Link>
                 </div>
             </div>
         </template>
 
         <!-- Status tabs -->
         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-4 overflow-x-auto" aria-label="Status tabs">
+            <nav class="flex space-x-2 sm:space-x-4 overflow-x-auto" aria-label="Status tabs">
                 <button
                     v-for="tab in statusTabs"
                     :key="tab.value"

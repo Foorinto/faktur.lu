@@ -420,184 +420,182 @@ const submitCreditNote = () => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <Link
-                        :href="route('invoices.index')"
-                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        <span v-if="invoice.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">{{ t('credit_note') }} </span>
-                        {{ invoice.number }}
-                    </h1>
-                    <span
-                        :class="getStatusBadgeClass(invoice.status)"
-                        class="inline-flex items-center rounded-xl px-3 py-1 text-xs font-medium"
-                    >
-                        {{ getStatusLabel(invoice.status) }}
-                    </span>
-                </div>
-
-                <div class="flex items-center space-x-3">
-                    <!-- Preview Button -->
-                    <button
-                        type="button"
-                        @click="openPreview"
-                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                    >
-                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('preview') }}
-                    </button>
-
-                    <!-- Mark as Sent -->
-                    <button
-                        v-if="invoice.status === 'finalized'"
-                        @click="markAsSent"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-amber-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-600 disabled:opacity-50"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                            <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
-                        </svg>
-                        {{ t('mark_as_sent') }}
-                    </button>
-
-                    <!-- Mark as Paid -->
-                    <button
-                        v-if="invoice.status === 'sent'"
-                        @click="markAsPaid"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 disabled:opacity-50"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('mark_as_paid') }}
-                    </button>
-
-                    <!-- Send Email Button -->
-                    <button
-                        v-if="canSendEmail"
-                        @click="openEmailModal"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                            <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
-                        </svg>
-                        {{ t('send_by_email') }}
-                    </button>
-
-                    <!-- Reminder Dropdown -->
-                    <div v-if="canSendReminder && isOverdue" class="relative inline-block text-left">
-                        <button
-                            type="button"
-                            @click="openReminderModal(1)"
-                            class="inline-flex items-center rounded-xl bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600"
-                        >
-                            <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 2a6 6 0 00-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 00.515 1.076 32.91 32.91 0 003.256.508 3.5 3.5 0 006.972 0 32.903 32.903 0 003.256-.508.75.75 0 00.515-1.076A11.448 11.448 0 0116 8a6 6 0 00-6-6zM8.05 14.943a33.54 33.54 0 003.9 0 2 2 0 01-3.9 0z" clip-rule="evenodd" />
-                            </svg>
-                            {{ t('send_reminder') }}
-                        </button>
-                    </div>
-
-                    <!-- Email History Button -->
-                    <button
-                        v-if="canSendEmail"
-                        @click="openEmailHistory"
-                        type="button"
-                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                        :title="t('email_history')"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-
-                    <!-- Peppol Export Button -->
-                    <a
-                        v-if="canExportPeppol"
-                        :href="route('invoices.peppol', invoice.id)"
-                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                        title="Export Peppol BIS 3.0"
-                    >
-                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
-                        </svg>
-                        Peppol XML
-                    </a>
-
-                    <!-- Factur-X Export Button -->
-                    <a
-                        v-if="invoice.status !== 'draft'"
-                        :href="route('invoices.facturx', invoice.id)"
-                        class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                        title="Télécharger Factur-X / ZUGFeRD (PDF hybride)"
-                    >
-                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 11.97a.75.75 0 001.5 0v-2.69l.72.72a.75.75 0 101.06-1.06l-2-2a.75.75 0 00-1.06 0l-2 2a.75.75 0 001.06 1.06l.72-.72v2.69z" clip-rule="evenodd" />
-                        </svg>
-                        Factur-X
-                    </a>
-
-                    <!-- Send via Peppol Button -->
-                    <button
-                        v-if="canSendPeppol"
-                        @click="sendViaPeppol"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 disabled:opacity-50"
-                        title="Envoyer via le réseau Peppol"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
-                        </svg>
-                        Envoyer Peppol
-                    </button>
-
-                    <!-- Peppol Status Badge -->
-                    <span
-                        v-if="peppolTransmission"
-                        :class="getPeppolStatusBadgeClass(peppolTransmission.status)"
-                        class="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium"
-                        :title="peppolTransmission.error_message || ''"
-                    >
-                        <svg v-if="peppolTransmission.status === 'processing'" class="animate-spin -ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <svg v-else-if="peppolTransmission.status === 'sent' || peppolTransmission.status === 'delivered'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                        </svg>
-                        <svg v-else-if="peppolTransmission.status === 'failed'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-                        </svg>
-                        Peppol: {{ getPeppolStatusLabel(peppolTransmission.status) }}
-                    </span>
-
-                    <!-- Create Credit Note -->
-                    <button
-                        v-if="invoice.type === 'invoice' && ['finalized', 'sent', 'paid'].includes(invoice.status) && !invoice.credit_note"
-                        @click="openCreditNoteModal"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800 dark:text-pink-400 dark:hover:bg-gray-800"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2.121 2.121 0 013 3l-4.9 4.9a2.121 2.121 0 01-1.5.621h-1a.5.5 0 01-.5-.5v-1a2.121 2.121 0 01.621-1.5z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('credit_note') }}
-                    </button>
-                </div>
+            <div class="flex items-center space-x-3">
+                <Link
+                    :href="route('invoices.index')"
+                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+                >
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <h1 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
+                    <span v-if="invoice.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">{{ t('credit_note') }} </span>
+                    {{ invoice.number }}
+                </h1>
+                <span
+                    :class="getStatusBadgeClass(invoice.status)"
+                    class="inline-flex items-center rounded-xl px-2.5 py-0.5 text-xs font-medium"
+                >
+                    {{ getStatusLabel(invoice.status) }}
+                </span>
             </div>
+        </template>
+
+        <template #header-actions>
+            <!-- Preview Button -->
+            <button
+                type="button"
+                @click="openPreview"
+                class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+            >
+                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                    <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                </svg>
+                {{ t('preview') }}
+            </button>
+
+            <!-- Mark as Sent -->
+            <button
+                v-if="invoice.status === 'finalized'"
+                @click="markAsSent"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl bg-amber-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-600 disabled:opacity-50"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                    <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                </svg>
+                {{ t('mark_as_sent') }}
+            </button>
+
+            <!-- Mark as Paid -->
+            <button
+                v-if="invoice.status === 'sent'"
+                @click="markAsPaid"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 disabled:opacity-50"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                {{ t('mark_as_paid') }}
+            </button>
+
+            <!-- Send Email Button -->
+            <button
+                v-if="canSendEmail"
+                @click="openEmailModal"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                    <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                </svg>
+                {{ t('send_by_email') }}
+            </button>
+
+            <!-- Reminder Dropdown -->
+            <div v-if="canSendReminder && isOverdue" class="relative inline-block text-left">
+                <button
+                    type="button"
+                    @click="openReminderModal(1)"
+                    class="inline-flex items-center rounded-xl bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600"
+                >
+                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 2a6 6 0 00-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 00.515 1.076 32.91 32.91 0 003.256.508 3.5 3.5 0 006.972 0 32.903 32.903 0 003.256-.508.75.75 0 00.515-1.076A11.448 11.448 0 0116 8a6 6 0 00-6-6zM8.05 14.943a33.54 33.54 0 003.9 0 2 2 0 01-3.9 0z" clip-rule="evenodd" />
+                    </svg>
+                    {{ t('send_reminder') }}
+                </button>
+            </div>
+
+            <!-- Email History Button -->
+            <button
+                v-if="canSendEmail"
+                @click="openEmailHistory"
+                type="button"
+                class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                :title="t('email_history')"
+            >
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <!-- Peppol Export Button -->
+            <a
+                v-if="canExportPeppol"
+                :href="route('invoices.peppol', invoice.id)"
+                class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                title="Export Peppol BIS 3.0"
+            >
+                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
+                </svg>
+                Peppol XML
+            </a>
+
+            <!-- Factur-X Export Button -->
+            <a
+                v-if="invoice.status !== 'draft'"
+                :href="route('invoices.facturx', invoice.id)"
+                class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                title="Télécharger Factur-X / ZUGFeRD (PDF hybride)"
+            >
+                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 11.97a.75.75 0 001.5 0v-2.69l.72.72a.75.75 0 101.06-1.06l-2-2a.75.75 0 00-1.06 0l-2 2a.75.75 0 001.06 1.06l.72-.72v2.69z" clip-rule="evenodd" />
+                </svg>
+                Factur-X
+            </a>
+
+            <!-- Send via Peppol Button -->
+            <button
+                v-if="canSendPeppol"
+                @click="sendViaPeppol"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 disabled:opacity-50"
+                title="Envoyer via le réseau Peppol"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+                </svg>
+                Envoyer Peppol
+            </button>
+
+            <!-- Peppol Status Badge -->
+            <span
+                v-if="peppolTransmission"
+                :class="getPeppolStatusBadgeClass(peppolTransmission.status)"
+                class="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium"
+                :title="peppolTransmission.error_message || ''"
+            >
+                <svg v-if="peppolTransmission.status === 'processing'" class="animate-spin -ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <svg v-else-if="peppolTransmission.status === 'sent' || peppolTransmission.status === 'delivered'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                <svg v-else-if="peppolTransmission.status === 'failed'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                </svg>
+                Peppol: {{ getPeppolStatusLabel(peppolTransmission.status) }}
+            </span>
+
+            <!-- Create Credit Note -->
+            <button
+                v-if="invoice.type === 'invoice' && ['finalized', 'sent', 'paid'].includes(invoice.status) && !invoice.credit_note"
+                @click="openCreditNoteModal"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800 dark:text-pink-400 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2.121 2.121 0 013 3l-4.9 4.9a2.121 2.121 0 01-1.5.621h-1a.5.5 0 01-.5-.5v-1a2.121 2.121 0 01.621-1.5z" clip-rule="evenodd" />
+                </svg>
+                {{ t('credit_note') }}
+            </button>
         </template>
 
         <div class="space-y-6">
@@ -653,7 +651,7 @@ const submitCreditNote = () => {
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
                 </div>
                 <div class="px-6 py-4">
-                    <dl class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         <div>
                             <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('issue_date') }}</dt>
                             <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatDate(invoice.issued_at) }}</dd>

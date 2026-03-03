@@ -134,82 +134,79 @@ const convertToInvoice = () => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <Link
-                        :href="route('quotes.index')"
-                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        {{ quote.reference }}
-                    </h1>
-                    <span
-                        :class="getStatusBadgeClass(quote.status)"
-                        class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                    >
-                        {{ getStatusLabel(quote.status) }}
-                    </span>
-                </div>
-
-                <div class="flex items-center space-x-3">
-                    <!-- Preview Button -->
-                    <button
-                        type="button"
-                        @click="openPreview"
-                        class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                    >
-                        <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('preview') }}
-                    </button>
-
-                    <!-- Mark as Accepted -->
-                    <button
-                        v-if="quote.status === 'sent'"
-                        @click="markAsAccepted"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('accept') }}
-                    </button>
-
-                    <!-- Mark as Declined -->
-                    <button
-                        v-if="quote.status === 'sent'"
-                        @click="markAsDeclined"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-                        </svg>
-                        {{ t('reject') }}
-                    </button>
-
-                    <!-- Convert to Invoice -->
-                    <button
-                        v-if="quote.status === 'accepted'"
-                        @click="convertToInvoice"
-                        :disabled="processing"
-                        class="inline-flex items-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 disabled:opacity-50"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                            <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
-                        </svg>
-                        {{ t('convert_to_invoice') }}
-                    </button>
-                </div>
+            <div class="flex items-center space-x-3">
+                <Link
+                    :href="route('quotes.index')"
+                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+                >
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <h1 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
+                    {{ quote.reference }}
+                </h1>
+                <span
+                    :class="getStatusBadgeClass(quote.status)"
+                    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                >
+                    {{ getStatusLabel(quote.status) }}
+                </span>
             </div>
+        </template>
+        <template #header-actions>
+            <!-- Preview Button -->
+            <button
+                type="button"
+                @click="openPreview"
+                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+            >
+                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                    <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                </svg>
+                {{ t('preview') }}
+            </button>
+
+            <!-- Mark as Accepted -->
+            <button
+                v-if="quote.status === 'sent'"
+                @click="markAsAccepted"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 disabled:opacity-50"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+                {{ t('accept') }}
+            </button>
+
+            <!-- Mark as Declined -->
+            <button
+                v-if="quote.status === 'sent'"
+                @click="markAsDeclined"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                </svg>
+                {{ t('reject') }}
+            </button>
+
+            <!-- Convert to Invoice -->
+            <button
+                v-if="quote.status === 'accepted'"
+                @click="convertToInvoice"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 disabled:opacity-50"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                    <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                </svg>
+                {{ t('convert_to_invoice') }}
+            </button>
         </template>
 
         <div class="space-y-6">
@@ -273,7 +270,7 @@ const convertToInvoice = () => {
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
                 </div>
                 <div class="px-6 py-4">
-                    <dl class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         <div>
                             <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('created_at') }}</dt>
                             <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatDate(quote.created_at) }}</dd>

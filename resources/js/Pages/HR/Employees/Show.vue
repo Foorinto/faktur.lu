@@ -235,88 +235,86 @@ const applyTemplate = () => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <Link
-                        :href="route('hr.employees.index')"
-                        class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                    >
-                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                    <div class="h-10 w-10 flex-shrink-0">
-                        <img
-                            v-if="employee.photo_path"
-                            :src="`/storage/${employee.photo_path}`"
-                            :alt="employee.full_name"
-                            class="h-10 w-10 rounded-xl object-cover"
-                        />
-                        <div v-else :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(employee.first_name + ' ' + employee.last_name)]">
-                            <span class="text-sm font-bold">
-                                {{ employee.first_name.charAt(0) }}{{ employee.last_name.charAt(0) }}
-                            </span>
-                        </div>
+            <div class="flex items-center space-x-3 min-w-0">
+                <Link
+                    :href="route('hr.employees.index')"
+                    class="flex-shrink-0 text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+                >
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    </svg>
+                </Link>
+                <div class="h-10 w-10 flex-shrink-0">
+                    <img
+                        v-if="employee.photo_path"
+                        :src="`/storage/${employee.photo_path}`"
+                        :alt="employee.full_name"
+                        class="h-10 w-10 rounded-xl object-cover"
+                    />
+                    <div v-else :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(employee.first_name + ' ' + employee.last_name)]">
+                        <span class="text-sm font-bold">
+                            {{ employee.first_name.charAt(0) }}{{ employee.last_name.charAt(0) }}
+                        </span>
                     </div>
-                    <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        {{ employee.full_name }}
-                    </h1>
-                    <span
-                        :class="getStatusBadgeClass(employee.status)"
-                        class="inline-flex items-center rounded-xl px-3 py-1 text-xs font-medium"
-                    >
-                        {{ t('hr.status_' + employee.status) }}
-                    </span>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <!-- Portal activation -->
-                    <button
-                        v-if="!employee.account_id && employee.email_pro"
-                        @click="activatePortal"
-                        class="inline-flex items-center rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
-                        </svg>
-                        {{ t('employee_portal.activate_portal') }}
-                    </button>
-                    <span
-                        v-if="employee.account_id"
-                        class="inline-flex items-center rounded-xl bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
-                    >
-                        {{ t('employee_portal.portal_active') }}
-                    </span>
-                    <button
-                        v-if="employee.account_id"
-                        @click="deactivatePortal"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
-                    >
-                        {{ t('employee_portal.deactivate_portal') }}
-                    </button>
-                    <Link
-                        :href="route('hr.employees.edit', employee.id)"
-                        class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
-                    >
-                        <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
-                        </svg>
-                        {{ t('edit') }}
-                    </Link>
-                    <button
-                        @click="deleteEmployee"
-                        class="inline-flex items-center rounded-xl bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
-                    >
-                        {{ t('delete') }}
-                    </button>
-                </div>
+                <h1 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white truncate">
+                    {{ employee.full_name }}
+                </h1>
+                <span
+                    :class="getStatusBadgeClass(employee.status)"
+                    class="flex-shrink-0 inline-flex items-center rounded-xl px-2.5 py-0.5 text-xs font-medium"
+                >
+                    {{ t('hr.status_' + employee.status) }}
+                </span>
             </div>
+        </template>
+        <template #header-actions>
+            <!-- Portal activation -->
+            <button
+                v-if="!employee.account_id && employee.email_pro"
+                @click="activatePortal"
+                class="inline-flex items-center rounded-xl bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                </svg>
+                {{ t('employee_portal.activate_portal') }}
+            </button>
+            <span
+                v-if="employee.account_id"
+                class="inline-flex items-center rounded-xl bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+            >
+                {{ t('employee_portal.portal_active') }}
+            </span>
+            <button
+                v-if="employee.account_id"
+                @click="deactivatePortal"
+                class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
+            >
+                {{ t('employee_portal.deactivate_portal') }}
+            </button>
+            <Link
+                :href="route('hr.employees.edit', employee.id)"
+                class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-white dark:ring-slate-600 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                </svg>
+                {{ t('edit') }}
+            </Link>
+            <button
+                @click="deleteEmployee"
+                class="inline-flex items-center rounded-xl bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+            >
+                {{ t('delete') }}
+            </button>
         </template>
 
         <HRNav class="mb-6" />
 
         <!-- Tabs -->
         <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-8">
+            <nav class="flex space-x-4 sm:space-x-8 overflow-x-auto">
                 <Link
                     :href="route('hr.employees.show', employee.id)"
                     :class="[

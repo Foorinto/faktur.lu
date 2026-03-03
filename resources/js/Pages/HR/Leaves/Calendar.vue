@@ -96,17 +96,17 @@ const monthNames = [
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('hr.calendar') }}
-                </h1>
-                <Link
-                    :href="route('hr.leaves.index')"
-                    class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
-                >
-                    {{ t('hr.leave_requests') }}
-                </Link>
-            </div>
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('hr.calendar') }}
+            </h1>
+        </template>
+        <template #header-actions>
+            <Link
+                :href="route('hr.leaves.index')"
+                class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
+            >
+                {{ t('hr.leave_requests') }}
+            </Link>
         </template>
 
         <HRNav class="mb-6" />

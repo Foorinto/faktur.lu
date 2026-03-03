@@ -76,19 +76,17 @@ const submit = () => {
 
     <AppLayout>
         <template #header>
-            <div class="flex items-center space-x-4">
-                <Link
-                    :href="route('hr.employees.show', employee.id)"
-                    class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
-                >
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
-                    </svg>
-                </Link>
-                <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                    {{ t('edit') }} — {{ employee.full_name }}
-                </h1>
-            </div>
+            <Link
+                :href="route('hr.employees.show', employee.id)"
+                class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
+            >
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                </svg>
+            </Link>
+            <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('edit') }} — {{ employee.full_name }}
+            </h1>
         </template>
 
         <HRNav class="mb-6" />

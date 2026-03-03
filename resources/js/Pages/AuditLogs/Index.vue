@@ -77,20 +77,20 @@ watch(() => localFilters.value.search, () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-200">
-                    {{ t('audit_logs') }}
-                </h2>
-                <button
-                    @click="exportCsv"
-                    class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-200 dark:ring-slate-600 dark:hover:bg-gray-800"
-                >
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    {{ t('export_csv') }}
-                </button>
-            </div>
+            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-200">
+                {{ t('audit_logs') }}
+            </h2>
+        </template>
+        <template #header-actions>
+            <button
+                @click="exportCsv"
+                class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-200 dark:ring-slate-600 dark:hover:bg-gray-800"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                {{ t('export_csv') }}
+            </button>
         </template>
 
         <div class="py-12">

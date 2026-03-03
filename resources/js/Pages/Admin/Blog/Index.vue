@@ -90,20 +90,18 @@ const formatDate = (date) => {
 
     <AdminLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold text-white">Blog</h1>
-                <div class="flex gap-2">
-                    <Link :href="route('admin.blog-categories.index')">
-                        <SecondaryButton>Catégories</SecondaryButton>
-                    </Link>
-                    <Link :href="route('admin.blog-tags.index')">
-                        <SecondaryButton>Tags</SecondaryButton>
-                    </Link>
-                    <Link :href="route('admin.blog.create')">
-                        <PrimaryButton>Nouvel article</PrimaryButton>
-                    </Link>
-                </div>
-            </div>
+            <h1 class="text-xl font-semibold text-white">Blog</h1>
+        </template>
+        <template #header-actions>
+            <Link :href="route('admin.blog-categories.index')">
+                <SecondaryButton>Catégories</SecondaryButton>
+            </Link>
+            <Link :href="route('admin.blog-tags.index')">
+                <SecondaryButton>Tags</SecondaryButton>
+            </Link>
+            <Link :href="route('admin.blog.create')">
+                <PrimaryButton>Nouvel article</PrimaryButton>
+            </Link>
         </template>
 
         <!-- Stats -->

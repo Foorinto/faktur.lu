@@ -309,7 +309,7 @@ const cancelPaymentQrcodeUpload = () => {
 
         <!-- Settings Navigation -->
         <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-8" aria-label="Settings tabs">
+            <nav class="flex space-x-4 sm:space-x-8 overflow-x-auto" aria-label="Settings tabs">
                 <Link
                     :href="route('settings.business.edit')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
@@ -355,12 +355,12 @@ const cancelPaymentQrcodeUpload = () => {
                     </p>
                 </div>
                 <div class="px-6 py-4">
-                    <div class="flex items-start space-x-6">
+                    <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:gap-6">
                         <!-- Logo preview -->
                         <div class="flex-shrink-0">
                             <div
                                 v-if="logoPreview"
-                                class="w-32 h-32 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white flex items-center justify-center"
+                                class="w-24 h-24 sm:w-32 sm:h-32 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-white flex items-center justify-center"
                             >
                                 <img
                                     :src="logoPreview"
@@ -370,7 +370,7 @@ const cancelPaymentQrcodeUpload = () => {
                             </div>
                             <div
                                 v-else
-                                class="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center"
+                                class="w-24 h-24 sm:w-32 sm:h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center"
                             >
                                 <svg class="h-10 w-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />

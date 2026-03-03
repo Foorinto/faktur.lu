@@ -107,17 +107,15 @@ const formatDateTime = (dateString) => {
 
     <AdminLayout>
         <template #header>
-            <div class="flex items-center gap-4">
-                <Link
-                    :href="route('admin.support.index')"
-                    class="rounded-lg p-2 text-slate-400 hover:bg-slate-700 hover:text-white"
-                >
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                    </svg>
-                </Link>
-                <h1 class="text-xl font-semibold text-white">{{ ticket.reference }}</h1>
-            </div>
+            <Link
+                :href="route('admin.support.index')"
+                class="rounded-lg p-2 text-slate-400 hover:bg-slate-700 hover:text-white"
+            >
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                </svg>
+            </Link>
+            <h1 class="text-xl font-semibold text-white">{{ ticket.reference }}</h1>
         </template>
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">

@@ -47,12 +47,12 @@ const settingsSections = [
     <Head :title="t('hr.dashboard')" />
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-white">{{ t('hr.dashboard') }}</h2>
-                <Link :href="route('hr.employees.create')" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500">
-                    + {{ t('hr.new_employee') }}
-                </Link>
-            </div>
+            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-white">{{ t('hr.dashboard') }}</h2>
+        </template>
+        <template #header-actions>
+            <Link :href="route('hr.employees.create')" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500">
+                + {{ t('hr.new_employee') }}
+            </Link>
         </template>
 
         <HRNav class="mb-6" />

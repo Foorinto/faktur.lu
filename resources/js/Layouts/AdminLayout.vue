@@ -102,26 +102,40 @@ const isCurrentRoute = (routeName) => {
         <!-- Main content -->
         <div class="lg:pl-64">
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-gray-700 bg-surface-dark px-4 lg:px-6">
-                <!-- Mobile menu button -->
-                <button
-                    @click="sidebarOpen = true"
-                    class="text-slate-400 hover:text-white lg:hidden"
-                >
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+            <header class="sticky top-0 z-30 border-b border-gray-700 bg-surface-dark px-4 lg:px-6">
+                <div class="flex flex-wrap items-center">
+                    <!-- Mobile menu button -->
+                    <button
+                        @click="sidebarOpen = true"
+                        class="order-1 flex h-16 items-center pr-3 text-slate-400 hover:text-white lg:hidden"
+                    >
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
 
-                <!-- Page title slot -->
-                <div class="flex-1">
-                    <slot name="header" />
+                    <!-- Page title -->
+                    <div class="order-2 flex h-16 flex-1 items-center min-w-0">
+                        <slot name="header" />
+                    </div>
+
+                    <!-- Page actions (line 2 on mobile, inline on sm+) -->
+                    <div
+                        v-if="$slots['header-actions']"
+                        class="order-4 w-full pb-3 sm:order-3 sm:w-auto sm:pb-0 sm:ml-4 sm:flex sm:h-16 sm:items-center sm:flex-shrink-0"
+                    >
+                        <div class="flex flex-wrap items-center gap-2">
+                            <slot name="header-actions" />
+                        </div>
+                    </div>
+
+                    <!-- Admin badge -->
+                    <div class="order-3 flex h-16 items-center flex-shrink-0 ml-4 sm:order-4">
+                        <span class="rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white">
+                            Admin
+                        </span>
+                    </div>
                 </div>
-
-                <!-- Admin badge -->
-                <span class="rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white">
-                    Admin
-                </span>
             </header>
 
             <!-- Page content -->
