@@ -293,7 +293,7 @@ const getInputType = (field, fieldConfig) => {
             <!-- Verification Status -->
             <div v-if="settings.provider !== 'faktur'" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div class="flex items-center space-x-3">
                             <div
                                 class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
@@ -319,7 +319,7 @@ const getInputType = (field, fieldConfig) => {
                             type="button"
                             @click="testConfiguration"
                             :disabled="testing || form.processing"
-                            class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
+                            class="w-full sm:w-auto justify-center inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                         >
                             <svg v-if="testing" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -335,11 +335,11 @@ const getInputType = (field, fieldConfig) => {
             </div>
 
             <!-- Save Button -->
-            <div class="flex justify-end space-x-3">
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                 <button
                     type="submit"
                     :disabled="form.processing"
-                    class="inline-flex items-center rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
+                    class="w-full sm:w-auto justify-center inline-flex items-center rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                 >
                     <svg v-if="form.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

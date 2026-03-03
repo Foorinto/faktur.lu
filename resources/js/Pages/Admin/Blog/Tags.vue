@@ -171,11 +171,11 @@ const deleteTag = (tag) => {
                         <InputError :message="form.errors.slug" class="mt-2" />
                     </div>
 
-                    <div class="flex justify-end gap-3">
-                        <SecondaryButton @click="closeModal">
+                    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                        <SecondaryButton class="w-full sm:w-auto justify-center" @click="closeModal">
                             Annuler
                         </SecondaryButton>
-                        <PrimaryButton :disabled="form.processing">
+                        <PrimaryButton class="w-full sm:w-auto justify-center" :disabled="form.processing">
                             {{ editingTag ? 'Mettre à jour' : 'Créer' }}
                         </PrimaryButton>
                     </div>

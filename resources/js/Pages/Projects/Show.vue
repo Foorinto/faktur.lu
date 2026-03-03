@@ -488,9 +488,9 @@ const onKanbanDragEnd = () => {
 
                 <!-- Tasks section -->
                 <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('tasks') }}</h2>
-                        <div class="flex items-center gap-3">
+                        <div class="flex flex-wrap items-center gap-2">
                             <!-- Sort selector -->
                             <div v-if="currentTaskView === 'list'" class="flex items-center gap-2">
                                 <span class="text-xs text-slate-500 dark:text-slate-400">Tri :</span>
@@ -531,7 +531,7 @@ const onKanbanDragEnd = () => {
                             </div>
                             <button
                                 @click="showAddTask = !showAddTask"
-                                class="inline-flex items-center rounded-lg bg-accent-rose px-3 py-1.5 text-sm font-medium text-white hover:bg-pink-500"
+                                class="inline-flex justify-center items-center rounded-lg bg-accent-rose px-3 py-1.5 text-sm font-medium text-white hover:bg-pink-500 w-full sm:w-auto"
                             >
                                 <svg class="mr-1 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />

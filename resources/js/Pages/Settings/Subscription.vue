@@ -144,11 +144,11 @@ const getUsagePercentage = (used, limit) => {
                     </h2>
                 </div>
                 <div class="p-6">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div class="flex items-center space-x-4">
                             <div
                                 :class="[
-                                    'h-14 w-14 rounded-2xl flex items-center justify-center',
+                                    'h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0',
                                     onTrial ? 'bg-amber-100 dark:bg-amber-900/30' : (isPro ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-slate-100 dark:bg-gray-800')
                                 ]"
                             >
@@ -191,10 +191,10 @@ const getUsagePercentage = (used, limit) => {
                             </div>
                         </div>
 
-                        <div v-if="isPro && !isOnGracePeriod" class="flex items-center space-x-3">
+                        <div v-if="isPro && !isOnGracePeriod" class="flex flex-wrap items-center gap-3">
                             <a
                                 :href="route('subscription.portal')"
-                                class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                                class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800 w-full sm:w-auto"
                             >
                                 Gérer le paiement
                             </a>
@@ -293,12 +293,12 @@ const getUsagePercentage = (used, limit) => {
             <!-- Choose Plan Section (Trial or no subscription) -->
             <div v-if="!isPro && !isEssentiel" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
                             Choisir un abonnement
                         </h2>
                         <!-- Billing toggle -->
-                        <div class="flex items-center space-x-3">
+                        <div class="flex flex-wrap items-center space-x-3">
                             <button
                                 @click="billingPeriod = 'monthly'"
                                 :class="[
@@ -480,7 +480,7 @@ const getUsagePercentage = (used, limit) => {
             <!-- Upgrade to Pro (Essentiel users only) -->
             <div v-if="isEssentiel && !isPro" class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl shadow-lg overflow-hidden">
                 <div class="p-6">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div class="text-white">
                             <h3 class="text-xl font-bold">Passez au plan Pro</h3>
                             <p class="mt-2 text-primary-100 text-sm">
@@ -496,7 +496,7 @@ const getUsagePercentage = (used, limit) => {
                             <input type="hidden" name="billing_period" value="monthly">
                             <button
                                 type="submit"
-                                class="px-6 py-2.5 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors"
+                                class="px-6 py-2.5 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors w-full sm:w-auto"
                             >
                                 Passer à Pro - 9€/mois
                             </button>
@@ -516,7 +516,7 @@ const getUsagePercentage = (used, limit) => {
                     <div
                         v-for="invoice in invoices"
                         :key="invoice.id"
-                        class="px-6 py-4 flex items-center justify-between"
+                        class="px-6 py-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
                     >
                         <div>
                             <p class="font-medium text-slate-900 dark:text-white">{{ invoice.date }}</p>
@@ -546,14 +546,14 @@ const getUsagePercentage = (used, limit) => {
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
                             Vous conserverez l'accès Pro jusqu'à la fin de votre période de facturation. Après cela, vous passerez automatiquement au plan Starter gratuit.
                         </p>
-                        <div class="mt-6 flex justify-end space-x-3">
-                            <SecondaryButton @click="showCancelModal = false">
+                        <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                            <SecondaryButton @click="showCancelModal = false" class="w-full sm:w-auto justify-center">
                                 Garder Pro
                             </SecondaryButton>
                             <button
                                 @click="cancelSubscription"
                                 :disabled="cancelForm.processing"
-                                class="inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50"
+                                class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50"
                             >
                                 <span v-if="cancelForm.processing">Annulation...</span>
                                 <span v-else>Confirmer l'annulation</span>

@@ -114,7 +114,7 @@ const monthNames = [
         <div class="py-6">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <!-- Month navigation -->
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
                     <div class="flex items-center gap-4">
                         <button
                             @click="prevMonth"
@@ -138,7 +138,7 @@ const monthNames = [
                     </div>
                     <button
                         @click="goToday"
-                        class="rounded-xl bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
+                        class="w-full sm:w-auto rounded-xl bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
                     >
                         {{ t('hr.today') }}
                     </button>

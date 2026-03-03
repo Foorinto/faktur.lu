@@ -237,10 +237,10 @@ watch(items, checkOverflows);
                         <div class="min-w-0 flex-1">
                             <!-- Edit mode -->
                             <div v-if="editingId === interaction.id" class="rounded-xl border border-gray-200 p-3 dark:border-gray-700">
-                                <div class="flex gap-2 mb-2">
+                                <div class="flex flex-col sm:flex-row gap-2 mb-2">
                                     <select
                                         v-model="editForm.type"
-                                        class="rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
+                                        class="w-full sm:w-auto rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                     >
                                         <option v-for="type in interactionTypes" :key="type" :value="type">
                                             {{ t(`crm.type_${type}`) }}
@@ -249,7 +249,7 @@ watch(items, checkOverflows);
                                     <input
                                         v-model="editForm.contacted_at"
                                         type="datetime-local"
-                                        class="rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
+                                        class="w-full sm:w-auto rounded-lg border-0 py-1 text-xs ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600"
                                     />
                                 </div>
                                 <RichTextEditor v-model="editForm.content" />

@@ -267,13 +267,13 @@ const submit = () => {
                 </div>
                 <div class="px-6 py-4">
                     <!-- Current attachment -->
-                    <div v-if="showCurrentAttachment" class="mb-4 p-4 rounded-2xl bg-slate-50 dark:bg-gray-800 flex items-center justify-between">
-                        <div class="flex items-center">
-                            <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div v-if="showCurrentAttachment" class="mb-4 p-4 rounded-2xl bg-slate-50 dark:bg-gray-800 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex items-center min-w-0">
+                            <svg class="h-8 w-8 flex-shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                             </svg>
-                            <div class="ml-3">
-                                <p class="text-sm font-medium text-slate-900 dark:text-white">
+                            <div class="ml-3 min-w-0">
+                                <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
                                     {{ expense.attachment_filename }}
                                 </p>
                                 <a
@@ -328,14 +328,14 @@ const submit = () => {
             </div>
 
             <!-- Actions -->
-            <div class="flex justify-end space-x-3">
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                 <Link
                     :href="route('expenses.index')"
-                    class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                    class="inline-flex items-center justify-center w-full sm:w-auto rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 >
                     {{ t('cancel') }}
                 </Link>
-                <PrimaryButton :disabled="form.processing">
+                <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">
                     <span v-if="form.processing">{{ t('saving') }}</span>
                     <span v-else>{{ t('save') }}</span>
                 </PrimaryButton>

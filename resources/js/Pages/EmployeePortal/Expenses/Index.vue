@@ -66,11 +66,11 @@ const handleFileChange = (e) => {
     <Head :title="t('employee_portal.my_expenses')" />
 
     <EmployeePortalLayout>
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
             <h1 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('employee_portal.my_expenses') }}</h1>
             <button
                 @click="showModal = true"
-                class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+                class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
             >
                 + {{ t('employee_portal.submit_expense') }}
             </button>
@@ -172,11 +172,11 @@ const handleFileChange = (e) => {
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.receipts') }}</label>
                         <input type="file" multiple accept=".jpg,.jpeg,.png,.pdf" @change="handleFileChange" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100" />
                     </div>
-                    <div class="flex justify-end space-x-3 pt-2">
-                        <button type="button" @click="showModal = false" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-2">
+                        <button type="button" @click="showModal = false" class="w-full sm:w-auto justify-center rounded-xl px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
                             {{ t('cancel') }}
                         </button>
-                        <button type="submit" :disabled="form.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white hover:bg-pink-500 disabled:opacity-50">
+                        <button type="submit" :disabled="form.processing" class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white hover:bg-pink-500 disabled:opacity-50">
                             {{ t('employee_portal.submit_expense') }}
                         </button>
                     </div>

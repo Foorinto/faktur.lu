@@ -396,7 +396,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 <p class="text-sm text-slate-600 dark:text-slate-400">
                                     {{ t('new_file_selected') }} <span class="font-medium">{{ logoForm.logo.name }}</span>
                                 </p>
-                                <div class="flex space-x-3">
+                                <div class="flex flex-wrap gap-2">
                                     <button
                                         type="button"
                                         @click="uploadLogo"
@@ -425,7 +425,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     {{ t('logo_format_info') }}<br>
                                     {{ t('max_size') }} 2 Mo.
                                 </p>
-                                <div class="flex space-x-3">
+                                <div class="flex flex-wrap gap-2">
                                     <button
                                         type="button"
                                         @click="selectLogo"
@@ -799,7 +799,7 @@ const cancelPaymentQrcodeUpload = () => {
                             <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('payment_qrcode_title') }}</p>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">{{ t('payment_qrcode_help') }}</p>
 
-                            <div class="flex items-start space-x-4">
+                            <div class="flex flex-col sm:flex-row items-start gap-4">
                                 <!-- Preview -->
                                 <div class="flex-shrink-0">
                                     <div
@@ -833,7 +833,7 @@ const cancelPaymentQrcodeUpload = () => {
                                         <p class="text-xs text-slate-600 dark:text-slate-400">
                                             {{ paymentQrcodeForm.payment_qrcode.name }}
                                         </p>
-                                        <div class="flex space-x-2">
+                                        <div class="flex flex-wrap gap-2">
                                             <button
                                                 type="button"
                                                 @click="uploadPaymentQrcode"
@@ -861,7 +861,7 @@ const cancelPaymentQrcodeUpload = () => {
                                         <p class="text-xs text-slate-500 dark:text-slate-400">
                                             PNG, JPG, WebP — max 1 Mo
                                         </p>
-                                        <div class="flex space-x-2">
+                                        <div class="flex flex-wrap gap-2">
                                             <button
                                                 type="button"
                                                 @click="selectPaymentQrcode"
@@ -1154,7 +1154,7 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Actions -->
-                <div class="flex justify-end items-center gap-4">
+                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
                     <Transition
                         enter-active-class="transition ease-in-out"
                         enter-from-class="opacity-0"
@@ -1171,6 +1171,7 @@ const cancelPaymentQrcodeUpload = () => {
                     <PrimaryButton
                         :disabled="form.processing"
                         :class="{ 'opacity-25': form.processing }"
+                        class="w-full sm:w-auto justify-center"
                     >
                         <span v-if="form.processing">{{ t('saving') }}</span>
                         <span v-else>{{ t('save') }}</span>

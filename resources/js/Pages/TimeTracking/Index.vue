@@ -374,7 +374,7 @@ const formatTime = (date) => {
         <!-- Running Timer Section -->
         <div class="mb-6 overflow-x-auto rounded-2xl bg-gradient-to-r from-primary-500 to-purple-600 shadow-lg">
             <div class="px-6 py-5">
-                <div v-if="runningTimer" class="flex items-center justify-between">
+                <div v-if="runningTimer" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <p class="text-sm font-medium text-primary-100">{{ t('running_timer') }}</p>
                         <p class="mt-1 text-3xl font-bold text-white">{{ formattedTimerDuration }}</p>
@@ -386,7 +386,7 @@ const formatTime = (date) => {
                     <button
                         @click="stopTimer"
                         :disabled="stoppingTimer"
-                        class="inline-flex items-center rounded-full bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="w-full sm:w-auto justify-center inline-flex items-center rounded-full bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <svg v-if="stoppingTimer" class="mr-2 h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -829,18 +829,18 @@ const formatTime = (date) => {
                                 </label>
                             </div>
 
-                            <div class="mt-6 flex justify-end space-x-3">
+                            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                                 <button
                                     type="button"
                                     @click="showConvertModal = false"
-                                    class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                                    class="w-full sm:w-auto justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                                 >
                                     {{ t('cancel') }}
                                 </button>
                                 <button
                                     type="submit"
                                     :disabled="convertForm.processing"
-                                    class="rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
+                                    class="w-full sm:w-auto justify-center rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                                 >
                                     {{ t('create_invoice') }}
                                 </button>
@@ -938,11 +938,11 @@ const formatTime = (date) => {
                                 </div>
                             </div>
 
-                            <div class="mt-6 flex justify-end space-x-3">
+                            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                                 <button
                                     type="button"
                                     @click="showAddToInvoiceModal = false; selectedEntryForInvoice = null;"
-                                    class="rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                                    class="w-full sm:w-auto justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                                 >
                                     {{ t('cancel') }}
                                 </button>
@@ -950,7 +950,7 @@ const formatTime = (date) => {
                                     v-if="availableInvoicesForEntry.length > 0"
                                     type="submit"
                                     :disabled="addToInvoiceForm.processing || !addToInvoiceForm.invoice_id"
-                                    class="rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
+                                    class="w-full sm:w-auto justify-center rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 disabled:opacity-50"
                                 >
                                     {{ t('add') }}
                                 </button>

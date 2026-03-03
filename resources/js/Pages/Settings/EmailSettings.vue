@@ -131,7 +131,7 @@ const reminderLevelNames = {
             <!-- Reminder Settings -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">Relances de paiement</h2>
                             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -158,7 +158,7 @@ const reminderLevelNames = {
                             class="border rounded-xl p-4 dark:border-gray-700"
                             :class="level.enabled ? 'border-primary-200 bg-primary-50/50 dark:border-primary-700 dark:bg-primary-900/20' : 'border-gray-200'"
                         >
-                            <div class="flex items-center justify-between mb-4">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                                 <div class="flex items-center space-x-3">
                                     <span class="flex items-center justify-center w-8 h-8 rounded-xl text-sm font-bold"
                                         :class="key == 3 ? 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300'"

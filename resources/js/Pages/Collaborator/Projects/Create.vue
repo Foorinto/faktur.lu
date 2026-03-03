@@ -132,17 +132,17 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <div class="flex justify-end space-x-3 pt-4">
+                    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-4">
                         <Link
                             :href="route('collaborator.projects.index')"
-                            class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900"
+                            class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 w-full sm:w-auto justify-center inline-flex items-center"
                         >
                             {{ t('cancel') }}
                         </Link>
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
+                            class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
                         >
                             <svg v-if="form.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

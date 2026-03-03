@@ -433,11 +433,11 @@ const submitNew = () => {
                             <textarea v-model="rejectForm.rejection_reason" rows="3" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
                             <p v-if="rejectForm.errors.rejection_reason" class="mt-1 text-xs text-rose-600">{{ rejectForm.errors.rejection_reason }}</p>
                         </div>
-                        <div class="flex justify-end gap-3">
-                            <button type="button" @click="showRejectModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                            <button type="button" @click="showRejectModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="rejectForm.processing" class="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 disabled:opacity-50">
+                            <button type="submit" :disabled="rejectForm.processing" class="w-full sm:w-auto justify-center rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 disabled:opacity-50">
                                 {{ t('hr.reject') }}
                             </button>
                         </div>
@@ -494,11 +494,11 @@ const submitNew = () => {
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.reason') }}</label>
                             <textarea v-model="newForm.reason" rows="2" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
                         </div>
-                        <div class="flex justify-end gap-3">
-                            <button type="button" @click="showNewModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                            <button type="button" @click="showNewModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="!canSubmitNew" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <button type="submit" :disabled="!canSubmitNew" class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ t('hr.submit_request') }}
                             </button>
                         </div>
@@ -557,11 +557,11 @@ const submitNew = () => {
                             <p class="text-xs font-medium text-rose-700 dark:text-rose-400">{{ t('hr.previous_rejection_reason') }}</p>
                             <p class="mt-1 text-sm text-rose-600 dark:text-rose-300">{{ editingRequest.rejection_reason }}</p>
                         </div>
-                        <div class="flex justify-end gap-3">
-                            <button type="button" @click="showEditModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                            <button type="button" @click="showEditModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="!canSubmitEdit" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <button type="submit" :disabled="!canSubmitEdit" class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed">
                                 {{ editingRequest?.status === 'rejected' ? t('hr.resubmit_request') : t('hr.update_request') }}
                             </button>
                         </div>

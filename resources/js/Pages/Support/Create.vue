@@ -159,14 +159,14 @@ const submit = () => {
                 </div>
 
                 <!-- Submit -->
-                <div class="flex items-center justify-end gap-4">
+                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                     <Link
                         :href="route('support.index')"
-                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white w-full sm:w-auto justify-center inline-flex items-center"
                     >
                         {{ t('cancel') }}
                     </Link>
-                    <PrimaryButton :disabled="form.processing">
+                    <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">
                         {{ t('send_request') }}
                     </PrimaryButton>
                 </div>

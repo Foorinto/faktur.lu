@@ -146,7 +146,7 @@ onUnmounted(() => {
 
         <!-- Health Overview -->
         <div class="mb-6 rounded-xl bg-slate-800 p-6">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex items-center gap-4">
                     <div :class="['h-4 w-4 rounded-full', getAlertColor(overallHealth)]" />
                     <div>

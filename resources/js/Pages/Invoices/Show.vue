@@ -823,7 +823,7 @@ const submitCreditNote = () => {
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                 {{ t('credit_note_type') }}
                             </label>
-                            <div class="flex space-x-4">
+                            <div class="flex flex-wrap gap-4">
                                 <label class="flex items-center">
                                     <input
                                         type="radio"
@@ -1138,12 +1138,12 @@ const submitCreditNote = () => {
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     {{ t('reminder_level') }}
                                 </label>
-                                <div class="flex space-x-2">
+                                <div class="flex flex-col sm:flex-row gap-2">
                                     <button
                                         type="button"
                                         @click="openReminderModal(1)"
                                         :class="reminderLevel === 1 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
-                                        class="flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
+                                        class="w-full sm:w-auto text-center flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
                                         {{ t('level') }} 1 - {{ t('reminder') }}
                                     </button>
@@ -1151,7 +1151,7 @@ const submitCreditNote = () => {
                                         type="button"
                                         @click="openReminderModal(2)"
                                         :class="reminderLevel === 2 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
-                                        class="flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
+                                        class="w-full sm:w-auto text-center flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
                                         {{ t('level') }} 2 - {{ t('follow_up') }}
                                     </button>
@@ -1159,7 +1159,7 @@ const submitCreditNote = () => {
                                         type="button"
                                         @click="openReminderModal(3)"
                                         :class="reminderLevel === 3 ? 'bg-pink-100 border-pink-500 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
-                                        class="flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
+                                        class="w-full sm:w-auto text-center flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
                                         {{ t('level') }} 3 - {{ t('formal_notice') }}
                                     </button>

@@ -515,11 +515,11 @@ const applyTemplate = () => {
                 <template v-if="activeTab === 'leaves'">
                     <!-- Leave Balances -->
                     <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.leave_balances') }}</h2>
                             <button
                                 @click="showLeaveModal = true"
-                                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500"
+                                class="inline-flex justify-center items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500 w-full sm:w-auto"
                             >
                                 + {{ t('hr.new_request') }}
                             </button>
@@ -629,11 +629,11 @@ const applyTemplate = () => {
                 <!-- Documents Tab -->
                 <template v-if="activeTab === 'documents'">
                     <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.documents') }}</h2>
                             <button
                                 @click="showDocModal = true"
-                                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500"
+                                class="inline-flex justify-center items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500 w-full sm:w-auto"
                             >
                                 + {{ t('hr.new_document') }}
                             </button>
@@ -691,11 +691,11 @@ const applyTemplate = () => {
                 <!-- Evaluations Tab -->
                 <template v-if="activeTab === 'evaluations'">
                     <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.evaluations') }}</h2>
                             <button
                                 @click="showEvalModal = true"
-                                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500"
+                                class="inline-flex justify-center items-center rounded-xl bg-accent-rose px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-pink-500 w-full sm:w-auto"
                             >
                                 + {{ t('hr.add_evaluation') }}
                             </button>
@@ -732,9 +732,9 @@ const applyTemplate = () => {
                 <template v-if="activeTab === 'onboarding'">
                     <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                            <div class="flex items-center justify-between gap-3">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <h2 class="text-lg font-medium text-slate-900 dark:text-white flex-shrink-0">{{ t('hr.onboarding') }}</h2>
-                                <div class="flex items-center gap-2">
+                                <div class="flex flex-wrap items-center gap-2">
                                     <template v-if="onboardingTemplates.length > 0">
                                         <select
                                             v-model="selectedTemplate"
@@ -746,7 +746,7 @@ const applyTemplate = () => {
                                         <button
                                             @click="applyTemplate"
                                             :disabled="!selectedTemplate"
-                                            class="rounded-xl bg-accent-rose px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                            class="rounded-xl bg-accent-rose px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full sm:w-auto"
                                         >
                                             {{ t('hr.apply_template') }}
                                         </button>

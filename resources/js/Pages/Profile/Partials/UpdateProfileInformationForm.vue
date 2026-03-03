@@ -115,8 +115,8 @@ const form = useForm({
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">{{ t('save') }}</PrimaryButton>
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
+                <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">{{ t('save') }}</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"

@@ -221,7 +221,7 @@ const formatDateTime = (dateString) => {
                             required
                         />
 
-                        <div class="mt-4 flex items-center justify-between">
+                        <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <label class="flex items-center gap-2 text-sm text-slate-300">
                                 <input
                                     type="checkbox"
@@ -237,14 +237,14 @@ const formatDateTime = (dateString) => {
                                     type="button"
                                     @click="markResolved"
                                     :disabled="form.processing"
-                                    class="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50"
+                                    class="inline-flex justify-center items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50 w-full sm:w-auto"
                                 >
                                     Marquer résolu
                                 </button>
                                 <button
                                     type="submit"
                                     :disabled="form.processing"
-                                    class="inline-flex items-center rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-500 disabled:opacity-50"
+                                    class="inline-flex justify-center items-center rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-500 disabled:opacity-50 w-full sm:w-auto"
                                 >
                                     Envoyer
                                 </button>

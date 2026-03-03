@@ -159,7 +159,7 @@ const exportCsv = () => {
                     </div>
 
                     <!-- Year quick select -->
-                    <div class="mt-4 flex items-center gap-2">
+                    <div class="mt-4 flex flex-wrap items-center gap-2">
                         <span class="text-sm text-slate-500 dark:text-slate-400">{{ t('year') }} :</span>
                         <button
                             v-for="year in years"

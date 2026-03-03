@@ -11,6 +11,7 @@ const props = defineProps({
     plans: Array,
 });
 
+const mobileMenuOpen = ref(false);
 const billingPeriod = ref('monthly');
 
 const essentielPlan = computed(() => props.plans.find(p => p.name === 'essentiel'));
@@ -61,7 +62,7 @@ const proFeatures = [
                             <ApplicationLogo class="h-8 w-auto" />
                         </Link>
                     </div>
-                    <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-4">
                         <Link
                             :href="route('login')"
                             class="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white font-medium"
@@ -72,6 +73,29 @@ const proFeatures = [
                             :href="route('register')"
                             class="inline-flex items-center px-4 py-2 bg-accent-rose hover:bg-pink-500 text-white font-semibold rounded-xl transition-colors"
                         >
+                            Essayer gratuitement
+                        </Link>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <button
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile menu -->
+                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col space-y-3">
+                        <Link :href="route('login')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white py-2">
+                            Connexion
+                        </Link>
+                        <Link :href="route('register')" @click="mobileMenuOpen = false" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors text-center">
                             Essayer gratuitement
                         </Link>
                     </div>

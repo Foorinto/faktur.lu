@@ -270,14 +270,14 @@ const formatDate = (isoString) => {
                 <div v-if="manualForm.errors.started_at || manualForm.errors.stopped_at" class="text-sm text-pink-600">
                     {{ manualForm.errors.started_at || manualForm.errors.stopped_at }}
                 </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" @click="showManualEntry = false" class="px-4 py-2 text-sm text-slate-700 dark:text-slate-300">
+                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                    <button type="button" @click="showManualEntry = false" class="px-4 py-2 text-sm text-slate-700 dark:text-slate-300 w-full sm:w-auto justify-center inline-flex items-center">
                         {{ t('cancel') }}
                     </button>
                     <button
                         type="submit"
                         :disabled="manualForm.processing"
-                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
+                        class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
                     >
                         {{ t('save') }}
                     </button>

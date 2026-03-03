@@ -136,7 +136,7 @@ const getExportUrl = (type) => {
                 <div
                     v-for="exp in exports"
                     :key="exp.type"
-                    class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-2xl"
+                    class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-2xl"
                 >
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
@@ -151,7 +151,7 @@ const getExportUrl = (type) => {
                     </div>
                     <a
                         :href="getExportUrl(exp.type)"
-                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
+                        class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
                     >
                         <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

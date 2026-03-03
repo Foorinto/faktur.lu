@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -7,6 +8,8 @@ import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
+
+const mobileMenuOpen = ref(false);
 
 defineProps({
     features: Array,
@@ -39,7 +42,7 @@ const featureIcons = {
                             <ApplicationLogo size="sm" />
                         </Link>
                     </div>
-                    <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-4">
                         <Link :href="localizedRoute('pricing')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.pricing') }}
                         </Link>
@@ -47,6 +50,32 @@ const featureIcons = {
                             {{ t('landing.nav.login') }}
                         </Link>
                         <Link :href="route('register')" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
+                            {{ t('landing.nav.create_account') }}
+                        </Link>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <button
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
+                    >
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile menu -->
+                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200">
+                    <div class="flex flex-col space-y-3">
+                        <Link :href="localizedRoute('pricing')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
+                            {{ t('landing.nav.pricing') }}
+                        </Link>
+                        <Link :href="route('login')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
+                            {{ t('landing.nav.login') }}
+                        </Link>
+                        <Link :href="route('register')" @click="mobileMenuOpen = false" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors text-center">
                             {{ t('landing.nav.create_account') }}
                         </Link>
                     </div>

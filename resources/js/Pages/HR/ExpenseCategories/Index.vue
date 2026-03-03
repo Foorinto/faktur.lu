@@ -180,11 +180,11 @@ const formatAmount = (amount) => {
                             <input v-model="form.is_active" type="checkbox" class="rounded border-gray-300 text-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800" />
                             <span class="text-sm text-slate-700 dark:text-slate-300">{{ t('hr.active') }}</span>
                         </label>
-                        <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-2">
+                            <button type="button" @click="showModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="form.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
+                            <button type="submit" :disabled="form.processing" class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
                                 {{ editing ? t('save') : t('create') }}
                             </button>
                         </div>

@@ -175,8 +175,8 @@ const toggleProjectVisibility = (projectId) => {
                 <!-- Org Name -->
                 <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-6">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('organization') }}</h2>
-                    <form @submit.prevent="submitUpdate" class="max-w-md flex items-end gap-3">
-                        <div class="flex-1">
+                    <form @submit.prevent="submitUpdate" class="max-w-md space-y-4">
+                        <div>
                             <label for="update_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                                 {{ t('organization_name') }}
                             </label>
@@ -189,19 +189,21 @@ const toggleProjectVisibility = (projectId) => {
                             />
                             <p v-if="updateForm.errors.name" class="mt-1 text-sm text-pink-600">{{ updateForm.errors.name }}</p>
                         </div>
-                        <button
-                            type="submit"
-                            :disabled="updateForm.processing"
-                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
-                        >
-                            {{ t('save') }}
-                        </button>
+                        <div class="flex justify-end">
+                            <button
+                                type="submit"
+                                :disabled="updateForm.processing"
+                                class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
+                            >
+                                {{ t('save') }}
+                            </button>
+                        </div>
                     </form>
                 </div>
 
                 <!-- Members -->
                 <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('collaborators') }}</h3>
                             <p class="text-sm text-slate-500 dark:text-slate-400">
@@ -211,7 +213,7 @@ const toggleProjectVisibility = (projectId) => {
                         <button
                             v-if="organization.collaborators_count < organization.max_collaborators"
                             @click="showInviteModal = true"
-                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
+                            class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
                         >
                             <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -225,23 +227,23 @@ const toggleProjectVisibility = (projectId) => {
                     </div>
                     <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
                         <li v-for="member in members" :key="member.id" class="px-6 py-4">
-                            <div class="flex items-center justify-between">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <div class="flex items-center space-x-3">
-                                    <div :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(member.name)]">
+                                    <div :class="['flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl', getAvatarClasses(member.name)]">
                                         <span class="text-sm font-bold">
                                             {{ member.name.charAt(0).toUpperCase() }}
                                         </span>
                                     </div>
-                                    <div>
-                                        <p class="text-sm font-medium text-slate-900 dark:text-white">{{ member.name }}</p>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400">{{ member.email }}</p>
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ member.name }}</p>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 truncate">{{ member.email }}</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center space-x-3">
+                                <div class="flex items-center justify-between sm:justify-end gap-3">
                                     <span class="text-xs text-slate-400">{{ member.joined_at }}</span>
                                     <button
                                         @click="removeMember(member.id, member.name)"
-                                        class="text-sm text-pink-600 hover:text-pink-800 dark:text-pink-400 dark:hover:text-pink-300"
+                                        class="text-sm text-pink-600 hover:text-pink-800 dark:text-pink-400 dark:hover:text-pink-300 whitespace-nowrap"
                                     >
                                         {{ t('remove') }}
                                     </button>
@@ -258,24 +260,24 @@ const toggleProjectVisibility = (projectId) => {
                     </div>
                     <ul class="divide-y divide-slate-200 dark:divide-slate-700">
                         <li v-for="invitation in pendingInvitations" :key="invitation.id" class="px-6 py-4">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-slate-900 dark:text-white">{{ invitation.email }}</p>
-                                    <p v-if="invitation.name" class="text-sm text-slate-500 dark:text-slate-400">{{ invitation.name }}</p>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="min-w-0">
+                                    <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ invitation.email }}</p>
+                                    <p v-if="invitation.name" class="text-sm text-slate-500 dark:text-slate-400 truncate">{{ invitation.name }}</p>
                                     <p class="text-xs text-slate-400 mt-1">
                                         {{ t('sent_on') || 'Envoyée le' }} {{ invitation.created_at }} - {{ t('expires_on') || 'Expire le' }} {{ invitation.expires_at }}
                                     </p>
                                 </div>
-                                <div class="flex items-center space-x-2">
+                                <div class="flex items-center gap-3">
                                     <button
                                         @click="resendInvitation(invitation.id)"
-                                        class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400"
+                                        class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400 whitespace-nowrap"
                                     >
                                         {{ t('resend') }}
                                     </button>
                                     <button
                                         @click="cancelInvitation(invitation.id)"
-                                        class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400"
+                                        class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 whitespace-nowrap"
                                     >
                                         {{ t('cancel') }}
                                     </button>
@@ -356,18 +358,18 @@ const toggleProjectVisibility = (projectId) => {
                                 />
                             </div>
 
-                            <div class="flex justify-end space-x-3 pt-4">
+                            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-4">
                                 <button
                                     type="button"
                                     @click="showInviteModal = false"
-                                    class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900"
+                                    class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 w-full sm:w-auto justify-center"
                                 >
                                     {{ t('cancel') }}
                                 </button>
                                 <button
                                     type="submit"
                                     :disabled="inviteForm.processing"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
+                                    class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
                                 >
                                     <svg v-if="inviteForm.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

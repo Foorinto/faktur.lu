@@ -488,11 +488,11 @@ const deleteExpense = (id) => {
                             <textarea v-model="rejectForm.rejection_reason" rows="3" required class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"></textarea>
                             <p v-if="rejectForm.errors.rejection_reason" class="mt-1 text-xs text-rose-600">{{ rejectForm.errors.rejection_reason }}</p>
                         </div>
-                        <div class="flex justify-end gap-3">
-                            <button type="button" @click="showRejectModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                            <button type="button" @click="showRejectModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="rejectForm.processing" class="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 disabled:opacity-50">
+                            <button type="submit" :disabled="rejectForm.processing" class="w-full sm:w-auto justify-center rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 disabled:opacity-50">
                                 {{ t('hr.reject') }}
                             </button>
                         </div>
@@ -598,11 +598,11 @@ const deleteExpense = (id) => {
                             <input type="file" @input="addNewReceipts" multiple accept=".jpg,.jpeg,.png,.pdf" class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:rounded-lg file:border-0 file:bg-primary-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-700 hover:file:bg-primary-100 dark:text-slate-400 dark:file:bg-primary-900/30 dark:file:text-primary-400" />
                             <p v-if="newForm.errors['receipts.0']" class="mt-1 text-xs text-rose-600">{{ newForm.errors['receipts.0'] }}</p>
                         </div>
-                        <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showNewModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-2">
+                            <button type="button" @click="showNewModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="newForm.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
+                            <button type="submit" :disabled="newForm.processing" class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
                                 {{ t('create') }}
                             </button>
                         </div>
@@ -721,11 +721,11 @@ const deleteExpense = (id) => {
                             <p class="text-xs font-medium text-rose-700 dark:text-rose-400">{{ t('hr.previous_rejection_reason') }}</p>
                             <p class="mt-1 text-sm text-rose-600 dark:text-rose-300">{{ editingExpense.rejection_reason }}</p>
                         </div>
-                        <div class="flex justify-end gap-3 pt-2">
-                            <button type="button" @click="showEditModal = false" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-2">
+                            <button type="button" @click="showEditModal = false" class="w-full sm:w-auto justify-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600">
                                 {{ t('cancel') }}
                             </button>
-                            <button type="submit" :disabled="editForm.processing" class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
+                            <button type="submit" :disabled="editForm.processing" class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50">
                                 {{ editingExpense?.status === 'rejected' ? t('hr.resubmit_request') : t('save') }}
                             </button>
                         </div>

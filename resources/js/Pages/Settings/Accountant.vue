@@ -97,7 +97,7 @@ const revokeAccess = (accountantId, accountantName) => {
 
         <div class="space-y-6">
             <!-- Header -->
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">Accès Comptable</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -106,7 +106,7 @@ const revokeAccess = (accountantId, accountantName) => {
                 </div>
                 <button
                     @click="showInviteModal = true"
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
+                    class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 w-full sm:w-auto"
                 >
                     <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -125,11 +125,11 @@ const revokeAccess = (accountantId, accountantName) => {
                 </div>
                 <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
                     <li v-for="accountant in accountants" :key="accountant.id" class="px-6 py-4">
-                        <div class="flex items-center justify-between">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <p class="text-sm font-medium text-slate-900 dark:text-white">{{ accountant.name }}</p>
                                 <p class="text-sm text-slate-500 dark:text-slate-400">{{ accountant.email }}</p>
-                                <div class="mt-1 flex items-center space-x-4 text-xs text-slate-400">
+                                <div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
                                     <span>Accès depuis : {{ accountant.granted_at }}</span>
                                     <span v-if="accountant.last_download">Dernier téléchargement : {{ accountant.last_download }}</span>
                                 </div>
@@ -152,7 +152,7 @@ const revokeAccess = (accountantId, accountantName) => {
                 </div>
                 <ul class="divide-y divide-slate-200 dark:divide-slate-700">
                     <li v-for="invitation in pendingInvitations" :key="invitation.id" class="px-6 py-4">
-                        <div class="flex items-center justify-between">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <p class="text-sm font-medium text-slate-900 dark:text-white">{{ invitation.email }}</p>
                                 <p v-if="invitation.name" class="text-sm text-slate-500 dark:text-slate-400">{{ invitation.name }}</p>
@@ -244,18 +244,18 @@ const revokeAccess = (accountantId, accountantName) => {
                                 />
                             </div>
 
-                            <div class="flex justify-end space-x-3 pt-4">
+                            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end pt-4">
                                 <button
                                     type="button"
                                     @click="showInviteModal = false"
-                                    class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900"
+                                    class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 w-full sm:w-auto justify-center"
                                 >
                                     Annuler
                                 </button>
                                 <button
                                     type="submit"
                                     :disabled="inviteForm.processing"
-                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
+                                    class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
                                 >
                                     <svg v-if="inviteForm.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

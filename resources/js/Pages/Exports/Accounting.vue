@@ -295,12 +295,12 @@ const getStatusBadge = (status) => {
                             </div>
 
                             <!-- Submit -->
-                            <div class="flex justify-end gap-3">
+                            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                                 <button
                                     type="button"
                                     @click="downloadPdfArchive"
                                     :disabled="pdfArchiveLoading || !preview || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
-                                    class="px-4 py-2 border border-gray-300 dark:border-gray-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                                    class="w-full sm:w-auto justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                                 >
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -311,7 +311,7 @@ const getStatusBadge = (status) => {
                                 <button
                                     type="submit"
                                     :disabled="form.processing || !preview || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
-                                    class="px-4 py-2 bg-violet-600 text-white rounded-2xl hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="w-full sm:w-auto justify-center px-4 py-2 bg-violet-600 text-white rounded-2xl hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <span v-if="form.processing">{{ t('generating') }}...</span>
                                     <span v-else>{{ t('generate_export') }}</span>
@@ -463,14 +463,14 @@ const getStatusBadge = (status) => {
                                     </div>
                                 </div>
 
-                                <div class="flex items-center justify-end gap-3 pt-2">
+                                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end pt-2">
                                     <span v-if="settingsSaved" class="text-sm text-green-600 dark:text-green-400">
                                         {{ t('saved') }}
                                     </span>
                                     <button
                                         @click="saveSettings"
                                         :disabled="settingsSaving"
-                                        class="px-4 py-2 bg-violet-600 text-white text-sm rounded-2xl hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50"
+                                        class="w-full sm:w-auto justify-center px-4 py-2 bg-violet-600 text-white text-sm rounded-2xl hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50"
                                     >
                                         {{ settingsSaving ? t('saving') + '...' : t('save') }}
                                     </button>

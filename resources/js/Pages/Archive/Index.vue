@@ -197,14 +197,14 @@ const progressWidth = computed(() => {
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Pending archives -->
                     <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                             <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                                 {{ t('unarchived_documents', { count: pendingInvoices.length }) }}
                             </h2>
 
                             <select
                                 v-model="batchForm.format"
-                                class="text-sm rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                class="w-full sm:w-auto text-sm rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
                                 <option v-for="(label, value) in formats" :key="value" :value="value">
                                     {{ label }}

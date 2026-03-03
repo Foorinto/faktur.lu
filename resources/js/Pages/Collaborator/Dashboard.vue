@@ -75,9 +75,9 @@ const getStatusColor = (status) => {
 
         <!-- Running Timer Banner -->
         <div v-if="runningTimer" class="mb-6 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-2xl p-4">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex items-center space-x-3">
-                    <span class="relative flex h-3 w-3">
+                    <span class="relative flex flex-shrink-0 h-3 w-3">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-primary-500"></span>
                     </span>
@@ -94,7 +94,7 @@ const getStatusColor = (status) => {
                     <span class="text-lg font-mono font-bold text-primary-700 dark:text-primary-300">{{ elapsed }}</span>
                     <button
                         @click="stopTimer"
-                        class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-xl text-sm font-medium text-white bg-pink-600 hover:bg-pink-500"
+                        class="w-full sm:w-auto inline-flex items-center justify-center px-3 py-1.5 border border-transparent rounded-xl text-sm font-medium text-white bg-pink-600 hover:bg-pink-500"
                     >
                         <svg class="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                             <rect x="6" y="6" width="12" height="12" rx="1" />
@@ -152,7 +152,7 @@ const getStatusColor = (status) => {
 
         <!-- Recent Projects -->
         <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('recent_projects') || 'Projets récents' }}</h2>
                 <Link
                     :href="route('collaborator.projects.index')"

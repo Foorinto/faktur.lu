@@ -311,17 +311,17 @@ const submit = () => {
                 </div>
 
                 <!-- Submit -->
-                <div class="flex items-center justify-end gap-3">
+                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                     <Link
                         :href="route('hr.employees.show', employee.id)"
-                        class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800"
+                        class="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800"
                     >
                         {{ t('cancel') }}
                     </Link>
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"
+                        class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"
                     >
                         {{ t('save') }}
                     </button>

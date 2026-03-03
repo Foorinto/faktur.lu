@@ -91,7 +91,7 @@ const getPriorityColor = (priority) => {
                     ></div>
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.title }}</h1>
-                        <div class="flex items-center space-x-3 mt-1">
+                        <div class="flex flex-wrap items-center gap-2 mt-1">
                             <span :class="getStatusColor(project.status)" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
                                 {{ project.status_label }}
                             </span>
@@ -129,11 +129,11 @@ const getPriorityColor = (priority) => {
             <!-- Tasks -->
             <div class="lg:col-span-2">
                 <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('tasks') || 'Tâches' }}</h2>
                         <button
                             @click="showAddTask = !showAddTask"
-                            class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
+                            class="w-full sm:w-auto justify-center inline-flex items-center px-3 py-1.5 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
                         >
                             <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -152,10 +152,10 @@ const getPriorityColor = (priority) => {
                                 required
                                 class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                             />
-                            <div class="flex items-center gap-3">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                                 <select
                                     v-model="taskForm.priority"
-                                    class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                    class="w-full sm:w-auto rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                 >
                                     <option value="low">{{ t('low') || 'Basse' }}</option>
                                     <option value="normal">{{ t('normal') || 'Normale' }}</option>
@@ -164,12 +164,12 @@ const getPriorityColor = (priority) => {
                                 <input
                                     v-model="taskForm.due_date"
                                     type="date"
-                                    class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                    class="w-full sm:w-auto rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                 />
                                 <button
                                     type="submit"
                                     :disabled="taskForm.processing"
-                                    class="inline-flex items-center px-3 py-2 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
+                                    class="w-full sm:w-auto justify-center inline-flex items-center px-3 py-2 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
                                 >
                                     {{ t('add') || 'Ajouter' }}
                                 </button>
