@@ -19,6 +19,7 @@ const props = defineProps({
 });
 
 const selectedYear = ref(props.selectedYear);
+const hoveredMonth = ref(null);
 
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat('fr-LU', {
@@ -43,6 +44,40 @@ const maxRevenue = computed(() => {
     if (!props.revenueChart) return 0;
     return Math.max(...props.revenueChart.map(m => m.revenue), 1);
 });
+
+// Y-axis scale ticks (5 nice round values from 0 to max)
+const yAxisTicks = computed(() => {
+    const max = maxRevenue.value;
+    if (max <= 1) return [0];
+    // Find a nice round step
+    const rawStep = max / 4;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+    const normalized = rawStep / magnitude;
+    let niceStep;
+    if (normalized <= 1) niceStep = 1 * magnitude;
+    else if (normalized <= 2) niceStep = 2 * magnitude;
+    else if (normalized <= 5) niceStep = 5 * magnitude;
+    else niceStep = 10 * magnitude;
+    const ticks = [];
+    for (let v = 0; v <= max; v += niceStep) {
+        ticks.push(v);
+    }
+    // Ensure we have the top tick above max
+    if (ticks[ticks.length - 1] < max) {
+        ticks.push(ticks[ticks.length - 1] + niceStep);
+    }
+    return ticks;
+});
+
+const chartMax = computed(() => {
+    const ticks = yAxisTicks.value;
+    return ticks[ticks.length - 1] || 1;
+});
+
+const formatShortCurrency = (value) => {
+    if (value >= 1000) return `${(value / 1000).toFixed(value % 1000 === 0 ? 0 : 1)}k €`;
+    return `${value} €`;
+};
 
 // Progress bar color based on percentage
 const getProgressBarColor = (percentage) => {
@@ -353,18 +388,60 @@ const getStatusLabel = (status) => {
                         {{ t('monthly_revenue') }}
                     </h3>
                     <div class="mt-4">
-                        <div class="flex h-48 items-end justify-between space-x-2">
+                        <div class="flex">
+                            <!-- Y-axis labels -->
+                            <div class="flex flex-col-reverse justify-between pr-2 text-right h-64 w-12 sm:w-14 flex-shrink-0">
+                                <span
+                                    v-for="tick in yAxisTicks"
+                                    :key="tick"
+                                    class="text-xs text-slate-400 dark:text-slate-500 leading-none"
+                                >
+                                    {{ formatShortCurrency(tick) }}
+                                </span>
+                            </div>
+                            <!-- Chart area -->
+                            <div class="flex-1 relative">
+                                <!-- Grid lines -->
+                                <div class="absolute inset-0 flex flex-col-reverse justify-between pointer-events-none">
+                                    <div
+                                        v-for="tick in yAxisTicks"
+                                        :key="'grid-' + tick"
+                                        class="border-t border-slate-200/50 dark:border-slate-700/50 w-full"
+                                    ></div>
+                                </div>
+                                <!-- Bars -->
+                                <div class="relative flex h-64 items-stretch justify-between gap-1 sm:gap-2">
+                                    <div
+                                        v-for="month in revenueChart"
+                                        :key="month.month"
+                                        class="relative flex flex-1 flex-col items-center justify-end"
+                                        @mouseenter="hoveredMonth = month.month"
+                                        @mouseleave="hoveredMonth = null"
+                                    >
+                                        <!-- Tooltip -->
+                                        <div
+                                            v-if="hoveredMonth === month.month"
+                                            class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white shadow-lg dark:bg-white dark:text-slate-900"
+                                        >
+                                            {{ month.label }} : {{ formatCurrency(month.revenue) }}
+                                            <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900 dark:border-t-white"></div>
+                                        </div>
+                                        <div
+                                            class="w-full rounded-t-lg bg-accent-rose hover:bg-pink-500 transition-colors cursor-pointer"
+                                            :style="{ height: `${(month.revenue / chartMax) * 100}%`, minHeight: month.revenue > 0 ? '4px' : '0' }"
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- X-axis labels -->
+                        <div class="flex mt-2 ml-12 sm:ml-14">
                             <div
                                 v-for="month in revenueChart"
-                                :key="month.month"
-                                class="flex flex-1 flex-col items-center"
+                                :key="'label-' + month.month"
+                                class="flex-1 text-center text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate"
                             >
-                                <div
-                                    class="w-full rounded-t-lg bg-accent-rose hover:bg-pink-500 transition-colors cursor-pointer"
-                                    :style="{ height: `${(month.revenue / maxRevenue) * 100}%`, minHeight: month.revenue > 0 ? '4px' : '0' }"
-                                    :title="`${month.label}: ${formatCurrency(month.revenue)}`"
-                                ></div>
-                                <span class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ month.label }}</span>
+                                {{ month.label }}
                             </div>
                         </div>
                     </div>
