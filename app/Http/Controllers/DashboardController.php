@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CashflowForecastService;
 use App\Services\DashboardService;
 use App\Services\FranchiseAlertService;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +14,8 @@ class DashboardController extends Controller
 {
     public function __construct(
         protected DashboardService $dashboardService,
-        protected FranchiseAlertService $franchiseAlertService
+        protected FranchiseAlertService $franchiseAlertService,
+        protected CashflowForecastService $cashflowForecastService
     ) {}
 
     /**
@@ -32,6 +34,7 @@ class DashboardController extends Controller
             'availableYears' => $this->dashboardService->getAvailableYears(),
             'selectedYear' => (int) $year,
             'franchiseAlert' => $this->franchiseAlertService->getFranchiseAlertData(),
+            'cashflowForecast' => $this->cashflowForecastService->getForecast(90),
         ]);
     }
 
@@ -80,6 +83,19 @@ class DashboardController extends Controller
 
         return response()->json([
             'data' => $this->dashboardService->getUnbilledTimeByClient($limit),
+        ]);
+    }
+
+    /**
+     * Get cashflow forecast (API endpoint).
+     */
+    public function cashflowForecast(Request $request): JsonResponse
+    {
+        $days = (int) $request->input('days', 90);
+        $days = in_array($days, [30, 60, 90]) ? $days : 90;
+
+        return response()->json([
+            'data' => $this->cashflowForecastService->getForecast($days),
         ]);
     }
 

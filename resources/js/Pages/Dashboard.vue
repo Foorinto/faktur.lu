@@ -1,5 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import CashflowChart from '@/Components/Dashboard/CashflowChart.vue';
 import FranchiseAlert from '@/Components/FranchiseAlert.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
@@ -16,6 +17,7 @@ const props = defineProps({
     availableYears: Array,
     selectedYear: Number,
     franchiseAlert: Object,
+    cashflowForecast: Object,
 });
 
 const selectedYear = ref(props.selectedYear);
@@ -377,6 +379,11 @@ const getStatusLabel = (status) => {
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Cashflow Forecast -->
+        <div v-if="cashflowForecast?.has_data" class="mt-6">
+            <CashflowChart :forecast="cashflowForecast" />
         </div>
 
         <!-- Third Row: Revenue Chart & VAT Summary -->
