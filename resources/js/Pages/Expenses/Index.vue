@@ -196,7 +196,7 @@ const deleteExpense = (expense) => {
                         </td>
                         <td class="whitespace-nowrap px-3 py-4">
                             <Link
-                                :href="route('expenses.edit', expense.id)"
+                                :href="route('expenses.show', expense.id)"
                                 class="font-medium text-slate-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400"
                             >
                                 {{ expense.provider_name }}

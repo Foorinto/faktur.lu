@@ -30,6 +30,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoteItemController;
 use App\Http\Controllers\FiscalSummaryController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RevenueBookController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TimeEntryController;
@@ -530,6 +531,10 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/api/company-lookup/search', [CompanyLookupController::class, 'search'])->name('company-lookup.search');
         Route::post('/api/company-lookup/validate-vat', [CompanyLookupController::class, 'validateVat'])->name('company-lookup.validate-vat');
     });
+
+    // Global search
+    Route::get('/search', [SearchController::class, 'search'])->name('search.api');
+    Route::get('/search/results', [SearchController::class, 'results'])->name('search.results');
 
     // Dashboard API endpoints - 60 requests/minute
     Route::middleware('throttle:dashboard')->group(function () {

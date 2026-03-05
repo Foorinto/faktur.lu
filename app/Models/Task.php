@@ -249,4 +249,19 @@ class Task extends Model
             'sort_order' => $this->children()->max('sort_order') + 1,
         ]));
     }
+
+    /**
+     * Scope for global search.
+     */
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%");
+        });
+    }
 }

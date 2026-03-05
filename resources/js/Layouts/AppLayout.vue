@@ -6,12 +6,14 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 import ReadOnlyBanner from '@/Components/ReadOnlyBanner.vue';
+import GlobalSearchModal from '@/Components/GlobalSearchModal.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 const showingSidebar = ref(false);
+const showSearch = ref(false);
 const sidebarCollapsed = ref(localStorage.getItem('sidebar-collapsed') === 'true');
 const page = usePage();
 
@@ -374,8 +376,21 @@ const routeExists = (routeName) => {
                         </div>
                     </div>
 
-                    <!-- Reminders bell + Theme toggle -->
+                    <!-- Search + Reminders bell + Theme toggle -->
                     <div class="order-3 flex h-16 items-center flex-shrink-0 ml-4 gap-2 sm:order-4">
+                        <button
+                            type="button"
+                            class="flex items-center gap-2 rounded-lg p-2 text-slate-500 hover:bg-gray-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-gray-800 dark:hover:text-slate-300 transition-colors"
+                            :title="t('global_search')"
+                            @click="showSearch = true"
+                        >
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                            <span class="hidden text-xs text-slate-400 dark:text-slate-500 sm:inline">
+                                <kbd class="rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 font-mono text-[10px] dark:border-gray-600 dark:bg-gray-700">⌘K</kbd>
+                            </span>
+                        </button>
                         <Link
                             v-if="routeExists('reminders.index')"
                             :href="route('reminders.index')"
@@ -431,4 +446,7 @@ const routeExists = (routeName) => {
             </main>
         </div>
     </div>
+
+    <!-- Global search modal -->
+    <GlobalSearchModal :show="showSearch" @close="showSearch = false" @open="showSearch = true" />
 </template>

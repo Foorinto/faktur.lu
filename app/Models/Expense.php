@@ -265,4 +265,19 @@ class Expense extends Model implements HasMedia
             ->keyBy('month')
             ->toArray();
     }
+
+    /**
+     * Scope for global search.
+     */
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($search) {
+            $q->where('provider_name', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%");
+        });
+    }
 }

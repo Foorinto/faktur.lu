@@ -392,4 +392,19 @@ class Quote extends Model
     {
         return $query->where('client_id', $clientId);
     }
+
+    /**
+     * Scope for global search.
+     */
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($search) {
+            $q->where('reference', 'like', "%{$search}%")
+              ->orWhereHas('client', fn (Builder $c) => $c->where('name', 'like', "%{$search}%"));
+        });
+    }
 }

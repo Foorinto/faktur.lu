@@ -485,4 +485,20 @@ class Invoice extends Model
     {
         return $query->where('type', self::TYPE_CREDIT_NOTE);
     }
+
+    /**
+     * Scope for global search.
+     */
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($search) {
+            $q->where('number', 'like', "%{$search}%")
+              ->orWhere('title', 'like', "%{$search}%")
+              ->orWhereHas('client', fn (Builder $c) => $c->where('name', 'like', "%{$search}%"));
+        });
+    }
 }
