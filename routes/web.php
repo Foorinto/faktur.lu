@@ -29,6 +29,7 @@ use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoteItemController;
+use App\Http\Controllers\FiscalSummaryController;
 use App\Http\Controllers\RevenueBookController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TimeEntryController;
@@ -400,6 +401,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/quotes/{quote}/pdf/stream', [QuoteController::class, 'streamPdf'])->name('quotes.pdf.stream');
         Route::get('/quotes/{quote}/pdf/preview', [QuoteController::class, 'previewPdf'])->name('quotes.pdf.preview');
         Route::get('/reports/revenue-book/pdf', [RevenueBookController::class, 'exportPdf'])->name('reports.revenue-book.pdf');
+        Route::get('/reports/fiscal-summary/pdf', [FiscalSummaryController::class, 'exportPdf'])->name('reports.fiscal-summary.pdf');
         Route::get('/invoices/{invoice}/archive/download', [ArchiveController::class, 'download'])->name('invoices.archive.download');
     });
 
@@ -492,6 +494,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::middleware('throttle:audit-export')->group(function () {
         Route::get('/audit-logs/export', [AuditLogController::class, 'export'])->name('audit-logs.export');
         Route::get('/reports/revenue-book/csv', [RevenueBookController::class, 'exportCsv'])->name('reports.revenue-book.csv');
+        Route::get('/reports/fiscal-summary/csv', [FiscalSummaryController::class, 'exportCsv'])->name('reports.fiscal-summary.csv');
     });
 
     // Audit log detail (must be after /audit-logs/export to avoid route conflict)
@@ -499,6 +502,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
     // Reports and audit export views (no special rate limit beyond auth)
     Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
+    Route::get('/reports/fiscal-summary', [FiscalSummaryController::class, 'index'])->name('reports.fiscal-summary');
     Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');
     Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
     Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');

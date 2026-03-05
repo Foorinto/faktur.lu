@@ -8,9 +8,10 @@ const { t } = useTranslations();
 const currentRoute = computed(() => usePage().url);
 
 const links = [
-    { label: () => t('revenue_book'), href: 'reports.revenue-book', match: ['/reports'] },
+    { label: () => t('revenue_book'), href: 'reports.revenue-book', match: ['/reports/revenue-book'] },
     { label: () => t('faia_export'), href: 'exports.audit.index', match: ['/exports/audit'] },
     { label: () => t('accounting_export'), href: 'exports.accounting.index', match: ['/exports/accounting'] },
+    { label: () => t('fiscal_summary'), href: 'reports.fiscal-summary', match: ['/reports/fiscal-summary'] },
 ];
 
 const isActive = (match) => {
