@@ -498,19 +498,6 @@ const getUsagePercentage = (used, limit) => {
                         </div>
                     </div>
 
-                    <!-- Entreprise CTA -->
-                    <div class="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h4 class="font-semibold text-slate-900 dark:text-white">Entreprise</h4>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Besoins spécifiques ? Multi-sociétés, intégrations sur mesure, SLA dédié.</p>
-                        </div>
-                        <a
-                            href="mailto:contact@faktur.lu?subject=Plan%20Entreprise"
-                            class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors whitespace-nowrap"
-                        >
-                            Contactez-nous
-                        </a>
-                    </div>
 
                     <!-- Link to full comparison -->
                     <div class="mt-6 text-center">

@@ -1229,17 +1229,6 @@ return [
                         'Support prioritaire',
                     ],
                 ],
-                'enterprise' => [
-                    'name' => 'Entreprise',
-                    'description' => 'Pour les équipes',
-                    'price' => 'Sur mesure',
-                    'features' => [
-                        'Tout de Pro',
-                        'Multi-utilisateurs',
-                        'API & intégrations',
-                        'Support dédié',
-                    ],
-                ],
             ],
         ],
 
@@ -2248,7 +2237,6 @@ return [
     'free_plan' => 'Plan Gratuit',
     'essentiel_plan' => 'Plan Essentiel',
     'pro_plan' => 'Plan Pro',
-    'enterprise_plan' => 'Plan Entreprise',
     'free_plan_banner_message' => 'Vous utilisez le plan Gratuit. Passez à Essentiel pour débloquer plus de fonctionnalités.',
     'view_plans' => 'Voir les plans',
     'upgrade_to_higher_plan' => 'Passez à un plan supérieur',
@@ -2261,6 +2249,4 @@ return [
     'feature_facturx' => 'L\'export Factur-X nécessite le plan Pro.',
     'feature_projects' => 'La gestion de projets nécessite le plan Essentiel ou supérieur.',
     'feature_time_tracking' => 'Le suivi du temps nécessite le plan Essentiel ou supérieur.',
-    'contact_us' => 'Contactez-nous',
-    'custom_quote' => 'Sur devis',
 ];

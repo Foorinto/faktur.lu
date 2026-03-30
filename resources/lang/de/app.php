@@ -1160,17 +1160,6 @@ return [
                         'Prioritäts-Support',
                     ],
                 ],
-                'enterprise' => [
-                    'name' => 'Unternehmen',
-                    'description' => 'Für Teams',
-                    'price' => 'Auf Anfrage',
-                    'features' => [
-                        'Alles von Pro',
-                        'Mehrere Benutzer',
-                        'API & Integrationen',
-                        'Dedizierter Support',
-                    ],
-                ],
             ],
         ],
         'faq' => [
@@ -2031,7 +2020,6 @@ return [
     'free_plan' => 'Kostenloser Plan',
     'essentiel_plan' => 'Essentiel Plan',
     'pro_plan' => 'Pro Plan',
-    'enterprise_plan' => 'Enterprise Plan',
     'free_plan_banner_message' => 'Sie nutzen den kostenlosen Plan. Wechseln Sie zu Essentiel, um weitere Funktionen freizuschalten.',
     'view_plans' => 'Pläne ansehen',
     'upgrade_to_higher_plan' => 'Auf einen höheren Plan upgraden',
@@ -2044,6 +2032,4 @@ return [
     'feature_facturx' => 'Factur-X-Export erfordert den Pro Plan.',
     'feature_projects' => 'Projektmanagement erfordert den Essentiel Plan oder höher.',
     'feature_time_tracking' => 'Zeiterfassung erfordert den Essentiel Plan oder höher.',
-    'contact_us' => 'Kontaktieren Sie uns',
-    'custom_quote' => 'Auf Anfrage',
 ];

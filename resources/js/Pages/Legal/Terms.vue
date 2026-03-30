@@ -131,10 +131,6 @@ const lastUpdated = '9 février 2026';
                                 <h4 class="font-medium text-slate-800">Professionnel</h4>
                                 <p class="text-sm text-slate-600">Fonctionnalités complètes pour les indépendants et PME. Tarif affiché sur la page de tarification.</p>
                             </div>
-                            <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800">Entreprise</h4>
-                                <p class="text-sm text-slate-600">Fonctionnalités avancées et support prioritaire. Sur devis.</p>
-                            </div>
                         </div>
 
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">5.2 Tarifs</h3>

@@ -1160,17 +1160,6 @@ return [
                         'Prioritéits-Support',
                     ],
                 ],
-                'enterprise' => [
-                    'name' => 'Entreprise',
-                    'description' => 'Fir Teams',
-                    'price' => 'Op Ufro',
-                    'features' => [
-                        'Alles vu Pro',
-                        'Méi Benotzer',
-                        'API & Integratiounen',
-                        'Dedizéierte Support',
-                    ],
-                ],
             ],
         ],
         'faq' => [
@@ -2031,7 +2020,6 @@ return [
     'free_plan' => 'Gratis Plang',
     'essentiel_plan' => 'Essentiel Plang',
     'pro_plan' => 'Pro Plang',
-    'enterprise_plan' => 'Enterprise Plang',
     'free_plan_banner_message' => 'Dir benotzt de gratis Plang. Wiesselt op Essentiel fir méi Funktiounen fräizeschalten.',
     'view_plans' => 'Pläng kucken',
     'upgrade_to_higher_plan' => 'Op en héicheren Plang wiesselen',
@@ -2044,6 +2032,4 @@ return [
     'feature_facturx' => 'Factur-X-Export brauch de Pro Plang.',
     'feature_projects' => 'Projektmanagement brauch den Essentiel Plang oder méi héich.',
     'feature_time_tracking' => 'Zäiterfassung brauch den Essentiel Plang oder méi héich.',
-    'contact_us' => 'Kontaktéiert eis',
-    'custom_quote' => 'Op Ufro',
 ];

@@ -957,7 +957,7 @@ const toggleFaq = (index) => {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-6xl mx-auto mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-8">
                     <!-- Plan Gratuit -->
                     <div class="bg-slate-50 rounded-3xl p-8 flex flex-col">
                         <div class="mb-6">
@@ -1118,52 +1118,10 @@ const toggleFaq = (index) => {
                         </Link>
                     </div>
 
-                    <!-- Plan Entreprise -->
-                    <div class="bg-slate-900 rounded-3xl p-8 flex flex-col">
-                        <div class="mb-6">
-                            <h3 class="text-xl font-semibold text-white">Entreprise</h3>
-                            <p class="text-slate-400 mt-1">Multi-sociétés &amp; sur mesure</p>
-                        </div>
-                        <div class="mb-6">
-                            <span class="text-4xl font-bold text-white">Sur devis</span>
-                        </div>
-                        <ul class="space-y-4 mb-8 flex-1">
-                            <li class="flex items-center gap-3 text-slate-300">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Tout du plan Pro
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-300">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Multi-sociétés
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-300">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Intégrations sur mesure
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-300">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                SLA &amp; support dédié
-                            </li>
-                        </ul>
-                        <a
-                            href="mailto:contact@faktur.lu?subject=Plan%20Entreprise"
-                            class="block w-full py-3.5 text-center font-semibold text-slate-900 bg-[#fee440] rounded-xl hover:bg-[#ffd60a] transition-colors"
-                        >
-                            Contactez-nous
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Feature Comparison Table -->
-                <div class="mt-16 max-w-6xl mx-auto">
+                <div class="mt-16 max-w-5xl mx-auto">
                     <h3 class="text-xl font-semibold text-slate-900 text-center mb-8">
                         Comparatif détaillé des fonctionnalités
                     </h3>
@@ -1175,19 +1133,17 @@ const toggleFaq = (index) => {
                                     <th class="text-center py-4 px-4 text-sm font-semibold text-slate-500 w-24">Gratuit</th>
                                     <th class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24">Essentiel</th>
                                     <th class="text-center py-4 px-4 text-sm font-semibold text-primary-500 w-24">Pro</th>
-                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24">Entreprise</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
                                 <!-- Limites -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Limites</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Limites</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Clients</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">100</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
@@ -1195,13 +1151,11 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">3</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">50</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Devis / mois</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">2</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">20</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
@@ -1209,13 +1163,11 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">100</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Dépenses / mois</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">30</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
@@ -1227,18 +1179,14 @@ const toggleFaq = (index) => {
                                     </td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
 
                                 <!-- Fonctionnalités de base -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Factures conformes Luxembourg</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1260,15 +1208,9 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Gestion des clients</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1290,15 +1232,9 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Suivi des dépenses</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1320,22 +1256,16 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
 
                                 <!-- Fonctionnalités Essentiel+ -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Essentiel &amp; supérieur</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Essentiel &amp; supérieur</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Suivi du temps</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -1355,17 +1285,11 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Portail comptable</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -1385,9 +1309,6 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Export Peppol</td>
@@ -1396,12 +1317,11 @@ const toggleFaq = (index) => {
                                     </td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">10/mois</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
 
                                 <!-- Fonctionnalités Pro -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro &amp; supérieur</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro &amp; supérieur</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Module RH</td>
@@ -1410,9 +1330,6 @@ const toggleFaq = (index) => {
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -1429,15 +1346,9 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Export FAIA (contrôle fiscal)</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1459,9 +1370,6 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Transmission Peppol</td>
@@ -1470,9 +1378,6 @@ const toggleFaq = (index) => {
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -1489,9 +1394,6 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Relances automatiques impayés</td>
@@ -1500,9 +1402,6 @@ const toggleFaq = (index) => {
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -1519,9 +1418,6 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Support email prioritaire</td>
@@ -1534,60 +1430,8 @@ const toggleFaq = (index) => {
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
                                 </tr>
 
-                                <!-- Entreprise -->
-                                <tr class="bg-slate-50/50">
-                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Entreprise uniquement</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Multi-sociétés</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Intégrations sur mesure</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">SLA &amp; support dédié</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>

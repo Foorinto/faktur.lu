@@ -1222,17 +1222,6 @@ return [
                         'Priority support',
                     ],
                 ],
-                'enterprise' => [
-                    'name' => 'Enterprise',
-                    'description' => 'For teams',
-                    'price' => 'Custom',
-                    'features' => [
-                        'Everything in Pro',
-                        'Multi-users',
-                        'API & integrations',
-                        'Dedicated support',
-                    ],
-                ],
             ],
         ],
         'faq' => [
@@ -2093,7 +2082,6 @@ return [
     'free_plan' => 'Free Plan',
     'essentiel_plan' => 'Essentiel Plan',
     'pro_plan' => 'Pro Plan',
-    'enterprise_plan' => 'Enterprise Plan',
     'free_plan_banner_message' => 'You are on the Free plan. Upgrade to Essentiel to unlock more features.',
     'view_plans' => 'View plans',
     'upgrade_to_higher_plan' => 'Upgrade to a higher plan',
@@ -2106,6 +2094,4 @@ return [
     'feature_facturx' => 'Factur-X export requires the Pro plan.',
     'feature_projects' => 'Project management requires the Essentiel plan or higher.',
     'feature_time_tracking' => 'Time tracking requires the Essentiel plan or higher.',
-    'contact_us' => 'Contact us',
-    'custom_quote' => 'Custom quote',
 ];

@@ -187,7 +187,7 @@ const proFeatures = [
         <!-- Pricing cards -->
         <div class="pb-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                     <!-- FREE Plan -->
                     <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 flex flex-col">
                         <div>
@@ -331,51 +331,6 @@ const proFeatures = [
                         </div>
                     </div>
 
-                    <!-- Entreprise Plan -->
-                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 flex flex-col">
-                        <div>
-                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Entreprise</h3>
-                            <p class="text-slate-500 dark:text-slate-400">Sur mesure</p>
-                        </div>
-
-                        <div class="mt-6">
-                            <div class="flex items-baseline">
-                                <span class="text-3xl font-bold text-slate-900 dark:text-white">Sur devis</span>
-                            </div>
-                            <p class="mt-1 text-sm text-slate-500">À partir de 200 €/mois</p>
-                        </div>
-
-                        <div class="mt-8">
-                            <a
-                                href="mailto:contact@faktur.lu"
-                                class="block w-full text-center px-6 py-3 border-2 border-slate-800 dark:border-slate-300 text-slate-800 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors"
-                            >
-                                Contactez-nous
-                            </a>
-                        </div>
-
-                        <div class="mt-8 space-y-4 flex-1">
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Tout de Pro, plus :</p>
-                            <ul class="space-y-3">
-                                <li v-for="feature in [
-                                    'Utilisateurs illimités',
-                                    'Employés illimités (RH)',
-                                    'Multi-entités / consolidation',
-                                    'API REST + Webhooks',
-                                    'SSO (SAML, OAuth, Azure AD)',
-                                    'SLA 99.9% garanti',
-                                    'Account manager dédié',
-                                    'Support téléphone prioritaire',
-                                    'White-label (option)',
-                                ]" :key="feature" class="flex items-start text-sm text-slate-600 dark:text-slate-400">
-                                    <svg class="h-5 w-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                    </svg>
-                                    {{ feature }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
