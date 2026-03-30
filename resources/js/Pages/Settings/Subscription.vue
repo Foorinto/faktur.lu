@@ -28,6 +28,7 @@ const proPlan = computed(() => props.plans.find(p => p.name === 'pro'));
 const essentielPlan = computed(() => props.plans.find(p => p.name === 'essentiel'));
 const isPro = computed(() => props.currentPlan === 'pro');
 const isEssentiel = computed(() => props.currentPlan === 'essentiel');
+const isFree = computed(() => props.currentPlan === 'free');
 const isOnGracePeriod = computed(() => props.subscription?.ends_at && new Date(props.subscription.ends_at) > new Date());
 
 const checkoutForm = ref(null);
@@ -143,7 +144,10 @@ const getUsagePercentage = (used, limit) => {
                             <div
                                 :class="[
                                     'h-14 w-14 rounded-2xl flex items-center justify-center flex-shrink-0',
-                                    onTrial ? 'bg-amber-100 dark:bg-amber-900/30' : (isPro ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-slate-100 dark:bg-gray-800')
+                                    onTrial ? 'bg-amber-100 dark:bg-amber-900/30' :
+                                    isPro ? 'bg-primary-100 dark:bg-primary-900/30' :
+                                    isEssentiel ? 'bg-blue-100 dark:bg-blue-900/30' :
+                                    'bg-slate-100 dark:bg-gray-800'
                                 ]"
                             >
                                 <!-- Trial icon (clock) -->
@@ -155,8 +159,12 @@ const getUsagePercentage = (used, limit) => {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                                 </svg>
                                 <!-- Essentiel icon -->
-                                <svg v-else class="h-7 w-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg v-else-if="isEssentiel" class="h-7 w-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                <!-- Free icon -->
+                                <svg v-else class="h-7 w-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                             <div>
@@ -167,8 +175,11 @@ const getUsagePercentage = (used, limit) => {
                                     <template v-else-if="isPro">
                                         Plan Pro
                                     </template>
-                                    <template v-else>
+                                    <template v-else-if="isEssentiel">
                                         Plan Essentiel
+                                    </template>
+                                    <template v-else>
+                                        Plan Gratuit
                                     </template>
                                 </h3>
                                 <p class="text-slate-500 dark:text-slate-400">
@@ -176,16 +187,19 @@ const getUsagePercentage = (used, limit) => {
                                         Accès Pro complet - {{ trialDaysRemaining }} jours restants
                                     </template>
                                     <template v-else-if="isPro">
-                                        {{ formatPrice(proPlan?.price_monthly || 9) }}/mois
+                                        {{ formatPrice(proPlan?.price_monthly || 15) }}/mois
+                                    </template>
+                                    <template v-else-if="isEssentiel">
+                                        {{ formatPrice(essentielPlan?.price_monthly || 5) }}/mois
                                     </template>
                                     <template v-else>
-                                        {{ formatPrice(essentielPlan?.price_monthly || 4) }}/mois
+                                        0€ — fonctionnalités limitées
                                     </template>
                                 </p>
                             </div>
                         </div>
 
-                        <div v-if="isPro && !isOnGracePeriod" class="flex flex-wrap items-center gap-3">
+                        <div v-if="(isPro || isEssentiel) && !isOnGracePeriod" class="flex flex-wrap items-center gap-3">
                             <a
                                 :href="route('subscription.portal')"
                                 class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800 w-full sm:w-auto"
@@ -226,7 +240,7 @@ const getUsagePercentage = (used, limit) => {
                 </div>
             </div>
 
-            <!-- Usage Stats (Starter only) -->
+            <!-- Usage Stats (non-Pro users) -->
             <div v-if="!isPro" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
@@ -281,11 +295,43 @@ const getUsagePercentage = (used, limit) => {
                             />
                         </div>
                     </div>
+
+                    <!-- Expenses -->
+                    <div v-if="usage.expenses_this_month">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-slate-600 dark:text-slate-400">Dépenses</span>
+                            <span class="font-medium text-slate-900 dark:text-white">
+                                {{ usage.expenses_this_month.used }} / {{ usage.expenses_this_month.limit }}
+                            </span>
+                        </div>
+                        <div class="h-2 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                            <div
+                                class="h-full bg-primary-500 rounded-full transition-all"
+                                :style="{ width: getUsagePercentage(usage.expenses_this_month.used, usage.expenses_this_month.limit) + '%' }"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Active Projects -->
+                    <div v-if="usage.active_projects">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-slate-600 dark:text-slate-400">Projets actifs</span>
+                            <span class="font-medium text-slate-900 dark:text-white">
+                                {{ usage.active_projects.used }} / {{ usage.active_projects.limit }}
+                            </span>
+                        </div>
+                        <div class="h-2 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                            <div
+                                class="h-full bg-primary-500 rounded-full transition-all"
+                                :style="{ width: getUsagePercentage(usage.active_projects.used, usage.active_projects.limit) + '%' }"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Choose Plan Section (Trial or no subscription) -->
-            <div v-if="!isPro && !isEssentiel" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <!-- Choose Plan Section (Free users or Trial) -->
+            <div v-if="isFree || onTrial" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
@@ -328,15 +374,15 @@ const getUsagePercentage = (used, limit) => {
                         <div class="border-2 border-gray-200 dark:border-gray-700 rounded-2xl p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
                             <div class="mb-4">
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
-                                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les freelances débutants</p>
+                                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les freelances et indépendants</p>
                             </div>
                             <div class="mb-6">
                                 <span class="text-3xl font-bold text-slate-900 dark:text-white">
-                                    {{ billingPeriod === 'yearly' ? '3,33€' : '4€' }}
+                                    {{ billingPeriod === 'yearly' ? '4,17€' : '5€' }}
                                 </span>
                                 <span class="text-slate-500 dark:text-slate-400">/mois HT</span>
                                 <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
-                                    40€ facturé annuellement
+                                    50€ facturé annuellement
                                 </p>
                             </div>
                             <ul class="space-y-3 mb-6 text-sm">
@@ -344,25 +390,25 @@ const getUsagePercentage = (used, limit) => {
                                     <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    10 clients maximum
+                                    100 clients maximum
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-300">
                                     <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    20 factures/mois
+                                    50 factures/mois
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-300">
                                     <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    20 devis/mois
+                                    Projets &amp; suivi du temps
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-300">
                                     <svg class="h-5 w-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Facturation conforme Luxembourg
+                                    Portail comptable &amp; exports
                                 </li>
                             </ul>
                             <form
@@ -388,15 +434,15 @@ const getUsagePercentage = (used, limit) => {
                             </div>
                             <div class="mb-4">
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">Pro</h3>
-                                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les freelances établis</p>
+                                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Pour les PME en croissance</p>
                             </div>
                             <div class="mb-6">
                                 <span class="text-3xl font-bold text-slate-900 dark:text-white">
-                                    {{ billingPeriod === 'yearly' ? '7,50€' : '9€' }}
+                                    {{ billingPeriod === 'yearly' ? '12,50€' : '15€' }}
                                 </span>
                                 <span class="text-slate-500 dark:text-slate-400">/mois HT</span>
                                 <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
-                                    90€ facturé annuellement
+                                    150€ facturé annuellement
                                 </p>
                             </div>
                             <ul class="space-y-3 mb-6 text-sm">
@@ -410,13 +456,13 @@ const getUsagePercentage = (used, limit) => {
                                     <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Export FAIA (contrôle fiscal)
+                                    Module RH &amp; CRM intégrés
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-300">
                                     <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Archivage PDF/A 10 ans
+                                    Export FAIA &amp; Factur-X
                                 </li>
                                 <li class="flex items-center text-slate-600 dark:text-slate-300">
                                     <svg class="h-5 w-5 mr-2 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
@@ -452,6 +498,20 @@ const getUsagePercentage = (used, limit) => {
                         </div>
                     </div>
 
+                    <!-- Entreprise CTA -->
+                    <div class="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h4 class="font-semibold text-slate-900 dark:text-white">Entreprise</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Besoins spécifiques ? Multi-sociétés, intégrations sur mesure, SLA dédié.</p>
+                        </div>
+                        <a
+                            href="mailto:contact@faktur.lu?subject=Plan%20Entreprise"
+                            class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors whitespace-nowrap"
+                        >
+                            Contactez-nous
+                        </a>
+                    </div>
+
                     <!-- Link to full comparison -->
                     <div class="mt-6 text-center">
                         <a
@@ -472,17 +532,17 @@ const getUsagePercentage = (used, limit) => {
             </div>
 
             <!-- Upgrade to Pro (Essentiel users only) -->
-            <div v-if="isEssentiel && !isPro" class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl shadow-lg overflow-hidden">
+            <div v-if="isEssentiel && !isOnGracePeriod" class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl shadow-lg overflow-hidden">
                 <div class="p-6">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div class="text-white">
                             <h3 class="text-xl font-bold">Passez au plan Pro</h3>
                             <p class="mt-2 text-primary-100 text-sm">
-                                Débloquez l'export FAIA, les relances automatiques et bien plus.
+                                Débloquez le module RH, le CRM, l'export FAIA, les relances automatiques et bien plus.
                             </p>
                         </div>
                         <form
-                            :action="route('subscription.checkout')"
+                            :action="route('subscription.swap')"
                             method="POST"
                         >
                             <input type="hidden" name="_token" :value="page.props.csrf_token">
@@ -492,15 +552,15 @@ const getUsagePercentage = (used, limit) => {
                                 type="submit"
                                 class="px-6 py-2.5 bg-white text-primary-600 font-semibold rounded-xl hover:bg-primary-50 transition-colors w-full sm:w-auto"
                             >
-                                Passer à Pro - 9€/mois
+                                Passer à Pro - 15€/mois
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <!-- Invoices History (Pro only) -->
-            <div v-if="isPro && invoices?.length" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <!-- Invoices History (subscribed users) -->
+            <div v-if="(isPro || isEssentiel) && invoices?.length" class="bg-white dark:bg-surface-card rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white">
                         Historique des factures
@@ -538,11 +598,11 @@ const getUsagePercentage = (used, limit) => {
                             Annuler votre abonnement ?
                         </h3>
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
-                            Vous conserverez l'accès Pro jusqu'à la fin de votre période de facturation. Après cela, vous passerez automatiquement au plan Starter gratuit.
+                            Vous conserverez l'accès jusqu'à la fin de votre période de facturation. Après cela, vous passerez automatiquement au plan Gratuit avec des fonctionnalités limitées.
                         </p>
                         <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                             <SecondaryButton @click="showCancelModal = false" class="w-full sm:w-auto justify-center">
-                                Garder Pro
+                                Garder mon abonnement
                             </SecondaryButton>
                             <button
                                 @click="cancelSubscription"

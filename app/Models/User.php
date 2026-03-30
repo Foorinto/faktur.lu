@@ -156,23 +156,52 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isPro(): bool
     {
-        return $this->subscribed('default');
+        if (!$this->subscribed('default')) {
+            return false;
+        }
+
+        $proPlan = Plan::pro();
+        if (!$proPlan) {
+            return false;
+        }
+
+        return ($proPlan->stripe_price_id_monthly && $this->subscribedToPrice($proPlan->stripe_price_id_monthly))
+            || ($proPlan->stripe_price_id_yearly && $this->subscribedToPrice($proPlan->stripe_price_id_yearly));
     }
 
     /**
-     * Check if user is on Starter/free plan (no active subscription).
+     * Check if user is on the free plan (no subscription, no trial).
+     */
+    public function isFree(): bool
+    {
+        return !$this->subscribed('default') && !$this->isOnGenericTrial();
+    }
+
+    /**
+     * Check if user is on Starter/free plan.
+     * @deprecated Use isFree() instead
      */
     public function isStarter(): bool
     {
-        return !$this->subscribed('default');
+        return $this->isFree();
     }
 
     /**
-     * Check if user is on the free Essentiel plan (not Pro).
+     * Check if user is on the Essentiel plan.
      */
     public function isEssentiel(): bool
     {
-        return $this->subscribed('default') && !$this->subscribedToPrice(config('services.stripe.pro_monthly')) && !$this->subscribedToPrice(config('services.stripe.pro_yearly'));
+        if (!$this->subscribed('default')) {
+            return false;
+        }
+
+        $essentielPlan = Plan::essentiel();
+        if (!$essentielPlan) {
+            return false;
+        }
+
+        return ($essentielPlan->stripe_price_id_monthly && $this->subscribedToPrice($essentielPlan->stripe_price_id_monthly))
+            || ($essentielPlan->stripe_price_id_yearly && $this->subscribedToPrice($essentielPlan->stripe_price_id_yearly));
     }
 
     /**
@@ -224,19 +253,21 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Check if user can fully access the app (has subscription or is on trial).
+     * Check if user can fully access the app.
+     * All users can access the app (free plan replaces read-only mode).
      */
     public function canAccessApp(): bool
     {
-        return $this->subscribed('default') || $this->isOnGenericTrial();
+        return true;
     }
 
     /**
-     * Check if user account is in read-only mode (trial expired, no subscription).
+     * Check if user account is in read-only mode.
+     * Free plan replaces read-only mode — users can still create within limits.
      */
     public function isReadOnly(): bool
     {
-        return $this->isTrialExpired();
+        return false;
     }
 
     /**
@@ -252,7 +283,11 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'trial';
         }
 
-        return 'essentiel';
+        if ($this->isEssentiel()) {
+            return 'essentiel';
+        }
+
+        return 'free';
     }
 
     /**

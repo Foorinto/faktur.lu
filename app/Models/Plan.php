@@ -49,6 +49,14 @@ class Plan extends Model
     }
 
     /**
+     * Get the free plan.
+     */
+    public static function free(): ?self
+    {
+        return static::where('name', 'free')->first();
+    }
+
+    /**
      * Get the pro plan.
      */
     public static function pro(): ?self

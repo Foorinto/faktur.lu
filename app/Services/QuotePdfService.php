@@ -161,8 +161,8 @@ class QuotePdfService
             ->values()
             ->toArray();
 
-        // Show branding for Starter (free) users
-        $showBranding = $quote->user ? $quote->user->isStarter() : true;
+        // Show branding for free plan users
+        $showBranding = $quote->user ? $quote->user->isFree() : true;
 
         // Get VAT mention text
         $vatMentionText = $quote->getVatMentionText();

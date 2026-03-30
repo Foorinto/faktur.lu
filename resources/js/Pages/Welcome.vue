@@ -957,58 +957,97 @@ const toggleFaq = (index) => {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-6xl mx-auto mt-8">
+                    <!-- Plan Gratuit -->
+                    <div class="bg-slate-50 rounded-3xl p-8 flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold text-slate-900">Gratuit</h3>
+                            <p class="text-slate-500 mt-1">Pour découvrir faktur.lu</p>
+                        </div>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold text-slate-900">0€</span>
+                            <span class="text-slate-500 ml-1">/mois</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 flex-1">
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                5 clients
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                3 factures / mois
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                2 devis / mois
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-700">
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Conforme Luxembourg
+                            </li>
+                        </ul>
+                        <Link
+                            v-if="canRegister"
+                            :href="route('register')"
+                            class="block w-full py-3.5 text-center font-semibold text-slate-700 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                        >
+                            Créer un compte
+                        </Link>
+                    </div>
+
                     <!-- Plan Essentiel -->
-                    <div class="bg-slate-50 rounded-3xl p-8">
+                    <div class="bg-slate-50 rounded-3xl p-8 flex flex-col">
                         <div class="mb-6">
                             <h3 class="text-xl font-semibold text-slate-900">{{ t('landing.pricing.plans.essentiel.name') }}</h3>
-                            <p class="text-slate-500 mt-1">{{ t('landing.pricing.plans.essentiel.description') }}</p>
+                            <p class="text-slate-500 mt-1">Pour les freelances et indépendants</p>
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-slate-900">
-                                {{ billingPeriod === 'yearly' ? '3,33€' : '4€' }}
+                                {{ billingPeriod === 'yearly' ? '4,17€' : '5€' }}
                             </span>
                             <span class="text-slate-500 ml-1">/mois HT</span>
                             <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
-                                40€ facturé annuellement
+                                50€ facturé annuellement
                             </p>
                         </div>
-                        <ul class="space-y-4 mb-8">
+                        <ul class="space-y-4 mb-8 flex-1">
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.essentiel.features.0') }}
+                                100 clients
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.essentiel.features.1') }}
+                                50 factures / mois
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.essentiel.features.2') }}
+                                Projets &amp; suivi du temps
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.essentiel.features.3') }}
+                                Portail comptable &amp; exports
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.essentiel.features.4') }}
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                {{ t('landing.pricing.plans.essentiel.features.5') }}
+                                Export Peppol (10/mois)
                             </li>
                         </ul>
                         <Link
@@ -1020,48 +1059,54 @@ const toggleFaq = (index) => {
                         </Link>
                     </div>
 
-                    <!-- Plan Pro -->
-                    <div class="bg-primary-500 rounded-3xl p-8 relative">
+                    <!-- Plan Pro (RECOMMANDÉ) -->
+                    <div class="bg-primary-500 rounded-3xl p-8 relative flex flex-col">
                         <div class="absolute -top-3 left-1/2 -translate-x-1/2">
                             <span class="px-4 py-1.5 text-xs font-bold bg-[#fee440] text-slate-900 rounded-full">{{ t('landing.pricing.popular') }}</span>
                         </div>
                         <div class="mb-6">
                             <h3 class="text-xl font-semibold text-white">{{ t('landing.pricing.plans.professional.name') }}</h3>
-                            <p class="text-white/70 mt-1">{{ t('landing.pricing.plans.professional.description') }}</p>
+                            <p class="text-white/70 mt-1">Pour les PME en croissance</p>
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-white">
-                                {{ billingPeriod === 'yearly' ? '7,50€' : '9€' }}
+                                {{ billingPeriod === 'yearly' ? '12,50€' : '15€' }}
                             </span>
                             <span class="text-white/70 ml-1">/mois HT</span>
                             <p v-if="billingPeriod === 'yearly'" class="text-sm text-white/60 mt-1">
-                                90€ facturé annuellement
+                                150€ facturé annuellement
                             </p>
                         </div>
-                        <ul class="space-y-4 mb-8">
+                        <ul class="space-y-4 mb-8 flex-1">
                             <li class="flex items-center gap-3 text-white/90">
                                 <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.professional.features.0') }}
+                                Tout illimité
                             </li>
                             <li class="flex items-center gap-3 text-white/90">
                                 <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.professional.features.1') }}
+                                Module RH &amp; CRM
                             </li>
                             <li class="flex items-center gap-3 text-white/90">
                                 <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.professional.features.2') }}
+                                Export FAIA &amp; Factur-X
                             </li>
                             <li class="flex items-center gap-3 text-white/90">
                                 <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                {{ t('landing.pricing.plans.professional.features.3') }}
+                                Relances automatiques
+                            </li>
+                            <li class="flex items-center gap-3 text-white/90">
+                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Sans branding faktur.lu
                             </li>
                         </ul>
                         <Link
@@ -1072,224 +1117,475 @@ const toggleFaq = (index) => {
                             {{ t('landing.pricing.sign_up') }}
                         </Link>
                     </div>
+
+                    <!-- Plan Entreprise -->
+                    <div class="bg-slate-900 rounded-3xl p-8 flex flex-col">
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold text-white">Entreprise</h3>
+                            <p class="text-slate-400 mt-1">Multi-sociétés &amp; sur mesure</p>
+                        </div>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold text-white">Sur devis</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 flex-1">
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Tout du plan Pro
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Multi-sociétés
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Intégrations sur mesure
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300">
+                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                SLA &amp; support dédié
+                            </li>
+                        </ul>
+                        <a
+                            href="mailto:contact@faktur.lu?subject=Plan%20Entreprise"
+                            class="block w-full py-3.5 text-center font-semibold text-slate-900 bg-[#fee440] rounded-xl hover:bg-[#ffd60a] transition-colors"
+                        >
+                            Contactez-nous
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Feature Comparison Table -->
-                <div class="mt-16 max-w-4xl mx-auto">
+                <div class="mt-16 max-w-6xl mx-auto">
                     <h3 class="text-xl font-semibold text-slate-900 text-center mb-8">
                         Comparatif détaillé des fonctionnalités
                     </h3>
-                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                        <table class="w-full">
+                    <div class="bg-white rounded-2xl border border-gray-200 overflow-x-auto">
+                        <table class="w-full min-w-[640px]">
                             <thead>
                                 <tr class="bg-slate-50 border-b border-gray-200">
                                     <th class="text-left py-4 px-6 text-sm font-semibold text-slate-900">Fonctionnalité</th>
-                                    <th class="text-center py-4 px-6 text-sm font-semibold text-slate-900 w-28">Essentiel</th>
-                                    <th class="text-center py-4 px-6 text-sm font-semibold text-primary-500 w-28">Pro</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-500 w-24">Gratuit</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24">Essentiel</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-primary-500 w-24">Pro</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24">Entreprise</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
                                 <!-- Limites -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="3" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Limites</td>
+                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Limites</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Clients</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">10</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">100</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Factures / mois</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">20</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">3</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">50</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Devis / mois</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">20</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">2</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">20</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Emails / mois</td>
-                                    <td class="py-3 px-6 text-center text-sm text-slate-600">30</td>
-                                    <td class="py-3 px-6 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">100</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Dépenses / mois</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">30</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Projets actifs</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
 
                                 <!-- Fonctionnalités de base -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="3" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
+                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Factures conformes Luxembourg</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Devis professionnels</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Gestion des clients</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Avoirs / notes de crédit</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Suivi du temps</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Suivi des dépenses</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Authentification 2FA</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+
+                                <!-- Fonctionnalités Essentiel+ -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Essentiel &amp; supérieur</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Suivi du temps</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Gestion de projets</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Portail comptable</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Exports comptables</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Export Peppol</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">10/mois</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
                                 </tr>
 
                                 <!-- Fonctionnalités Pro -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="3" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro</td>
+                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro &amp; supérieur</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Module RH</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">CRM (interactions, rappels, tags)</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Export FAIA (contrôle fiscal)</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Export Factur-X</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Transmission Peppol</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Archivage PDF/A 10 ans</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Relances automatiques impayés</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Accès comptable dédié</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Sans mention "faktur.lu"</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">Support email prioritaire</td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
-                                    <td class="py-3 px-6 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+
+                                <!-- Entreprise -->
+                                <tr class="bg-slate-50/50">
+                                    <td colspan="5" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Entreprise uniquement</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Multi-sociétés</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">Intégrations sur mesure</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">SLA &amp; support dédié</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                 </tr>
                             </tbody>

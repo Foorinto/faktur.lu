@@ -6,6 +6,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 import ReadOnlyBanner from '@/Components/ReadOnlyBanner.vue';
+import FreePlanBanner from '@/Components/FreePlanBanner.vue';
 import GlobalSearchModal from '@/Components/GlobalSearchModal.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
@@ -100,6 +101,15 @@ const routeExists = (routeName) => {
             class="fixed left-0 right-0 z-[99]"
         >
             <ReadOnlyBanner />
+        </div>
+
+        <!-- Free Plan Banner -->
+        <div
+            v-if="page.props.auth?.user?.is_free"
+            :class="[page.props.impersonating ? 'top-10' : 'top-0']"
+            class="fixed left-0 right-0 z-[99]"
+        >
+            <FreePlanBanner />
         </div>
 
         <!-- Sidebar -->

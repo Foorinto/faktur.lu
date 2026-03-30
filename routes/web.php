@@ -239,28 +239,28 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::patch('/clients/{client}/convert', [ClientController::class, 'convertProspect'])
             ->name('clients.convert');
 
-        // CRM - Interactions
-        Route::post('/clients/{client}/interactions', [InteractionController::class, 'store'])->name('interactions.store');
-        Route::put('/interactions/{interaction}', [InteractionController::class, 'update'])->name('interactions.update');
-        Route::delete('/interactions/{interaction}', [InteractionController::class, 'destroy'])->name('interactions.destroy');
+        // CRM - Interactions, Reminders, Tags (Pro only)
+        Route::middleware('plan.feature:crm')->group(function () {
+            Route::post('/clients/{client}/interactions', [InteractionController::class, 'store'])->name('interactions.store');
+            Route::put('/interactions/{interaction}', [InteractionController::class, 'update'])->name('interactions.update');
+            Route::delete('/interactions/{interaction}', [InteractionController::class, 'destroy'])->name('interactions.destroy');
 
-        // CRM - Reminders
-        Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
-        Route::post('/clients/{client}/reminders', [ReminderController::class, 'store'])->name('reminders.store');
-        Route::put('/reminders/{reminder}', [ReminderController::class, 'update'])->name('reminders.update');
-        Route::patch('/reminders/{reminder}/complete', [ReminderController::class, 'complete'])->name('reminders.complete');
-        Route::delete('/reminders/{reminder}', [ReminderController::class, 'destroy'])->name('reminders.destroy');
+            Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+            Route::post('/clients/{client}/reminders', [ReminderController::class, 'store'])->name('reminders.store');
+            Route::put('/reminders/{reminder}', [ReminderController::class, 'update'])->name('reminders.update');
+            Route::patch('/reminders/{reminder}/complete', [ReminderController::class, 'complete'])->name('reminders.complete');
+            Route::delete('/reminders/{reminder}', [ReminderController::class, 'destroy'])->name('reminders.destroy');
 
-        // CRM - Tags
-        Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
-        Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
-        Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
-        Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
-        Route::post('/clients/{client}/tags/{tag}', [TagController::class, 'attach'])->name('tags.attach');
-        Route::delete('/clients/{client}/tags/{tag}', [TagController::class, 'detach'])->name('tags.detach');
+            Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+            Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+            Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+            Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+            Route::post('/clients/{client}/tags/{tag}', [TagController::class, 'attach'])->name('tags.attach');
+            Route::delete('/clients/{client}/tags/{tag}', [TagController::class, 'detach'])->name('tags.detach');
+        });
 
-        // HR Module
-        Route::prefix('hr')->name('hr.')->group(function () {
+        // HR Module (Pro only)
+        Route::prefix('hr')->name('hr.')->middleware('plan.feature:hr_module')->group(function () {
             Route::get('/', [HR\HRDashboardController::class, 'index'])->name('dashboard');
 
             Route::resource('employees', HR\EmployeeController::class);
@@ -346,7 +346,10 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::delete('/quotes/{quote}/items/{item}', [QuoteItemController::class, 'destroy'])->name('quotes.items.destroy');
 
         // Expenses
-        Route::resource('expenses', ExpenseController::class);
+        Route::resource('expenses', ExpenseController::class)->except(['store']);
+        Route::post('/expenses', [ExpenseController::class, 'store'])
+            ->middleware('plan.limit:expenses')
+            ->name('expenses.store');
         Route::get('/expenses-summary', [ExpenseController::class, 'summary'])->name('expenses.summary');
 
         // Time Tracking
@@ -359,7 +362,10 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/time-entries/{timeEntry}/add-to-invoice', [TimeEntryController::class, 'addToInvoice'])->name('time-entries.add-to-invoice');
 
         // Projects
-        Route::resource('projects', ProjectController::class);
+        Route::resource('projects', ProjectController::class)->except(['store']);
+        Route::post('/projects', [ProjectController::class, 'store'])
+            ->middleware('plan.limit:projects')
+            ->name('projects.store');
         Route::post('/projects/{project}/status', [ProjectController::class, 'updateStatus'])->name('projects.status');
         Route::post('/projects/reorder', [ProjectController::class, 'reorder'])->name('projects.reorder');
         Route::post('/projects/{project}/archive', [ProjectController::class, 'archive'])->name('projects.archive');
@@ -466,9 +472,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
     // Export operations - 5 requests/hour (very expensive)
     Route::middleware('throttle:export')->group(function () {
-        // FAIA export - Pro only
+        // FAIA export - all plans
         Route::post('/exports/audit', [AuditExportController::class, 'store'])
-            ->middleware('plan.feature:faia_export')
             ->name('exports.audit.store');
 
         // PDF Archive - Pro only
@@ -482,13 +487,19 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         // Peppol export - available for all
         Route::get('/invoices/{invoice}/peppol', [PeppolExportController::class, 'export'])->name('invoices.peppol');
 
-        // Peppol transmission - send invoice via Peppol network
-        Route::post('/invoices/{invoice}/send-peppol', [InvoiceController::class, 'sendViaPeppol'])->name('invoices.send-peppol');
+        // Peppol transmission - send invoice via Peppol network (Pro only)
+        Route::post('/invoices/{invoice}/send-peppol', [InvoiceController::class, 'sendViaPeppol'])
+            ->middleware(['plan.feature:peppol_transmission', 'plan.limit:peppol'])
+            ->name('invoices.send-peppol');
         Route::get('/invoices/{invoice}/peppol-status', [InvoiceController::class, 'peppolStatus'])->name('invoices.peppol-status');
 
-        // Factur-X / ZUGFeRD export
-        Route::get('/invoices/{invoice}/facturx', [InvoiceController::class, 'facturx'])->name('invoices.facturx');
-        Route::get('/invoices/{invoice}/facturx-xml', [InvoiceController::class, 'facturxXml'])->name('invoices.facturx-xml');
+        // Factur-X / ZUGFeRD export (Pro only)
+        Route::get('/invoices/{invoice}/facturx', [InvoiceController::class, 'facturx'])
+            ->middleware('plan.feature:facturx')
+            ->name('invoices.facturx');
+        Route::get('/invoices/{invoice}/facturx-xml', [InvoiceController::class, 'facturxXml'])
+            ->middleware('plan.feature:facturx')
+            ->name('invoices.facturx-xml');
     });
 
     // Audit log export - 10 requests/hour

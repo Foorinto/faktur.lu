@@ -17,7 +17,7 @@ class CheckPlanLimits
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  $limitType  The type of limit to check: clients, invoices, quotes, emails
+     * @param  string  $limitType  The type of limit to check: clients, invoices, quotes, emails, expenses, projects, peppol
      */
     public function handle(Request $request, Closure $next, string $limitType): Response
     {
@@ -32,6 +32,9 @@ class CheckPlanLimits
             'invoices' => $this->planService->canCreateInvoice($user),
             'quotes' => $this->planService->canCreateQuote($user),
             'emails' => $this->planService->canSendEmail($user),
+            'expenses' => $this->planService->canCreateExpense($user),
+            'projects' => $this->planService->canCreateProject($user),
+            'peppol' => $this->planService->canExportPeppol($user),
             default => true,
         };
 
@@ -59,11 +62,14 @@ class CheckPlanLimits
     private function getLimitMessage(string $limitType): string
     {
         return match ($limitType) {
-            'clients' => __('Vous avez atteint la limite de clients de votre plan. Passez au plan Pro pour des clients illimités.'),
-            'invoices' => __('Vous avez atteint la limite de factures ce mois-ci. Passez au plan Pro pour des factures illimitées.'),
-            'quotes' => __('Vous avez atteint la limite de devis ce mois-ci. Passez au plan Pro pour des devis illimités.'),
-            'emails' => __('Vous avez atteint la limite d\'emails ce mois-ci. Passez au plan Pro pour des envois illimités.'),
-            default => __('Vous avez atteint une limite de votre plan. Passez au plan Pro pour continuer.'),
+            'clients' => __('Vous avez atteint la limite de clients de votre plan. Passez à un plan supérieur pour continuer.'),
+            'invoices' => __('Vous avez atteint la limite de factures ce mois-ci. Passez à un plan supérieur pour continuer.'),
+            'quotes' => __('Vous avez atteint la limite de devis ce mois-ci. Passez à un plan supérieur pour continuer.'),
+            'emails' => __('Vous avez atteint la limite d\'emails ce mois-ci. Passez à un plan supérieur pour continuer.'),
+            'expenses' => __('Vous avez atteint la limite de dépenses ce mois-ci. Passez à un plan supérieur pour continuer.'),
+            'projects' => __('Vous avez atteint la limite de projets actifs. Passez à un plan supérieur pour continuer.'),
+            'peppol' => __('Vous avez atteint la limite d\'exports Peppol ce mois-ci. Passez au plan Pro pour continuer.'),
+            default => __('Vous avez atteint une limite de votre plan. Passez à un plan supérieur pour continuer.'),
         };
     }
 }

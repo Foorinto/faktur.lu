@@ -182,8 +182,8 @@ class InvoicePdfService
         // Get PDF color from seller snapshot or default
         $pdfColor = $seller['pdf_color'] ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR;
 
-        // Show branding for Starter (free) users
-        $showBranding = $invoice->user ? $invoice->user->isStarter() : true;
+        // Show branding for free plan users
+        $showBranding = $invoice->user ? $invoice->user->isFree() : true;
 
         // Generate QR codes for payment (not for credit notes)
         $paymentQrCode = null;
@@ -303,8 +303,8 @@ class InvoicePdfService
         // Get PDF color from settings
         $pdfColor = $settings?->getEffectivePdfColor() ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR;
 
-        // Show branding for Starter (free) users
-        $showBranding = $invoice->user ? $invoice->user->isStarter() : true;
+        // Show branding for free plan users
+        $showBranding = $invoice->user ? $invoice->user->isFree() : true;
 
         // Generate QR codes for draft preview
         $paymentQrCode = null;

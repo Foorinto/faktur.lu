@@ -17,7 +17,7 @@ class CheckPlanFeature
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string  $feature  The feature to check: faia_export, pdf_archive, email_reminders, no_branding
+     * @param  string  $feature  The feature to check
      */
     public function handle(Request $request, Closure $next, string $feature): Response
     {
@@ -51,12 +51,17 @@ class CheckPlanFeature
     private function getFeatureMessage(string $feature): string
     {
         return match ($feature) {
-            'faia_export' => __('L\'export FAIA est réservé au plan Pro. Passez au plan Pro pour accéder à cette fonctionnalité.'),
             'pdf_archive' => __('L\'archivage PDF longue durée est réservé au plan Pro.'),
             'email_reminders' => __('Les relances automatiques sont réservées au plan Pro.'),
             'no_branding' => __('La suppression du branding est réservée au plan Pro.'),
             'organizations' => __('La gestion d\'organisation est réservée au plan Pro.'),
-            default => __('Cette fonctionnalité est réservée au plan Pro.'),
+            'hr_module' => __('Le module RH est réservé au plan Pro.'),
+            'crm' => __('Le CRM avancé (interactions, rappels, tags) est réservé au plan Pro.'),
+            'peppol_transmission' => __('La transmission Peppol est réservée au plan Pro.'),
+            'facturx' => __('L\'export Factur-X est réservé au plan Pro.'),
+            'projects' => __('La gestion de projets nécessite le plan Essentiel ou Pro.'),
+            'time_tracking' => __('Le suivi du temps nécessite le plan Essentiel ou Pro.'),
+            default => __('Cette fonctionnalité nécessite un plan supérieur.'),
         };
     }
 }

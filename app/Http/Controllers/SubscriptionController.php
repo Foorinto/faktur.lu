@@ -137,16 +137,18 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Swap to a different billing period.
+     * Swap to a different plan or billing period.
      */
     public function swap(Request $request)
     {
         $request->validate([
+            'plan' => 'sometimes|string|in:essentiel,pro',
             'billing_period' => 'required|string|in:monthly,yearly',
         ]);
 
         $user = $request->user();
-        $plan = Plan::pro();
+        $planName = $request->input('plan', $user->isPro() ? 'pro' : 'essentiel');
+        $plan = Plan::where('name', $planName)->first();
 
         if (!$plan) {
             return back()->with('error', __('Plan non trouvé.'));
@@ -177,9 +179,12 @@ class SubscriptionController extends Controller
      */
     public function downloadInvoice(Request $request, string $invoiceId)
     {
-        return $request->user()->downloadInvoice($invoiceId, [
+        $user = $request->user();
+        $planName = $user->isPro() ? 'Pro' : ($user->isEssentiel() ? 'Essentiel' : 'faktur.lu');
+
+        return $user->downloadInvoice($invoiceId, [
             'vendor' => 'faktur.lu',
-            'product' => 'Abonnement Pro',
+            'product' => "Abonnement {$planName}",
         ]);
     }
 }

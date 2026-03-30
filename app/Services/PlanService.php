@@ -25,12 +25,12 @@ class PlanService
         }
 
         // Subscribed to Essentiel plan
-        if ($user->subscribed('default')) {
+        if ($user->isEssentiel()) {
             return Plan::essentiel() ?? $this->getDefaultEssentielPlan();
         }
 
-        // Default to Essentiel (for expired trials, etc.)
-        return Plan::essentiel() ?? $this->getDefaultEssentielPlan();
+        // No subscription, no trial = FREE plan
+        return Plan::free() ?? $this->getDefaultFreePlan();
     }
 
     /**
@@ -111,6 +111,65 @@ class PlanService
     }
 
     /**
+     * Check if user can create more expenses this month.
+     */
+    public function canCreateExpense(User $user): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_expenses_per_month');
+
+        if ($limit === null) {
+            return true;
+        }
+
+        $count = $user->expenses()
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->count();
+
+        return $count < $limit;
+    }
+
+    /**
+     * Check if user can create more projects.
+     */
+    public function canCreateProject(User $user): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_active_projects');
+
+        if ($limit === null) {
+            return true;
+        }
+
+        $count = \App\Models\Project::where('created_by', $user->id)
+            ->whereNotIn('status', ['done', 'archived'])
+            ->count();
+
+        return $count < $limit;
+    }
+
+    /**
+     * Check if user can export more Peppol this month.
+     */
+    public function canExportPeppol(User $user): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_peppol_per_month');
+
+        if ($limit === null) {
+            return true;
+        }
+
+        $count = \App\Models\PeppolTransmission::where('user_id', $user->id)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->count();
+
+        return $count < $limit;
+    }
+
+    /**
      * Check if user has a specific feature.
      */
     public function hasFeature(User $user, string $feature): bool
@@ -151,6 +210,21 @@ class PlanService
                 'limit' => $plan->getLimit('max_quotes_per_month'),
                 'unlimited' => $plan->getLimit('max_quotes_per_month') === null,
             ],
+            'expenses_this_month' => [
+                'used' => $user->expenses()
+                    ->whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->count(),
+                'limit' => $plan->getLimit('max_expenses_per_month'),
+                'unlimited' => $plan->getLimit('max_expenses_per_month') === null,
+            ],
+            'active_projects' => [
+                'used' => \App\Models\Project::where('created_by', $user->id)
+                    ->whereNotIn('status', ['done', 'archived'])
+                    ->count(),
+                'limit' => $plan->getLimit('max_active_projects'),
+                'unlimited' => $plan->getLimit('max_active_projects') === null,
+            ],
             'features' => $plan->features ?? [],
         ];
     }
@@ -172,7 +246,33 @@ class PlanService
             'quotes' => $stats['quotes_this_month']['unlimited']
                 ? null
                 : max(0, $stats['quotes_this_month']['limit'] - $stats['quotes_this_month']['used']),
+            'expenses' => $stats['expenses_this_month']['unlimited']
+                ? null
+                : max(0, $stats['expenses_this_month']['limit'] - $stats['expenses_this_month']['used']),
+            'projects' => $stats['active_projects']['unlimited']
+                ? null
+                : max(0, $stats['active_projects']['limit'] - $stats['active_projects']['used']),
         ];
+    }
+
+    /**
+     * Get default free plan if none exists in database.
+     */
+    private function getDefaultFreePlan(): Plan
+    {
+        $plan = new Plan();
+        $plan->name = 'free';
+        $plan->display_name = 'Gratuit';
+        $plan->limits = [
+            'max_clients' => 5,
+            'max_invoices_per_month' => 3,
+            'max_quotes_per_month' => 2,
+            'max_emails_per_month' => 5,
+            'max_expenses_per_month' => 10,
+        ];
+        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];
+
+        return $plan;
     }
 
     /**
@@ -184,12 +284,18 @@ class PlanService
         $plan->name = 'essentiel';
         $plan->display_name = 'Essentiel';
         $plan->limits = [
-            'max_clients' => 10,
-            'max_invoices_per_month' => 20,
+            'max_clients' => 100,
+            'max_invoices_per_month' => 50,
             'max_quotes_per_month' => 20,
-            'max_emails_per_month' => 30,
+            'max_emails_per_month' => 100,
+            'max_expenses_per_month' => 30,
+            'max_active_projects' => 10,
+            'max_peppol_per_month' => 10,
         ];
-        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa'];
+        $plan->features = [
+            'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
+            'projects', 'accounting_portal', 'accounting_exports', 'peppol_export', 'faia_export',
+        ];
 
         return $plan;
     }
@@ -205,19 +311,12 @@ class PlanService
         $plan->limits = null; // unlimited
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
-            'faia_export', 'pdf_archive', 'email_reminders', 'no_branding', 'priority_support',
-            'organizations',
+            'projects', 'accounting_portal', 'accounting_exports', 'peppol_export',
+            'hr_module', 'crm', 'peppol_transmission', 'faia_export', 'pdf_archive',
+            'email_reminders', 'no_branding', 'priority_support', 'organizations',
+            'facturx', 'advanced_reporting',
         ];
 
         return $plan;
-    }
-
-    /**
-     * Get default starter plan if none exists in database.
-     * @deprecated Use getDefaultEssentielPlan() instead
-     */
-    private function getDefaultStarterPlan(): Plan
-    {
-        return $this->getDefaultEssentielPlan();
     }
 }

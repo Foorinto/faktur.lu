@@ -14,6 +14,7 @@ const props = defineProps({
 const mobileMenuOpen = ref(false);
 const billingPeriod = ref('monthly');
 
+const freePlan = computed(() => props.plans.find(p => p.name === 'free'));
 const essentielPlan = computed(() => props.plans.find(p => p.name === 'essentiel'));
 const proPlan = computed(() => props.plans.find(p => p.name === 'pro'));
 
@@ -26,28 +27,52 @@ const formatPrice = (price) => {
     }).format(price);
 };
 
-const essentielFeatures = [
-    'Facturation conforme Luxembourg',
-    'Devis professionnels',
-    'Gestion clients',
-    'Suivi des dépenses',
-    'Suivi du temps',
+const freeFeatures = [
+    '3 factures/mois',
+    '5 clients maximum',
+    '2 devis/mois',
+    'Gestion des dépenses (10/mois)',
     'Authentification 2FA',
 ];
 
+const freeLimitations = [
+    'Watermark sur les PDF',
+    'Pas de projets ni time tracking',
+    'Pas de CRM ni RH',
+    'Pas d\'export comptable',
+];
+
+const essentielFeatures = [
+    '50 factures/mois',
+    '100 clients maximum',
+    '20 devis/mois',
+    '30 dépenses/mois',
+    '10 projets actifs',
+    'Suivi du temps',
+    'Portail comptable (1 expert)',
+    'Exports Sage BOB / FID-Manager',
+    'Peppol B2G (10/mois)',
+];
+
 const proFeatures = [
+    'Tout illimité (clients, factures, devis)',
+    'Module RH complet (15 employés)',
+    'CRM avancé (interactions, rappels, tags)',
     'Export FAIA (contrôle fiscal)',
     'Archivage PDF/A 10 ans',
+    'Factur-X / ZUGFeRD',
+    'Peppol illimité + transmission',
     'Relances automatiques impayés',
+    '5 utilisateurs, 3 comptables',
     'Sans mention "faktur.lu"',
-    'Support email prioritaire',
+    'Support prioritaire',
 ];
 </script>
 
 <template>
     <SeoHead
         title="Tarifs - faktur.lu | Logiciel de facturation Luxembourg"
-        description="Découvrez les tarifs de faktur.lu : plan Essentiel à 4€/mois ou Pro à 9€/mois. Facturation conforme Luxembourg avec export FAIA."
+        description="Découvrez les tarifs de faktur.lu : plan Gratuit, Essentiel à 5€/mois ou Pro à 15€/mois. Facturation conforme Luxembourg avec export FAIA."
         canonical-path="/tarifs"
         route-name="pricing"
     />
@@ -110,7 +135,7 @@ const proFeatures = [
                     Tarification simple et transparente
                 </h1>
                 <p class="mt-4 text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                    14 jours d'essai gratuit, puis choisissez votre formule
+                    14 jours d'essai gratuit avec toutes les fonctionnalités Pro
                 </p>
 
                 <!-- Trial badge -->
@@ -161,27 +186,70 @@ const proFeatures = [
 
         <!-- Pricing cards -->
         <div class="pb-24">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Essentiel Plan -->
-                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
-                                <p class="text-slate-500 dark:text-slate-400">Pour les freelances débutants</p>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- FREE Plan -->
+                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 flex flex-col">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Gratuit</h3>
+                            <p class="text-slate-500 dark:text-slate-400">Pour découvrir</p>
+                        </div>
+
+                        <div class="mt-6">
+                            <div class="flex items-baseline">
+                                <span class="text-5xl font-bold text-slate-900 dark:text-white">0 €</span>
+                                <span class="ml-2 text-slate-500">/mois</span>
                             </div>
+                            <p class="mt-1 text-sm text-slate-500">Pour toujours</p>
+                        </div>
+
+                        <div class="mt-8">
+                            <Link
+                                :href="route('register')"
+                                class="block w-full text-center px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                            >
+                                Créer un compte
+                            </Link>
+                        </div>
+
+                        <div class="mt-8 space-y-4 flex-1">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Inclus :</p>
+                            <ul class="space-y-3">
+                                <li v-for="feature in freeFeatures" :key="feature" class="flex items-start text-sm text-slate-600 dark:text-slate-400">
+                                    <svg class="h-5 w-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    {{ feature }}
+                                </li>
+                            </ul>
+                            <ul class="space-y-2 pt-2">
+                                <li v-for="limit in freeLimitations" :key="limit" class="flex items-start text-sm text-slate-400 dark:text-slate-500">
+                                    <svg class="h-5 w-5 text-slate-300 dark:text-slate-600 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                    {{ limit }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Essentiel Plan -->
+                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 flex flex-col">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Essentiel</h3>
+                            <p class="text-slate-500 dark:text-slate-400">Pour les freelances</p>
                         </div>
 
                         <div class="mt-6">
                             <div class="flex items-baseline">
                                 <span class="text-5xl font-bold text-slate-900 dark:text-white">
-                                    {{ billingPeriod === 'yearly' ? formatPrice((essentielPlan?.price_yearly || 4000) / 12 / 100) : formatPrice((essentielPlan?.price_monthly || 400) / 100) }}
+                                    {{ billingPeriod === 'yearly' ? formatPrice(essentielPlan?.monthly_price_when_yearly || 4.17) : formatPrice(essentielPlan?.price_monthly || 5) }}
                                 </span>
                                 <span class="ml-2 text-slate-500">/mois</span>
                             </div>
                             <p class="mt-1 text-sm text-slate-500">
                                 <template v-if="billingPeriod === 'yearly'">
-                                    {{ formatPrice((essentielPlan?.price_yearly || 4000) / 100) }} facturé annuellement
+                                    {{ formatPrice(essentielPlan?.price_yearly || 50) }} facturé annuellement
                                 </template>
                                 <template v-else>
                                     HT, facturé mensuellement
@@ -198,33 +266,11 @@ const proFeatures = [
                             </Link>
                         </div>
 
-                        <div class="mt-8 space-y-4">
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Limites :</p>
+                        <div class="mt-8 space-y-4 flex-1">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Inclus :</p>
                             <ul class="space-y-3">
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <span class="text-slate-400 mr-3">•</span>
-                                    {{ essentielPlan?.limits?.max_clients || 10 }} clients maximum
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <span class="text-slate-400 mr-3">•</span>
-                                    {{ essentielPlan?.limits?.max_invoices_per_month || 20 }} factures/mois
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <span class="text-slate-400 mr-3">•</span>
-                                    {{ essentielPlan?.limits?.max_quotes_per_month || 20 }} devis/mois
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Inclus :</p>
-                            <ul class="space-y-3">
-                                <li
-                                    v-for="feature in essentielFeatures"
-                                    :key="feature"
-                                    class="flex items-center text-slate-600 dark:text-slate-400"
-                                >
-                                    <svg class="h-5 w-5 text-emerald-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <li v-for="feature in essentielFeatures" :key="feature" class="flex items-start text-sm text-slate-600 dark:text-slate-400">
+                                    <svg class="h-5 w-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
                                     {{ feature }}
@@ -234,30 +280,28 @@ const proFeatures = [
                     </div>
 
                     <!-- Pro Plan -->
-                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border-2 border-primary-500 p-8 relative">
+                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border-2 border-primary-500 p-8 relative flex flex-col">
                         <div class="absolute -top-4 left-1/2 -translate-x-1/2">
                             <span class="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-primary-500 text-white">
                                 Recommandé
                             </span>
                         </div>
 
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Pro</h3>
-                                <p class="text-slate-500 dark:text-slate-400">Pour les freelances établis</p>
-                            </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Pro</h3>
+                            <p class="text-slate-500 dark:text-slate-400">Pour les PME</p>
                         </div>
 
                         <div class="mt-6">
                             <div class="flex items-baseline">
                                 <span class="text-5xl font-bold text-slate-900 dark:text-white">
-                                    {{ billingPeriod === 'yearly' ? formatPrice((proPlan?.price_yearly || 9000) / 12 / 100) : formatPrice((proPlan?.price_monthly || 900) / 100) }}
+                                    {{ billingPeriod === 'yearly' ? formatPrice(proPlan?.monthly_price_when_yearly || 12.5) : formatPrice(proPlan?.price_monthly || 15) }}
                                 </span>
                                 <span class="ml-2 text-slate-500">/mois</span>
                             </div>
                             <p class="mt-1 text-sm text-slate-500">
                                 <template v-if="billingPeriod === 'yearly'">
-                                    {{ formatPrice((proPlan?.price_yearly || 9000) / 100) }} facturé annuellement
+                                    {{ formatPrice(proPlan?.price_yearly || 150) }} facturé annuellement
                                 </template>
                                 <template v-else>
                                     HT, facturé mensuellement
@@ -274,39 +318,57 @@ const proFeatures = [
                             </Link>
                         </div>
 
-                        <div class="mt-8 space-y-4">
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Illimité :</p>
+                        <div class="mt-8 space-y-4 flex-1">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Tout de Essentiel, plus :</p>
                             <ul class="space-y-3">
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <svg class="h-5 w-5 text-primary-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                <li v-for="feature in proFeatures" :key="feature" class="flex items-start text-sm text-slate-600 dark:text-slate-400">
+                                    <svg class="h-5 w-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
-                                    Clients illimités
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <svg class="h-5 w-5 text-primary-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    Factures illimitées
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-400">
-                                    <svg class="h-5 w-5 text-primary-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                    </svg>
-                                    Devis illimités
+                                    {{ feature }}
                                 </li>
                             </ul>
                         </div>
+                    </div>
 
-                        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-                            <p class="text-sm font-semibold text-slate-900 dark:text-white mb-4">Tout de Essentiel, plus :</p>
+                    <!-- Entreprise Plan -->
+                    <div class="bg-white dark:bg-surface-card rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 p-8 flex flex-col">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Entreprise</h3>
+                            <p class="text-slate-500 dark:text-slate-400">Sur mesure</p>
+                        </div>
+
+                        <div class="mt-6">
+                            <div class="flex items-baseline">
+                                <span class="text-3xl font-bold text-slate-900 dark:text-white">Sur devis</span>
+                            </div>
+                            <p class="mt-1 text-sm text-slate-500">À partir de 200 €/mois</p>
+                        </div>
+
+                        <div class="mt-8">
+                            <a
+                                href="mailto:contact@faktur.lu"
+                                class="block w-full text-center px-6 py-3 border-2 border-slate-800 dark:border-slate-300 text-slate-800 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors"
+                            >
+                                Contactez-nous
+                            </a>
+                        </div>
+
+                        <div class="mt-8 space-y-4 flex-1">
+                            <p class="text-sm font-semibold text-slate-900 dark:text-white">Tout de Pro, plus :</p>
                             <ul class="space-y-3">
-                                <li
-                                    v-for="feature in proFeatures"
-                                    :key="feature"
-                                    class="flex items-center text-slate-600 dark:text-slate-400"
-                                >
-                                    <svg class="h-5 w-5 text-emerald-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <li v-for="feature in [
+                                    'Utilisateurs illimités',
+                                    'Employés illimités (RH)',
+                                    'Multi-entités / consolidation',
+                                    'API REST + Webhooks',
+                                    'SSO (SAML, OAuth, Azure AD)',
+                                    'SLA 99.9% garanti',
+                                    'Account manager dédié',
+                                    'Support téléphone prioritaire',
+                                    'White-label (option)',
+                                ]" :key="feature" class="flex items-start text-sm text-slate-600 dark:text-slate-400">
+                                    <svg class="h-5 w-5 text-emerald-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                                     </svg>
                                     {{ feature }}
@@ -341,8 +403,8 @@ const proFeatures = [
                             Que se passe-t-il après l'essai si je ne m'abonne pas ?
                         </h3>
                         <p class="mt-2 text-slate-600 dark:text-slate-400">
-                            Votre compte passe en lecture seule : vous pouvez consulter vos données mais pas créer
-                            de nouvelles factures. Abonnez-vous à tout moment pour retrouver l'accès complet.
+                            Votre compte passe automatiquement au plan Gratuit : vous pouvez toujours créer des factures
+                            (3/mois) et gérer jusqu'à 5 clients. Abonnez-vous à tout moment pour débloquer plus de fonctionnalités.
                         </p>
                     </div>
 
