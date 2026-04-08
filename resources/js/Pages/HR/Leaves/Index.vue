@@ -284,7 +284,7 @@ const submitNew = () => {
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                             <div class="flex items-center">
                                 <div class="h-8 w-8 flex-shrink-0">
-                                    <img v-if="lr.employee?.photo_path" :src="`/storage/${lr.employee.photo_path}`" class="h-8 w-8 rounded-lg object-cover" />
+                                    <img v-if="lr.employee?.photo_path" :src="`/storage/${lr.employee.photo_path}`" :alt="lr.employee?.first_name + ' ' + lr.employee?.last_name" class="h-8 w-8 rounded-lg object-cover" />
                                     <div v-else :class="['flex h-8 w-8 items-center justify-center rounded-lg', getAvatarClasses(lr.employee?.first_name + ' ' + lr.employee?.last_name)]">
                                         <span class="text-xs font-bold">
                                             {{ lr.employee?.first_name?.charAt(0) }}{{ lr.employee?.last_name?.charAt(0) }}

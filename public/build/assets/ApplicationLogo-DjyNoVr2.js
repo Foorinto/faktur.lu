@@ -1,1 +1,0 @@
-import{o as e,c as t,y as l}from"./app-MAhhlrXY.js";const r={__name:"ApplicationLogo",props:{size:{type:String,default:"md",validator:s=>["sm","md","lg"].includes(s)}},setup(s){const a={sm:"h-7",md:"h-9",lg:"h-11"};return(o,c)=>(e(),t("img",{src:"/images/logo.png",alt:"faktur.lu",class:l(["w-auto",a[s.size]])},null,2))}};export{r as _};

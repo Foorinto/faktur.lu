@@ -1,6 +1,6 @@
 <script setup>
 import { Link, useForm, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -8,6 +8,25 @@ import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
+const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
+
+const schemaBreadcrumb = computed(() => JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "faktur.lu", "item": appUrl.value },
+        { "@type": "ListItem", "position": 2, "name": t('contact.breadcrumb') },
+    ],
+}));
+
+onMounted(() => {
+    const script = document.createElement('script');
+    script.id = 'schema-breadcrumb';
+    script.type = 'application/ld+json';
+    script.textContent = schemaBreadcrumb.value;
+    document.head.appendChild(script);
+});
+onUnmounted(() => { document.getElementById('schema-breadcrumb')?.remove(); });
 const page = usePage();
 
 const form = useForm({

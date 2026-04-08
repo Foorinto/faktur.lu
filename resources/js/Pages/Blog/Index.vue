@@ -59,6 +59,7 @@ const formatDate = (date) => {
                                         <img
                                             :src="post.cover_image.startsWith('http') ? post.cover_image : `/storage/${post.cover_image}`"
                                             :alt="post.title"
+                                            loading="lazy"
                                             class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                         />
                                     </div>

@@ -1353,6 +1353,7 @@ const toggleFaq = (index) => {
                                 <img
                                     :src="post.cover_image_url"
                                     :alt="post.title"
+                                    loading="lazy"
                                     class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>

@@ -100,7 +100,7 @@ const submit = () => {
                     </div>
                     <div class="px-6 py-4 flex items-center gap-6">
                         <div class="h-20 w-20 flex-shrink-0">
-                            <img v-if="photoPreview" :src="photoPreview" class="h-20 w-20 rounded-xl object-cover" />
+                            <img v-if="photoPreview" :src="photoPreview" alt="Photo preview" class="h-20 w-20 rounded-xl object-cover" />
                             <div v-else class="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-100 dark:bg-gray-800">
                                 <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

@@ -351,7 +351,7 @@ const deleteExpense = (id) => {
                         <td class="whitespace-nowrap px-3 py-4">
                             <div class="flex items-center">
                                 <div class="h-8 w-8 flex-shrink-0">
-                                    <img v-if="exp.employee?.photo_path" :src="`/storage/${exp.employee.photo_path}`" class="h-8 w-8 rounded-lg object-cover" />
+                                    <img v-if="exp.employee?.photo_path" :src="`/storage/${exp.employee.photo_path}`" :alt="exp.employee?.first_name + ' ' + exp.employee?.last_name" class="h-8 w-8 rounded-lg object-cover" />
                                     <div v-else :class="['flex h-8 w-8 items-center justify-center rounded-lg', getAvatarClasses(exp.employee?.first_name + ' ' + exp.employee?.last_name)]">
                                         <span class="text-xs font-bold">
                                             {{ exp.employee?.first_name?.charAt(0) }}{{ exp.employee?.last_name?.charAt(0) }}

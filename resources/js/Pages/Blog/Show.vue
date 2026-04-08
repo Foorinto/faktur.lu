@@ -55,6 +55,7 @@ const shareOnFacebook = () => {
                     <img
                         :src="post.cover_image_url"
                         :alt="post.title"
+                        loading="eager"
                         class="h-full w-full object-cover"
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -196,6 +197,7 @@ const shareOnFacebook = () => {
                                     <img
                                         :src="relatedPost.cover_image_url"
                                         :alt="relatedPost.title"
+                                        loading="lazy"
                                         class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                                     />
                                 </div>
