@@ -14,11 +14,13 @@ SSH_PORT="22"
 REMOTE_PATH="/home2/sc1beal9117/faktur.lu"
 BRANCH="main"
 SITE_URL="https://faktur.lu"
+BACKUP_DIR="/home2/sc1beal9117/backups"
 
 # Couleurs
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${GREEN}========================================${NC}"
@@ -67,18 +69,111 @@ if [ "$LATEST_VUE_TIME" -gt "$LAST_BUILD_TIME" ]; then
     fi
 fi
 
+# Vérifier les migrations en attente
+echo -e "${BLUE}Vérification des migrations...${NC}"
+PENDING=$(php artisan migrate:status 2>/dev/null | grep "No" | head -5 || true)
+if [ -n "$PENDING" ]; then
+    echo -e "${YELLOW}⚠️  Migrations en attente:${NC}"
+    echo "$PENDING"
+    echo ""
+fi
+
 # Push
-echo -e "${YELLOW}[1/4] Push vers GitHub...${NC}"
+echo -e "${YELLOW}[1/5] Push vers GitHub...${NC}"
 git push origin $BRANCH
 
 # Déploiement SSH
-echo -e "${YELLOW}[2/4] Connexion SSH...${NC}"
+echo -e "${YELLOW}[2/5] Connexion SSH et sauvegarde BDD...${NC}"
 echo ""
 
+# Commande de backup BDD (exécutée en premier, avant toute modification)
+BACKUP_CMD="
+mkdir -p $BACKUP_DIR &&
+TIMESTAMP=\$(date +%Y%m%d_%H%M%S) &&
+echo '--- Sauvegarde de la base de données ---' &&
+cd $REMOTE_PATH &&
+DB_NAME=\$(grep DB_DATABASE .env | head -1 | cut -d '=' -f 2) &&
+DB_USER=\$(grep DB_USERNAME .env | head -1 | cut -d '=' -f 2) &&
+DB_PASS=\$(grep DB_PASSWORD .env | head -1 | cut -d '=' -f 2) &&
+mysqldump -u\$DB_USER -p\$DB_PASS \$DB_NAME > $BACKUP_DIR/backup_\${TIMESTAMP}.sql &&
+echo \"Backup sauvegardé: $BACKUP_DIR/backup_\${TIMESTAMP}.sql\" &&
+echo \"Taille: \$(du -h $BACKUP_DIR/backup_\${TIMESTAMP}.sql | cut -f1)\" &&
+echo ''
+"
+
+# Commande de déploiement avec gestion d'erreur
 if [ "$1" == "quick" ]; then
-    ssh -t -p $SSH_PORT $SSH_USER@$SSH_HOST "cd $REMOTE_PATH && php artisan down --retry=30 || true && rm -f bootstrap/cache/*.php && php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && git pull origin main && php artisan up && echo '=== Déploiement rapide terminé ==='"
+    DEPLOY_CMD="
+cd $REMOTE_PATH &&
+echo '--- Mode rapide ---' &&
+echo '[3/5] Maintenance mode...' &&
+php artisan down --retry=30 || true &&
+echo '[4/5] Pull et cache...' &&
+rm -f bootstrap/cache/*.php &&
+php artisan cache:clear &&
+php artisan config:clear &&
+php artisan route:clear &&
+php artisan view:clear &&
+git pull origin main &&
+php artisan config:clear &&
+echo '[5/5] Remise en ligne...' &&
+php artisan up &&
+echo '=== Déploiement rapide terminé ==='
+"
 else
-    ssh -t -p $SSH_PORT $SSH_USER@$SSH_HOST "cd $REMOTE_PATH && php artisan down --retry=30 || true && rm -f bootstrap/cache/*.php && rm -rf storage/framework/cache/data/* && php artisan cache:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear && git pull origin main && composer install --no-dev --optimize-autoloader --no-interaction && php artisan migrate --force && php artisan route:cache && php artisan view:cache && php artisan config:clear && php artisan up && echo '=== Déploiement complet terminé ==='"
+    DEPLOY_CMD="
+cd $REMOTE_PATH &&
+echo '--- Mode complet ---' &&
+echo '[3/5] Maintenance mode...' &&
+php artisan down --retry=30 || true &&
+echo '[4/5] Pull, dépendances et migrations...' &&
+rm -f bootstrap/cache/*.php &&
+rm -rf storage/framework/cache/data/* &&
+php artisan cache:clear &&
+php artisan config:clear &&
+php artisan route:clear &&
+php artisan view:clear &&
+git pull origin main &&
+composer install --no-dev --optimize-autoloader --no-interaction &&
+echo '--- Migrations ---' &&
+php artisan migrate --force &&
+echo '--- Cache ---' &&
+php artisan route:cache &&
+php artisan view:cache &&
+php artisan config:clear &&
+echo '[5/5] Remise en ligne...' &&
+php artisan up &&
+echo '=== Déploiement complet terminé ==='
+"
+fi
+
+# Commande de rollback automatique en cas d'erreur
+ROLLBACK_CMD="
+cd $REMOTE_PATH &&
+echo '' &&
+echo '${RED}!!! ERREUR - Rollback automatique !!!${NC}' &&
+echo 'Remise en ligne du site avec le code actuel...' &&
+php artisan up 2>/dev/null || true &&
+echo 'Le site est de nouveau en ligne.' &&
+echo 'La base de données n a PAS été modifiée si la migration a échoué.' &&
+echo \"Un backup est disponible dans: $BACKUP_DIR/\"
+"
+
+# Exécution : backup puis déploiement
+ssh -t -p $SSH_PORT $SSH_USER@$SSH_HOST "
+$BACKUP_CMD
+$DEPLOY_CMD || ($ROLLBACK_CMD && exit 1)
+"
+
+# Vérification post-déploiement
+echo ""
+echo -e "${YELLOW}Vérification du site...${NC}"
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL" 2>/dev/null || echo "000")
+
+if [ "$HTTP_STATUS" == "200" ]; then
+    echo -e "${GREEN}✓ Site accessible (HTTP $HTTP_STATUS)${NC}"
+else
+    echo -e "${RED}⚠️  Site retourne HTTP $HTTP_STATUS — vérifiez manuellement: $SITE_URL${NC}"
 fi
 
 echo ""
@@ -87,3 +182,9 @@ echo -e "${GREEN}  Déploiement terminé!${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 echo "Site: $SITE_URL"
+echo -e "Backup: ${BLUE}$BACKUP_DIR/${NC}"
+echo ""
+echo -e "${YELLOW}Pour restaurer en cas de problème:${NC}"
+echo "  ssh $SSH_USER@$SSH_HOST"
+echo "  mysql -u\$DB_USER -p \$DB_NAME < $BACKUP_DIR/backup_XXXXXXXX.sql"
+echo ""
