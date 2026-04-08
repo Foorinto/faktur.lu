@@ -45,8 +45,8 @@ return new class extends Migration
                 'description' => 'Pour les freelances et indépendants',
                 'price_monthly' => 500,
                 'price_yearly' => 5000,
-                'stripe_price_id_monthly' => env('STRIPE_PRICE_ESSENTIEL_MONTHLY'),
-                'stripe_price_id_yearly' => env('STRIPE_PRICE_ESSENTIEL_YEARLY'),
+                'stripe_price_id_monthly' => env('STRIPE_ESSENTIEL_MONTHLY_PRICE_ID'),
+                'stripe_price_id_yearly' => env('STRIPE_ESSENTIEL_YEARLY_PRICE_ID'),
                 'limits' => [
                     'max_clients' => 100,
                     'max_invoices_per_month' => 50,
@@ -82,8 +82,8 @@ return new class extends Migration
                 'description' => 'Pour les PME en croissance',
                 'price_monthly' => 1500,
                 'price_yearly' => 15000,
-                'stripe_price_id_monthly' => env('STRIPE_PRICE_PRO_MONTHLY'),
-                'stripe_price_id_yearly' => env('STRIPE_PRICE_PRO_YEARLY'),
+                'stripe_price_id_monthly' => env('STRIPE_PRO_MONTHLY_PRICE_ID'),
+                'stripe_price_id_yearly' => env('STRIPE_PRO_YEARLY_PRICE_ID'),
                 'limits' => [
                     'max_clients' => null,
                     'max_invoices_per_month' => null,

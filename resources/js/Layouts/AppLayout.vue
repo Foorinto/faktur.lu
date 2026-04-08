@@ -103,15 +103,6 @@ const routeExists = (routeName) => {
             <ReadOnlyBanner />
         </div>
 
-        <!-- Free Plan Banner -->
-        <div
-            v-if="page.props.auth?.user?.is_free"
-            :class="[page.props.impersonating ? 'top-10' : 'top-0']"
-            class="fixed left-0 right-0 z-[99]"
-        >
-            <FreePlanBanner />
-        </div>
-
         <!-- Sidebar -->
         <aside
             :class="[
@@ -357,8 +348,15 @@ const routeExists = (routeName) => {
 
         <!-- Main content -->
         <div :class="[sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64', 'relative transition-all duration-300', page.props.impersonating ? 'pt-10' : '']">
+            <!-- Free Plan Banner -->
+            <div
+                v-if="page.props.auth?.user?.is_free"
+                class="sticky top-0 z-40"
+            >
+                <FreePlanBanner />
+            </div>
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-surface-card/80 px-4 sm:px-6 lg:px-8">
+            <header :class="[page.props.auth?.user?.is_free ? 'top-[52px]' : 'top-0']" class="sticky z-30 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-surface-card/80 px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap items-center">
                     <!-- Mobile menu button -->
                     <button

@@ -36,10 +36,10 @@ return [
     ],
 
     'stripe' => [
-        'pro_monthly' => env('STRIPE_PRICE_PRO_MONTHLY'),
-        'pro_yearly' => env('STRIPE_PRICE_PRO_YEARLY'),
-        'essentiel_monthly' => env('STRIPE_PRICE_ESSENTIEL_MONTHLY'),
-        'essentiel_yearly' => env('STRIPE_PRICE_ESSENTIEL_YEARLY'),
+        'pro_monthly' => env('STRIPE_PRO_MONTHLY_PRICE_ID'),
+        'pro_yearly' => env('STRIPE_PRO_YEARLY_PRICE_ID'),
+        'essentiel_monthly' => env('STRIPE_ESSENTIEL_MONTHLY_PRICE_ID'),
+        'essentiel_yearly' => env('STRIPE_ESSENTIEL_YEARLY_PRICE_ID'),
     ],
 
 ];
