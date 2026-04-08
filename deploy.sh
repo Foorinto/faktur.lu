@@ -147,23 +147,18 @@ echo '=== Déploiement complet terminé ==='
 "
 fi
 
-# Commande de rollback automatique en cas d'erreur
-ROLLBACK_CMD="
-cd $REMOTE_PATH &&
-echo '' &&
-echo '${RED}!!! ERREUR - Rollback automatique !!!${NC}' &&
-echo 'Remise en ligne du site avec le code actuel...' &&
-php artisan up 2>/dev/null || true &&
-echo 'Le site est de nouveau en ligne.' &&
-echo 'La base de données n a PAS été modifiée si la migration a échoué.' &&
-echo \"Un backup est disponible dans: $BACKUP_DIR/\"
-"
-
 # Exécution : backup puis déploiement
-ssh -t -p $SSH_PORT $SSH_USER@$SSH_HOST "
-$BACKUP_CMD
-$DEPLOY_CMD || ($ROLLBACK_CMD && exit 1)
-"
+ssh -t -p $SSH_PORT $SSH_USER@$SSH_HOST "$BACKUP_CMD $DEPLOY_CMD"
+DEPLOY_EXIT=$?
+
+if [ $DEPLOY_EXIT -ne 0 ]; then
+    echo -e "${RED}!!! ERREUR durant le déploiement !!!${NC}"
+    echo "Tentative de remise en ligne du site..."
+    ssh -p $SSH_PORT $SSH_USER@$SSH_HOST "cd $REMOTE_PATH && php artisan up 2>/dev/null || true"
+    echo -e "Le site est remis en ligne. La base de données n'a PAS été modifiée si la migration a échoué."
+    echo -e "Un backup est disponible dans: ${BLUE}$BACKUP_DIR/${NC}"
+    exit 1
+fi
 
 # Vérification post-déploiement
 echo ""
