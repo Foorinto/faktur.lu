@@ -3,8 +3,10 @@ import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useTranslations } from '@/Composables/useTranslations';
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
+const { t } = useTranslations();
 
 const props = defineProps({
     post: Object,
@@ -131,7 +133,7 @@ const shareOnFacebook = () => {
 
                 <!-- Share -->
                 <div class="mt-12 border-t pt-8">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Partager cet article</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ t('blog.share_title') }}</h3>
                     <div class="flex gap-3">
                         <button
                             @click="shareOnTwitter"
@@ -165,15 +167,15 @@ const shareOnFacebook = () => {
 
                 <!-- CTA -->
                 <div class="mt-12 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 p-8 text-center text-white">
-                    <h3 class="text-2xl font-bold mb-2">Prêt à simplifier votre facturation ?</h3>
+                    <h3 class="text-2xl font-bold mb-2">{{ t('blog.ready_title') }}</h3>
                     <p class="text-primary-500/20 mb-6">
-                        Créez des factures conformes au Luxembourg en quelques clics avec faktur.lu
+                        {{ t('blog.ready_subtitle') }}
                     </p>
                     <Link
                         :href="route('register')"
                         class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-primary-500 hover:bg-primary-500/10 transition-colors"
                     >
-                        Essai gratuit 14 jours
+                        {{ t('blog.cta_button') }}
                     </Link>
                 </div>
             </div>
@@ -181,7 +183,7 @@ const shareOnFacebook = () => {
             <!-- Related posts -->
             <div v-if="relatedPosts && relatedPosts.length > 0" class="bg-gray-50 py-12">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-8">Articles similaires</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-8">{{ t('blog.related_articles') }}</h2>
 
                     <div class="grid gap-8 md:grid-cols-3">
                         <article

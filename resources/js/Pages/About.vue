@@ -1,15 +1,12 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-
-const mobileMenuOpen = ref(false);
 
 const values = [
     { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', key: 'compliance' },
@@ -27,63 +24,7 @@ const values = [
         route-name="about"
     />
 
-    <div class="min-h-screen bg-slate-50">
-        <!-- Navigation -->
-        <nav class="bg-white border-b border-gray-200">
-            <div class="max-w-6xl mx-auto px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <Link :href="localizedRoute('home')" class="flex items-center">
-                            <ApplicationLogo size="sm" />
-                        </Link>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-4">
-                        <Link :href="localizedRoute('features.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.features') }}
-                        </Link>
-                        <Link :href="localizedRoute('pricing')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.pricing') }}
-                        </Link>
-                        <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.login') }}
-                        </Link>
-                        <Link :href="route('register')" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
-                            {{ t('landing.nav.create_account') }}
-                        </Link>
-                    </div>
-
-                    <!-- Mobile menu button -->
-                    <button
-                        @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
-                    >
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Mobile menu -->
-                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200">
-                    <div class="flex flex-col space-y-3">
-                        <Link :href="localizedRoute('features.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
-                            {{ t('landing.nav.features') }}
-                        </Link>
-                        <Link :href="localizedRoute('pricing')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
-                            {{ t('landing.nav.pricing') }}
-                        </Link>
-                        <Link :href="route('login')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
-                            {{ t('landing.nav.login') }}
-                        </Link>
-                        <Link :href="route('register')" @click="mobileMenuOpen = false" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors text-center">
-                            {{ t('landing.nav.create_account') }}
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
+    <MarketingLayout>
         <!-- Breadcrumb -->
         <div class="max-w-6xl mx-auto px-6 lg:px-8 py-4">
             <nav class="flex text-sm text-slate-500">
@@ -184,24 +125,5 @@ const values = [
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <footer class="bg-slate-900 py-12">
-            <div class="max-w-6xl mx-auto px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="flex items-center">
-                        <ApplicationLogo class="h-8 w-auto text-white" />
-                    </div>
-                    <div class="mt-4 md:mt-0 flex space-x-6">
-                        <Link :href="localizedRoute('legal.mentions')" class="text-slate-400 hover:text-white text-sm">{{ t('landing.footer.legal_notice') }}</Link>
-                        <Link :href="localizedRoute('legal.privacy')" class="text-slate-400 hover:text-white text-sm">{{ t('landing.footer.privacy') }}</Link>
-                        <Link :href="localizedRoute('legal.terms')" class="text-slate-400 hover:text-white text-sm">{{ t('landing.footer.terms') }}</Link>
-                    </div>
-                </div>
-                <div class="mt-8 text-center text-slate-500 text-sm">
-                    &copy; {{ new Date().getFullYear() }} faktur.lu. {{ t('landing.footer.all_rights') }}
-                </div>
-            </div>
-        </footer>
-    </div>
+    </MarketingLayout>
 </template>

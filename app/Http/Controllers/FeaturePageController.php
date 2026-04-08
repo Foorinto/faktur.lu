@@ -15,6 +15,21 @@ class FeaturePageController extends Controller
             'icon' => 'document',
             'color' => '#9b5de5',
         ],
+        'devis' => [
+            'id' => 'quotes',
+            'icon' => 'clipboard',
+            'color' => '#f15bb5',
+        ],
+        'clients' => [
+            'id' => 'clients',
+            'icon' => 'users',
+            'color' => '#00bbf9',
+        ],
+        'depenses' => [
+            'id' => 'expenses',
+            'icon' => 'credit-card',
+            'color' => '#fee440',
+        ],
         'faia' => [
             'id' => 'faia',
             'icon' => 'shield',
@@ -35,6 +50,26 @@ class FeaturePageController extends Controller
             'icon' => 'clock',
             'color' => '#fee440',
         ],
+        'module-rh' => [
+            'id' => 'hr',
+            'icon' => 'identification',
+            'color' => '#9b5de5',
+        ],
+        'crm' => [
+            'id' => 'crm',
+            'icon' => 'chat',
+            'color' => '#00f5d4',
+        ],
+        'exports-comptables' => [
+            'id' => 'accounting-exports',
+            'icon' => 'calculator',
+            'color' => '#f97316',
+        ],
+        'factur-x' => [
+            'id' => 'facturx',
+            'icon' => 'document-duplicate',
+            'color' => '#6366f1',
+        ],
     ];
 
     /**
@@ -51,16 +86,31 @@ class FeaturePageController extends Controller
         $slugMap = [
             // German
             'rechnungsstellung' => 'facturation',
+            'angebote' => 'devis',
+            'kunden' => 'clients',
+            'ausgaben' => 'depenses',
             'projektverwaltung' => 'gestion-projets',
             'zeiterfassung' => 'suivi-temps',
+            'hr-modul' => 'module-rh',
+            'buchhaltungsexporte' => 'exports-comptables',
             // English
             'invoicing' => 'facturation',
+            'quotes' => 'devis',
+            'clients' => 'clients',
+            'expenses' => 'depenses',
             'project-management' => 'gestion-projets',
             'time-tracking' => 'suivi-temps',
+            'hr-module' => 'module-rh',
+            'accounting-exports' => 'exports-comptables',
             // Luxembourgish
             'fakturatioun' => 'facturation',
+            'devis-lb' => 'devis',
+            'clienten' => 'clients',
+            'ausgaben-lb' => 'depenses',
             'projetverwaltung' => 'gestion-projets',
             'zäiterfassung' => 'suivi-temps',
+            'rh-modul' => 'module-rh',
+            'buchhaltungsexporter' => 'exports-comptables',
         ];
 
         return $slugMap[$slug] ?? null;

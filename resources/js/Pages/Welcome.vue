@@ -1,35 +1,13 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
 const { t } = useTranslations();
-const { localizedRoute, currentLocale, availableLocales } = useLocalizedRoute();
-
-// Language selector
-const langMenuOpen = ref(false);
-const langMenuRef = ref(null);
-const localeFlags = {
-    fr: '🇫🇷',
-    de: '🇩🇪',
-    en: '🇬🇧',
-    lb: '🇱🇺',
-};
-
-const switchLocale = (newLocale) => {
-    langMenuOpen.value = false;
-    router.visit(route('locale.switch', { locale: newLocale }), {
-        preserveState: false,
-    });
-};
-
-const handleClickOutside = (event) => {
-    if (langMenuRef.value && !langMenuRef.value.contains(event.target)) {
-        langMenuOpen.value = false;
-    }
-};
+const { localizedRoute, currentLocale } = useLocalizedRoute();
 
 const props = defineProps({
     canLogin: {
@@ -162,8 +140,6 @@ onMounted(() => {
     faqScript.textContent = schemaFAQ.value;
     document.head.appendChild(faqScript);
 
-    // Language menu click outside handler
-    document.addEventListener('click', handleClickOutside);
 });
 
 onUnmounted(() => {
@@ -172,12 +148,8 @@ onUnmounted(() => {
         const script = document.getElementById(id);
         if (script) script.remove();
     });
-
-    // Remove click outside handler
-    document.removeEventListener('click', handleClickOutside);
 });
 
-const mobileMenuOpen = ref(false);
 const billingPeriod = ref('monthly');
 
 // Quick highlight features (6 main ones for hero area)
@@ -359,167 +331,10 @@ const toggleFaq = (index) => {
         <meta name="twitter:image" :content="`${appUrl}/images/og-image.png`" />
     </Head>
 
-    <div class="min-h-screen bg-slate-50">
-        <!-- Header -->
-        <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-200">
-            <nav class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="flex h-16 items-center justify-between">
-                    <!-- Logo -->
-                    <Link href="/" class="flex items-center">
-                        <ApplicationLogo size="sm" />
-                    </Link>
-
-                    <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#features" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.features') }}
-                        </a>
-                        <a href="#how-it-works" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.how_it_works') }}
-                        </a>
-                        <a href="#pricing" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.pricing') }}
-                        </a>
-                        <a href="#faq" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.faq') }}
-                        </a>
-                        <Link :href="localizedRoute('faia-validator')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.faia_validator') }}
-                        </Link>
-                        <Link :href="localizedRoute('blog.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            Blog
-                        </Link>
-                    </div>
-
-                    <!-- Auth links + Language Selector -->
-                    <div class="hidden md:flex items-center space-x-4">
-                        <!-- Language Selector -->
-                        <div ref="langMenuRef" class="relative">
-                            <button
-                                @click.stop="langMenuOpen = !langMenuOpen"
-                                class="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-gray-50 rounded-lg transition-colors"
-                            >
-                                <span class="text-base">{{ localeFlags[currentLocale()] }}</span>
-                                <span class="uppercase text-xs">{{ currentLocale() }}</span>
-                                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': langMenuOpen }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <!-- Dropdown -->
-                            <Transition
-                                enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95"
-                            >
-                                <div
-                                    v-if="langMenuOpen"
-                                    class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-lg border border-gray-200 py-1 z-50"
-                                >
-                                    <button
-                                        v-for="(name, code) in availableLocales()"
-                                        :key="code"
-                                        @click="switchLocale(code)"
-                                        :class="[
-                                            'w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors',
-                                            currentLocale() === code
-                                                ? 'bg-primary-500/10 text-primary-500 font-medium'
-                                                : 'text-slate-700 hover:bg-gray-50'
-                                        ]"
-                                    >
-                                        <span class="text-base">{{ localeFlags[code] }}</span>
-                                        <span>{{ name }}</span>
-                                        <svg v-if="currentLocale() === code" class="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </Transition>
-                        </div>
-
-                        <template v-if="canLogin">
-                            <Link
-                                v-if="$page.props.auth?.user"
-                                :href="route('dashboard')"
-                                class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                            >
-                                {{ t('landing.nav.dashboard') }}
-                            </Link>
-                            <template v-else>
-                                <Link
-                                    :href="route('login')"
-                                    class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                                >
-                                    {{ t('landing.nav.login') }}
-                                </Link>
-                                <Link
-                                    v-if="canRegister"
-                                    :href="route('register')"
-                                    class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
-                                >
-                                    {{ t('landing.nav.create_account') }}
-                                </Link>
-                            </template>
-                        </template>
-                    </div>
-
-                    <!-- Mobile menu button -->
-                    <button
-                        @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
-                    >
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Mobile menu -->
-                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200">
-                    <div class="flex flex-col space-y-3">
-                        <a href="#features" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.features') }}</a>
-                        <a href="#how-it-works" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.how_it_works') }}</a>
-                        <a href="#pricing" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.pricing') }}</a>
-                        <a href="#faq" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.faq') }}</a>
-                        <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-primary-500 hover:text-primary-600 py-2">{{ t('landing.nav.faia_validator') }}</Link>
-                        <Link :href="localizedRoute('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">Blog</Link>
-
-                        <!-- Mobile Language Selector -->
-                        <div class="pt-3 border-t border-slate-100">
-                            <p class="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2">Langue</p>
-                            <div class="flex flex-wrap gap-2">
-                                <button
-                                    v-for="(name, code) in availableLocales()"
-                                    :key="code"
-                                    @click="switchLocale(code)"
-                                    :class="[
-                                        'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
-                                        currentLocale() === code
-                                            ? 'bg-primary-500 text-white'
-                                            : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                                    ]"
-                                >
-                                    <span>{{ localeFlags[code] }}</span>
-                                    <span class="uppercase text-xs">{{ code }}</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <template v-if="canLogin && !$page.props.auth?.user">
-                            <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.login') }}</Link>
-                            <Link v-if="canRegister" :href="route('register')" class="bg-primary-500 text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">{{ t('landing.nav.create_account') }}</Link>
-                        </template>
-                    </div>
-                </div>
-            </nav>
-        </header>
+    <MarketingLayout>
 
         <!-- Hero Section -->
-        <section class="pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
+        <section class="pb-16 sm:pb-24 pt-8 overflow-hidden">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
                     <!-- Left: Text content -->
@@ -1186,7 +1001,7 @@ const toggleFaq = (index) => {
                                     <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Factures conformes Luxembourg</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'facturation' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Factures conformes Luxembourg</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1198,7 +1013,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Devis professionnels</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'devis' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Devis professionnels</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1210,7 +1025,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Gestion des clients</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'clients' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Gestion des clients</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1234,7 +1049,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Suivi des dépenses</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'depenses' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Suivi des dépenses</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1263,7 +1078,7 @@ const toggleFaq = (index) => {
                                     <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Essentiel &amp; supérieur</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Suivi du temps</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'suivi-temps' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Suivi du temps</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1275,7 +1090,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Gestion de projets</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'gestion-projets' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Gestion de projets</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1287,7 +1102,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Portail comptable</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Portail comptable</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1299,7 +1114,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Exports comptables</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Exports comptables</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1311,7 +1126,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Export Peppol</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Export Peppol</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1324,7 +1139,7 @@ const toggleFaq = (index) => {
                                     <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro &amp; supérieur</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Module RH</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'module-rh' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Module RH</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1336,7 +1151,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">CRM (interactions, rappels, tags)</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'crm' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">CRM (interactions, rappels, tags)</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1348,7 +1163,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Export FAIA (contrôle fiscal)</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'faia' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Export FAIA (contrôle fiscal)</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1360,7 +1175,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Export Factur-X</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'factur-x' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Export Factur-X</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1372,7 +1187,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Transmission Peppol</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Transmission Peppol</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1587,63 +1402,7 @@ const toggleFaq = (index) => {
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="border-t border-gray-200 py-12">
-            <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="grid md:grid-cols-5 gap-8 mb-8">
-                    <div class="md:col-span-2">
-                        <div class="mb-4">
-                            <ApplicationLogo size="sm" />
-                        </div>
-                        <p class="text-slate-600 text-sm max-w-xs">
-                            {{ t('landing.footer.description') }}
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-slate-900 mb-4">{{ t('landing.footer.product') }}</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><a href="#features" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.features') }}</a></li>
-                            <li><a href="#pricing" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.pricing') }}</a></li>
-                            <li><a href="#faq" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.faq') }}</a></li>
-                            <li><Link :href="localizedRoute('faia-validator')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.faia_validator') }}</Link></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-slate-900 mb-4">Ressources</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><Link :href="localizedRoute('blog.index')" class="text-slate-600 hover:text-slate-900">Blog</Link></li>
-                            <li><Link :href="localizedRoute('faia-validator')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.faia_export') }}</Link></li>
-                            <li><Link :href="localizedRoute('blog.show', 'guide-complet-facturation-luxembourg-2026')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.vat_luxembourg') }}</Link></li>
-                            <li><Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.gdpr') }}</Link></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-slate-900 mb-4">Légal</h4>
-                        <ul class="space-y-2 text-sm">
-                            <li><Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-slate-900">Mentions légales</Link></li>
-                            <li><Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-slate-900">Confidentialité</Link></li>
-                            <li><Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-slate-900">CGU / CGV</Link></li>
-                            <li><Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-slate-900">Cookies</Link></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div class="flex items-center gap-2 text-sm text-slate-600">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00f5d4]/10 text-[#00a896] text-xs font-medium">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            FAIA
-                        </span>
-                        {{ t('landing.footer.faia_compliant') }}
-                    </div>
-                    <p class="text-sm text-slate-500">
-                        {{ t('landing.footer.copyright') }}
-                    </p>
-                </div>
-            </div>
-        </footer>
-    </div>
+    </MarketingLayout>
 </template>
 
 <style>

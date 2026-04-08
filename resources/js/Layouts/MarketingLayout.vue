@@ -9,6 +9,7 @@ const { localizedRoute, currentLocale, availableLocales } = useLocalizedRoute();
 const { t } = useTranslations();
 
 const mobileMenuOpen = ref(false);
+const featuresDropdownOpen = ref(false);
 const langMenuOpen = ref(false);
 const langMenuRef = ref(null);
 const page = usePage();
@@ -62,17 +63,80 @@ onUnmounted(() => {
 
                     <!-- Desktop Navigation -->
                     <div class="hidden md:flex items-center space-x-6">
-                        <Link :href="localizedRoute('home') + '#features'" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.features') }}
-                        </Link>
-                        <Link :href="localizedRoute('home') + '#how-it-works'" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.how_it_works') }}
-                        </Link>
-                        <Link :href="localizedRoute('home') + '#pricing'" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                        <div class="relative" @mouseenter="featuresDropdownOpen = true" @mouseleave="featuresDropdownOpen = false">
+                            <Link :href="localizedRoute('features.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1">
+                                {{ t('landing.nav.features') }}
+                                <svg class="w-3.5 h-3.5 transition-transform" :class="featuresDropdownOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </Link>
+                            <Transition
+                                enter-active-class="transition duration-150 ease-out"
+                                enter-from-class="opacity-0 translate-y-1"
+                                enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition duration-100 ease-in"
+                                leave-from-class="opacity-100 translate-y-0"
+                                leave-to-class="opacity-0 translate-y-1"
+                            >
+                                <div v-if="featuresDropdownOpen" class="absolute left-1/2 -translate-x-1/2 top-full pt-2 z-50">
+                                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 py-2 w-64">
+                                        <Link :href="localizedRoute('features.show', { slug: 'facturation' })" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('features.invoicing.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('features.invoicing.short_description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('features.show', { slug: 'faia' })" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#00f5d4]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#00f5d4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('features.faia.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('features.faia.short_description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#00bbf9]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#00bbf9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('features.peppol.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('features.peppol.short_description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('features.show', { slug: 'gestion-projets' })" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#f15bb5]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#f15bb5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('features.projects.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('features.projects.short_description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('features.show', { slug: 'suivi-temps' })" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#fee440]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#fee440]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('features.time-tracking.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('features.time-tracking.short_description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <div class="border-t border-gray-100 mt-1 pt-1">
+                                            <Link :href="localizedRoute('features.index')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
+                                                </div>
+                                                <p class="text-sm font-medium text-primary-500">{{ t('features.index.learn_more') }}</p>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                        <Link :href="localizedRoute('pricing')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.pricing') }}
-                        </Link>
-                        <Link :href="localizedRoute('home') + '#faq'" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.faq') }}
                         </Link>
                         <Link :href="localizedRoute('faia-validator')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.faia_validator') }}
@@ -170,10 +234,15 @@ onUnmounted(() => {
                 <!-- Mobile menu -->
                 <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200 mt-4">
                     <div class="flex flex-col space-y-3">
-                        <Link :href="localizedRoute('home') + '#features'" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.features') }}</Link>
-                        <Link :href="localizedRoute('home') + '#how-it-works'" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.how_it_works') }}</Link>
-                        <Link :href="localizedRoute('home') + '#pricing'" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.pricing') }}</Link>
-                        <Link :href="localizedRoute('home') + '#faq'" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.faq') }}</Link>
+                        <Link :href="localizedRoute('features.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.features') }}</Link>
+                        <div class="pl-4 flex flex-col space-y-1">
+                            <Link :href="localizedRoute('features.show', { slug: 'facturation' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.invoicing.title') }}</Link>
+                            <Link :href="localizedRoute('features.show', { slug: 'faia' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.faia.title') }}</Link>
+                            <Link :href="localizedRoute('features.show', { slug: 'peppol' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.peppol.title') }}</Link>
+                            <Link :href="localizedRoute('features.show', { slug: 'gestion-projets' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.projects.title') }}</Link>
+                            <Link :href="localizedRoute('features.show', { slug: 'suivi-temps' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.time-tracking.title') }}</Link>
+                        </div>
+                        <Link :href="localizedRoute('pricing')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.pricing') }}</Link>
                         <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.faia_validator') }}</Link>
                         <Link :href="localizedRoute('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.blog') }}</Link>
 
@@ -227,9 +296,8 @@ onUnmounted(() => {
                     <div>
                         <h4 class="font-semibold text-slate-900 mb-4">{{ t('landing.footer.product') }}</h4>
                         <ul class="space-y-2 text-sm">
-                            <li><Link :href="localizedRoute('home') + '#features'" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.features') }}</Link></li>
-                            <li><Link :href="localizedRoute('home') + '#pricing'" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.pricing') }}</Link></li>
-                            <li><Link :href="localizedRoute('home') + '#faq'" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.faq') }}</Link></li>
+                            <li><Link :href="localizedRoute('features.index')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.features') }}</Link></li>
+                            <li><Link :href="localizedRoute('pricing')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.pricing') }}</Link></li>
                             <li><Link :href="localizedRoute('faia-validator')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.faia_validator') }}</Link></li>
                         </ul>
                     </div>

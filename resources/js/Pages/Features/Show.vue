@@ -2,14 +2,12 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-
-const mobileMenuOpen = ref(false);
 
 const props = defineProps({
     feature: Object,
@@ -116,10 +114,17 @@ onUnmounted(() => {
 
 const featureIcons = {
     document: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+    clipboard: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+    users: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+    'credit-card': 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z',
     shield: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
     globe: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9',
     folder: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
     clock: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+    identification: 'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0',
+    chat: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
+    calculator: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+    'document-duplicate': 'M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2',
     check: 'M5 13l4 4L19 7',
 };
 </script>
@@ -133,63 +138,7 @@ const featureIcons = {
         :route-params="{ slug: feature.slug }"
     />
 
-    <div class="min-h-screen bg-slate-50">
-        <!-- Navigation -->
-        <nav class="bg-white border-b border-gray-200">
-            <div class="max-w-6xl mx-auto px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <Link :href="localizedRoute('home')" class="flex items-center">
-                            <ApplicationLogo size="sm" />
-                        </Link>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-4">
-                        <Link :href="localizedRoute('features.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('features.breadcrumb.features') }}
-                        </Link>
-                        <Link :href="localizedRoute('pricing')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.pricing') }}
-                        </Link>
-                        <Link :href="route('login')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.login') }}
-                        </Link>
-                        <Link :href="route('register')" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
-                            {{ t('landing.nav.create_account') }}
-                        </Link>
-                    </div>
-
-                    <!-- Mobile menu button -->
-                    <button
-                        @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
-                    >
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Mobile menu -->
-                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200">
-                    <div class="flex flex-col space-y-3">
-                        <Link :href="localizedRoute('features.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
-                            {{ t('features.breadcrumb.features') }}
-                        </Link>
-                        <Link :href="localizedRoute('pricing')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
-                            {{ t('landing.nav.pricing') }}
-                        </Link>
-                        <Link :href="route('login')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">
-                            {{ t('landing.nav.login') }}
-                        </Link>
-                        <Link :href="route('register')" @click="mobileMenuOpen = false" class="bg-accent-rose hover:bg-pink-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors text-center">
-                            {{ t('landing.nav.create_account') }}
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
+    <MarketingLayout>
         <!-- Breadcrumb -->
         <div class="max-w-6xl mx-auto px-6 lg:px-8 py-4">
             <nav class="flex text-sm text-slate-500">
@@ -334,23 +283,5 @@ const featureIcons = {
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="bg-slate-900 py-12">
-            <div class="max-w-6xl mx-auto px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="flex items-center">
-                        <ApplicationLogo class="h-8 w-auto text-white" />
-                    </div>
-                    <div class="mt-4 md:mt-0 flex space-x-6">
-                        <Link :href="localizedRoute('legal.mentions')" class="text-slate-400 hover:text-white text-sm">{{ t('landing.footer.legal_notice') }}</Link>
-                        <Link :href="localizedRoute('legal.privacy')" class="text-slate-400 hover:text-white text-sm">{{ t('landing.footer.privacy') }}</Link>
-                        <Link :href="localizedRoute('legal.terms')" class="text-slate-400 hover:text-white text-sm">{{ t('landing.footer.terms') }}</Link>
-                    </div>
-                </div>
-                <div class="mt-8 text-center text-slate-500 text-sm">
-                    &copy; {{ new Date().getFullYear() }} faktur.lu. {{ t('landing.footer.all_rights') }}
-                </div>
-            </div>
-        </footer>
-    </div>
+    </MarketingLayout>
 </template>
