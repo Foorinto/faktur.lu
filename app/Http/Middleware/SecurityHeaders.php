@@ -99,7 +99,15 @@ class SecurityHeaders
             return '';
         }
 
-        // Extract domain from URL like "//matomo.foorintodev.com/"
-        return 'https:' . rtrim($url, '/');
+        // Extract domain: handle "//domain/", "https://domain/", "http://domain/"
+        $url = rtrim($url, '/');
+        if (str_starts_with($url, '//')) {
+            return 'https:' . $url;
+        }
+        if (str_starts_with($url, 'http')) {
+            return $url;
+        }
+
+        return 'https://' . $url;
     }
 }
