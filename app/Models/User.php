@@ -160,6 +160,12 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
 
+        // Lifetime Pro subscription (granted via artisan command)
+        $subscription = $this->subscription('default');
+        if ($subscription && str_starts_with($subscription->stripe_id, 'lifetime_pro_')) {
+            return true;
+        }
+
         $proPlan = Plan::pro();
         if (!$proPlan) {
             return false;
