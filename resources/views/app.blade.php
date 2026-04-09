@@ -24,9 +24,20 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
 
-        {{-- TWIPLA Analytics - Privacy-friendly, GDPR compliant (no cookies with Maximum Privacy Mode) --}}
-        @if(config('analytics.enabled') && config('analytics.twipla.site_id'))
-        <script async src="https://a.twipla.com/v1/{{ config('analytics.twipla.site_id') }}.js"></script>
+        {{-- Matomo Analytics - Self-hosted, GDPR compliant, cookieless --}}
+        @if(config('analytics.enabled') && config('analytics.matomo.url'))
+        <script>
+            var _paq = window._paq = window._paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u="{{ config('analytics.matomo.url') }}";
+                _paq.push(['setTrackerUrl', u+'matomo.php']);
+                _paq.push(['setSiteId', '{{ config('analytics.matomo.site_id') }}']);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
         @endif
     </head>
     <body class="font-sans antialiased">
