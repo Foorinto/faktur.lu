@@ -58,8 +58,8 @@ class SecurityHeaders
             // Default fallback
             "default-src 'self'",
 
-            // Scripts - allow inline for Vue
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+            // Scripts - allow inline for Vue + Matomo analytics
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' " . $this->getMatomoDomain(),
 
             // Styles - allow inline for Tailwind + Google/Bunny fonts
             "style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com",
@@ -70,8 +70,8 @@ class SecurityHeaders
             // Fonts - Google/Bunny fonts
             "font-src 'self' https://fonts.bunny.net https://fonts.gstatic.com",
 
-            // Connect - API calls
-            "connect-src 'self'",
+            // Connect - API calls + Matomo analytics
+            "connect-src 'self' " . $this->getMatomoDomain(),
 
             // Prevent framing
             "frame-ancestors 'none'",
@@ -87,5 +87,19 @@ class SecurityHeaders
         ];
 
         return implode('; ', $directives);
+    }
+
+    /**
+     * Get the Matomo domain for CSP directives.
+     */
+    protected function getMatomoDomain(): string
+    {
+        $url = config('analytics.matomo.url');
+        if (!$url) {
+            return '';
+        }
+
+        // Extract domain from URL like "//matomo.foorintodev.com/"
+        return 'https:' . rtrim($url, '/');
     }
 }
