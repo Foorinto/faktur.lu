@@ -79,7 +79,7 @@ class ClientImportController extends Controller
      */
     public function saveMapping(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403);
+        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
 
         $request->validate([
             'mapping' => 'required|array',
@@ -104,7 +104,7 @@ class ClientImportController extends Controller
      */
     public function process(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403);
+        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
 
         $request->validate([
             'duplicate_strategy' => 'required|in:skip,update,create',
@@ -127,7 +127,7 @@ class ClientImportController extends Controller
      */
     public function status(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403);
+        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
 
         return response()->json(['session' => $importSession]);
     }
@@ -137,7 +137,7 @@ class ClientImportController extends Controller
      */
     public function destroy(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403);
+        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
 
         if ($importSession->storage_path) {
             Storage::delete($importSession->storage_path);
