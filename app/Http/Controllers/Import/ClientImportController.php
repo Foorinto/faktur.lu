@@ -79,7 +79,7 @@ class ClientImportController extends Controller
      */
     public function saveMapping(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
+        abort_unless((int) $importSession->user_id === (int) $request->user()->id, 403);
 
         $request->validate([
             'mapping' => 'required|array',
@@ -104,7 +104,7 @@ class ClientImportController extends Controller
      */
     public function process(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
+        abort_unless((int) $importSession->user_id === (int) $request->user()->id, 403);
 
         $request->validate([
             'duplicate_strategy' => 'required|in:skip,update,create',
@@ -127,7 +127,7 @@ class ClientImportController extends Controller
      */
     public function status(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
+        abort_unless((int) $importSession->user_id === (int) $request->user()->id, 403);
 
         return response()->json(['session' => $importSession]);
     }
@@ -137,7 +137,7 @@ class ClientImportController extends Controller
      */
     public function destroy(Request $request, ImportSession $importSession)
     {
-        abort_unless($importSession->user_id === $request->user()->id, 403, 'IMPORT_AUTH_FAIL_v2: session_user=' . $importSession->user_id . ' current_user=' . $request->user()->id);
+        abort_unless((int) $importSession->user_id === (int) $request->user()->id, 403);
 
         if ($importSession->storage_path) {
             Storage::delete($importSession->storage_path);
