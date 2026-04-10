@@ -79,7 +79,7 @@ class ClientImportController extends Controller
      */
     public function saveMapping(Request $request, ImportSession $importSession)
     {
-        $this->authorize('update', $importSession);
+        abort_unless($importSession->user_id === $request->user()->id, 403);
 
         $request->validate([
             'mapping' => 'required|array',
@@ -104,7 +104,7 @@ class ClientImportController extends Controller
      */
     public function process(Request $request, ImportSession $importSession)
     {
-        $this->authorize('update', $importSession);
+        abort_unless($importSession->user_id === $request->user()->id, 403);
 
         $request->validate([
             'duplicate_strategy' => 'required|in:skip,update,create',
@@ -125,9 +125,9 @@ class ClientImportController extends Controller
     /**
      * Statut d'une session d'import.
      */
-    public function status(ImportSession $importSession)
+    public function status(Request $request, ImportSession $importSession)
     {
-        $this->authorize('view', $importSession);
+        abort_unless($importSession->user_id === $request->user()->id, 403);
 
         return response()->json(['session' => $importSession]);
     }
@@ -135,9 +135,9 @@ class ClientImportController extends Controller
     /**
      * Suppression d'une session.
      */
-    public function destroy(ImportSession $importSession)
+    public function destroy(Request $request, ImportSession $importSession)
     {
-        $this->authorize('delete', $importSession);
+        abort_unless($importSession->user_id === $request->user()->id, 403);
 
         if ($importSession->storage_path) {
             Storage::delete($importSession->storage_path);
