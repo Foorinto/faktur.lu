@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Listeners\LogAuthenticationEvents;
 use App\Models\AdminSession;
+use App\Models\Import\ImportSession;
+use App\Policies\ImportSessionPolicy;
 use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\Peppol\SimulationService;
 use App\Services\Peppol\StorecoveService;
@@ -11,6 +13,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
@@ -51,6 +54,9 @@ class AppServiceProvider extends ServiceProvider
         Relation::morphMap([
             'admin' => AdminSession::class,
         ]);
+
+        // Register policies for models in subdirectories (auto-discovery doesn't work)
+        Gate::policy(ImportSession::class, ImportSessionPolicy::class);
 
         // Configure rate limiters
         $this->configureRateLimiting();
