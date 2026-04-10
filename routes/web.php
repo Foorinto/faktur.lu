@@ -227,6 +227,20 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
     // CRUD operations - 120 requests/minute
     Route::middleware('throttle:crud')->group(function () {
+        // Client import wizard (must be before resource routes to avoid conflicts)
+        Route::get('/clients/import', [\App\Http\Controllers\Import\ClientImportController::class, 'index'])
+            ->name('clients.import.index');
+        Route::post('/clients/import/upload', [\App\Http\Controllers\Import\ClientImportController::class, 'upload'])
+            ->name('clients.import.upload');
+        Route::post('/clients/import/{importSession}/mapping', [\App\Http\Controllers\Import\ClientImportController::class, 'saveMapping'])
+            ->name('clients.import.mapping');
+        Route::post('/clients/import/{importSession}/process', [\App\Http\Controllers\Import\ClientImportController::class, 'process'])
+            ->name('clients.import.process');
+        Route::get('/clients/import/{importSession}/status', [\App\Http\Controllers\Import\ClientImportController::class, 'status'])
+            ->name('clients.import.status');
+        Route::delete('/clients/import/{importSession}', [\App\Http\Controllers\Import\ClientImportController::class, 'destroy'])
+            ->name('clients.import.destroy');
+
         // Clients
         Route::resource('clients', ClientController::class)->except(['store']);
         Route::post('/clients', [ClientController::class, 'store'])

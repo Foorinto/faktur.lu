@@ -128,9 +128,17 @@ const showNewDropdown = ref(false);
                     <Link
                         :href="route('clients.create', { status: 'prospect' })"
                         @click="showNewDropdown = false"
-                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-b-xl"
+                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
                         {{ t('crm.new_prospect') }}
+                    </Link>
+                    <div class="border-t border-gray-100 dark:border-gray-700"></div>
+                    <Link
+                        :href="route('clients.import.index')"
+                        @click="showNewDropdown = false"
+                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-b-xl"
+                    >
+                        Importer depuis Excel/CSV
                     </Link>
                 </div>
             </div>
