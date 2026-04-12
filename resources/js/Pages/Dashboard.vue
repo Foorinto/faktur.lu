@@ -2,11 +2,18 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import CashflowChart from '@/Components/Dashboard/CashflowChart.vue';
 import FranchiseAlert from '@/Components/FranchiseAlert.vue';
+import OnboardingChecklist from '@/Components/OnboardingChecklist.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startDashboardTour } = useTour();
+
+onMounted(() => {
+    setTimeout(() => startDashboardTour(), 800);
+});
 
 const props = defineProps({
     kpis: Object,
@@ -18,6 +25,7 @@ const props = defineProps({
     selectedYear: Number,
     franchiseAlert: Object,
     cashflowForecast: Object,
+    onboardingChecklist: Object,
 });
 
 const selectedYear = ref(props.selectedYear);
@@ -142,6 +150,11 @@ const getStatusLabel = (status) => {
             </div>
         </template>
 
+        <!-- Onboarding Checklist -->
+        <div v-if="onboardingChecklist" class="mb-6">
+            <OnboardingChecklist :checklist="onboardingChecklist" />
+        </div>
+
         <!-- Franchise Alert (TVA threshold warning) -->
         <FranchiseAlert v-if="franchiseAlert" :franchise-alert="franchiseAlert" />
 
@@ -167,7 +180,7 @@ const getStatusLabel = (status) => {
         </div>
 
         <!-- KPI Cards -->
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div data-tour="dashboard-kpis" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <!-- CA Annuel -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">

@@ -5,10 +5,14 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('quoteCreate'), 600));
 
 const props = defineProps({
     clients: Array,
@@ -159,7 +163,7 @@ if (form.items.length === 0) {
                 </div>
                 <div class="px-6 py-4">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
+                        <div data-tour="quote-form-client">
                             <InputLabel for="client_id" value="Client" />
                             <select
                                 id="client_id"
@@ -193,7 +197,7 @@ if (form.items.length === 0) {
             </div>
 
             <!-- Quote items -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div data-tour="quote-form-items" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('quote_lines') }}</h2>
                 </div>
@@ -405,7 +409,7 @@ if (form.items.length === 0) {
                 >
                     {{ t('cancel') }}
                 </Link>
-                <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">
+                <PrimaryButton data-tour="quote-form-submit" :disabled="form.processing" class="w-full sm:w-auto justify-center">
                     <span v-if="form.processing">{{ t('creating') }}</span>
                     <span v-else>{{ t('create_quote') }}</span>
                 </PrimaryButton>

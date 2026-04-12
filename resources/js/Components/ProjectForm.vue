@@ -50,7 +50,7 @@ const submit = () => {
             <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Informations</h3>
 
             <div class="space-y-4">
-                <div>
+                <div data-tour="project-form-name">
                     <InputLabel for="title" value="Titre *" />
                     <TextInput
                         id="title"
@@ -111,7 +111,7 @@ const submit = () => {
             <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Client & Dates</h3>
 
             <div class="space-y-4">
-                <div>
+                <div data-tour="project-form-client">
                     <InputLabel for="client_id" value="Client" />
                     <select
                         id="client_id"
@@ -178,7 +178,7 @@ const submit = () => {
             >
                 {{ t('cancel') }}
             </Link>
-            <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">
+            <PrimaryButton data-tour="project-form-submit" :disabled="form.processing" class="w-full sm:w-auto justify-center">
                 {{ submitLabel }}
             </PrimaryButton>
         </div>

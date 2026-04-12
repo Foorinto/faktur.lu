@@ -1,12 +1,17 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
+import EmptyState from '@/Components/EmptyState.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('quotes'), 600));
 
 const props = defineProps({
     quotes: Object,
@@ -143,6 +148,7 @@ const canEdit = (quote) => {
         </template>
         <template #header-actions>
             <Link
+                data-tour="quotes-new-btn"
                 :href="route('quotes.create')"
                 class="inline-flex items-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
             >
@@ -218,17 +224,14 @@ const canEdit = (quote) => {
                 </thead>
                 <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="quotes.data.length === 0">
-                        <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <p class="mt-2">{{ t('no_quotes') }}</p>
-                            <Link
-                                :href="route('quotes.create')"
-                                class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500 dark:text-primary-400"
-                            >
-                                {{ t('create_first_quote') }}
-                            </Link>
+                        <td colspan="7">
+                            <EmptyState
+                                icon="clipboard"
+                                title="Aucun devis pour le moment"
+                                description="Créez votre premier devis professionnel et convertissez-le en facture en un clic."
+                                cta-label="Créer mon premier devis"
+                                :cta-href="route('quotes.create')"
+                            />
                         </td>
                     </tr>
                     <tr v-for="quote in quotes.data" :key="quote.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">

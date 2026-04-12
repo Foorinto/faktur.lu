@@ -2,10 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('hrEmployeeCreate'), 600));
 
 const props = defineProps({
     departments: { type: Array, default: () => [] },
@@ -113,7 +117,7 @@ const submit = () => {
                 </div>
 
                 <!-- Personal Information -->
-                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div data-tour="hr-employee-form-name" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.personal_info') }}</h2>
                     </div>
@@ -189,7 +193,7 @@ const submit = () => {
                 </div>
 
                 <!-- Contract -->
-                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div data-tour="hr-employee-form-contract" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('hr.contract_details') }}</h2>
                     </div>
@@ -299,6 +303,7 @@ const submit = () => {
                         {{ t('cancel') }}
                     </Link>
                     <button
+                        data-tour="hr-employee-form-submit"
                         type="submit"
                         :disabled="form.processing"
                         class="w-full sm:w-auto justify-center rounded-xl bg-accent-rose px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"

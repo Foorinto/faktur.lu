@@ -6,8 +6,30 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
+
+const { startTour } = useTour();
+
+// Scroll to section based on URL hash and highlight it
+onMounted(() => {
+    if (window.location.hash) {
+        setTimeout(() => {
+            const targetId = window.location.hash.substring(1) + '-section';
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                element.classList.add('ring-4', 'ring-primary-500', 'ring-offset-2');
+                setTimeout(() => {
+                    element.classList.remove('ring-4', 'ring-primary-500', 'ring-offset-2');
+                }, 3000);
+            }
+        }, 300);
+    } else {
+        setTimeout(() => startTour('settings'), 600);
+    }
+});
 
 const { t } = useTranslations();
 
@@ -312,7 +334,7 @@ const cancelPaymentQrcodeUpload = () => {
 
         <div class="mx-auto max-w-3xl space-y-8">
             <!-- Logo -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div id="logo-section" data-tour="settings-logo" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 scroll-mt-20">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                         {{ t('logo') }}
@@ -423,7 +445,7 @@ const cancelPaymentQrcodeUpload = () => {
 
             <form @submit.prevent="submit" class="space-y-8">
                 <!-- Informations légales -->
-                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div id="company-section" data-tour="settings-company" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 scroll-mt-20">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('legal_information') }}
@@ -699,7 +721,7 @@ const cancelPaymentQrcodeUpload = () => {
                 </div>
 
                 <!-- Coordonnées bancaires -->
-                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div id="bank-section" data-tour="settings-bank" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 scroll-mt-20">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                             {{ t('bank_details') }}

@@ -2,13 +2,17 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('hrEmployees'), 600));
 
 const props = defineProps({
     employees: { type: Object, required: true },
@@ -101,6 +105,7 @@ const getContractBadgeClass = (type) => {
         </template>
         <template #header-actions>
             <Link
+                data-tour="hr-employees-new"
                 :href="route('hr.employees.create')"
                 class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
             >
@@ -181,7 +186,7 @@ const getContractBadgeClass = (type) => {
         </div>
 
         <!-- Employees list -->
-        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div data-tour="hr-employees-list" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>

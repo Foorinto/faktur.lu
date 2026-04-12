@@ -2,10 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('revenueBook'), 600));
 
 const props = defineProps({
     invoices: Array,
@@ -84,6 +88,7 @@ const exportCsv = () => {
             </h1>
         </template>
         <template #header-actions>
+            <div data-tour="revenue-book-export" class="inline-flex items-center gap-2">
             <button
                 type="button"
                 @click="exportCsv"
@@ -104,13 +109,14 @@ const exportCsv = () => {
                 </svg>
                 PDF
             </button>
+            </div>
         </template>
 
-        <AccountingNav class="mb-6" />
+        <AccountingNav data-tour="accounting-nav" class="mb-6" />
 
         <div class="space-y-6">
             <!-- Period Selection -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div data-tour="revenue-book-year" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('period') }}</h2>
                 </div>

@@ -2,13 +2,17 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('hrLeavesCalendar'), 600));
 
 const props = defineProps({
     leaveRequests: { type: Array, required: true },
@@ -145,7 +149,7 @@ const monthNames = [
                 </div>
 
                 <!-- FullCalendar -->
-                <div class="fc-wrapper overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 p-4">
+                <div data-tour="hr-calendar-view" class="fc-wrapper overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 p-4">
                     <FullCalendar ref="calendarRef" :options="calendarOptions" />
                 </div>
 

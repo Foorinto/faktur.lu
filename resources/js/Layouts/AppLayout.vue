@@ -10,9 +10,11 @@ import FreePlanBanner from '@/Components/FreePlanBanner.vue';
 import GlobalSearchModal from '@/Components/GlobalSearchModal.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
+const { startDashboardTour, resetTours } = useTour();
 const showingSidebar = ref(false);
 const showSearch = ref(false);
 const sidebarCollapsed = ref(localStorage.getItem('sidebar-collapsed') === 'true');
@@ -27,17 +29,26 @@ const stopImpersonation = () => {
     router.post(route('admin.impersonation.stop'));
 };
 
+const restartTour = () => {
+    resetTours();
+    if (route().current('dashboard')) {
+        startDashboardTour(true);
+    } else {
+        router.visit(route('dashboard'));
+    }
+};
+
 const navigation = computed(() => {
     const items = [
-        { name: t('dashboard'), href: 'dashboard', icon: 'chart-bar' },
-        { name: t('clients'), href: 'clients.index', icon: 'users' },
-        { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices'] },
+        { name: t('dashboard'), href: 'dashboard', icon: 'chart-bar', tour: 'dashboard' },
+        { name: t('clients'), href: 'clients.index', icon: 'users', tour: 'clients' },
+        { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'] },
-        { name: t('accounting'), href: 'reports.revenue-book', icon: 'calculator', routes: ['reports', 'exports'] },
+        { name: t('accounting'), href: 'reports.revenue-book', icon: 'calculator', routes: ['reports', 'exports'], tour: 'accounting' },
         { name: t('hr.nav_title'), href: 'hr.dashboard', icon: 'identification' },
         { name: t('archive'), href: 'archive.index', icon: 'archive' },
-        { name: t('business'), href: 'settings.business.edit', icon: 'building', routes: ['settings.business', 'settings.organization'] },
+        { name: t('business'), href: 'settings.business.edit', icon: 'building', routes: ['settings.business', 'settings.organization'], tour: 'settings' },
         { name: t('settings'), href: 'settings.email', icon: 'cog', routes: ['settings.email', 'settings.accountant', 'subscription'] },
     ];
 
@@ -138,6 +149,7 @@ const routeExists = (routeName) => {
                             v-if="routeExists(item.href)"
                             :href="route(item.href)"
                             :title="sidebarCollapsed ? item.name : undefined"
+                            :data-tour="item.tour ? `nav-${item.tour}` : undefined"
                             :class="[
                                 isCurrentRoute(item.href, item.routes)
                                     ? 'bg-accent-rose text-white dark:bg-accent-rose dark:text-white'
@@ -281,7 +293,7 @@ const routeExists = (routeName) => {
                 </div>
 
                 <!-- User menu at bottom -->
-                <div class="border-t border-gray-200 dark:border-gray-700" :class="sidebarCollapsed ? 'p-2' : 'p-4'">
+                <div data-tour="user-menu" class="border-t border-gray-200 dark:border-gray-700" :class="sidebarCollapsed ? 'p-2' : 'p-4'">
                     <Dropdown :align="sidebarCollapsed ? 'top-right' : 'top-left'" width="48">
                         <template #trigger>
                             <button
@@ -330,6 +342,12 @@ const routeExists = (routeName) => {
                                     {{ $page.props.unreadSupportCount }}
                                 </span>
                             </DropdownLink>
+                            <button
+                                @click="restartTour"
+                                class="block w-full px-4 py-2 text-left text-sm leading-5 text-slate-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out"
+                            >
+                                Relancer le tour guidé
+                            </button>
                             <DropdownLink :href="route('logout')" method="post" as="button">
                                 {{ t('logout') }}
                             </DropdownLink>

@@ -2,12 +2,16 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('hrLeaves'), 600));
 
 const props = defineProps({
     leaveRequests: { type: Object, required: true },
@@ -200,6 +204,7 @@ const submitNew = () => {
         </template>
         <template #header-actions>
             <Link
+                data-tour="hr-leaves-calendar"
                 :href="route('hr.leaves.calendar')"
                 class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-600"
             >
@@ -262,7 +267,7 @@ const submitNew = () => {
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div data-tour="hr-leaves-list" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>

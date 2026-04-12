@@ -1,14 +1,19 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import StatusBadge from '@/Components/CRM/StatusBadge.vue';
+import EmptyState from '@/Components/EmptyState.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('clients'), 600));
 
 const props = defineProps({
     clients: { type: Object, required: true },
@@ -104,7 +109,7 @@ const showNewDropdown = ref(false);
             </h1>
         </template>
         <template #header-actions>
-            <div class="relative">
+            <div class="relative" data-tour="clients-new-btn">
                 <button
                     @click="showNewDropdown = !showNewDropdown"
                     class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
@@ -145,7 +150,7 @@ const showNewDropdown = ref(false);
         </template>
 
         <!-- Status tabs -->
-        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <div data-tour="clients-tabs" class="mb-4 border-b border-gray-200 dark:border-gray-700">
             <nav class="flex space-x-2 sm:space-x-4 overflow-x-auto" aria-label="Status tabs">
                 <button
                     v-for="tab in statusTabs"
@@ -177,7 +182,7 @@ const showNewDropdown = ref(false);
         <!-- Filters -->
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex flex-1 gap-4">
-                <div class="relative flex-1 max-w-md">
+                <div data-tour="clients-search" class="relative flex-1 max-w-md">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
@@ -247,20 +252,16 @@ const showNewDropdown = ref(false);
                 </thead>
                 <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="clients.data.length === 0">
-                        <td colspan="8" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                            <p class="mt-2">{{ t('no_clients') }}</p>
-                            <Link
-                                :href="route('clients.create')"
-                                class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500 dark:text-primary-400"
-                            >
-                                <svg class="mr-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>
-                                {{ t('create_first_client') }}
-                            </Link>
+                        <td colspan="8">
+                            <EmptyState
+                                icon="users"
+                                title="Aucun client pour le moment"
+                                description="Commencez par ajouter votre premier client pour pouvoir créer des devis et factures."
+                                cta-label="Créer mon premier client"
+                                :cta-href="route('clients.create')"
+                                secondary-label="Importer depuis Excel/CSV"
+                                :secondary-href="route('clients.import.index')"
+                            />
                         </td>
                     </tr>
                     <tr v-for="client in clients.data" :key="client.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">

@@ -4,10 +4,14 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('expenseCreate'), 600));
 
 const props = defineProps({
     categories: Array,
@@ -107,7 +111,7 @@ const submit = () => {
                             <InputError :message="form.errors.provider_name" class="mt-2" />
                         </div>
 
-                        <div class="sm:col-span-2">
+                        <div data-tour="expense-form-category" class="sm:col-span-2">
                             <InputLabel for="category" :value="t('category')" />
                             <select
                                 id="category"
@@ -133,7 +137,7 @@ const submit = () => {
                 </div>
                 <div class="px-6 py-4">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                        <div>
+                        <div data-tour="expense-form-amount">
                             <InputLabel for="amount_ht" :value="t('amount_ht')" />
                             <div class="relative mt-1">
                                 <input
@@ -249,7 +253,7 @@ const submit = () => {
             </div>
 
             <!-- Attachment -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
+            <div data-tour="expense-form-receipt" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('receipt_attachment') }}</h2>
                 </div>
@@ -292,7 +296,7 @@ const submit = () => {
                 >
                     {{ t('cancel') }}
                 </Link>
-                <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto justify-center">
+                <PrimaryButton data-tour="expense-form-submit" :disabled="form.processing" class="w-full sm:w-auto justify-center">
                     <span v-if="form.processing">{{ t('saving') }}</span>
                     <span v-else>{{ t('save') }}</span>
                 </PrimaryButton>

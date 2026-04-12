@@ -2,12 +2,16 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('hrExpenses'), 600));
 
 const props = defineProps({
     expenses: { type: Object, required: true },
@@ -325,7 +329,7 @@ const deleteExpense = (id) => {
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div data-tour="hr-expenses-list" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>

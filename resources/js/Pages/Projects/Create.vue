@@ -2,10 +2,15 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 import ProjectForm from '@/Components/ProjectForm.vue';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('projectCreate'), 600));
 
 const props = defineProps({
     clients: {

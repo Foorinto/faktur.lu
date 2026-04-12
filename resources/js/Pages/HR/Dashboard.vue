@@ -2,9 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import HRNav from '@/Components/HRNav.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('hrDashboard'), 600));
 
 const props = defineProps({
     widgets: { type: Object, required: true },
@@ -55,11 +60,11 @@ const settingsSections = [
             </Link>
         </template>
 
-        <HRNav class="mb-6" />
+        <HRNav data-tour="hr-nav" class="mb-6" />
         <div class="py-6">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <!-- KPI Cards -->
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 mb-8">
+                <div data-tour="hr-stats" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 mb-8">
                     <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-surface-card">
                         <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('hr.total_employees') }}</p>
                         <p class="mt-1 text-3xl font-bold text-slate-900 dark:text-white">{{ widgets.total_employees }}</p>

@@ -45,6 +45,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'trial_ends_at' => now()->addDays(14),
             'account_status' => 'trial',
+            'onboarding_step' => 'company',
         ]);
 
         event(new Registered($user));
@@ -57,6 +58,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('onboarding.show', absolute: false));
     }
 }

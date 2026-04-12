@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CashflowForecastService;
 use App\Services\DashboardService;
 use App\Services\FranchiseAlertService;
+use App\Services\OnboardingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,8 @@ class DashboardController extends Controller
     public function __construct(
         protected DashboardService $dashboardService,
         protected FranchiseAlertService $franchiseAlertService,
-        protected CashflowForecastService $cashflowForecastService
+        protected CashflowForecastService $cashflowForecastService,
+        protected OnboardingService $onboardingService
     ) {}
 
     /**
@@ -24,6 +26,10 @@ class DashboardController extends Controller
     public function index(Request $request): Response
     {
         $year = $request->input('year', now()->year);
+        $user = $request->user();
+
+        $showChecklist = $this->onboardingService->shouldShowChecklist($user);
+        $checklist = $showChecklist ? $this->onboardingService->getChecklist($user) : null;
 
         return Inertia::render('Dashboard', [
             'kpis' => $this->dashboardService->getKpis($year),
@@ -35,6 +41,7 @@ class DashboardController extends Controller
             'selectedYear' => (int) $year,
             'franchiseAlert' => $this->franchiseAlertService->getFranchiseAlertData(),
             'cashflowForecast' => $this->cashflowForecastService->getForecast(90),
+            'onboardingChecklist' => $checklist,
         ]);
     }
 

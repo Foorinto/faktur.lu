@@ -251,7 +251,7 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-8">
         <!-- Type de client -->
-        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+        <div data-tour="client-form-type" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('client_type') }}
@@ -351,7 +351,7 @@ const submit = () => {
             </div>
             <div class="px-6 py-4 space-y-4">
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
+                    <div data-tour="client-form-name">
                         <InputLabel for="name" :value="isB2B ? t('company_name') : t('full_name')" />
                         <CompanySearchInput
                             v-if="isB2B"
@@ -467,7 +467,7 @@ const submit = () => {
                         <InputError :message="form.errors.phone" class="mt-2" />
                     </div>
 
-                    <div>
+                    <div data-tour="client-form-vat">
                         <InputLabel for="vat_number">
                             {{ t('vat_number') }}
                             <span v-if="isB2B && isIntraEu" class="text-amber-600 text-xs font-medium">({{ t('vat_required_for_reverse_charge') }})</span>
@@ -711,6 +711,7 @@ const submit = () => {
                 {{ t('cancel') }}
             </Link>
             <PrimaryButton
+                data-tour="client-form-submit"
                 :disabled="form.processing"
                 :class="{ 'opacity-25': form.processing }"
                 class="w-full sm:w-auto justify-center"

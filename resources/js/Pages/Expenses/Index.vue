@@ -1,10 +1,15 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import EmptyState from '@/Components/EmptyState.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('expenses'), 600));
 
 const props = defineProps({
     expenses: Object,
@@ -76,6 +81,7 @@ const deleteExpense = (expense) => {
                 {{ t('reports') }}
             </Link>
             <Link
+                data-tour="expenses-new-btn"
                 :href="route('expenses.create')"
                 class="inline-flex items-center rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
             >
@@ -177,17 +183,14 @@ const deleteExpense = (expense) => {
                 </thead>
                 <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="expenses.data.length === 0">
-                        <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
-                            </svg>
-                            <p class="mt-2">{{ t('no_expenses') }}</p>
-                            <Link
-                                :href="route('expenses.create')"
-                                class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500 dark:text-primary-400"
-                            >
-                                {{ t('create_first_expense') }}
-                            </Link>
+                        <td colspan="7">
+                            <EmptyState
+                                icon="credit-card"
+                                title="Aucune dépense pour le moment"
+                                description="Enregistrez vos dépenses professionnelles pour suivre votre TVA déductible."
+                                cta-label="Ajouter une dépense"
+                                :cta-href="route('expenses.create')"
+                            />
                         </td>
                     </tr>
                     <tr v-for="expense in expenses.data" :key="expense.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">

@@ -4,8 +4,12 @@ import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('accountingExport'), 600));
 
 const props = defineProps({
     exports: Array,
@@ -166,7 +170,7 @@ const getStatusBadge = (status) => {
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div data-tour="accounting-export-intro" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Export Form -->
                     <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
@@ -222,7 +226,7 @@ const getStatusBadge = (status) => {
                             </div>
 
                             <!-- Format -->
-                            <div>
+                            <div data-tour="accounting-export-format">
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                     {{ t('format') }}
                                 </label>

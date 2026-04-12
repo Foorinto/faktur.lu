@@ -1,12 +1,17 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
+import EmptyState from '@/Components/EmptyState.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('invoices'), 600));
 
 const props = defineProps({
     invoices: Object,
@@ -197,6 +202,7 @@ const changeStatus = (invoice, newStatus) => {
         </template>
         <template #header-actions>
             <Link
+                data-tour="invoices-new-btn"
                 :href="route('invoices.create')"
                 class="inline-flex items-center rounded-xl bg-accent-rose px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 transition-colors"
             >
@@ -210,7 +216,7 @@ const changeStatus = (invoice, newStatus) => {
         <BillingNav class="mb-6" />
 
         <!-- Filters -->
-        <div class="mb-6 flex flex-wrap gap-4">
+        <div data-tour="invoices-filters" class="mb-6 flex flex-wrap gap-4">
             <select
                 v-model="statusFilter"
                 class="rounded-xl border-gray-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:border-gray-700 sm:text-sm"
@@ -272,19 +278,14 @@ const changeStatus = (invoice, newStatus) => {
                 </thead>
                 <tbody class="divide-y divide-slate-100 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="invoices.data.length === 0">
-                        <td colspan="7" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-                            <div class="mx-auto h-16 w-16 rounded-2xl bg-slate-100 dark:bg-gray-800 flex items-center justify-center mb-4">
-                                <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </div>
-                            <p class="font-medium text-slate-700 dark:text-slate-300">{{ t('no_invoices') }}</p>
-                            <Link
-                                :href="route('invoices.create')"
-                                class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500 dark:text-primary-400 font-medium"
-                            >
-                                {{ t('create_first_invoice') }}
-                            </Link>
+                        <td colspan="7">
+                            <EmptyState
+                                icon="document"
+                                title="Aucune facture pour le moment"
+                                description="Créez votre première facture conforme au Luxembourg en quelques clics."
+                                cta-label="Créer ma première facture"
+                                :cta-href="route('invoices.create')"
+                            />
                         </td>
                     </tr>
                     <tr

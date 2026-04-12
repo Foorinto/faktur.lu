@@ -40,6 +40,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'locale',
         'account_status',
         'trial_ends_at',
+        'onboarding_step',
+        'onboarding_completed_at',
+        'onboarding_skipped',
+        'onboarding_checklist_dismissed',
     ];
 
     /**
@@ -83,7 +87,18 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'is_active' => 'boolean',
             'trial_ends_at' => 'datetime',
+            'onboarding_completed_at' => 'datetime',
+            'onboarding_skipped' => 'boolean',
+            'onboarding_checklist_dismissed' => 'boolean',
         ];
+    }
+
+    /**
+     * Vérifie si l'utilisateur a complété ou skip son onboarding.
+     */
+    public function hasCompletedOnboarding(): bool
+    {
+        return $this->onboarding_completed_at !== null || $this->onboarding_skipped === true;
     }
 
     /**

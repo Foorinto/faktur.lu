@@ -2,10 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('faiaExport'), 600));
 
 const props = defineProps({
     exports: Array,
@@ -148,9 +152,9 @@ const getStatusBadge = (status) => {
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div data-tour="faia-intro" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Export Form -->
-                    <div class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
+                    <div data-tour="faia-generate" class="bg-white dark:bg-surface-card shadow rounded-2xl p-6">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
                             {{ t('faia.new_export') }}
                         </h2>

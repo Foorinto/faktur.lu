@@ -2,10 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('fiscalSummary'), 600));
 
 const props = defineProps({
     year: [String, Number],
@@ -71,6 +75,7 @@ const categoryLabels = {
         </template>
         <template #header-actions>
             <select
+                data-tour="fiscal-summary-year"
                 v-model="selectedYear"
                 @change="changeYear"
                 class="rounded-xl border-gray-300 shadow-sm text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
@@ -103,7 +108,7 @@ const categoryLabels = {
 
         <div class="space-y-6">
             <!-- KPI Cards -->
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div data-tour="fiscal-summary-intro" class="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <div class="overflow-hidden rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5">
                     <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('fiscal_revenue_ht') }}</dt>
                     <dd class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">{{ formatCurrency(summary.revenue.total_ht) }}</dd>

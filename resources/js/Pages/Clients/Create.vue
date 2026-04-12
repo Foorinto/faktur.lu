@@ -2,9 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ClientForm from '@/Components/ClientForm.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useTour } from '@/Composables/useTour';
 
 const { t } = useTranslations();
+const { startTour } = useTour();
+
+onMounted(() => setTimeout(() => startTour('clientCreate'), 600));
 
 const props = defineProps({
     clientTypes: {

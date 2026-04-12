@@ -220,6 +220,16 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
+    // Onboarding wizard
+    Route::get('/onboarding', [\App\Http\Controllers\OnboardingController::class, 'show'])->name('onboarding.show');
+    Route::post('/onboarding/company', [\App\Http\Controllers\OnboardingController::class, 'saveCompany'])->name('onboarding.company');
+    Route::post('/onboarding/branding', [\App\Http\Controllers\OnboardingController::class, 'saveBranding'])->name('onboarding.branding');
+    Route::post('/onboarding/client', [\App\Http\Controllers\OnboardingController::class, 'saveClient'])->name('onboarding.client');
+    Route::post('/onboarding/invoice', [\App\Http\Controllers\OnboardingController::class, 'saveInvoice'])->name('onboarding.invoice');
+    Route::post('/onboarding/skip', [\App\Http\Controllers\OnboardingController::class, 'skip'])->name('onboarding.skip');
+    Route::post('/onboarding/complete', [\App\Http\Controllers\OnboardingController::class, 'complete'])->name('onboarding.complete');
+    Route::post('/onboarding/dismiss-checklist', [\App\Http\Controllers\OnboardingController::class, 'dismissChecklist'])->name('onboarding.dismiss-checklist');
+
     // Profile routes (no special rate limit)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
