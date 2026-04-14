@@ -29,8 +29,25 @@ class BlogSeoCompleteSeeder extends Seeder
         $inserted = 0;
         $skipped = 0;
 
+        $updatedImages = 0;
+
         foreach ($data['new_posts'] as $post) {
-            if (DB::table('blog_posts')->where('slug', $post['slug'])->where('locale', $post['locale'])->exists()) {
+            $existing = DB::table('blog_posts')->where('slug', $post['slug'])->where('locale', $post['locale'])->first();
+
+            if ($existing) {
+                // Mettre à jour l'image, le contenu et les liens si manquants
+                $updates = [];
+                if (empty($existing->cover_image) && !empty($post['cover_image'])) {
+                    $updates['cover_image'] = $post['cover_image'];
+                }
+                if (!str_contains($existing->content, 'Articles connexes') && str_contains($post['content'], 'Articles connexes')) {
+                    $updates['content'] = $post['content'];
+                }
+                if (!empty($updates)) {
+                    $updates['updated_at'] = now();
+                    DB::table('blog_posts')->where('id', $existing->id)->update($updates);
+                    $updatedImages++;
+                }
                 $skipped++;
                 continue;
             }
@@ -65,7 +82,7 @@ class BlogSeoCompleteSeeder extends Seeder
             $inserted++;
         }
 
-        $this->command->info("Articles insérés : {$inserted}, ignorés (déjà existants) : {$skipped}");
+        $this->command->info("Articles insérés : {$inserted}, mis à jour : {$updatedImages}, ignorés : " . ($skipped - $updatedImages));
 
         // 2. Mettre à jour les articles existants avec les liens internes
         $this->command->info("=== Mise à jour des liens internes ===");
