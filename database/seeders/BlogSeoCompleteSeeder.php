@@ -44,6 +44,7 @@ class BlogSeoCompleteSeeder extends Seeder
                 'content' => $post['content'],
                 'meta_title' => $post['meta_title'],
                 'meta_description' => $post['meta_description'],
+                'cover_image' => $post['cover_image'] ?? null,
                 'locale' => $post['locale'],
                 'status' => 'published',
                 'published_at' => now(),
