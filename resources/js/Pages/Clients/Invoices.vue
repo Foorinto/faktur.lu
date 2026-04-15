@@ -150,7 +150,7 @@ const formatDate = (date) => {
                             : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
-                    {{ t('crm.interactions') || 'Interactions' }}
+                    {{ t('crm.interactions') || 'Interactions' }} ({{ client.interactions_count || 0 }})
                 </Link>
             </nav>
         </div>

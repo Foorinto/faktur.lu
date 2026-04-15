@@ -119,7 +119,7 @@ class ClientController extends Controller
      */
     public function show(Client $client): Response
     {
-        $client->loadCount(['invoices', 'timeEntries']);
+        $client->loadCount(['invoices', 'timeEntries', 'interactions']);
         $client->load('tags');
 
         $interactions = $client->interactions()
@@ -156,7 +156,7 @@ class ClientController extends Controller
      */
     public function interactions(Client $client): Response
     {
-        $client->loadCount(['invoices', 'timeEntries']);
+        $client->loadCount(['invoices', 'timeEntries', 'interactions']);
         $client->load('tags');
 
         $interactions = $client->interactions()
@@ -192,7 +192,7 @@ class ClientController extends Controller
      */
     public function invoices(Client $client): Response
     {
-        $client->loadCount(['invoices', 'timeEntries']);
+        $client->loadCount(['invoices', 'timeEntries', 'interactions']);
         $client->load('tags');
 
         $invoices = $client->invoices()
