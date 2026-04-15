@@ -24,6 +24,14 @@ class BlogSeoCompleteSeeder extends Seeder
         $data = json_decode(file_get_contents($dataPath), true);
         $authorId = DB::table('users')->first()?->id ?? 1;
 
+        // Résoudre les category_id par slug (pour compatibilité entre environnements)
+        $categoryMap = [
+            1 => DB::table('blog_categories')->where('slug', 'guides')->value('id') ?? 1,
+            2 => DB::table('blog_categories')->where('slug', 'reglementation')->value('id') ?? 2,
+            3 => DB::table('blog_categories')->where('slug', 'freelances')->value('id') ?? 3,
+            5 => DB::table('blog_categories')->where('slug', 'guide-creation-entreprise')->value('id') ?? 5,
+        ];
+
         // 1. Insérer les nouveaux articles (60 articles : 15 FR + 15 EN + 15 DE + 15 LB)
         $this->command->info("=== Insertion des articles ===");
         $inserted = 0;
@@ -32,6 +40,8 @@ class BlogSeoCompleteSeeder extends Seeder
         $updatedImages = 0;
 
         foreach ($data['new_posts'] as $post) {
+            // Remap category_id selon l'environnement
+            $post['category_id'] = $categoryMap[$post['category_id']] ?? $post['category_id'];
             $existing = DB::table('blog_posts')->where('slug', $post['slug'])->where('locale', $post['locale'])->first();
 
             if ($existing) {
