@@ -17,7 +17,7 @@ const navigation = [
 const sidebarOpen = ref(false);
 
 const logout = () => {
-    router.post(route('admin.logout'));
+    router.post(route('logout'));
 };
 
 const isCurrentRoute = (routeName) => {
