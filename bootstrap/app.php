@@ -89,6 +89,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.timeout' => \App\Http\Middleware\AdminSessionTimeout::class,
             'admin.ip' => \App\Http\Middleware\AdminIpBlocking::class,
             'admin.nohttp2' => \App\Http\Middleware\DisableHttp2Push::class,
+            'admin.user' => \App\Http\Middleware\EnsureUserIsAdmin::class,
             'accountant.auth' => \App\Http\Middleware\AccountantAuthenticated::class,
             'accountant.access' => \App\Http\Middleware\VerifyAccountantAccess::class,
             'collaborator' => \App\Http\Middleware\EnsureUserIsCollaborator::class,

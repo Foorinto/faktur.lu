@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminBlogCategoryController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminBlogTagController;
@@ -16,30 +15,19 @@ use Illuminate\Support\Facades\Route;
 | Admin Routes
 |--------------------------------------------------------------------------
 |
-| These routes are for the admin panel, accessible via a secret URL prefix.
-| All routes use the web middleware group plus additional admin middleware.
+| These routes use the standard Laravel auth (same login as the app).
+| Only users with is_admin=true can access these routes.
+| No separate login form needed — just log in normally on faktur.lu.
 |
 */
 
-Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->middleware('admin.nohttp2')->group(function () {
+Route::prefix(config('admin.url_prefix', 'admin'))
+    ->name('admin.')
+    ->middleware(['auth', 'verified', 'admin.user'])
+    ->group(function () {
 
-    // Login routes (strict rate limiting: 3/minute)
-    Route::middleware(['admin.ip', 'throttle:admin-login'])->group(function () {
-        Route::get('login', [AdminAuthController::class, 'showLogin'])->name('login');
-        Route::post('login', [AdminAuthController::class, 'login']);
-    });
-
-    // 2FA routes (separate rate limiting: 5/minute)
-    Route::middleware(['admin.ip', 'throttle:admin-2fa'])->group(function () {
-        Route::get('two-factor', [AdminAuthController::class, 'showTwoFactor'])->name('2fa');
-        Route::post('two-factor', [AdminAuthController::class, 'verifyTwoFactor']);
-    });
-
-    // Protected admin routes (require full authentication)
-    Route::middleware(['admin.auth', 'admin.timeout'])->group(function () {
         // Dashboard
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::post('logout', [AdminAuthController::class, 'logout'])->name('logout');
 
         // Users management
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
@@ -92,4 +80,3 @@ Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->middleware('
         Route::put('blog-tags/{tag}', [AdminBlogTagController::class, 'update'])->name('blog-tags.update');
         Route::delete('blog-tags/{tag}', [AdminBlogTagController::class, 'destroy'])->name('blog-tags.destroy');
     });
-});
