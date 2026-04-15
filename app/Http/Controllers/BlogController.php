@@ -119,7 +119,7 @@ class BlogController extends Controller
         ]);
     }
 
-    public function category(string $locale, BlogCategory $category): Response
+    public function category(string $locale, string $blogSlug, string $catSlug, BlogCategory $category): Response
     {
         $posts = BlogPost::published()
             ->forLocale($locale)
