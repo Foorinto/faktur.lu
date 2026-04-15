@@ -50,7 +50,7 @@ class AdminAuthController extends Controller
     /**
      * Handle admin login attempt.
      */
-    public function login(Request $request): RedirectResponse
+    public function login(Request $request): RedirectResponse|\Illuminate\Http\JsonResponse
     {
         $request->validate([
             'username' => 'required|string',
@@ -59,11 +59,15 @@ class AdminAuthController extends Controller
 
         $username = $request->input('username');
         $password = $request->input('password');
+        $isAjax = $request->expectsJson();
 
         // Check if IP is blocked
         if ($this->adminAuth->isIpBlocked($request->ip())) {
             $remaining = $this->adminAuth->getBlockTimeRemaining($request->ip());
-            return back()->with('error', "IP bloquée. Réessayez dans {$remaining} minutes.");
+            $msg = "IP bloquée. Réessayez dans {$remaining} minutes.";
+            return $isAjax
+                ? response()->json(['message' => $msg], 403)
+                : back()->with('error', $msg);
         }
 
         // Validate credentials
@@ -74,13 +78,17 @@ class AdminAuthController extends Controller
                 'ip' => $request->ip(),
             ]);
 
-            // Check if this attempt triggered an IP block
             if ($this->adminAuth->isIpBlocked($request->ip())) {
                 $remaining = $this->adminAuth->getBlockTimeRemaining($request->ip());
-                return back()->with('error', "IP bloquée après trop de tentatives. Réessayez dans {$remaining} minutes.");
+                $msg = "IP bloquée après trop de tentatives. Réessayez dans {$remaining} minutes.";
+                return $isAjax
+                    ? response()->json(['message' => $msg], 403)
+                    : back()->with('error', $msg);
             }
 
-            return back()->with('error', 'Identifiants incorrects.');
+            return $isAjax
+                ? response()->json(['message' => 'Identifiants incorrects.'], 422)
+                : back()->with('error', 'Identifiants incorrects.');
         }
 
         // Create session (not yet 2FA confirmed)
@@ -90,9 +98,15 @@ class AdminAuthController extends Controller
             'ip' => $request->ip(),
         ]);
 
-        // Redirect to 2FA with session cookie
-        return redirect()->route('admin.2fa')
-            ->withCookie($this->adminAuth->createSessionCookie($sessionId));
+        $cookie = $this->adminAuth->createSessionCookie($sessionId);
+
+        if ($isAjax) {
+            return response()->json([
+                'redirect' => route('admin.2fa'),
+            ])->withCookie($cookie);
+        }
+
+        return redirect()->route('admin.2fa')->withCookie($cookie);
     }
 
     /**
