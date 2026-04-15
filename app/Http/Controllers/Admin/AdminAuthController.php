@@ -21,7 +21,7 @@ class AdminAuthController extends Controller
     /**
      * Show the admin login form.
      */
-    public function showLogin(Request $request): Response|RedirectResponse
+    public function showLogin(Request $request): Response|RedirectResponse|\Illuminate\Http\Response
     {
         // If already authenticated, redirect to dashboard
         if ($this->adminAuth->isAuthenticated($request)) {
@@ -31,6 +31,15 @@ class AdminAuthController extends Controller
         // If pending 2FA, redirect to 2FA page
         if ($this->adminAuth->isPendingTwoFactor($request)) {
             return redirect()->route('admin.2fa');
+        }
+
+        // Use simple Blade view to avoid HTTP/2 issues on shared hosting
+        if (!$request->header('X-Inertia')) {
+            return response()->view('admin.login', [
+                'error' => session('error'),
+                'loginUrl' => route('admin.login'),
+                'csrfToken' => csrf_token(),
+            ]);
         }
 
         return Inertia::render('Admin/Login', [
