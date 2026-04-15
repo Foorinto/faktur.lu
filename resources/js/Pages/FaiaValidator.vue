@@ -4,12 +4,15 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useMatomo } from '@/Composables/useMatomo';
 
 const { t } = useTranslations();
+const matomo = useMatomo();
 
-defineProps({
+const props = defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
+    validationsCount: { type: Number, default: 0 },
 });
 
 const file = ref(null);
@@ -90,6 +93,7 @@ const validate = async () => {
         });
 
         result.value = response.data;
+        matomo.trackEvent('faia_validator', 'validation_complete', response.data.status, response.data.score);
     } catch (e) {
         if (e.response?.data?.message) {
             error.value = e.response.data.message;
@@ -129,6 +133,22 @@ const statusIcon = computed(() => {
     if (result.value.status === 'valid_with_warnings') return 'warning';
     return 'error';
 });
+
+const hasErrors = computed(() => {
+    return result.value && result.value.summary?.errors > 0;
+});
+
+const formattedCount = computed(() => {
+    const count = props.validationsCount;
+    if (count >= 1000) return Math.floor(count / 1000) + 'k+';
+    if (count >= 100) return Math.floor(count / 100) * 100 + '+';
+    if (count > 0) return count + '+';
+    return null;
+});
+
+const trackCtaClick = () => {
+    matomo.trackEvent('faia_validator', 'cta_click', hasErrors.value ? 'has_errors' : 'no_errors');
+};
 </script>
 
 <template>
@@ -155,6 +175,12 @@ const statusIcon = computed(() => {
                     <p class="text-lg text-slate-600 max-w-2xl mx-auto">
                         {{ t('faia_validator.subtitle') }}
                     </p>
+                    <div v-if="formattedCount" class="mt-4 inline-flex items-center gap-2 text-sm text-slate-500">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {{ t('faia_validator.files_validated', { count: formattedCount }) }}
+                    </div>
                 </div>
 
                 <!-- Upload zone -->
@@ -397,24 +423,67 @@ const statusIcon = computed(() => {
                         </button>
                     </div>
 
-                    <!-- CTA -->
-                    <div class="bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl p-8 text-center">
+                    <!-- CTA contextuel -->
+                    <div :class="[
+                        'rounded-2xl p-8 text-center',
+                        hasErrors
+                            ? 'bg-gradient-to-br from-red-400 to-red-600'
+                            : 'bg-gradient-to-br from-primary-400 to-primary-600'
+                    ]">
                         <h3 class="text-xl font-bold text-white mb-2">
-                            {{ t('faia_validator.cta_title') }}
+                            {{ hasErrors ? t('faia_validator.cta_error_title') : t('faia_validator.cta_title') }}
                         </h3>
                         <p class="text-white/80 mb-6">
-                            {{ t('faia_validator.cta_subtitle') }}
+                            {{ hasErrors ? t('faia_validator.cta_error_subtitle') : t('faia_validator.cta_subtitle') }}
                         </p>
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-500 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+                            class="inline-flex items-center gap-2 px-6 py-3 bg-white font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+                            :class="hasErrors ? 'text-red-600' : 'text-primary-500'"
+                            @click="trackCtaClick"
                         >
                             {{ t('faia_validator.cta_button') }}
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
                         </Link>
+                    </div>
+
+                    <!-- Pourquoi faktur.lu -->
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <h3 class="text-lg font-bold text-slate-900 mb-6 text-center">
+                            {{ t('faia_validator.why_title') }}
+                        </h3>
+                        <div class="grid sm:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="mx-auto w-12 h-12 rounded-full bg-[#00f5d4]/10 flex items-center justify-center mb-3">
+                                    <svg class="w-6 h-6 text-[#00a896]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.why_faia') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('faia_validator.why_faia_desc') }}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="mx-auto w-12 h-12 rounded-full bg-primary-500/10 flex items-center justify-center mb-3">
+                                    <svg class="w-6 h-6 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.why_simple') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('faia_validator.why_simple_desc') }}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="mx-auto w-12 h-12 rounded-full bg-[#fee440]/10 flex items-center justify-center mb-3">
+                                    <svg class="w-6 h-6 text-[#d4a500]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h4 class="font-semibold text-slate-900 mb-1">{{ t('faia_validator.why_price') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('faia_validator.why_price_desc') }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

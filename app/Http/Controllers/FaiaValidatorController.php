@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\FaiaValidatorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class FaiaValidatorController extends Controller
@@ -20,6 +21,7 @@ class FaiaValidatorController extends Controller
         return Inertia::render('FaiaValidator', [
             'canLogin' => true,
             'canRegister' => true,
+            'validationsCount' => Cache::get('faia_validations_count', 0),
         ]);
     }
 
@@ -62,6 +64,9 @@ class FaiaValidatorController extends Controller
                 'message' => 'Le fichier contient des patterns non autorisés.',
             ], 422);
         }
+
+        // Increment validations counter
+        Cache::increment('faia_validations_count');
 
         // Validate the FAIA file
         $result = $this->validator->validate($content);
