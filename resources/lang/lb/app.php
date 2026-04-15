@@ -884,7 +884,9 @@ return [
 
     // Landing page
     'landing' => [
-        'page_title' => 'Vereinfacht Rechnungsstellung fir Lëtzebuerg',
+        'page_title' => 'Fakturatiounsprogramm Lëtzebuerg | FAIA-konform fir KMU & Freelancer',
+        'meta_description' => 'Fakturatiounssoftware fir Lëtzebuerg: FAIA-Export fir Steierkontrollen, automatesch TVA 17%, Peppol, Devis, Zäiterfassung. Gratis testen.',
+        'meta_keywords' => 'Fakturatiounsprogramm Lëtzebuerg, Rechnung Lëtzebuerg, FAIA, Peppol, TVA Lëtzebuerg, KMU Rechnungsstellung',
         'nav' => [
             'features' => 'Funktiounen',
             'how_it_works' => 'Wéi et funktionéiert',
@@ -897,6 +899,8 @@ return [
             'create_account' => 'Kont erstellen',
             'free_trial' => 'Gratis testen',
             'language' => 'Sprooch',
+            'about' => 'Iwwer eis',
+            'contact' => 'Kontakt',
         ],
 
         'footer' => [

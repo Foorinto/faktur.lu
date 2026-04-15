@@ -945,7 +945,7 @@ return [
     'landing' => [
         'page_title' => 'Invoicing Software Luxembourg | FAIA & Peppol Compliant',
         'meta_description' => 'Compliant invoicing software for Luxembourg. FAIA export for tax audits, automatic 17% VAT, quotes, time tracking. Free trial.',
-        'meta_keywords' => 'invoicing software luxembourg, electronic invoice luxembourg, FAIA, Peppol, VAT luxembourg, SME invoicing',
+        'meta_keywords' => 'invoicing software luxembourg, FAIA compliant invoicing Luxembourg, electronic invoice luxembourg, FAIA, Peppol, VAT luxembourg 17%, SME invoicing, freelancer invoicing luxembourg, accounting software luxembourg',
         'nav' => [
             'features' => 'Features',
             'how_it_works' => 'How it works',
@@ -958,6 +958,8 @@ return [
             'create_account' => 'Create an account',
             'free_trial' => 'Free trial',
             'language' => 'Language',
+            'about' => 'About',
+            'contact' => 'Contact',
         ],
 
         'footer' => [

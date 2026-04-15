@@ -884,7 +884,9 @@ return [
 
     // Landing page
     'landing' => [
-        'page_title' => 'Vereinfachte Rechnungsstellung für Luxemburg',
+        'page_title' => 'Rechnungssoftware Luxemburg | FAIA-konform für KMU & Freiberufler',
+        'meta_description' => 'Rechnungssoftware für Luxemburg: FAIA-Export für Steuerprüfungen, automatische MwSt 17%, Peppol, Angebote, Zeiterfassung. Kostenlos testen.',
+        'meta_keywords' => 'Rechnungssoftware Luxemburg, Rechnung Luxemburg, FAIA, Peppol, MwSt Luxemburg, KMU Rechnungsstellung, Fakturierung Luxemburg',
         'nav' => [
             'features' => 'Funktionen',
             'how_it_works' => 'So funktioniert\'s',
@@ -897,6 +899,8 @@ return [
             'create_account' => 'Konto erstellen',
             'free_trial' => 'Kostenlos testen',
             'language' => 'Sprache',
+            'about' => 'Über uns',
+            'contact' => 'Kontakt',
         ],
 
         'footer' => [

@@ -36,6 +36,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    keywords: {
+        type: String,
+        default: '',
+    },
 });
 
 const page = usePage();
@@ -118,6 +122,7 @@ const ogImage = computed(() => {
     <Head :title="title">
         <!-- Basic meta tags -->
         <meta v-if="description" name="description" :content="description" />
+        <meta v-if="keywords" name="keywords" :content="keywords" />
         <meta v-if="noindex" name="robots" content="noindex, nofollow" />
 
         <!-- Canonical URL -->

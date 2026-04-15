@@ -48,15 +48,31 @@ const canonicalUrl = computed(() => props.appUrl);
 // Schema.org structured data
 const schemaOrganization = computed(() => JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness"],
     "name": "faktur.lu",
     "url": props.appUrl,
     "logo": `${props.appUrl}/images/logo.png`,
-    "description": "Logiciel de facturation conforme pour le Luxembourg",
+    "image": `${props.appUrl}/images/og-default.png`,
+    "description": t('landing.meta_description'),
+    "foundingDate": "2024",
     "address": {
         "@type": "PostalAddress",
+        "addressLocality": "Luxembourg",
+        "addressRegion": "Luxembourg",
         "addressCountry": "LU"
     },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "49.6117",
+        "longitude": "6.1300"
+    },
+    "areaServed": [
+        { "@type": "Country", "name": "Luxembourg" },
+        { "@type": "Country", "name": "Belgium" },
+        { "@type": "Country", "name": "France" },
+        { "@type": "Country", "name": "Germany" }
+    ],
+    "priceRange": "$$",
     "sameAs": []
 }));
 
@@ -66,32 +82,39 @@ const schemaSoftware = computed(() => JSON.stringify({
     "name": "faktur.lu",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
+    "availableLanguage": ["fr", "de", "en", "lb"],
     "offers": [
         {
             "@type": "Offer",
-            "price": "4",
+            "price": "0",
             "priceCurrency": "EUR",
-            "description": "Plan Essentiel - 10 clients, 20 factures/mois"
+            "description": "Plan Gratuit - 5 clients, 3 factures/mois"
         },
         {
             "@type": "Offer",
-            "price": "9",
+            "price": "5",
             "priceCurrency": "EUR",
-            "description": "Plan Pro - Illimité avec FAIA et archivage"
+            "description": "Plan Essentiel - 100 clients, 50 factures/mois, projets, comptabilit\u00e9"
+        },
+        {
+            "@type": "Offer",
+            "price": "15",
+            "priceCurrency": "EUR",
+            "description": "Plan Pro - Illimit\u00e9 avec FAIA, Peppol, CRM et module RH"
         }
     ],
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "50"
-    },
     "featureList": [
         "Factures conformes Luxembourg",
-        "Export FAIA pour contrôles fiscaux",
+        "Export FAIA pour contr\u00f4les fiscaux AED",
         "TVA automatique 17%",
+        "Facturation \u00e9lectronique Peppol",
+        "Factur-X / ZUGFeRD",
         "Devis professionnels",
-        "Suivi du temps",
-        "Gestion de projets"
+        "Suivi du temps et gestion de projets",
+        "Module RH complet",
+        "CRM int\u00e9gr\u00e9",
+        "Portail comptable pour fiduciaires",
+        "4 langues : FR, DE, EN, LB"
     ]
 }));
 

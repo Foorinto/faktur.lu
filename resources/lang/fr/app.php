@@ -945,7 +945,7 @@ return [
     'landing' => [
         'page_title' => 'Logiciel de Facturation Luxembourg | Conforme FAIA & Peppol',
         'meta_description' => 'Logiciel de facturation conforme pour le Luxembourg. Export FAIA pour contrôles fiscaux, TVA automatique 17%, devis, suivi du temps. Essai gratuit.',
-        'meta_keywords' => 'logiciel facturation luxembourg, facture électronique luxembourg, FAIA, Peppol, TVA luxembourg, facturation PME',
+        'meta_keywords' => 'logiciel facturation luxembourg, logiciel facturation conforme FAIA Luxembourg, facture électronique luxembourg, FAIA, Peppol, TVA luxembourg 17%, facturation PME, facturation indépendant luxembourg, logiciel comptabilité luxembourg',
 
         'nav' => [
             'features' => 'Fonctionnalités',
@@ -959,6 +959,8 @@ return [
             'create_account' => 'Créer un compte',
             'free_trial' => 'Essai gratuit',
             'language' => 'Langue',
+            'about' => 'A propos',
+            'contact' => 'Contact',
         ],
 
         'footer' => [
