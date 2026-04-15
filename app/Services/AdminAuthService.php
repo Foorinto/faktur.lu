@@ -116,7 +116,7 @@ class AdminAuthService
      */
     public function createSessionCookie(string $sessionId): \Symfony\Component\HttpFoundation\Cookie
     {
-        $lifetime = config('admin.session_lifetime', 30);
+        $lifetime = (int) config('admin.session_lifetime', 30);
 
         return Cookie::make(
             config('admin.session_cookie', 'admin_session'),
@@ -189,7 +189,7 @@ class AdminAuthService
      */
     public function cleanupExpiredSessions(): int
     {
-        $lifetime = config('admin.session_lifetime', 30);
+        $lifetime = (int) config('admin.session_lifetime', 30);
 
         return AdminSession::where('last_activity', '<', now()->subMinutes($lifetime))->delete();
     }

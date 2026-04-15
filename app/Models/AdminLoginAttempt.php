@@ -41,7 +41,7 @@ class AdminLoginAttempt extends Model
     public static function isIpBlocked(string $ip): bool
     {
         $maxAttempts = config('admin.max_login_attempts', 3);
-        $blockDuration = config('admin.ip_block_duration', 60);
+        $blockDuration = (int) config('admin.ip_block_duration', 60);
 
         $recentFailedAttempts = self::where('ip_address', $ip)
             ->where('successful', false)
@@ -56,7 +56,7 @@ class AdminLoginAttempt extends Model
      */
     public static function getBlockTimeRemaining(string $ip): ?int
     {
-        $blockDuration = config('admin.ip_block_duration', 60);
+        $blockDuration = (int) config('admin.ip_block_duration', 60);
 
         $lastFailedAttempt = self::where('ip_address', $ip)
             ->where('successful', false)
