@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->group(function () {
+Route::prefix(config('admin.url_prefix', 'admin'))->name('admin.')->middleware('admin.nohttp2')->group(function () {
 
     // Login routes (strict rate limiting: 3/minute)
     Route::middleware(['admin.ip', 'throttle:admin-login'])->group(function () {
