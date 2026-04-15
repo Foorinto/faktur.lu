@@ -144,7 +144,7 @@ const allTags = props.tags || [];
                             : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
                     ]"
                 >
-                    {{ t('crm.interactions') }}
+                    {{ t('crm.interactions') }} ({{ interactions.length || 0 }})
                 </Link>
             </nav>
         </div>
