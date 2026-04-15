@@ -51,7 +51,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="min-h-screen bg-gray-50 overflow-x-hidden">
         <!-- Header -->
         <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
             <nav class="mx-auto max-w-6xl px-6 lg:px-8 py-4">
