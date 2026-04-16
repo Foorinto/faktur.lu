@@ -111,6 +111,7 @@ class SitemapController extends Controller
             ['route' => 'features.index', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'pricing', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'about', 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['route' => 'partners', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['route' => 'contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['route' => 'faia-validator', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'blog.index', 'priority' => '0.8', 'changefreq' => 'daily'],

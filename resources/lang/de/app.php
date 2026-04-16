@@ -1564,6 +1564,73 @@ return [
         'success' => 'Ihre Nachricht wurde erfolgreich gesendet. Wir werden uns so schnell wie moeglich bei Ihnen melden.',
     ],
 
+    // Partners page
+    'partners' => [
+        'page_title' => 'Partnerprogramm fuer Treuhandgesellschaften | faktur.lu',
+        'meta_description' => 'Treten Sie dem faktur.lu-Partnerprogramm bei. Kostenloses Buchhalterportal, Sage BOB und FID-Manager Exporte, automatisches FAIA.',
+        'breadcrumb' => 'Partner',
+        'badge' => 'Partnerprogramm',
+        'title' => 'Treuhandgesellschaften, vereinfachen Sie die Buchhaltung Ihrer Kunden',
+        'subtitle' => 'Ihre Kunden nutzen faktur.lu fuer die Rechnungsstellung. Sie greifen im Lesemodus auf deren Daten zu, mit sauberen Exporten und stets konformem FAIA. Ergebnis: weniger Erfassung, mehr Beratung.',
+
+        'advantages' => [
+            'title' => 'Was faktur.lu Ihrer Kanzlei bringt',
+            'subtitle' => 'Ein kostenloses Buchhalterportal und Tools fuer luxemburgische Treuhandgesellschaften.',
+            'portal_title' => 'Dediziertes Buchhalterportal',
+            'portal_desc' => 'Greifen Sie ueber ein sicheres Nur-Lese-Portal mit 2FA auf Rechnungen, Angebote und Buchungen Ihrer Kunden zu.',
+            'exports_title' => 'Sage BOB & FID-Manager Exporte',
+            'exports_desc' => 'Rufen Sie Buchungssaetze im Format Ihrer Software ab. Keine manuelle Neuerfassung mehr.',
+            'faia_title' => 'Automatisches konformes FAIA',
+            'faia_desc' => 'Die FAIA-Datei Ihrer Kunden wird bei jeder Rechnung automatisch generiert. Immer konform mit den AED-Anforderungen.',
+            'time_title' => '3 Stunden pro Kunde pro Monat sparen',
+            'time_desc' => 'Weniger Rueckfragen, weniger Erfassungsfehler. Konzentrieren Sie sich auf wertschoepfende Beratung.',
+            'multi_title' => 'Multi-Kunden-Ansicht',
+            'multi_desc' => 'Verwalten Sie mehrere Kunden ueber ein einziges Dashboard. Wechseln Sie mit einem Klick zwischen Mandanten.',
+            'free_title' => '100% kostenloser Zugang',
+            'free_desc' => 'Das Buchhalterportal ist fuer Treuhandgesellschaften kostenlos. Kein zusaetzliches Abonnement.',
+        ],
+
+        'steps' => [
+            'title' => 'Wie funktioniert es?',
+            'subtitle' => 'Drei einfache Schritte, um mit Ihren Kunden auf faktur.lu zusammenzuarbeiten.',
+            'step1_title' => 'Ihr Kunde registriert sich',
+            'step1_desc' => 'Ihr Kunde erstellt sein faktur.lu-Konto und beginnt mit der Rechnungsstellung. Er waehlt seinen Plan (Essentiel oder Pro).',
+            'step2_title' => 'Er laedt Sie als Buchhalter ein',
+            'step2_desc' => 'In seinen Einstellungen sendet Ihr Kunde Ihnen eine Einladung. Sie erhalten eine E-Mail mit einem sicheren Zugangslink.',
+            'step3_title' => 'Sie greifen auf seine Daten zu',
+            'step3_desc' => 'Melden Sie sich im Buchhalterportal an. Sehen Sie Rechnungen ein, laden Sie Exporte und FAIA mit einem Klick herunter.',
+        ],
+
+        'faq' => [
+            'title' => 'Haeufig gestellte Fragen',
+            'q1' => 'Ist das Buchhalterportal wirklich kostenlos?',
+            'a1' => 'Ja, der Zugang zum Buchhalterportal ist fuer Treuhandgesellschaften 100% kostenlos. Nur Ihr Kunde zahlt sein faktur.lu-Abonnement (ab 5 EUR/Monat).',
+            'q2' => 'Kann ich die Rechnungen meiner Kunden bearbeiten?',
+            'a2' => 'Nein, das Portal ist schreibgeschuetzt, um die Datenintegritaet zu gewaehrleisten. Sie koennen einsehen, herunterladen und exportieren, aber nicht aendern.',
+            'q3' => 'Welche Exportformate sind verfuegbar?',
+            'a3' => 'Wir bieten Exporte kompatibel mit Sage BOB, FID-Manager sowie CSV-Exporte und die AED-konforme FAIA 2.01 Datei.',
+            'q4' => 'Wie viele Kunden kann ich verwalten?',
+            'a4' => 'Es gibt kein Limit. Jeder Kunde, der Sie einlaedt, erscheint in Ihrem Buchhalter-Dashboard.',
+        ],
+
+        'form' => [
+            'title' => 'Partner werden',
+            'subtitle' => 'Hinterlassen Sie uns Ihre Daten und wir kontaktieren Sie zur Einrichtung Ihres Zugangs.',
+            'company' => 'Name der Kanzlei',
+            'company_placeholder' => 'z.B.: Treuhand Dupont S.A.',
+            'name' => 'Kontaktname',
+            'name_placeholder' => 'Vorname Nachname',
+            'email' => 'Berufliche E-Mail',
+            'clients_count' => 'Anzahl der Kunden',
+            'clients_select' => 'Auswaehlen...',
+            'message' => 'Nachricht (optional)',
+            'message_placeholder' => 'Beschreiben Sie Ihre Beduerfnisse oder stellen Sie Ihre Fragen...',
+            'submit' => 'Anfrage senden',
+            'sending' => 'Wird gesendet...',
+            'success' => 'Vielen Dank! Ihre Anfrage wurde gesendet. Wir kontaktieren Sie innerhalb von 48 Stunden.',
+        ],
+    ],
+
     // FAIA Validator (public page)
     'faia_validator' => [
         'page_title' => 'Kostenloser FAIA-Validator - Überprüfen Sie Ihre Luxemburger Dateien | faktur.lu',

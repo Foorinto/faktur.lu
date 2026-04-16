@@ -26,6 +26,43 @@ class ContactController extends Controller
     }
 
     /**
+     * Display the partners page.
+     */
+    public function partners(): Response
+    {
+        return Inertia::render('Partners');
+    }
+
+    /**
+     * Handle partner contact form submission.
+     */
+    public function partnerContact(Request $request)
+    {
+        $validated = $request->validate([
+            'company' => 'required|string|max:150',
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:255',
+            'clients_count' => 'required|string|max:50',
+            'message' => 'nullable|string|max:5000',
+        ]);
+
+        $body = "Nouveau contact partenaire fiduciaire\n\n"
+            . "Cabinet: {$validated['company']}\n"
+            . "Nom: {$validated['name']}\n"
+            . "Email: {$validated['email']}\n"
+            . "Nombre de clients: {$validated['clients_count']}\n\n"
+            . "Message:\n" . ($validated['message'] ?? 'Aucun message');
+
+        Mail::raw($body, function ($mail) use ($validated) {
+            $mail->to(config('mail.from.address'))
+                ->replyTo($validated['email'], $validated['name'])
+                ->subject("[faktur.lu Partenaire] {$validated['company']}");
+        });
+
+        return back()->with('success', true);
+    }
+
+    /**
      * Handle contact form submission.
      */
     public function send(Request $request)

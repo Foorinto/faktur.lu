@@ -1625,6 +1625,73 @@ return [
         'success' => 'Your message has been sent successfully. We will get back to you as soon as possible.',
     ],
 
+    // Partners page
+    'partners' => [
+        'page_title' => 'Partner Program for Accountants | faktur.lu',
+        'meta_description' => 'Join the faktur.lu partner program. Free accountant portal, Sage BOB and FID-Manager exports, automatic FAIA for your clients.',
+        'breadcrumb' => 'Partners',
+        'badge' => 'Partner Program',
+        'title' => 'Accountants, simplify your clients\' bookkeeping',
+        'subtitle' => 'Your clients use faktur.lu for invoicing. You access their data in read-only mode, with clean exports and always-compliant FAIA. Result: less data entry, more advisory.',
+
+        'advantages' => [
+            'title' => 'What faktur.lu brings to your firm',
+            'subtitle' => 'A free accountant portal and tools designed for Luxembourg fiduciaries.',
+            'portal_title' => 'Dedicated accountant portal',
+            'portal_desc' => 'Access your clients\' invoices, quotes and journal entries via a secure read-only portal with 2FA authentication.',
+            'exports_title' => 'Sage BOB & FID-Manager exports',
+            'exports_desc' => 'Retrieve accounting entries in your software\'s format. No more manual re-entry.',
+            'faia_title' => 'Automatic compliant FAIA',
+            'faia_desc' => 'Your clients\' FAIA file is automatically generated with every invoice. Always compliant with AED requirements.',
+            'time_title' => 'Save 3 hours per client per month',
+            'time_desc' => 'Fewer back-and-forth exchanges, fewer entry errors. Focus on high-value advisory.',
+            'multi_title' => 'Multi-client view',
+            'multi_desc' => 'Manage multiple clients from a single dashboard. Switch between files in one click.',
+            'free_title' => '100% free access',
+            'free_desc' => 'The accountant portal is included free for fiduciaries. No additional subscription.',
+        ],
+
+        'steps' => [
+            'title' => 'How does it work?',
+            'subtitle' => 'Three simple steps to start collaborating with your clients on faktur.lu.',
+            'step1_title' => 'Your client signs up',
+            'step1_desc' => 'Your client creates their faktur.lu account and starts invoicing. They choose their plan (Essentiel or Pro).',
+            'step2_title' => 'They invite you as accountant',
+            'step2_desc' => 'From their settings, your client sends you an invitation. You receive an email with a secure access link.',
+            'step3_title' => 'You access their data',
+            'step3_desc' => 'Log in to the accountant portal. View invoices, download exports and FAIA in one click.',
+        ],
+
+        'faq' => [
+            'title' => 'Frequently asked questions',
+            'q1' => 'Is the accountant portal really free?',
+            'a1' => 'Yes, access to the accountant portal is 100% free for fiduciaries. Only your client pays their faktur.lu subscription (from 5 EUR/month).',
+            'q2' => 'Can I edit my clients\' invoices?',
+            'a2' => 'No, the portal is read-only to guarantee data integrity. You can view, download and export, but not modify.',
+            'q3' => 'What export formats are available?',
+            'a3' => 'We offer exports compatible with Sage BOB, FID-Manager, as well as CSV exports and the AED-compliant FAIA 2.01 file.',
+            'q4' => 'How many clients can I manage?',
+            'a4' => 'There is no limit. Each client who invites you appears in your accountant dashboard.',
+        ],
+
+        'form' => [
+            'title' => 'Become a partner',
+            'subtitle' => 'Leave us your details and we will contact you to set up your access.',
+            'company' => 'Firm name',
+            'company_placeholder' => 'E.g.: Dupont Fiduciary S.A.',
+            'name' => 'Contact name',
+            'name_placeholder' => 'First Last',
+            'email' => 'Professional email',
+            'clients_count' => 'Number of clients',
+            'clients_select' => 'Select...',
+            'message' => 'Message (optional)',
+            'message_placeholder' => 'Describe your needs or ask your questions...',
+            'submit' => 'Send my request',
+            'sending' => 'Sending...',
+            'success' => 'Thank you! Your request has been sent. We will contact you within 48 hours.',
+        ],
+    ],
+
     // FAIA Validator (public page)
     'faia_validator' => [
         'page_title' => 'Free FAIA Validator - Verify your Luxembourg files | faktur.lu',

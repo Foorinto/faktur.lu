@@ -1564,6 +1564,73 @@ return [
         'success' => 'Är Noriicht gouf erfollegräich geschéckt. Mir mellen eis sou séier wéi méiglech bei Iech.',
     ],
 
+    // Partners page
+    'partners' => [
+        'page_title' => 'Partnerprogramm fir Treihandgesellschaften | faktur.lu',
+        'meta_description' => 'Gitt dem faktur.lu-Partnerprogramm bai. Gratis Comptablesportal, Sage BOB an FID-Manager Exporter, automatescht FAIA.',
+        'breadcrumb' => 'Partneren',
+        'badge' => 'Partnerprogramm',
+        'title' => 'Treihandgesellschaften, vereinfacht d\'Buchhaltung vun Äre Clienten',
+        'subtitle' => 'Är Clienten benotzen faktur.lu fir d\'Fakturatioun. Dir greift am Liesmodus op hir Donneeën zou, mat propperen Exporter an ëmmer konformem FAIA. Resultat: manner Erfaassung, méi Berodung.',
+
+        'advantages' => [
+            'title' => 'Wat faktur.lu Ärem Cabinet bréngt',
+            'subtitle' => 'E gratis Comptablesportal an Tools fir lëtzebuerger Treihandgesellschaften.',
+            'portal_title' => 'Dedizéiert Comptablesportal',
+            'portal_desc' => 'Greift op Rechnungen, Devis a Buchungen vun Äre Clienten iwwer e séchert Nur-Lies-Portal mat 2FA zou.',
+            'exports_title' => 'Sage BOB & FID-Manager Exporter',
+            'exports_desc' => 'Kritt d\'Buchungssätz am Format vun Ärer Software. Keng manuell Neierfaassung méi.',
+            'faia_title' => 'Automatescht konformt FAIA',
+            'faia_desc' => 'De FAIA-Fichier vun Äre Clienten gëtt bei all Rechnung automatesch generéiert. Ëmmer konform mat den AED-Ufuerderungen.',
+            'time_title' => '3 Stonnen pro Client pro Mount spueren',
+            'time_desc' => 'Manner Réckfroen, manner Erfaassungsfeeler. Konzentréiert Iech op wäertschaafend Berodung.',
+            'multi_title' => 'Multi-Client-Ansicht',
+            'multi_desc' => 'Verwaltt méi Clienten vun engem eenzegen Dashboard aus. Wiesselt mat engem Klick tëschent Mandanten.',
+            'free_title' => '100% gratis Zougang',
+            'free_desc' => 'D\'Comptablesportal ass gratis fir Treihandgesellschaften. Keen zousätzlecht Abonnement.',
+        ],
+
+        'steps' => [
+            'title' => 'Wéi funktionéiert et?',
+            'subtitle' => 'Dräi einfach Schrëtt, fir mat Äre Clienten op faktur.lu zesummenzeschaffen.',
+            'step1_title' => 'Äre Client mellt sech un',
+            'step1_desc' => 'Äre Client erstellt säi faktur.lu-Kont a fänkt un ze fakturéieren. Hie wielt säi Plang (Essentiel oder Pro).',
+            'step2_title' => 'Hie invitéiert Iech als Comptable',
+            'step2_desc' => 'An sengen Astellungen schéckt Äre Client Iech eng Invitatioun. Dir kritt eng E-Mail mat engem sécheren Zougangslink.',
+            'step3_title' => 'Dir greift op seng Donneeën zou',
+            'step3_desc' => 'Mellt Iech am Comptablesportal un. Kuckt Rechnungen, luet Exporter an de FAIA mat engem Klick erof.',
+        ],
+
+        'faq' => [
+            'title' => 'Heefeg gestallt Froen',
+            'q1' => 'Ass d\'Comptablesportal wierklech gratis?',
+            'a1' => 'Jo, den Zougang zum Comptablesportal ass 100% gratis fir Treihandgesellschaften. Nëmmen Äre Client bezilt säin faktur.lu-Abonnement (vun 5 EUR/Mount un).',
+            'q2' => 'Kann ech d\'Rechnunge vu menge Clienten änneren?',
+            'a2' => 'Nee, d\'Portal ass nëmmen zum Liesen, fir d\'Integritéit vun den Donneeën ze garantéieren. Dir kënnt kucken, eroflueden an exportéieren, awer net änneren.',
+            'q3' => 'Wéi eng Exportformater si verfügbar?',
+            'a3' => 'Mir bidden Exporter kompatibel mat Sage BOB, FID-Manager, souwéi CSV-Exporter an de FAIA 2.01 Fichier konform mat der AED.',
+            'q4' => 'Wéi vill Cliente kann ech verwalten?',
+            'a4' => 'Et gëtt kee Limit. All Client deen Iech invitéiert, erschéngt an Ärem Comptables-Dashboard.',
+        ],
+
+        'form' => [
+            'title' => 'Gitt Partner',
+            'subtitle' => 'Loosst eis Är Coordonnéeën an mir kontaktéieren Iech fir Ären Zougang anzesetzen.',
+            'company' => 'Numm vum Cabinet',
+            'company_placeholder' => 'z.B.: Treihand Dupont S.A.',
+            'name' => 'Kontaktnumm',
+            'name_placeholder' => 'Virnumm Numm',
+            'email' => 'Berufflech E-Mail',
+            'clients_count' => 'Unzuel vun de Clienten',
+            'clients_select' => 'Auswielen...',
+            'message' => 'Message (optional)',
+            'message_placeholder' => 'Beschreift Är Besoinen oder stellt Är Froen...',
+            'submit' => 'Ufro schécken',
+            'sending' => 'Gëtt geschéckt...',
+            'success' => 'Merci! Är Ufro gouf geschéckt. Mir kontaktéieren Iech bannent 48 Stonnen.',
+        ],
+    ],
+
     // FAIA Validator (public page)
     'faia_validator' => [
         'page_title' => 'Gratis FAIA Validator - Préift Är Lëtzebuerger Fichieren | faktur.lu',

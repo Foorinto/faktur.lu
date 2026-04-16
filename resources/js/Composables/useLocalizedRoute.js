@@ -8,6 +8,8 @@ const localizedRoutes = [
     'features.index',
     'features.show',
     'about',
+    'partners',
+    'partners.contact',
     'contact',
     'contact.send',
     'pricing',
@@ -45,6 +47,18 @@ const localizedSlugs = {
         de: 'ueber-uns',
         en: 'about',
         lb: 'iwwer-eis',
+    },
+    'partners': {
+        fr: 'partenaires',
+        de: 'partner',
+        en: 'partners',
+        lb: 'partneren',
+    },
+    'partners.contact': {
+        fr: 'partenaires/contact',
+        de: 'partners/contact',
+        en: 'partners/contact',
+        lb: 'partners/contact',
     },
     'contact': {
         fr: 'contact',

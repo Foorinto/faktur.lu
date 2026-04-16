@@ -156,6 +156,14 @@ Route::prefix('{locale}')
         Route::get('/about', [ContactController::class, 'about'])->name('about.en');
         Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
 
+        // Partners page (explicit localized routes)
+        Route::get('/partenaires', [ContactController::class, 'partners'])->name('partners.fr');
+        Route::get('/partner', [ContactController::class, 'partners'])->name('partners.de');
+        Route::get('/partners', [ContactController::class, 'partners'])->name('partners.en');
+        Route::get('/partneren', [ContactController::class, 'partners'])->name('partners.lb');
+        Route::post('/partenaires/contact', [ContactController::class, 'partnerContact'])->middleware('throttle:6,1')->name('partners.contact.fr');
+        Route::post('/partners/contact', [ContactController::class, 'partnerContact'])->middleware('throttle:6,1')->name('partners.contact.other');
+
         // Contact page (explicit localized routes)
         Route::get('/contact', [ContactController::class, 'index'])->name('contact');
         Route::post('/contact', [ContactController::class, 'send'])->middleware('throttle:6,1')->name('contact.send');

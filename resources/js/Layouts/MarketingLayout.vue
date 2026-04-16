@@ -305,6 +305,7 @@ onUnmounted(() => {
                         <h4 class="font-semibold text-slate-900 mb-4">{{ t('landing.footer.resources') }}</h4>
                         <ul class="space-y-2 text-sm">
                             <li><Link :href="localizedRoute('blog.index')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.blog') }}</Link></li>
+                            <li><Link :href="localizedRoute('partners')" class="text-slate-600 hover:text-slate-900">{{ t('partners.breadcrumb') }}</Link></li>
                             <li><Link :href="localizedRoute('about')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.about') }}</Link></li>
                             <li><Link :href="localizedRoute('contact')" class="text-slate-600 hover:text-slate-900">{{ t('landing.nav.contact') }}</Link></li>
                             <li><Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-slate-900">{{ t('landing.footer.gdpr') }}</Link></li>

@@ -1828,6 +1828,73 @@ return [
         'success' => 'Votre message a ete envoye avec succes. Nous vous repondrons dans les plus brefs delais.',
     ],
 
+    // Partners page
+    'partners' => [
+        'page_title' => 'Programme Partenaire Fiduciaires | faktur.lu',
+        'meta_description' => 'Rejoignez le programme partenaire faktur.lu. Portail comptable gratuit, exports Sage BOB et FID-Manager, FAIA automatique pour vos clients.',
+        'breadcrumb' => 'Partenaires',
+        'badge' => 'Programme Partenaire',
+        'title' => 'Fiduciaires, simplifiez la gestion comptable de vos clients',
+        'subtitle' => 'Vos clients utilisent faktur.lu pour leur facturation. Vous accedez a leurs donnees en lecture seule, avec des exports propres et un FAIA toujours conforme. Resultat : moins d\'encodage, plus de conseil.',
+
+        'advantages' => [
+            'title' => 'Ce que faktur.lu apporte a votre cabinet',
+            'subtitle' => 'Un portail comptable gratuit et des outils pensees pour les fiduciaires luxembourgeoises.',
+            'portal_title' => 'Portail comptable dedie',
+            'portal_desc' => 'Accedez aux factures, devis et ecritures de vos clients via un portail securise en lecture seule. Connexion separee avec 2FA.',
+            'exports_title' => 'Exports Sage BOB & FID-Manager',
+            'exports_desc' => 'Recuperez les ecritures comptables dans le format de votre logiciel. Plus besoin de ressaisir manuellement.',
+            'faia_title' => 'FAIA automatique et conforme',
+            'faia_desc' => 'Le fichier FAIA de vos clients est genere automatiquement a chaque facture. Toujours conforme aux exigences de l\'AED.',
+            'time_title' => 'Gagnez 3h par client et par mois',
+            'time_desc' => 'Moins d\'allers-retours, moins d\'erreurs de saisie. Concentrez-vous sur le conseil a valeur ajoutee.',
+            'multi_title' => 'Vue multi-clients',
+            'multi_desc' => 'Gerez plusieurs clients depuis un seul tableau de bord. Basculez d\'un dossier a l\'autre en un clic.',
+            'free_title' => 'Acces 100% gratuit',
+            'free_desc' => 'Le portail comptable est inclus gratuitement pour les fiduciaires. Aucun abonnement supplementaire.',
+        ],
+
+        'steps' => [
+            'title' => 'Comment ca marche ?',
+            'subtitle' => 'Trois etapes simples pour commencer a collaborer avec vos clients sur faktur.lu.',
+            'step1_title' => 'Votre client s\'inscrit',
+            'step1_desc' => 'Votre client cree son compte faktur.lu et commence a facturer. Il choisit son plan (Essentiel ou Pro).',
+            'step2_title' => 'Il vous invite comme comptable',
+            'step2_desc' => 'Depuis ses parametres, votre client vous envoie une invitation. Vous recevez un email avec un lien d\'acces securise.',
+            'step3_title' => 'Vous accedez a ses donnees',
+            'step3_desc' => 'Connectez-vous au portail comptable. Consultez les factures, telechargez les exports et le FAIA en un clic.',
+        ],
+
+        'faq' => [
+            'title' => 'Questions frequentes',
+            'q1' => 'Le portail comptable est-il vraiment gratuit ?',
+            'a1' => 'Oui, l\'acces au portail comptable est 100% gratuit pour les fiduciaires. Seul votre client paie son abonnement faktur.lu (a partir de 5 EUR/mois).',
+            'q2' => 'Puis-je modifier les factures de mes clients ?',
+            'a2' => 'Non, le portail est en lecture seule pour garantir l\'integrite des donnees. Vous pouvez consulter, telecharger et exporter, mais pas modifier.',
+            'q3' => 'Quels formats d\'export sont disponibles ?',
+            'a3' => 'Nous proposons des exports compatibles Sage BOB, FID-Manager, ainsi que des exports CSV et le fichier FAIA 2.01 conforme AED.',
+            'q4' => 'Combien de clients puis-je gerer ?',
+            'a4' => 'Il n\'y a pas de limite. Chaque client qui vous invite apparait dans votre tableau de bord comptable.',
+        ],
+
+        'form' => [
+            'title' => 'Devenez partenaire',
+            'subtitle' => 'Laissez-nous vos coordonnees et nous vous contacterons pour mettre en place votre acces.',
+            'company' => 'Nom du cabinet',
+            'company_placeholder' => 'Ex: Fiduciaire Dupont S.A.',
+            'name' => 'Nom du contact',
+            'name_placeholder' => 'Prenom Nom',
+            'email' => 'Email professionnel',
+            'clients_count' => 'Nombre de clients',
+            'clients_select' => 'Selectionnez...',
+            'message' => 'Message (optionnel)',
+            'message_placeholder' => 'Decrivez vos besoins ou posez vos questions...',
+            'submit' => 'Envoyer ma demande',
+            'sending' => 'Envoi en cours...',
+            'success' => 'Merci ! Votre demande a bien ete envoyee. Nous vous contacterons sous 48h.',
+        ],
+    ],
+
     // FAIA Validator (public page)
     'faia_validator' => [
         'page_title' => 'Validateur FAIA gratuit - Vérifiez vos fichiers Luxembourg | faktur.lu',
