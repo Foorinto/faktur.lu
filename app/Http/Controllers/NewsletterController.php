@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\NewsletterConfirmation;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class NewsletterController extends Controller
 {
@@ -17,27 +17,15 @@ class NewsletterController extends Controller
 
         $locale = app()->getLocale() ?: 'fr';
         $source = $request->input('source', 'footer');
+        $email = $validated['email'];
 
-        $subscriber = NewsletterSubscriber::subscribe($validated['email'], $locale, $source);
+        // Save locally
+        $subscriber = NewsletterSubscriber::subscribe($email, $locale, $source);
 
-        if (!$subscriber->isConfirmed()) {
-            Mail::to($subscriber->email)->send(new NewsletterConfirmation($subscriber));
-        }
+        // Add to Brevo list
+        $this->addToBrevo($email, $locale, $source);
 
         return back()->with('newsletter_success', true);
-    }
-
-    public function confirm(string $token)
-    {
-        $subscriber = NewsletterSubscriber::where('confirm_token', $token)->first();
-
-        if (!$subscriber) {
-            return redirect('/')->with('error', 'Lien de confirmation invalide.');
-        }
-
-        $subscriber->confirm();
-
-        return view('emails.newsletter-confirmed');
     }
 
     public function unsubscribe(string $email, string $hash)
@@ -53,5 +41,37 @@ class NewsletterController extends Controller
         }
 
         return view('emails.newsletter-unsubscribed');
+    }
+
+    protected function addToBrevo(string $email, string $locale, string $source): void
+    {
+        $apiKey = config('services.brevo.api_key');
+        $listId = (int) config('services.brevo.newsletter_list_id');
+
+        if (!$apiKey || !$listId) {
+            Log::warning('Brevo API key or list ID not configured');
+            return;
+        }
+
+        try {
+            $response = Http::withHeaders([
+                'api-key' => $apiKey,
+                'Content-Type' => 'application/json',
+            ])->post('https://api.brevo.com/v3/contacts', [
+                'email' => $email,
+                'listIds' => [$listId],
+                'attributes' => [
+                    'LOCALE' => $locale,
+                    'SOURCE' => $source,
+                ],
+                'updateEnabled' => true,
+            ]);
+
+            if ($response->failed()) {
+                Log::warning("Brevo API error: {$response->status()} - {$response->body()}");
+            }
+        } catch (\Exception $e) {
+            Log::error("Brevo API exception: {$e->getMessage()}");
+        }
     }
 }

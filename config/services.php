@@ -42,4 +42,9 @@ return [
         'essentiel_yearly' => env('STRIPE_ESSENTIEL_YEARLY_PRICE_ID'),
     ],
 
+    'brevo' => [
+        'api_key' => env('BREVO_API_KEY'),
+        'newsletter_list_id' => env('BREVO_NEWSLETTER_LIST_ID', 3),
+    ],
+
 ];
