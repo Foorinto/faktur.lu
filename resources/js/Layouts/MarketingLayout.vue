@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { Link, usePage, router } from '@inertiajs/vue3';
+import { Link, usePage, router, useForm } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -39,6 +39,18 @@ const handleClickOutside = (event) => {
     if (langMenuRef.value && !langMenuRef.value.contains(event.target)) {
         langMenuOpen.value = false;
     }
+};
+
+const newsletterForm = useForm({
+    email: '',
+    source: 'footer',
+});
+
+const submitNewsletter = () => {
+    newsletterForm.post(route('newsletter.subscribe'), {
+        preserveScroll: true,
+        onSuccess: () => newsletterForm.reset(),
+    });
 };
 
 onMounted(() => {
@@ -289,9 +301,37 @@ onUnmounted(() => {
                         <Link :href="localizedRoute('home')" class="flex items-center mb-4">
                             <ApplicationLogo size="sm" />
                         </Link>
-                        <p class="text-slate-600 text-sm max-w-xs">
+                        <p class="text-slate-600 text-sm max-w-xs mb-5">
                             {{ t('landing.footer.tagline') }}
                         </p>
+
+                        <!-- Newsletter -->
+                        <div v-if="page.props.flash?.newsletter_success" class="flex items-center gap-2 text-sm text-emerald-600 bg-emerald-50 rounded-lg px-3 py-2 max-w-xs">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {{ t('landing.footer.newsletter_success') }}
+                        </div>
+                        <form v-else @submit.prevent="submitNewsletter" class="max-w-xs">
+                            <p class="text-sm font-medium text-slate-700 mb-2">{{ t('landing.footer.newsletter_title') }}</p>
+                            <div class="flex gap-2">
+                                <input
+                                    v-model="newsletterForm.email"
+                                    type="email"
+                                    required
+                                    :placeholder="t('landing.footer.newsletter_placeholder')"
+                                    class="flex-1 min-w-0 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                />
+                                <button
+                                    type="submit"
+                                    :disabled="newsletterForm.processing"
+                                    class="bg-primary-500 hover:bg-primary-600 disabled:bg-slate-400 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors flex-shrink-0"
+                                >
+                                    {{ t('landing.footer.newsletter_button') }}
+                                </button>
+                            </div>
+                            <p v-if="newsletterForm.errors.email" class="mt-1 text-xs text-red-600">{{ newsletterForm.errors.email }}</p>
+                        </form>
                     </div>
                     <div>
                         <h4 class="font-semibold text-slate-900 mb-4">{{ t('landing.footer.product') }}</h4>

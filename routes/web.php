@@ -75,6 +75,15 @@ Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, 
     return view('emails.unsubscribed');
 })->name('drip.unsubscribe');
 
+// Newsletter routes (no auth required)
+Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])
+    ->middleware('throttle:6,1')
+    ->name('newsletter.subscribe');
+Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterController::class, 'confirm'])
+    ->name('newsletter.confirm');
+Route::get('/newsletter/unsubscribe/{email}/{hash}', [\App\Http\Controllers\NewsletterController::class, 'unsubscribe'])
+    ->name('newsletter.unsubscribe');
+
 /*
 |--------------------------------------------------------------------------
 | Sitemap Routes
