@@ -219,7 +219,7 @@ class SendDripEmails extends Command
                 ],
                 'review_request' => [
                     'subject' => 'Votre avis compte — aidez d\'autres entrepreneurs luxembourgeois',
-                    'body' => "Cela fait maintenant 30 jours que vous utilisez faktur.lu et nous esperons que l'outil vous simplifie la vie !\n\n**Pourriez-vous nous accorder 2 minutes ?**\n\nVotre avis sur Google aide d'autres independants et PME au Luxembourg a decouvrir faktur.lu. Chaque avis compte enormement pour une petite entreprise comme la notre.\n\n[**Laisser un avis sur Google**](:app_url)\n\nMerci infiniment pour votre confiance et votre soutien !",
+                    'body' => "Cela fait maintenant 30 jours que vous utilisez faktur.lu et nous esperons que l'outil vous simplifie la vie !\n\n**Pourriez-vous nous accorder 2 minutes ?**\n\nVotre avis sur Google aide d'autres independants et PME au Luxembourg a decouvrir faktur.lu. Chaque avis compte enormement pour une petite entreprise comme la notre.\n\n[**Laisser un avis sur Google**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nMerci infiniment pour votre confiance et votre soutien !",
                 ],
             ],
             'en' => [
@@ -261,7 +261,7 @@ class SendDripEmails extends Command
                 ],
                 'review_request' => [
                     'subject' => 'Your opinion matters — help other Luxembourg entrepreneurs',
-                    'body' => "You've been using faktur.lu for 30 days now and we hope it's making your life easier!\n\n**Could you spare 2 minutes?**\n\nYour Google review helps other freelancers and SMEs in Luxembourg discover faktur.lu. Every review means a lot to a small company like ours.\n\n[**Leave a Google review**](:app_url)\n\nThank you so much for your trust and support!",
+                    'body' => "You've been using faktur.lu for 30 days now and we hope it's making your life easier!\n\n**Could you spare 2 minutes?**\n\nYour Google review helps other freelancers and SMEs in Luxembourg discover faktur.lu. Every review means a lot to a small company like ours.\n\n[**Leave a Google review**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nThank you so much for your trust and support!",
                 ],
             ],
             'de' => [
@@ -303,7 +303,7 @@ class SendDripEmails extends Command
                 ],
                 'review_request' => [
                     'subject' => 'Ihre Meinung zaehlt — helfen Sie anderen luxemburgischen Unternehmern',
-                    'body' => "Sie nutzen faktur.lu seit 30 Tagen und wir hoffen, dass es Ihnen die Arbeit erleichtert!\n\n**Koennten Sie uns 2 Minuten schenken?**\n\nIhre Google-Bewertung hilft anderen Freiberuflern und KMU in Luxemburg, faktur.lu zu entdecken. Jede Bewertung bedeutet uns sehr viel.\n\n[**Google-Bewertung abgeben**](:app_url)\n\nVielen Dank fuer Ihr Vertrauen und Ihre Unterstuetzung!",
+                    'body' => "Sie nutzen faktur.lu seit 30 Tagen und wir hoffen, dass es Ihnen die Arbeit erleichtert!\n\n**Koennten Sie uns 2 Minuten schenken?**\n\nIhre Google-Bewertung hilft anderen Freiberuflern und KMU in Luxemburg, faktur.lu zu entdecken. Jede Bewertung bedeutet uns sehr viel.\n\n[**Google-Bewertung abgeben**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nVielen Dank fuer Ihr Vertrauen und Ihre Unterstuetzung!",
                 ],
             ],
             'lb' => [
@@ -345,7 +345,7 @@ class SendDripEmails extends Command
                 ],
                 'review_request' => [
                     'subject' => 'Är Meenung zielt — hëlleft aneren lëtzebuerger Entrepreneuren',
-                    'body' => "Dir benotzt faktur.lu zanter 30 Deeg a mir hoffen datt et Iech d'Aarbecht erliichtert!\n\n**Kéint Dir eis 2 Minutten schenken?**\n\nÄr Google-Bewäertung hëlleft anere Freelanceren a KMU zu Lëtzebuerg, faktur.lu z'entdecken. All Bewäertung bedeit eis ganz vill.\n\n[**Google-Bewäertung ofginn**](:app_url)\n\nMerci fir Äert Vertrauen an Är Ënnerstëtzung!",
+                    'body' => "Dir benotzt faktur.lu zanter 30 Deeg a mir hoffen datt et Iech d'Aarbecht erliichtert!\n\n**Kéint Dir eis 2 Minutten schenken?**\n\nÄr Google-Bewäertung hëlleft anere Freelanceren a KMU zu Lëtzebuerg, faktur.lu z'entdecken. All Bewäertung bedeit eis ganz vill.\n\n[**Google-Bewäertung ofginn**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nMerci fir Äert Vertrauen an Är Ënnerstëtzung!",
                 ],
             ],
         ];
