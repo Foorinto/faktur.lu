@@ -116,7 +116,7 @@ class SendDripEmails extends Command
     {
         return match ($emailKey) {
             // Skip "first invoice" email if user already created one
-            'first_invoice' => $user->invoices()->exists(),
+            'first_invoice' => $user->userInvoices()->exists(),
             // Skip pricing/urgency/last_chance if already subscribed
             'pricing', 'urgency', 'last_chance' => $user->subscribed('default'),
             // Skip expired offer if user subscribed before trial ended
