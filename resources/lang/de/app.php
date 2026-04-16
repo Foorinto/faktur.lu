@@ -269,7 +269,7 @@ return [
     'to' => 'bis',
     'of' => 'von',
     'results' => 'Ergebnisse',
-    'showing_x_to_y_of_z' => 'Anzeige von :from bis :to von :total :items',
+    'showing_x_to_y_of_z' => 'Anzeige von :from bis :to von :count :items',
 
     // Dates
     'today' => 'Heute',

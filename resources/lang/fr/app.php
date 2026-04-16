@@ -328,7 +328,7 @@ return [
     'to' => 'à',
     'of' => 'sur',
     'results' => 'résultats',
-    'showing_x_to_y_of_z' => 'Affichage de :from à :to sur :total :items',
+    'showing_x_to_y_of_z' => 'Affichage de :from à :to sur :count :items',
 
     // Dates
     'today' => 'Aujourd\'hui',

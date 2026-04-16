@@ -1,19 +1,19 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import StatusBadge from '@/Components/CRM/StatusBadge.vue';
-import EmptyState from '@/Components/EmptyState.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { ref, watch, computed, onMounted } from 'vue';
-import debounce from 'lodash/debounce';
-import { useTranslations } from '@/Composables/useTranslations';
-import { useAvatarColor } from '@/Composables/useAvatarColor';
-import { useTour } from '@/Composables/useTour';
+import AppLayout from "@/Layouts/AppLayout.vue";
+import StatusBadge from "@/Components/CRM/StatusBadge.vue";
+import EmptyState from "@/Components/EmptyState.vue";
+import { Head, Link, router } from "@inertiajs/vue3";
+import { ref, watch, computed, onMounted } from "vue";
+import debounce from "lodash/debounce";
+import { useTranslations } from "@/Composables/useTranslations";
+import { useAvatarColor } from "@/Composables/useAvatarColor";
+import { useTour } from "@/Composables/useTour";
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 const { startTour } = useTour();
 
-onMounted(() => setTimeout(() => startTour('clients'), 600));
+onMounted(() => setTimeout(() => startTour("clients"), 600));
 
 const props = defineProps({
     clients: { type: Object, required: true },
@@ -25,10 +25,10 @@ const props = defineProps({
     clientSources: { type: Array, default: () => [] },
 });
 
-const search = ref(props.filters.search || '');
-const typeFilter = ref(props.filters.type || '');
-const statusFilter = ref(props.filters.status || '');
-const tagFilter = ref(props.filters.tag || '');
+const search = ref(props.filters.search || "");
+const typeFilter = ref(props.filters.type || "");
+const statusFilter = ref(props.filters.status || "");
+const tagFilter = ref(props.filters.tag || "");
 
 const totalCount = computed(() => {
     return Object.values(props.statusCounts).reduce((sum, c) => sum + c, 0);
@@ -36,63 +36,95 @@ const totalCount = computed(() => {
 
 const statusTabs = computed(() => {
     return [
-        { value: '', label: t('crm.all_statuses'), count: totalCount.value },
-        { value: 'prospect', label: t('crm.status_prospect'), count: props.statusCounts.prospect || 0 },
-        { value: 'contacted', label: t('crm.status_contacted'), count: props.statusCounts.contacted || 0 },
-        { value: 'discussing', label: t('crm.status_discussing'), count: props.statusCounts.discussing || 0 },
-        { value: 'active', label: t('crm.status_active'), count: props.statusCounts.active || 0 },
-        { value: 'inactive', label: t('crm.status_inactive'), count: props.statusCounts.inactive || 0 },
-        { value: 'lost', label: t('crm.status_lost'), count: props.statusCounts.lost || 0 },
+        { value: "", label: t("crm.all_statuses"), count: totalCount.value },
+        {
+            value: "prospect",
+            label: t("crm.status_prospect"),
+            count: props.statusCounts.prospect || 0,
+        },
+        {
+            value: "contacted",
+            label: t("crm.status_contacted"),
+            count: props.statusCounts.contacted || 0,
+        },
+        {
+            value: "discussing",
+            label: t("crm.status_discussing"),
+            count: props.statusCounts.discussing || 0,
+        },
+        {
+            value: "active",
+            label: t("crm.status_active"),
+            count: props.statusCounts.active || 0,
+        },
+        {
+            value: "inactive",
+            label: t("crm.status_inactive"),
+            count: props.statusCounts.inactive || 0,
+        },
+        {
+            value: "lost",
+            label: t("crm.status_lost"),
+            count: props.statusCounts.lost || 0,
+        },
     ];
 });
 
 const updateFilters = debounce(() => {
-    router.get(route('clients.index'), {
-        search: search.value || undefined,
-        type: typeFilter.value || undefined,
-        status: statusFilter.value || undefined,
-        tag: tagFilter.value || undefined,
-    }, {
-        preserveState: true,
-        replace: true,
-    });
+    router.get(
+        route("clients.index"),
+        {
+            search: search.value || undefined,
+            type: typeFilter.value || undefined,
+            status: statusFilter.value || undefined,
+            tag: tagFilter.value || undefined,
+        },
+        {
+            preserveState: true,
+            replace: true,
+        },
+    );
 }, 300);
 
 watch([search, typeFilter, tagFilter], updateFilters);
 
 const setStatus = (status) => {
     statusFilter.value = status;
-    router.get(route('clients.index'), {
-        search: search.value || undefined,
-        type: typeFilter.value || undefined,
-        status: status || undefined,
-        tag: tagFilter.value || undefined,
-    }, {
-        preserveState: true,
-        replace: true,
-    });
+    router.get(
+        route("clients.index"),
+        {
+            search: search.value || undefined,
+            type: typeFilter.value || undefined,
+            status: status || undefined,
+            tag: tagFilter.value || undefined,
+        },
+        {
+            preserveState: true,
+            replace: true,
+        },
+    );
 };
 
 const deleteClient = (client) => {
-    if (confirm(t('confirm_delete_name', { name: client.name }))) {
-        router.delete(route('clients.destroy', client.id));
+    if (confirm(t("confirm_delete_name", { name: client.name }))) {
+        router.delete(route("clients.destroy", client.id));
     }
 };
 
 const getTypeLabel = (type) => {
-    return type === 'b2b' ? t('company') : t('individual');
+    return type === "b2b" ? t("company") : t("individual");
 };
 
 const getTypeBadgeClass = (type) => {
-    return type === 'b2b'
-        ? 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
-        : 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300';
+    return type === "b2b"
+        ? "bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300"
+        : "bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300";
 };
 
 const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
+    return new Intl.NumberFormat("fr-FR", {
+        style: "currency",
+        currency: "EUR",
     }).format(amount);
 };
 
@@ -105,7 +137,7 @@ const showNewDropdown = ref(false);
     <AppLayout>
         <template #header>
             <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                {{ t('clients') }}
+                {{ t("clients") }}
             </h1>
         </template>
         <template #header-actions>
@@ -114,30 +146,49 @@ const showNewDropdown = ref(false);
                     @click="showNewDropdown = !showNewDropdown"
                     class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
                 >
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                    <svg
+                        class="-ml-0.5 mr-1.5 h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                        />
                     </svg>
-                    {{ t('new_client') }}
-                    <svg class="ml-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    {{ t("new_client") }}
+                    <svg
+                        class="ml-1.5 h-4 w-4"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                            clip-rule="evenodd"
+                        />
                     </svg>
                 </button>
-                <div v-if="showNewDropdown" class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-gray-200 dark:bg-surface-card dark:ring-gray-700">
+                <div
+                    v-if="showNewDropdown"
+                    class="absolute right-0 z-10 mt-2 w-48 rounded-xl bg-white shadow-lg ring-1 ring-gray-200 dark:bg-surface-card dark:ring-gray-700"
+                >
                     <Link
                         :href="route('clients.create', { status: 'active' })"
                         @click="showNewDropdown = false"
                         class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800 rounded-t-xl"
                     >
-                        {{ t('new_client') }}
+                        {{ t("new_client") }}
                     </Link>
                     <Link
                         :href="route('clients.create', { status: 'prospect' })"
                         @click="showNewDropdown = false"
                         class="block px-4 py-2 text-sm text-slate-700 hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-gray-800"
                     >
-                        {{ t('crm.new_prospect') }}
+                        {{ t("crm.new_prospect") }}
                     </Link>
-                    <div class="border-t border-gray-100 dark:border-gray-700"></div>
+                    <div
+                        class="border-t border-gray-100 dark:border-gray-700"
+                    ></div>
                     <Link
                         :href="route('clients.import.index')"
                         @click="showNewDropdown = false"
@@ -150,8 +201,14 @@ const showNewDropdown = ref(false);
         </template>
 
         <!-- Status tabs -->
-        <div data-tour="clients-tabs" class="mb-4 border-b border-gray-200 dark:border-gray-700">
-            <nav class="flex space-x-2 sm:space-x-4 overflow-x-auto" aria-label="Status tabs">
+        <div
+            data-tour="clients-tabs"
+            class="mb-4 border-b border-gray-200 dark:border-gray-700"
+        >
+            <nav
+                class="flex space-x-2 sm:space-x-4 overflow-x-auto"
+                aria-label="Status tabs"
+            >
                 <button
                     v-for="tab in statusTabs"
                     :key="tab.value"
@@ -160,7 +217,7 @@ const showNewDropdown = ref(false);
                         'whitespace-nowrap py-3 px-1 border-b-2 text-sm font-medium transition-colors',
                         statusFilter === tab.value
                             ? 'border-accent-rose text-accent-rose dark:text-pink-400'
-                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300',
                     ]"
                 >
                     {{ tab.label }}
@@ -170,7 +227,7 @@ const showNewDropdown = ref(false);
                             'ml-1.5 rounded-full px-2 py-0.5 text-xs',
                             statusFilter === tab.value
                                 ? 'bg-pink-100 text-accent-rose dark:bg-pink-900/30 dark:text-pink-300'
-                                : 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400'
+                                : 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400',
                         ]"
                     >
                         {{ tab.count }}
@@ -180,12 +237,27 @@ const showNewDropdown = ref(false);
         </div>
 
         <!-- Filters -->
-        <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div
+            class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
             <div class="flex flex-1 gap-4">
-                <div data-tour="clients-search" class="relative flex-1 max-w-md">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                <div
+                    data-tour="clients-search"
+                    class="relative flex-1 max-w-md"
+                >
+                    <div
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                    >
+                        <svg
+                            class="h-5 w-5 text-slate-400"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                clip-rule="evenodd"
+                            />
                         </svg>
                     </div>
                     <input
@@ -200,8 +272,12 @@ const showNewDropdown = ref(false);
                     v-model="typeFilter"
                     class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                 >
-                    <option value="">{{ t('all_types') }}</option>
-                    <option v-for="type in clientTypes" :key="type.value" :value="type.value">
+                    <option value="">{{ t("all_types") }}</option>
+                    <option
+                        v-for="type in clientTypes"
+                        :key="type.value"
+                        :value="type.value"
+                    >
                         {{ type.label }}
                     </option>
                 </select>
@@ -211,7 +287,7 @@ const showNewDropdown = ref(false);
                     v-model="tagFilter"
                     class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
                 >
-                    <option value="">{{ t('crm.all_tags') }}</option>
+                    <option value="">{{ t("crm.all_tags") }}</option>
                     <option v-for="tag in tags" :key="tag.id" :value="tag.id">
                         {{ tag.name }}
                     </option>
@@ -220,37 +296,67 @@ const showNewDropdown = ref(false);
         </div>
 
         <!-- Clients list -->
-        <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+        <div
+            class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+        >
+            <table
+                class="min-w-full divide-y divide-slate-200 dark:divide-slate-700"
+            >
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
-                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
-                            {{ t('client') }}
+                        <th
+                            scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6"
+                        >
+                            {{ t("client") }}
                         </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white sm:table-cell">
-                            {{ t('crm.status') }}
+                        <th
+                            scope="col"
+                            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white sm:table-cell"
+                        >
+                            {{ t("crm.status") }}
                         </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">
-                            {{ t('email') }}
+                        <th
+                            scope="col"
+                            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell"
+                        >
+                            {{ t("email") }}
                         </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white sm:table-cell">
-                            {{ t('client_type') }}
+                        <th
+                            scope="col"
+                            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white sm:table-cell"
+                        >
+                            {{ t("client_type") }}
                         </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">
-                            {{ t('country') }}
+                        <th
+                            scope="col"
+                            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell"
+                        >
+                            {{ t("country") }}
                         </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell">
-                            {{ t('total_invoiced') }}
+                        <th
+                            scope="col"
+                            class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell"
+                        >
+                            {{ t("total_invoiced") }}
                         </th>
-                        <th scope="col" class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell">
-                            {{ t('total_paid') }}
+                        <th
+                            scope="col"
+                            class="hidden px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white xl:table-cell"
+                        >
+                            {{ t("total_paid") }}
                         </th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                            <span class="sr-only">{{ t('actions') }}</span>
+                        <th
+                            scope="col"
+                            class="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                        >
+                            <span class="sr-only">{{ t("actions") }}</span>
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
+                <tbody
+                    class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card"
+                >
                     <tr v-if="clients.data.length === 0">
                         <td colspan="8">
                             <EmptyState
@@ -264,13 +370,26 @@ const showNewDropdown = ref(false);
                             />
                         </td>
                     </tr>
-                    <tr v-for="client in clients.data" :key="client.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <tr
+                        v-for="client in clients.data"
+                        :key="client.id"
+                        class="hover:bg-gray-50 dark:hover:bg-gray-800"
+                    >
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
                             <div class="flex items-center">
                                 <div class="h-10 w-10 flex-shrink-0">
-                                    <div :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(client.name)]">
+                                    <div
+                                        :class="[
+                                            'flex h-10 w-10 items-center justify-center rounded-xl',
+                                            getAvatarClasses(client.name),
+                                        ]"
+                                    >
                                         <span class="text-sm font-bold">
-                                            {{ client.name.charAt(0).toUpperCase() }}
+                                            {{
+                                                client.name
+                                                    .charAt(0)
+                                                    .toUpperCase()
+                                            }}
                                         </span>
                                     </div>
                                 </div>
@@ -281,16 +400,26 @@ const showNewDropdown = ref(false);
                                     >
                                         {{ client.name }}
                                     </Link>
-                                    <div class="text-sm text-slate-500 dark:text-slate-400 lg:hidden">
+                                    <div
+                                        class="text-sm text-slate-500 dark:text-slate-400 lg:hidden"
+                                    >
                                         {{ client.email }}
                                     </div>
                                     <!-- Tags -->
-                                    <div v-if="client.tags && client.tags.length > 0" class="mt-1 flex flex-wrap gap-1">
+                                    <div
+                                        v-if="
+                                            client.tags &&
+                                            client.tags.length > 0
+                                        "
+                                        class="mt-1 flex flex-wrap gap-1"
+                                    >
                                         <span
                                             v-for="tag in client.tags"
                                             :key="tag.id"
                                             class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium text-white"
-                                            :style="{ backgroundColor: tag.color }"
+                                            :style="{
+                                                backgroundColor: tag.color,
+                                            }"
                                         >
                                             {{ tag.name }}
                                         </span>
@@ -298,13 +427,19 @@ const showNewDropdown = ref(false);
                                 </div>
                             </div>
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm sm:table-cell"
+                        >
                             <StatusBadge :status="client.status || 'active'" />
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 lg:table-cell">
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 lg:table-cell"
+                        >
                             {{ client.email }}
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm sm:table-cell"
+                        >
                             <span
                                 :class="getTypeBadgeClass(client.type)"
                                 class="inline-flex items-center rounded-xl px-2.5 py-0.5 text-xs font-medium"
@@ -312,26 +447,48 @@ const showNewDropdown = ref(false);
                                 {{ getTypeLabel(client.type) }}
                             </span>
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell">
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell"
+                        >
                             {{ client.country_code }}
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-right text-slate-900 dark:text-white xl:table-cell">
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm text-right text-slate-900 dark:text-white xl:table-cell"
+                        >
                             {{ formatCurrency(client.total_invoiced || 0) }}
                         </td>
-                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-right xl:table-cell">
-                            <span :class="client.total_paid > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'">
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm text-right xl:table-cell"
+                        >
+                            <span
+                                :class="
+                                    client.total_paid > 0
+                                        ? 'text-emerald-600 dark:text-emerald-400'
+                                        : 'text-slate-500 dark:text-slate-400'
+                                "
+                            >
                                 {{ formatCurrency(client.total_paid || 0) }}
                             </span>
                         </td>
-                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div class="flex items-center justify-end space-x-1">
+                        <td
+                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                        >
+                            <div
+                                class="flex items-center justify-end space-x-1"
+                            >
                                 <Link
                                     :href="route('clients.edit', client.id)"
                                     class="rounded-lg p-2 text-slate-400 hover:bg-gray-50 hover:text-primary-600 dark:hover:bg-gray-800 dark:hover:text-primary-400"
                                     :title="t('edit')"
                                 >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"
+                                        />
                                     </svg>
                                 </Link>
                                 <button
@@ -340,8 +497,16 @@ const showNewDropdown = ref(false);
                                     class="rounded-lg p-2 text-slate-400 hover:bg-pink-50 hover:text-pink-600 dark:hover:bg-pink-900/20 dark:hover:text-pink-400"
                                     :title="t('delete')"
                                 >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                                    <svg
+                                        class="h-5 w-5"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
+                                            clip-rule="evenodd"
+                                        />
                                     </svg>
                                 </button>
                             </div>
@@ -352,9 +517,19 @@ const showNewDropdown = ref(false);
         </div>
 
         <!-- Pagination -->
-        <div v-if="clients.links && clients.links.length > 3" class="mt-6 flex items-center justify-between">
+        <div
+            v-if="clients.links && clients.links.length > 3"
+            class="mt-6 flex items-center justify-between"
+        >
             <div class="text-sm text-slate-700 dark:text-slate-400">
-                {{ t('showing_x_to_y_of_z', { from: clients.from, to: clients.to, total: clients.total, items: t('clients').toLowerCase() }) }}
+                {{
+                    t("showing_x_to_y_of_z", {
+                        from: clients.from,
+                        to: clients.to,
+                        count: clients.total,
+                        items: t("clients").toLowerCase(),
+                    })
+                }}
             </div>
             <nav class="isolate inline-flex -space-x-px rounded-xl shadow-sm">
                 <template v-for="(link, index) in clients.links" :key="index">
@@ -367,7 +542,9 @@ const showNewDropdown = ref(false);
                                 : 'text-slate-900 ring-1 ring-inset ring-gray-200 hover:bg-gray-50 dark:text-slate-300 dark:ring-slate-600 dark:hover:bg-gray-800',
                             'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                             index === 0 ? 'rounded-l-xl' : '',
-                            index === clients.links.length - 1 ? 'rounded-r-xl' : '',
+                            index === clients.links.length - 1
+                                ? 'rounded-r-xl'
+                                : '',
                         ]"
                         v-html="link.label"
                         preserve-scroll
@@ -377,7 +554,9 @@ const showNewDropdown = ref(false);
                         :class="[
                             'relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-400 dark:text-slate-500',
                             index === 0 ? 'rounded-l-xl' : '',
-                            index === clients.links.length - 1 ? 'rounded-r-xl' : '',
+                            index === clients.links.length - 1
+                                ? 'rounded-r-xl'
+                                : '',
                         ]"
                         v-html="link.label"
                     />

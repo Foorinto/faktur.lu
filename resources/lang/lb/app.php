@@ -269,7 +269,7 @@ return [
     'to' => 'bis',
     'of' => 'vun',
     'results' => 'Resultater',
-    'showing_x_to_y_of_z' => 'Weist :from bis :to vun :total :items',
+    'showing_x_to_y_of_z' => 'Weist :from bis :to vun :count :items',
 
     // Dates
     'today' => 'Haut',

@@ -328,7 +328,7 @@ return [
     'to' => 'to',
     'of' => 'of',
     'results' => 'results',
-    'showing_x_to_y_of_z' => 'Showing :from to :to of :total :items',
+    'showing_x_to_y_of_z' => 'Showing :from to :to of :count :items',
 
     // Dates
     'today' => 'Today',
