@@ -33,7 +33,7 @@ class NewsletterSubscriber extends Model
 
     public static function subscribe(string $email, string $locale = 'fr', string $source = 'footer'): static
     {
-        $subscriber = static::withTrashed()->firstOrNew(['email' => $email]);
+        $subscriber = static::firstOrNew(['email' => $email]);
 
         $subscriber->locale = $locale;
         $subscriber->source = $source;

@@ -25,7 +25,7 @@ class NewsletterController extends Controller
         // Add to Brevo list
         $this->addToBrevo($email, $locale, $source);
 
-        return back()->with('newsletter_success', true);
+        return back()->with('success', 'newsletter');
     }
 
     public function unsubscribe(string $email, string $hash)
