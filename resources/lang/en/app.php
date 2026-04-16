@@ -1009,6 +1009,12 @@ return [
             'gdpr' => 'GDPR',
             'intra_vat' => 'Intra-Community VAT',
         ],
+        'faia_banner' => [
+            'title' => 'Free FAIA Validator + Built-in FAIA Export',
+            'description' => 'Verify your FAIA files online for free. And with faktur.lu, automatically generate compliant FAIA exports with every invoice.',
+            'cta' => 'Try the validator',
+        ],
+
         'features' => [
             'title' => 'Features',
             'heading' => 'Everything you need',

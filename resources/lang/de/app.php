@@ -950,6 +950,11 @@ return [
             'gdpr' => 'DSGVO',
             'intra_vat' => 'Innergemeinschaftliche MwSt',
         ],
+        'faia_banner' => [
+            'title' => 'Kostenloser FAIA-Validator + integrierter FAIA-Export',
+            'description' => 'Überprüfen Sie Ihre FAIA-Dateien kostenlos online. Mit faktur.lu generieren Sie automatisch konforme FAIA-Exporte bei jeder Rechnung.',
+            'cta' => 'Validator testen',
+        ],
         'features' => [
             'title' => 'Funktionen',
             'heading' => 'Alles was Sie brauchen',

@@ -1013,6 +1013,12 @@ return [
             'intra_vat' => 'TVA intracommunautaire',
         ],
 
+        'faia_banner' => [
+            'title' => 'Validateur FAIA gratuit + Export FAIA intégré',
+            'description' => 'Vérifiez vos fichiers FAIA en ligne gratuitement. Et avec faktur.lu, générez automatiquement des exports FAIA conformes à chaque facture.',
+            'cta' => 'Tester le validateur',
+        ],
+
         'features' => [
             'title' => 'FONCTIONNALITÉS',
             'heading' => 'Tout ce dont vous avez besoin',

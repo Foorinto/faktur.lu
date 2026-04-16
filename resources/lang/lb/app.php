@@ -950,6 +950,11 @@ return [
             'gdpr' => 'RGPD',
             'intra_vat' => 'Intrakommunautär TVA',
         ],
+        'faia_banner' => [
+            'title' => 'Gratis FAIA-Validator + integréierten FAIA-Export',
+            'description' => 'Préift Är FAIA-Fichieren gratis online. Mat faktur.lu generéiert Dir automatesch konform FAIA-Exporter bei all Rechnung.',
+            'cta' => 'Validator testen',
+        ],
         'features' => [
             'title' => 'Funktiounen',
             'heading' => 'Alles wat Dir braucht',
