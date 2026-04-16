@@ -71,7 +71,7 @@ class SendDripEmails extends Command
             }
 
             // Already sent
-            if (DripEmail::wasSent($user->id, $emailKey)) {
+            if (DripEmail::wasHandled($user->id, $emailKey)) {
                 continue;
             }
 
@@ -104,7 +104,7 @@ class SendDripEmails extends Command
     protected function hasNewerPendingEmail(int $userId, int $daysSinceRegistration, int $currentDay): bool
     {
         foreach ($this->sequence as $day => $emailKey) {
-            if ($day > $currentDay && $day <= $daysSinceRegistration && !DripEmail::wasSent($userId, $emailKey)) {
+            if ($day > $currentDay && $day <= $daysSinceRegistration && !DripEmail::wasHandled($userId, $emailKey)) {
                 return true;
             }
         }

@@ -23,21 +23,18 @@ class DripEmail extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function wasSent(int $userId, string $emailKey): bool
+    public static function wasHandled(int $userId, string $emailKey): bool
     {
         return static::where('user_id', $userId)
             ->where('email_key', $emailKey)
-            ->where('status', 'sent')
             ->exists();
     }
 
     public static function record(int $userId, string $emailKey, string $status = 'sent'): static
     {
-        return static::create([
-            'user_id' => $userId,
-            'email_key' => $emailKey,
-            'status' => $status,
-            'sent_at' => now(),
-        ]);
+        return static::updateOrCreate(
+            ['user_id' => $userId, 'email_key' => $emailKey],
+            ['status' => $status, 'sent_at' => now()],
+        );
     }
 }
