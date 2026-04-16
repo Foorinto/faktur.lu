@@ -45,6 +45,7 @@ return [
     'brevo' => [
         'api_key' => env('BREVO_API_KEY'),
         'newsletter_list_id' => env('BREVO_NEWSLETTER_LIST_ID', 3),
+        'doi_template_id' => env('BREVO_DOI_TEMPLATE_ID', 1),
     ],
 
 ];
