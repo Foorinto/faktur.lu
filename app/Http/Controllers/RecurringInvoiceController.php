@@ -1,0 +1,196 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Client;
+use App\Models\RecurringInvoice;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class RecurringInvoiceController extends Controller
+{
+    public function index(): Response
+    {
+        $recurringInvoices = RecurringInvoice::where('user_id', auth()->id())
+            ->with(['client:id,name', 'items'])
+            ->latest()
+            ->paginate(20);
+
+        return Inertia::render('RecurringInvoices/Index', [
+            'recurringInvoices' => $recurringInvoices,
+        ]);
+    }
+
+    public function create(): Response
+    {
+        $clients = Client::where('user_id', auth()->id())
+            ->orderBy('name')
+            ->get(['id', 'name', 'currency', 'vat_number', 'default_vat_rate']);
+
+        return Inertia::render('RecurringInvoices/Create', [
+            'clients' => $clients,
+            'frequencies' => RecurringInvoice::FREQUENCIES,
+            'defaultVatRate' => auth()->user()->businessSettings?->default_vat_rate ?? 17,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'title' => 'nullable|string|max:255',
+            'frequency' => 'required|in:' . implode(',', RecurringInvoice::FREQUENCIES),
+            'next_invoice_date' => 'required|date|after_or_equal:today',
+            'ends_at' => 'nullable|date|after:next_invoice_date',
+            'auto_finalize' => 'boolean',
+            'auto_send' => 'boolean',
+            'payment_delay_days' => 'integer|min:0|max:365',
+            'notes' => 'nullable|string|max:5000',
+            'vat_mention' => 'nullable|string|max:500',
+            'footer_message' => 'nullable|string|max:5000',
+            'currency' => 'string|size:3',
+            'items' => 'required|array|min:1',
+            'items.*.title' => 'required|string|max:255',
+            'items.*.description' => 'nullable|string',
+            'items.*.quantity' => 'required|numeric|min:0.0001',
+            'items.*.unit' => 'required|string',
+            'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.vat_rate' => 'required|numeric|min:0|max:100',
+        ]);
+
+        // Verify client belongs to user
+        $client = Client::where('id', $validated['client_id'])
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $recurring = RecurringInvoice::create([
+            'user_id' => auth()->id(),
+            'client_id' => $validated['client_id'],
+            'title' => $validated['title'] ?? null,
+            'frequency' => $validated['frequency'],
+            'next_invoice_date' => $validated['next_invoice_date'],
+            'ends_at' => $validated['ends_at'] ?? null,
+            'auto_finalize' => $validated['auto_finalize'] ?? false,
+            'auto_send' => $validated['auto_send'] ?? false,
+            'payment_delay_days' => $validated['payment_delay_days'] ?? 30,
+            'notes' => $validated['notes'] ?? null,
+            'vat_mention' => $validated['vat_mention'] ?? null,
+            'footer_message' => $validated['footer_message'] ?? null,
+            'currency' => $validated['currency'] ?? 'EUR',
+        ]);
+
+        foreach ($validated['items'] as $index => $item) {
+            $recurring->items()->create([
+                'title' => $item['title'],
+                'description' => $item['description'] ?? null,
+                'quantity' => $item['quantity'],
+                'unit' => $item['unit'],
+                'unit_price' => $item['unit_price'],
+                'vat_rate' => $item['vat_rate'],
+                'sort_order' => $index,
+            ]);
+        }
+
+        return redirect()->route('recurring-invoices.index')
+            ->with('success', 'Facturation récurrente créée.');
+    }
+
+    public function edit(RecurringInvoice $recurringInvoice): Response
+    {
+        abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
+
+        $recurringInvoice->load('items');
+
+        $clients = Client::where('user_id', auth()->id())
+            ->orderBy('name')
+            ->get(['id', 'name', 'currency', 'vat_number', 'default_vat_rate']);
+
+        return Inertia::render('RecurringInvoices/Edit', [
+            'recurringInvoice' => $recurringInvoice,
+            'clients' => $clients,
+            'frequencies' => RecurringInvoice::FREQUENCIES,
+            'defaultVatRate' => auth()->user()->businessSettings?->default_vat_rate ?? 17,
+        ]);
+    }
+
+    public function update(Request $request, RecurringInvoice $recurringInvoice)
+    {
+        abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
+
+        $validated = $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'title' => 'nullable|string|max:255',
+            'frequency' => 'required|in:' . implode(',', RecurringInvoice::FREQUENCIES),
+            'next_invoice_date' => 'required|date',
+            'ends_at' => 'nullable|date|after:next_invoice_date',
+            'is_active' => 'boolean',
+            'auto_finalize' => 'boolean',
+            'auto_send' => 'boolean',
+            'payment_delay_days' => 'integer|min:0|max:365',
+            'notes' => 'nullable|string|max:5000',
+            'vat_mention' => 'nullable|string|max:500',
+            'footer_message' => 'nullable|string|max:5000',
+            'currency' => 'string|size:3',
+            'items' => 'required|array|min:1',
+            'items.*.title' => 'required|string|max:255',
+            'items.*.description' => 'nullable|string',
+            'items.*.quantity' => 'required|numeric|min:0.0001',
+            'items.*.unit' => 'required|string',
+            'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.vat_rate' => 'required|numeric|min:0|max:100',
+        ]);
+
+        $recurringInvoice->update([
+            'client_id' => $validated['client_id'],
+            'title' => $validated['title'] ?? null,
+            'frequency' => $validated['frequency'],
+            'next_invoice_date' => $validated['next_invoice_date'],
+            'ends_at' => $validated['ends_at'] ?? null,
+            'is_active' => $validated['is_active'] ?? true,
+            'auto_finalize' => $validated['auto_finalize'] ?? false,
+            'auto_send' => $validated['auto_send'] ?? false,
+            'payment_delay_days' => $validated['payment_delay_days'] ?? 30,
+            'notes' => $validated['notes'] ?? null,
+            'vat_mention' => $validated['vat_mention'] ?? null,
+            'footer_message' => $validated['footer_message'] ?? null,
+            'currency' => $validated['currency'] ?? 'EUR',
+        ]);
+
+        // Replace items
+        $recurringInvoice->items()->delete();
+        foreach ($validated['items'] as $index => $item) {
+            $recurringInvoice->items()->create([
+                'title' => $item['title'],
+                'description' => $item['description'] ?? null,
+                'quantity' => $item['quantity'],
+                'unit' => $item['unit'],
+                'unit_price' => $item['unit_price'],
+                'vat_rate' => $item['vat_rate'],
+                'sort_order' => $index,
+            ]);
+        }
+
+        return redirect()->route('recurring-invoices.index')
+            ->with('success', 'Facturation récurrente mise à jour.');
+    }
+
+    public function destroy(RecurringInvoice $recurringInvoice)
+    {
+        abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
+
+        $recurringInvoice->delete();
+
+        return redirect()->route('recurring-invoices.index')
+            ->with('success', 'Facturation récurrente supprimée.');
+    }
+
+    public function toggleActive(RecurringInvoice $recurringInvoice)
+    {
+        abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
+
+        $recurringInvoice->update(['is_active' => !$recurringInvoice->is_active]);
+
+        return back()->with('success', $recurringInvoice->is_active ? 'Activée.' : 'Désactivée.');
+    }
+}

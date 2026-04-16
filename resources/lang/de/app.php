@@ -4,6 +4,7 @@ return [
     // Navigation
     'dashboard' => 'Dashboard',
     'invoices' => 'Rechnungen',
+    'recurring_invoices' => 'Wiederkehrend',
     'quotes' => 'Angebote',
     'clients' => 'Kunden',
     'expenses' => 'Ausgaben',

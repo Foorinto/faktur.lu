@@ -14,6 +14,7 @@ return [
     // Navigation
     'dashboard' => 'Dashboard',
     'invoices' => 'Invoices',
+    'recurring_invoices' => 'Recurring',
     'quotes' => 'Quotes',
     'clients' => 'Clients',
     'expenses' => 'Expenses',

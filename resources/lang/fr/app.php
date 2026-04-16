@@ -14,6 +14,7 @@ return [
     // Navigation
     'dashboard' => 'Tableau de bord',
     'invoices' => 'Factures',
+    'recurring_invoices' => 'Récurrentes',
     'quotes' => 'Devis',
     'clients' => 'Clients',
     'expenses' => 'Dépenses',

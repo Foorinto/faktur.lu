@@ -10,6 +10,7 @@ const currentRoute = computed(() => usePage().url);
 const links = [
     { label: () => t('quotes'), href: 'quotes.index', match: ['/quotes'] },
     { label: () => t('invoices'), href: 'invoices.index', match: ['/invoices'] },
+    { label: () => t('recurring_invoices'), href: 'recurring-invoices.index', match: ['/recurring-invoices'] },
 ];
 
 const isActive = (match) => {

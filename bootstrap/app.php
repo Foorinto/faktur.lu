@@ -22,6 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Generate recurring invoices daily at 6:00 AM
+        $schedule->command('recurring:generate')
+            ->dailyAt('06:00')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Send drip campaign emails daily at 9:30 AM
         $schedule->command('drip:send')
             ->dailyAt('09:30')

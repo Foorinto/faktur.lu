@@ -371,6 +371,10 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
         Route::post('/invoices/{invoice}/credit-note', [InvoiceController::class, 'createCreditNote'])->name('invoices.credit-note');
 
+        // Recurring Invoices
+        Route::resource('recurring-invoices', \App\Http\Controllers\RecurringInvoiceController::class)->except(['show']);
+        Route::post('/recurring-invoices/{recurring_invoice}/toggle', [\App\Http\Controllers\RecurringInvoiceController::class, 'toggleActive'])->name('recurring-invoices.toggle');
+
         // Invoice Items
         Route::post('/invoices/{invoice}/items', [InvoiceItemController::class, 'store'])->name('invoices.items.store');
         Route::put('/invoices/{invoice}/items/{item}', [InvoiceItemController::class, 'update'])->name('invoices.items.update');
