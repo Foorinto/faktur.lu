@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewsletterConfirmation;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class NewsletterController extends Controller
 {
@@ -19,13 +21,33 @@ class NewsletterController extends Controller
         $source = $request->input('source', 'footer');
         $email = $validated['email'];
 
-        // Save locally
         $subscriber = NewsletterSubscriber::subscribe($email, $locale, $source);
 
-        // Add to Brevo list
-        $this->addToBrevo($email, $locale, $source);
+        // Send confirmation email via Laravel (not Brevo DOI)
+        if (!$subscriber->isConfirmed()) {
+            Mail::to($email)->send(new NewsletterConfirmation($subscriber));
+        }
 
         return back()->with('success', 'newsletter');
+    }
+
+    /**
+     * Confirm subscription via token link in email.
+     */
+    public function confirm(string $token)
+    {
+        $subscriber = NewsletterSubscriber::where('confirm_token', $token)->first();
+
+        if (!$subscriber) {
+            return redirect(config('app.url'))->with('error', 'Lien invalide.');
+        }
+
+        $subscriber->confirm();
+
+        // Now add confirmed contact to Brevo
+        $this->addToBrevo($subscriber->email, $subscriber->locale, $subscriber->source);
+
+        return view('emails.newsletter-confirmed');
     }
 
     public function unsubscribe(string $email, string $hash)
@@ -47,11 +69,9 @@ class NewsletterController extends Controller
     {
         $apiKey = config('services.brevo.api_key');
         $listId = (int) config('services.brevo.newsletter_list_id');
-        $templateId = (int) config('services.brevo.doi_template_id');
-        $redirectUrl = config('app.url') . '/' . $locale;
 
-        if (!$apiKey || !$listId || !$templateId) {
-            Log::warning('Brevo API key, list ID or DOI template ID not configured');
+        if (!$apiKey || !$listId) {
+            Log::warning('Brevo API key or list ID not configured');
             return;
         }
 
@@ -59,22 +79,21 @@ class NewsletterController extends Controller
             $response = Http::withHeaders([
                 'api-key' => $apiKey,
                 'Content-Type' => 'application/json',
-            ])->post('https://api.brevo.com/v3/contacts/doubleOptinConfirmation', [
+            ])->post('https://api.brevo.com/v3/contacts', [
                 'email' => $email,
-                'includeListIds' => [$listId],
-                'templateId' => $templateId,
-                'redirectionUrl' => $redirectUrl,
+                'listIds' => [$listId],
                 'attributes' => [
                     'LOCALE' => $locale,
                     'SOURCE' => $source,
                 ],
+                'updateEnabled' => true,
             ]);
 
             if ($response->failed()) {
-                Log::warning("Brevo DOI API error: {$response->status()} - {$response->body()}");
+                Log::warning("Brevo API error: {$response->status()} - {$response->body()}");
             }
         } catch (\Exception $e) {
-            Log::error("Brevo DOI API exception: {$e->getMessage()}");
+            Log::error("Brevo API exception: {$e->getMessage()}");
         }
     }
 }

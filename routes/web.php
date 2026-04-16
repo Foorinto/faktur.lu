@@ -79,6 +79,8 @@ Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, 
 Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])
     ->middleware('throttle:6,1')
     ->name('newsletter.subscribe');
+Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterController::class, 'confirm'])
+    ->name('newsletter.confirm');
 
 /*
 |--------------------------------------------------------------------------
