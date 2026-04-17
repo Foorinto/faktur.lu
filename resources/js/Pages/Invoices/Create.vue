@@ -77,14 +77,17 @@ const showRetention = ref(false);
 
 const addItem = () => {
     const itemIndex = form.items.length;
+    const client = form.client_id ? props.clients.find(c => c.id === form.client_id) : null;
+    const defaultPrice = client?.default_hourly_rate ? parseFloat(client.default_hourly_rate) : 0;
+
     form.items.push({
         title: '',
         description: '',
         quantity: 1,
         unit: 'hour',
-        unit_price: 0,
+        unit_price: defaultPrice,
         vat_rate: effectiveDefaultVatRate.value,
-        vat_rate_select: effectiveDefaultVatRate.value, // For select tracking
+        vat_rate_select: effectiveDefaultVatRate.value,
     });
     customVatRates.value[itemIndex] = '';
 };
@@ -120,6 +123,15 @@ watch(() => form.client_id, (newClientId) => {
                     const newRate = parseFloat(client.default_vat_rate);
                     item.vat_rate = newRate;
                     item.vat_rate_select = newRate;
+                }
+            });
+        }
+
+        // Pre-fill hourly rate on items with unit 'hour' and no price set
+        if (client?.default_hourly_rate) {
+            form.items.forEach((item) => {
+                if (item.unit === 'hour' && (!item.unit_price || item.unit_price == 0)) {
+                    item.unit_price = parseFloat(client.default_hourly_rate);
                 }
             });
         }

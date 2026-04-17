@@ -49,6 +49,7 @@ const manualForm = useForm({
     description: '',
     date: new Date().toISOString().split('T')[0],
     duration: '',
+    hourly_rate: null,
 });
 
 // Projects filtered by selected client for timer
@@ -62,6 +63,16 @@ const timerTasks = computed(() => {
     if (!timerForm.project_id) return [];
     const project = props.projects.find(p => p.id === timerForm.project_id);
     return project?.tasks || [];
+});
+
+// Pre-fill hourly rate when client changes in manual form
+watch(() => manualForm.client_id, (newClientId) => {
+    if (newClientId) {
+        const client = props.clients.find(c => c.id === newClientId);
+        if (client?.default_hourly_rate && !manualForm.hourly_rate) {
+            manualForm.hourly_rate = parseFloat(client.default_hourly_rate);
+        }
+    }
 });
 
 // Projects filtered by selected client for manual form
@@ -553,6 +564,17 @@ const formatTime = (date) => {
                             v-model="manualForm.description"
                             type="text"
                             :placeholder="t('description')"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
+                        />
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300">{{ t('default_hourly_rate') || 'Taux horaire' }} ({{ t('optional') }})</label>
+                        <input
+                            v-model="manualForm.hourly_rate"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="95.00"
                             class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         />
                     </div>
