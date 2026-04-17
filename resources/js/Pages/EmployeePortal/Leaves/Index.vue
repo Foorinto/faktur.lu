@@ -90,11 +90,12 @@ const getAvailableDays = (balance) => {
                     <span class="inline-block h-3 w-3 rounded-full" :style="{ backgroundColor: balance.leave_type?.color || '#6366f1' }"></span>
                 </div>
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">
-                    {{ getAvailableDays(balance) }}
-                    <span class="text-sm font-normal text-slate-500">/ {{ balance.initial_days }}</span>
+                    {{ balance.used_days * 1 }}
+                    <span class="text-sm font-normal text-slate-500">/ {{ balance.initial_days * 1 }} {{ t('hr.days') || 'jours' }}</span>
                 </p>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    {{ balance.used_days }} {{ t('hr.used') }} · {{ pendingDays[balance.leave_type_id] || 0 }} {{ t('hr.pending_short') }}
+                    {{ getAvailableDays(balance) }} {{ t('hr.available') || 'disponibles' }}
+                    <span v-if="pendingDays[balance.leave_type_id]"> · {{ pendingDays[balance.leave_type_id] }} {{ t('hr.pending_short') }}</span>
                 </p>
             </div>
         </div>

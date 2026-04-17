@@ -65,8 +65,11 @@ const formatDate = (date) => {
                         ></span>
                     </div>
                     <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
-                        {{ Math.round((balance.initial_days - balance.used_days) * 10) / 10 }}
-                        <span class="text-sm font-normal text-slate-500">/ {{ balance.initial_days }} {{ t('hr.days') }}</span>
+                        {{ balance.used_days * 1 }}
+                        <span class="text-sm font-normal text-slate-500">/ {{ balance.initial_days * 1 }} {{ t('hr.days') }}</span>
+                    </p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        {{ Math.round((balance.initial_days - balance.used_days) * 10) / 10 }} {{ t('hr.available') || 'disponibles' }}
                     </p>
                 </div>
             </div>
