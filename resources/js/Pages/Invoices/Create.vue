@@ -439,24 +439,24 @@ if (form.items.length === 0) {
                         <div v-if="showRetention" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <InputLabel for="retention_rate" value="Pourcentage retenu (%)" />
-                                <TextInput
+                                <input
                                     id="retention_rate"
                                     v-model="form.retention_guarantee_rate"
                                     type="number"
                                     step="0.01"
                                     min="0"
                                     max="100"
-                                    class="mt-1 block w-full"
                                     placeholder="5"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                             </div>
                             <div>
                                 <InputLabel for="retention_release" value="Date de libération" />
-                                <TextInput
+                                <input
                                     id="retention_release"
                                     v-model="form.retention_release_date"
                                     type="date"
-                                    class="mt-1 block w-full"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                                 <p class="mt-1 text-xs text-slate-500">Généralement 1 an après la réception des travaux</p>
                             </div>

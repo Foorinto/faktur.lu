@@ -249,6 +249,12 @@ const allTags = props.tags || [];
                                     {{ client.currency }}
                                 </dd>
                             </div>
+                            <div v-if="client.default_hourly_rate" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                                <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('default_hourly_rate') }}</dt>
+                                <dd class="mt-1 text-sm text-slate-900 dark:text-white sm:col-span-2 sm:mt-0">
+                                    {{ Number(client.default_hourly_rate).toFixed(2) }} € / h
+                                </dd>
+                            </div>
                             <div v-if="client.vat_scenario" class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                                 <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat_scenario_detected') }}</dt>
                                 <dd class="mt-1 sm:col-span-2 sm:mt-0">

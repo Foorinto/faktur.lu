@@ -471,11 +471,11 @@ const openPreview = () => {
                             <div v-if="showRetention" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <InputLabel for="retention_rate_edit" value="Pourcentage retenu (%)" />
-                                    <TextInput id="retention_rate_edit" v-model="form.retention_guarantee_rate" type="number" step="0.01" min="0" max="100" class="mt-1 block w-full" placeholder="5" />
+                                    <input id="retention_rate_edit" v-model="form.retention_guarantee_rate" type="number" step="0.01" min="0" max="100" placeholder="5" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                                 </div>
                                 <div>
                                     <InputLabel for="retention_release_edit" value="Date de libération" />
-                                    <TextInput id="retention_release_edit" v-model="form.retention_release_date" type="date" class="mt-1 block w-full" />
+                                    <input id="retention_release_edit" v-model="form.retention_release_date" type="date" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                                 </div>
                             </div>
                         </div>
