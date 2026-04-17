@@ -31,7 +31,7 @@ const statusFilter = ref(props.filters.status || "");
 const tagFilter = ref(props.filters.tag || "");
 
 const totalCount = computed(() => {
-    return Object.values(props.statusCounts).reduce((sum, c) => sum + c, 0);
+    return Object.values(props.statusCounts).reduce((sum, c) => sum + Number(c), 0);
 });
 
 const statusTabs = computed(() => {
