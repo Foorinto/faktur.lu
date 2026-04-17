@@ -1,6 +1,7 @@
 <script setup>
 import { useForm, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 
 const props = defineProps({
     clients: Array,
@@ -68,6 +69,9 @@ const submit = () => {
 <template>
     <AppLayout>
         <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+            <div class="mb-6">
+                <BillingNav />
+            </div>
             <div class="mb-6">
                 <Link :href="route('recurring-invoices.index')" class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
                     ← Retour aux récurrences

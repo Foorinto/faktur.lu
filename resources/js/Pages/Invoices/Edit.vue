@@ -839,8 +839,8 @@ const openPreview = () => {
                         </div>
                         <div
                             v-else
-                            class="bg-white shadow-lg mx-auto"
-                            style="width: 210mm; min-height: 297mm; transform: scale(1); transform-origin: top center;"
+                            class="bg-white shadow-lg mx-auto pdf-preview-container"
+                            style="width: 210mm; min-height: 297mm; transform: scale(1); transform-origin: top center; color: #333; color-scheme: light;"
                             v-html="previewHtml"
                         ></div>
                     </div>

@@ -782,6 +782,8 @@ const changeStatus = (invoice, newStatus) => {
                                 min-height: 297mm;
                                 transform: scale(1);
                                 transform-origin: top center;
+                                color: #333;
+                                color-scheme: light;
                             "
                             v-html="previewHtml"
                         ></div>

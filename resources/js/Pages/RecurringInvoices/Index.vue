@@ -1,6 +1,7 @@
 <script setup>
 import { router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BillingNav from '@/Components/BillingNav.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
@@ -42,6 +43,11 @@ const deleteRecurring = (recurring) => {
 <template>
     <AppLayout>
         <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+            <!-- Billing Nav -->
+            <div class="mb-6">
+                <BillingNav />
+            </div>
+
             <!-- Header -->
             <div class="flex items-center justify-between mb-6">
                 <div>
