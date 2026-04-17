@@ -281,7 +281,7 @@ const changeStatus = (invoice, newStatus) => {
             class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
         >
             <table
-                class="min-w-full divide-y divide-slate-200 dark:divide-slate-700"
+                class="w-full divide-y divide-slate-200 dark:divide-slate-700"
             >
                 <thead class="bg-slate-50 dark:bg-gray-800/50">
                     <tr>
@@ -369,7 +369,7 @@ const changeStatus = (invoice, newStatus) => {
                             </p>
                         </td>
                         <td
-                            class="whitespace-nowrap px-3 py-4 text-sm text-slate-600 dark:text-slate-400"
+                            class="px-3 py-4 text-sm text-slate-600 dark:text-slate-400 max-w-[180px] truncate"
                         >
                             {{ invoice.client?.name }}
                         </td>
@@ -502,7 +502,7 @@ const changeStatus = (invoice, newStatus) => {
                         <td
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                         >
-                            <div class="flex items-center justify-end gap-4">
+                            <div class="flex items-center justify-end gap-2">
                                 <!-- Preview button -->
                                 <button
                                     type="button"
