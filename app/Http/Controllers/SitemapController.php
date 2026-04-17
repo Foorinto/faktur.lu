@@ -122,7 +122,7 @@ class SitemapController extends Controller
         ];
 
         // Feature detail pages
-        $featureSlugs = ['facturation', 'faia', 'peppol', 'gestion-projets', 'suivi-temps'];
+        $featureSlugs = ['facturation', 'devis', 'clients', 'depenses', 'faia', 'peppol', 'gestion-projets', 'suivi-temps', 'module-rh', 'crm', 'exports-comptables', 'factur-x'];
         foreach ($featureSlugs as $slug) {
             $pages[] = ['route' => 'features.show', 'path' => null, 'priority' => '0.8', 'changefreq' => 'monthly', 'suffix' => '/' . $slug];
         }
