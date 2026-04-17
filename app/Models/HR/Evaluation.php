@@ -6,6 +6,7 @@ use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Evaluation extends Model
 {
@@ -33,5 +34,10 @@ class Evaluation extends Model
     public function evaluator(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'evaluator_id');
+    }
+
+    public function documents(): HasMany
+    {
+        return $this->hasMany(EmployeeDocument::class, 'evaluation_id');
     }
 }

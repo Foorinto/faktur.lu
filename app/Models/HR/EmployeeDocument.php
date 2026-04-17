@@ -10,10 +10,11 @@ class EmployeeDocument extends Model
 {
     use BelongsToUser;
 
-    public const TYPES = ['contract', 'amendment', 'payslip', 'id_card', 'certificate', 'other'];
+    public const TYPES = ['contract', 'amendment', 'payslip', 'id_card', 'certificate', 'evaluation', 'other'];
 
     protected $fillable = [
         'employee_id',
+        'evaluation_id',
         'type',
         'name',
         'file_path',
@@ -29,6 +30,11 @@ class EmployeeDocument extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function evaluation(): BelongsTo
+    {
+        return $this->belongsTo(Evaluation::class);
     }
 
     public function isExpired(): bool

@@ -325,6 +325,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             Route::get('/employees/{employee}/evaluations/{evaluation}', [HR\EvaluationController::class, 'show'])->name('employees.evaluations.show');
             Route::get('/employees/{employee}/evaluations/{evaluation}/pdf', [HR\EvaluationController::class, 'pdf'])->name('employees.evaluations.pdf');
             Route::delete('/employees/{employee}/evaluations/{evaluation}', [HR\EvaluationController::class, 'destroy'])->name('employees.evaluations.destroy');
+            Route::post('/employees/{employee}/evaluations/{evaluation}/documents', [HR\EvaluationController::class, 'uploadDocument'])->name('employees.evaluations.upload-document');
+            Route::delete('/employees/{employee}/evaluations/{evaluation}/documents/{document}', [HR\EvaluationController::class, 'deleteDocument'])->name('employees.evaluations.delete-document');
 
             Route::get('/employees/{employee}/onboarding', [HR\EmployeeController::class, 'onboarding'])->name('employees.onboarding');
             Route::post('/employees/{employee}/onboarding', [HR\OnboardingTaskController::class, 'store'])->name('employees.onboarding.store');
