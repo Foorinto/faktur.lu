@@ -101,7 +101,7 @@ class InvoiceController extends Controller
      */
     public function create(Request $request): Response
     {
-        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number', 'default_vat_rate', 'default_hourly_rate']);
+        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number', 'default_vat_rate', 'default_hourly_rate', 'status']);
 
         // Add VAT scenario to each client
         $vatService = app(VatCalculationService::class);

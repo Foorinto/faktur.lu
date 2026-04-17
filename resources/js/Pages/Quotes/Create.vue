@@ -184,9 +184,16 @@ if (form.items.length === 0) {
                                 required
                             >
                                 <option value="">{{ t('select_client') }}</option>
-                                <option v-for="client in clients" :key="client.id" :value="client.id">
-                                    {{ client.name }}
-                                </option>
+                                <optgroup :label="t('crm.status_active') || 'Actifs'">
+                                    <option v-for="client in clients.filter(c => c.status === 'active')" :key="client.id" :value="client.id">
+                                        {{ client.name }}
+                                    </option>
+                                </optgroup>
+                                <optgroup v-if="clients.some(c => c.status !== 'active')" :label="t('other') || 'Autres'">
+                                    <option v-for="client in clients.filter(c => c.status !== 'active')" :key="client.id" :value="client.id">
+                                        {{ client.name }}
+                                    </option>
+                                </optgroup>
                             </select>
                             <InputError :message="form.errors.client_id" class="mt-2" />
                         </div>

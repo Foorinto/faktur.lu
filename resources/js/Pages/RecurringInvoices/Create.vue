@@ -90,7 +90,12 @@ const submit = () => {
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Client *</label>
                             <select v-model="form.client_id" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary-500">
                                 <option value="" disabled>Sélectionner un client</option>
-                                <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                <optgroup label="Actifs">
+                                    <option v-for="client in clients.filter(c => c.status === 'active')" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                </optgroup>
+                                <optgroup v-if="clients.some(c => c.status !== 'active')" label="Autres">
+                                    <option v-for="client in clients.filter(c => c.status !== 'active')" :key="client.id" :value="client.id">{{ client.name }}</option>
+                                </optgroup>
                             </select>
                             <p v-if="form.errors.client_id" class="mt-1 text-sm text-red-600">{{ form.errors.client_id }}</p>
                         </div>

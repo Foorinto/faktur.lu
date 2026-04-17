@@ -101,7 +101,7 @@ class QuoteController extends Controller
         }
 
         return Inertia::render('Quotes/Create', [
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate', 'default_hourly_rate', 'country_code', 'type', 'vat_number']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate', 'default_hourly_rate', 'country_code', 'type', 'vat_number', 'status']),
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
             'defaultClientId' => $defaultClientId,

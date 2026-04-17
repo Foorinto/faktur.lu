@@ -26,7 +26,7 @@ class RecurringInvoiceController extends Controller
     {
         $clients = Client::where('user_id', auth()->id())
             ->orderBy('name')
-            ->get(['id', 'name', 'currency', 'vat_number', 'default_vat_rate']);
+            ->get(['id', 'name', 'currency', 'vat_number', 'default_vat_rate', 'status']);
 
         return Inertia::render('RecurringInvoices/Create', [
             'clients' => $clients,
@@ -104,7 +104,7 @@ class RecurringInvoiceController extends Controller
 
         $clients = Client::where('user_id', auth()->id())
             ->orderBy('name')
-            ->get(['id', 'name', 'currency', 'vat_number', 'default_vat_rate']);
+            ->get(['id', 'name', 'currency', 'vat_number', 'default_vat_rate', 'status']);
 
         return Inertia::render('RecurringInvoices/Edit', [
             'recurringInvoice' => $recurringInvoice,
