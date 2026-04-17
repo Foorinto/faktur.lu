@@ -256,13 +256,13 @@ const updateProjectStatus = (project, newStatus) => {
                         v-model="search"
                         type="text"
                         :placeholder="t('search') + '...'"
-                        class="block w-48 rounded-xl border-0 py-2 pl-9 pr-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-gray-700 sm:text-sm"
+                        class="block w-48 rounded-xl border-0 py-2 pl-9 pr-3 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                     />
                 </div>
 
                 <select
                     v-model="statusFilter"
-                    class="rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-gray-700 sm:text-sm"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 >
                     <option value="">{{ t('all_statuses') }}</option>
                     <option v-for="(label, value) in statuses" :key="value" :value="value">
@@ -272,7 +272,7 @@ const updateProjectStatus = (project, newStatus) => {
 
                 <select
                     v-model="clientFilter"
-                    class="rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-gray-700 sm:text-sm"
+                    class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                 >
                     <option value="">{{ t('all_clients') }}</option>
                     <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -292,9 +292,9 @@ const updateProjectStatus = (project, newStatus) => {
         </div>
 
         <!-- List View -->
-        <div v-if="currentView === 'list'" class="overflow-x-auto rounded-2xl bg-white border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+        <div v-if="currentView === 'list'" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-                <thead>
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">
                             {{ t('project') }}
@@ -319,7 +319,7 @@ const updateProjectStatus = (project, newStatus) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                     <tr v-if="projectsData.length === 0">
                         <td colspan="7" class="py-12 text-center">
                             <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -338,7 +338,7 @@ const updateProjectStatus = (project, newStatus) => {
                         v-for="project in projectsData"
                         :key="project.id"
                         :class="[
-                            'hover:bg-gray-50 dark:hover:bg-gray-800/50',
+                            'hover:bg-gray-50 dark:hover:bg-gray-800',
                             project.is_archived ? 'opacity-60' : ''
                         ]"
                     >

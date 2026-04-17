@@ -204,13 +204,13 @@ const getContractBadgeClass = (type) => {
                     v-model="search"
                     type="text"
                     :placeholder="t('hr.search_employee')"
-                    class="block w-full rounded-xl border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-gray-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
+                    class="block w-full rounded-xl border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 dark:placeholder:text-slate-500 sm:text-sm sm:leading-6"
                 />
             </div>
 
             <select
                 v-model="departmentFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t("hr.all_departments") }}</option>
                 <option
@@ -224,7 +224,7 @@ const getContractBadgeClass = (type) => {
 
             <select
                 v-model="contractTypeFilter"
-                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm sm:leading-6"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t("hr.all_contract_types") }}</option>
                 <option v-for="ct in contractTypes" :key="ct" :value="ct">
@@ -236,7 +236,7 @@ const getContractBadgeClass = (type) => {
         <!-- Employees list -->
         <div
             data-tour="hr-employees-list"
-            class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card"
         >
             <table
                 class="min-w-full divide-y divide-slate-200 dark:divide-slate-700"
