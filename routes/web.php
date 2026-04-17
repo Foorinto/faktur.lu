@@ -91,9 +91,12 @@ Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterContr
 |
 */
 
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
-Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
-Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
+Route::withoutMiddleware([\Illuminate\Session\Middleware\StartSession::class, \Illuminate\View\Middleware\ShareErrorsFromSession::class, \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])
+    ->group(function () {
+        Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+        Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
+        Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
+    });
 
 /*
 |--------------------------------------------------------------------------
