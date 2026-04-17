@@ -314,8 +314,8 @@ const routeExists = (routeName) => {
                                     </span>
                                 </div>
                                 <template v-if="!sidebarCollapsed">
-                                    <div class="ml-3 flex-1 text-left">
-                                        <p class="text-sm font-medium text-slate-900 dark:text-white">
+                                    <div class="ml-3 flex-1 min-w-0 text-left">
+                                        <p class="truncate text-sm font-medium text-slate-900 dark:text-white">
                                             {{ $page.props.auth.user.name }}
                                         </p>
                                         <p class="truncate text-xs text-slate-500 dark:text-slate-400">
