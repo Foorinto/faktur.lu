@@ -55,7 +55,7 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                             </div>
                             <button
                                 @click="logout"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-700 hover:bg-gray-50 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-gray-800 transition-colors"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors shadow-sm"
                             >
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -165,7 +165,10 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
                         </div>
                         <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ user?.name }}</span>
                     </div>
-                    <button @click="logout" class="text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400">
+                    <button @click="logout" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 transition-colors shadow-sm">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
                         {{ t('logout') }}
                     </button>
                 </div>
