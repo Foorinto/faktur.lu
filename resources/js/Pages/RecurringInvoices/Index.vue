@@ -81,37 +81,39 @@ const deleteRecurring = (recurring) => {
         </div>
 
         <!-- Table -->
-        <div v-else class="bg-white dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-slate-50 dark:bg-slate-800">
+        <div v-else class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
+            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Client</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Titre</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Fréquence</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Montant HT</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Prochaine</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Statut</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Actions</th>
+                        <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">Client</th>
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">Titre</th>
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">Fréquence</th>
+                        <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">Montant HT</th>
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">Prochaine</th>
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">Statut</th>
+                        <th class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                            <span class="sr-only">Actions</span>
+                        </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <tr v-for="recurring in recurringInvoices.data" :key="recurring.id" class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                        <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">
+                <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
+                    <tr v-for="recurring in recurringInvoices.data" :key="recurring.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 dark:text-white sm:pl-6">
                             {{ recurring.client?.name }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400">
                             {{ recurring.title || '-' }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell">
                             {{ frequencyLabels[recurring.frequency] }}
                         </td>
-                        <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">
+                        <td class="whitespace-nowrap px-3 py-4 text-right text-sm font-semibold text-slate-900 dark:text-white">
                             {{ formatAmount(recurring.items) }}
                         </td>
-                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
+                        <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 lg:table-cell">
                             {{ formatDate(recurring.next_invoice_date) }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="whitespace-nowrap px-3 py-4 text-sm">
                             <button
                                 @click="toggleActive(recurring)"
                                 :class="[
@@ -125,7 +127,7 @@ const deleteRecurring = (recurring) => {
                                 {{ recurring.is_active ? 'Active' : 'Inactive' }}
                             </button>
                         </td>
-                        <td class="px-6 py-4 text-right">
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <div class="flex items-center justify-end gap-2">
                                 <Link
                                     :href="route('recurring-invoices.edit', recurring.id)"
@@ -151,9 +153,9 @@ const deleteRecurring = (recurring) => {
                 </tbody>
             </table>
 
-            <div v-if="recurringInvoices.last_page > 1" class="px-6 py-3 border-t border-gray-200 dark:border-gray-700">
-                <Pagination :links="recurringInvoices.links" />
-            </div>
+        <div v-if="recurringInvoices.last_page > 1" class="mt-6 flex items-center justify-between">
+            <Pagination :links="recurringInvoices.links" />
+        </div>
         </div>
     </AppLayout>
 </template>

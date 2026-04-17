@@ -239,7 +239,7 @@ const changeStatus = (invoice, newStatus) => {
         <div data-tour="invoices-filters" class="mb-6 flex flex-wrap gap-4">
             <select
                 v-model="statusFilter"
-                class="rounded-xl border-gray-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:border-gray-700 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t("all_statuses") }}</option>
                 <option
@@ -253,7 +253,7 @@ const changeStatus = (invoice, newStatus) => {
 
             <select
                 v-model="yearFilter"
-                class="rounded-xl border-gray-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:border-gray-700 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t("all_years") }}</option>
                 <option v-for="year in years" :key="year" :value="year">
@@ -263,7 +263,7 @@ const changeStatus = (invoice, newStatus) => {
 
             <select
                 v-model="clientFilter"
-                class="rounded-xl border-gray-300 py-2 pl-3 pr-10 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:border-gray-700 sm:text-sm"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
             >
                 <option value="">{{ t("all_clients") }}</option>
                 <option
@@ -278,12 +278,12 @@ const changeStatus = (invoice, newStatus) => {
 
         <!-- Invoices list -->
         <div
-            class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card"
         >
             <table
-                class="w-full divide-y divide-slate-200 dark:divide-slate-700"
+                class="min-w-full divide-y divide-slate-200 dark:divide-slate-700"
             >
-                <thead class="bg-slate-50 dark:bg-gray-800/50">
+                <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
                         <th
                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6"
@@ -321,7 +321,7 @@ const changeStatus = (invoice, newStatus) => {
                     </tr>
                 </thead>
                 <tbody
-                    class="divide-y divide-slate-100 bg-white dark:divide-slate-700 dark:bg-surface-card"
+                    class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card"
                 >
                     <tr v-if="invoices.data.length === 0">
                         <td colspan="7">
@@ -338,10 +338,9 @@ const changeStatus = (invoice, newStatus) => {
                         v-for="invoice in invoices.data"
                         :key="invoice.id"
                         :class="[
-                            'transition-colors',
                             isOverdue(invoice)
                                 ? 'bg-pink-50/50 hover:bg-pink-50 dark:bg-pink-900/10 dark:hover:bg-pink-900/20'
-                                : 'hover:bg-gray-50 dark:hover:bg-gray-800/50',
+                                : 'hover:bg-gray-50 dark:hover:bg-gray-800',
                         ]"
                     >
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
