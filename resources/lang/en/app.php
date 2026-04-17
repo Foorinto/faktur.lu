@@ -46,6 +46,7 @@ return [
     'end' => 'End',
     'not_configured' => 'Not configured',
     'default_vat_rate' => 'Default VAT rate',
+    'default_hourly_rate' => 'Default hourly rate',
     'contact_label' => 'Contact',
 
     // Projects

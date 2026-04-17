@@ -148,6 +148,9 @@ class InvoiceController extends Controller
     {
         $client = Client::findOrFail($request->validated('client_id'));
 
+        $retentionRate = $request->validated('retention_guarantee_rate');
+        $retentionAmount = null;
+
         $invoice = Invoice::create([
             'client_id' => $client->id,
             'currency' => $request->validated('currency') ?? $client->currency,
@@ -157,6 +160,8 @@ class InvoiceController extends Controller
             'vat_mention' => $request->validated('vat_mention'),
             'custom_vat_mention' => $request->validated('custom_vat_mention'),
             'footer_message' => $request->validated('footer_message'),
+            'retention_guarantee_rate' => $retentionRate,
+            'retention_release_date' => $request->validated('retention_release_date'),
             'status' => Invoice::STATUS_DRAFT,
         ]);
 

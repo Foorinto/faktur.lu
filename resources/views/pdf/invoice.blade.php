@@ -596,6 +596,25 @@
                             </div>
                         @endforeach
                     @endif
+                    <div class="total-row" style="border-top: 2px solid #1e293b; padding-top: 8px; margin-top: 4px;">
+                        <span class="total-label" style="font-weight: 700; font-size: 11pt;">Total TTC</span>
+                        <span class="total-value" style="font-weight: 700; font-size: 11pt;">{{ number_format($invoice->total_ttc ?? 0, 2, ',', ' ') }} €</span>
+                    </div>
+                    @if($invoice->retention_guarantee_rate && $invoice->retention_guarantee_rate > 0)
+                        <div class="total-row" style="margin-top: 8px;">
+                            <span class="total-label">Retenue de garantie ({{ number_format($invoice->retention_guarantee_rate, 0) }}%)</span>
+                            <span class="total-value">- {{ number_format($invoice->retention_guarantee_amount ?? 0, 2, ',', ' ') }} €</span>
+                        </div>
+                        <div class="total-row" style="border-top: 2px solid #1e293b; padding-top: 8px; margin-top: 4px;">
+                            <span class="total-label" style="font-weight: 700; font-size: 11pt;">Net à payer</span>
+                            <span class="total-value" style="font-weight: 700; font-size: 11pt;">{{ number_format(($invoice->total_ttc ?? 0) - ($invoice->retention_guarantee_amount ?? 0), 2, ',', ' ') }} €</span>
+                        </div>
+                        @if($invoice->retention_release_date)
+                            <div style="margin-top: 6px; font-size: 7.5pt; color: #64748b;">
+                                Retenue libérable à compter du {{ $invoice->retention_release_date->format('d/m/Y') }}
+                            </div>
+                        @endif
+                    @endif
                 </div>
 
                 @if($invoice->effective_vat_mention)

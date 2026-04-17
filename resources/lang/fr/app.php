@@ -46,6 +46,7 @@ return [
     'end' => 'Fin',
     'not_configured' => 'Non configuré',
     'default_vat_rate' => 'Taux de TVA par défaut',
+    'default_hourly_rate' => 'Taux horaire par défaut',
     'contact_label' => 'Contact',
 
     // Projects

@@ -67,6 +67,9 @@ class Invoice extends Model
         'payment_reference',
         'currency',
         'exclude_from_reminders',
+        'retention_guarantee_rate',
+        'retention_guarantee_amount',
+        'retention_release_date',
     ];
 
     protected $casts = [
@@ -83,6 +86,9 @@ class Invoice extends Model
         'total_vat' => 'decimal:4',
         'total_ttc' => 'decimal:4',
         'exclude_from_reminders' => 'boolean',
+        'retention_guarantee_rate' => 'decimal:2',
+        'retention_guarantee_amount' => 'decimal:4',
+        'retention_release_date' => 'date',
     ];
 
     /**

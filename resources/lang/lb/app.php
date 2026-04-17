@@ -37,6 +37,7 @@ return [
     'end' => 'Enn',
     'not_configured' => 'Net konfiguréiert',
     'default_vat_rate' => 'Standard TVA-Saz',
+    'default_hourly_rate' => 'Standard Stonnesaz',
     'contact_label' => 'Kontakt',
 
     // Common actions

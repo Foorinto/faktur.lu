@@ -35,6 +35,8 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.unit_price' => ['required_with:items', 'numeric', 'min:0'],
             // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
             'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
+            'retention_guarantee_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'retention_release_date' => ['nullable', 'date'],
         ];
     }
 

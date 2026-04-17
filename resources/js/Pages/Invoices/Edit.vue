@@ -95,7 +95,11 @@ const form = useForm({
     vat_mention: props.invoice.vat_mention || '',
     custom_vat_mention: props.invoice.custom_vat_mention || '',
     currency: props.invoice.currency,
+    retention_guarantee_rate: props.invoice.retention_guarantee_rate || null,
+    retention_release_date: formatDateForInput(props.invoice.retention_release_date),
 });
+
+const showRetention = ref(!!props.invoice.retention_guarantee_rate);
 
 const itemForm = useForm({
     title: '',
@@ -456,6 +460,24 @@ const openPreview = () => {
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('empty_default_message') }} "{{ defaultInvoiceFooter }}"
                             </p>
+                        </div>
+
+                        <!-- Retenue de garantie -->
+                        <div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+                            <div class="flex items-center gap-2 mb-3">
+                                <input id="enable_retention_edit" type="checkbox" v-model="showRetention" class="rounded border-gray-300 text-primary-500 focus:ring-primary-500" />
+                                <label for="enable_retention_edit" class="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">Retenue de garantie (BTP)</label>
+                            </div>
+                            <div v-if="showRetention" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <InputLabel for="retention_rate_edit" value="Pourcentage retenu (%)" />
+                                    <TextInput id="retention_rate_edit" v-model="form.retention_guarantee_rate" type="number" step="0.01" min="0" max="100" class="mt-1 block w-full" placeholder="5" />
+                                </div>
+                                <div>
+                                    <InputLabel for="retention_release_edit" value="Date de libération" />
+                                    <TextInput id="retention_release_edit" v-model="form.retention_release_date" type="date" class="mt-1 block w-full" />
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mt-4 flex items-center justify-end gap-3">

@@ -64,11 +64,16 @@ const form = useForm({
     vat_mention: props.suggestedVatMention || '',
     custom_vat_mention: '',
     footer_message: '',
+    retention_guarantee_rate: null,
+    retention_release_date: '',
     items: [],
 });
 
 // Track custom VAT rates per item
 const customVatRates = ref({});
+
+// Retention guarantee toggle
+const showRetention = ref(false);
 
 const addItem = () => {
     const itemIndex = form.items.length;
@@ -416,6 +421,46 @@ if (form.items.length === 0) {
                         <p v-if="defaultInvoiceFooter" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                             {{ t('empty_default_message') }} "{{ defaultInvoiceFooter }}"
                         </p>
+                    </div>
+
+                    <!-- Retenue de garantie (BTP) -->
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <input
+                                id="enable_retention"
+                                type="checkbox"
+                                v-model="showRetention"
+                                class="rounded border-gray-300 text-primary-500 focus:ring-primary-500"
+                            />
+                            <label for="enable_retention" class="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">
+                                Retenue de garantie (BTP)
+                            </label>
+                        </div>
+                        <div v-if="showRetention" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <InputLabel for="retention_rate" value="Pourcentage retenu (%)" />
+                                <TextInput
+                                    id="retention_rate"
+                                    v-model="form.retention_guarantee_rate"
+                                    type="number"
+                                    step="0.01"
+                                    min="0"
+                                    max="100"
+                                    class="mt-1 block w-full"
+                                    placeholder="5"
+                                />
+                            </div>
+                            <div>
+                                <InputLabel for="retention_release" value="Date de libération" />
+                                <TextInput
+                                    id="retention_release"
+                                    v-model="form.retention_release_date"
+                                    type="date"
+                                    class="mt-1 block w-full"
+                                />
+                                <p class="mt-1 text-xs text-slate-500">Généralement 1 an après la réception des travaux</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

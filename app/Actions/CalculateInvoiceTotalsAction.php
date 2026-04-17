@@ -26,12 +26,19 @@ class CalculateInvoiceTotalsAction
 
         $totalTtc = bcadd($totalHt, $totalVat, 4);
 
+        // Calculate retention guarantee if applicable
+        $retentionAmount = null;
+        if ($invoice->retention_guarantee_rate && $invoice->retention_guarantee_rate > 0) {
+            $retentionAmount = bcmul($totalTtc, bcdiv((string) $invoice->retention_guarantee_rate, '100', 4), 4);
+        }
+
         // Update without triggering model events (to avoid infinite loop)
-        Invoice::withoutEvents(function () use ($invoice, $totalHt, $totalVat, $totalTtc) {
+        Invoice::withoutEvents(function () use ($invoice, $totalHt, $totalVat, $totalTtc, $retentionAmount) {
             $invoice->update([
                 'total_ht' => $totalHt,
                 'total_vat' => $totalVat,
                 'total_ttc' => $totalTtc,
+                'retention_guarantee_amount' => $retentionAmount,
             ]);
         });
 

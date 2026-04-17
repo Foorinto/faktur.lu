@@ -37,6 +37,7 @@ return [
     'end' => 'Ende',
     'not_configured' => 'Nicht konfiguriert',
     'default_vat_rate' => 'Standard-MwSt-Satz',
+    'default_hourly_rate' => 'Standard-Stundensatz',
     'contact_label' => 'Kontakt',
 
     // Common actions

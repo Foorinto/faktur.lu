@@ -669,6 +669,29 @@ const submit = () => {
                     </div>
                 </div>
 
+                <!-- Default Hourly Rate -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <InputLabel for="default_hourly_rate">
+                            {{ t('default_hourly_rate') || 'Taux horaire par défaut' }}
+                            <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
+                        </InputLabel>
+                        <TextInput
+                            id="default_hourly_rate"
+                            v-model="form.default_hourly_rate"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            class="mt-1 block w-full"
+                            placeholder="Ex: 95.00"
+                        />
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                            Ce taux sera utilisé par défaut pour le suivi du temps de ce client.
+                        </p>
+                        <InputError :message="form.errors.default_hourly_rate" class="mt-2" />
+                    </div>
+                </div>
+
                 <div>
                     <InputLabel for="accounting_id" :value="`${t('accounting_id')} (${t('optional')})`" />
                     <TextInput
