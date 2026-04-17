@@ -6,8 +6,10 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
 const { t } = useTranslations();
+const { localizedRoute } = useLocalizedRoute();
 
 const form = useForm({
     name: '',
@@ -105,9 +107,9 @@ const submit = () => {
                     />
                     <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">
                         {{ t('accept_terms_prefix') }}
-                        <Link :href="route('legal.terms')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank">{{ t('terms_of_service') }}</Link>
+                        <Link :href="localizedRoute('legal.terms')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank">{{ t('terms_of_service') }}</Link>
                         {{ t('accept_terms_and') }}
-                        <Link :href="route('legal.privacy')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank">{{ t('privacy_policy') }}</Link>
+                        <Link :href="localizedRoute('legal.privacy')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank">{{ t('privacy_policy') }}</Link>
                     </span>
                 </label>
                 <InputError class="mt-2" :message="form.errors.terms" />
