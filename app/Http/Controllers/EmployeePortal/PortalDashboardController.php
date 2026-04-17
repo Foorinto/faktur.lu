@@ -28,6 +28,14 @@ class PortalDashboardController extends Controller
             ->where('status', 'pending')
             ->count();
 
+        $pendingDays = LeaveRequest::withoutGlobalScope('user')
+            ->where('employee_id', $employee->id)
+            ->where('status', 'pending')
+            ->whereYear('start_date', now()->year)
+            ->selectRaw('leave_type_id, SUM(days_count) as total')
+            ->groupBy('leave_type_id')
+            ->pluck('total', 'leave_type_id');
+
         $pendingExpenses = ExpenseReport::withoutGlobalScope('user')
             ->where('employee_id', $employee->id)
             ->where('status', 'pending')
@@ -42,6 +50,7 @@ class PortalDashboardController extends Controller
         return Inertia::render('EmployeePortal/Dashboard', [
             'employee' => $employee,
             'pendingLeaves' => $pendingLeaves,
+            'pendingDays' => $pendingDays,
             'pendingExpenses' => $pendingExpenses,
             'recentDocuments' => $recentDocuments,
         ]);

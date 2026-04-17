@@ -8,9 +8,15 @@ const { t } = useTranslations();
 const props = defineProps({
     employee: { type: Object, required: true },
     pendingLeaves: { type: Number, default: 0 },
+    pendingDays: { type: Object, default: () => ({}) },
     pendingExpenses: { type: Number, default: 0 },
     recentDocuments: { type: Array, default: () => [] },
 });
+
+const getAvailableDays = (balance) => {
+    const pending = props.pendingDays[balance.leave_type_id] || 0;
+    return Math.round((balance.initial_days - balance.used_days - pending) * 10) / 10;
+};
 
 const formatDate = (date) => {
     if (!date) return '—';
@@ -69,7 +75,8 @@ const formatDate = (date) => {
                         <span class="text-sm font-normal text-slate-500">/ {{ balance.initial_days * 1 }} {{ t('hr.days') }}</span>
                     </p>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        {{ Math.round((balance.initial_days - balance.used_days) * 10) / 10 }} {{ t('hr.available') || 'disponibles' }}
+                        {{ getAvailableDays(balance) }} {{ t('hr.available') }}
+                        <span v-if="pendingDays[balance.leave_type_id]"> · {{ pendingDays[balance.leave_type_id] }} {{ t('hr.pending_short') }}</span>
                     </p>
                 </div>
             </div>
