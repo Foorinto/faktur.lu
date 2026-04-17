@@ -252,6 +252,12 @@ class InvoiceController extends Controller
     {
         $invoice->update($request->validated());
 
+        // Recalculate retention guarantee if rate changed
+        if ($request->has('retention_guarantee_rate')) {
+            $invoice->load('items');
+            app(\App\Actions\CalculateInvoiceTotalsAction::class)->execute($invoice);
+        }
+
         return back()->with('success', 'Facture mise à jour.');
     }
 
