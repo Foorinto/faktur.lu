@@ -2241,6 +2241,7 @@ return [
         'date' => 'Date',
         'dates' => 'Dates',
         'used' => 'used',
+        'available' => 'available',
         'pending_short' => 'pending',
         'cancel' => 'Cancel',
         'card' => 'Card',

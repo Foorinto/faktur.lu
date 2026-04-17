@@ -2444,6 +2444,7 @@ return [
         'date' => 'Date',
         'dates' => 'Dates',
         'used' => 'utilisé(s)',
+        'available' => 'disponible(s)',
         'pending_short' => 'en attente',
         'cancel' => 'Annuler',
         'card' => 'Carte',

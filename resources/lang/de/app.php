@@ -2180,6 +2180,7 @@ return [
         'date' => 'Datum',
         'dates' => 'Daten',
         'used' => 'genutzt',
+        'available' => 'verfügbar',
         'pending_short' => 'ausstehend',
         'cancel' => 'Stornieren',
         'card' => 'Karte',
