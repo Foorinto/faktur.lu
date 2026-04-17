@@ -37,7 +37,7 @@ class PortalEvaluationController extends Controller
 
         $evaluation->load([
             'evaluator' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'first_name', 'last_name'),
-            'documents',
+            'documents' => fn ($q) => $q->withoutGlobalScope('user'),
         ]);
         $employee->load(['department' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'name', 'color')]);
 
