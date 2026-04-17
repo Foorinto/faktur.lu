@@ -35,7 +35,10 @@ class PortalEvaluationController extends Controller
         $evaluation = Evaluation::withoutGlobalScope('user')->findOrFail($id);
         abort_unless($evaluation->employee_id === $employee->id, 403);
 
-        $evaluation->load(['evaluator' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'first_name', 'last_name')]);
+        $evaluation->load([
+            'evaluator' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'first_name', 'last_name'),
+            'documents',
+        ]);
         $employee->load(['department' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'name', 'color')]);
 
         return Inertia::render('EmployeePortal/Evaluations/Show', [
