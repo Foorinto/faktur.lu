@@ -38,6 +38,7 @@ const timerForm = useForm({
     task_id: '',
     project_name: '',
     description: '',
+    hourly_rate: null,
 });
 
 // Manual entry form
@@ -63,6 +64,18 @@ const timerTasks = computed(() => {
     if (!timerForm.project_id) return [];
     const project = props.projects.find(p => p.id === timerForm.project_id);
     return project?.tasks || [];
+});
+
+// Pre-fill hourly rate when client changes in timer form
+watch(() => timerForm.client_id, (newClientId) => {
+    if (newClientId) {
+        const client = props.clients.find(c => c.id === newClientId);
+        if (client?.default_hourly_rate) {
+            timerForm.hourly_rate = parseFloat(client.default_hourly_rate);
+        }
+    } else {
+        timerForm.hourly_rate = null;
+    }
 });
 
 // Pre-fill hourly rate when client changes in manual form
@@ -453,6 +466,14 @@ const formatTime = (date) => {
                                 {{ task.title }}
                             </option>
                         </select>
+                        <input
+                            v-model="timerForm.hourly_rate"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            :placeholder="`${t('default_hourly_rate') || 'Taux horaire'} (${t('optional')})`"
+                            class="w-full sm:w-28 rounded-xl border-0 bg-white/10 py-2 px-3 text-white placeholder-primary-200 backdrop-blur focus:ring-2 focus:ring-white sm:text-sm"
+                        />
                         <textarea
                             v-model="timerForm.description"
                             :placeholder="`${t('description')} (${t('optional')})`"

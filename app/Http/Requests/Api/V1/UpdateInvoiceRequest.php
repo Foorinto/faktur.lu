@@ -27,6 +27,8 @@ class UpdateInvoiceRequest extends FormRequest
             'vat_mention' => ['nullable', 'string', Rule::in(['franchise', 'reverse_charge', 'intra_eu', 'export', 'none', 'other'])],
             'custom_vat_mention' => ['nullable', 'string', 'max:1000'],
             'currency' => ['sometimes', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
+            'retention_guarantee_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'retention_release_date' => ['nullable', 'date'],
         ];
     }
 

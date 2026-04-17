@@ -246,7 +246,7 @@ class TimeEntryController extends Controller
             'task_id' => $request->input('task_id'),
             'project_name' => $projectName,
             'description' => $request->input('description'),
-            'hourly_rate' => $client->default_hourly_rate,
+            'hourly_rate' => $request->input('hourly_rate') ?? $client->default_hourly_rate,
             'started_at' => now(),
         ]);
 

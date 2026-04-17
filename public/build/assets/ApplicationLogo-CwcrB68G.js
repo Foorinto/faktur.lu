@@ -1,1 +1,0 @@
-import{c as e,B as t,f as l}from"./app-CEXQ7Hhd.js";const r={__name:"ApplicationLogo",props:{size:{type:String,default:"md",validator:s=>["sm","md","lg"].includes(s)}},setup(s){const a={sm:"h-7",md:"h-9",lg:"h-11"};return(o,c)=>(l(),e("img",{src:"/images/logo.png",alt:"faktur.lu",class:t(["w-auto",a[s.size]])},null,2))}};export{r as _};
