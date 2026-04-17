@@ -42,7 +42,7 @@ const navigation = computed(() => {
     const items = [
         { name: t('dashboard'), href: 'dashboard', icon: 'chart-bar', tour: 'dashboard' },
         { name: t('clients'), href: 'clients.index', icon: 'users', tour: 'clients' },
-        { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices'], tour: 'billing' },
+        { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'] },
         { name: t('accounting'), href: 'reports.revenue-book', icon: 'calculator', routes: ['reports', 'exports'], tour: 'accounting' },

@@ -75,19 +75,20 @@ const submit = () => {
 
 <template>
     <AppLayout>
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-            <div class="mb-6">
-                <BillingNav />
-            </div>
-            <div class="mb-6">
-                <Link :href="route('recurring-invoices.index')" class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
-                    ← Retour aux récurrences
-                </Link>
-                <h1 class="text-2xl font-bold text-slate-900 dark:text-white mt-2">Modifier la récurrence</h1>
-                <p class="text-sm text-slate-500 mt-1">{{ recurringInvoice.invoices_generated }} facture(s) générée(s)</p>
-            </div>
+        <template #header>
+            <h1 class="text-xl font-bold text-slate-900 dark:text-white">Modifier la récurrence</h1>
+        </template>
 
-            <form @submit.prevent="submit" class="space-y-6">
+        <BillingNav class="mb-6" />
+
+        <div class="mb-4">
+            <Link :href="route('recurring-invoices.index')" class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
+                ← Retour aux récurrences
+            </Link>
+            <p class="text-sm text-slate-500 mt-1">{{ recurringInvoice.invoices_generated }} facture(s) générée(s)</p>
+        </div>
+
+        <form @submit.prevent="submit" class="space-y-6">
                 <!-- Client & Paramètres -->
                 <div class="bg-white dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
                     <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Paramètres</h2>
@@ -223,7 +224,6 @@ const submit = () => {
                         {{ form.processing ? 'Mise à jour...' : 'Enregistrer' }}
                     </button>
                 </div>
-            </form>
-        </div>
+        </form>
     </AppLayout>
 </template>
