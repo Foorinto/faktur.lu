@@ -20,6 +20,17 @@ use ZipArchive;
 class AccountantExportController extends Controller
 {
     /**
+     * Download a single invoice PDF.
+     */
+    public function invoicePdf(User $user, Invoice $invoice, InvoicePdfService $pdfService)
+    {
+        abort_unless((int) $invoice->user_id === (int) $user->id, 403);
+        abort_unless($invoice->status !== Invoice::STATUS_DRAFT, 403);
+
+        return $pdfService->stream($invoice);
+    }
+
+    /**
      * Download an export.
      */
     public function download(Request $request, User $user, string $type)

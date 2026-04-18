@@ -106,6 +106,11 @@ class AccountantDashboardController extends Controller
     {
         $accountant = auth('accountant')->user();
 
+        $request->validate([
+            'year' => 'nullable|integer|min:2020|max:2100',
+            'quarter' => 'nullable|integer|min:1|max:4',
+        ]);
+
         // Get available years (SQLite compatible)
         $years = $user->userInvoices()
             ->where('status', '!=', 'draft')
@@ -120,6 +125,51 @@ class AccountantDashboardController extends Controller
         if ($years->isEmpty()) {
             $years = collect([now()->year]);
         }
+
+        $selectedYear = $request->integer('year') ?: ($years->first() ?? now()->year);
+        $selectedQuarter = $request->integer('quarter') ?: null;
+
+        // Get invoices for selected period
+        $invoiceQuery = $user->userInvoices()
+            ->whereIn('status', [Invoice::STATUS_FINALIZED, Invoice::STATUS_SENT, Invoice::STATUS_PAID])
+            ->whereNotNull('finalized_at')
+            ->whereRaw("strftime('%Y', finalized_at) = ?", [(string) $selectedYear]);
+
+        if ($selectedQuarter) {
+            $startMonth = ($selectedQuarter - 1) * 3 + 1;
+            $endMonth = $startMonth + 2;
+            $invoiceQuery->whereRaw("CAST(strftime('%m', finalized_at) AS INTEGER) BETWEEN ? AND ?", [$startMonth, $endMonth]);
+        }
+
+        $invoices = $invoiceQuery
+            ->with('client:id,name')
+            ->latest('finalized_at')
+            ->get()
+            ->map(fn ($inv) => [
+                'id' => $inv->id,
+                'number' => $inv->number,
+                'type' => $inv->type,
+                'status' => $inv->status,
+                'client_name' => $inv->client?->name,
+                'total_ht' => round($inv->total_ht, 2),
+                'total_ttc' => round($inv->total_ttc, 2),
+                'issued_at' => $inv->issued_at?->format('d/m/Y'),
+                'finalized_at' => $inv->finalized_at?->format('d/m/Y'),
+                'paid_at' => $inv->paid_at?->format('d/m/Y'),
+                'currency' => $inv->currency,
+            ]);
+
+        // Summary stats
+        $invoicesOnly = $invoices->where('type', Invoice::TYPE_INVOICE);
+        $creditNotes = $invoices->where('type', Invoice::TYPE_CREDIT_NOTE);
+        $summary = [
+            'invoices_count' => $invoicesOnly->count(),
+            'credit_notes_count' => $creditNotes->count(),
+            'total_ht' => round($invoicesOnly->sum('total_ht'), 2),
+            'total_ttc' => round($invoices->sum('total_ttc'), 2),
+            'paid_count' => $invoices->where('status', 'paid')->count(),
+            'unpaid_count' => $invoices->whereIn('status', ['finalized', 'sent'])->count(),
+        ];
 
         // Get recent downloads
         $recentDownloads = $accountant->downloads()
@@ -143,6 +193,10 @@ class AccountantDashboardController extends Controller
                 'vat_number' => $user->businessSettings?->vat_number,
             ],
             'years' => $years,
+            'selectedYear' => $selectedYear,
+            'selectedQuarter' => $selectedQuarter,
+            'invoices' => $invoices,
+            'summary' => $summary,
             'recentDownloads' => $recentDownloads,
         ]);
     }
