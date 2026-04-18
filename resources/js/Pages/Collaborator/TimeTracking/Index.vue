@@ -18,6 +18,7 @@ const props = defineProps({
 const timerForm = useForm({
     description: '',
     project_id: '',
+    task_id: '',
 });
 
 // Manual entry form
@@ -25,8 +26,22 @@ const showManualEntry = ref(false);
 const manualForm = useForm({
     description: '',
     project_id: '',
+    task_id: '',
     started_at: '',
     stopped_at: '',
+});
+
+// Tasks filtered by selected project
+const timerTasks = computed(() => {
+    if (!timerForm.project_id) return [];
+    const project = props.projects.find(p => p.id === Number(timerForm.project_id));
+    return project?.tasks || [];
+});
+
+const manualTasks = computed(() => {
+    if (!manualForm.project_id) return [];
+    const project = props.projects.find(p => p.id === Number(manualForm.project_id));
+    return project?.tasks || [];
 });
 
 // Live timer display
@@ -170,11 +185,22 @@ const formatDate = (isoString) => {
                     />
                     <select
                         v-model="timerForm.project_id"
+                        @change="timerForm.task_id = ''"
                         class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                     >
                         <option value="">{{ t('no_project') || 'Aucun projet' }}</option>
                         <option v-for="project in projects" :key="project.id" :value="project.id">
                             {{ project.title }}
+                        </option>
+                    </select>
+                    <select
+                        v-if="timerTasks.length"
+                        v-model="timerForm.task_id"
+                        class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                    >
+                        <option value="">{{ t('task') || 'Tâche' }} ({{ t('optional') || 'optionnel' }})</option>
+                        <option v-for="task in timerTasks" :key="task.id" :value="task.id">
+                            {{ task.title }}
                         </option>
                     </select>
                     <button
@@ -240,11 +266,24 @@ const formatDate = (isoString) => {
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('project') }}</label>
                         <select
                             v-model="manualForm.project_id"
+                            @change="manualForm.task_id = ''"
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                         >
                             <option value="">{{ t('no_project') || 'Aucun projet' }}</option>
                             <option v-for="project in projects" :key="project.id" :value="project.id">
                                 {{ project.title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div v-if="manualTasks.length">
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('task') || 'Tâche' }}</label>
+                        <select
+                            v-model="manualForm.task_id"
+                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                        >
+                            <option value="">{{ t('optional') || 'Optionnel' }}</option>
+                            <option v-for="task in manualTasks" :key="task.id" :value="task.id">
+                                {{ task.title }}
                             </option>
                         </select>
                     </div>

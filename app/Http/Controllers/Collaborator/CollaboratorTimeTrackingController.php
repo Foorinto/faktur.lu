@@ -60,6 +60,7 @@ class CollaboratorTimeTrackingController extends Controller
             ->visibleToCollaborators()
             ->active()
             ->orderBy('title')
+            ->with(['tasks' => fn ($q) => $q->withoutGlobalScopes()->select('id', 'project_id', 'title')->where('is_completed', false)->orderBy('sort_order')])
             ->get(['id', 'title', 'color']);
 
         // Running timer
@@ -96,6 +97,7 @@ class CollaboratorTimeTrackingController extends Controller
         $validated = $request->validate([
             'description' => 'nullable|string|max:500',
             'project_id' => 'nullable|integer',
+            'task_id' => 'nullable|integer',
             'started_at' => 'required|date',
             'stopped_at' => 'required|date|after:started_at',
         ]);
@@ -115,6 +117,7 @@ class CollaboratorTimeTrackingController extends Controller
         TimeEntry::create([
             'user_id' => $request->user()->id,
             'project_id' => $validated['project_id'] ?? null,
+            'task_id' => $validated['task_id'] ?? null,
             'description' => $validated['description'] ?? null,
             'started_at' => $startedAt,
             'stopped_at' => $stoppedAt,
@@ -171,6 +174,7 @@ class CollaboratorTimeTrackingController extends Controller
         $validated = $request->validate([
             'description' => 'nullable|string|max:500',
             'project_id' => 'nullable|integer',
+            'task_id' => 'nullable|integer',
         ]);
 
         // Stop any running timer
@@ -189,6 +193,7 @@ class CollaboratorTimeTrackingController extends Controller
         $entry = new TimeEntry();
         $entry->user_id = $user->id;
         $entry->project_id = $validated['project_id'] ?? null;
+        $entry->task_id = $validated['task_id'] ?? null;
         $entry->description = $validated['description'] ?? null;
         $entry->start();
 
