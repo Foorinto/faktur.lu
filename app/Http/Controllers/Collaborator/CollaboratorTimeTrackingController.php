@@ -60,7 +60,7 @@ class CollaboratorTimeTrackingController extends Controller
             ->visibleToCollaborators()
             ->active()
             ->orderBy('title')
-            ->with(['tasks' => fn ($q) => $q->withoutGlobalScopes()->select('id', 'project_id', 'title')->where('is_completed', false)->orderBy('sort_order')])
+            ->with(['tasks' => fn ($q) => $q->withoutGlobalScopes()->select('id', 'project_id', 'title', 'parent_id')->where('is_completed', false)->whereNull('parent_id')->orderBy('sort_order')])
             ->get(['id', 'title', 'color']);
 
         // Running timer
