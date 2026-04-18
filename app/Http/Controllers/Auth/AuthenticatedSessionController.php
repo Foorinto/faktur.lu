@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if ($request->user()->isCollaborator()) {
-            return redirect()->intended(route('collaborator.dashboard', absolute: false));
+            return redirect()->route('collaborator.dashboard');
         }
 
         return redirect()->intended(route('dashboard', absolute: false));
