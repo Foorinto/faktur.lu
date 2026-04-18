@@ -71,14 +71,14 @@ class CollaboratorProjectController extends Controller
         return Inertia::render('Collaborator/Projects/Index', [
             'projects' => $projects,
             'filters' => $request->only(['status', 'search']),
-            'statuses' => Project::STATUS_LABELS,
+            'statuses' => Project::STATUSES,
         ]);
     }
 
     public function create(Request $request)
     {
         return Inertia::render('Collaborator/Projects/Create', [
-            'statuses' => Project::STATUS_LABELS,
+            'statuses' => Project::STATUSES,
             'colors' => Project::COLORS,
         ]);
     }
@@ -90,7 +90,7 @@ class CollaboratorProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'nullable|string|in:' . implode(',', array_keys(Project::STATUS_LABELS)),
+            'status' => 'nullable|string|in:' . implode(',', array_keys(Project::STATUSES)),
             'color' => 'nullable|string|max:7',
             'due_date' => 'nullable|date',
             'budget_hours' => 'nullable|numeric|min:0',
@@ -170,7 +170,7 @@ class CollaboratorProjectController extends Controller
                 ]),
             ],
             'timeEntries' => $timeEntries,
-            'statuses' => Project::STATUS_LABELS,
+            'statuses' => Project::STATUSES,
         ]);
     }
 
@@ -187,7 +187,7 @@ class CollaboratorProjectController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status' => 'nullable|string|in:' . implode(',', array_keys(Project::STATUS_LABELS)),
+            'status' => 'nullable|string|in:' . implode(',', array_keys(Project::STATUSES)),
             'color' => 'nullable|string|max:7',
             'due_date' => 'nullable|date',
             'budget_hours' => 'nullable|numeric|min:0',
