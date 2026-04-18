@@ -102,7 +102,7 @@ const getPriorityColor = (priority) => {
                 </div>
             </div>
 
-            <p v-if="project.description" class="mt-3 text-sm text-slate-600 dark:text-slate-400">{{ project.description }}</p>
+            <div v-if="project.description" class="mt-3 text-sm text-slate-600 dark:text-slate-400 prose prose-sm dark:prose-invert max-w-none" v-html="project.description"></div>
         </div>
 
         <!-- Progress Stats -->

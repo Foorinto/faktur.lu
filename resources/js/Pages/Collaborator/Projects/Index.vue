@@ -7,6 +7,11 @@ import debounce from 'lodash/debounce';
 
 const { t } = useTranslations();
 
+const stripHtml = (html) => {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '').substring(0, 150);
+};
+
 const props = defineProps({
     projects: Array,
     filters: Object,
@@ -107,7 +112,7 @@ const getStatusColor = (status) => {
                 </div>
 
                 <p v-if="project.description" class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-3">
-                    {{ project.description }}
+                    {{ stripHtml(project.description) }}
                 </p>
 
                 <div class="space-y-2">
