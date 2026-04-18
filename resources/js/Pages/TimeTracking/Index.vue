@@ -568,6 +568,18 @@ const formatTime = (date) => {
                             class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
                         />
                     </div>
+                    <div v-if="manualTasks.length" class="sm:col-span-1">
+                        <label class="block text-xs font-medium text-slate-700 dark:text-slate-300">{{ t('task') }} ({{ t('optional') }})</label>
+                        <select
+                            v-model="manualForm.task_id"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:text-sm"
+                        >
+                            <option value="">{{ t('select') }}</option>
+                            <option v-for="task in manualTasks" :key="task.id" :value="task.id">
+                                {{ task.title }}
+                            </option>
+                        </select>
+                    </div>
                     <div class="sm:col-span-1">
                         <label class="block text-xs font-medium text-slate-700 dark:text-slate-300">{{ t('duration_hhmm') }}</label>
                         <input
