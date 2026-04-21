@@ -1,5 +1,6 @@
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
+import { usePage } from '@inertiajs/vue3';
 import { useMatomo } from '@/Composables/useMatomo';
 
 /**
@@ -602,7 +603,24 @@ const tours = {
 export function useTour() {
     const { tour: trackTour } = useMatomo();
 
-    const getStorageKey = (tourKey) => `tour-${tourKey}-seen`;
+    const getUserId = () => {
+        try {
+            return usePage().props.auth?.user?.id ?? 'guest';
+        } catch {
+            return 'guest';
+        }
+    };
+
+    const getStorageKey = (tourKey) => `tour-u${getUserId()}-${tourKey}-seen`;
+
+    // Nettoyage unique des anciennes cles (format pre-scope utilisateur)
+    const MIGRATION_KEY = 'tour-migration-v2';
+    if (typeof window !== 'undefined' && !localStorage.getItem(MIGRATION_KEY)) {
+        Object.keys(localStorage)
+            .filter(k => k.startsWith('tour-') && !k.startsWith('tour-u') && k !== MIGRATION_KEY)
+            .forEach(k => localStorage.removeItem(k));
+        localStorage.setItem(MIGRATION_KEY, '1');
+    }
 
     const hasSeen = (tourKey) => {
         return localStorage.getItem(getStorageKey(tourKey)) === '1';
