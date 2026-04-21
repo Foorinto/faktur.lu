@@ -44,6 +44,13 @@ class OnboardingController extends Controller
             array_merge($data, [
                 'country_code' => $data['country_code'] ?? 'LU',
                 'legal_name' => $data['company_name'],
+                'matricule' => '',
+                'iban' => '',
+                'bic' => '',
+                'email' => $request->user()->email,
+                'address' => $data['address'] ?? '',
+                'postal_code' => $data['postal_code'] ?? '',
+                'city' => $data['city'] ?? '',
             ])
         );
 
