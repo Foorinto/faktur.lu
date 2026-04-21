@@ -41,7 +41,10 @@ class OnboardingController extends Controller
 
         BusinessSettings::updateOrCreate(
             ['user_id' => $request->user()->id],
-            array_merge($data, ['country_code' => $data['country_code'] ?? 'LU'])
+            array_merge($data, [
+                'country_code' => $data['country_code'] ?? 'LU',
+                'legal_name' => $data['company_name'],
+            ])
         );
 
         $request->user()->update(['onboarding_step' => 'branding']);
