@@ -70,17 +70,20 @@ class SecurityHeaders
             // Fonts - Google/Bunny fonts
             "font-src 'self' https://fonts.bunny.net https://fonts.gstatic.com",
 
-            // Connect - API calls + Matomo analytics
-            "connect-src 'self' " . $this->getMatomoDomain(),
+            // Connect - API calls + Matomo analytics + Stripe
+            "connect-src 'self' " . $this->getMatomoDomain() . " https://api.stripe.com",
 
             // Prevent framing
             "frame-ancestors 'none'",
 
+            // Allow Stripe to frame for 3DS authentication
+            "frame-src https://js.stripe.com https://checkout.stripe.com https://hooks.stripe.com",
+
             // Base URI restriction
             "base-uri 'self'",
 
-            // Form action restriction
-            "form-action 'self'",
+            // Form action - self + Stripe Checkout
+            "form-action 'self' https://checkout.stripe.com",
 
             // Object/embed restriction
             "object-src 'none'",
