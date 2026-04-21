@@ -631,8 +631,11 @@ export function useTour() {
 
         trackTour.started(tourKey);
 
+        let completed = false;
+        const totalSteps = config.steps.length;
+
         const driverObj = driver({
-            showProgress: config.steps.length > 1,
+            showProgress: totalSteps > 1,
             allowClose: true,
             overlayOpacity: 0.6,
             popoverClass: 'faktur-tour-popover',
@@ -640,9 +643,17 @@ export function useTour() {
             prevBtnText: '← Précédent',
             doneBtnText: 'Terminer',
             progressText: 'Étape {{current}} sur {{total}}',
+            onNextClick: (element, step, opts) => {
+                if (opts.state.activeIndex === totalSteps - 1) {
+                    completed = true;
+                }
+                driverObj.moveNext();
+            },
             onDestroyed: () => {
-                markSeen(tourKey);
-                trackTour.completed(tourKey);
+                if (completed) {
+                    markSeen(tourKey);
+                    trackTour.completed(tourKey);
+                }
             },
             steps: config.steps,
         });
