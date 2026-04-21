@@ -33,6 +33,9 @@ class OnboardingController extends Controller
         $data = $request->validate([
             'company_name' => 'required|string|max:255',
             'vat_number' => 'nullable|string|max:50',
+            'matricule' => 'nullable|string|max:50',
+            'iban' => 'nullable|string|max:50',
+            'bic' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:20',
             'city' => 'nullable|string|max:100',
@@ -44,9 +47,9 @@ class OnboardingController extends Controller
             array_merge($data, [
                 'country_code' => $data['country_code'] ?? 'LU',
                 'legal_name' => $data['company_name'],
-                'matricule' => '',
-                'iban' => '',
-                'bic' => '',
+                'matricule' => $data['matricule'] ?? '',
+                'iban' => $data['iban'] ?? '',
+                'bic' => $data['bic'] ?? '',
                 'email' => $request->user()->email,
                 'address' => $data['address'] ?? '',
                 'postal_code' => $data['postal_code'] ?? '',

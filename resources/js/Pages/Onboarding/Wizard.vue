@@ -24,6 +24,9 @@ const progress = computed(() => ((stepIndex.value + 1) / stepOrder.length) * 100
 const companyForm = ref({
     company_name: props.business?.company_name || '',
     vat_number: props.business?.vat_number || '',
+    matricule: props.business?.matricule || '',
+    iban: props.business?.iban || '',
+    bic: props.business?.bic || '',
     address: props.business?.address || '',
     postal_code: props.business?.postal_code || '',
     city: props.business?.city || '',
@@ -233,9 +236,26 @@ const goToInvoice = () => router.visit(route('invoices.edit', lastInvoiceId.valu
                             <p v-if="errors.company_name" class="text-xs text-red-600 mt-1">{{ errors.company_name[0] }}</p>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Numéro de TVA</label>
-                            <input v-model="companyForm.vat_number" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="LU12345678" />
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Numéro de TVA</label>
+                                <input v-model="companyForm.vat_number" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="LU12345678" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Matricule</label>
+                                <input v-model="companyForm.matricule" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="12345678901" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">IBAN</label>
+                                <input v-model="companyForm.iban" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="LU28 0019 4006 4475 0000" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">BIC</label>
+                                <input v-model="companyForm.bic" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="BCEELULL" />
+                            </div>
                         </div>
 
                         <div>
