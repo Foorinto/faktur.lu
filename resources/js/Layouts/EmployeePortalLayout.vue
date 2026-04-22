@@ -2,6 +2,7 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import ToastNotification from '@/Components/ToastNotification.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
@@ -175,23 +176,8 @@ const userInitial = computed(() => user.value?.name?.charAt(0)?.toUpperCase() ||
             </nav>
         </header>
 
-        <!-- Flash messages -->
-        <div v-if="$page.props.flash?.success" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="flex items-center rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 p-4">
-                <svg class="h-5 w-5 text-emerald-500 dark:text-emerald-400 mr-3 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-                </svg>
-                <p class="text-sm text-emerald-700 dark:text-emerald-400">{{ $page.props.flash.success }}</p>
-            </div>
-        </div>
-        <div v-if="$page.props.flash?.error" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="flex items-center rounded-xl bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 p-4">
-                <svg class="h-5 w-5 text-rose-500 dark:text-rose-400 mr-3 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                </svg>
-                <p class="text-sm text-rose-700 dark:text-rose-400">{{ $page.props.flash.error }}</p>
-            </div>
-        </div>
+        <!-- Flash messages (toasts fixes en haut a droite) -->
+        <ToastNotification />
 
         <!-- Main content -->
         <main class="flex-1 py-8">

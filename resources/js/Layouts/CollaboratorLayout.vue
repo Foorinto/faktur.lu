@@ -2,6 +2,7 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import ToastNotification from '@/Components/ToastNotification.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -86,17 +87,8 @@ const logout = () => {
             </div>
         </header>
 
-        <!-- Flash messages -->
-        <div v-if="$page.props.flash?.success" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
-                <p class="text-sm text-green-700 dark:text-green-400">{{ $page.props.flash.success }}</p>
-            </div>
-        </div>
-        <div v-if="$page.props.flash?.error" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-                <p class="text-sm text-red-700 dark:text-red-400">{{ $page.props.flash.error }}</p>
-            </div>
-        </div>
+        <!-- Flash messages (toasts fixes en haut a droite) -->
+        <ToastNotification />
 
         <!-- Main content -->
         <main class="py-8">
