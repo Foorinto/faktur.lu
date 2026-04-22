@@ -58,10 +58,15 @@ class BlogController extends Controller
         ]);
     }
 
-    public function show(string $locale, BlogPost $post): Response
+    public function show(string $locale, BlogPost $post)
     {
         if (!$post->isPublished()) {
             abort(404);
+        }
+
+        // If URL locale doesn't match post locale, redirect to blog index in URL locale
+        if ($post->locale !== $locale) {
+            return redirect()->route('blog.index', ['locale' => $locale]);
         }
 
         $post->load(['category', 'author', 'tags']);

@@ -105,8 +105,38 @@ class LocaleController extends Controller
         // Replace locale in path or add it
         $newPath = $this->replaceLocaleInPath($path, $locale, $supportedLocales);
 
+        // If we're on a blog article, tag, or category page, fallback to blog index
+        // because article slugs are locale-specific and can't be translated automatically
+        if ($this->shouldFallbackToBlogIndex($newPath, $locale, $supportedLocales)) {
+            $newPath = '/' . $locale . '/blog';
+        }
+
         return redirect()->to($newPath)
             ->cookie('locale', $locale, 60 * 24 * 365); // 1 year
+    }
+
+    /**
+     * Determine if we should fallback to blog index (for article/category/tag pages
+     * whose slugs are locale-specific and can't be auto-translated).
+     */
+    private function shouldFallbackToBlogIndex(string $path, string $locale, array $supportedLocales): bool
+    {
+        $segments = explode('/', ltrim($path, '/'));
+
+        if (count($segments) < 3) {
+            return false;
+        }
+
+        $firstSegment = $segments[0] ?? '';
+        $secondSegment = $segments[1] ?? '';
+
+        if (!in_array($firstSegment, $supportedLocales)) {
+            return false;
+        }
+
+        // /{locale}/blog/{slug} or /{locale}/blog/tag/{slug} or /{locale}/blog/categorie/{slug}
+        // Any blog sub-path needs to fall back to the blog index
+        return $secondSegment === 'blog';
     }
 
     /**
