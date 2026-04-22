@@ -13,6 +13,7 @@ class BlogPost extends Model
     protected $fillable = [
         'author_id',
         'locale',
+        'translation_key',
         'category_id',
         'title',
         'slug',
@@ -103,6 +104,39 @@ class BlogPost extends Model
         return $this->status === 'published'
             && $this->published_at
             && $this->published_at->lte(now());
+    }
+
+    /**
+     * Find a translation of this post in the given locale.
+     */
+    public function findTranslation(string $locale): ?self
+    {
+        if ($this->locale === $locale) {
+            return $this;
+        }
+
+        if (!$this->translation_key) {
+            return null;
+        }
+
+        return static::where('translation_key', $this->translation_key)
+            ->where('locale', $locale)
+            ->where('status', 'published')
+            ->first();
+    }
+
+    /**
+     * Get all translations of this post (including itself).
+     */
+    public function translations()
+    {
+        if (!$this->translation_key) {
+            return collect([$this]);
+        }
+
+        return static::where('translation_key', $this->translation_key)
+            ->where('status', 'published')
+            ->get();
     }
 
     public function getRouteKeyName(): string

@@ -64,8 +64,12 @@ class BlogController extends Controller
             abort(404);
         }
 
-        // If URL locale doesn't match post locale, redirect to blog index in URL locale
+        // If URL locale doesn't match post locale, try to find the translation
         if ($post->locale !== $locale) {
+            $translation = $post->findTranslation($locale);
+            if ($translation) {
+                return redirect()->route('blog.show', ['locale' => $locale, 'post' => $translation->slug]);
+            }
             return redirect()->route('blog.index', ['locale' => $locale]);
         }
 
@@ -87,12 +91,21 @@ class BlogController extends Controller
             ->limit(3)
             ->get();
 
+        // Available translations for hreflang and language switcher
+        $availableLocales = $post->translation_key
+            ? $post->translations()->pluck('locale')->map(fn ($l) => [
+                'locale' => $l,
+                'slug' => $post->translations()->firstWhere('locale', $l)?->slug,
+            ])->toArray()
+            : [['locale' => $post->locale, 'slug' => $post->slug]];
+
         return Inertia::render('Blog/Show', [
             'post' => [
                 'id' => $post->id,
                 'title' => $post->title,
                 'slug' => $post->slug,
                 'locale' => $post->locale,
+                'translation_key' => $post->translation_key,
                 'excerpt' => $post->excerpt,
                 'content' => $post->content,
                 'cover_image_url' => $post->cover_image_url,
@@ -101,6 +114,7 @@ class BlogController extends Controller
                 'published_at' => $post->published_at->toISOString(),
                 'reading_time' => $post->reading_time,
                 'views_count' => $post->views_count,
+                'available_locales' => $availableLocales,
                 'category' => $post->category ? [
                     'name' => $post->category->name,
                     'slug' => $post->category->slug,

@@ -21,6 +21,7 @@ const form = useForm({
     content: props.post.content,
     category_id: props.post.category_id || '',
     locale: props.post.locale || 'fr',
+    translation_key: props.post.translation_key || '',
     cover_image: null,
     remove_cover: false,
     meta_title: props.post.meta_title || '',
@@ -255,6 +256,19 @@ const submit = () => {
                         </option>
                     </select>
                     <InputError :message="form.errors.locale" class="mt-2" />
+                </div>
+
+                <!-- Translation key -->
+                <div class="rounded-xl bg-slate-800 p-6">
+                    <h3 class="mb-2 text-lg font-semibold text-white">Clé de traduction</h3>
+                    <p class="mb-3 text-xs text-slate-400">Partagez la même clé entre les versions d'un article dans différentes langues pour les lier.</p>
+                    <input
+                        v-model="form.translation_key"
+                        type="text"
+                        placeholder="ex: peppol-b2g-luxembourg-2026"
+                        class="block w-full rounded-lg border-slate-600 bg-slate-700 text-white focus:border-purple-500 focus:ring-purple-500"
+                    />
+                    <InputError :message="form.errors.translation_key" class="mt-2" />
                 </div>
 
                 <!-- Category -->

@@ -102,17 +102,61 @@ class LocaleController extends Controller
         $referer = $request->header('Referer', '/');
         $path = parse_url($referer, PHP_URL_PATH) ?? '/';
 
+        // If we're on a blog article, try to find the translation and redirect to it
+        $blogTranslationPath = $this->findBlogTranslationPath($path, $locale, $supportedLocales);
+        if ($blogTranslationPath !== null) {
+            return redirect()->to($blogTranslationPath)
+                ->cookie('locale', $locale, 60 * 24 * 365);
+        }
+
         // Replace locale in path or add it
         $newPath = $this->replaceLocaleInPath($path, $locale, $supportedLocales);
 
-        // If we're on a blog article, tag, or category page, fallback to blog index
-        // because article slugs are locale-specific and can't be translated automatically
+        // If we're on a blog sub-page (tag, category) without a direct translation,
+        // fallback to the blog index in the new locale
         if ($this->shouldFallbackToBlogIndex($newPath, $locale, $supportedLocales)) {
             $newPath = '/' . $locale . '/blog';
         }
 
         return redirect()->to($newPath)
             ->cookie('locale', $locale, 60 * 24 * 365); // 1 year
+    }
+
+    /**
+     * If the referer path is a blog article with a known translation, return the translated URL.
+     * Returns null otherwise.
+     */
+    private function findBlogTranslationPath(string $path, string $newLocale, array $supportedLocales): ?string
+    {
+        $segments = explode('/', ltrim($path, '/'));
+
+        // Expected: /{locale}/blog/{slug}
+        if (count($segments) !== 3) {
+            return null;
+        }
+
+        if (!in_array($segments[0], $supportedLocales) || $segments[1] !== 'blog') {
+            return null;
+        }
+
+        $slug = $segments[2];
+
+        // Skip reserved sub-paths like 'tag', 'categorie', 'kategorie', 'category'
+        if (in_array($slug, ['tag', 'categorie', 'kategorie', 'category'])) {
+            return null;
+        }
+
+        $post = \App\Models\BlogPost::where('slug', $slug)->first();
+        if (!$post) {
+            return null;
+        }
+
+        $translation = $post->findTranslation($newLocale);
+        if (!$translation) {
+            return null;
+        }
+
+        return '/' . $newLocale . '/blog/' . $translation->slug;
     }
 
     /**
