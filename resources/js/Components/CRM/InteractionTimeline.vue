@@ -25,10 +25,16 @@ const props = defineProps({
 const showForm = ref(false);
 const editingId = ref(null);
 
+const getLocalDateTime = () => {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+};
+
 const form = useForm({
     type: 'note',
     content: '',
-    contacted_at: new Date().toISOString().slice(0, 16),
+    contacted_at: getLocalDateTime(),
     subject: '',
     send_email: false,
 });
@@ -60,7 +66,7 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            form.contacted_at = new Date().toISOString().slice(0, 16);
+            form.contacted_at = getLocalDateTime();
             showForm.value = false;
         },
     });
