@@ -63,34 +63,49 @@ const shareOnFacebook = () => {
                 <div v-else class="bg-gradient-to-br from-primary-400 to-primary-600 py-20"></div>
 
                 <div class="absolute inset-0 flex items-end">
-                    <div class="mx-auto max-w-4xl px-4 pb-8 sm:px-6 lg:px-8 w-full">
+                    <div class="mx-auto max-w-4xl px-4 pb-10 sm:px-6 lg:px-8 w-full">
                         <!-- Breadcrumbs -->
-                        <nav class="mb-4">
+                        <nav class="mb-5">
                             <ol class="flex items-center gap-2 text-sm text-white/80">
                                 <li>
-                                    <Link href="/" class="hover:text-white">Accueil</Link>
+                                    <Link href="/" class="hover:text-white transition-colors">Accueil</Link>
                                 </li>
-                                <li>/</li>
+                                <li class="text-white/40">›</li>
                                 <li>
-                                    <Link :href="localizedRoute('blog.index')" class="hover:text-white">Blog</Link>
+                                    <Link :href="localizedRoute('blog.index')" class="hover:text-white transition-colors">Blog</Link>
                                 </li>
-                                <li v-if="post.category">/</li>
+                                <li v-if="post.category" class="text-white/40">›</li>
                                 <li v-if="post.category">
-                                    <Link :href="localizedRoute('blog.category', post.category.slug)" class="hover:text-white">
+                                    <Link :href="localizedRoute('blog.category', post.category.slug)" class="hover:text-white transition-colors">
                                         {{ post.category.name }}
                                     </Link>
                                 </li>
                             </ol>
                         </nav>
 
-                        <h1 class="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+                        <h1 class="text-3xl font-bold text-white sm:text-4xl lg:text-5xl leading-tight">
                             {{ post.title }}
                         </h1>
 
-                        <div class="mt-4 flex flex-wrap items-center gap-4 text-white/80">
-                            <span v-if="post.author">Par {{ post.author.name }}</span>
-                            <span>{{ formatDate(post.published_at) }}</span>
-                            <span>{{ post.reading_time }} min de lecture</span>
+                        <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-white/90 text-sm">
+                            <span v-if="post.author" class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                {{ post.author.name }}
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                {{ formatDate(post.published_at) }}
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {{ post.reading_time }} min de lecture
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -104,7 +119,7 @@ const shareOnFacebook = () => {
                         v-for="tag in post.tags"
                         :key="tag.slug"
                         :href="localizedRoute('blog.tag', tag.slug)"
-                        class="inline-block rounded-full bg-primary-500/20 px-3 py-1 text-sm font-medium text-primary-500 hover:bg-primary-200 transition-colors"
+                        class="inline-block rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-700 hover:bg-primary-100 transition-colors"
                     >
                         #{{ tag.name }}
                     </Link>
@@ -133,9 +148,9 @@ const shareOnFacebook = () => {
                 />
 
                 <!-- Share -->
-                <div class="mt-12 border-t pt-8">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ t('blog.share_title') }}</h3>
-                    <div class="flex gap-3">
+                <div class="mt-12 border-t border-gray-200 pt-8">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-4">{{ t('blog.share_title') }}</h3>
+                    <div class="flex flex-wrap gap-3">
                         <button
                             @click="shareOnTwitter"
                             class="flex items-center gap-2 rounded-lg bg-[#1DA1F2] px-4 py-2 text-white hover:bg-[#1a8cd8] transition-colors"
@@ -168,13 +183,13 @@ const shareOnFacebook = () => {
 
                 <!-- CTA -->
                 <div class="mt-12 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 p-8 text-center text-white">
-                    <h3 class="text-2xl font-bold mb-2">{{ t('blog.ready_title') }}</h3>
-                    <p class="text-primary-500/20 mb-6">
+                    <h3 class="text-2xl font-bold mb-3">{{ t('blog.ready_title') }}</h3>
+                    <p class="text-white/90 mb-6 max-w-xl mx-auto">
                         {{ t('blog.ready_subtitle') }}
                     </p>
                     <Link
                         :href="route('register')"
-                        class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-primary-500 hover:bg-primary-500/10 transition-colors"
+                        class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-primary-600 hover:bg-primary-50 transition-colors shadow-md"
                     >
                         {{ t('blog.cta_button') }}
                     </Link>
@@ -182,17 +197,18 @@ const shareOnFacebook = () => {
             </div>
 
             <!-- Related posts -->
-            <div v-if="relatedPosts && relatedPosts.length > 0" class="bg-gray-50 py-12">
+            <div v-if="relatedPosts && relatedPosts.length > 0" class="bg-slate-50 py-16 border-t border-gray-200">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-8">{{ t('blog.related_articles') }}</h2>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">{{ t('blog.related_articles') }}</h2>
+                    <div class="w-12 h-1 bg-primary-500 rounded-full mb-8"></div>
 
-                    <div class="grid gap-8 md:grid-cols-3">
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         <article
                             v-for="relatedPost in relatedPosts"
                             :key="relatedPost.slug"
-                            class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
+                            class="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-xl border border-gray-100 transition-all"
                         >
-                            <Link :href="localizedRoute('blog.show', relatedPost.slug)">
+                            <Link :href="localizedRoute('blog.show', relatedPost.slug)" class="block">
                                 <div v-if="relatedPost.cover_image_url" class="aspect-[16/9] overflow-hidden">
                                     <img
                                         :src="relatedPost.cover_image_url"
@@ -204,12 +220,12 @@ const shareOnFacebook = () => {
                                 <div v-else class="aspect-[16/9] bg-gradient-to-br from-primary-400 to-primary-600"></div>
 
                                 <div class="p-6">
-                                    <div class="text-sm text-gray-500 mb-2">
-                                        <span v-if="relatedPost.category" class="text-primary-500">{{ relatedPost.category }}</span>
-                                        <span v-if="relatedPost.category"> • </span>
-                                        {{ formatDate(relatedPost.published_at) }}
+                                    <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                                        <span v-if="relatedPost.category" class="inline-block rounded-full bg-primary-50 px-2.5 py-0.5 font-medium text-primary-700">{{ relatedPost.category }}</span>
+                                        <span v-if="relatedPost.category" class="text-slate-300">•</span>
+                                        <span>{{ formatDate(relatedPost.published_at) }}</span>
                                     </div>
-                                    <h3 class="font-semibold text-gray-900 group-hover:text-primary-500 transition-colors">
+                                    <h3 class="font-semibold text-slate-900 group-hover:text-primary-600 transition-colors leading-snug">
                                         {{ relatedPost.title }}
                                     </h3>
                                 </div>
