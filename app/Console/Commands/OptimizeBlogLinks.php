@@ -175,7 +175,7 @@ class OptimizeBlogLinks extends Command
                 continue;
             }
 
-            $linksHtml = '<div class="bg-slate-50 border border-slate-200 rounded-xl p-5 my-6">';
+            $linksHtml = '<div class="bg-slate-50 border border-slate-200 rounded-xl p-5 my-6 mb-6">';
             $linksHtml .= '<p class="font-semibold text-slate-900 mb-3">À lire aussi sur faktur.lu :</p>';
             $linksHtml .= '<ul class="space-y-1">';
 
