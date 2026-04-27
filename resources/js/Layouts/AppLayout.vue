@@ -9,6 +9,7 @@ import ReadOnlyBanner from '@/Components/ReadOnlyBanner.vue';
 import FreePlanBanner from '@/Components/FreePlanBanner.vue';
 import GlobalSearchModal from '@/Components/GlobalSearchModal.vue';
 import ToastNotification from '@/Components/ToastNotification.vue';
+import HelpTourButton from '@/Components/HelpTourButton.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 import { useTour } from '@/Composables/useTour';
@@ -453,4 +454,5 @@ const routeExists = (routeName) => {
 
     <!-- Global search modal -->
     <GlobalSearchModal :show="showSearch" @close="showSearch = false" @open="showSearch = true" />
+    <HelpTourButton />
 </template>
