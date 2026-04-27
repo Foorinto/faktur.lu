@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route accessible meme quand on impersonifie un utilisateur (pas de middleware admin.user)
+Route::middleware(['auth'])
+    ->post(config('admin.url_prefix', 'admin') . '/impersonation/stop', [AdminUserController::class, 'stopImpersonation'])
+    ->name('admin.impersonation.stop');
+
 Route::prefix(config('admin.url_prefix', 'admin'))
     ->name('admin.')
     ->middleware(['auth', 'verified', 'admin.user'])
@@ -39,7 +44,6 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         Route::post('users/{user}/restore', [AdminUserController::class, 'restore'])->name('users.restore');
         Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
         Route::delete('users/{user}/force', [AdminUserController::class, 'forceDelete'])->name('users.force-delete');
-        Route::post('impersonation/stop', [AdminUserController::class, 'stopImpersonation'])->name('impersonation.stop');
 
         // Support tickets
         Route::get('support', [AdminSupportController::class, 'index'])->name('support.index');

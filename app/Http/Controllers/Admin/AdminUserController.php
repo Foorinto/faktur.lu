@@ -136,8 +136,9 @@ class AdminUserController extends Controller
      */
     public function impersonate(Request $request, User $user)
     {
+        // Sauvegarde l'ID de l'admin original AVANT le switch d'auth
+        $request->session()->put('impersonator_id', auth()->id());
         $request->session()->put('impersonating', [
-            'admin_session_id' => $request->session()->get('admin_session_id'),
             'user_id' => $user->id,
             'user_name' => $user->name,
             'started_at' => now()->toIso8601String(),
@@ -153,16 +154,25 @@ class AdminUserController extends Controller
      */
     public function stopImpersonation(Request $request)
     {
-        $impersonating = $request->session()->get('impersonating');
+        $impersonatorId = $request->session()->pull('impersonator_id');
+        $request->session()->forget('impersonating');
 
-        if (!$impersonating) {
+        if (!$impersonatorId) {
+            // Aucune impersonation en cours
             return redirect()->route('admin.dashboard');
         }
 
-        $request->session()->forget('impersonating');
-        auth()->logout();
+        $admin = User::find($impersonatorId);
+        if (!$admin || !$admin->is_admin) {
+            // L'admin original n'existe plus ou n'est plus admin
+            auth()->logout();
+            return redirect()->route('login');
+        }
 
-        return redirect()->route('admin.dashboard')->with('success', 'Impersonation terminée.');
+        // Relog en tant qu'admin
+        auth()->login($admin);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Retour a votre compte admin.');
     }
 
     /**
