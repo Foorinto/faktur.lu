@@ -1473,8 +1473,8 @@ return [
             'title' => 'Facturation Peppol',
             'short_description' => 'Facturation electronique structuree pour le secteur public et les entreprises.',
             'page_title' => 'Peppol Luxembourg | Facturation electronique B2G | faktur.lu',
-            'meta_description' => 'Facturation electronique Peppol pour le Luxembourg et la Belgique. Envoi B2G conforme, format UBL 2.1, Access Point certifie. Integration native.',
-            'hero_description' => 'Envoyez vos factures electroniques via le reseau Peppol, obligatoire pour les marches publics au Luxembourg et en Belgique. Format UBL 2.1 conforme, transmission via Access Point certifie.',
+            'meta_description' => 'Facturation electronique Peppol pour les marches publics luxembourgeois. Envoi B2G conforme, format UBL 2.1, Access Point certifie. Integration native.',
+            'hero_description' => 'Envoyez vos factures electroniques via le reseau Peppol, obligatoire pour les marches publics luxembourgeois. Format UBL 2.1 conforme, transmission via Access Point certifie.',
             'details_title' => 'Facturation electronique Peppol integree',
             'items' => [
                 'b2g' => [
@@ -1487,15 +1487,15 @@ return [
                 ],
                 'access_point' => [
                     'title' => 'Access Point certifie',
-                    'description' => 'Transmission via un Access Point Peppol certifie pour la Belgique et le Luxembourg.',
+                    'description' => 'Transmission via un Access Point Peppol certifie pour le secteur public luxembourgeois.',
                 ],
                 'belgium' => [
-                    'title' => 'Support Belgique',
-                    'description' => 'Compatible avec les obligations belges de facturation electronique B2G via Peppol.',
+                    'title' => 'Reseau europeen Peppol',
+                    'description' => 'Vos factures peuvent transiter via le reseau Peppol europeen pour atteindre vos clients dans toute l\'UE.',
                 ],
                 'facturx' => [
-                    'title' => 'Factur-X / ZUGFeRD',
-                    'description' => 'Support du format Factur-X (France) et ZUGFeRD (Allemagne) pour la facturation electronique hybride.',
+                    'title' => 'Export Factur-X / ZUGFeRD',
+                    'description' => 'Format hybride PDF+XML disponible en export pour vos echanges B2B avec des partenaires europeens.',
                 ],
                 'tracking' => [
                     'title' => 'Suivi de transmission',
@@ -1505,7 +1505,7 @@ return [
             'faqs' => [
                 'mandatory' => [
                     'question' => 'Peppol est-il obligatoire au Luxembourg ?',
-                    'answer' => 'Oui, la facturation electronique via Peppol est obligatoire pour les fournisseurs du secteur public luxembourgeois. C\'est aussi requis pour les marches publics belges.',
+                    'answer' => 'Oui, la facturation electronique via Peppol est obligatoire pour les fournisseurs du secteur public luxembourgeois.',
                 ],
                 'format' => [
                     'question' => 'Quel format de facture est utilise ?',
@@ -1513,7 +1513,7 @@ return [
                 ],
                 'facturx' => [
                     'question' => 'Quelle est la difference entre Peppol et Factur-X ?',
-                    'answer' => 'Peppol est un reseau de transmission de factures electroniques (B2G). Factur-X est un format hybride PDF+XML utilise principalement en France et en Allemagne. faktur.lu supporte les deux.',
+                    'answer' => 'Peppol est un reseau de transmission de factures electroniques (B2G). Factur-X est un format hybride PDF+XML utilise pour les echanges B2B en Europe. faktur.lu permet d\'exporter vos factures au format Factur-X pour vos partenaires qui le demandent.',
                 ],
             ],
         ],
@@ -1750,7 +1750,7 @@ return [
             'items' => [
                 'hybrid' => ['title' => 'PDF hybride', 'description' => 'Chaque facture contient un PDF lisible et un fichier XML structuré pour le traitement automatique.'],
                 'standard' => ['title' => 'Conforme EN 16931', 'description' => 'Respect de la norme européenne EN 16931 pour la facturation électronique.'],
-                'zugferd' => ['title' => 'Compatible ZUGFeRD', 'description' => 'Format reconnu en Allemagne, France, et dans toute l\'Union européenne.'],
+                'zugferd' => ['title' => 'Compatible ZUGFeRD', 'description' => 'Format export reconnu dans toute l\'Union européenne pour vos échanges B2B.'],
                 'auto' => ['title' => 'Génération automatique', 'description' => 'Les factures Factur-X sont générées automatiquement, sans action supplémentaire de votre part.'],
                 'b2g' => ['title' => 'Prêt pour le B2G', 'description' => 'Anticipez les obligations de facturation électronique pour le secteur public européen.'],
                 'validation' => ['title' => 'Validation intégrée', 'description' => 'Chaque fichier Factur-X est validé automatiquement avant export pour garantir sa conformité.'],
