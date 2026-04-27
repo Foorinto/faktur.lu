@@ -48,7 +48,7 @@ const formatDate = (date) => {
 
                 <!-- Header -->
                 <div class="text-center mb-12">
-                    <div class="inline-block rounded-full bg-primary-500/20 px-4 py-2 text-primary-500 font-medium mb-4">
+                    <div class="inline-block rounded-full bg-primary-50 px-4 py-2 text-primary-700 font-medium mb-4">
                         #{{ tag.name }}
                     </div>
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">

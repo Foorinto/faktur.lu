@@ -243,4 +243,15 @@ const shareOnFacebook = () => {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* Pour les liens stylises comme des boutons dans le contenu blog,
+   ne pas appliquer la couleur prose-a (qui ecrase text-white) */
+.prose a[class*="bg-"] {
+    color: inherit !important;
+    text-decoration: none !important;
+    font-weight: inherit;
+}
+.prose a[class*="bg-"]:hover {
+    text-decoration: none !important;
+}
 </style>

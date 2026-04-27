@@ -181,7 +181,7 @@ const formatDate = (date) => {
                             </p>
                             <Link
                                 :href="route('register')"
-                                class="inline-block bg-white text-primary-500 font-medium px-4 py-2 rounded-lg hover:bg-primary-500/10 transition-colors"
+                                class="inline-block bg-white text-primary-600 font-medium px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors shadow-md"
                             >
                                 {{ t('blog.cta_button') }}
                             </Link>

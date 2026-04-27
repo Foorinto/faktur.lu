@@ -166,12 +166,12 @@ const formatDate = (date) => {
                         <!-- CTA -->
                         <div class="bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl p-6 text-white">
                             <h3 class="text-lg font-semibold mb-2">Essayez faktur.lu</h3>
-                            <p class="text-primary-500/20 text-sm mb-4">
+                            <p class="text-white/90 text-sm mb-4">
                                 Créez vos factures conformes au Luxembourg en quelques clics.
                             </p>
                             <Link
                                 :href="route('register')"
-                                class="inline-block bg-white text-primary-500 font-medium px-4 py-2 rounded-lg hover:bg-primary-500/10 transition-colors"
+                                class="inline-block bg-white text-primary-600 font-medium px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors shadow-md"
                             >
                                 Essai gratuit 14 jours
                             </Link>
