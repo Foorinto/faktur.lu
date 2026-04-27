@@ -245,13 +245,45 @@ const shareOnFacebook = () => {
 }
 
 /* Pour les liens stylises comme des boutons dans le contenu blog,
-   ne pas appliquer la couleur prose-a (qui ecrase text-white) */
+   forcer la couleur du texte selon la classe Tailwind appliquee
+   (ecrase prose-a:text-primary-500 qui rendait illisible) */
 .prose a[class*="bg-"] {
-    color: inherit !important;
     text-decoration: none !important;
-    font-weight: inherit;
 }
 .prose a[class*="bg-"]:hover {
     text-decoration: none !important;
+}
+.prose a[class~="text-white"],
+.prose a[class~="text-white"]:hover {
+    color: #ffffff !important;
+}
+.prose a[class*="bg-primary-5"],
+.prose a[class*="bg-primary-6"],
+.prose a[class*="bg-primary-7"],
+.prose a[class*="bg-primary-8"],
+.prose a[class*="bg-primary-9"],
+.prose a[class*="bg-primary-5"]:hover,
+.prose a[class*="bg-primary-6"]:hover,
+.prose a[class*="bg-accent"],
+.prose a[class*="bg-accent"]:hover,
+.prose a[class*="bg-emerald-5"],
+.prose a[class*="bg-emerald-5"]:hover,
+.prose a[class*="bg-emerald-6"],
+.prose a[class*="bg-emerald-6"]:hover,
+.prose a[class*="bg-rose-5"],
+.prose a[class*="bg-rose-5"]:hover,
+.prose a[class*="bg-rose-6"],
+.prose a[class*="bg-rose-6"]:hover,
+.prose a[class*="bg-blue-5"],
+.prose a[class*="bg-blue-5"]:hover,
+.prose a[class*="bg-blue-6"],
+.prose a[class*="bg-blue-6"]:hover,
+.prose a[class*="bg-slate-7"],
+.prose a[class*="bg-slate-7"]:hover,
+.prose a[class*="bg-slate-8"],
+.prose a[class*="bg-slate-8"]:hover,
+.prose a[class*="bg-slate-9"],
+.prose a[class*="bg-slate-9"]:hover {
+    color: #ffffff !important;
 }
 </style>
