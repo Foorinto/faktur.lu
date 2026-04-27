@@ -10,6 +10,7 @@ import FreePlanBanner from '@/Components/FreePlanBanner.vue';
 import GlobalSearchModal from '@/Components/GlobalSearchModal.vue';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import HelpTourButton from '@/Components/HelpTourButton.vue';
+import SupportButton from '@/Components/SupportButton.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 import { useTour } from '@/Composables/useTour';
@@ -419,6 +420,7 @@ const routeExists = (routeName) => {
                                 <kbd class="rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 font-mono text-[10px] dark:border-gray-600 dark:bg-gray-700">⌘K</kbd>
                             </span>
                         </button>
+                        <HelpTourButton />
                         <Link
                             v-if="routeExists('reminders.index')"
                             :href="route('reminders.index')"
@@ -454,5 +456,5 @@ const routeExists = (routeName) => {
 
     <!-- Global search modal -->
     <GlobalSearchModal :show="showSearch" @close="showSearch = false" @open="showSearch = true" />
-    <HelpTourButton />
+    <SupportButton />
 </template>
