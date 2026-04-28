@@ -43,18 +43,25 @@ watch(twoFactorEnabled, () => {
 const enableTwoFactorAuthentication = () => {
     enabling.value = true;
 
-    router.post(route('two-factor.enable'), {}, {
-        preserveScroll: true,
-        onSuccess: () => Promise.all([
+    axios.post(route('two-factor.enable'))
+        .then(() => Promise.all([
             showQrCode(),
             showSetupKey(),
             showRecoveryCodes(),
-        ]),
-        onFinish: () => {
+        ]))
+        .then(() => {
+            // Force le rafraichissement des props Inertia (auth.user.two_factor_enabled)
+            return new Promise((resolve) => {
+                router.reload({
+                    only: ['auth'],
+                    onFinish: resolve,
+                });
+            });
+        })
+        .finally(() => {
             enabling.value = false;
             confirming.value = props.requiresConfirmation;
-        },
-    });
+        });
 };
 
 const showQrCode = () => {
@@ -97,13 +104,22 @@ const regenerateRecoveryCodes = () => {
 const disableTwoFactorAuthentication = () => {
     disabling.value = true;
 
-    router.delete(route('two-factor.disable'), {
-        preserveScroll: true,
-        onSuccess: () => {
+    axios.delete(route('two-factor.disable'))
+        .then(() => {
+            return new Promise((resolve) => {
+                router.reload({
+                    only: ['auth'],
+                    onFinish: resolve,
+                });
+            });
+        })
+        .finally(() => {
             disabling.value = false;
             confirming.value = false;
-        },
-    });
+            qrCode.value = null;
+            setupKey.value = null;
+            recoveryCodes.value = [];
+        });
 };
 </script>
 
