@@ -28,6 +28,18 @@ const form = useForm({
     status: null,
 });
 
+const resendMessage = (messageId) => {
+    if (!confirm('Renvoyer cette réponse par email à l\'utilisateur ?')) return;
+    router.post(route('admin.support.message.resend', [props.ticket.id, messageId]), {}, {
+        preserveScroll: true,
+    });
+};
+
+const isAdminMessage = (message) => {
+    return (message.sender_type === 'admin' || message.sender_type === 'App\\Models\\AdminSession')
+        && !message.is_internal;
+};
+
 const selectedStatus = ref(props.ticket.status);
 const selectedPriority = ref(props.ticket.priority);
 
@@ -192,6 +204,20 @@ const formatDateTime = (dateString) => {
                         </div>
                         <div class="pl-10 text-sm text-slate-300 whitespace-pre-wrap">
                             {{ message.content }}
+                        </div>
+
+                        <!-- Bouton renvoyer pour les messages admin -->
+                        <div v-if="isAdminMessage(message)" class="pl-10 mt-2">
+                            <button
+                                @click="resendMessage(message.id)"
+                                class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-purple-400 transition-colors"
+                                title="Renvoyer cette réponse par email"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Renvoyer par email
+                            </button>
                         </div>
 
                         <!-- Attachments -->

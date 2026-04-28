@@ -49,6 +49,7 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         Route::get('support', [AdminSupportController::class, 'index'])->name('support.index');
         Route::get('support/{ticket}', [AdminSupportController::class, 'show'])->name('support.show');
         Route::post('support/{ticket}/reply', [AdminSupportController::class, 'reply'])->name('support.reply');
+        Route::post('support/{ticket}/messages/{message}/resend', [AdminSupportController::class, 'resendMessage'])->name('support.message.resend');
         Route::put('support/{ticket}', [AdminSupportController::class, 'update'])->name('support.update');
         Route::delete('support/{ticket}', [AdminSupportController::class, 'destroy'])->name('support.destroy');
 

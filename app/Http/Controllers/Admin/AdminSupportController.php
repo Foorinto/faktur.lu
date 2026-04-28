@@ -129,6 +129,26 @@ class AdminSupportController extends Controller
     }
 
     /**
+     * Resend an existing admin message by email.
+     */
+    public function resendMessage(SupportTicket $ticket, SupportMessage $message): RedirectResponse
+    {
+        // Securite : message doit appartenir au ticket et etre une reponse admin (pas une note interne)
+        abort_unless((int) $message->ticket_id === (int) $ticket->id, 404);
+        abort_if($message->is_internal, 403, 'Les notes internes ne sont pas envoyées par email.');
+        abort_unless($message->sender_type === AdminSession::class, 403, 'Seuls les messages admin peuvent etre renvoyés.');
+
+        $ticket->loadMissing('user');
+        if (!$ticket->user?->email) {
+            return back()->with('error', 'Aucune adresse email pour cet utilisateur.');
+        }
+
+        Mail::to($ticket->user->email)->send(new SupportReplyNotification($ticket, $message->content));
+
+        return back()->with('success', 'Email renvoyé à ' . $ticket->user->email);
+    }
+
+    /**
      * Update ticket status and/or priority.
      */
     public function update(Request $request, SupportTicket $ticket): RedirectResponse
