@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SupportReplyNotification;
 use App\Models\AdminSession;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
 use App\Services\AdminAuthService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -114,6 +116,14 @@ class AdminSupportController extends Controller
         }
 
         $ticket->save();
+
+        // Envoie une notification email a l'utilisateur (sauf si note interne)
+        if (!($validated['is_internal'] ?? false)) {
+            $ticket->loadMissing('user');
+            if ($ticket->user?->email) {
+                Mail::to($ticket->user->email)->send(new SupportReplyNotification($ticket, $validated['message']));
+            }
+        }
 
         return back()->with('success', 'Réponse envoyée.');
     }
