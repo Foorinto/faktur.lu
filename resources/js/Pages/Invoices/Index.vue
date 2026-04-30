@@ -306,6 +306,11 @@ const changeStatus = (invoice, newStatus) => {
                             {{ t("due_date") }}
                         </th>
                         <th
+                            class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell"
+                        >
+                            {{ t("paid_on") }}
+                        </th>
+                        <th
                             class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white"
                         >
                             {{ t("total") }} {{ t("ttc") }}
@@ -409,6 +414,14 @@ const changeStatus = (invoice, newStatus) => {
                                     {{ formatDate(invoice.due_at) }}
                                 </span>
                             </div>
+                        </td>
+                        <td
+                            class="hidden whitespace-nowrap px-3 py-4 text-sm lg:table-cell"
+                        >
+                            <span v-if="invoice.paid_at" class="text-emerald-600 dark:text-emerald-400">
+                                {{ formatDate(invoice.paid_at) }}
+                            </span>
+                            <span v-else class="text-slate-300 dark:text-slate-600">—</span>
                         </td>
                         <td
                             class="whitespace-nowrap px-3 py-4 text-right text-sm font-semibold"
