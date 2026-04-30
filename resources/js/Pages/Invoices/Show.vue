@@ -776,7 +776,7 @@ const submitCreditNote = () => {
                         </thead>
                         <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-for="item in invoice.items" :key="item.id">
-                                <td class="py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white">
+                                <td class="py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white whitespace-pre-wrap break-words">
                                     {{ item.description }}
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
