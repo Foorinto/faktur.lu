@@ -358,11 +358,47 @@ const markAsSent = () => {
     });
 };
 
+const showPaidModal = ref(false);
+const todayLocal = () => {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+const paidAtForm = ref(todayLocal());
+
+const openPaidModal = () => {
+    paidAtForm.value = todayLocal();
+    showPaidModal.value = true;
+};
+
 const markAsPaid = () => {
     if (processing.value) return;
     processing.value = true;
-    router.post(route('invoices.mark-paid', props.invoice.id), {}, {
+    router.post(route('invoices.mark-paid', props.invoice.id), {
+        paid_at: paidAtForm.value,
+    }, {
         preserveScroll: true,
+        onSuccess: () => { showPaidModal.value = false; },
+        onFinish: () => processing.value = false,
+    });
+};
+
+const showEditPaidModal = ref(false);
+const editPaidAtForm = ref('');
+
+const openEditPaidModal = () => {
+    editPaidAtForm.value = props.invoice.paid_at ? props.invoice.paid_at.split('T')[0] : todayLocal();
+    showEditPaidModal.value = true;
+};
+
+const updatePaidAt = () => {
+    if (processing.value) return;
+    processing.value = true;
+    router.patch(route('invoices.update-paid-at', props.invoice.id), {
+        paid_at: editPaidAtForm.value,
+    }, {
+        preserveScroll: true,
+        onSuccess: () => { showEditPaidModal.value = false; },
         onFinish: () => processing.value = false,
     });
 };
@@ -474,7 +510,7 @@ const submitCreditNote = () => {
             <!-- Mark as Paid -->
             <button
                 v-if="invoice.status === 'sent'"
-                @click="markAsPaid"
+                @click="openPaidModal"
                 :disabled="processing"
                 class="inline-flex items-center rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 disabled:opacity-50"
             >
@@ -669,7 +705,19 @@ const submitCreditNote = () => {
                         </div>
                         <div v-if="invoice.paid_at">
                             <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('paid_on') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatDate(invoice.paid_at) }}</dd>
+                            <dd class="mt-1 text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                {{ formatDate(invoice.paid_at) }}
+                                <button
+                                    @click="openEditPaidModal"
+                                    type="button"
+                                    class="text-slate-400 hover:text-primary-500 transition-colors"
+                                    title="Modifier la date de paiement"
+                                >
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                            </dd>
                         </div>
                         <div v-if="invoice.credit_note_for">
                             <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('credit_note_for') }}</dt>
@@ -1323,6 +1371,51 @@ const submitCreditNote = () => {
                             {{ t('close') }}
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal : marquer comme payée avec date personnalisée -->
+        <div v-if="showPaidModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click.self="showPaidModal = false">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-md">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Marquer comme payée</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">À quelle date le paiement a-t-il été reçu ?</p>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date de paiement</label>
+                <input
+                    v-model="paidAtForm"
+                    type="date"
+                    :max="todayLocal()"
+                    class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                />
+                <div class="mt-6 flex justify-end gap-2">
+                    <button @click="showPaidModal = false" type="button" class="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        Annuler
+                    </button>
+                    <button @click="markAsPaid" :disabled="processing" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                        Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal : modifier la date de paiement -->
+        <div v-if="showEditPaidModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click.self="showEditPaidModal = false">
+            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-md">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Modifier la date de paiement</h3>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date de paiement</label>
+                <input
+                    v-model="editPaidAtForm"
+                    type="date"
+                    :max="todayLocal()"
+                    class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                />
+                <div class="mt-6 flex justify-end gap-2">
+                    <button @click="showEditPaidModal = false" type="button" class="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        Annuler
+                    </button>
+                    <button @click="updatePaidAt" :disabled="processing" class="rounded-xl bg-primary-500 hover:bg-primary-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                        Enregistrer
+                    </button>
                 </div>
             </div>
         </div>

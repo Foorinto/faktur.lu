@@ -311,18 +311,40 @@ class InvoiceController extends Controller
     /**
      * Mark the invoice as paid.
      */
-    public function markAsPaid(Invoice $invoice): RedirectResponse
+    public function markAsPaid(Request $request, Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isFinalized() || $invoice->isPaid()) {
             return back()->with('error', 'Cette action n\'est pas autorisée.');
         }
 
+        $validated = $request->validate([
+            'paid_at' => 'nullable|date|before_or_equal:today',
+        ]);
+
         $invoice->update([
             'status' => Invoice::STATUS_PAID,
-            'paid_at' => now(),
+            'paid_at' => $validated['paid_at'] ?? now(),
         ]);
 
         return back()->with('success', 'Facture marquée comme payée.');
+    }
+
+    /**
+     * Update the payment date of an already paid invoice.
+     */
+    public function updatePaidAt(Request $request, Invoice $invoice): RedirectResponse
+    {
+        if (!$invoice->isPaid()) {
+            return back()->with('error', 'Cette facture n\'est pas marquée comme payée.');
+        }
+
+        $validated = $request->validate([
+            'paid_at' => 'required|date|before_or_equal:today',
+        ]);
+
+        $invoice->update(['paid_at' => $validated['paid_at']]);
+
+        return back()->with('success', 'Date de paiement mise à jour.');
     }
 
     /**
