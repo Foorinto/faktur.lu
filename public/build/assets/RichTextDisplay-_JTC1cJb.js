@@ -1,1 +1,0 @@
-import{c as t,n,f as r}from"./app-8gnM2xkw.js";const o=["innerHTML"],i={__name:"RichTextDisplay",props:{content:{type:String,default:""}},setup(e){return(c,s)=>e.content?(r(),t("div",{key:0,class:"rich-text-display prose prose-sm dark:prose-invert max-w-none",innerHTML:e.content},null,8,o)):n("",!0)}};export{i as _};

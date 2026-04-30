@@ -847,12 +847,12 @@ const getStatusLabel = (status) => {
                         <div v-if="loadingPreview" class="flex items-center justify-center h-96">
                             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
                         </div>
-                        <div
+                        <iframe
                             v-else
-                            class="bg-white shadow-lg mx-auto"
-                            style="width: 210mm; min-height: 297mm; transform: scale(1); transform-origin: top center; color: #333; color-scheme: light;"
-                            v-html="previewHtml"
-                        ></div>
+                            :srcdoc="previewHtml"
+                            class="bg-white shadow-lg mx-auto block border-0"
+                            style="width: 210mm; height: 297mm; color-scheme: light;"
+                        ></iframe>
                     </div>
 
                     <!-- Modal footer -->

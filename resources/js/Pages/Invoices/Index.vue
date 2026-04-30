@@ -786,19 +786,16 @@ const changeStatus = (invoice, newStatus) => {
                                 class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"
                             ></div>
                         </div>
-                        <div
+                        <iframe
                             v-else
-                            class="bg-white shadow-xl rounded-lg mx-auto"
+                            :srcdoc="previewHtml"
+                            class="bg-white shadow-xl rounded-lg mx-auto block border-0"
                             style="
                                 width: 210mm;
-                                min-height: 297mm;
-                                transform: scale(1);
-                                transform-origin: top center;
-                                color: #333;
+                                height: 297mm;
                                 color-scheme: light;
                             "
-                            v-html="previewHtml"
-                        ></div>
+                        ></iframe>
                     </div>
 
                     <!-- Modal footer -->
