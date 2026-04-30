@@ -394,7 +394,7 @@ const openEditPaidModal = () => {
 const updatePaidAt = () => {
     if (processing.value) return;
     processing.value = true;
-    router.patch(route('invoices.update-paid-at', props.invoice.id), {
+    router.post(route('invoices.update-paid-at', props.invoice.id), {
         paid_at: editPaidAtForm.value,
     }, {
         preserveScroll: true,
