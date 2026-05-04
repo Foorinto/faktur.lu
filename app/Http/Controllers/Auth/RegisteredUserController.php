@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
             'trial_ends_at' => now()->addDays(14),
             'account_status' => 'trial',
             'onboarding_step' => 'company',
+            'locale' => session('locale', config('app.locale')),
         ]);
 
         event(new Registered($user));
