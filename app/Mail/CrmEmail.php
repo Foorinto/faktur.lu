@@ -31,8 +31,10 @@ class CrmEmail extends Mailable
 
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.crm' : 'emails.crm';
+
         return new Content(
-            markdown: 'emails.crm',
+            markdown: $template,
             with: [
                 'client' => $this->client,
                 'body' => $this->emailBody,
@@ -41,6 +43,14 @@ class CrmEmail extends Mailable
                 'senderPhone' => $this->senderPhone,
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the recipient (client).
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->client->locale ?? app()->getLocale();
     }
 
     public function attachments(): array

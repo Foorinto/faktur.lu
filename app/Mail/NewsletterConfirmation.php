@@ -25,6 +25,7 @@ class NewsletterConfirmation extends Mailable implements ShouldQueue
             'en' => 'Confirm your faktur.lu newsletter subscription',
             'de' => 'Bestätigen Sie Ihre faktur.lu Newsletter-Anmeldung',
             'lb' => 'Bestätegt Är faktur.lu Newsletter-Umeldung',
+            'pt' => 'Confirme a sua subscrição da newsletter faktur.lu',
         ];
 
         return new Envelope(
@@ -34,8 +35,12 @@ class NewsletterConfirmation extends Mailable implements ShouldQueue
 
     public function content(): Content
     {
+        $template = ($this->subscriber->locale ?? null) === 'pt'
+            ? 'emails.pt.newsletter-confirmation'
+            : 'emails.newsletter-confirmation';
+
         return new Content(
-            markdown: 'emails.newsletter-confirmation',
+            markdown: $template,
             with: [
                 'subscriber' => $this->subscriber,
                 'confirmUrl' => route('newsletter.confirm', $this->subscriber->confirm_token),

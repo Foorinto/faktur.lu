@@ -27,8 +27,14 @@ class TrialEndingSoon extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
+        $isPt = $this->resolveLocale() === 'pt';
+
+        $subject = $isPt
+            ? "Faltam {$this->daysRemaining} dias para aproveitar o faktur.lu"
+            : "Plus que {$this->daysRemaining} jours pour profiter de faktur.lu";
+
         return new Envelope(
-            subject: "Plus que {$this->daysRemaining} jours pour profiter de faktur.lu",
+            subject: $subject,
         );
     }
 
@@ -37,14 +43,24 @@ class TrialEndingSoon extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.trial-ending-soon' : 'emails.trial-ending-soon';
+
         return new Content(
-            markdown: 'emails.trial-ending-soon',
+            markdown: $template,
             with: [
                 'user' => $this->user,
                 'daysRemaining' => $this->daysRemaining,
                 'subscriptionUrl' => route('subscription.index'),
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the user.
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->user->locale ?? app()->getLocale();
     }
 
     /**

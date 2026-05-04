@@ -29,15 +29,28 @@ class ReminderMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $levelLabel = match ($this->level) {
-            1 => 'Rappel',
-            2 => 'Relance',
-            3 => 'Mise en demeure',
-            default => 'Rappel',
-        };
+        $isPt = $this->resolveLocale() === 'pt';
+
+        if ($isPt) {
+            $levelLabel = match ($this->level) {
+                1 => 'Lembrete',
+                2 => 'Aviso',
+                3 => 'Notificação formal',
+                default => 'Lembrete',
+            };
+            $subject = "{$levelLabel}: Fatura {$this->invoice->number}";
+        } else {
+            $levelLabel = match ($this->level) {
+                1 => 'Rappel',
+                2 => 'Relance',
+                3 => 'Mise en demeure',
+                default => 'Rappel',
+            };
+            $subject = "{$levelLabel} : Facture {$this->invoice->number}";
+        }
 
         return new Envelope(
-            subject: "{$levelLabel} : Facture {$this->invoice->number}",
+            subject: $subject,
         );
     }
 
@@ -46,8 +59,10 @@ class ReminderMail extends Mailable
      */
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.reminder' : 'emails.reminder';
+
         return new Content(
-            markdown: 'emails.reminder',
+            markdown: $template,
             with: [
                 'invoice' => $this->invoice,
                 'seller' => $this->invoice->seller_snapshot,
@@ -57,6 +72,14 @@ class ReminderMail extends Mailable
                 'daysOverdue' => $this->getDaysOverdue(),
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the email recipient (the client).
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->invoice->client?->locale ?? app()->getLocale();
     }
 
     /**

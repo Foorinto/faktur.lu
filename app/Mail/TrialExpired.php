@@ -26,8 +26,14 @@ class TrialExpired extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
+        $isPt = $this->resolveLocale() === 'pt';
+
+        $subject = $isPt
+            ? 'O seu período de teste do faktur.lu terminou'
+            : 'Votre essai faktur.lu est terminé';
+
         return new Envelope(
-            subject: 'Votre essai faktur.lu est terminé',
+            subject: $subject,
         );
     }
 
@@ -36,13 +42,23 @@ class TrialExpired extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.trial-expired' : 'emails.trial-expired';
+
         return new Content(
-            markdown: 'emails.trial-expired',
+            markdown: $template,
             with: [
                 'user' => $this->user,
                 'subscriptionUrl' => route('subscription.index'),
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the user.
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->user->locale ?? app()->getLocale();
     }
 
     /**

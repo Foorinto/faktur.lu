@@ -13,7 +13,7 @@ class SitemapController extends Controller
     /**
      * Supported locales for the sitemap.
      */
-    protected array $locales = ['fr', 'de', 'en', 'lb'];
+    protected array $locales = ['fr', 'de', 'en', 'lb', 'pt'];
 
     /**
      * Localized route slugs for SEO-friendly URLs.

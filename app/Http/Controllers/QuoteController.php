@@ -391,7 +391,7 @@ class QuoteController extends Controller
      */
     private function validatePdfLocale(?string $locale): ?string
     {
-        $supportedLocales = ['fr', 'de', 'en', 'lb'];
+        $supportedLocales = ['fr', 'de', 'en', 'lb', 'pt'];
 
         if ($locale && in_array($locale, $supportedLocales)) {
             return $locale;

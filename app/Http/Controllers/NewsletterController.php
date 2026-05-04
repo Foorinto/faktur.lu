@@ -47,7 +47,11 @@ class NewsletterController extends Controller
         // Now add confirmed contact to Brevo
         $this->addToBrevo($subscriber->email, $subscriber->locale, $subscriber->source);
 
-        return view('emails.newsletter-confirmed');
+        $view = ($subscriber->locale ?? null) === 'pt'
+            ? 'emails.pt.newsletter-confirmed'
+            : 'emails.newsletter-confirmed';
+
+        return view($view);
     }
 
     public function unsubscribe(string $email, string $hash)
@@ -62,7 +66,11 @@ class NewsletterController extends Controller
             $subscriber->update(['unsubscribed_at' => now()]);
         }
 
-        return view('emails.newsletter-unsubscribed');
+        $view = ($subscriber?->locale ?? null) === 'pt'
+            ? 'emails.pt.newsletter-unsubscribed'
+            : 'emails.newsletter-unsubscribed';
+
+        return view($view);
     }
 
     protected function addToBrevo(string $email, string $locale, string $source): void

@@ -94,13 +94,14 @@ return [
     |
     */
 
-    'supported_locales' => ['fr', 'de', 'en', 'lb'],
+    'supported_locales' => ['fr', 'de', 'en', 'lb', 'pt'],
 
     'locale_names' => [
         'fr' => 'Français',
         'de' => 'Deutsch',
         'en' => 'English',
         'lb' => 'Lëtzebuergesch',
+        'pt' => 'Português',
     ],
 
     /*

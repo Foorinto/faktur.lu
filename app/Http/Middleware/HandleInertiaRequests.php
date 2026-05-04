@@ -91,7 +91,7 @@ class HandleInertiaRequests extends Middleware
                 'info' => fn () => $request->session()->get('info'),
             ],
             'locale' => $locale,
-            'supportedLocales' => config('app.supported_locales', ['fr', 'de', 'en', 'lb']),
+            'supportedLocales' => config('app.supported_locales', ['fr', 'de', 'en', 'lb', 'pt']),
             'availableLocales' => config('app.locale_names', [
                 'fr' => 'Français',
                 'de' => 'Deutsch',

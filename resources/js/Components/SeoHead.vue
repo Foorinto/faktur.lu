@@ -90,7 +90,7 @@ const hreflangUrls = computed(() => {
     // Fallback: simple locale prefix swap (works for routes without localized slugs)
     const locales = availableLocales();
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-    const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb)/, '') || '/';
+    const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb|pt)/, '') || '/';
 
     return Object.keys(locales).map(code => ({
         locale: code,
@@ -106,7 +106,7 @@ const xDefaultUrl = computed(() => {
     }
 
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-    const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb)/, '') || '/';
+    const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb|pt)/, '') || '/';
     return `${appUrl.value}/fr${pathWithoutLocale}`;
 });
 

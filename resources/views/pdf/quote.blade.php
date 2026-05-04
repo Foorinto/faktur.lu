@@ -390,7 +390,7 @@
                     <div class="company-details">{{ __('invoice.vat_number') }} {{ $seller['vat_number'] }}</div>
                 @endif
                 @if(!empty($seller['establishment_authorization']))
-                    <div class="company-details">Autorisation : {{ $seller['establishment_authorization'] }}</div>
+                    <div class="company-details">{{ __('invoice.authorization') }} : {{ $seller['establishment_authorization'] }}</div>
                 @endif
 
                 <div class="date-row">

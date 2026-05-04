@@ -63,7 +63,7 @@ Route::get('/api/csrf-token', function () {
 
 Route::get('/', [LocaleController::class, 'redirect'])->name('home.redirect');
 Route::get('/switch-locale/{locale}', [LocaleController::class, 'switchLocale'])
-    ->where('locale', 'fr|de|en|lb')
+    ->where('locale', 'fr|de|en|lb|pt')
     ->name('locale.switch');
 
 // Drip email unsubscribe (no auth required)
@@ -72,7 +72,10 @@ Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, 
         abort(403);
     }
     $user->update(['drip_unsubscribed' => true]);
-    return view('emails.unsubscribed');
+    $view = ($user->locale ?? null) === 'pt'
+        ? 'emails.pt.unsubscribed'
+        : 'emails.unsubscribed';
+    return view($view);
 })->name('drip.unsubscribe');
 
 // Newsletter routes (no auth required)
@@ -105,7 +108,7 @@ Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitem
 */
 
 Route::prefix('{locale}')
-    ->where(['locale' => 'fr|de|en|lb'])
+    ->where(['locale' => 'fr|de|en|lb|pt'])
     ->group(function () {
 
         // Landing page

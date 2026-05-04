@@ -12,7 +12,7 @@ class SetLocale
     /**
      * Supported locales.
      */
-    public const SUPPORTED_LOCALES = ['fr', 'de', 'en', 'lb'];
+    public const SUPPORTED_LOCALES = ['fr', 'de', 'en', 'lb', 'pt'];
 
     /**
      * Handle an incoming request.

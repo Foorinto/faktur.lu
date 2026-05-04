@@ -34,7 +34,7 @@ class UpdateClientRequest extends FormRequest
             'currency' => ['required', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
             'phone' => ['nullable', 'string', 'max:20'],
             'notes' => ['nullable', 'string', 'max:2000'],
-            'locale' => ['nullable', 'string', Rule::in(['fr', 'de', 'en', 'lb'])],
+            'locale' => ['nullable', 'string', Rule::in(['fr', 'de', 'en', 'lb', 'pt'])],
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
             'default_vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],

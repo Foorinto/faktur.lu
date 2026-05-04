@@ -16,7 +16,7 @@ class LocalePrefix
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $request->route('locale');
-        $supportedLocales = config('app.supported_locales', ['fr', 'de', 'en', 'lb']);
+        $supportedLocales = config('app.supported_locales', ['fr', 'de', 'en', 'lb', 'pt']);
 
         if ($locale && in_array($locale, $supportedLocales)) {
             app()->setLocale($locale);

@@ -194,7 +194,7 @@ class QuotePdfService
      */
     protected function setLocale(string $locale): void
     {
-        $supportedLocales = ['fr', 'de', 'en', 'lb'];
+        $supportedLocales = ['fr', 'de', 'en', 'lb', 'pt'];
 
         if (in_array($locale, $supportedLocales)) {
             App::setLocale($locale);

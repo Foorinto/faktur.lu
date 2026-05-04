@@ -28,7 +28,13 @@ class InvoiceMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $type = $this->invoice->is_credit_note ? 'Avoir' : 'Facture';
+        $isPt = $this->resolveLocale() === 'pt';
+
+        if ($isPt) {
+            $type = $this->invoice->is_credit_note ? 'Nota de Crédito' : 'Fatura';
+        } else {
+            $type = $this->invoice->is_credit_note ? 'Avoir' : 'Facture';
+        }
 
         return new Envelope(
             subject: "{$type} {$this->invoice->number}",
@@ -40,8 +46,10 @@ class InvoiceMail extends Mailable
      */
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.invoice' : 'emails.invoice';
+
         return new Content(
-            markdown: 'emails.invoice',
+            markdown: $template,
             with: [
                 'invoice' => $this->invoice,
                 'seller' => $this->invoice->seller_snapshot,
@@ -50,6 +58,14 @@ class InvoiceMail extends Mailable
                 'isCreditNote' => $this->invoice->is_credit_note,
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the email recipient (the client).
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->invoice->client?->locale ?? app()->getLocale();
     }
 
     /**

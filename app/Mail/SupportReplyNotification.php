@@ -21,21 +21,37 @@ class SupportReplyNotification extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
+        $isPt = $this->resolveLocale() === 'pt';
+
+        $subject = $isPt
+            ? "[{$this->ticket->reference}] Resposta ao seu pedido: {$this->ticket->subject}"
+            : "[{$this->ticket->reference}] Réponse à votre demande : {$this->ticket->subject}";
+
         return new Envelope(
-            subject: "[{$this->ticket->reference}] Réponse à votre demande : {$this->ticket->subject}",
+            subject: $subject,
         );
     }
 
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.support.reply' : 'emails.support.reply';
+
         return new Content(
-            markdown: 'emails.support.reply',
+            markdown: $template,
             with: [
                 'ticket' => $this->ticket,
                 'replyContent' => $this->replyContent,
                 'ticketUrl' => config('app.url') . '/support/' . $this->ticket->id,
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the ticket owner.
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->ticket->user?->locale ?? app()->getLocale();
     }
 
     public function attachments(): array

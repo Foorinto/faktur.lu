@@ -17,7 +17,7 @@ class LocaleController extends Controller
      */
     public function redirect(Request $request): RedirectResponse
     {
-        $supportedLocales = config('app.supported_locales', ['fr', 'de', 'en', 'lb']);
+        $supportedLocales = config('app.supported_locales', ['fr', 'de', 'en', 'lb', 'pt']);
         $defaultLocale = config('app.locale', 'fr');
 
         // 1. Check cookie for previous choice
@@ -89,7 +89,7 @@ class LocaleController extends Controller
      */
     public function switchLocale(Request $request, string $locale): RedirectResponse
     {
-        $supportedLocales = config('app.supported_locales', ['fr', 'de', 'en', 'lb']);
+        $supportedLocales = config('app.supported_locales', ['fr', 'de', 'en', 'lb', 'pt']);
 
         if (!in_array($locale, $supportedLocales)) {
             $locale = config('app.locale', 'fr');

@@ -30,8 +30,10 @@ class DripCampaignEmail extends Mailable implements ShouldQueue
 
     public function content(): Content
     {
+        $template = $this->resolveLocale() === 'pt' ? 'emails.pt.drip-campaign' : 'emails.drip-campaign';
+
         return new Content(
-            markdown: 'emails.drip-campaign',
+            markdown: $template,
             with: [
                 'user' => $this->user,
                 'body' => $this->emailBody,
@@ -41,6 +43,14 @@ class DripCampaignEmail extends Mailable implements ShouldQueue
                 ]),
             ],
         );
+    }
+
+    /**
+     * Resolve the locale of the user.
+     */
+    protected function resolveLocale(): string
+    {
+        return $this->user->locale ?? app()->getLocale();
     }
 
     public function attachments(): array

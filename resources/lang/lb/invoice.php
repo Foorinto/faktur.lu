@@ -76,4 +76,11 @@ return [
     'thank_you' => 'Merci fir Äert Vertrauen!',
     'page' => 'Säit',
     'of' => 'vun',
+
+    // Retention guarantee
+    'retention_guarantee' => 'Garantieabzog',
+    'retention_releasable_from' => 'Abzog fräiginn vum :date',
+
+    // Quote
+    'authorization' => 'Erlaabnis',
 ];

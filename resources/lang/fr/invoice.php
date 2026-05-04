@@ -76,4 +76,11 @@ return [
     'thank_you' => 'Merci de votre confiance !',
     'page' => 'Page',
     'of' => 'sur',
+
+    // Retention guarantee
+    'retention_guarantee' => 'Retenue de garantie',
+    'retention_releasable_from' => 'Retenue libérable à compter du :date',
+
+    // Quote
+    'authorization' => 'Autorisation',
 ];
