@@ -23,6 +23,7 @@ const localeFlags = {
     de: '🇩🇪',
     en: '🇬🇧',
     lb: '🇱🇺',
+    pt: '🇵🇹',
 };
 
 // Switch locale

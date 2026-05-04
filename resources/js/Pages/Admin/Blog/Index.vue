@@ -31,6 +31,7 @@ const localeFlags = {
     de: '🇩🇪',
     en: '🇬🇧',
     lb: '🇱🇺',
+    pt: '🇵🇹',
 };
 
 const applyFilters = debounce(() => {

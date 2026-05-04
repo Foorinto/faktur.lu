@@ -66,6 +66,7 @@ const pdfLanguages = [
     { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
     { value: 'en', label: 'English', flag: '🇬🇧' },
     { value: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
+    { value: 'pt', label: 'Português', flag: '🇵🇹' },
 ];
 
 const selectedPdfLanguage = computed(() => {
