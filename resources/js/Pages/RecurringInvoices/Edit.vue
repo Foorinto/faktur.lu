@@ -82,10 +82,7 @@ const submit = () => {
         <BillingNav class="mb-6" />
 
         <div class="mb-4">
-            <Link :href="route('recurring-invoices.index')" class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">
-                ← Retour aux récurrences
-            </Link>
-            <p class="text-sm text-slate-500 mt-1">{{ recurringInvoice.invoices_generated }} facture(s) générée(s)</p>
+            <p class="text-sm text-slate-500">{{ recurringInvoice.invoices_generated }} facture(s) générée(s)</p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">

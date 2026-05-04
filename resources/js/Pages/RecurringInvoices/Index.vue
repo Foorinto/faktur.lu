@@ -68,6 +68,30 @@ const duplicateRecurring = (recurring) => {
 
         <BillingNav class="mb-6" />
 
+        <!-- How it works -->
+        <details class="mb-6 group rounded-2xl border border-blue-200 bg-blue-50 dark:border-blue-900 dark:bg-blue-950/30">
+            <summary class="flex items-center gap-2 cursor-pointer list-none px-4 py-3 text-sm font-semibold text-blue-900 dark:text-blue-200 select-none">
+                <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="flex-1">Comment fonctionnent les facturations récurrentes ?</span>
+                <svg class="h-4 w-4 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </summary>
+            <div class="px-4 pb-4 pt-1 text-sm text-blue-900/90 dark:text-blue-200/90 space-y-3">
+                <p>Une récurrence est un <strong>modèle</strong> qui génère automatiquement de nouvelles factures à intervalles réguliers (hebdomadaire, mensuel, trimestriel ou annuel).</p>
+                <p>Chaque jour à <strong>06:00</strong>, le système vérifie les récurrences <strong>actives</strong> dont la prochaine date est arrivée et crée la facture correspondante. Selon les options choisies :</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><strong>Aucune option</strong> → la facture est créée en <strong>brouillon</strong> ; vous la finalisez et l'envoyez manuellement.</li>
+                    <li><strong>Finalisation auto</strong> → la facture est <strong>finalisée</strong> automatiquement (numéro attribué) ; il ne reste qu'à l'envoyer.</li>
+                    <li><strong>Finalisation auto + envoi auto</strong> → la facture est <strong>envoyée par email</strong> au client sans intervention.</li>
+                </ul>
+                <p>La date de la prochaine facture s'incrémente automatiquement après chaque génération. Si vous fixez une date de fin, la récurrence se désactive d'elle-même une fois passée.</p>
+                <p class="text-xs text-blue-800/80 dark:text-blue-300/80">💡 Astuce : modifier le modèle n'affecte que les <em>prochaines</em> factures — celles déjà émises restent inchangées. Vous pouvez désactiver/réactiver une récurrence à tout moment en cliquant sur son badge de statut.</p>
+            </div>
+        </details>
+
         <!-- Empty state -->
         <div v-if="recurringInvoices.data.length === 0" class="bg-white dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-gray-700 p-12 text-center">
             <div class="mx-auto w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
