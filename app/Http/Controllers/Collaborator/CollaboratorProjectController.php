@@ -108,7 +108,7 @@ class CollaboratorProjectController extends Controller
         ]);
 
         return redirect()->route('collaborator.projects.index')
-            ->with('success', __('app.project_created'));
+            ->with('success', __('app.projects_flash.created'));
     }
 
     public function show(Request $request, int $project)
@@ -195,7 +195,7 @@ class CollaboratorProjectController extends Controller
 
         $project->update($validated);
 
-        return back()->with('success', __('app.project_updated'));
+        return back()->with('success', __('app.projects_flash.updated'));
     }
 
     public function destroy(Request $request, int $project)
@@ -214,6 +214,6 @@ class CollaboratorProjectController extends Controller
         $project->delete();
 
         return redirect()->route('collaborator.projects.index')
-            ->with('success', __('app.project_deleted'));
+            ->with('success', __('app.projects_flash.deleted'));
     }
 }

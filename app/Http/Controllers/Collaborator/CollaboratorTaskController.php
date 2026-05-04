@@ -63,7 +63,7 @@ class CollaboratorTaskController extends Controller
             'sort_order' => $maxSort + 1,
         ]);
 
-        return back()->with('success', __('app.task_created'));
+        return back()->with('success', __('app.tasks_flash.created'));
     }
 
     public function update(Request $request, Task $task)
@@ -96,7 +96,7 @@ class CollaboratorTaskController extends Controller
 
         $task->update($validated);
 
-        return back()->with('success', __('app.task_updated'));
+        return back()->with('success', __('app.tasks_flash.updated'));
     }
 
     public function destroy(Request $request, Task $task)
@@ -111,7 +111,7 @@ class CollaboratorTaskController extends Controller
 
         $task->delete();
 
-        return back()->with('success', __('app.task_deleted'));
+        return back()->with('success', __('app.tasks_flash.deleted'));
     }
 
     public function toggle(Request $request, Task $task)
