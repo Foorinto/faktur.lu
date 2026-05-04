@@ -150,7 +150,7 @@ class QuoteController extends Controller
 
         return redirect()
             ->route('quotes.edit', $quote)
-            ->with('success', 'Brouillon de devis créé.');
+            ->with('success', __('app.quotes_flash.created'));
     }
 
     /**
@@ -205,7 +205,7 @@ class QuoteController extends Controller
     {
         $quote->update($request->validated());
 
-        return back()->with('success', 'Devis mis à jour.');
+        return back()->with('success', __('app.quotes_flash.updated'));
     }
 
     /**
@@ -246,7 +246,7 @@ class QuoteController extends Controller
 
         return redirect()
             ->route('quotes.edit', $duplicate)
-            ->with('success', 'Brouillon de devis dupliqué — modifiez puis envoyez.');
+            ->with('success', __('app.quotes_flash.duplicated'));
     }
 
     /**
@@ -258,7 +258,7 @@ class QuoteController extends Controller
             $quote->delete();
             return redirect()
                 ->route('quotes.index')
-                ->with('success', 'Devis supprimé.');
+                ->with('success', __('app.quotes_flash.deleted'));
         } catch (\InvalidArgumentException $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -270,7 +270,7 @@ class QuoteController extends Controller
     public function markAsSent(Quote $quote): RedirectResponse
     {
         if (!$quote->canMarkAsSent()) {
-            return back()->with('error', 'Ce devis ne peut pas être marqué comme envoyé.');
+            return back()->with('error', __('app.quotes_flash.error_cannot_mark_sent'));
         }
 
         Quote::withoutEvents(function () use ($quote) {
@@ -280,7 +280,7 @@ class QuoteController extends Controller
             ]);
         });
 
-        return back()->with('success', 'Devis marqué comme envoyé.');
+        return back()->with('success', __('app.quotes_flash.marked_sent'));
     }
 
     /**
@@ -289,7 +289,7 @@ class QuoteController extends Controller
     public function markAsAccepted(Quote $quote): RedirectResponse
     {
         if (!$quote->canAccept()) {
-            return back()->with('error', 'Ce devis ne peut pas être accepté.');
+            return back()->with('error', __('app.quotes_flash.error_cannot_accept'));
         }
 
         Quote::withoutEvents(function () use ($quote) {
@@ -301,7 +301,7 @@ class QuoteController extends Controller
 
         return redirect()
             ->route('quotes.show', $quote)
-            ->with('success', 'Devis marqué comme accepté. Vous pouvez maintenant le convertir en facture.');
+            ->with('success', __('app.quotes_flash.marked_accepted'));
     }
 
     /**
@@ -310,7 +310,7 @@ class QuoteController extends Controller
     public function markAsDeclined(Quote $quote): RedirectResponse
     {
         if (!$quote->canDecline()) {
-            return back()->with('error', 'Ce devis ne peut pas être refusé.');
+            return back()->with('error', __('app.quotes_flash.error_cannot_decline'));
         }
 
         Quote::withoutEvents(function () use ($quote) {
@@ -322,7 +322,7 @@ class QuoteController extends Controller
 
         return redirect()
             ->route('quotes.show', $quote)
-            ->with('success', 'Devis marqué comme refusé.');
+            ->with('success', __('app.quotes_flash.marked_declined'));
     }
 
     /**
@@ -334,7 +334,7 @@ class QuoteController extends Controller
             $invoice = $action->execute($quote);
             return redirect()
                 ->route('invoices.edit', $invoice)
-                ->with('success', 'Devis converti en facture. Vous pouvez maintenant finaliser la facture.');
+                ->with('success', __('app.quotes_flash.converted_to_invoice'));
         } catch (\InvalidArgumentException $e) {
             return back()->with('error', $e->getMessage());
         }

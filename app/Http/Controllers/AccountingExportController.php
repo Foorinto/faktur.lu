@@ -115,11 +115,11 @@ class AccountingExportController extends Controller
 
             return redirect()
                 ->route('exports.accounting.index')
-                ->with('success', 'Export comptable généré avec succès.');
+                ->with('success', __('app.accounting_flash.generated'));
         } catch (\Exception $e) {
             return redirect()
                 ->route('exports.accounting.index')
-                ->with('error', 'Erreur lors de la génération: ' . $e->getMessage());
+                ->with('error', __('app.accounting_flash.error_generation', ['error' => $e->getMessage()]));
         }
     }
 
@@ -131,13 +131,13 @@ class AccountingExportController extends Controller
         if (!$export->isCompleted() || !$export->file_path) {
             return redirect()
                 ->route('exports.accounting.index')
-                ->with('error', 'Ce fichier n\'est pas disponible.');
+                ->with('error', __('app.accounting_flash.error_file_unavailable'));
         }
 
         if (!Storage::disk('local')->exists($export->file_path)) {
             return redirect()
                 ->route('exports.accounting.index')
-                ->with('error', 'Le fichier n\'existe plus sur le serveur.');
+                ->with('error', __('app.accounting_flash.error_file_missing'));
         }
 
         $mimeType = match ($export->format) {
@@ -165,7 +165,7 @@ class AccountingExportController extends Controller
 
         return redirect()
             ->route('exports.accounting.index')
-            ->with('success', 'Export supprimé.');
+            ->with('success', __('app.accounting_flash.deleted'));
     }
 
     /**
@@ -199,7 +199,7 @@ class AccountingExportController extends Controller
         if ($invoices->isEmpty()) {
             return redirect()
                 ->route('exports.accounting.index')
-                ->with('error', 'Aucune facture pour cette période.');
+                ->with('error', __('app.accounting_flash.error_no_invoices_period'));
         }
 
         $tempDir = storage_path('app/temp/' . uniqid('pdf_archive_'));

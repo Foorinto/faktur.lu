@@ -2616,4 +2616,162 @@ return [
         'completed' => 'Rappel ofgeschloss.',
         'deleted' => 'Rappel geläscht.',
     ],
+
+    'invoices_flash' => [
+        'created' => 'Brouillon vun der Rechnung erstallt.',
+        'updated' => 'Rechnung aktualiséiert.',
+        'deleted' => 'Brouillon geläscht.',
+        'duplicated' => 'Brouillon dupliquéiert — änneren Dir en a finaliséiert en, fir eng nei Nummer ze kréien.',
+        'finalized' => 'Rechnung Nr. :number erfollegräich finaliséiert.',
+        'marked_sent' => 'Rechnung als geschéckt markéiert.',
+        'marked_paid' => 'Rechnung als bezuelt markéiert.',
+        'paid_at_updated' => 'Bezueldatum aktualiséiert.',
+        'email_sent' => 'Rechnung erfollegräich per E-Mail geschéckt.',
+        'email_error' => 'Feeler beim Verschécken: :error',
+        'email_requires_finalized' => 'Eng net finaliséiert Rechnung kann net geschéckt ginn.',
+        'error_action_not_allowed' => 'Dës Aktioun ass net erlaabt.',
+        'error_credit_note_not_duplicable' => 'Eng Notiz vu Kreditt kann net dupliquéiert ginn.',
+        'error_not_paid' => 'Dës Rechnung ass net als bezuelt markéiert.',
+        'credit_note_created' => 'Notiz vu Kreditt erstallt. Préift se a finaliséiert se.',
+        'credit_note_partial_created' => 'Deelweis Avoir erstallt. Préift en a finaliséiert en.',
+        'peppol_sent' => 'Peppol-Verschécken initiéiert. Dir kënnt de Status op dëser Säit suivéieren.',
+        'peppol_disabled' => 'De Peppol-Verschécken ass net aktivéiert.',
+        'peppol_not_configured' => 'De Peppol-Service ass net richteg konfiguréiert.',
+        'peppol_requires_finalized' => 'Nëmme finaliséiert Rechnungen kënne via Peppol geschéckt ginn.',
+        'peppol_seller_endpoint_missing' => 'Konfiguréiert wann ech gelift Är Peppol-Identifikatioun an den Entreprise-Astellungen.',
+        'peppol_buyer_endpoint_missing' => 'De Client muss eng konfiguréiert Peppol-Identifikatioun hunn.',
+        'peppol_transmission_exists' => 'Dës Rechnung huet schonn eng lafend oder ofgeschloss Peppol-Iwwerdroung (Status: :status).',
+    ],
+
+    'quotes_flash' => [
+        'created' => 'Brouillon vum Devis erstallt.',
+        'updated' => 'Devis aktualiséiert.',
+        'deleted' => 'Devis geläscht.',
+        'duplicated' => 'Brouillon vum Devis dupliquéiert — änneren a verschécken.',
+        'marked_sent' => 'Devis als geschéckt markéiert.',
+        'marked_accepted' => 'Devis als ugeholl markéiert. Dir kënnt en elo an eng Rechnung ëmwandelen.',
+        'marked_declined' => 'Devis als refuséiert markéiert.',
+        'converted_to_invoice' => 'Devis an eng Rechnung ëmgewandelt. Dir kënnt d\'Rechnung elo finaliséieren.',
+        'error_cannot_mark_sent' => 'Dëse Devis kann net als geschéckt markéiert ginn.',
+        'error_cannot_accept' => 'Dëse Devis kann net ugeholl ginn.',
+        'error_cannot_decline' => 'Dëse Devis kann net refuséiert ginn.',
+    ],
+
+    'clients_flash' => [
+        'created' => 'Client erfollegräich erstallt.',
+        'updated' => 'Client erfollegräich aktualiséiert.',
+        'deleted' => 'Client erfollegräich geläscht.',
+        'prospect_converted' => 'Prospect a Client ëmgewandelt. Vervollstännegt d\'Facturatiouns-Informatiounen.',
+        'error_already_active' => 'Dëse Client ass schonn aktiv.',
+        'error_has_invoices' => 'Et ass net méiglech dëse Client ze läschen, well e Rechnungen huet.',
+    ],
+
+    'business_flash' => [
+        'settings_saved' => 'Astellunge erfollegräich gespäichert.',
+        'logo_updated' => 'Logo erfollegräich aktualiséiert.',
+        'logo_deleted' => 'Logo geläscht.',
+        'qrcode_updated' => 'Bezuel-QR-Code aktualiséiert.',
+        'qrcode_deleted' => 'Bezuel-QR-Code geläscht.',
+        'error_settings_missing' => 'Konfiguréiert wann ech gelift fir d\'éischt d\'Entreprise-Astellungen.',
+        'error_no_logo' => 'Kee Logo fir ze läschen.',
+        'error_no_qrcode' => 'Kee QR-Code fir ze läschen.',
+    ],
+
+    'accounting_flash' => [
+        'generated' => 'Comptabel Export erfollegräich generéiert.',
+        'deleted' => 'Export geläscht.',
+        'error_generation' => 'Feeler bei der Generatioun: :error',
+        'error_file_unavailable' => 'Dës Datei ass net disponibel.',
+        'error_file_missing' => 'D\'Datei existéiert net méi um Server.',
+        'error_no_invoices_period' => 'Keng Rechnung fir dës Period.',
+    ],
+
+    'accountant_flash' => [
+        'invitation_sent' => 'Invitatioun geschéckt un :email',
+        'invitation_resent' => 'Invitatioun erëm geschéckt.',
+        'invitation_cancelled' => 'Invitatioun annuléiert.',
+        'access_revoked' => 'Zougrëff entzunn.',
+    ],
+
+    'audit_flash' => [
+        'generated' => 'Export erfollegräich generéiert.',
+        'deleted' => 'Export geläscht.',
+        'error_generation' => 'Feeler bei der Generatioun: :error',
+        'error_file_unavailable' => 'Dës Datei ass net disponibel.',
+        'error_file_missing' => 'D\'Datei existéiert net méi um Server.',
+    ],
+
+    'expenses_flash' => [
+        'created' => 'Ausgab gespäichert.',
+        'updated' => 'Ausgab aktualiséiert.',
+        'deleted' => 'Ausgab geläscht.',
+    ],
+
+    'email_provider_flash' => [
+        'updated' => 'E-Mail-Konfiguratioun aktualiséiert.',
+        'using_default' => 'Déi Standard-Konfiguratioun vu faktur.lu gëtt benotzt.',
+    ],
+
+    'interactions_flash' => [
+        'created' => 'Interaktioun bäigefüügt.',
+        'updated' => 'Interaktioun aktualiséiert.',
+        'deleted' => 'Interaktioun geläscht.',
+        'email_sent' => 'E-Mail un :email geschéckt an Interaktioun gespäichert.',
+        'email_error' => 'Interaktioun gespäichert mä d\'E-Mail konnt net geschéckt ginn: :error',
+    ],
+
+    'projects_flash' => [
+        'created' => 'Projet erfollegräich erstallt.',
+        'updated' => 'Projet aktualiséiert.',
+        'deleted' => 'Projet geläscht.',
+        'archived' => 'Projet archivéiert.',
+        'unarchived' => 'Projet erëmhiergestallt.',
+        'status_updated' => 'Status aktualiséiert.',
+        'error_has_time_entries' => 'Dëse Projet kann net geläscht ginn, well en Zäitentréen enthält.',
+    ],
+
+    'tasks_flash' => [
+        'created' => 'Task erstallt.',
+        'updated' => 'Task aktualiséiert.',
+        'deleted' => 'Task geläscht.',
+        'subtask_created' => 'Sous-task erstallt.',
+        'error_subtask_depth' => 'Sous-tasks kënne keng Sous-tasks hunn.',
+        'error_has_time_entries' => 'Dës Task kann net geläscht ginn, well si oder hir Sous-tasks Zäitentréen enthalen.',
+    ],
+
+    'recurring_flash' => [
+        'created' => 'Récurrent Facturatioun erstallt.',
+        'updated' => 'Récurrent Facturatioun aktualiséiert.',
+        'deleted' => 'Récurrent Facturatioun geläscht.',
+        'duplicated' => 'Récurrence dupliquéiert (inaktiv) — préift d\'Astellungen an aktivéiert se duerno.',
+        'activated' => 'Aktivéiert.',
+        'deactivated' => 'Desaktivéiert.',
+    ],
+
+    'time_entries_flash' => [
+        'created' => 'Zäitentrée gespäichert.',
+        'updated' => 'Zäitentrée aktualiséiert.',
+        'deleted' => 'Zäitentrée geläscht.',
+        'timer_started' => 'Timer gestart.',
+        'timer_stopped' => 'Timer gestoppt. Dauer: :duration',
+        'invoice_draft_created' => 'Brouillon vun der Rechnung aus de Zäitentréen erstallt.',
+        'added_to_invoice' => 'Entrée an d\'Rechnung bäigefüügt.',
+        'error_billed_edit' => 'Et ass net méiglech eng faktureéiert Entrée z\'änneren.',
+        'error_billed_delete' => 'Et ass net méiglech eng faktureéiert Entrée ze läschen.',
+        'error_timer_not_running' => 'Dësen Timer leeft net.',
+        'error_already_billed' => 'Dës Entrée ass schonn faktureéiert.',
+        'error_finalized_invoice' => 'Net méiglech zu enger finaliséierter Rechnung bäizefügen.',
+    ],
+
+    'subscription_flash' => [
+        'activated' => 'Felicitatioun! Ären Abonnement ass elo aktiv.',
+        'cancelled' => 'Ären Abonnement gouf annuléiert. Dir behalt den Zougrëff bis um Enn vun der Period.',
+        'resumed' => 'Ären Abonnement gouf reaktivéiert.',
+        'updated' => 'Ären Abonnement gouf geännert.',
+        'error_payment_config_missing' => 'Bezuel-Konfiguratioun feelt. Kontaktéiert de Support.',
+        'error_payment_config' => 'Bezuel-Konfiguratioun feelt.',
+        'error_no_active' => 'Dir hutt keen aktiven Abonnement.',
+        'error_cannot_resume' => 'Net méiglech den Abonnement weiderzeféieren.',
+        'error_plan_not_found' => 'Plang net fonnt.',
+    ],
 ];

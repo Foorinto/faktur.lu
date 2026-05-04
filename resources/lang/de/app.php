@@ -2616,4 +2616,162 @@ return [
         'completed' => 'Erinnerung abgeschlossen.',
         'deleted' => 'Erinnerung gelöscht.',
     ],
+
+    'invoices_flash' => [
+        'created' => 'Rechnungsentwurf erstellt.',
+        'updated' => 'Rechnung aktualisiert.',
+        'deleted' => 'Entwurf gelöscht.',
+        'duplicated' => 'Entwurf dupliziert — bearbeiten und finalisieren Sie ihn, um eine neue Nummer zu erhalten.',
+        'finalized' => 'Rechnung Nr. :number erfolgreich finalisiert.',
+        'marked_sent' => 'Rechnung als versendet markiert.',
+        'marked_paid' => 'Rechnung als bezahlt markiert.',
+        'paid_at_updated' => 'Zahlungsdatum aktualisiert.',
+        'email_sent' => 'Rechnung erfolgreich per E-Mail versendet.',
+        'email_error' => 'Fehler beim Versand: :error',
+        'email_requires_finalized' => 'Eine nicht finalisierte Rechnung kann nicht versendet werden.',
+        'error_action_not_allowed' => 'Diese Aktion ist nicht erlaubt.',
+        'error_credit_note_not_duplicable' => 'Eine Gutschrift kann nicht dupliziert werden.',
+        'error_not_paid' => 'Diese Rechnung ist nicht als bezahlt markiert.',
+        'credit_note_created' => 'Gutschrift erstellt. Bitte überprüfen und finalisieren Sie sie.',
+        'credit_note_partial_created' => 'Teilgutschrift erstellt. Bitte überprüfen und finalisieren Sie sie.',
+        'peppol_sent' => 'Peppol-Versand initiiert. Sie können den Status auf dieser Seite verfolgen.',
+        'peppol_disabled' => 'Der Peppol-Versand ist nicht aktiviert.',
+        'peppol_not_configured' => 'Der Peppol-Dienst ist nicht korrekt konfiguriert.',
+        'peppol_requires_finalized' => 'Nur finalisierte Rechnungen können über Peppol versendet werden.',
+        'peppol_seller_endpoint_missing' => 'Bitte konfigurieren Sie Ihre Peppol-Kennung in den Unternehmenseinstellungen.',
+        'peppol_buyer_endpoint_missing' => 'Der Kunde muss eine konfigurierte Peppol-Kennung haben.',
+        'peppol_transmission_exists' => 'Diese Rechnung hat bereits eine laufende oder abgeschlossene Peppol-Übertragung (Status: :status).',
+    ],
+
+    'quotes_flash' => [
+        'created' => 'Angebotsentwurf erstellt.',
+        'updated' => 'Angebot aktualisiert.',
+        'deleted' => 'Angebot gelöscht.',
+        'duplicated' => 'Angebotsentwurf dupliziert — bearbeiten und versenden Sie es.',
+        'marked_sent' => 'Angebot als versendet markiert.',
+        'marked_accepted' => 'Angebot als angenommen markiert. Sie können es jetzt in eine Rechnung umwandeln.',
+        'marked_declined' => 'Angebot als abgelehnt markiert.',
+        'converted_to_invoice' => 'Angebot in Rechnung umgewandelt. Sie können die Rechnung jetzt finalisieren.',
+        'error_cannot_mark_sent' => 'Dieses Angebot kann nicht als versendet markiert werden.',
+        'error_cannot_accept' => 'Dieses Angebot kann nicht angenommen werden.',
+        'error_cannot_decline' => 'Dieses Angebot kann nicht abgelehnt werden.',
+    ],
+
+    'clients_flash' => [
+        'created' => 'Kunde erfolgreich erstellt.',
+        'updated' => 'Kunde erfolgreich aktualisiert.',
+        'deleted' => 'Kunde erfolgreich gelöscht.',
+        'prospect_converted' => 'Interessent in Kunde umgewandelt. Bitte vervollständigen Sie die Rechnungsdaten.',
+        'error_already_active' => 'Dieser Kunde ist bereits aktiv.',
+        'error_has_invoices' => 'Dieser Kunde kann nicht gelöscht werden, da ihm Rechnungen zugeordnet sind.',
+    ],
+
+    'business_flash' => [
+        'settings_saved' => 'Einstellungen erfolgreich gespeichert.',
+        'logo_updated' => 'Logo erfolgreich aktualisiert.',
+        'logo_deleted' => 'Logo gelöscht.',
+        'qrcode_updated' => 'Zahlungs-QR-Code aktualisiert.',
+        'qrcode_deleted' => 'Zahlungs-QR-Code gelöscht.',
+        'error_settings_missing' => 'Bitte konfigurieren Sie zuerst die Unternehmenseinstellungen.',
+        'error_no_logo' => 'Kein Logo zum Löschen vorhanden.',
+        'error_no_qrcode' => 'Kein QR-Code zum Löschen vorhanden.',
+    ],
+
+    'accounting_flash' => [
+        'generated' => 'Buchhaltungsexport erfolgreich erstellt.',
+        'deleted' => 'Export gelöscht.',
+        'error_generation' => 'Fehler bei der Erstellung: :error',
+        'error_file_unavailable' => 'Diese Datei ist nicht verfügbar.',
+        'error_file_missing' => 'Die Datei existiert nicht mehr auf dem Server.',
+        'error_no_invoices_period' => 'Keine Rechnungen für diesen Zeitraum.',
+    ],
+
+    'accountant_flash' => [
+        'invitation_sent' => 'Einladung gesendet an :email',
+        'invitation_resent' => 'Einladung erneut gesendet.',
+        'invitation_cancelled' => 'Einladung storniert.',
+        'access_revoked' => 'Zugriff entzogen.',
+    ],
+
+    'audit_flash' => [
+        'generated' => 'Export erfolgreich erstellt.',
+        'deleted' => 'Export gelöscht.',
+        'error_generation' => 'Fehler bei der Erstellung: :error',
+        'error_file_unavailable' => 'Diese Datei ist nicht verfügbar.',
+        'error_file_missing' => 'Die Datei existiert nicht mehr auf dem Server.',
+    ],
+
+    'expenses_flash' => [
+        'created' => 'Ausgabe gespeichert.',
+        'updated' => 'Ausgabe aktualisiert.',
+        'deleted' => 'Ausgabe gelöscht.',
+    ],
+
+    'email_provider_flash' => [
+        'updated' => 'E-Mail-Konfiguration aktualisiert.',
+        'using_default' => 'Die Standardkonfiguration von faktur.lu wird verwendet.',
+    ],
+
+    'interactions_flash' => [
+        'created' => 'Interaktion hinzugefügt.',
+        'updated' => 'Interaktion aktualisiert.',
+        'deleted' => 'Interaktion gelöscht.',
+        'email_sent' => 'E-Mail an :email gesendet und Interaktion gespeichert.',
+        'email_error' => 'Interaktion gespeichert, aber die E-Mail konnte nicht gesendet werden: :error',
+    ],
+
+    'projects_flash' => [
+        'created' => 'Projekt erfolgreich erstellt.',
+        'updated' => 'Projekt aktualisiert.',
+        'deleted' => 'Projekt gelöscht.',
+        'archived' => 'Projekt archiviert.',
+        'unarchived' => 'Projekt wiederhergestellt.',
+        'status_updated' => 'Status aktualisiert.',
+        'error_has_time_entries' => 'Dieses Projekt kann nicht gelöscht werden, da es Zeiteinträge enthält.',
+    ],
+
+    'tasks_flash' => [
+        'created' => 'Aufgabe erstellt.',
+        'updated' => 'Aufgabe aktualisiert.',
+        'deleted' => 'Aufgabe gelöscht.',
+        'subtask_created' => 'Unteraufgabe erstellt.',
+        'error_subtask_depth' => 'Unteraufgaben können keine Unteraufgaben haben.',
+        'error_has_time_entries' => 'Diese Aufgabe kann nicht gelöscht werden, da sie oder ihre Unteraufgaben Zeiteinträge enthalten.',
+    ],
+
+    'recurring_flash' => [
+        'created' => 'Wiederkehrende Rechnung erstellt.',
+        'updated' => 'Wiederkehrende Rechnung aktualisiert.',
+        'deleted' => 'Wiederkehrende Rechnung gelöscht.',
+        'duplicated' => 'Wiederkehrende Rechnung dupliziert (inaktiv) — überprüfen Sie die Einstellungen und aktivieren Sie sie dann.',
+        'activated' => 'Aktiviert.',
+        'deactivated' => 'Deaktiviert.',
+    ],
+
+    'time_entries_flash' => [
+        'created' => 'Zeiteintrag gespeichert.',
+        'updated' => 'Zeiteintrag aktualisiert.',
+        'deleted' => 'Zeiteintrag gelöscht.',
+        'timer_started' => 'Timer gestartet.',
+        'timer_stopped' => 'Timer gestoppt. Dauer: :duration',
+        'invoice_draft_created' => 'Rechnungsentwurf aus Zeiteinträgen erstellt.',
+        'added_to_invoice' => 'Eintrag zur Rechnung hinzugefügt.',
+        'error_billed_edit' => 'Ein abgerechneter Eintrag kann nicht bearbeitet werden.',
+        'error_billed_delete' => 'Ein abgerechneter Eintrag kann nicht gelöscht werden.',
+        'error_timer_not_running' => 'Dieser Timer läuft nicht.',
+        'error_already_billed' => 'Dieser Eintrag wurde bereits abgerechnet.',
+        'error_finalized_invoice' => 'Hinzufügen zu einer finalisierten Rechnung nicht möglich.',
+    ],
+
+    'subscription_flash' => [
+        'activated' => 'Glückwunsch! Ihr Abonnement ist nun aktiv.',
+        'cancelled' => 'Ihr Abonnement wurde gekündigt. Sie behalten den Zugriff bis zum Ende des Zeitraums.',
+        'resumed' => 'Ihr Abonnement wurde reaktiviert.',
+        'updated' => 'Ihr Abonnement wurde geändert.',
+        'error_payment_config_missing' => 'Zahlungskonfiguration fehlt. Bitte kontaktieren Sie den Support.',
+        'error_payment_config' => 'Zahlungskonfiguration fehlt.',
+        'error_no_active' => 'Sie haben kein aktives Abonnement.',
+        'error_cannot_resume' => 'Abonnement kann nicht fortgesetzt werden.',
+        'error_plan_not_found' => 'Plan nicht gefunden.',
+    ],
 ];

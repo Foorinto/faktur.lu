@@ -2677,4 +2677,162 @@ return [
         'completed' => 'Reminder completed.',
         'deleted' => 'Reminder deleted.',
     ],
+
+    'invoices_flash' => [
+        'created' => 'Invoice draft created.',
+        'updated' => 'Invoice updated.',
+        'deleted' => 'Draft deleted.',
+        'duplicated' => 'Draft duplicated — edit and finalise to obtain a new number.',
+        'finalized' => 'Invoice no. :number successfully finalised.',
+        'marked_sent' => 'Invoice marked as sent.',
+        'marked_paid' => 'Invoice marked as paid.',
+        'paid_at_updated' => 'Payment date updated.',
+        'email_sent' => 'Invoice sent by email successfully.',
+        'email_error' => 'Error while sending: :error',
+        'email_requires_finalized' => 'Cannot send a non-finalised invoice.',
+        'error_action_not_allowed' => 'This action is not allowed.',
+        'error_credit_note_not_duplicable' => 'A credit note cannot be duplicated.',
+        'error_not_paid' => 'This invoice is not marked as paid.',
+        'credit_note_created' => 'Credit note created. Please review and finalise it.',
+        'credit_note_partial_created' => 'Partial credit note created. Please review and finalise it.',
+        'peppol_sent' => 'Peppol submission initiated. You can track the status on this page.',
+        'peppol_disabled' => 'Peppol sending is not enabled.',
+        'peppol_not_configured' => 'The Peppol service is not configured correctly.',
+        'peppol_requires_finalized' => 'Only finalised invoices can be sent via Peppol.',
+        'peppol_seller_endpoint_missing' => 'Please configure your Peppol identifier in the business settings.',
+        'peppol_buyer_endpoint_missing' => 'The client must have a Peppol identifier configured.',
+        'peppol_transmission_exists' => 'This invoice already has a Peppol transmission in progress or completed (status: :status).',
+    ],
+
+    'quotes_flash' => [
+        'created' => 'Quote draft created.',
+        'updated' => 'Quote updated.',
+        'deleted' => 'Quote deleted.',
+        'duplicated' => 'Quote draft duplicated — edit and send.',
+        'marked_sent' => 'Quote marked as sent.',
+        'marked_accepted' => 'Quote marked as accepted. You can now convert it into an invoice.',
+        'marked_declined' => 'Quote marked as declined.',
+        'converted_to_invoice' => 'Quote converted into an invoice. You can now finalise the invoice.',
+        'error_cannot_mark_sent' => 'This quote cannot be marked as sent.',
+        'error_cannot_accept' => 'This quote cannot be accepted.',
+        'error_cannot_decline' => 'This quote cannot be declined.',
+    ],
+
+    'clients_flash' => [
+        'created' => 'Client created successfully.',
+        'updated' => 'Client updated successfully.',
+        'deleted' => 'Client deleted successfully.',
+        'prospect_converted' => 'Prospect converted to client. Please complete the billing details.',
+        'error_already_active' => 'This client is already active.',
+        'error_has_invoices' => 'This client cannot be deleted as it has associated invoices.',
+    ],
+
+    'business_flash' => [
+        'settings_saved' => 'Settings saved successfully.',
+        'logo_updated' => 'Logo updated successfully.',
+        'logo_deleted' => 'Logo deleted.',
+        'qrcode_updated' => 'Payment QR code updated.',
+        'qrcode_deleted' => 'Payment QR code deleted.',
+        'error_settings_missing' => 'Please configure the business settings first.',
+        'error_no_logo' => 'No logo to delete.',
+        'error_no_qrcode' => 'No QR code to delete.',
+    ],
+
+    'accounting_flash' => [
+        'generated' => 'Accounting export generated successfully.',
+        'deleted' => 'Export deleted.',
+        'error_generation' => 'Error during generation: :error',
+        'error_file_unavailable' => 'This file is not available.',
+        'error_file_missing' => 'The file no longer exists on the server.',
+        'error_no_invoices_period' => 'No invoices for this period.',
+    ],
+
+    'accountant_flash' => [
+        'invitation_sent' => 'Invitation sent to :email',
+        'invitation_resent' => 'Invitation resent.',
+        'invitation_cancelled' => 'Invitation cancelled.',
+        'access_revoked' => 'Access revoked.',
+    ],
+
+    'audit_flash' => [
+        'generated' => 'Export generated successfully.',
+        'deleted' => 'Export deleted.',
+        'error_generation' => 'Error during generation: :error',
+        'error_file_unavailable' => 'This file is not available.',
+        'error_file_missing' => 'The file no longer exists on the server.',
+    ],
+
+    'expenses_flash' => [
+        'created' => 'Expense saved.',
+        'updated' => 'Expense updated.',
+        'deleted' => 'Expense deleted.',
+    ],
+
+    'email_provider_flash' => [
+        'updated' => 'Email configuration updated.',
+        'using_default' => 'The default faktur.lu configuration is being used.',
+    ],
+
+    'interactions_flash' => [
+        'created' => 'Interaction added.',
+        'updated' => 'Interaction updated.',
+        'deleted' => 'Interaction deleted.',
+        'email_sent' => 'Email sent to :email and interaction recorded.',
+        'email_error' => 'Interaction recorded but the email could not be sent: :error',
+    ],
+
+    'projects_flash' => [
+        'created' => 'Project created successfully.',
+        'updated' => 'Project updated.',
+        'deleted' => 'Project deleted.',
+        'archived' => 'Project archived.',
+        'unarchived' => 'Project restored.',
+        'status_updated' => 'Status updated.',
+        'error_has_time_entries' => 'This project cannot be deleted because it contains time entries.',
+    ],
+
+    'tasks_flash' => [
+        'created' => 'Task created.',
+        'updated' => 'Task updated.',
+        'deleted' => 'Task deleted.',
+        'subtask_created' => 'Subtask created.',
+        'error_subtask_depth' => 'Subtasks cannot have subtasks.',
+        'error_has_time_entries' => 'This task cannot be deleted because it or its subtasks contain time entries.',
+    ],
+
+    'recurring_flash' => [
+        'created' => 'Recurring billing created.',
+        'updated' => 'Recurring billing updated.',
+        'deleted' => 'Recurring billing deleted.',
+        'duplicated' => 'Recurring billing duplicated (inactive) — review the settings then activate it.',
+        'activated' => 'Activated.',
+        'deactivated' => 'Deactivated.',
+    ],
+
+    'time_entries_flash' => [
+        'created' => 'Time entry saved.',
+        'updated' => 'Time entry updated.',
+        'deleted' => 'Time entry deleted.',
+        'timer_started' => 'Timer started.',
+        'timer_stopped' => 'Timer stopped. Duration: :duration',
+        'invoice_draft_created' => 'Invoice draft created from time entries.',
+        'added_to_invoice' => 'Entry added to the invoice.',
+        'error_billed_edit' => 'Cannot edit a billed entry.',
+        'error_billed_delete' => 'Cannot delete a billed entry.',
+        'error_timer_not_running' => 'This timer is not running.',
+        'error_already_billed' => 'This entry has already been billed.',
+        'error_finalized_invoice' => 'Cannot add to a finalised invoice.',
+    ],
+
+    'subscription_flash' => [
+        'activated' => 'Congratulations! Your subscription is now active.',
+        'cancelled' => 'Your subscription has been cancelled. You retain access until the end of the period.',
+        'resumed' => 'Your subscription has been reactivated.',
+        'updated' => 'Your subscription has been updated.',
+        'error_payment_config_missing' => 'Payment configuration missing. Please contact support.',
+        'error_payment_config' => 'Payment configuration missing.',
+        'error_no_active' => 'You do not have an active subscription.',
+        'error_cannot_resume' => 'Cannot resume the subscription.',
+        'error_plan_not_found' => 'Plan not found.',
+    ],
 ];

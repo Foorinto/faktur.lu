@@ -83,7 +83,7 @@ class EmailProviderController extends Controller
 
         $settings->update($updateData);
 
-        return back()->with('success', 'Configuration email mise à jour.');
+        return back()->with('success', __('app.email_provider_flash.updated'));
     }
 
     /**
@@ -94,7 +94,7 @@ class EmailProviderController extends Controller
         $settings = EmailSettings::getOrCreate($request->user());
 
         if ($settings->provider === EmailSettings::PROVIDER_FAKTUR) {
-            return back()->with('success', 'La configuration par défaut de faktur.lu est utilisée.');
+            return back()->with('success', __('app.email_provider_flash.using_default'));
         }
 
         if (!$settings->provider_config) {

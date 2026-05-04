@@ -111,7 +111,7 @@ class ClientController extends Controller
 
         return redirect()
             ->route('clients.show', $client)
-            ->with('success', 'Client créé avec succès.');
+            ->with('success', __('app.clients_flash.created'));
     }
 
     /**
@@ -267,7 +267,7 @@ class ClientController extends Controller
 
         return redirect()
             ->route('clients.show', $client)
-            ->with('success', 'Client mis à jour avec succès.');
+            ->with('success', __('app.clients_flash.updated'));
     }
 
     /**
@@ -276,14 +276,14 @@ class ClientController extends Controller
     public function convertProspect(Client $client): RedirectResponse
     {
         if (!$client->isProspect()) {
-            return back()->with('error', 'Ce client est déjà actif.');
+            return back()->with('error', __('app.clients_flash.error_already_active'));
         }
 
         $client->convertToClient();
 
         return redirect()
             ->route('clients.edit', $client)
-            ->with('success', 'Prospect converti en client. Complétez les informations de facturation.');
+            ->with('success', __('app.clients_flash.prospect_converted'));
     }
 
     /**
@@ -292,14 +292,14 @@ class ClientController extends Controller
     public function destroy(Client $client): RedirectResponse
     {
         if (!$client->canBeDeleted()) {
-            return back()->with('error', 'Impossible de supprimer ce client car il a des factures associées.');
+            return back()->with('error', __('app.clients_flash.error_has_invoices'));
         }
 
         $client->delete();
 
         return redirect()
             ->route('clients.index')
-            ->with('success', 'Client supprimé avec succès.');
+            ->with('success', __('app.clients_flash.deleted'));
     }
 
     /**

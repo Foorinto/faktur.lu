@@ -109,7 +109,7 @@ class AccountantSettingsController extends Controller
         \Notification::route('mail', $invitation->email)
             ->notify(new AccountantInvitationNotification($invitation));
 
-        return back()->with('success', 'Invitation envoyée à ' . $invitation->email);
+        return back()->with('success', __('app.accountant_flash.invitation_sent', ['email' => $invitation->email]));
     }
 
     /**
@@ -130,7 +130,7 @@ class AccountantSettingsController extends Controller
         \Notification::route('mail', $invitation->email)
             ->notify(new AccountantInvitationNotification($invitation));
 
-        return back()->with('success', 'Invitation renvoyée.');
+        return back()->with('success', __('app.accountant_flash.invitation_resent'));
     }
 
     /**
@@ -144,7 +144,7 @@ class AccountantSettingsController extends Controller
 
         $invitation->revoke();
 
-        return back()->with('success', 'Invitation annulée.');
+        return back()->with('success', __('app.accountant_flash.invitation_cancelled'));
     }
 
     /**
@@ -159,6 +159,6 @@ class AccountantSettingsController extends Controller
             'revoked_at' => now(),
         ]);
 
-        return back()->with('success', 'Accès révoqué.');
+        return back()->with('success', __('app.accountant_flash.access_revoked'));
     }
 }

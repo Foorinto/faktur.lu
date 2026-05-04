@@ -2880,4 +2880,162 @@ return [
         'completed' => 'Lembrete concluído.',
         'deleted' => 'Lembrete eliminado.',
     ],
+
+    'invoices_flash' => [
+        'created' => 'Rascunho de fatura criado.',
+        'updated' => 'Fatura atualizada.',
+        'deleted' => 'Rascunho eliminado.',
+        'duplicated' => 'Rascunho duplicado — edite e finalize para obter um novo número.',
+        'finalized' => 'Fatura n.º :number finalizada com sucesso.',
+        'marked_sent' => 'Fatura marcada como enviada.',
+        'marked_paid' => 'Fatura marcada como paga.',
+        'paid_at_updated' => 'Data de pagamento atualizada.',
+        'email_sent' => 'Fatura enviada por e-mail com sucesso.',
+        'email_error' => 'Erro ao enviar: :error',
+        'email_requires_finalized' => 'Não é possível enviar uma fatura não finalizada.',
+        'error_action_not_allowed' => 'Esta ação não é permitida.',
+        'error_credit_note_not_duplicable' => 'Uma nota de crédito não pode ser duplicada.',
+        'error_not_paid' => 'Esta fatura não está marcada como paga.',
+        'credit_note_created' => 'Nota de crédito criada. Verifique e finalize-a.',
+        'credit_note_partial_created' => 'Nota de crédito parcial criada. Verifique e finalize-a.',
+        'peppol_sent' => 'Envio Peppol iniciado. Pode acompanhar o estado nesta página.',
+        'peppol_disabled' => 'O envio Peppol não está ativado.',
+        'peppol_not_configured' => 'O serviço Peppol não está configurado corretamente.',
+        'peppol_requires_finalized' => 'Apenas faturas finalizadas podem ser enviadas via Peppol.',
+        'peppol_seller_endpoint_missing' => 'Configure o seu identificador Peppol nas definições da empresa.',
+        'peppol_buyer_endpoint_missing' => 'O cliente deve ter um identificador Peppol configurado.',
+        'peppol_transmission_exists' => 'Esta fatura já tem uma transmissão Peppol em curso ou concluída (estado: :status).',
+    ],
+
+    'quotes_flash' => [
+        'created' => 'Rascunho de orçamento criado.',
+        'updated' => 'Orçamento atualizado.',
+        'deleted' => 'Orçamento eliminado.',
+        'duplicated' => 'Rascunho de orçamento duplicado — edite e envie.',
+        'marked_sent' => 'Orçamento marcado como enviado.',
+        'marked_accepted' => 'Orçamento marcado como aceite. Pode agora convertê-lo em fatura.',
+        'marked_declined' => 'Orçamento marcado como recusado.',
+        'converted_to_invoice' => 'Orçamento convertido em fatura. Pode agora finalizar a fatura.',
+        'error_cannot_mark_sent' => 'Este orçamento não pode ser marcado como enviado.',
+        'error_cannot_accept' => 'Este orçamento não pode ser aceite.',
+        'error_cannot_decline' => 'Este orçamento não pode ser recusado.',
+    ],
+
+    'clients_flash' => [
+        'created' => 'Cliente criado com sucesso.',
+        'updated' => 'Cliente atualizado com sucesso.',
+        'deleted' => 'Cliente eliminado com sucesso.',
+        'prospect_converted' => 'Potencial cliente convertido em cliente. Complete os dados de faturação.',
+        'error_already_active' => 'Este cliente já está ativo.',
+        'error_has_invoices' => 'Não é possível eliminar este cliente pois tem faturas associadas.',
+    ],
+
+    'business_flash' => [
+        'settings_saved' => 'Definições guardadas com sucesso.',
+        'logo_updated' => 'Logótipo atualizado com sucesso.',
+        'logo_deleted' => 'Logótipo eliminado.',
+        'qrcode_updated' => 'Código QR de pagamento atualizado.',
+        'qrcode_deleted' => 'Código QR de pagamento eliminado.',
+        'error_settings_missing' => 'Configure primeiro as definições da empresa.',
+        'error_no_logo' => 'Nenhum logótipo para eliminar.',
+        'error_no_qrcode' => 'Nenhum código QR para eliminar.',
+    ],
+
+    'accounting_flash' => [
+        'generated' => 'Exportação contabilística gerada com sucesso.',
+        'deleted' => 'Exportação eliminada.',
+        'error_generation' => 'Erro durante a geração: :error',
+        'error_file_unavailable' => 'Este ficheiro não está disponível.',
+        'error_file_missing' => 'O ficheiro já não existe no servidor.',
+        'error_no_invoices_period' => 'Sem faturas para este período.',
+    ],
+
+    'accountant_flash' => [
+        'invitation_sent' => 'Convite enviado para :email',
+        'invitation_resent' => 'Convite reenviado.',
+        'invitation_cancelled' => 'Convite cancelado.',
+        'access_revoked' => 'Acesso revogado.',
+    ],
+
+    'audit_flash' => [
+        'generated' => 'Exportação gerada com sucesso.',
+        'deleted' => 'Exportação eliminada.',
+        'error_generation' => 'Erro durante a geração: :error',
+        'error_file_unavailable' => 'Este ficheiro não está disponível.',
+        'error_file_missing' => 'O ficheiro já não existe no servidor.',
+    ],
+
+    'expenses_flash' => [
+        'created' => 'Despesa registada.',
+        'updated' => 'Despesa atualizada.',
+        'deleted' => 'Despesa eliminada.',
+    ],
+
+    'email_provider_flash' => [
+        'updated' => 'Configuração de e-mail atualizada.',
+        'using_default' => 'Está a ser utilizada a configuração predefinida do faktur.lu.',
+    ],
+
+    'interactions_flash' => [
+        'created' => 'Interação adicionada.',
+        'updated' => 'Interação atualizada.',
+        'deleted' => 'Interação eliminada.',
+        'email_sent' => 'E-mail enviado para :email e interação registada.',
+        'email_error' => 'Interação registada mas o e-mail não pôde ser enviado: :error',
+    ],
+
+    'projects_flash' => [
+        'created' => 'Projeto criado com sucesso.',
+        'updated' => 'Projeto atualizado.',
+        'deleted' => 'Projeto eliminado.',
+        'archived' => 'Projeto arquivado.',
+        'unarchived' => 'Projeto restaurado.',
+        'status_updated' => 'Estado atualizado.',
+        'error_has_time_entries' => 'Este projeto não pode ser eliminado pois contém registos de tempo.',
+    ],
+
+    'tasks_flash' => [
+        'created' => 'Tarefa criada.',
+        'updated' => 'Tarefa atualizada.',
+        'deleted' => 'Tarefa eliminada.',
+        'subtask_created' => 'Subtarefa criada.',
+        'error_subtask_depth' => 'As subtarefas não podem ter subtarefas.',
+        'error_has_time_entries' => 'Esta tarefa não pode ser eliminada pois ela ou as suas subtarefas contêm registos de tempo.',
+    ],
+
+    'recurring_flash' => [
+        'created' => 'Faturação recorrente criada.',
+        'updated' => 'Faturação recorrente atualizada.',
+        'deleted' => 'Faturação recorrente eliminada.',
+        'duplicated' => 'Recorrência duplicada (inativa) — verifique as definições e ative-a.',
+        'activated' => 'Ativada.',
+        'deactivated' => 'Desativada.',
+    ],
+
+    'time_entries_flash' => [
+        'created' => 'Registo de tempo guardado.',
+        'updated' => 'Registo de tempo atualizado.',
+        'deleted' => 'Registo de tempo eliminado.',
+        'timer_started' => 'Cronómetro iniciado.',
+        'timer_stopped' => 'Cronómetro parado. Duração: :duration',
+        'invoice_draft_created' => 'Rascunho de fatura criado a partir dos registos de tempo.',
+        'added_to_invoice' => 'Registo adicionado à fatura.',
+        'error_billed_edit' => 'Não é possível editar um registo já faturado.',
+        'error_billed_delete' => 'Não é possível eliminar um registo já faturado.',
+        'error_timer_not_running' => 'Este cronómetro não está em curso.',
+        'error_already_billed' => 'Este registo já foi faturado.',
+        'error_finalized_invoice' => 'Não é possível adicionar a uma fatura finalizada.',
+    ],
+
+    'subscription_flash' => [
+        'activated' => 'Parabéns! A sua subscrição está agora ativa.',
+        'cancelled' => 'A sua subscrição foi cancelada. Mantém o acesso até ao final do período.',
+        'resumed' => 'A sua subscrição foi reativada.',
+        'updated' => 'A sua subscrição foi atualizada.',
+        'error_payment_config_missing' => 'Configuração de pagamento em falta. Contacte o suporte.',
+        'error_payment_config' => 'Configuração de pagamento em falta.',
+        'error_no_active' => 'Não tem nenhuma subscrição ativa.',
+        'error_cannot_resume' => 'Não é possível retomar a subscrição.',
+        'error_plan_not_found' => 'Plano não encontrado.',
+    ],
 ];

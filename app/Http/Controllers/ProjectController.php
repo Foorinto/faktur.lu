@@ -105,7 +105,7 @@ class ProjectController extends Controller
 
         return redirect()
             ->route('projects.show', $project)
-            ->with('success', 'Projet créé avec succès.');
+            ->with('success', __('app.projects_flash.created'));
     }
 
     /**
@@ -186,7 +186,7 @@ class ProjectController extends Controller
 
         return redirect()
             ->route('projects.show', $project)
-            ->with('success', 'Projet mis à jour.');
+            ->with('success', __('app.projects_flash.updated'));
     }
 
     /**
@@ -195,14 +195,14 @@ class ProjectController extends Controller
     public function destroy(Project $project): RedirectResponse
     {
         if (!$project->canBeDeleted()) {
-            return back()->with('error', 'Ce projet ne peut pas être supprimé car il contient des entrées de temps.');
+            return back()->with('error', __('app.projects_flash.error_has_time_entries'));
         }
 
         $project->delete();
 
         return redirect()
             ->route('projects.index')
-            ->with('success', 'Projet supprimé.');
+            ->with('success', __('app.projects_flash.deleted'));
     }
 
     /**
@@ -216,7 +216,7 @@ class ProjectController extends Controller
 
         $project->update(['status' => $validated['status']]);
 
-        return back()->with('success', 'Statut mis à jour.');
+        return back()->with('success', __('app.projects_flash.status_updated'));
     }
 
     /**
@@ -251,10 +251,10 @@ class ProjectController extends Controller
 
         if ($action === 'archive') {
             $project->archive();
-            $message = 'Projet archivé.';
+            $message = __('app.projects_flash.archived');
         } else {
             $project->unarchive();
-            $message = 'Projet restauré.';
+            $message = __('app.projects_flash.unarchived');
         }
 
         return back()->with('success', $message);

@@ -123,7 +123,7 @@ class ExpenseController extends Controller
 
         return redirect()
             ->route('expenses.index')
-            ->with('success', 'Dépense enregistrée.');
+            ->with('success', __('app.expenses_flash.created'));
     }
 
     /**
@@ -178,7 +178,7 @@ class ExpenseController extends Controller
 
         return redirect()
             ->route('expenses.index')
-            ->with('success', 'Dépense mise à jour.');
+            ->with('success', __('app.expenses_flash.updated'));
     }
 
     /**
@@ -190,7 +190,7 @@ class ExpenseController extends Controller
 
         return redirect()
             ->route('expenses.index')
-            ->with('success', 'Dépense supprimée.');
+            ->with('success', __('app.expenses_flash.deleted'));
     }
 
     /**

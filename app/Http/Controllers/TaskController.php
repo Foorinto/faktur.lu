@@ -48,7 +48,7 @@ class TaskController extends Controller
 
         $project->tasks()->create($validated);
 
-        return back()->with('success', 'Tâche créée.');
+        return back()->with('success', __('app.tasks_flash.created'));
     }
 
     /**
@@ -63,7 +63,7 @@ class TaskController extends Controller
 
         // Limit depth to 1 (only one level of subtasks)
         if ($task->depth >= 1) {
-            return back()->with('error', 'Les sous-tâches ne peuvent pas avoir de sous-tâches.');
+            return back()->with('error', __('app.tasks_flash.error_subtask_depth'));
         }
 
         $validated = $request->validate([
@@ -79,7 +79,7 @@ class TaskController extends Controller
             'priority' => $validated['priority'] ?? Task::PRIORITY_NORMAL,
         ]));
 
-        return back()->with('success', 'Sous-tâche créée.');
+        return back()->with('success', __('app.tasks_flash.subtask_created'));
     }
 
     /**
@@ -108,7 +108,7 @@ class TaskController extends Controller
             $task->markAsComplete();
         }
 
-        return back()->with('success', 'Tâche mise à jour.');
+        return back()->with('success', __('app.tasks_flash.updated'));
     }
 
     /**
@@ -126,7 +126,7 @@ class TaskController extends Controller
             || $task->children()->whereHas('timeEntries')->exists();
 
         if ($hasTimeEntries) {
-            return back()->with('error', 'Cette tâche ne peut pas être supprimée car elle ou ses sous-tâches contiennent des entrées de temps.');
+            return back()->with('error', __('app.tasks_flash.error_has_time_entries'));
         }
 
         // Delete all subtasks first
@@ -134,7 +134,7 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return back()->with('success', 'Tâche supprimée.');
+        return back()->with('success', __('app.tasks_flash.deleted'));
     }
 
     /**

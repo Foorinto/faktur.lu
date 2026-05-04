@@ -166,7 +166,7 @@ class TimeEntryController extends Controller
 
         TimeEntry::create($data);
 
-        return back()->with('success', 'Entrée de temps enregistrée.');
+        return back()->with('success', __('app.time_entries_flash.created'));
     }
 
     /**
@@ -175,7 +175,7 @@ class TimeEntryController extends Controller
     public function update(UpdateTimeEntryRequest $request, TimeEntry $timeEntry): RedirectResponse
     {
         if ($timeEntry->is_billed) {
-            return back()->with('error', 'Impossible de modifier une entrée facturée.');
+            return back()->with('error', __('app.time_entries_flash.error_billed_edit'));
         }
 
         $data = $request->validated();
@@ -193,7 +193,7 @@ class TimeEntryController extends Controller
 
         $timeEntry->update($data);
 
-        return back()->with('success', 'Entrée de temps mise à jour.');
+        return back()->with('success', __('app.time_entries_flash.updated'));
     }
 
     /**
@@ -202,12 +202,12 @@ class TimeEntryController extends Controller
     public function destroy(TimeEntry $timeEntry): RedirectResponse
     {
         if ($timeEntry->is_billed) {
-            return back()->with('error', 'Impossible de supprimer une entrée facturée.');
+            return back()->with('error', __('app.time_entries_flash.error_billed_delete'));
         }
 
         $timeEntry->delete();
 
-        return back()->with('success', 'Entrée de temps supprimée.');
+        return back()->with('success', __('app.time_entries_flash.deleted'));
     }
 
     /**
@@ -250,7 +250,7 @@ class TimeEntryController extends Controller
             'started_at' => now(),
         ]);
 
-        return back()->with('success', 'Timer démarré.');
+        return back()->with('success', __('app.time_entries_flash.timer_started'));
     }
 
     /**
@@ -259,12 +259,12 @@ class TimeEntryController extends Controller
     public function stop(TimeEntry $timeEntry): RedirectResponse
     {
         if (!$timeEntry->isRunning()) {
-            return back()->with('error', 'Ce timer n\'est pas en cours.');
+            return back()->with('error', __('app.time_entries_flash.error_timer_not_running'));
         }
 
         $timeEntry->stop();
 
-        return back()->with('success', 'Timer arrêté. Durée: ' . $timeEntry->duration_formatted);
+        return back()->with('success', __('app.time_entries_flash.timer_stopped', ['duration' => $timeEntry->duration_formatted]));
     }
 
     /**
@@ -309,7 +309,7 @@ class TimeEntryController extends Controller
 
             return redirect()
                 ->route('invoices.edit', $invoice)
-                ->with('success', 'Facture brouillon créée à partir du temps.');
+                ->with('success', __('app.time_entries_flash.invoice_draft_created'));
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -321,7 +321,7 @@ class TimeEntryController extends Controller
     public function addToInvoice(Request $request, TimeEntry $timeEntry): RedirectResponse
     {
         if ($timeEntry->is_billed) {
-            return back()->with('error', 'Cette entrée est déjà facturée.');
+            return back()->with('error', __('app.time_entries_flash.error_already_billed'));
         }
 
         $request->validate([
@@ -334,7 +334,7 @@ class TimeEntryController extends Controller
 
         // Verify invoice is draft
         if (!$invoice->isDraft()) {
-            return back()->with('error', 'Impossible d\'ajouter à une facture finalisée.');
+            return back()->with('error', __('app.time_entries_flash.error_finalized_invoice'));
         }
 
         // Get the hourly rate from request
@@ -370,7 +370,7 @@ class TimeEntryController extends Controller
         // Mark time entry as billed
         $timeEntry->markAsBilled($invoice);
 
-        return back()->with('success', 'Entrée ajoutée à la facture.');
+        return back()->with('success', __('app.time_entries_flash.added_to_invoice'));
     }
 
     /**

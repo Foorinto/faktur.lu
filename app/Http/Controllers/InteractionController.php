@@ -54,15 +54,15 @@ class InteractionController extends Controller
 
                 Log::info("CRM email sent to {$client->email} — subject: {$validated['subject']}");
 
-                return back()->with('success', "Email envoyé à {$client->email} et interaction enregistrée.");
+                return back()->with('success', __('app.interactions_flash.email_sent', ['email' => $client->email]));
             } catch (\Exception $e) {
                 Log::error("CRM email failed to {$client->email}: {$e->getMessage()}");
 
-                return back()->with('error', "Interaction enregistrée mais l'email n'a pas pu être envoyé : {$e->getMessage()}");
+                return back()->with('error', __('app.interactions_flash.email_error', ['error' => $e->getMessage()]));
             }
         }
 
-        return back()->with('success', 'Interaction ajoutée.');
+        return back()->with('success', __('app.interactions_flash.created'));
     }
 
     public function update(Request $request, Interaction $interaction): RedirectResponse
@@ -75,13 +75,13 @@ class InteractionController extends Controller
 
         $interaction->update($validated);
 
-        return back()->with('success', 'Interaction mise à jour.');
+        return back()->with('success', __('app.interactions_flash.updated'));
     }
 
     public function destroy(Interaction $interaction): RedirectResponse
     {
         $interaction->delete();
 
-        return back()->with('success', 'Interaction supprimée.');
+        return back()->with('success', __('app.interactions_flash.deleted'));
     }
 }

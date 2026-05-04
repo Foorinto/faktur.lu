@@ -183,7 +183,7 @@ class InvoiceController extends Controller
 
         return redirect()
             ->route('invoices.edit', $invoice)
-            ->with('success', 'Brouillon de facture créé.');
+            ->with('success', __('app.invoices_flash.created'));
     }
 
     /**
@@ -258,7 +258,7 @@ class InvoiceController extends Controller
             app(\App\Actions\CalculateInvoiceTotalsAction::class)->execute($invoice);
         }
 
-        return back()->with('success', 'Facture mise à jour.');
+        return back()->with('success', __('app.invoices_flash.updated'));
     }
 
     /**
@@ -270,7 +270,7 @@ class InvoiceController extends Controller
             $invoice->delete();
             return redirect()
                 ->route('invoices.index')
-                ->with('success', 'Brouillon supprimé.');
+                ->with('success', __('app.invoices_flash.deleted'));
         } catch (ImmutableInvoiceException $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -283,7 +283,7 @@ class InvoiceController extends Controller
     public function duplicate(Invoice $invoice): RedirectResponse
     {
         if ($invoice->type === Invoice::TYPE_CREDIT_NOTE) {
-            return back()->with('error', 'Une note de crédit ne peut pas être dupliquée.');
+            return back()->with('error', __('app.invoices_flash.error_credit_note_not_duplicable'));
         }
 
         $invoice->load('items');
@@ -323,7 +323,7 @@ class InvoiceController extends Controller
 
         return redirect()
             ->route('invoices.edit', $duplicate)
-            ->with('success', 'Brouillon dupliqué — modifiez puis finalisez pour obtenir un nouveau numéro.');
+            ->with('success', __('app.invoices_flash.duplicated'));
     }
 
     /**
@@ -335,7 +335,7 @@ class InvoiceController extends Controller
             $action->execute($invoice);
             return redirect()
                 ->route('invoices.show', $invoice)
-                ->with('success', "Facture n° {$invoice->number} finalisée avec succès.");
+                ->with('success', __('app.invoices_flash.finalized', ['number' => $invoice->number]));
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -347,7 +347,7 @@ class InvoiceController extends Controller
     public function markAsSent(Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isFinalized() || $invoice->status === Invoice::STATUS_SENT) {
-            return back()->with('error', 'Cette action n\'est pas autorisée.');
+            return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
         }
 
         $invoice->update([
@@ -355,7 +355,7 @@ class InvoiceController extends Controller
             'sent_at' => now(),
         ]);
 
-        return back()->with('success', 'Facture marquée comme envoyée.');
+        return back()->with('success', __('app.invoices_flash.marked_sent'));
     }
 
     /**
@@ -364,7 +364,7 @@ class InvoiceController extends Controller
     public function markAsPaid(Request $request, Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isFinalized() || $invoice->isPaid()) {
-            return back()->with('error', 'Cette action n\'est pas autorisée.');
+            return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
         }
 
         $validated = $request->validate([
@@ -376,7 +376,7 @@ class InvoiceController extends Controller
             'paid_at' => $validated['paid_at'] ?? now(),
         ]);
 
-        return back()->with('success', 'Facture marquée comme payée.');
+        return back()->with('success', __('app.invoices_flash.marked_paid'));
     }
 
     /**
@@ -385,7 +385,7 @@ class InvoiceController extends Controller
     public function updatePaidAt(Request $request, Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isPaid()) {
-            return back()->with('error', 'Cette facture n\'est pas marquée comme payée.');
+            return back()->with('error', __('app.invoices_flash.error_not_paid'));
         }
 
         $validated = $request->validate([
@@ -394,7 +394,7 @@ class InvoiceController extends Controller
 
         $invoice->update(['paid_at' => $validated['paid_at']]);
 
-        return back()->with('success', 'Date de paiement mise à jour.');
+        return back()->with('success', __('app.invoices_flash.paid_at_updated'));
     }
 
     /**
@@ -404,29 +404,29 @@ class InvoiceController extends Controller
     {
         // Check if Peppol is enabled
         if (!config('peppol.enabled')) {
-            return back()->with('error', 'L\'envoi Peppol n\'est pas activé.');
+            return back()->with('error', __('app.invoices_flash.peppol_disabled'));
         }
 
         // Check if Access Point is configured
         if (!$accessPoint->isConfigured()) {
-            return back()->with('error', 'Le service Peppol n\'est pas configuré correctement.');
+            return back()->with('error', __('app.invoices_flash.peppol_not_configured'));
         }
 
         // Invoice must be finalized
         if (!$invoice->isFinalized()) {
-            return back()->with('error', 'Seules les factures finalisées peuvent être envoyées via Peppol.');
+            return back()->with('error', __('app.invoices_flash.peppol_requires_finalized'));
         }
 
         // Check seller has Peppol endpoint
         $seller = $invoice->seller;
         if (empty($seller['peppol_endpoint_id']) || empty($seller['peppol_endpoint_scheme'])) {
-            return back()->with('error', 'Veuillez configurer votre identifiant Peppol dans les paramètres entreprise.');
+            return back()->with('error', __('app.invoices_flash.peppol_seller_endpoint_missing'));
         }
 
         // Check buyer has Peppol endpoint
         $buyer = $invoice->buyer;
         if (empty($buyer['peppol_endpoint_id']) || empty($buyer['peppol_endpoint_scheme'])) {
-            return back()->with('error', 'Le client doit avoir un identifiant Peppol configuré.');
+            return back()->with('error', __('app.invoices_flash.peppol_buyer_endpoint_missing'));
         }
 
         // Check if there's already a pending or successful transmission
@@ -441,7 +441,7 @@ class InvoiceController extends Controller
 
         if ($existingTransmission) {
             $status = $existingTransmission->status_label;
-            return back()->with('error', "Cette facture a déjà une transmission Peppol en cours ou terminée (statut: {$status}).");
+            return back()->with('error', __('app.invoices_flash.peppol_transmission_exists', ['status' => $status]));
         }
 
         // Create transmission record
@@ -456,7 +456,7 @@ class InvoiceController extends Controller
         // Dispatch job
         SendPeppolInvoiceJob::dispatch($transmission);
 
-        return back()->with('success', 'Envoi Peppol initié. Vous pouvez suivre le statut sur cette page.');
+        return back()->with('success', __('app.invoices_flash.peppol_sent'));
     }
 
     /**
@@ -551,8 +551,8 @@ class InvoiceController extends Controller
             $creditNote = $action->execute($invoice, $reason, $itemIds);
 
             $message = $itemIds && count($itemIds) < $invoice->items->count()
-                ? 'Avoir partiel créé. Vérifiez et finalisez-le.'
-                : 'Note de crédit créée. Vérifiez et finalisez-la.';
+                ? __('app.invoices_flash.credit_note_partial_created')
+                : __('app.invoices_flash.credit_note_created');
 
             return redirect()
                 ->route('invoices.edit', $creditNote)
@@ -682,7 +682,7 @@ class InvoiceController extends Controller
     public function sendEmail(Request $request, Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isFinalized()) {
-            return back()->with('error', 'Impossible d\'envoyer une facture non finalisée.');
+            return back()->with('error', __('app.invoices_flash.email_requires_finalized'));
         }
 
         $request->validate([
@@ -702,9 +702,9 @@ class InvoiceController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'Facture envoyée par email avec succès.');
+            return back()->with('success', __('app.invoices_flash.email_sent'));
         } catch (\Exception $e) {
-            return back()->with('error', 'Erreur lors de l\'envoi: ' . $e->getMessage());
+            return back()->with('error', __('app.invoices_flash.email_error', ['error' => $e->getMessage()]));
         }
     }
 

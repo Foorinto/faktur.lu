@@ -70,7 +70,7 @@ class SubscriptionController extends Controller
             : $plan->stripe_price_id_monthly;
 
         if (!$priceId) {
-            return back()->with('error', __('Configuration de paiement manquante. Contactez le support.'));
+            return back()->with('error', __('app.subscription_flash.error_payment_config_missing'));
         }
 
         return $user->newSubscription('default', $priceId)
@@ -92,7 +92,7 @@ class SubscriptionController extends Controller
     public function success(Request $request)
     {
         return redirect()->route('subscription.index')
-            ->with('success', __('Félicitations ! Votre abonnement est maintenant actif.'));
+            ->with('success', __('app.subscription_flash.activated'));
     }
 
     /**
@@ -111,12 +111,12 @@ class SubscriptionController extends Controller
         $user = $request->user();
 
         if (!$user->subscribed('default')) {
-            return back()->with('error', __('Vous n\'avez pas d\'abonnement actif.'));
+            return back()->with('error', __('app.subscription_flash.error_no_active'));
         }
 
         $user->subscription('default')->cancel();
 
-        return back()->with('success', __('Votre abonnement a été annulé. Vous conservez l\'accès jusqu\'à la fin de la période.'));
+        return back()->with('success', __('app.subscription_flash.cancelled'));
     }
 
     /**
@@ -128,12 +128,12 @@ class SubscriptionController extends Controller
         $subscription = $user->subscription('default');
 
         if (!$subscription || !$subscription->onGracePeriod()) {
-            return back()->with('error', __('Impossible de reprendre l\'abonnement.'));
+            return back()->with('error', __('app.subscription_flash.error_cannot_resume'));
         }
 
         $subscription->resume();
 
-        return back()->with('success', __('Votre abonnement a été réactivé.'));
+        return back()->with('success', __('app.subscription_flash.resumed'));
     }
 
     /**
@@ -151,7 +151,7 @@ class SubscriptionController extends Controller
         $plan = Plan::where('name', $planName)->first();
 
         if (!$plan) {
-            return back()->with('error', __('Plan non trouvé.'));
+            return back()->with('error', __('app.subscription_flash.error_plan_not_found'));
         }
 
         $priceId = $request->billing_period === 'yearly'
@@ -159,13 +159,13 @@ class SubscriptionController extends Controller
             : $plan->stripe_price_id_monthly;
 
         if (!$priceId) {
-            return back()->with('error', __('Configuration de paiement manquante.'));
+            return back()->with('error', __('app.subscription_flash.error_payment_config'));
         }
 
         try {
             $user->subscription('default')->swap($priceId);
 
-            return back()->with('success', __('Votre abonnement a été modifié.'));
+            return back()->with('success', __('app.subscription_flash.updated'));
         } catch (IncompletePayment $e) {
             return redirect()->route('cashier.payment', [
                 'id' => $e->payment->id,

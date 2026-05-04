@@ -2880,4 +2880,162 @@ return [
         'completed' => 'Rappel terminé.',
         'deleted' => 'Rappel supprimé.',
     ],
+
+    'invoices_flash' => [
+        'created' => 'Brouillon de facture créé.',
+        'updated' => 'Facture mise à jour.',
+        'deleted' => 'Brouillon supprimé.',
+        'duplicated' => 'Brouillon dupliqué — modifiez puis finalisez pour obtenir un nouveau numéro.',
+        'finalized' => 'Facture n° :number finalisée avec succès.',
+        'marked_sent' => 'Facture marquée comme envoyée.',
+        'marked_paid' => 'Facture marquée comme payée.',
+        'paid_at_updated' => 'Date de paiement mise à jour.',
+        'email_sent' => 'Facture envoyée par email avec succès.',
+        'email_error' => 'Erreur lors de l\'envoi : :error',
+        'email_requires_finalized' => 'Impossible d\'envoyer une facture non finalisée.',
+        'error_action_not_allowed' => 'Cette action n\'est pas autorisée.',
+        'error_credit_note_not_duplicable' => 'Une note de crédit ne peut pas être dupliquée.',
+        'error_not_paid' => 'Cette facture n\'est pas marquée comme payée.',
+        'credit_note_created' => 'Note de crédit créée. Vérifiez et finalisez-la.',
+        'credit_note_partial_created' => 'Avoir partiel créé. Vérifiez et finalisez-le.',
+        'peppol_sent' => 'Envoi Peppol initié. Vous pouvez suivre le statut sur cette page.',
+        'peppol_disabled' => 'L\'envoi Peppol n\'est pas activé.',
+        'peppol_not_configured' => 'Le service Peppol n\'est pas configuré correctement.',
+        'peppol_requires_finalized' => 'Seules les factures finalisées peuvent être envoyées via Peppol.',
+        'peppol_seller_endpoint_missing' => 'Veuillez configurer votre identifiant Peppol dans les paramètres entreprise.',
+        'peppol_buyer_endpoint_missing' => 'Le client doit avoir un identifiant Peppol configuré.',
+        'peppol_transmission_exists' => 'Cette facture a déjà une transmission Peppol en cours ou terminée (statut : :status).',
+    ],
+
+    'quotes_flash' => [
+        'created' => 'Brouillon de devis créé.',
+        'updated' => 'Devis mis à jour.',
+        'deleted' => 'Devis supprimé.',
+        'duplicated' => 'Brouillon de devis dupliqué — modifiez puis envoyez.',
+        'marked_sent' => 'Devis marqué comme envoyé.',
+        'marked_accepted' => 'Devis marqué comme accepté. Vous pouvez maintenant le convertir en facture.',
+        'marked_declined' => 'Devis marqué comme refusé.',
+        'converted_to_invoice' => 'Devis converti en facture. Vous pouvez maintenant finaliser la facture.',
+        'error_cannot_mark_sent' => 'Ce devis ne peut pas être marqué comme envoyé.',
+        'error_cannot_accept' => 'Ce devis ne peut pas être accepté.',
+        'error_cannot_decline' => 'Ce devis ne peut pas être refusé.',
+    ],
+
+    'clients_flash' => [
+        'created' => 'Client créé avec succès.',
+        'updated' => 'Client mis à jour avec succès.',
+        'deleted' => 'Client supprimé avec succès.',
+        'prospect_converted' => 'Prospect converti en client. Complétez les informations de facturation.',
+        'error_already_active' => 'Ce client est déjà actif.',
+        'error_has_invoices' => 'Impossible de supprimer ce client car il a des factures associées.',
+    ],
+
+    'business_flash' => [
+        'settings_saved' => 'Paramètres enregistrés avec succès.',
+        'logo_updated' => 'Logo mis à jour avec succès.',
+        'logo_deleted' => 'Logo supprimé.',
+        'qrcode_updated' => 'QR code de paiement mis à jour.',
+        'qrcode_deleted' => 'QR code de paiement supprimé.',
+        'error_settings_missing' => 'Veuillez d\'abord configurer les paramètres de l\'entreprise.',
+        'error_no_logo' => 'Aucun logo à supprimer.',
+        'error_no_qrcode' => 'Aucun QR code à supprimer.',
+    ],
+
+    'accounting_flash' => [
+        'generated' => 'Export comptable généré avec succès.',
+        'deleted' => 'Export supprimé.',
+        'error_generation' => 'Erreur lors de la génération : :error',
+        'error_file_unavailable' => 'Ce fichier n\'est pas disponible.',
+        'error_file_missing' => 'Le fichier n\'existe plus sur le serveur.',
+        'error_no_invoices_period' => 'Aucune facture pour cette période.',
+    ],
+
+    'accountant_flash' => [
+        'invitation_sent' => 'Invitation envoyée à :email',
+        'invitation_resent' => 'Invitation renvoyée.',
+        'invitation_cancelled' => 'Invitation annulée.',
+        'access_revoked' => 'Accès révoqué.',
+    ],
+
+    'audit_flash' => [
+        'generated' => 'Export généré avec succès.',
+        'deleted' => 'Export supprimé.',
+        'error_generation' => 'Erreur lors de la génération : :error',
+        'error_file_unavailable' => 'Ce fichier n\'est pas disponible.',
+        'error_file_missing' => 'Le fichier n\'existe plus sur le serveur.',
+    ],
+
+    'expenses_flash' => [
+        'created' => 'Dépense enregistrée.',
+        'updated' => 'Dépense mise à jour.',
+        'deleted' => 'Dépense supprimée.',
+    ],
+
+    'email_provider_flash' => [
+        'updated' => 'Configuration email mise à jour.',
+        'using_default' => 'La configuration par défaut de faktur.lu est utilisée.',
+    ],
+
+    'interactions_flash' => [
+        'created' => 'Interaction ajoutée.',
+        'updated' => 'Interaction mise à jour.',
+        'deleted' => 'Interaction supprimée.',
+        'email_sent' => 'Email envoyé à :email et interaction enregistrée.',
+        'email_error' => 'Interaction enregistrée mais l\'email n\'a pas pu être envoyé : :error',
+    ],
+
+    'projects_flash' => [
+        'created' => 'Projet créé avec succès.',
+        'updated' => 'Projet mis à jour.',
+        'deleted' => 'Projet supprimé.',
+        'archived' => 'Projet archivé.',
+        'unarchived' => 'Projet restauré.',
+        'status_updated' => 'Statut mis à jour.',
+        'error_has_time_entries' => 'Ce projet ne peut pas être supprimé car il contient des entrées de temps.',
+    ],
+
+    'tasks_flash' => [
+        'created' => 'Tâche créée.',
+        'updated' => 'Tâche mise à jour.',
+        'deleted' => 'Tâche supprimée.',
+        'subtask_created' => 'Sous-tâche créée.',
+        'error_subtask_depth' => 'Les sous-tâches ne peuvent pas avoir de sous-tâches.',
+        'error_has_time_entries' => 'Cette tâche ne peut pas être supprimée car elle ou ses sous-tâches contiennent des entrées de temps.',
+    ],
+
+    'recurring_flash' => [
+        'created' => 'Facturation récurrente créée.',
+        'updated' => 'Facturation récurrente mise à jour.',
+        'deleted' => 'Facturation récurrente supprimée.',
+        'duplicated' => 'Récurrence dupliquée (inactive) — vérifiez les paramètres puis activez-la.',
+        'activated' => 'Activée.',
+        'deactivated' => 'Désactivée.',
+    ],
+
+    'time_entries_flash' => [
+        'created' => 'Entrée de temps enregistrée.',
+        'updated' => 'Entrée de temps mise à jour.',
+        'deleted' => 'Entrée de temps supprimée.',
+        'timer_started' => 'Timer démarré.',
+        'timer_stopped' => 'Timer arrêté. Durée : :duration',
+        'invoice_draft_created' => 'Facture brouillon créée à partir du temps.',
+        'added_to_invoice' => 'Entrée ajoutée à la facture.',
+        'error_billed_edit' => 'Impossible de modifier une entrée facturée.',
+        'error_billed_delete' => 'Impossible de supprimer une entrée facturée.',
+        'error_timer_not_running' => 'Ce timer n\'est pas en cours.',
+        'error_already_billed' => 'Cette entrée est déjà facturée.',
+        'error_finalized_invoice' => 'Impossible d\'ajouter à une facture finalisée.',
+    ],
+
+    'subscription_flash' => [
+        'activated' => 'Félicitations ! Votre abonnement est maintenant actif.',
+        'cancelled' => 'Votre abonnement a été annulé. Vous conservez l\'accès jusqu\'à la fin de la période.',
+        'resumed' => 'Votre abonnement a été réactivé.',
+        'updated' => 'Votre abonnement a été modifié.',
+        'error_payment_config_missing' => 'Configuration de paiement manquante. Contactez le support.',
+        'error_payment_config' => 'Configuration de paiement manquante.',
+        'error_no_active' => 'Vous n\'avez pas d\'abonnement actif.',
+        'error_cannot_resume' => 'Impossible de reprendre l\'abonnement.',
+        'error_plan_not_found' => 'Plan non trouvé.',
+    ],
 ];

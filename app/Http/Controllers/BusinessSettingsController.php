@@ -70,7 +70,7 @@ class BusinessSettingsController extends Controller
             BusinessSettings::create($validated);
         }
 
-        return back()->with('success', 'Paramètres enregistrés avec succès.');
+        return back()->with('success', __('app.business_flash.settings_saved'));
     }
 
     /**
@@ -90,7 +90,7 @@ class BusinessSettingsController extends Controller
         $settings = BusinessSettings::getInstance();
 
         if (!$settings) {
-            return back()->with('error', 'Veuillez d\'abord configurer les paramètres de l\'entreprise.');
+            return back()->with('error', __('app.business_flash.error_settings_missing'));
         }
 
         // Delete old logo if exists
@@ -103,7 +103,7 @@ class BusinessSettingsController extends Controller
 
         $settings->update(['logo_path' => $path]);
 
-        return back()->with('success', 'Logo mis à jour avec succès.');
+        return back()->with('success', __('app.business_flash.logo_updated'));
     }
 
     /**
@@ -118,7 +118,7 @@ class BusinessSettingsController extends Controller
         $settings = BusinessSettings::getInstance();
 
         if (!$settings) {
-            return back()->with('error', 'Veuillez d\'abord configurer les paramètres de l\'entreprise.');
+            return back()->with('error', __('app.business_flash.error_settings_missing'));
         }
 
         // Delete old QR code if exists
@@ -130,7 +130,7 @@ class BusinessSettingsController extends Controller
 
         $settings->update(['payment_qrcode_path' => $path]);
 
-        return back()->with('success', 'QR code de paiement mis à jour.');
+        return back()->with('success', __('app.business_flash.qrcode_updated'));
     }
 
     /**
@@ -141,14 +141,14 @@ class BusinessSettingsController extends Controller
         $settings = BusinessSettings::getInstance();
 
         if (!$settings || !$settings->payment_qrcode_path) {
-            return back()->with('error', 'Aucun QR code à supprimer.');
+            return back()->with('error', __('app.business_flash.error_no_qrcode'));
         }
 
         Storage::disk('public')->delete($settings->payment_qrcode_path);
 
         $settings->update(['payment_qrcode_path' => null]);
 
-        return back()->with('success', 'QR code de paiement supprimé.');
+        return back()->with('success', __('app.business_flash.qrcode_deleted'));
     }
 
     /**
@@ -159,7 +159,7 @@ class BusinessSettingsController extends Controller
         $settings = BusinessSettings::getInstance();
 
         if (!$settings || !$settings->logo_path) {
-            return back()->with('error', 'Aucun logo à supprimer.');
+            return back()->with('error', __('app.business_flash.error_no_logo'));
         }
 
         // Delete file
@@ -168,6 +168,6 @@ class BusinessSettingsController extends Controller
         // Clear path in database
         $settings->update(['logo_path' => null]);
 
-        return back()->with('success', 'Logo supprimé.');
+        return back()->with('success', __('app.business_flash.logo_deleted'));
     }
 }

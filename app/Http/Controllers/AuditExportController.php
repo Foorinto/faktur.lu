@@ -107,11 +107,11 @@ class AuditExportController extends Controller
 
             return redirect()
                 ->route('exports.audit.index')
-                ->with('success', 'Export généré avec succès.');
+                ->with('success', __('app.audit_flash.generated'));
         } catch (\Exception $e) {
             return redirect()
                 ->route('exports.audit.index')
-                ->with('error', 'Erreur lors de la génération: ' . $e->getMessage());
+                ->with('error', __('app.audit_flash.error_generation', ['error' => $e->getMessage()]));
         }
     }
 
@@ -123,13 +123,13 @@ class AuditExportController extends Controller
         if (!$export->isCompleted() || !$export->file_path) {
             return redirect()
                 ->route('exports.audit.index')
-                ->with('error', 'Ce fichier n\'est pas disponible.');
+                ->with('error', __('app.audit_flash.error_file_unavailable'));
         }
 
         if (!Storage::disk('local')->exists($export->file_path)) {
             return redirect()
                 ->route('exports.audit.index')
-                ->with('error', 'Le fichier n\'existe plus sur le serveur.');
+                ->with('error', __('app.audit_flash.error_file_missing'));
         }
 
         $mimeType = match ($export->format) {
@@ -160,6 +160,6 @@ class AuditExportController extends Controller
 
         return redirect()
             ->route('exports.audit.index')
-            ->with('success', 'Export supprimé.');
+            ->with('success', __('app.audit_flash.deleted'));
     }
 }

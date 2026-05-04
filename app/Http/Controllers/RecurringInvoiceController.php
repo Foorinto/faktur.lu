@@ -93,7 +93,7 @@ class RecurringInvoiceController extends Controller
         }
 
         return redirect()->route('recurring-invoices.index')
-            ->with('success', 'Facturation récurrente créée.');
+            ->with('success', __('app.recurring_flash.created'));
     }
 
     public function edit(RecurringInvoice $recurringInvoice): Response
@@ -172,7 +172,7 @@ class RecurringInvoiceController extends Controller
         }
 
         return redirect()->route('recurring-invoices.index')
-            ->with('success', 'Facturation récurrente mise à jour.');
+            ->with('success', __('app.recurring_flash.updated'));
     }
 
     public function destroy(RecurringInvoice $recurringInvoice)
@@ -182,7 +182,7 @@ class RecurringInvoiceController extends Controller
         $recurringInvoice->delete();
 
         return redirect()->route('recurring-invoices.index')
-            ->with('success', 'Facturation récurrente supprimée.');
+            ->with('success', __('app.recurring_flash.deleted'));
     }
 
     /**
@@ -232,7 +232,7 @@ class RecurringInvoiceController extends Controller
 
         return redirect()
             ->route('recurring-invoices.edit', $duplicate)
-            ->with('success', 'Récurrence dupliquée (inactive) — vérifiez les paramètres puis activez-la.');
+            ->with('success', __('app.recurring_flash.duplicated'));
     }
 
     public function toggleActive(RecurringInvoice $recurringInvoice)
@@ -241,6 +241,6 @@ class RecurringInvoiceController extends Controller
 
         $recurringInvoice->update(['is_active' => !$recurringInvoice->is_active]);
 
-        return back()->with('success', $recurringInvoice->is_active ? 'Activée.' : 'Désactivée.');
+        return back()->with('success', $recurringInvoice->is_active ? __('app.recurring_flash.activated') : __('app.recurring_flash.deactivated'));
     }
 }
