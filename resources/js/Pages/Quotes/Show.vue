@@ -128,6 +128,15 @@ const convertToInvoice = () => {
         onFinish: () => processing.value = false,
     });
 };
+
+const duplicateQuote = () => {
+    if (processing.value) return;
+    if (!confirm("Dupliquer ce devis en nouveau brouillon ? Vous pourrez ensuite l'éditer avant de l'envoyer.")) return;
+    processing.value = true;
+    router.post(route('quotes.duplicate', props.quote.id), {}, {
+        onFinish: () => processing.value = false,
+    });
+};
 </script>
 
 <template>
@@ -193,6 +202,19 @@ const convertToInvoice = () => {
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
                 </svg>
                 {{ t('reject') }}
+            </button>
+
+            <!-- Duplicate -->
+            <button
+                @click="duplicateQuote"
+                :disabled="processing"
+                class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+                title="Dupliquer en nouveau brouillon"
+            >
+                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                </svg>
+                Dupliquer
             </button>
 
             <!-- Convert to Invoice -->

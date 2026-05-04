@@ -396,6 +396,9 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/quotes/{quote}/mark-accepted', [QuoteController::class, 'markAsAccepted'])->name('quotes.mark-accepted');
         Route::post('/quotes/{quote}/mark-declined', [QuoteController::class, 'markAsDeclined'])->name('quotes.mark-declined');
         Route::post('/quotes/{quote}/convert', [QuoteController::class, 'convertToInvoice'])->name('quotes.convert');
+        Route::post('/quotes/{quote}/duplicate', [QuoteController::class, 'duplicate'])
+            ->middleware('plan.limit:quotes')
+            ->name('quotes.duplicate');
 
         // Quote Items
         Route::post('/quotes/{quote}/items', [QuoteItemController::class, 'store'])->name('quotes.items.store');

@@ -209,6 +209,47 @@ class QuoteController extends Controller
     }
 
     /**
+     * Duplicate an existing quote as a new draft.
+     * Reference is auto-generated, snapshots and status timestamps are NOT copied.
+     */
+    public function duplicate(Quote $quote): RedirectResponse
+    {
+        $quote->load('items');
+
+        $duplicate = \Illuminate\Support\Facades\DB::transaction(function () use ($quote) {
+            $newQuote = Quote::create([
+                'client_id' => $quote->client_id,
+                'status' => Quote::STATUS_DRAFT,
+                'currency' => $quote->currency,
+                'valid_until' => now()->addDays(30)->toDateString(),
+                'notes' => $quote->notes,
+                'footer_message' => $quote->footer_message,
+                'vat_mention' => $quote->vat_mention,
+                'custom_vat_mention' => $quote->custom_vat_mention,
+            ]);
+
+            foreach ($quote->items as $item) {
+                QuoteItem::create([
+                    'quote_id' => $newQuote->id,
+                    'title' => $item->title,
+                    'description' => $item->description,
+                    'quantity' => $item->quantity,
+                    'unit' => $item->unit,
+                    'unit_price' => $item->unit_price,
+                    'vat_rate' => $item->vat_rate,
+                    'sort_order' => $item->sort_order,
+                ]);
+            }
+
+            return $newQuote;
+        });
+
+        return redirect()
+            ->route('quotes.edit', $duplicate)
+            ->with('success', 'Brouillon de devis dupliqué — modifiez puis envoyez.');
+    }
+
+    /**
      * Remove the specified quote.
      */
     public function destroy(Quote $quote): RedirectResponse
