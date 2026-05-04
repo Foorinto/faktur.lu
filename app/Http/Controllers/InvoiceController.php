@@ -277,6 +277,56 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Duplicate an existing invoice as a new draft.
+     * Number, snapshots, status timestamps and credit-note links are NOT copied.
+     */
+    public function duplicate(Invoice $invoice): RedirectResponse
+    {
+        if ($invoice->type === Invoice::TYPE_CREDIT_NOTE) {
+            return back()->with('error', 'Une note de crédit ne peut pas être dupliquée.');
+        }
+
+        $invoice->load('items');
+
+        $duplicate = \Illuminate\Support\Facades\DB::transaction(function () use ($invoice) {
+            $newInvoice = Invoice::create([
+                'client_id' => $invoice->client_id,
+                'title' => $invoice->title,
+                'type' => Invoice::TYPE_INVOICE,
+                'status' => Invoice::STATUS_DRAFT,
+                'currency' => $invoice->currency,
+                'issued_at' => now()->toDateString(),
+                'due_at' => now()->addDays(config('billing.default_payment_days', 30))->toDateString(),
+                'notes' => $invoice->notes,
+                'footer_message' => $invoice->footer_message,
+                'vat_mention' => $invoice->vat_mention,
+                'custom_vat_mention' => $invoice->custom_vat_mention,
+                'retention_guarantee_rate' => $invoice->retention_guarantee_rate,
+                'retention_release_date' => $invoice->retention_release_date,
+            ]);
+
+            foreach ($invoice->items as $item) {
+                InvoiceItem::create([
+                    'invoice_id' => $newInvoice->id,
+                    'title' => $item->title,
+                    'description' => $item->description,
+                    'quantity' => $item->quantity,
+                    'unit' => $item->unit,
+                    'unit_price' => $item->unit_price,
+                    'vat_rate' => $item->vat_rate,
+                    'sort_order' => $item->sort_order,
+                ]);
+            }
+
+            return $newInvoice;
+        });
+
+        return redirect()
+            ->route('invoices.edit', $duplicate)
+            ->with('success', 'Brouillon dupliqué — modifiez puis finalisez pour obtenir un nouveau numéro.');
+    }
+
+    /**
      * Finalize the invoice.
      */
     public function finalize(Invoice $invoice, FinalizeInvoiceAction $action): RedirectResponse
