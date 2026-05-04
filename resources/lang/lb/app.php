@@ -717,6 +717,7 @@ return [
     'update_profile_info' => 'Aktualiséiert Är Profil-Informatiounen an E-Mail-Adress.',
     'interface_language' => 'Interface-Sprooch',
     'interface_language_help' => 'Sprooch fir d\'Applikatiounsinterface.',
+    'change_interface_language' => 'Interface-Sprooch änneren',
     'confirm_password_security' => 'Fir Är Sécherheet, confirméiert w.e.g. Äert Passwuert fir weiderzemaachen.',
     'password' => 'Passwuert',
     'current_password' => 'Aktuellt Passwuert',

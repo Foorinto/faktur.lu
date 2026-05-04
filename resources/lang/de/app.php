@@ -717,6 +717,7 @@ return [
     'update_profile_info' => 'Aktualisieren Sie Ihre Profilinformationen und E-Mail-Adresse.',
     'interface_language' => 'Oberflächensprache',
     'interface_language_help' => 'Sprache für die Anwendungsoberfläche.',
+    'change_interface_language' => 'Oberflächensprache ändern',
     'confirm_password_security' => 'Zu Ihrer Sicherheit bestätigen Sie bitte Ihr Passwort, um fortzufahren.',
     'password' => 'Passwort',
     'current_password' => 'Aktuelles Passwort',

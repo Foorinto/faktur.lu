@@ -74,7 +74,7 @@ const form = useForm({
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div>
+            <div id="language-section" class="rounded-xl p-3 -m-3 transition-colors duration-700">
                 <InputLabel for="locale" :value="t('interface_language')" />
 
                 <select

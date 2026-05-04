@@ -5,6 +5,7 @@ import TwoFactorAuthenticationForm from './Partials/TwoFactorAuthenticationForm.
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head } from '@inertiajs/vue3';
+import { onMounted, nextTick } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -20,6 +21,34 @@ defineProps({
         type: Boolean,
         default: true,
     },
+});
+
+onMounted(() => {
+    if (window.location.hash !== '#language') return;
+
+    nextTick(() => {
+        const target = document.getElementById('language-section');
+        if (!target) return;
+
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Highlight: ring + soft background, then fade out
+        target.classList.add(
+            'ring-2',
+            'ring-primary-500',
+            'bg-primary-50',
+            'dark:bg-primary-900/20',
+        );
+
+        setTimeout(() => {
+            target.classList.remove(
+                'ring-2',
+                'ring-primary-500',
+                'bg-primary-50',
+                'dark:bg-primary-900/20',
+            );
+        }, 2500);
+    });
 });
 </script>
 

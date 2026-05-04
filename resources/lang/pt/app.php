@@ -776,6 +776,7 @@ return [
     'update_profile_info' => 'Atualize as informações do seu perfil e o seu endereço de email.',
     'interface_language' => 'Idioma da interface',
     'interface_language_help' => 'Idioma utilizado para a interface da aplicação.',
+    'change_interface_language' => 'Alterar o idioma da interface',
     'confirm_password_security' => 'Por motivos de segurança, confirme a sua palavra-passe para continuar.',
     'password' => 'Palavra-passe',
     'current_password' => 'Palavra-passe atual',
