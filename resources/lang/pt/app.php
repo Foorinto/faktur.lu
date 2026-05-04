@@ -2555,4 +2555,288 @@ return [
     'feature_facturx' => 'A exportação Factur-X requer o plano Pro.',
     'feature_projects' => 'A gestão de projetos requer o plano Essencial ou superior.',
     'feature_time_tracking' => 'O registo de tempo requer o plano Essencial ou superior.',
+
+    // Interactive tours (driver.js)
+    'tour' => [
+        'ui' => [
+            'next' => 'Seguinte →',
+            'prev' => '← Anterior',
+            'done' => 'Concluir',
+            'progress' => 'Passo {{current}} de {{total}}',
+        ],
+        'dashboard' => [
+            'kpis' => [
+                'title' => '📊 Os seus indicadores principais',
+                'description' => 'Encontre aqui uma visão em tempo real do seu volume de negócios, faturas por pagar e tendências mensais.',
+            ],
+            'clients' => [
+                'title' => '👥 Gestão de clientes',
+                'description' => 'Centralize todos os seus clientes e potenciais clientes. Também pode importar uma lista a partir de Excel/CSV.',
+            ],
+            'billing' => [
+                'title' => '📄 Faturação',
+                'description' => 'Crie as suas faturas e orçamentos em conformidade com a legislação luxemburguesa. Conversão de orçamento para fatura num só clique.',
+            ],
+            'accounting' => [
+                'title' => '💼 Contabilidade',
+                'description' => 'Exporte os seus dados para o Sage BOB, FID-Manager e gere o seu ficheiro FAIA para os controlos fiscais.',
+            ],
+            'settings' => [
+                'title' => '⚙️ Definições',
+                'description' => 'Configure a sua empresa, os seus dados bancários e personalize as suas faturas.',
+            ],
+            'menu' => [
+                'title' => '🎉 É tudo !',
+                'description' => 'Pode reiniciar esta visita guiada a qualquer momento a partir do seu menu de utilizador. Boa estreia com a faktur.lu !',
+            ],
+        ],
+        'clients' => [
+            'new' => [
+                'title' => '➕ Novo cliente',
+                'description' => 'Clique aqui para adicionar um novo cliente, um potencial cliente, ou importar uma lista a partir de Excel/CSV.',
+            ],
+            'tabs' => [
+                'title' => '📋 Estados',
+                'description' => 'Filtre os seus contactos por estado: potenciais clientes, clientes ativos, inativos, etc.',
+            ],
+            'search' => [
+                'title' => '🔍 Pesquisa rápida',
+                'description' => 'Encontre instantaneamente um cliente por nome, e-mail ou número de IVA.',
+            ],
+        ],
+        'invoices' => [
+            'new' => [
+                'title' => '➕ Nova fatura',
+                'description' => 'Crie uma fatura conforme à legislação luxemburguesa em poucos segundos.',
+            ],
+            'filters' => [
+                'title' => '🎯 Filtros',
+                'description' => 'Filtre as suas faturas por estado: rascunho, enviada, paga, em atraso.',
+            ],
+        ],
+        'quotes' => [
+            'new' => [
+                'title' => '➕ Novo orçamento',
+                'description' => 'Crie um orçamento profissional que poderá converter em fatura num só clique assim que for aceite.',
+            ],
+        ],
+        'expenses' => [
+            'new' => [
+                'title' => '➕ Nova despesa',
+                'description' => 'Registe as suas despesas profissionais. O IVA dedutível é calculado automaticamente.',
+            ],
+        ],
+        'projects' => [
+            'new' => [
+                'title' => '➕ Novo projeto',
+                'description' => 'Crie um projeto, atribua-o a um cliente, acompanhe o orçamento e as horas dispendidas.',
+            ],
+        ],
+        'timeTracking' => [
+            'timer' => [
+                'title' => '⏱️ Cronómetro',
+                'description' => 'Inicie um cronómetro para acompanhar o seu tempo em tempo real, ou adicione registos manualmente.',
+            ],
+            'entries' => [
+                'title' => '📋 Histórico',
+                'description' => 'Consulte todos os seus registos de tempo e converta-os em linhas de fatura num só clique.',
+            ],
+        ],
+        'revenueBook' => [
+            'module' => [
+                'title' => '💼 Módulo de contabilidade',
+                'description' => 'O módulo de contabilidade reúne o livro de receitas, a exportação FAIA, as exportações contabilísticas e o resumo fiscal.',
+            ],
+            'year' => [
+                'title' => '📅 Seleção do ano',
+                'description' => 'Escolha o ano fiscal a consultar. O livro de receitas é gerado automaticamente a partir das suas faturas finalizadas.',
+            ],
+            'export' => [
+                'title' => '📥 Exportação',
+                'description' => 'Exporte o seu livro de receitas em formato PDF ou Excel para o seu contabilista ou para os seus arquivos.',
+            ],
+        ],
+        'faiaExport' => [
+            'intro' => [
+                'title' => '🛡️ Exportação FAIA',
+                'description' => 'O FAIA (Fichier d\'Audit Informatisé AED) é obrigatório para os controlos fiscais no Luxemburgo. Este ficheiro XML contém toda a sua contabilidade.',
+            ],
+            'generate' => [
+                'title' => '⚙️ Geração',
+                'description' => 'Selecione o período e gere o seu ficheiro FAIA num só clique. O ficheiro estará em conformidade com o formato XML 2.01 exigido pela AED.',
+            ],
+        ],
+        'accountingExport' => [
+            'intro' => [
+                'title' => '💼 Exportações para o seu contabilista',
+                'description' => 'Exporte os seus dados diretamente nos formatos utilizados pelas fiduciárias luxemburguesas: Sage BOB, FID-Manager, CSV, Excel.',
+            ],
+            'format' => [
+                'title' => '📋 Escolher o formato',
+                'description' => 'Selecione o formato correspondente ao software do seu contabilista ou da sua fiduciária.',
+            ],
+        ],
+        'fiscalSummary' => [
+            'intro' => [
+                'title' => '📊 Resumo fiscal anual',
+                'description' => 'Síntese anual dos seus rendimentos, IVA cobrado e dedutível. Útil para preparar a sua declaração fiscal.',
+            ],
+            'year' => [
+                'title' => '📅 Ano fiscal',
+                'description' => 'Selecione o ano a analisar. Os valores são calculados automaticamente a partir das suas faturas e despesas.',
+            ],
+        ],
+        'hrDashboard' => [
+            'module' => [
+                'title' => '👨‍💼 Módulo RH',
+                'description' => 'O módulo RH reúne a gestão de colaboradores, férias, notas de despesas, departamentos e avaliações.',
+            ],
+            'stats' => [
+                'title' => '📊 Os seus indicadores RH',
+                'description' => 'Visão em tempo real: número de colaboradores ativos, férias pendentes, massa salarial.',
+            ],
+        ],
+        'hrEmployees' => [
+            'new' => [
+                'title' => '➕ Adicionar um colaborador',
+                'description' => 'Crie uma ficha de colaborador com contrato, salário, dados de contacto e documentos associados.',
+            ],
+            'list' => [
+                'title' => '👥 Lista de colaboradores',
+                'description' => 'Consulte todos os seus colaboradores. Clique numa ficha para ver os detalhes, contratos e histórico.',
+            ],
+        ],
+        'hrLeaves' => [
+            'list' => [
+                'title' => '🏖️ Pedidos de férias',
+                'description' => 'Consulte e aprove os pedidos de férias dos seus colaboradores. Os saldos são atualizados automaticamente.',
+            ],
+            'calendar' => [
+                'title' => '📅 Calendário',
+                'description' => 'Visualize todas as férias num calendário de equipa para antecipar as ausências.',
+            ],
+        ],
+        'hrLeavesCalendar' => [
+            'view' => [
+                'title' => '📅 Calendário de equipa',
+                'description' => 'Visão geral de todas as férias aprovadas e pendentes. Filtre por colaborador ou departamento.',
+            ],
+        ],
+        'hrExpenses' => [
+            'list' => [
+                'title' => '💳 Notas de despesas dos colaboradores',
+                'description' => 'Centralize as notas de despesas submetidas pelos seus colaboradores. Aprove ou rejeite num só clique.',
+            ],
+        ],
+        'hrEmployeeCreate' => [
+            'identity' => [
+                'title' => '👤 Identidade',
+                'description' => 'Preencha as informações pessoais do colaborador: apelido, nome, data de nascimento.',
+            ],
+            'contract' => [
+                'title' => '📝 Contrato',
+                'description' => 'Tipo de contrato (CDI, CDD), cargo, salário, data de admissão.',
+            ],
+            'submit' => [
+                'title' => '✅ Criar o colaborador',
+                'description' => 'Uma vez criado, poderá adicionar documentos, gerir as suas férias e preparar as suas avaliações.',
+            ],
+        ],
+        'settings' => [
+            'company' => [
+                'title' => '🏢 Informações da empresa',
+                'description' => 'Configure o nome, o IVA, a morada e as informações legais da sua empresa.',
+            ],
+            'logo' => [
+                'title' => '🖼️ Logótipo',
+                'description' => 'Adicione o seu logótipo para que apareça automaticamente nas suas faturas.',
+            ],
+            'bank' => [
+                'title' => '🏦 Dados bancários',
+                'description' => 'Adicione o seu IBAN para que os seus clientes possam pagar-lhe facilmente.',
+            ],
+        ],
+        'clientCreate' => [
+            'name' => [
+                'title' => '🏢 Nome do cliente',
+                'description' => 'Comece pelo nome ou pela designação social. Os outros campos podem ser preenchidos mais tarde.',
+            ],
+            'type' => [
+                'title' => '👥 Tipo de cliente',
+                'description' => 'B2B para empresas, B2C para particulares. Isto determina as regras de IVA aplicadas.',
+            ],
+            'vat' => [
+                'title' => '🛡️ Número de IVA',
+                'description' => 'Para clientes intracomunitários, indique o número de IVA: será validado automaticamente através do serviço VIES.',
+            ],
+            'submit' => [
+                'title' => '✅ Guardar',
+                'description' => 'Clique aqui para criar o cliente. Em seguida, poderá criar faturas e orçamentos para ele.',
+            ],
+        ],
+        'invoiceCreate' => [
+            'client' => [
+                'title' => '👤 Selecione o cliente',
+                'description' => 'Escolha o cliente a faturar. As informações e as regras de IVA serão carregadas automaticamente.',
+            ],
+            'dates' => [
+                'title' => '📅 Datas',
+                'description' => 'Data de emissão e data de vencimento. Por defeito: hoje e dentro de 30 dias.',
+            ],
+            'items' => [
+                'title' => '📋 Linhas da fatura',
+                'description' => 'Adicione os serviços ou produtos a faturar. Pode utilizar os seus produtos pré-registados.',
+            ],
+            'submit' => [
+                'title' => '💾 Guardar rascunho',
+                'description' => 'A sua fatura será guardada como rascunho. Poderá finalizá-la e enviá-la em seguida.',
+            ],
+        ],
+        'quoteCreate' => [
+            'client' => [
+                'title' => '👤 Selecione o cliente',
+                'description' => 'Escolha o cliente para o qual pretende elaborar este orçamento.',
+            ],
+            'items' => [
+                'title' => '📋 Linhas do orçamento',
+                'description' => 'Detalhe os serviços propostos. Uma vez aceite, poderá converter este orçamento em fatura num só clique.',
+            ],
+            'submit' => [
+                'title' => '💾 Criar o orçamento',
+                'description' => 'O seu orçamento será guardado como rascunho. Poderá depois finalizá-lo e enviá-lo ao cliente.',
+            ],
+        ],
+        'expenseCreate' => [
+            'amount' => [
+                'title' => '💶 Montante',
+                'description' => 'Indique o montante total da despesa (com IVA). O IVA será calculado automaticamente segundo a taxa escolhida.',
+            ],
+            'category' => [
+                'title' => '📂 Categoria',
+                'description' => 'Classifique a sua despesa por categoria para facilitar o acompanhamento e a exportação contabilística.',
+            ],
+            'receipt' => [
+                'title' => '📎 Comprovativo',
+                'description' => 'Anexe o seu comprovativo (PDF, fotografia) para conservar um registo do recibo.',
+            ],
+            'submit' => [
+                'title' => '✅ Guardar',
+                'description' => 'A sua despesa será adicionada. Encontrará o IVA dedutível nos seus relatórios.',
+            ],
+        ],
+        'projectCreate' => [
+            'name' => [
+                'title' => '📁 Nome do projeto',
+                'description' => 'Atribua um nome claro ao seu projeto.',
+            ],
+            'client' => [
+                'title' => '👤 Cliente',
+                'description' => 'Associe o projeto a um cliente para facilitar a faturação das horas dispendidas.',
+            ],
+            'submit' => [
+                'title' => '✅ Criar o projeto',
+                'description' => 'Uma vez criado, poderá adicionar tarefas e acompanhar o tempo dispendido.',
+            ],
+        ],
+    ],
 ];

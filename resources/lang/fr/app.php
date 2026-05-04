@@ -2555,4 +2555,288 @@ return [
     'feature_facturx' => 'L\'export Factur-X nécessite le plan Pro.',
     'feature_projects' => 'La gestion de projets nécessite le plan Essentiel ou supérieur.',
     'feature_time_tracking' => 'Le suivi du temps nécessite le plan Essentiel ou supérieur.',
+
+    // Interactive tours (driver.js)
+    'tour' => [
+        'ui' => [
+            'next' => 'Suivant →',
+            'prev' => '← Précédent',
+            'done' => 'Terminer',
+            'progress' => 'Étape {{current}} sur {{total}}',
+        ],
+        'dashboard' => [
+            'kpis' => [
+                'title' => '📊 Vos indicateurs clés',
+                'description' => 'Retrouvez ici un aperçu en temps réel de votre chiffre d\'affaires, factures impayées et tendances mensuelles.',
+            ],
+            'clients' => [
+                'title' => '👥 Gestion des clients',
+                'description' => 'Centralisez tous vos clients et prospects. Vous pouvez aussi importer une liste depuis Excel/CSV.',
+            ],
+            'billing' => [
+                'title' => '📄 Facturation',
+                'description' => 'Créez vos factures et devis conformes au Luxembourg. Conversion devis → facture en un clic.',
+            ],
+            'accounting' => [
+                'title' => '💼 Comptabilité',
+                'description' => 'Exportez vos données vers Sage BOB, FID-Manager et générez votre fichier FAIA pour les contrôles fiscaux.',
+            ],
+            'settings' => [
+                'title' => '⚙️ Paramètres',
+                'description' => 'Configurez votre entreprise, vos informations bancaires, et personnalisez vos factures.',
+            ],
+            'menu' => [
+                'title' => '🎉 C\'est tout !',
+                'description' => 'Vous pouvez relancer ce tour à tout moment depuis votre menu utilisateur. Bon démarrage avec faktur.lu !',
+            ],
+        ],
+        'clients' => [
+            'new' => [
+                'title' => '➕ Nouveau client',
+                'description' => 'Cliquez ici pour ajouter un nouveau client, un prospect, ou importer une liste depuis Excel/CSV.',
+            ],
+            'tabs' => [
+                'title' => '📋 Statuts',
+                'description' => 'Filtrez vos contacts par statut : prospects, clients actifs, inactifs, etc.',
+            ],
+            'search' => [
+                'title' => '🔍 Recherche rapide',
+                'description' => 'Trouvez instantanément un client par nom, email ou numéro de TVA.',
+            ],
+        ],
+        'invoices' => [
+            'new' => [
+                'title' => '➕ Nouvelle facture',
+                'description' => 'Créez une facture conforme au Luxembourg en quelques secondes.',
+            ],
+            'filters' => [
+                'title' => '🎯 Filtres',
+                'description' => 'Filtrez vos factures par statut : brouillon, envoyée, payée, en retard.',
+            ],
+        ],
+        'quotes' => [
+            'new' => [
+                'title' => '➕ Nouveau devis',
+                'description' => 'Créez un devis professionnel que vous pourrez convertir en facture en un clic une fois accepté.',
+            ],
+        ],
+        'expenses' => [
+            'new' => [
+                'title' => '➕ Nouvelle dépense',
+                'description' => 'Enregistrez vos dépenses professionnelles. La TVA déductible est calculée automatiquement.',
+            ],
+        ],
+        'projects' => [
+            'new' => [
+                'title' => '➕ Nouveau projet',
+                'description' => 'Créez un projet, assignez-le à un client, suivez le budget et les heures passées.',
+            ],
+        ],
+        'timeTracking' => [
+            'timer' => [
+                'title' => '⏱️ Timer',
+                'description' => 'Lancez un chronomètre pour suivre votre temps en temps réel, ou ajoutez des entrées manuellement.',
+            ],
+            'entries' => [
+                'title' => '📋 Historique',
+                'description' => 'Consultez toutes vos entrées de temps et convertissez-les en lignes de facture en un clic.',
+            ],
+        ],
+        'revenueBook' => [
+            'module' => [
+                'title' => '💼 Module comptabilité',
+                'description' => 'Le module comptabilité regroupe le livre des recettes, l\'export FAIA, les exports comptables et le récapitulatif fiscal.',
+            ],
+            'year' => [
+                'title' => '📅 Sélection de l\'année',
+                'description' => 'Choisissez l\'année fiscale à consulter. Le livre des recettes est généré automatiquement à partir de vos factures finalisées.',
+            ],
+            'export' => [
+                'title' => '📥 Export',
+                'description' => 'Exportez votre livre des recettes au format PDF ou Excel pour votre comptable ou pour vos archives.',
+            ],
+        ],
+        'faiaExport' => [
+            'intro' => [
+                'title' => '🛡️ Export FAIA',
+                'description' => 'Le FAIA (Fichier d\'Audit Informatisé AED) est obligatoire pour les contrôles fiscaux au Luxembourg. Ce fichier XML contient l\'ensemble de votre comptabilité.',
+            ],
+            'generate' => [
+                'title' => '⚙️ Génération',
+                'description' => 'Sélectionnez la période et générez votre fichier FAIA en un clic. Le fichier sera conforme au format XML 2.01 exigé par l\'AED.',
+            ],
+        ],
+        'accountingExport' => [
+            'intro' => [
+                'title' => '💼 Exports pour votre comptable',
+                'description' => 'Exportez vos données directement dans les formats utilisés par les fiduciaires luxembourgeoises : Sage BOB, FID-Manager, CSV, Excel.',
+            ],
+            'format' => [
+                'title' => '📋 Choisir le format',
+                'description' => 'Sélectionnez le format correspondant au logiciel de votre comptable ou fiduciaire.',
+            ],
+        ],
+        'fiscalSummary' => [
+            'intro' => [
+                'title' => '📊 Récapitulatif fiscal annuel',
+                'description' => 'Synthèse annuelle de vos revenus, TVA collectée et déductible. Utile pour préparer votre déclaration fiscale.',
+            ],
+            'year' => [
+                'title' => '📅 Année fiscale',
+                'description' => 'Sélectionnez l\'année à analyser. Les chiffres sont calculés automatiquement à partir de vos factures et dépenses.',
+            ],
+        ],
+        'hrDashboard' => [
+            'module' => [
+                'title' => '👨‍💼 Module RH',
+                'description' => 'Le module RH regroupe la gestion des employés, congés, notes de frais, départements et évaluations.',
+            ],
+            'stats' => [
+                'title' => '📊 Vos indicateurs RH',
+                'description' => 'Aperçu en temps réel : nombre d\'employés actifs, congés en attente, masse salariale.',
+            ],
+        ],
+        'hrEmployees' => [
+            'new' => [
+                'title' => '➕ Ajouter un employé',
+                'description' => 'Créez une fiche employé avec contrat, salaire, coordonnées et documents associés.',
+            ],
+            'list' => [
+                'title' => '👥 Liste des employés',
+                'description' => 'Consultez tous vos employés. Cliquez sur une fiche pour voir les détails, contrats et historique.',
+            ],
+        ],
+        'hrLeaves' => [
+            'list' => [
+                'title' => '🏖️ Demandes de congés',
+                'description' => 'Consultez et approuvez les demandes de congés de vos employés. Les soldes sont mis à jour automatiquement.',
+            ],
+            'calendar' => [
+                'title' => '📅 Calendrier',
+                'description' => 'Visualisez tous les congés sur un calendrier d\'équipe pour anticiper les absences.',
+            ],
+        ],
+        'hrLeavesCalendar' => [
+            'view' => [
+                'title' => '📅 Calendrier d\'équipe',
+                'description' => 'Vue d\'ensemble de tous les congés approuvés et en attente. Filtrez par employé ou département.',
+            ],
+        ],
+        'hrExpenses' => [
+            'list' => [
+                'title' => '💳 Notes de frais employés',
+                'description' => 'Centralisez les notes de frais soumises par vos employés. Approuvez ou rejetez en un clic.',
+            ],
+        ],
+        'hrEmployeeCreate' => [
+            'identity' => [
+                'title' => '👤 Identité',
+                'description' => 'Renseignez les informations personnelles de l\'employé : nom, prénom, date de naissance.',
+            ],
+            'contract' => [
+                'title' => '📝 Contrat',
+                'description' => 'Type de contrat (CDI, CDD), poste, salaire, date d\'embauche.',
+            ],
+            'submit' => [
+                'title' => '✅ Créer l\'employé',
+                'description' => 'Une fois créé, vous pourrez ajouter des documents, gérer ses congés et préparer ses évaluations.',
+            ],
+        ],
+        'settings' => [
+            'company' => [
+                'title' => '🏢 Informations entreprise',
+                'description' => 'Configurez le nom, la TVA, l\'adresse et les informations légales de votre entreprise.',
+            ],
+            'logo' => [
+                'title' => '🖼️ Logo',
+                'description' => 'Ajoutez votre logo pour le faire apparaître automatiquement sur vos factures.',
+            ],
+            'bank' => [
+                'title' => '🏦 Coordonnées bancaires',
+                'description' => 'Ajoutez votre IBAN pour que vos clients puissent vous payer facilement.',
+            ],
+        ],
+        'clientCreate' => [
+            'name' => [
+                'title' => '🏢 Nom du client',
+                'description' => 'Commencez par le nom ou la raison sociale. Les autres champs peuvent être remplis plus tard.',
+            ],
+            'type' => [
+                'title' => '👥 Type de client',
+                'description' => 'B2B pour les entreprises, B2C pour les particuliers. Cela détermine les règles de TVA appliquées.',
+            ],
+            'vat' => [
+                'title' => '🛡️ Numéro de TVA',
+                'description' => 'Pour les clients intracommunautaires, saisissez le numéro TVA : il sera validé automatiquement via le service VIES.',
+            ],
+            'submit' => [
+                'title' => '✅ Enregistrer',
+                'description' => 'Cliquez ici pour créer le client. Vous pourrez ensuite créer des factures et devis pour lui.',
+            ],
+        ],
+        'invoiceCreate' => [
+            'client' => [
+                'title' => '👤 Sélectionnez le client',
+                'description' => 'Choisissez le client à facturer. Les informations et règles de TVA seront chargées automatiquement.',
+            ],
+            'dates' => [
+                'title' => '📅 Dates',
+                'description' => 'Date d\'émission et date d\'échéance. Par défaut : aujourd\'hui et dans 30 jours.',
+            ],
+            'items' => [
+                'title' => '📋 Lignes de facture',
+                'description' => 'Ajoutez les prestations ou produits à facturer. Vous pouvez utiliser vos produits pré-enregistrés.',
+            ],
+            'submit' => [
+                'title' => '💾 Enregistrer le brouillon',
+                'description' => 'Votre facture sera enregistrée comme brouillon. Vous pourrez la finaliser et l\'envoyer ensuite.',
+            ],
+        ],
+        'quoteCreate' => [
+            'client' => [
+                'title' => '👤 Sélectionnez le client',
+                'description' => 'Choisissez le client pour qui faire ce devis.',
+            ],
+            'items' => [
+                'title' => '📋 Lignes du devis',
+                'description' => 'Détaillez les prestations proposées. Une fois accepté, vous pourrez convertir ce devis en facture en un clic.',
+            ],
+            'submit' => [
+                'title' => '💾 Créer le devis',
+                'description' => 'Votre devis sera enregistré comme brouillon. Vous pourrez ensuite le finaliser et l\'envoyer au client.',
+            ],
+        ],
+        'expenseCreate' => [
+            'amount' => [
+                'title' => '💶 Montant',
+                'description' => 'Saisissez le montant TTC de la dépense. La TVA sera calculée automatiquement selon le taux choisi.',
+            ],
+            'category' => [
+                'title' => '📂 Catégorie',
+                'description' => 'Classez votre dépense par catégorie pour faciliter le suivi et l\'export comptable.',
+            ],
+            'receipt' => [
+                'title' => '📎 Justificatif',
+                'description' => 'Joignez votre justificatif (PDF, photo) pour conserver une trace du reçu.',
+            ],
+            'submit' => [
+                'title' => '✅ Enregistrer',
+                'description' => 'Votre dépense sera ajoutée. Vous retrouverez la TVA déductible dans vos rapports.',
+            ],
+        ],
+        'projectCreate' => [
+            'name' => [
+                'title' => '📁 Nom du projet',
+                'description' => 'Donnez un nom clair à votre projet.',
+            ],
+            'client' => [
+                'title' => '👤 Client',
+                'description' => 'Associez le projet à un client pour faciliter la facturation des heures passées.',
+            ],
+            'submit' => [
+                'title' => '✅ Créer le projet',
+                'description' => 'Une fois créé, vous pourrez ajouter des tâches et suivre le temps passé.',
+            ],
+        ],
+    ],
 ];

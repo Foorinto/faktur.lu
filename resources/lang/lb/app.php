@@ -2291,4 +2291,288 @@ return [
     'feature_facturx' => 'Factur-X-Export brauch de Pro Plang.',
     'feature_projects' => 'Projektmanagement brauch den Essentiel Plang oder méi héich.',
     'feature_time_tracking' => 'Zäiterfassung brauch den Essentiel Plang oder méi héich.',
+
+    // Interactive tours (driver.js)
+    'tour' => [
+        'ui' => [
+            'next' => 'Weider →',
+            'prev' => '← Zréck',
+            'done' => 'Fäerdeg',
+            'progress' => 'Schrëtt {{current}} vun {{total}}',
+        ],
+        'dashboard' => [
+            'kpis' => [
+                'title' => '📊 Är Schlësselzuelen',
+                'description' => 'Hei fannt Dir en Iwwerbléck a Realzäit iwwer Ären Ëmsaz, oppe Rechnungen a monatlech Tendenzen.',
+            ],
+            'clients' => [
+                'title' => '👥 Clientegestioun',
+                'description' => 'Verwalt all Är Cliente a Prospete zentral. Dir kënnt och eng Lëscht aus Excel/CSV importéieren.',
+            ],
+            'billing' => [
+                'title' => '📄 Fakturatioun',
+                'description' => 'Erstellt Är Rechnungen an Devisen, déi mat de Lëtzebuerger Reegele konform sinn. Konversioun Devis → Rechnung mat engem Klick.',
+            ],
+            'accounting' => [
+                'title' => '💼 Comptabilitéit',
+                'description' => 'Exportéiert Är Donnéeën op Sage BOB, FID-Manager an erstellt Är FAIA-Datei fir d\'Steierkontrollen.',
+            ],
+            'settings' => [
+                'title' => '⚙️ Astellungen',
+                'description' => 'Konfiguréiert Äert Entreprise, Är Bankinformatiounen a personaliséiert Är Rechnungen.',
+            ],
+            'menu' => [
+                'title' => '🎉 Dat war et !',
+                'description' => 'Dir kënnt dës Tour zu all Moment vun Ärem Benotzermenü aus nei starten. Vill Erfolleg mat faktur.lu !',
+            ],
+        ],
+        'clients' => [
+            'new' => [
+                'title' => '➕ Neie Client',
+                'description' => 'Klickt hei fir en neie Client, e Prospet bäizefügen oder eng Lëscht aus Excel/CSV ze importéieren.',
+            ],
+            'tabs' => [
+                'title' => '📋 Statuten',
+                'description' => 'Filtert Är Kontakter no Status: Prospeten, aktiv Cliente, inaktiv Cliente, asw.',
+            ],
+            'search' => [
+                'title' => '🔍 Schnellsich',
+                'description' => 'Fannt direkt e Client iwwer Numm, E-Mail oder TVA-Nummer.',
+            ],
+        ],
+        'invoices' => [
+            'new' => [
+                'title' => '➕ Nei Rechnung',
+                'description' => 'Erstellt eng konform Lëtzebuerger Rechnung a wéinege Sekonnen.',
+            ],
+            'filters' => [
+                'title' => '🎯 Filteren',
+                'description' => 'Filtert Är Rechnungen no Status: Brouillon, geschéckt, bezuelt, an Verspéidung.',
+            ],
+        ],
+        'quotes' => [
+            'new' => [
+                'title' => '➕ Neien Devis',
+                'description' => 'Erstellt e professionnellen Devis, deen Dir mat engem Klick an eng Rechnung kënnt ëmwandelen, soubal en akzeptéiert ass.',
+            ],
+        ],
+        'expenses' => [
+            'new' => [
+                'title' => '➕ Nei Ausgab',
+                'description' => 'Späichert Är professionnell Ausgaben. Déi ofzéiebar TVA gëtt automatesch berechent.',
+            ],
+        ],
+        'projects' => [
+            'new' => [
+                'title' => '➕ Neit Projet',
+                'description' => 'Erstellt e Projet, weist en engem Client zou, verfollegt de Budget an d\'Stonnen.',
+            ],
+        ],
+        'timeTracking' => [
+            'timer' => [
+                'title' => '⏱️ Timer',
+                'description' => 'Start eng Stoppauer fir Är Zäit a Realzäit ze verfollegen, oder fügt Entréeën manuell bäi.',
+            ],
+            'entries' => [
+                'title' => '📋 Historik',
+                'description' => 'Kuckt all Är Zäitentréeën a wandelt se mat engem Klick a Rechnungslinnen ëm.',
+            ],
+        ],
+        'revenueBook' => [
+            'module' => [
+                'title' => '💼 Modul Comptabilitéit',
+                'description' => 'De Modul Comptabilitéit regroupéiert d\'Recettenbuch, den FAIA-Export, d\'Comptabilitéitsexporter an d\'Steierübersicht.',
+            ],
+            'year' => [
+                'title' => '📅 Joerauswiel',
+                'description' => 'Wielt d\'Steierjoer dat Dir wëllt kucken. D\'Recettenbuch gëtt automatesch aus Äre finaliséierte Rechnunge generéiert.',
+            ],
+            'export' => [
+                'title' => '📥 Export',
+                'description' => 'Exportéiert Äert Recettenbuch am PDF- oder Excel-Format fir Äre Comptabel oder Är Archiver.',
+            ],
+        ],
+        'faiaExport' => [
+            'intro' => [
+                'title' => '🛡️ FAIA-Export',
+                'description' => 'De FAIA (Fichier d\'Audit Informatisé AED) ass obligatoresch fir Steierkontrollen zu Lëtzebuerg. Dës XML-Datei enthält Är ganz Comptabilitéit.',
+            ],
+            'generate' => [
+                'title' => '⚙️ Erstellung',
+                'description' => 'Wielt d\'Period a generéiert Är FAIA-Datei mat engem Klick. D\'Datei wäert konform mam XML-Format 2.01 sinn, dat vun der AED gefuerdert gëtt.',
+            ],
+        ],
+        'accountingExport' => [
+            'intro' => [
+                'title' => '💼 Exporter fir Äre Comptabel',
+                'description' => 'Exportéiert Är Donnéeën direkt an de Formater, déi vun de Lëtzebuerger Fiduciairë benotzt ginn: Sage BOB, FID-Manager, CSV, Excel.',
+            ],
+            'format' => [
+                'title' => '📋 Format wielen',
+                'description' => 'Wielt de Format dee mam Programm vun Ärem Comptabel oder vun Ärer Fiduciaire entsprécht.',
+            ],
+        ],
+        'fiscalSummary' => [
+            'intro' => [
+                'title' => '📊 Joëresübersicht Steier',
+                'description' => 'Joëresübersicht vun Ären Akommes, agefuerderter an ofzéiebarer TVA. Nëtzlech fir Är Steiererklärung virzebereeden.',
+            ],
+            'year' => [
+                'title' => '📅 Steierjoer',
+                'description' => 'Wielt d\'Joer dat Dir wëllt analyséieren. D\'Zuelen ginn automatesch aus Äre Rechnungen an Ausgabe berechent.',
+            ],
+        ],
+        'hrDashboard' => [
+            'module' => [
+                'title' => '👨‍💼 Modul HR',
+                'description' => 'De Modul HR regroupéiert d\'Verwaltung vun de Mataarbechter, Congéeën, Frais-Notten, Departementer an Evaluatiounen.',
+            ],
+            'stats' => [
+                'title' => '📊 Är HR-Indicateuren',
+                'description' => 'Iwwerbléck a Realzäit: Zuel vun aktive Mataarbechter, Congéeën am Wait, Loungesumm.',
+            ],
+        ],
+        'hrEmployees' => [
+            'new' => [
+                'title' => '➕ E Mataarbechter bäifügen',
+                'description' => 'Erstellt eng Mataarbechterfich mat Vertrag, Gehalt, Kontaktdaten an dozougehéieregen Dokumenter.',
+            ],
+            'list' => [
+                'title' => '👥 Lëscht vun de Mataarbechter',
+                'description' => 'Kuckt all Är Mataarbechter. Klickt op eng Fich fir Detailer, Verträg an Historik ze gesinn.',
+            ],
+        ],
+        'hrLeaves' => [
+            'list' => [
+                'title' => '🏖️ Congéesufroen',
+                'description' => 'Kuckt an approuvéiert d\'Congéesufroen vun Äre Mataarbechter. D\'Soldoen ginn automatesch aktualiséiert.',
+            ],
+            'calendar' => [
+                'title' => '📅 Kalenner',
+                'description' => 'Visualiséiert all d\'Congéeën op engem Equipekalenner fir d\'Absencen ze plangen.',
+            ],
+        ],
+        'hrLeavesCalendar' => [
+            'view' => [
+                'title' => '📅 Equipekalenner',
+                'description' => 'Iwwerbléck vun all den approuvéierten an de wachende Congéeën. Filtert no Mataarbechter oder Departement.',
+            ],
+        ],
+        'hrExpenses' => [
+            'list' => [
+                'title' => '💳 Frais-Notten vun de Mataarbechter',
+                'description' => 'Zentraliséiert d\'Frais-Notten déi vun Äre Mataarbechter ofginn ginn. Approuvéiert oder refuséiert mat engem Klick.',
+            ],
+        ],
+        'hrEmployeeCreate' => [
+            'identity' => [
+                'title' => '👤 Identitéit',
+                'description' => 'Gitt déi perséinlech Informatioune vum Mataarbechter un: Numm, Virnumm, Gebuertsdatum.',
+            ],
+            'contract' => [
+                'title' => '📝 Vertrag',
+                'description' => 'Vertragsart (CDI, CDD), Posten, Gehalt, Astellungsdatum.',
+            ],
+            'submit' => [
+                'title' => '✅ Mataarbechter erstellen',
+                'description' => 'Soubal en erstallt ass, kënnt Dir Dokumenter bäifügen, seng Congéeë verwalten an seng Evaluatioune virbereeden.',
+            ],
+        ],
+        'settings' => [
+            'company' => [
+                'title' => '🏢 Entreprise-Informatiounen',
+                'description' => 'Konfiguréiert den Numm, d\'TVA, d\'Adress an déi gesetzlech Informatioune vun Ärem Entreprise.',
+            ],
+            'logo' => [
+                'title' => '🖼️ Logo',
+                'description' => 'Fügt Äert Logo bäi fir datt et automatesch op Äre Rechnungen erschéngt.',
+            ],
+            'bank' => [
+                'title' => '🏦 Bankinformatiounen',
+                'description' => 'Fügt Är IBAN bäi fir datt Är Cliente Iech einfach kënne bezuelen.',
+            ],
+        ],
+        'clientCreate' => [
+            'name' => [
+                'title' => '🏢 Numm vum Client',
+                'description' => 'Fänkt mam Numm oder der Firmebezeechnung un. Déi aner Felder kënne méi spéit ausgefëllt ginn.',
+            ],
+            'type' => [
+                'title' => '👥 Clienttyp',
+                'description' => 'B2B fir Entreprisen, B2C fir Privatpersounen. Dat bestëmmt déi ugewannten TVA-Reegelen.',
+            ],
+            'vat' => [
+                'title' => '🛡️ TVA-Nummer',
+                'description' => 'Fir intracommunautaire Cliente gitt d\'TVA-Nummer un: si gëtt automatesch iwwer den VIES-Service validéiert.',
+            ],
+            'submit' => [
+                'title' => '✅ Späicheren',
+                'description' => 'Klickt hei fir de Client ze erstellen. Duerno kënnt Dir fir hien Rechnungen an Devisen erstellen.',
+            ],
+        ],
+        'invoiceCreate' => [
+            'client' => [
+                'title' => '👤 Wielt de Client',
+                'description' => 'Wielt de Client deen Dir wëllt fakturéieren. D\'Informatiounen an d\'TVA-Reegele ginn automatesch gelueden.',
+            ],
+            'dates' => [
+                'title' => '📅 Datumer',
+                'description' => 'Datum vun der Ausstellung an Datum vun der Echeance. Standard: haut an an 30 Deeg.',
+            ],
+            'items' => [
+                'title' => '📋 Rechnungslinnen',
+                'description' => 'Fügt d\'Prestatiounen oder d\'Produiten bäi déi Dir wëllt fakturéieren. Dir kënnt Är pre-registréiert Produiten benotzen.',
+            ],
+            'submit' => [
+                'title' => '💾 Brouillon späicheren',
+                'description' => 'Är Rechnung gëtt als Brouillon gespäichert. Dir kënnt se duerno finaliséieren a verschécken.',
+            ],
+        ],
+        'quoteCreate' => [
+            'client' => [
+                'title' => '👤 Wielt de Client',
+                'description' => 'Wielt de Client fir deen Dir dësen Devis wëllt maachen.',
+            ],
+            'items' => [
+                'title' => '📋 Linne vum Devis',
+                'description' => 'Detailléiert d\'proposéiert Prestatiounen. Soubal en akzeptéiert ass, kënnt Dir dësen Devis mat engem Klick an eng Rechnung ëmwandelen.',
+            ],
+            'submit' => [
+                'title' => '💾 Devis erstellen',
+                'description' => 'Ären Devis gëtt als Brouillon gespäichert. Dir kënnt en duerno finaliséieren an dem Client schécken.',
+            ],
+        ],
+        'expenseCreate' => [
+            'amount' => [
+                'title' => '💶 Montant',
+                'description' => 'Gitt de Bruttomontant vun der Ausgab un. D\'TVA gëtt automatesch no dem gewielten Taux berechent.',
+            ],
+            'category' => [
+                'title' => '📂 Kategorie',
+                'description' => 'Klasséiert Är Ausgab no Kategorie fir d\'Verfollegung an de Comptabilitéitsexport ze erliichteren.',
+            ],
+            'receipt' => [
+                'title' => '📎 Justificatif',
+                'description' => 'Fügt Äert Justificatif bäi (PDF, Foto) fir e Spuer vum Recetto opzebewahren.',
+            ],
+            'submit' => [
+                'title' => '✅ Späicheren',
+                'description' => 'Är Ausgab gëtt bäigefüügt. Dir fannt déi ofzéiebar TVA an Äre Berichter erëm.',
+            ],
+        ],
+        'projectCreate' => [
+            'name' => [
+                'title' => '📁 Numm vum Projet',
+                'description' => 'Gitt Ärem Projet e kloere Numm.',
+            ],
+            'client' => [
+                'title' => '👤 Client',
+                'description' => 'Verbënnt de Projet mat engem Client fir d\'Fakturatioun vun den ageséchten Stonnen ze erliichteren.',
+            ],
+            'submit' => [
+                'title' => '✅ Projet erstellen',
+                'description' => 'Soubal en erstallt ass, kënnt Dir Aufgabe bäifügen an déi opgewendet Zäit verfollegen.',
+            ],
+        ],
+    ],
 ];

@@ -2352,4 +2352,288 @@ return [
     'feature_facturx' => 'Factur-X export requires the Pro plan.',
     'feature_projects' => 'Project management requires the Essentiel plan or higher.',
     'feature_time_tracking' => 'Time tracking requires the Essentiel plan or higher.',
+
+    // Interactive tours (driver.js)
+    'tour' => [
+        'ui' => [
+            'next' => 'Next →',
+            'prev' => '← Back',
+            'done' => 'Done',
+            'progress' => 'Step {{current}} of {{total}}',
+        ],
+        'dashboard' => [
+            'kpis' => [
+                'title' => '📊 Your key indicators',
+                'description' => 'Here you\'ll find a real-time overview of your turnover, unpaid invoices and monthly trends.',
+            ],
+            'clients' => [
+                'title' => '👥 Client management',
+                'description' => 'Centralise all your clients and prospects. You can also import a list from Excel/CSV.',
+            ],
+            'billing' => [
+                'title' => '📄 Invoicing',
+                'description' => 'Create invoices and quotes that comply with Luxembourg regulations. Convert quotes to invoices in one click.',
+            ],
+            'accounting' => [
+                'title' => '💼 Accounting',
+                'description' => 'Export your data to Sage BOB, FID-Manager, and generate your FAIA file for tax audits.',
+            ],
+            'settings' => [
+                'title' => '⚙️ Settings',
+                'description' => 'Configure your company, banking details, and customise your invoices.',
+            ],
+            'menu' => [
+                'title' => '🎉 That\'s it!',
+                'description' => 'You can restart this tour at any time from your user menu. Enjoy faktur.lu!',
+            ],
+        ],
+        'clients' => [
+            'new' => [
+                'title' => '➕ New client',
+                'description' => 'Click here to add a new client, a prospect, or import a list from Excel/CSV.',
+            ],
+            'tabs' => [
+                'title' => '📋 Statuses',
+                'description' => 'Filter your contacts by status: prospects, active clients, inactive, etc.',
+            ],
+            'search' => [
+                'title' => '🔍 Quick search',
+                'description' => 'Instantly find a client by name, email or VAT number.',
+            ],
+        ],
+        'invoices' => [
+            'new' => [
+                'title' => '➕ New invoice',
+                'description' => 'Create a Luxembourg-compliant invoice in seconds.',
+            ],
+            'filters' => [
+                'title' => '🎯 Filters',
+                'description' => 'Filter your invoices by status: draft, sent, paid, overdue.',
+            ],
+        ],
+        'quotes' => [
+            'new' => [
+                'title' => '➕ New quote',
+                'description' => 'Create a professional quote that you can convert into an invoice in one click once accepted.',
+            ],
+        ],
+        'expenses' => [
+            'new' => [
+                'title' => '➕ New expense',
+                'description' => 'Record your business expenses. Deductible VAT is calculated automatically.',
+            ],
+        ],
+        'projects' => [
+            'new' => [
+                'title' => '➕ New project',
+                'description' => 'Create a project, assign it to a client, track the budget and hours spent.',
+            ],
+        ],
+        'timeTracking' => [
+            'timer' => [
+                'title' => '⏱️ Timer',
+                'description' => 'Start a timer to track your time in real time, or add entries manually.',
+            ],
+            'entries' => [
+                'title' => '📋 History',
+                'description' => 'View all your time entries and convert them into invoice lines in one click.',
+            ],
+        ],
+        'revenueBook' => [
+            'module' => [
+                'title' => '💼 Accounting module',
+                'description' => 'The accounting module brings together the revenue book, FAIA export, accounting exports and the fiscal summary.',
+            ],
+            'year' => [
+                'title' => '📅 Year selection',
+                'description' => 'Choose the fiscal year to view. The revenue book is generated automatically from your finalised invoices.',
+            ],
+            'export' => [
+                'title' => '📥 Export',
+                'description' => 'Export your revenue book in PDF or Excel format for your accountant or your records.',
+            ],
+        ],
+        'faiaExport' => [
+            'intro' => [
+                'title' => '🛡️ FAIA export',
+                'description' => 'The FAIA (Fichier d\'Audit Informatisé AED) is mandatory for tax audits in Luxembourg. This XML file contains your entire accounting data.',
+            ],
+            'generate' => [
+                'title' => '⚙️ Generation',
+                'description' => 'Select the period and generate your FAIA file in one click. The file complies with the XML 2.01 format required by the AED.',
+            ],
+        ],
+        'accountingExport' => [
+            'intro' => [
+                'title' => '💼 Exports for your accountant',
+                'description' => 'Export your data directly in the formats used by Luxembourg accounting firms: Sage BOB, FID-Manager, CSV, Excel.',
+            ],
+            'format' => [
+                'title' => '📋 Choose the format',
+                'description' => 'Select the format that matches your accountant\'s or accounting firm\'s software.',
+            ],
+        ],
+        'fiscalSummary' => [
+            'intro' => [
+                'title' => '📊 Annual fiscal summary',
+                'description' => 'Annual overview of your income, collected and deductible VAT. Useful for preparing your tax return.',
+            ],
+            'year' => [
+                'title' => '📅 Fiscal year',
+                'description' => 'Select the year to analyse. The figures are calculated automatically from your invoices and expenses.',
+            ],
+        ],
+        'hrDashboard' => [
+            'module' => [
+                'title' => '👨‍💼 HR module',
+                'description' => 'The HR module brings together the management of employees, leave, expense reports, departments and reviews.',
+            ],
+            'stats' => [
+                'title' => '📊 Your HR indicators',
+                'description' => 'Real-time overview: number of active employees, pending leave, payroll.',
+            ],
+        ],
+        'hrEmployees' => [
+            'new' => [
+                'title' => '➕ Add an employee',
+                'description' => 'Create an employee record with contract, salary, contact details and associated documents.',
+            ],
+            'list' => [
+                'title' => '👥 Employee list',
+                'description' => 'View all your employees. Click on a record to see details, contracts and history.',
+            ],
+        ],
+        'hrLeaves' => [
+            'list' => [
+                'title' => '🏖️ Leave requests',
+                'description' => 'View and approve your employees\' leave requests. Balances are updated automatically.',
+            ],
+            'calendar' => [
+                'title' => '📅 Calendar',
+                'description' => 'View all leave on a team calendar to anticipate absences.',
+            ],
+        ],
+        'hrLeavesCalendar' => [
+            'view' => [
+                'title' => '📅 Team calendar',
+                'description' => 'Overview of all approved and pending leave. Filter by employee or department.',
+            ],
+        ],
+        'hrExpenses' => [
+            'list' => [
+                'title' => '💳 Employee expense reports',
+                'description' => 'Centralise the expense reports submitted by your employees. Approve or reject in one click.',
+            ],
+        ],
+        'hrEmployeeCreate' => [
+            'identity' => [
+                'title' => '👤 Identity',
+                'description' => 'Enter the employee\'s personal information: surname, first name, date of birth.',
+            ],
+            'contract' => [
+                'title' => '📝 Contract',
+                'description' => 'Type of contract (CDI, CDD), position, salary, start date.',
+            ],
+            'submit' => [
+                'title' => '✅ Create employee',
+                'description' => 'Once created, you\'ll be able to add documents, manage their leave and prepare their reviews.',
+            ],
+        ],
+        'settings' => [
+            'company' => [
+                'title' => '🏢 Company information',
+                'description' => 'Configure your company name, VAT number, address and legal information.',
+            ],
+            'logo' => [
+                'title' => '🖼️ Logo',
+                'description' => 'Add your logo so that it appears automatically on your invoices.',
+            ],
+            'bank' => [
+                'title' => '🏦 Bank details',
+                'description' => 'Add your IBAN so your clients can pay you easily.',
+            ],
+        ],
+        'clientCreate' => [
+            'name' => [
+                'title' => '🏢 Client name',
+                'description' => 'Start with the name or business name. The other fields can be filled in later.',
+            ],
+            'type' => [
+                'title' => '👥 Client type',
+                'description' => 'B2B for businesses, B2C for individuals. This determines the VAT rules applied.',
+            ],
+            'vat' => [
+                'title' => '🛡️ VAT number',
+                'description' => 'For intra-community clients, enter the VAT number: it will be validated automatically via the VIES service.',
+            ],
+            'submit' => [
+                'title' => '✅ Save',
+                'description' => 'Click here to create the client. You can then create invoices and quotes for them.',
+            ],
+        ],
+        'invoiceCreate' => [
+            'client' => [
+                'title' => '👤 Select the client',
+                'description' => 'Choose the client to invoice. Their information and VAT rules will be loaded automatically.',
+            ],
+            'dates' => [
+                'title' => '📅 Dates',
+                'description' => 'Issue date and due date. By default: today and in 30 days.',
+            ],
+            'items' => [
+                'title' => '📋 Invoice lines',
+                'description' => 'Add the services or products to invoice. You can use your pre-saved products.',
+            ],
+            'submit' => [
+                'title' => '💾 Save draft',
+                'description' => 'Your invoice will be saved as a draft. You can then finalise and send it.',
+            ],
+        ],
+        'quoteCreate' => [
+            'client' => [
+                'title' => '👤 Select the client',
+                'description' => 'Choose the client this quote is for.',
+            ],
+            'items' => [
+                'title' => '📋 Quote lines',
+                'description' => 'Detail the services proposed. Once accepted, you can convert this quote into an invoice in one click.',
+            ],
+            'submit' => [
+                'title' => '💾 Create quote',
+                'description' => 'Your quote will be saved as a draft. You can then finalise it and send it to the client.',
+            ],
+        ],
+        'expenseCreate' => [
+            'amount' => [
+                'title' => '💶 Amount',
+                'description' => 'Enter the gross amount of the expense. VAT will be calculated automatically based on the chosen rate.',
+            ],
+            'category' => [
+                'title' => '📂 Category',
+                'description' => 'Classify your expense by category to make tracking and accounting export easier.',
+            ],
+            'receipt' => [
+                'title' => '📎 Receipt',
+                'description' => 'Attach your supporting document (PDF, photo) to keep a record of the receipt.',
+            ],
+            'submit' => [
+                'title' => '✅ Save',
+                'description' => 'Your expense will be added. You\'ll find the deductible VAT in your reports.',
+            ],
+        ],
+        'projectCreate' => [
+            'name' => [
+                'title' => '📁 Project name',
+                'description' => 'Give your project a clear name.',
+            ],
+            'client' => [
+                'title' => '👤 Client',
+                'description' => 'Link the project to a client to make it easier to invoice the time spent.',
+            ],
+            'submit' => [
+                'title' => '✅ Create project',
+                'description' => 'Once created, you\'ll be able to add tasks and track the time spent.',
+            ],
+        ],
+    ],
 ];

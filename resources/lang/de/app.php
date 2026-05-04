@@ -2291,4 +2291,288 @@ return [
     'feature_facturx' => 'Factur-X-Export erfordert den Pro Plan.',
     'feature_projects' => 'Projektmanagement erfordert den Essentiel Plan oder höher.',
     'feature_time_tracking' => 'Zeiterfassung erfordert den Essentiel Plan oder höher.',
+
+    // Interactive tours (driver.js)
+    'tour' => [
+        'ui' => [
+            'next' => 'Weiter →',
+            'prev' => '← Zurück',
+            'done' => 'Fertig',
+            'progress' => 'Schritt {{current}} von {{total}}',
+        ],
+        'dashboard' => [
+            'kpis' => [
+                'title' => '📊 Ihre Kennzahlen',
+                'description' => 'Hier finden Sie eine Echtzeit-Übersicht über Ihren Umsatz, offene Rechnungen und monatliche Trends.',
+            ],
+            'clients' => [
+                'title' => '👥 Kundenverwaltung',
+                'description' => 'Verwalten Sie all Ihre Kunden und Interessenten zentral. Sie können auch eine Liste aus Excel/CSV importieren.',
+            ],
+            'billing' => [
+                'title' => '📄 Fakturierung',
+                'description' => 'Erstellen Sie luxemburgkonforme Rechnungen und Angebote. Umwandlung Angebot → Rechnung mit einem Klick.',
+            ],
+            'accounting' => [
+                'title' => '💼 Buchhaltung',
+                'description' => 'Exportieren Sie Ihre Daten nach Sage BOB, FID-Manager und erstellen Sie Ihre FAIA-Datei für Steuerprüfungen.',
+            ],
+            'settings' => [
+                'title' => '⚙️ Einstellungen',
+                'description' => 'Konfigurieren Sie Ihr Unternehmen, Bankverbindungen und passen Sie Ihre Rechnungen an.',
+            ],
+            'menu' => [
+                'title' => '🎉 Das war\'s !',
+                'description' => 'Sie können diese Tour jederzeit über Ihr Benutzermenü erneut starten. Viel Erfolg mit faktur.lu !',
+            ],
+        ],
+        'clients' => [
+            'new' => [
+                'title' => '➕ Neuer Kunde',
+                'description' => 'Klicken Sie hier, um einen neuen Kunden oder Interessenten hinzuzufügen oder eine Liste aus Excel/CSV zu importieren.',
+            ],
+            'tabs' => [
+                'title' => '📋 Status',
+                'description' => 'Filtern Sie Ihre Kontakte nach Status: Interessenten, aktive Kunden, inaktive Kunden usw.',
+            ],
+            'search' => [
+                'title' => '🔍 Schnellsuche',
+                'description' => 'Finden Sie sofort einen Kunden nach Name, E-Mail oder USt-IdNr.',
+            ],
+        ],
+        'invoices' => [
+            'new' => [
+                'title' => '➕ Neue Rechnung',
+                'description' => 'Erstellen Sie in wenigen Sekunden eine luxemburgkonforme Rechnung.',
+            ],
+            'filters' => [
+                'title' => '🎯 Filter',
+                'description' => 'Filtern Sie Ihre Rechnungen nach Status: Entwurf, gesendet, bezahlt, überfällig.',
+            ],
+        ],
+        'quotes' => [
+            'new' => [
+                'title' => '➕ Neues Angebot',
+                'description' => 'Erstellen Sie ein professionelles Angebot, das Sie nach Annahme mit einem Klick in eine Rechnung umwandeln können.',
+            ],
+        ],
+        'expenses' => [
+            'new' => [
+                'title' => '➕ Neue Ausgabe',
+                'description' => 'Erfassen Sie Ihre geschäftlichen Ausgaben. Die abziehbare USt wird automatisch berechnet.',
+            ],
+        ],
+        'projects' => [
+            'new' => [
+                'title' => '➕ Neues Projekt',
+                'description' => 'Erstellen Sie ein Projekt, weisen Sie es einem Kunden zu und verfolgen Sie Budget und Stunden.',
+            ],
+        ],
+        'timeTracking' => [
+            'timer' => [
+                'title' => '⏱️ Zeitmesser',
+                'description' => 'Starten Sie eine Stoppuhr, um Ihre Zeit in Echtzeit zu verfolgen, oder fügen Sie Einträge manuell hinzu.',
+            ],
+            'entries' => [
+                'title' => '📋 Verlauf',
+                'description' => 'Sehen Sie alle Ihre Zeiteinträge ein und wandeln Sie diese mit einem Klick in Rechnungspositionen um.',
+            ],
+        ],
+        'revenueBook' => [
+            'module' => [
+                'title' => '💼 Buchhaltungsmodul',
+                'description' => 'Das Buchhaltungsmodul umfasst das Einnahmenbuch, den FAIA-Export, die Buchhaltungsexporte und die Steuerübersicht.',
+            ],
+            'year' => [
+                'title' => '📅 Jahresauswahl',
+                'description' => 'Wählen Sie das Geschäftsjahr aus. Das Einnahmenbuch wird automatisch aus Ihren finalisierten Rechnungen erstellt.',
+            ],
+            'export' => [
+                'title' => '📥 Export',
+                'description' => 'Exportieren Sie Ihr Einnahmenbuch im PDF- oder Excel-Format für Ihren Buchhalter oder Ihr Archiv.',
+            ],
+        ],
+        'faiaExport' => [
+            'intro' => [
+                'title' => '🛡️ FAIA-Export',
+                'description' => 'Das FAIA (Fichier d\'Audit Informatisé AED) ist für Steuerprüfungen in Luxemburg verpflichtend. Diese XML-Datei enthält Ihre gesamte Buchhaltung.',
+            ],
+            'generate' => [
+                'title' => '⚙️ Erstellung',
+                'description' => 'Wählen Sie den Zeitraum aus und erstellen Sie Ihre FAIA-Datei mit einem Klick. Die Datei entspricht dem von der AED geforderten XML-Format 2.01.',
+            ],
+        ],
+        'accountingExport' => [
+            'intro' => [
+                'title' => '💼 Exporte für Ihren Buchhalter',
+                'description' => 'Exportieren Sie Ihre Daten direkt in den Formaten, die von luxemburgischen Treuhandgesellschaften verwendet werden: Sage BOB, FID-Manager, CSV, Excel.',
+            ],
+            'format' => [
+                'title' => '📋 Format wählen',
+                'description' => 'Wählen Sie das Format, das der Software Ihres Buchhalters oder Ihrer Treuhandgesellschaft entspricht.',
+            ],
+        ],
+        'fiscalSummary' => [
+            'intro' => [
+                'title' => '📊 Jährliche Steuerübersicht',
+                'description' => 'Jahresübersicht über Ihre Einnahmen, vereinnahmte und abziehbare USt. Nützlich zur Vorbereitung Ihrer Steuererklärung.',
+            ],
+            'year' => [
+                'title' => '📅 Geschäftsjahr',
+                'description' => 'Wählen Sie das zu analysierende Jahr aus. Die Zahlen werden automatisch aus Ihren Rechnungen und Ausgaben berechnet.',
+            ],
+        ],
+        'hrDashboard' => [
+            'module' => [
+                'title' => '👨‍💼 HR-Modul',
+                'description' => 'Das HR-Modul umfasst die Verwaltung von Mitarbeitern, Urlaub, Spesenabrechnungen, Abteilungen und Bewertungen.',
+            ],
+            'stats' => [
+                'title' => '📊 Ihre HR-Kennzahlen',
+                'description' => 'Echtzeit-Übersicht: Anzahl aktiver Mitarbeiter, ausstehende Urlaube, Lohnsumme.',
+            ],
+        ],
+        'hrEmployees' => [
+            'new' => [
+                'title' => '➕ Mitarbeiter hinzufügen',
+                'description' => 'Erstellen Sie eine Personalakte mit Vertrag, Gehalt, Kontaktdaten und zugehörigen Dokumenten.',
+            ],
+            'list' => [
+                'title' => '👥 Mitarbeiterliste',
+                'description' => 'Sehen Sie alle Ihre Mitarbeiter ein. Klicken Sie auf eine Akte, um Details, Verträge und Verlauf anzuzeigen.',
+            ],
+        ],
+        'hrLeaves' => [
+            'list' => [
+                'title' => '🏖️ Urlaubsanträge',
+                'description' => 'Sehen Sie die Urlaubsanträge Ihrer Mitarbeiter ein und genehmigen Sie diese. Die Salden werden automatisch aktualisiert.',
+            ],
+            'calendar' => [
+                'title' => '📅 Kalender',
+                'description' => 'Visualisieren Sie alle Urlaube in einem Teamkalender, um Abwesenheiten besser zu planen.',
+            ],
+        ],
+        'hrLeavesCalendar' => [
+            'view' => [
+                'title' => '📅 Teamkalender',
+                'description' => 'Übersicht über alle genehmigten und ausstehenden Urlaube. Filtern Sie nach Mitarbeiter oder Abteilung.',
+            ],
+        ],
+        'hrExpenses' => [
+            'list' => [
+                'title' => '💳 Mitarbeiter-Spesenabrechnungen',
+                'description' => 'Zentralisieren Sie die von Ihren Mitarbeitern eingereichten Spesenabrechnungen. Genehmigen oder ablehnen mit einem Klick.',
+            ],
+        ],
+        'hrEmployeeCreate' => [
+            'identity' => [
+                'title' => '👤 Identität',
+                'description' => 'Geben Sie die persönlichen Daten des Mitarbeiters ein: Name, Vorname, Geburtsdatum.',
+            ],
+            'contract' => [
+                'title' => '📝 Vertrag',
+                'description' => 'Vertragsart (CDI, CDD), Position, Gehalt, Einstellungsdatum.',
+            ],
+            'submit' => [
+                'title' => '✅ Mitarbeiter erstellen',
+                'description' => 'Sobald erstellt, können Sie Dokumente hinzufügen, Urlaube verwalten und Bewertungen vorbereiten.',
+            ],
+        ],
+        'settings' => [
+            'company' => [
+                'title' => '🏢 Unternehmensinformationen',
+                'description' => 'Konfigurieren Sie Name, USt-IdNr., Adresse und rechtliche Angaben Ihres Unternehmens.',
+            ],
+            'logo' => [
+                'title' => '🖼️ Logo',
+                'description' => 'Fügen Sie Ihr Logo hinzu, damit es automatisch auf Ihren Rechnungen erscheint.',
+            ],
+            'bank' => [
+                'title' => '🏦 Bankverbindung',
+                'description' => 'Fügen Sie Ihre IBAN hinzu, damit Ihre Kunden Sie problemlos bezahlen können.',
+            ],
+        ],
+        'clientCreate' => [
+            'name' => [
+                'title' => '🏢 Name des Kunden',
+                'description' => 'Beginnen Sie mit dem Namen oder der Firmenbezeichnung. Die anderen Felder können später ausgefüllt werden.',
+            ],
+            'type' => [
+                'title' => '👥 Kundenart',
+                'description' => 'B2B für Unternehmen, B2C für Privatpersonen. Dies bestimmt die angewandten USt-Regeln.',
+            ],
+            'vat' => [
+                'title' => '🛡️ USt-IdNr.',
+                'description' => 'Geben Sie für innergemeinschaftliche Kunden die USt-IdNr. ein: Sie wird automatisch über den VIES-Dienst validiert.',
+            ],
+            'submit' => [
+                'title' => '✅ Speichern',
+                'description' => 'Klicken Sie hier, um den Kunden zu erstellen. Anschließend können Sie für ihn Rechnungen und Angebote erstellen.',
+            ],
+        ],
+        'invoiceCreate' => [
+            'client' => [
+                'title' => '👤 Kunde auswählen',
+                'description' => 'Wählen Sie den zu fakturierenden Kunden aus. Informationen und USt-Regeln werden automatisch geladen.',
+            ],
+            'dates' => [
+                'title' => '📅 Daten',
+                'description' => 'Rechnungsdatum und Fälligkeitsdatum. Standardmäßig: heute und in 30 Tagen.',
+            ],
+            'items' => [
+                'title' => '📋 Rechnungspositionen',
+                'description' => 'Fügen Sie die zu fakturierenden Leistungen oder Produkte hinzu. Sie können Ihre vorgespeicherten Produkte verwenden.',
+            ],
+            'submit' => [
+                'title' => '💾 Entwurf speichern',
+                'description' => 'Ihre Rechnung wird als Entwurf gespeichert. Sie können sie später finalisieren und versenden.',
+            ],
+        ],
+        'quoteCreate' => [
+            'client' => [
+                'title' => '👤 Kunde auswählen',
+                'description' => 'Wählen Sie den Kunden aus, für den dieses Angebot erstellt werden soll.',
+            ],
+            'items' => [
+                'title' => '📋 Angebotspositionen',
+                'description' => 'Beschreiben Sie die angebotenen Leistungen im Detail. Nach Annahme können Sie dieses Angebot mit einem Klick in eine Rechnung umwandeln.',
+            ],
+            'submit' => [
+                'title' => '💾 Angebot erstellen',
+                'description' => 'Ihr Angebot wird als Entwurf gespeichert. Sie können es anschließend finalisieren und an den Kunden senden.',
+            ],
+        ],
+        'expenseCreate' => [
+            'amount' => [
+                'title' => '💶 Betrag',
+                'description' => 'Geben Sie den Bruttobetrag der Ausgabe ein. Die USt wird automatisch nach dem gewählten Satz berechnet.',
+            ],
+            'category' => [
+                'title' => '📂 Kategorie',
+                'description' => 'Ordnen Sie Ihre Ausgabe einer Kategorie zu, um die Nachverfolgung und den Buchhaltungsexport zu erleichtern.',
+            ],
+            'receipt' => [
+                'title' => '📎 Beleg',
+                'description' => 'Hängen Sie Ihren Beleg an (PDF, Foto), um eine Quittung zu archivieren.',
+            ],
+            'submit' => [
+                'title' => '✅ Speichern',
+                'description' => 'Ihre Ausgabe wird hinzugefügt. Sie finden die abziehbare USt in Ihren Berichten.',
+            ],
+        ],
+        'projectCreate' => [
+            'name' => [
+                'title' => '📁 Projektname',
+                'description' => 'Geben Sie Ihrem Projekt einen klaren Namen.',
+            ],
+            'client' => [
+                'title' => '👤 Kunde',
+                'description' => 'Verknüpfen Sie das Projekt mit einem Kunden, um die Fakturierung der aufgewendeten Stunden zu erleichtern.',
+            ],
+            'submit' => [
+                'title' => '✅ Projekt erstellen',
+                'description' => 'Sobald erstellt, können Sie Aufgaben hinzufügen und die aufgewendete Zeit verfolgen.',
+            ],
+        ],
+    ],
 ];
