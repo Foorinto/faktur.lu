@@ -2636,4 +2636,45 @@ return [
             ],
         ],
     ],
+
+    'dashboard_alerts' => [
+        'vat_threshold' => [
+            'exceeded_title' => 'VAT franchise threshold exceeded',
+            'exceeded_message' => 'Your annual turnover (:revenue €) has exceeded the VAT franchise threshold (:threshold €). You must register as VAT-liable.',
+            'warning_title' => 'Approaching the VAT franchise threshold',
+            'warning_message' => 'Your annual turnover (:revenue €) is approaching the VAT franchise threshold (:threshold €). :remaining € remaining before the threshold.',
+        ],
+        'accounting_threshold' => [
+            'exceeded_title' => 'Simplified accounting threshold exceeded',
+            'exceeded_message' => 'Your annual turnover (:revenue €) has exceeded the simplified accounting threshold (:threshold €). You must keep full accounts.',
+            'warning_title' => 'Approaching the simplified accounting threshold',
+            'warning_message' => 'Your annual turnover (:revenue €) is approaching the simplified accounting threshold (:threshold €).',
+        ],
+        'overdue' => [
+            'title' => 'Overdue invoices',
+            'message' => '{1} You have :count overdue invoice.|[2,*] You have :count overdue invoices.',
+        ],
+    ],
+
+    'onboarding_checklist' => [
+        'first_steps' => 'First steps',
+        'steps_completed' => ':completed / :total steps completed',
+        'dismiss_title' => 'Hide',
+        'dismiss_confirm' => 'Hide this checklist? You will still be able to configure these items from the settings.',
+        'tasks' => [
+            'company' => 'Set up your business',
+            'logo' => 'Add your logo',
+            'client' => 'Create your first client',
+            'invoice' => 'Create your first invoice',
+            'send_invoice' => 'Send your first invoice',
+            'bank' => 'Set up your bank account',
+        ],
+    ],
+
+    'reminders_flash' => [
+        'created' => 'Reminder created.',
+        'updated' => 'Reminder updated.',
+        'completed' => 'Reminder completed.',
+        'deleted' => 'Reminder deleted.',
+    ],
 ];

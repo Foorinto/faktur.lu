@@ -2,7 +2,9 @@
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useMatomo } from '@/Composables/useMatomo';
+import { useTranslations } from '@/Composables/useTranslations';
 
+const { t } = useTranslations();
 const { checklist: trackChecklist } = useMatomo();
 
 const props = defineProps({
@@ -15,7 +17,7 @@ const props = defineProps({
 const dismissed = ref(false);
 
 const dismiss = async () => {
-    if (!confirm('Masquer cette checklist ? Vous pourrez toujours configurer ces éléments depuis les paramètres.')) {
+    if (!confirm(t('onboarding_checklist.dismiss_confirm'))) {
         return;
     }
     try {
@@ -50,11 +52,11 @@ const onTaskClick = (task) => {
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-semibold text-slate-900 dark:text-white">Premiers pas</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ checklist.completed }} / {{ checklist.total }} étapes complétées</p>
+                    <h3 class="font-semibold text-slate-900 dark:text-white">{{ t('onboarding_checklist.first_steps') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ t('onboarding_checklist.steps_completed', { completed: checklist.completed, total: checklist.total }) }}</p>
                 </div>
             </div>
-            <button @click="dismiss" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Masquer">
+            <button @click="dismiss" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" :title="t('onboarding_checklist.dismiss_title')">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>

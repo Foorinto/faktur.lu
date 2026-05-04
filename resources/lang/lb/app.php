@@ -2575,4 +2575,45 @@ return [
             ],
         ],
     ],
+
+    'dashboard_alerts' => [
+        'vat_threshold' => [
+            'exceeded_title' => 'Schwell vun der TVA-Franchise iwwerschratt',
+            'exceeded_message' => 'Äre Jore-Chiffre d\'affaires (:revenue €) huet d\'Schwell vun der TVA-Franchise (:threshold €) iwwerschratt. Dir musst Iech als TVA-Steierpflichtegen aschreiwen.',
+            'warning_title' => 'No bei der Schwell vun der TVA-Franchise',
+            'warning_message' => 'Äre Jore-Chiffre d\'affaires (:revenue €) kënnt no bei der Schwell vun der TVA-Franchise (:threshold €). Et bleiwen :remaining € virum Schwell.',
+        ],
+        'accounting_threshold' => [
+            'exceeded_title' => 'Schwell vun der vereinfachter Comptabilitéit iwwerschratt',
+            'exceeded_message' => 'Äre Jore-Chiffre d\'affaires (:revenue €) huet d\'Schwell vun der vereinfachter Comptabilitéit (:threshold €) iwwerschratt. Dir musst eng komplett Comptabilitéit féieren.',
+            'warning_title' => 'No bei der Schwell vun der vereinfachter Comptabilitéit',
+            'warning_message' => 'Äre Jore-Chiffre d\'affaires (:revenue €) kënnt no bei der Schwell vun der vereinfachter Comptabilitéit (:threshold €).',
+        ],
+        'overdue' => [
+            'title' => 'Facturen am Retard',
+            'message' => '{1} Dir hutt :count Facture am Retard vun der Bezuelung.|[2,*] Dir hutt :count Facturen am Retard vun der Bezuelung.',
+        ],
+    ],
+
+    'onboarding_checklist' => [
+        'first_steps' => 'Éischt Schrëtt',
+        'steps_completed' => ':completed / :total Schrëtt ofgeschloss',
+        'dismiss_title' => 'Verstoppen',
+        'dismiss_confirm' => 'Dës Checklëscht verstoppen? Dir kënnt dës Elementer ëmmer iwwer d\'Astellungen konfiguréieren.',
+        'tasks' => [
+            'company' => 'Är Entreprise konfiguréieren',
+            'logo' => 'Äert Logo bäifügen',
+            'client' => 'Äre éischte Client uleeën',
+            'invoice' => 'Är éischt Facture erstellen',
+            'send_invoice' => 'Är éischt Facture verschécken',
+            'bank' => 'Äre Bankkont konfiguréieren',
+        ],
+    ],
+
+    'reminders_flash' => [
+        'created' => 'Rappel erstallt.',
+        'updated' => 'Rappel aktualiséiert.',
+        'completed' => 'Rappel ofgeschloss.',
+        'deleted' => 'Rappel geläscht.',
+    ],
 ];

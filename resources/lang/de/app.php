@@ -2575,4 +2575,45 @@ return [
             ],
         ],
     ],
+
+    'dashboard_alerts' => [
+        'vat_threshold' => [
+            'exceeded_title' => 'Mehrwertsteuer-Befreiungsgrenze überschritten',
+            'exceeded_message' => 'Ihr Jahresumsatz (:revenue €) hat die Mehrwertsteuer-Befreiungsgrenze (:threshold €) überschritten. Sie müssen sich als mehrwertsteuerpflichtig registrieren.',
+            'warning_title' => 'Nahe der Mehrwertsteuer-Befreiungsgrenze',
+            'warning_message' => 'Ihr Jahresumsatz (:revenue €) nähert sich der Mehrwertsteuer-Befreiungsgrenze (:threshold €). Es bleiben :remaining € bis zur Grenze.',
+        ],
+        'accounting_threshold' => [
+            'exceeded_title' => 'Schwelle für vereinfachte Buchführung überschritten',
+            'exceeded_message' => 'Ihr Jahresumsatz (:revenue €) hat die Schwelle für vereinfachte Buchführung (:threshold €) überschritten. Sie müssen eine vollständige Buchführung führen.',
+            'warning_title' => 'Nahe der Schwelle für vereinfachte Buchführung',
+            'warning_message' => 'Ihr Jahresumsatz (:revenue €) nähert sich der Schwelle für vereinfachte Buchführung (:threshold €).',
+        ],
+        'overdue' => [
+            'title' => 'Überfällige Rechnungen',
+            'message' => '{1} Sie haben :count überfällige Rechnung.|[2,*] Sie haben :count überfällige Rechnungen.',
+        ],
+    ],
+
+    'onboarding_checklist' => [
+        'first_steps' => 'Erste Schritte',
+        'steps_completed' => ':completed / :total Schritte abgeschlossen',
+        'dismiss_title' => 'Ausblenden',
+        'dismiss_confirm' => 'Diese Checkliste ausblenden? Sie können diese Elemente jederzeit über die Einstellungen konfigurieren.',
+        'tasks' => [
+            'company' => 'Unternehmen einrichten',
+            'logo' => 'Logo hinzufügen',
+            'client' => 'Ersten Kunden anlegen',
+            'invoice' => 'Erste Rechnung erstellen',
+            'send_invoice' => 'Erste Rechnung versenden',
+            'bank' => 'Bankkonto einrichten',
+        ],
+    ],
+
+    'reminders_flash' => [
+        'created' => 'Erinnerung erstellt.',
+        'updated' => 'Erinnerung aktualisiert.',
+        'completed' => 'Erinnerung abgeschlossen.',
+        'deleted' => 'Erinnerung gelöscht.',
+    ],
 ];

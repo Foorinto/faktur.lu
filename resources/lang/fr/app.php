@@ -2839,4 +2839,45 @@ return [
             ],
         ],
     ],
+
+    'dashboard_alerts' => [
+        'vat_threshold' => [
+            'exceeded_title' => 'Seuil de franchise TVA dépassé',
+            'exceeded_message' => 'Votre CA annuel (:revenue €) a dépassé le seuil de franchise TVA (:threshold €). Vous devez vous inscrire comme assujetti TVA.',
+            'warning_title' => 'Proche du seuil de franchise TVA',
+            'warning_message' => 'Votre CA annuel (:revenue €) approche du seuil de franchise TVA (:threshold €). Il reste :remaining € avant le seuil.',
+        ],
+        'accounting_threshold' => [
+            'exceeded_title' => 'Seuil de comptabilité simplifiée dépassé',
+            'exceeded_message' => 'Votre CA annuel (:revenue €) a dépassé le seuil de comptabilité simplifiée (:threshold €). Vous devez tenir une comptabilité complète.',
+            'warning_title' => 'Proche du seuil de comptabilité simplifiée',
+            'warning_message' => 'Votre CA annuel (:revenue €) approche du seuil de comptabilité simplifiée (:threshold €).',
+        ],
+        'overdue' => [
+            'title' => 'Factures en retard',
+            'message' => '{1} Vous avez :count facture en retard de paiement.|[2,*] Vous avez :count factures en retard de paiement.',
+        ],
+    ],
+
+    'onboarding_checklist' => [
+        'first_steps' => 'Premiers pas',
+        'steps_completed' => ':completed / :total étapes complétées',
+        'dismiss_title' => 'Masquer',
+        'dismiss_confirm' => 'Masquer cette checklist ? Vous pourrez toujours configurer ces éléments depuis les paramètres.',
+        'tasks' => [
+            'company' => 'Configurer votre entreprise',
+            'logo' => 'Ajouter votre logo',
+            'client' => 'Créer votre premier client',
+            'invoice' => 'Créer votre première facture',
+            'send_invoice' => 'Envoyer votre première facture',
+            'bank' => 'Configurer votre compte bancaire',
+        ],
+    ],
+
+    'reminders_flash' => [
+        'created' => 'Rappel créé.',
+        'updated' => 'Rappel mis à jour.',
+        'completed' => 'Rappel terminé.',
+        'deleted' => 'Rappel supprimé.',
+    ],
 ];

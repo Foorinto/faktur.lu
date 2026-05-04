@@ -47,7 +47,7 @@ class ReminderController extends Controller
 
         $client->reminders()->create($validated);
 
-        return back()->with('success', 'Rappel créé.');
+        return back()->with('success', __('app.reminders_flash.created'));
     }
 
     public function update(Request $request, Reminder $reminder): RedirectResponse
@@ -60,20 +60,20 @@ class ReminderController extends Controller
 
         $reminder->update($validated);
 
-        return back()->with('success', 'Rappel mis à jour.');
+        return back()->with('success', __('app.reminders_flash.updated'));
     }
 
     public function complete(Reminder $reminder): RedirectResponse
     {
         $reminder->update(['is_completed' => true]);
 
-        return back()->with('success', 'Rappel terminé.');
+        return back()->with('success', __('app.reminders_flash.completed'));
     }
 
     public function destroy(Reminder $reminder): RedirectResponse
     {
         $reminder->delete();
 
-        return back()->with('success', 'Rappel supprimé.');
+        return back()->with('success', __('app.reminders_flash.deleted'));
     }
 }

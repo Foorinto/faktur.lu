@@ -285,24 +285,22 @@ class DashboardService
             $alerts[] = [
                 'type' => 'vat_threshold_exceeded',
                 'level' => 'critical',
-                'title' => 'Seuil de franchise TVA dépassé',
-                'message' => sprintf(
-                    'Votre CA annuel (%.0f €) a dépassé le seuil de franchise TVA (%.0f €). Vous devez vous inscrire comme assujetti TVA.',
-                    $annualRevenue,
-                    self::VAT_FRANCHISE_THRESHOLD
-                ),
+                'title' => __('app.dashboard_alerts.vat_threshold.exceeded_title'),
+                'message' => __('app.dashboard_alerts.vat_threshold.exceeded_message', [
+                    'revenue' => number_format($annualRevenue, 0, ',', ' '),
+                    'threshold' => number_format(self::VAT_FRANCHISE_THRESHOLD, 0, ',', ' '),
+                ]),
             ];
         } elseif ($vatPercentage >= 80) {
             $alerts[] = [
                 'type' => 'vat_threshold_warning',
                 'level' => 'warning',
-                'title' => 'Proche du seuil de franchise TVA',
-                'message' => sprintf(
-                    'Votre CA annuel (%.0f €) approche du seuil de franchise TVA (%.0f €). Il reste %.0f € avant le seuil.',
-                    $annualRevenue,
-                    self::VAT_FRANCHISE_THRESHOLD,
-                    self::VAT_FRANCHISE_THRESHOLD - $annualRevenue
-                ),
+                'title' => __('app.dashboard_alerts.vat_threshold.warning_title'),
+                'message' => __('app.dashboard_alerts.vat_threshold.warning_message', [
+                    'revenue' => number_format($annualRevenue, 0, ',', ' '),
+                    'threshold' => number_format(self::VAT_FRANCHISE_THRESHOLD, 0, ',', ' '),
+                    'remaining' => number_format(self::VAT_FRANCHISE_THRESHOLD - $annualRevenue, 0, ',', ' '),
+                ]),
             ];
         }
 
@@ -313,23 +311,21 @@ class DashboardService
             $alerts[] = [
                 'type' => 'accounting_threshold_exceeded',
                 'level' => 'critical',
-                'title' => 'Seuil de comptabilité simplifiée dépassé',
-                'message' => sprintf(
-                    'Votre CA annuel (%.0f €) a dépassé le seuil de comptabilité simplifiée (%.0f €). Vous devez tenir une comptabilité complète.',
-                    $annualRevenue,
-                    self::SIMPLIFIED_ACCOUNTING_THRESHOLD
-                ),
+                'title' => __('app.dashboard_alerts.accounting_threshold.exceeded_title'),
+                'message' => __('app.dashboard_alerts.accounting_threshold.exceeded_message', [
+                    'revenue' => number_format($annualRevenue, 0, ',', ' '),
+                    'threshold' => number_format(self::SIMPLIFIED_ACCOUNTING_THRESHOLD, 0, ',', ' '),
+                ]),
             ];
         } elseif ($simplifiedPercentage >= 80) {
             $alerts[] = [
                 'type' => 'accounting_threshold_warning',
                 'level' => 'warning',
-                'title' => 'Proche du seuil de comptabilité simplifiée',
-                'message' => sprintf(
-                    'Votre CA annuel (%.0f €) approche du seuil de comptabilité simplifiée (%.0f €).',
-                    $annualRevenue,
-                    self::SIMPLIFIED_ACCOUNTING_THRESHOLD
-                ),
+                'title' => __('app.dashboard_alerts.accounting_threshold.warning_title'),
+                'message' => __('app.dashboard_alerts.accounting_threshold.warning_message', [
+                    'revenue' => number_format($annualRevenue, 0, ',', ' '),
+                    'threshold' => number_format(self::SIMPLIFIED_ACCOUNTING_THRESHOLD, 0, ',', ' '),
+                ]),
             ];
         }
 
@@ -344,12 +340,10 @@ class DashboardService
             $alerts[] = [
                 'type' => 'overdue_invoices',
                 'level' => 'warning',
-                'title' => 'Factures en retard',
-                'message' => sprintf(
-                    'Vous avez %d facture%s en retard de paiement.',
-                    $overdueCount,
-                    $overdueCount > 1 ? 's' : ''
-                ),
+                'title' => __('app.dashboard_alerts.overdue.title'),
+                'message' => trans_choice('app.dashboard_alerts.overdue.message', $overdueCount, [
+                    'count' => $overdueCount,
+                ]),
             ];
         }
 

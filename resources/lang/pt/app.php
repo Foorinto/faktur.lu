@@ -2839,4 +2839,45 @@ return [
             ],
         ],
     ],
+
+    'dashboard_alerts' => [
+        'vat_threshold' => [
+            'exceeded_title' => 'Limite de franquia de IVA excedido',
+            'exceeded_message' => 'O seu volume de negócios anual (:revenue €) excedeu o limite de franquia de IVA (:threshold €). Tem de se registar como sujeito passivo de IVA.',
+            'warning_title' => 'Próximo do limite de franquia de IVA',
+            'warning_message' => 'O seu volume de negócios anual (:revenue €) está a aproximar-se do limite de franquia de IVA (:threshold €). Faltam :remaining € até atingir o limite.',
+        ],
+        'accounting_threshold' => [
+            'exceeded_title' => 'Limite de contabilidade simplificada excedido',
+            'exceeded_message' => 'O seu volume de negócios anual (:revenue €) excedeu o limite de contabilidade simplificada (:threshold €). Tem de manter contabilidade completa.',
+            'warning_title' => 'Próximo do limite de contabilidade simplificada',
+            'warning_message' => 'O seu volume de negócios anual (:revenue €) está a aproximar-se do limite de contabilidade simplificada (:threshold €).',
+        ],
+        'overdue' => [
+            'title' => 'Faturas em atraso',
+            'message' => '{1} Tem :count fatura em atraso de pagamento.|[2,*] Tem :count faturas em atraso de pagamento.',
+        ],
+    ],
+
+    'onboarding_checklist' => [
+        'first_steps' => 'Primeiros passos',
+        'steps_completed' => ':completed / :total passos concluídos',
+        'dismiss_title' => 'Ocultar',
+        'dismiss_confirm' => 'Ocultar esta lista de verificação? Poderá sempre configurar estes elementos a partir das definições.',
+        'tasks' => [
+            'company' => 'Configurar a sua empresa',
+            'logo' => 'Adicionar o seu logótipo',
+            'client' => 'Criar o seu primeiro cliente',
+            'invoice' => 'Criar a sua primeira fatura',
+            'send_invoice' => 'Enviar a sua primeira fatura',
+            'bank' => 'Configurar a sua conta bancária',
+        ],
+    ],
+
+    'reminders_flash' => [
+        'created' => 'Lembrete criado.',
+        'updated' => 'Lembrete atualizado.',
+        'completed' => 'Lembrete concluído.',
+        'deleted' => 'Lembrete eliminado.',
+    ],
 ];
