@@ -157,29 +157,34 @@ Route::prefix('{locale}')
         Route::get('/preise', [PricingController::class, 'index'])->name('pricing.de');
         Route::get('/pricing', [PricingController::class, 'index'])->name('pricing.en');
         Route::get('/präisser', [PricingController::class, 'index'])->name('pricing.lb');
+        Route::get('/precos', [PricingController::class, 'index'])->name('pricing.pt');
 
         // Feature pages (explicit localized routes)
         Route::get('/fonctionnalites', [FeaturePageController::class, 'index'])->name('features.index.fr');
         Route::get('/funktionen', [FeaturePageController::class, 'index'])->name('features.index.de');
         Route::get('/features', [FeaturePageController::class, 'index'])->name('features.index.en');
         Route::get('/funktiounen', [FeaturePageController::class, 'index'])->name('features.index.lb');
+        Route::get('/funcionalidades', [FeaturePageController::class, 'index'])->name('features.index.pt');
 
         Route::get('/fonctionnalites/{slug}', [FeaturePageController::class, 'show'])->name('features.show.fr');
         Route::get('/funktionen/{slug}', [FeaturePageController::class, 'show'])->name('features.show.de');
         Route::get('/features/{slug}', [FeaturePageController::class, 'show'])->name('features.show.en');
         Route::get('/funktiounen/{slug}', [FeaturePageController::class, 'show'])->name('features.show.lb');
+        Route::get('/funcionalidades/{slug}', [FeaturePageController::class, 'show'])->name('features.show.pt');
 
         // About page (explicit localized routes)
         Route::get('/a-propos', [ContactController::class, 'about'])->name('about.fr');
         Route::get('/ueber-uns', [ContactController::class, 'about'])->name('about.de');
         Route::get('/about', [ContactController::class, 'about'])->name('about.en');
         Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
+        Route::get('/sobre', [ContactController::class, 'about'])->name('about.pt');
 
         // Partners page (explicit localized routes)
         Route::get('/partenaires', [ContactController::class, 'partners'])->name('partners.fr');
         Route::get('/partner', [ContactController::class, 'partners'])->name('partners.de');
         Route::get('/partners', [ContactController::class, 'partners'])->name('partners.en');
         Route::get('/partneren', [ContactController::class, 'partners'])->name('partners.lb');
+        Route::get('/parceiros', [ContactController::class, 'partners'])->name('partners.pt');
         Route::post('/partenaires/contact', [ContactController::class, 'partnerContact'])->middleware('throttle:6,1')->name('partners.contact.fr');
         Route::post('/partners/contact', [ContactController::class, 'partnerContact'])->middleware('throttle:6,1')->name('partners.contact.other');
 
@@ -190,24 +195,30 @@ Route::prefix('{locale}')
         // Public FAIA Validator (explicit localized routes)
         Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.fr');
         Route::get('/faia-validator', [FaiaValidatorController::class, 'index'])->name('faia-validator.other');
+        Route::get('/validador-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.pt');
         Route::post('/validateur-faia/validate', [FaiaValidatorController::class, 'validate'])
             ->middleware('throttle:faia-validator')->name('faia-validator.validate.fr');
         Route::post('/faia-validator/validate', [FaiaValidatorController::class, 'validate'])
             ->middleware('throttle:faia-validator')->name('faia-validator.validate.other');
+        Route::post('/validador-faia/validate', [FaiaValidatorController::class, 'validate'])
+            ->middleware('throttle:faia-validator')->name('faia-validator.validate.pt');
 
         // Legal pages (explicit localized routes)
         Route::get('/mentions-legales', [LegalController::class, 'mentions'])->name('legal.mentions.fr');
         Route::get('/impressum', [LegalController::class, 'mentions'])->name('legal.mentions.de');
         Route::get('/legal-notice', [LegalController::class, 'mentions'])->name('legal.mentions.en');
+        Route::get('/aviso-legal', [LegalController::class, 'mentions'])->name('legal.mentions.pt');
 
         Route::get('/confidentialite', [LegalController::class, 'privacy'])->name('legal.privacy.fr');
         Route::get('/datenschutz', [LegalController::class, 'privacy'])->name('legal.privacy.de');
         Route::get('/privacy', [LegalController::class, 'privacy'])->name('legal.privacy.en');
         Route::get('/dateschutz', [LegalController::class, 'privacy'])->name('legal.privacy.lb');
+        Route::get('/privacidade', [LegalController::class, 'privacy'])->name('legal.privacy.pt');
 
         Route::get('/cgu', [LegalController::class, 'terms'])->name('legal.terms.fr');
         Route::get('/agb', [LegalController::class, 'terms'])->name('legal.terms.de');
         Route::get('/terms', [LegalController::class, 'terms'])->name('legal.terms.en');
+        Route::get('/termos', [LegalController::class, 'terms'])->name('legal.terms.pt');
 
         Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
 
@@ -215,7 +226,7 @@ Route::prefix('{locale}')
         Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
         Route::get('/{blogSlug}/{catSlug}/{category:slug}', [BlogController::class, 'category'])
             ->where('blogSlug', 'blog')
-            ->where('catSlug', 'categorie|kategorie|category')
+            ->where('catSlug', 'categorie|kategorie|category|categoria')
             ->name('blog.category');
         Route::get('/blog/tag/{tag:slug}', [BlogController::class, 'tag'])->name('blog.tag');
         Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
