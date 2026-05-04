@@ -380,6 +380,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         // Recurring Invoices
         Route::resource('recurring-invoices', \App\Http\Controllers\RecurringInvoiceController::class)->except(['show']);
         Route::post('/recurring-invoices/{recurring_invoice}/toggle', [\App\Http\Controllers\RecurringInvoiceController::class, 'toggleActive'])->name('recurring-invoices.toggle');
+        Route::post('/recurring-invoices/{recurring_invoice}/duplicate', [\App\Http\Controllers\RecurringInvoiceController::class, 'duplicate'])->name('recurring-invoices.duplicate');
 
         // Invoice Items
         Route::post('/invoices/{invoice}/items', [InvoiceItemController::class, 'store'])->name('invoices.items.store');

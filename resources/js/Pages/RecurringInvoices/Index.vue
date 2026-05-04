@@ -38,6 +38,11 @@ const deleteRecurring = (recurring) => {
         router.delete(route('recurring-invoices.destroy', recurring.id));
     }
 };
+
+const duplicateRecurring = (recurring) => {
+    if (!confirm("Dupliquer cette récurrence ? La copie sera créée inactive — vous devrez l'activer manuellement après vérification.")) return;
+    router.post(route('recurring-invoices.duplicate', recurring.id), {}, { preserveScroll: true });
+};
 </script>
 
 <template>
@@ -138,6 +143,15 @@ const deleteRecurring = (recurring) => {
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                 </Link>
+                                <button
+                                    @click="duplicateRecurring(recurring)"
+                                    class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                                    title="Dupliquer (créera une copie inactive)"
+                                >
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                                    </svg>
+                                </button>
                                 <button
                                     @click="deleteRecurring(recurring)"
                                     class="text-slate-400 hover:text-red-500 transition-colors"

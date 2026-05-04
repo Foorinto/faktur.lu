@@ -185,6 +185,56 @@ class RecurringInvoiceController extends Controller
             ->with('success', 'Facturation récurrente supprimée.');
     }
 
+    /**
+     * Duplicate a recurring invoice template.
+     * Resets generation counters and is created INACTIVE so a copy
+     * sent by mistake doesn't trigger billing.
+     */
+    public function duplicate(RecurringInvoice $recurringInvoice)
+    {
+        abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
+
+        $recurringInvoice->load('items');
+
+        $duplicate = \Illuminate\Support\Facades\DB::transaction(function () use ($recurringInvoice) {
+            $copy = RecurringInvoice::create([
+                'user_id' => auth()->id(),
+                'client_id' => $recurringInvoice->client_id,
+                'title' => $recurringInvoice->title,
+                'frequency' => $recurringInvoice->frequency,
+                'next_invoice_date' => now()->addDay()->toDateString(),
+                'ends_at' => $recurringInvoice->ends_at,
+                'is_active' => false,
+                'auto_finalize' => $recurringInvoice->auto_finalize,
+                'auto_send' => $recurringInvoice->auto_send,
+                'payment_delay_days' => $recurringInvoice->payment_delay_days,
+                'notes' => $recurringInvoice->notes,
+                'vat_mention' => $recurringInvoice->vat_mention,
+                'custom_vat_mention' => $recurringInvoice->custom_vat_mention,
+                'footer_message' => $recurringInvoice->footer_message,
+                'currency' => $recurringInvoice->currency,
+            ]);
+
+            foreach ($recurringInvoice->items as $item) {
+                $copy->items()->create([
+                    'title' => $item->title,
+                    'description' => $item->description,
+                    'quantity' => $item->quantity,
+                    'unit' => $item->unit,
+                    'unit_price' => $item->unit_price,
+                    'vat_rate' => $item->vat_rate,
+                    'sort_order' => $item->sort_order,
+                ]);
+            }
+
+            return $copy;
+        });
+
+        return redirect()
+            ->route('recurring-invoices.edit', $duplicate)
+            ->with('success', 'Récurrence dupliquée (inactive) — vérifiez les paramètres puis activez-la.');
+    }
+
     public function toggleActive(RecurringInvoice $recurringInvoice)
     {
         abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
