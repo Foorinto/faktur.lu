@@ -102,6 +102,10 @@ echo ''
 "
 
 # Commande de déploiement avec gestion d'erreur
+# Modes:
+#   ./deploy.sh                    -> mode complet (par défaut)
+#   ./deploy.sh quick              -> mode rapide (sans composer/migrations)
+#   ./deploy.sh content-fix        -> mode complet + RandomizeBlogDates (one-shot, randomise les dates)
 if [ "$1" == "quick" ]; then
     DEPLOY_CMD="
 cd $REMOTE_PATH &&
@@ -121,6 +125,13 @@ php artisan up &&
 echo '=== Déploiement rapide terminé ==='
 "
 else
+    # Seeder de randomisation des dates: uniquement en mode content-fix (one-shot)
+    if [ "$1" == "content-fix" ]; then
+        EXTRA_SEEDER="echo '--- One-shot: randomisation des dates blog (cohérent par translation_key) ---' && php artisan db:seed --class=RandomizeBlogDatesFeb2026Seeder --force &&"
+    else
+        EXTRA_SEEDER=""
+    fi
+
     DEPLOY_CMD="
 cd $REMOTE_PATH &&
 echo '--- Mode complet ---' &&
@@ -138,7 +149,9 @@ composer install --no-dev --optimize-autoloader --no-interaction &&
 echo '--- Migrations ---' &&
 php artisan migrate --force &&
 echo '--- Seeders idempotents (data fixes & content updates) ---' &&
+php artisan db:seed --class=BlogPostsPortugueseSeeder --force &&
 php artisan db:seed --class=UpdateBlog2025To2026SlugsSeeder --force &&
+${EXTRA_SEEDER}
 echo '--- Cache ---' &&
 php artisan route:cache &&
 php artisan view:cache &&
