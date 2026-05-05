@@ -185,6 +185,8 @@ class LocaleController extends Controller
 
     /**
      * Replace the locale prefix in a path.
+     * Si le chemin contient un slug localisé connu (outils, fonctionnalités, etc.),
+     * on traduit aussi le slug vers la nouvelle langue. Sinon, simple swap du préfixe.
      */
     private function replaceLocaleInPath(string $path, string $newLocale, array $supportedLocales): string
     {
@@ -195,13 +197,120 @@ class LocaleController extends Controller
         $segments = explode('/', $path);
         $firstSegment = $segments[0] ?? '';
 
-        if (in_array($firstSegment, $supportedLocales)) {
-            // Replace the existing locale
-            $segments[0] = $newLocale;
-            return '/' . implode('/', $segments);
+        if (!in_array($firstSegment, $supportedLocales)) {
+            // No locale prefix, add one
+            return '/' . $newLocale . '/' . $path;
         }
 
-        // No locale prefix, add one
-        return '/' . $newLocale . '/' . $path;
+        $oldLocale = $firstSegment;
+        $remainingSegments = array_slice($segments, 1);
+        $remainingPath = implode('/', $remainingSegments);
+
+        // Try to translate localized slugs (tools, features, about, partners, etc.)
+        $translatedRemaining = $this->translateLocalizedSlug($remainingPath, $oldLocale, $newLocale);
+
+        return '/' . $newLocale . ($translatedRemaining !== '' ? '/' . $translatedRemaining : '');
+    }
+
+    /**
+     * Map des slugs localisés. Doit rester aligné avec
+     * resources/js/Composables/useLocalizedRoute.js localizedSlugs.
+     * Chaque clé est une "logical route" et chaque valeur un dict locale => slug.
+     */
+    private const LOCALIZED_SLUGS = [
+        'about' => [
+            'fr' => 'a-propos', 'de' => 'ueber-uns', 'en' => 'about', 'lb' => 'iwwer-eis', 'pt' => 'sobre',
+        ],
+        'why_faktur' => [
+            'fr' => 'pourquoi-faktur-lu', 'de' => 'warum-faktur-lu', 'en' => 'why-faktur-lu', 'lb' => 'firwat-faktur-lu', 'pt' => 'porque-faktur-lu',
+        ],
+        'partners' => [
+            'fr' => 'partenaires', 'de' => 'partner', 'en' => 'partners', 'lb' => 'partneren', 'pt' => 'parceiros',
+        ],
+        'pricing' => [
+            'fr' => 'tarifs', 'de' => 'preise', 'en' => 'pricing', 'lb' => 'präisser', 'pt' => 'precos',
+        ],
+        'faia-validator' => [
+            'fr' => 'validateur-faia', 'de' => 'faia-validator', 'en' => 'faia-validator', 'lb' => 'faia-validator', 'pt' => 'validador-faia',
+        ],
+        'features.index' => [
+            'fr' => 'fonctionnalites', 'de' => 'funktionen', 'en' => 'features', 'lb' => 'funktiounen', 'pt' => 'funcionalidades',
+        ],
+        'tools' => [
+            'fr' => 'outils', 'de' => 'werkzeuge', 'en' => 'tools', 'lb' => 'handgeschir', 'pt' => 'ferramentas',
+        ],
+        'tools.vat_calculator' => [
+            'fr' => 'outils/calculateur-tva', 'de' => 'werkzeuge/mwst-rechner', 'en' => 'tools/vat-calculator', 'lb' => 'handgeschir/tva-rechner', 'pt' => 'ferramentas/calculadora-iva',
+        ],
+        'tools.vat_exemption' => [
+            'fr' => 'outils/franchise-tva', 'de' => 'werkzeuge/mwst-befreiung', 'en' => 'tools/vat-exemption', 'lb' => 'handgeschir/tva-befreiung', 'pt' => 'ferramentas/isencao-iva',
+        ],
+        'tools.iban_validator' => [
+            'fr' => 'outils/validateur-iban', 'de' => 'werkzeuge/iban-pruefer', 'en' => 'tools/iban-validator', 'lb' => 'handgeschir/iban-validateur', 'pt' => 'ferramentas/validador-iban',
+        ],
+        'legal.mentions' => [
+            'fr' => 'mentions-legales', 'de' => 'impressum', 'en' => 'legal-notice', 'lb' => 'impressum', 'pt' => 'aviso-legal',
+        ],
+        'legal.privacy' => [
+            'fr' => 'confidentialite', 'de' => 'datenschutz', 'en' => 'privacy', 'lb' => 'dateschutz', 'pt' => 'privacidade',
+        ],
+        'legal.terms' => [
+            'fr' => 'cgu', 'de' => 'agb', 'en' => 'terms', 'lb' => 'cgu', 'pt' => 'termos',
+        ],
+        'contact' => [
+            'fr' => 'contact', 'de' => 'contact', 'en' => 'contact', 'lb' => 'contact', 'pt' => 'contacto',
+        ],
+    ];
+
+    /**
+     * Si remainingPath correspond a un slug localise connu, retourne la version
+     * traduite dans la nouvelle locale. Sinon retourne le path inchange.
+     */
+    private function translateLocalizedSlug(string $remainingPath, string $oldLocale, string $newLocale): string
+    {
+        if ($remainingPath === '') {
+            return '';
+        }
+
+        // Cherche dans LOCALIZED_SLUGS si le path matche un slug de l'ancienne locale.
+        // On essaie d'abord le path complet (utile pour les slugs multi-segments comme outils/franchise-tva).
+        // Si pas de match, on essaie segment par segment du plus long au plus court.
+        foreach (self::LOCALIZED_SLUGS as $logical => $slugMap) {
+            if (!isset($slugMap[$oldLocale]) || !isset($slugMap[$newLocale])) {
+                continue;
+            }
+            $oldSlug = $slugMap[$oldLocale];
+
+            // Match exact
+            if ($remainingPath === $oldSlug) {
+                return $slugMap[$newLocale];
+            }
+
+            // Match comme préfixe (ex: outils/franchise-tva matche le slug "outils/franchise-tva"
+            // mais aussi le path "outils" est un préfixe de "outils/franchise-tva"). On veut le match
+            // exact en priorité, puis le plus long préfixe.
+        }
+
+        // Trier par longueur de slug décroissante pour matcher le plus spécifique en premier
+        $sortedSlugs = self::LOCALIZED_SLUGS;
+        uasort($sortedSlugs, fn ($a, $b) => strlen($b[$oldLocale] ?? '') <=> strlen($a[$oldLocale] ?? ''));
+
+        foreach ($sortedSlugs as $logical => $slugMap) {
+            if (!isset($slugMap[$oldLocale]) || !isset($slugMap[$newLocale])) {
+                continue;
+            }
+            $oldSlug = $slugMap[$oldLocale];
+            if ($oldSlug === '') {
+                continue;
+            }
+
+            // Match comme préfixe avec /
+            if (str_starts_with($remainingPath . '/', $oldSlug . '/')) {
+                $rest = substr($remainingPath, strlen($oldSlug));
+                return $slugMap[$newLocale] . $rest;
+            }
+        }
+
+        return $remainingPath;
     }
 }
