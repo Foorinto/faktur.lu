@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\BlogPost;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class BlogPostsPortugueseSeeder extends Seeder
@@ -13,10 +15,17 @@ class BlogPostsPortugueseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Resoudre dynamiquement l'author_id : garder celui des posts FR existants
+        // si ils existent (coherence multilingue), sinon premier user dispo, sinon NULL.
+        $resolvedAuthorId = $this->resolveAuthorId();
+
         $articles = $this->getArticles();
 
         $count = 0;
         foreach ($articles as $article) {
+            // Override l'author_id en dur (1) par celui resolu dynamiquement
+            $article['author_id'] = $resolvedAuthorId;
+
             // Idempotent: identifié par locale + translation_key
             BlogPost::updateOrCreate(
                 [
@@ -28,7 +37,36 @@ class BlogPostsPortugueseSeeder extends Seeder
             $count++;
         }
 
-        $this->command->info("Created/updated {$count} Portuguese (pt-PT) blog posts.");
+        $authorInfo = $resolvedAuthorId === null ? 'NULL' : "user_id={$resolvedAuthorId}";
+        $this->command->info("Created/updated {$count} Portuguese (pt-PT) blog posts (author: {$authorInfo}).");
+    }
+
+    /**
+     * Resolution de l'author_id pour eviter les violations de cle etrangere
+     * (ex: prod n'a pas forcement user_id=1).
+     */
+    private function resolveAuthorId(): ?int
+    {
+        // 1. Reprendre l'author d'un post FR existant pour les memes translation_key
+        $translationKeys = collect($this->getArticles())->pluck('translation_key')->all();
+        $fromExistingFr = DB::table('blog_posts')
+            ->where('locale', 'fr')
+            ->whereIn('translation_key', $translationKeys)
+            ->whereNotNull('author_id')
+            ->value('author_id');
+
+        if ($fromExistingFr) {
+            return (int) $fromExistingFr;
+        }
+
+        // 2. Premier user disponible
+        $firstUser = User::orderBy('id')->value('id');
+        if ($firstUser) {
+            return (int) $firstUser;
+        }
+
+        // 3. Aucun user en DB → NULL (la colonne est nullable, FK ON DELETE SET NULL)
+        return null;
     }
 
     /**
@@ -1340,7 +1378,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-luxembourg-guide-2026',
+            'creer-entreprise-individuelle-luxembourg-guide-2025',
             5,
             '2026-02-16 09:12:00',
             'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
@@ -1564,7 +1602,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-france-guide-2026',
+            'creer-entreprise-individuelle-france-guide-2025',
             5,
             '2026-02-16 09:12:21',
             'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200',
@@ -1782,7 +1820,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-belgique-guide-2026',
+            'creer-entreprise-individuelle-belgique-guide-2025',
             5,
             '2026-02-16 09:12:21',
             'https://images.unsplash.com/photo-1559386484-97dfc0e15539?w=1200',
@@ -2059,7 +2097,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-allemagne-guide-2026',
+            'creer-entreprise-individuelle-allemagne-guide-2025',
             5,
             '2026-02-16 09:12:21',
             'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200',
