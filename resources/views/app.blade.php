@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        {{-- Bing Webmaster Tools site verification --}}
+        <meta name="msvalidate.01" content="13148CA3A8D92D8A7B0AAD35CAEE00D4" />
+
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Favicons -->
