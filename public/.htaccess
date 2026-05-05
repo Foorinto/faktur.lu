@@ -23,3 +23,14 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Force UTF-8 charset for plain text files (llms.txt, robots.txt)
+<IfModule mod_headers.c>
+    <FilesMatch "\.(txt|md)$">
+        Header set Content-Type "text/plain; charset=UTF-8"
+    </FilesMatch>
+</IfModule>
+
+# Fallback if mod_headers isn't loaded
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .txt .md
