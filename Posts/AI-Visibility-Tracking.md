@@ -35,44 +35,41 @@ Chaque lundi (15-20 min), poser les **5 questions test** à chaque IA. Noter dan
 
 À remplir lors du premier test.
 
-| Question | ChatGPT | Claude | Perplexity | Copilot | Gemini |
-|---|---|---|---|---|---|
-| Q1 best invoicing LU | | | | | |
-| Q2 logiciel FAIA | | | | | |
-| Q3 generate FAIA | | | | | |
-| Q4 client belge | | | | | |
-| Q5 FAIA-konform DE | | | | | |
+| Question             | ChatGPT | Claude | Perplexity | Copilot | Gemini |
+| -------------------- | ------- | ------ | ---------- | ------- | ------ |
+| Q1 best invoicing LU |         |        |            |         |        |
+| Q2 logiciel FAIA     |         |        |            |         |        |
+| Q3 generate FAIA     |         |        |            |         |        |
+| Q4 client belge      |         |        |            |         |        |
+| Q5 FAIA-konform DE   |         |        |            |         |        |
 
 **Notes** :
-- 
 
-**Concurrents observés** :
-- 
+- **Concurrents observés** :
 
----
+- ***
 
 ## Semaine du XX mai 2026
 
-| Question | ChatGPT | Claude | Perplexity | Copilot | Gemini |
-|---|---|---|---|---|---|
-| Q1 best invoicing LU | | | | | |
-| Q2 logiciel FAIA | | | | | |
-| Q3 generate FAIA | | | | | |
-| Q4 client belge | | | | | |
-| Q5 FAIA-konform DE | | | | | |
+| Question             | ChatGPT | Claude | Perplexity | Copilot | Gemini |
+| -------------------- | ------- | ------ | ---------- | ------- | ------ |
+| Q1 best invoicing LU |         |        |            |         |        |
+| Q2 logiciel FAIA     |         |        |            |         |        |
+| Q3 generate FAIA     |         |        |            |         |        |
+| Q4 client belge      |         |        |            |         |        |
+| Q5 FAIA-konform DE   |         |        |            |         |        |
 
 **Évolution vs semaine précédente** :
-- 
 
----
+- ***
 
 ## KPIs cibles
 
-| Mois | Cible mentions faktur.lu (sur 25 cellules) |
-|---|---|
-| Mois 1 | 5/25 (20%) |
-| Mois 3 | 12/25 (48%) |
-| Mois 6 | 18/25 (72%) |
+| Mois   | Cible mentions faktur.lu (sur 25 cellules) |
+| ------ | ------------------------------------------ |
+| Mois 1 | 5/25 (20%)                                 |
+| Mois 3 | 12/25 (48%)                                |
+| Mois 6 | 18/25 (72%)                                |
 
 **Si faktura.lu est cité** : noter dans la colonne "Concurrents observés" et investiguer (Wikidata ? Trustpilot ? Article de presse ?).
 
@@ -85,3 +82,57 @@ Chaque lundi (15-20 min), poser les **5 questions test** à chaque IA. Noter dan
 3. **Copier-coller la question telle quelle** sans préfixe ni reformulation
 4. **Capturer un screenshot** de chaque réponse pour archive
 5. Si une IA cite faktur.lu, **noter aussi le contexte** (lien direct ? mention parmi 5 alternatives ? recommandation #1 ?)
+
+---
+
+## 2026-05-05
+
+Flexina revient tout le temps dans les réponses IA et Odoo revient de temps en temps
+
+### ChatGPT
+
+1. **EN** — `What is the best invoicing software for Luxembourg businesses?` --> Faktura.lu arrive premier et Faktur.lu n'apparait même pas
+2. **FR** — `Quel logiciel de facturation conforme FAIA recommandez-vous au Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+3. **EN** — `How do I generate a FAIA file in Luxembourg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+4. **FR** — `Comment facturer un client belge depuis le Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+5. **DE** — `Welche Rechnungssoftware ist FAIA-konform in Luxemburg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+
+### Claude
+
+1. **EN** — `What is the best invoicing software for Luxembourg businesses?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+2. **FR** — `Quel logiciel de facturation conforme FAIA recommandez-vous au Luxembourg ?` --> Faktur.lu arrive en 2e et Faktura.lu n'apparait même pas
+3. **EN** — `How do I generate a FAIA file in Luxembourg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+4. **FR** — `Comment facturer un client belge depuis le Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+5. **DE** — `Welche Rechnungssoftware ist FAIA-konform in Luxemburg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+
+### Perplexity
+
+1. **EN** — `What is the best invoicing software for Luxembourg businesses?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+2. **FR** — `Quel logiciel de facturation conforme FAIA recommandez-vous au Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+3. **EN** — `How do I generate a FAIA file in Luxembourg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+4. **FR** — `Comment facturer un client belge depuis le Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+5. **DE** — `Welche Rechnungssoftware ist FAIA-konform in Luxemburg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+
+### Perplexity
+
+1. **EN** — `What is the best invoicing software for Luxembourg businesses?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+2. **FR** — `Quel logiciel de facturation conforme FAIA recommandez-vous au Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+3. **EN** — `How do I generate a FAIA file in Luxembourg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+4. **FR** — `Comment facturer un client belge depuis le Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+5. **DE** — `Welche Rechnungssoftware ist FAIA-konform in Luxemburg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+
+### Gemini
+
+1. **EN** — `What is the best invoicing software for Luxembourg businesses?` --> Faktur.lu arrive en 1er et Faktura.lu n'apparait même pas
+2. **FR** — `Quel logiciel de facturation conforme FAIA recommandez-vous au Luxembourg ?` --> Faktur.lu arrive en 1er et Faktura.lu n'apparait même pas
+3. **EN** — `How do I generate a FAIA file in Luxembourg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+4. **FR** — `Comment facturer un client belge depuis le Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+5. **DE** — `Welche Rechnungssoftware ist FAIA-konform in Luxemburg?` --> Faktur.lu arrive en 2e et Faktura.lu n'apparait même pas
+
+### Mistral
+
+1. **EN** — `What is the best invoicing software for Luxembourg businesses?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+2. **FR** — `Quel logiciel de facturation conforme FAIA recommandez-vous au Luxembourg ?` --> Faktur.lu arrive en 1er et Faktura.lu n'apparait même pas
+3. **EN** — `How do I generate a FAIA file in Luxembourg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+4. **FR** — `Comment facturer un client belge depuis le Luxembourg ?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
+5. **DE** — `Welche Rechnungssoftware ist FAIA-konform in Luxemburg?` --> Faktura.lu et Faktur.lu n'apparaissent pas du tout
