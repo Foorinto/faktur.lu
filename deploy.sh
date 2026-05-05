@@ -145,10 +145,12 @@ echo '=== Déploiement rapide terminé ==='
 "
 else
     # Seeder de randomisation des dates: uniquement en mode content-fix (one-shot)
+    # IMPORTANT: la commande doit toujours se terminer par && pour ne pas casser
+    # le chainage. Quand vide, on utilise `:` (no-op bash) pour rester valide.
     if [ "$1" == "content-fix" ]; then
         EXTRA_SEEDER="echo '--- One-shot: randomisation des dates blog (cohérent par translation_key) ---' && php artisan db:seed --class=RandomizeBlogDatesFeb2026Seeder --force &&"
     else
-        EXTRA_SEEDER=""
+        EXTRA_SEEDER=": &&"
     fi
 
     DEPLOY_CMD="
