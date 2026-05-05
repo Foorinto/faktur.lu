@@ -53,6 +53,11 @@ const schemaOrganization = computed(() => JSON.stringify({
     "@id": `${props.appUrl}/#organization`,
     "name": "faktur.lu",
     "alternateName": ["Faktur.lu", "Faktur"],
+    "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "Wikidata",
+        "value": "Q139674760"
+    },
     "url": props.appUrl,
     "logo": `${props.appUrl}/images/logo.png`,
     "image": `${props.appUrl}/images/og-default.png`,
@@ -93,7 +98,8 @@ const schemaOrganization = computed(() => JSON.stringify({
     "paymentAccepted": "Credit Card, SEPA",
     "sameAs": [
         "https://www.linkedin.com/company/faktur-lu/",
-        "https://www.trustpilot.com/review/faktur.lu"
+        "https://www.trustpilot.com/review/faktur.lu",
+        "https://www.wikidata.org/wiki/Q139674760"
     ]
 }));
 

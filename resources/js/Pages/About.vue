@@ -24,6 +24,11 @@ const schemaAboutOrganization = computed(() => JSON.stringify({
     "@type": ["Organization", "LocalBusiness"],
     "@id": `${appUrl.value}/#organization`,
     "name": "faktur.lu",
+    "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "Wikidata",
+        "value": "Q139674760"
+    },
     "url": appUrl.value,
     "logo": `${appUrl.value}/images/logo.png`,
     "description": t('landing.schema_software_description'),
@@ -52,7 +57,8 @@ const schemaAboutOrganization = computed(() => JSON.stringify({
     ],
     "sameAs": [
         "https://www.linkedin.com/company/faktur-lu/",
-        "https://www.trustpilot.com/review/faktur.lu"
+        "https://www.trustpilot.com/review/faktur.lu",
+        "https://www.wikidata.org/wiki/Q139674760"
     ]
 }));
 
