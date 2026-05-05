@@ -15,6 +15,7 @@ const localizedRoutes = [
     'tools.vat_calculator',
     'tools.vat_exemption',
     'tools.iban_validator',
+    'tools.invoice_generator',
     'contact',
     'contact.send',
     'pricing',
@@ -90,6 +91,13 @@ const localizedSlugs = {
         en: 'tools/iban-validator',
         lb: 'handgeschir/iban-validateur',
         pt: 'ferramentas/validador-iban',
+    },
+    'tools.invoice_generator': {
+        fr: 'outils/generateur-facture',
+        de: 'werkzeuge/rechnungsgenerator',
+        en: 'tools/invoice-generator',
+        lb: 'handgeschir/rechnungsgenerator',
+        pt: 'ferramentas/gerador-fatura',
     },
     'partners': {
         fr: 'partenaires',

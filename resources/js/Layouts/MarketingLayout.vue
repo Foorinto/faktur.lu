@@ -195,6 +195,15 @@ onUnmounted(() => {
                                                 <p class="text-xs text-slate-500">{{ t('tools.index.iban_validator.description') }}</p>
                                             </div>
                                         </Link>
+                                        <Link :href="localizedRoute('tools.invoice_generator')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#fee440]/30 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#d4a500]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('tools.index.invoice_generator.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('tools.index.invoice_generator.description') }}</p>
+                                            </div>
+                                        </Link>
                                         <Link :href="localizedRoute('faia-validator')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
                                             <div class="w-8 h-8 rounded-lg bg-[#f15bb5]/10 flex items-center justify-center flex-shrink-0">
                                                 <svg class="w-4 h-4 text-[#f15bb5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
@@ -323,6 +332,7 @@ onUnmounted(() => {
                             <Link :href="localizedRoute('tools.vat_calculator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.vat_calculator.title') }}</Link>
                             <Link :href="localizedRoute('tools.vat_exemption')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.vat_exemption.title') }}</Link>
                             <Link :href="localizedRoute('tools.iban_validator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.iban_validator.title') }}</Link>
+                            <Link :href="localizedRoute('tools.invoice_generator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.invoice_generator.title') }}</Link>
                             <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.faia_validator.title') }}</Link>
                         </div>
                         <Link :href="localizedRoute('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.blog') }}</Link>

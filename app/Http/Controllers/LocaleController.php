@@ -248,6 +248,9 @@ class LocaleController extends Controller
         'tools.iban_validator' => [
             'fr' => 'outils/validateur-iban', 'de' => 'werkzeuge/iban-pruefer', 'en' => 'tools/iban-validator', 'lb' => 'handgeschir/iban-validateur', 'pt' => 'ferramentas/validador-iban',
         ],
+        'tools.invoice_generator' => [
+            'fr' => 'outils/generateur-facture', 'de' => 'werkzeuge/rechnungsgenerator', 'en' => 'tools/invoice-generator', 'lb' => 'handgeschir/rechnungsgenerator', 'pt' => 'ferramentas/gerador-fatura',
+        ],
         'legal.mentions' => [
             'fr' => 'mentions-legales', 'de' => 'impressum', 'en' => 'legal-notice', 'lb' => 'impressum', 'pt' => 'aviso-legal',
         ],

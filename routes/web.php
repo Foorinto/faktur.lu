@@ -228,6 +228,17 @@ Route::prefix('{locale}')
         Route::get('/handgeschir/iban-validateur', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.lb');
         Route::get('/ferramentas/validador-iban', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.pt');
 
+        // Générateur de facture express (sans compte)
+        Route::get('/outils/generateur-facture', [ToolsController::class, 'invoiceGenerator'])->name('tools.invoice_generator.fr');
+        Route::get('/werkzeuge/rechnungsgenerator', [ToolsController::class, 'invoiceGenerator'])->name('tools.invoice_generator.de');
+        Route::get('/tools/invoice-generator', [ToolsController::class, 'invoiceGenerator'])->name('tools.invoice_generator.en');
+        Route::get('/handgeschir/rechnungsgenerator', [ToolsController::class, 'invoiceGenerator'])->name('tools.invoice_generator.lb');
+        Route::get('/ferramentas/gerador-fatura', [ToolsController::class, 'invoiceGenerator'])->name('tools.invoice_generator.pt');
+        // Endpoint POST partagé (rate limited) pour générer le PDF
+        Route::post('/tools/generate-invoice-pdf', [ToolsController::class, 'generateInvoicePdf'])
+            ->middleware('throttle:10,1')
+            ->name('tools.generate_invoice_pdf');
+
         // Public FAIA Validator (explicit localized routes)
         Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.fr');
         Route::get('/faia-validator', [FaiaValidatorController::class, 'index'])->name('faia-validator.other');

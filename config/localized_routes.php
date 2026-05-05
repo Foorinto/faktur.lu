@@ -107,6 +107,14 @@ return [
         'pt' => 'ferramentas/validador-iban',
     ],
 
+    'tools.invoice_generator' => [
+        'fr' => 'outils/generateur-facture',
+        'de' => 'werkzeuge/rechnungsgenerator',
+        'en' => 'tools/invoice-generator',
+        'lb' => 'handgeschir/rechnungsgenerator',
+        'pt' => 'ferramentas/gerador-fatura',
+    ],
+
     'legal.mentions' => [
         'fr' => 'mentions-legales',
         'de' => 'impressum',

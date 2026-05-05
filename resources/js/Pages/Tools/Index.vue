@@ -35,6 +35,14 @@ const tools = computed(() => [
         badge: t('tools.index.badge_free'),
     },
     {
+        icon: 'file-text',
+        color: 'bg-[#fee440]/30 text-[#d4a500]',
+        title: t('tools.index.invoice_generator.title'),
+        description: t('tools.index.invoice_generator.description'),
+        href: localizedRoute('tools.invoice_generator'),
+        badge: t('tools.index.badge_free'),
+    },
+    {
         icon: 'file-check',
         color: 'bg-[#f15bb5]/10 text-[#f15bb5]',
         title: t('tools.index.faia_validator.title'),
@@ -95,6 +103,9 @@ const tools = computed(() => [
                                 </svg>
                                 <svg v-else-if="tool.icon === 'bank'" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                <svg v-else-if="tool.icon === 'file-text'" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 <svg v-else-if="tool.icon === 'file-check'" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
