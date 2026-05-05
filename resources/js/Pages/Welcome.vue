@@ -381,7 +381,14 @@ const toggleFaq = (index) => {
         <meta property="og:title" :content="pageTitle" />
         <meta property="og:description" :content="metaDescription" />
         <meta property="og:image" :content="`${appUrl}/images/og-image.png`" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" :content="pageTitle" />
         <meta property="og:locale" content="fr_LU" />
+        <meta property="og:locale:alternate" content="de_LU" />
+        <meta property="og:locale:alternate" content="en_GB" />
+        <meta property="og:locale:alternate" content="lb_LU" />
+        <meta property="og:locale:alternate" content="pt_PT" />
         <meta property="og:site_name" content="faktur.lu" />
 
         <!-- Twitter -->
@@ -390,6 +397,11 @@ const toggleFaq = (index) => {
         <meta name="twitter:title" :content="pageTitle" />
         <meta name="twitter:description" :content="metaDescription" />
         <meta name="twitter:image" :content="`${appUrl}/images/og-image.png`" />
+        <meta name="twitter:image:alt" :content="pageTitle" />
+        <meta name="twitter:site" content="@fakturlu" />
+
+        <!-- AI / LLM hint -->
+        <link rel="alternate" type="text/markdown" title="LLM-friendly version" href="/llms.txt" />
     </Head>
 
     <MarketingLayout>

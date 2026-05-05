@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
+import SeoHead from '@/Components/SeoHead.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useMatomo } from '@/Composables/useMatomo';
 
@@ -152,10 +153,12 @@ const trackCtaClick = () => {
 </script>
 
 <template>
-    <Head>
-        <title>{{ t('faia_validator.page_title') }}</title>
-        <meta name="description" :content="t('faia_validator.meta_description')" />
-    </Head>
+    <SeoHead
+        :title="t('faia_validator.page_title')"
+        :description="t('faia_validator.meta_description')"
+        canonical-path="/validateur-faia"
+        route-name="faia-validator"
+    />
 
     <MarketingLayout>
         <!-- Main content -->

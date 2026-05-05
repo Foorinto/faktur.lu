@@ -50,13 +50,14 @@ const locale = computed(() => currentLocale());
 
 // Map locale codes to full locale strings for og:locale
 const localeMap = {
-    fr: 'fr_FR',
-    de: 'de_DE',
+    fr: 'fr_LU',
+    de: 'de_LU',
     en: 'en_GB',
     lb: 'lb_LU',
+    pt: 'pt_PT',
 };
 
-const ogLocale = computed(() => localeMap[locale.value] || 'fr_FR');
+const ogLocale = computed(() => localeMap[locale.value] || 'fr_LU');
 
 // Generate alternate locales for og:locale:alternate
 const alternateLocales = computed(() => {
@@ -114,6 +115,8 @@ const ogImage = computed(() => {
     if (props.image) {
         return props.image.startsWith('http') ? props.image : `${appUrl.value}${props.image}`;
     }
+    // Fallback : logo.png si aucune image OG n'est fournie ni n'existe.
+    // TODO : remplacer par /images/og-default.png (1200×630) une fois designee.
     return `${appUrl.value}/images/og-default.png`;
 });
 </script>
@@ -144,6 +147,9 @@ const ogImage = computed(() => {
         <meta property="og:type" :content="type" />
         <meta property="og:url" :content="canonicalUrl" />
         <meta property="og:image" :content="ogImage" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" :content="title" />
         <meta property="og:locale" :content="ogLocale" />
         <meta
             v-for="altLocale in alternateLocales"
@@ -158,5 +164,10 @@ const ogImage = computed(() => {
         <meta name="twitter:title" :content="title" />
         <meta v-if="description" name="twitter:description" :content="description" />
         <meta name="twitter:image" :content="ogImage" />
+        <meta name="twitter:image:alt" :content="title" />
+        <meta name="twitter:site" content="@fakturlu" />
+
+        <!-- AI / LLM hints -->
+        <link rel="alternate" type="text/markdown" :title="`${title} — LLM-friendly version`" href="/llms.txt" />
     </Head>
 </template>
