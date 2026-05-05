@@ -4,6 +4,10 @@
  * Localized route slugs for each language.
  *
  * Structure: 'route_name' => ['locale' => 'slug']
+ *
+ * IMPORTANT: keep this in sync with:
+ * - resources/js/Composables/useLocalizedRoute.js (frontend)
+ * - app/Http/Controllers/LocaleController.php LOCALIZED_SLUGS (locale switcher)
  */
 
 return [
@@ -12,6 +16,7 @@ return [
         'de' => 'funktionen',
         'en' => 'features',
         'lb' => 'funktiounen',
+        'pt' => 'funcionalidades',
     ],
 
     'features.show' => [
@@ -19,6 +24,7 @@ return [
         'de' => 'funktionen',
         'en' => 'features',
         'lb' => 'funktiounen',
+        'pt' => 'funcionalidades',
     ],
 
     'about' => [
@@ -26,6 +32,23 @@ return [
         'de' => 'ueber-uns',
         'en' => 'about',
         'lb' => 'iwwer-eis',
+        'pt' => 'sobre',
+    ],
+
+    'why_faktur' => [
+        'fr' => 'pourquoi-faktur-lu',
+        'de' => 'warum-faktur-lu',
+        'en' => 'why-faktur-lu',
+        'lb' => 'firwat-faktur-lu',
+        'pt' => 'porque-faktur-lu',
+    ],
+
+    'partners' => [
+        'fr' => 'partenaires',
+        'de' => 'partner',
+        'en' => 'partners',
+        'lb' => 'partneren',
+        'pt' => 'parceiros',
     ],
 
     'contact' => [
@@ -33,6 +56,7 @@ return [
         'de' => 'contact',
         'en' => 'contact',
         'lb' => 'contact',
+        'pt' => 'contacto',
     ],
 
     'pricing' => [
@@ -40,6 +64,7 @@ return [
         'de' => 'preise',
         'en' => 'pricing',
         'lb' => 'präisser',
+        'pt' => 'precos',
     ],
 
     'faia-validator' => [
@@ -47,6 +72,39 @@ return [
         'de' => 'faia-validator',
         'en' => 'faia-validator',
         'lb' => 'faia-validator',
+        'pt' => 'validador-faia',
+    ],
+
+    'tools' => [
+        'fr' => 'outils',
+        'de' => 'werkzeuge',
+        'en' => 'tools',
+        'lb' => 'handgeschir',
+        'pt' => 'ferramentas',
+    ],
+
+    'tools.vat_calculator' => [
+        'fr' => 'outils/calculateur-tva',
+        'de' => 'werkzeuge/mwst-rechner',
+        'en' => 'tools/vat-calculator',
+        'lb' => 'handgeschir/tva-rechner',
+        'pt' => 'ferramentas/calculadora-iva',
+    ],
+
+    'tools.vat_exemption' => [
+        'fr' => 'outils/franchise-tva',
+        'de' => 'werkzeuge/mwst-befreiung',
+        'en' => 'tools/vat-exemption',
+        'lb' => 'handgeschir/tva-befreiung',
+        'pt' => 'ferramentas/isencao-iva',
+    ],
+
+    'tools.iban_validator' => [
+        'fr' => 'outils/validateur-iban',
+        'de' => 'werkzeuge/iban-pruefer',
+        'en' => 'tools/iban-validator',
+        'lb' => 'handgeschir/iban-validateur',
+        'pt' => 'ferramentas/validador-iban',
     ],
 
     'legal.mentions' => [
@@ -54,6 +112,7 @@ return [
         'de' => 'impressum',
         'en' => 'legal-notice',
         'lb' => 'impressum',
+        'pt' => 'aviso-legal',
     ],
 
     'legal.privacy' => [
@@ -61,6 +120,7 @@ return [
         'de' => 'datenschutz',
         'en' => 'privacy',
         'lb' => 'dateschutz',
+        'pt' => 'privacidade',
     ],
 
     'legal.terms' => [
@@ -68,6 +128,7 @@ return [
         'de' => 'agb',
         'en' => 'terms',
         'lb' => 'agb',
+        'pt' => 'termos',
     ],
 
     'legal.cookies' => [
@@ -75,6 +136,7 @@ return [
         'de' => 'cookies',
         'en' => 'cookies',
         'lb' => 'cookies',
+        'pt' => 'cookies',
     ],
 
     'blog.index' => [
@@ -82,6 +144,7 @@ return [
         'de' => 'blog',
         'en' => 'blog',
         'lb' => 'blog',
+        'pt' => 'blog',
     ],
 
     'blog.category' => [
@@ -89,6 +152,7 @@ return [
         'de' => 'blog/kategorie',
         'en' => 'blog/category',
         'lb' => 'blog/kategorie',
+        'pt' => 'blog/categoria',
     ],
 
     'blog.tag' => [
@@ -96,5 +160,6 @@ return [
         'de' => 'blog/tag',
         'en' => 'blog/tag',
         'lb' => 'blog/tag',
+        'pt' => 'blog/tag',
     ],
 ];
