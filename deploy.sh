@@ -106,9 +106,28 @@ echo ''
 #   ./deploy.sh                    -> mode complet (par défaut)
 #   ./deploy.sh quick              -> mode rapide (sans composer/migrations)
 #   ./deploy.sh content-fix        -> mode complet + RandomizeBlogDates (one-shot, randomise les dates)
+# Safety net : tout deploiement passe par un wrapper qui garantit `php artisan up`
+# en cas d'echec, pour ne JAMAIS laisser le site bloque en mode maintenance.
+# La presence d'un trap EXIT bash assure que `up` est rejoue meme si une etape echoue.
+SAFETY_WRAPPER_OPEN="
+cd $REMOTE_PATH &&
+trap 'echo \"[SAFETY NET] forcing php artisan up\" ; php artisan up || true' EXIT &&
+"
+
+# Stash automatique des modifs locales (.htaccess modifie par o2switch via cPanel,
+# logs, etc.) pour eviter que git pull echoue sur des fichiers modifies cote serveur.
+# Le stash sera applique a la fin si le pull a reussi ; sinon on l'ignore.
+GIT_PULL_SAFE="
+echo '--- Stash des modifs locales eventuelles (htaccess auto-modifie par cPanel...) ---' &&
+git stash push --include-untracked -m \"deploy-auto-stash-\$(date +%s)\" || true &&
+git pull origin main &&
+echo '--- Tentative de re-application du stash (peut echouer si conflits) ---' &&
+(git stash pop || git stash drop || true)
+"
+
 if [ "$1" == "quick" ]; then
     DEPLOY_CMD="
-cd $REMOTE_PATH &&
+${SAFETY_WRAPPER_OPEN}
 echo '--- Mode rapide ---' &&
 echo '[3/5] Maintenance mode...' &&
 php artisan down --retry=30 || true &&
@@ -118,7 +137,7 @@ php artisan cache:clear &&
 php artisan config:clear &&
 php artisan route:clear &&
 php artisan view:clear &&
-git pull origin main &&
+${GIT_PULL_SAFE} &&
 php artisan config:clear &&
 echo '[5/5] Remise en ligne...' &&
 php artisan up &&
@@ -133,7 +152,7 @@ else
     fi
 
     DEPLOY_CMD="
-cd $REMOTE_PATH &&
+${SAFETY_WRAPPER_OPEN}
 echo '--- Mode complet ---' &&
 echo '[3/5] Maintenance mode...' &&
 php artisan down --retry=30 || true &&
@@ -144,7 +163,7 @@ php artisan cache:clear &&
 php artisan config:clear &&
 php artisan route:clear &&
 php artisan view:clear &&
-git pull origin main &&
+${GIT_PULL_SAFE} &&
 composer install --no-dev --optimize-autoloader --no-interaction &&
 echo '--- Migrations ---' &&
 php artisan migrate --force &&
