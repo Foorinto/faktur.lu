@@ -10,6 +10,7 @@ const { t } = useTranslations();
 
 const mobileMenuOpen = ref(false);
 const featuresDropdownOpen = ref(false);
+const toolsDropdownOpen = ref(false);
 const langMenuOpen = ref(false);
 const langMenuRef = ref(null);
 const page = usePage();
@@ -151,9 +152,70 @@ onUnmounted(() => {
                         <Link :href="localizedRoute('pricing')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.pricing') }}
                         </Link>
-                        <Link :href="localizedRoute('faia-validator')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                            {{ t('landing.nav.faia_validator') }}
-                        </Link>
+                        <!-- Outils dropdown -->
+                        <div class="relative" @mouseenter="toolsDropdownOpen = true" @mouseleave="toolsDropdownOpen = false">
+                            <Link :href="localizedRoute('tools')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1">
+                                {{ t('landing.nav.tools') }}
+                                <svg class="w-3.5 h-3.5 transition-transform" :class="toolsDropdownOpen ? 'rotate-180' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </Link>
+                            <Transition
+                                enter-active-class="transition duration-150 ease-out"
+                                enter-from-class="opacity-0 translate-y-1"
+                                enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition duration-100 ease-in"
+                                leave-from-class="opacity-100 translate-y-0"
+                                leave-to-class="opacity-0 translate-y-1"
+                            >
+                                <div v-if="toolsDropdownOpen" class="absolute left-1/2 -translate-x-1/2 top-full pt-2 z-50">
+                                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 py-2 w-72">
+                                        <Link :href="localizedRoute('tools.vat_calculator')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('tools.index.vat_calculator.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('tools.index.vat_calculator.description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('tools.vat_exemption')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#00f5d4]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#00a896]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('tools.index.vat_exemption.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('tools.index.vat_exemption.description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('tools.iban_validator')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#00bbf9]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#00bbf9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('tools.index.iban_validator.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('tools.index.iban_validator.description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link :href="localizedRoute('faia-validator')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                            <div class="w-8 h-8 rounded-lg bg-[#f15bb5]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#f15bb5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('tools.index.faia_validator.title') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('tools.index.faia_validator.description') }}</p>
+                                            </div>
+                                        </Link>
+                                        <div class="border-t border-gray-100 mt-1 pt-1">
+                                            <Link :href="localizedRoute('tools')" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors">
+                                                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
+                                                </div>
+                                                <p class="text-sm font-medium text-primary-500">{{ t('tools.index.see_all') }}</p>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
                         <Link :href="localizedRoute('blog.index')" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                             {{ t('landing.nav.blog') }}
                         </Link>
@@ -256,7 +318,13 @@ onUnmounted(() => {
                             <Link :href="localizedRoute('features.show', { slug: 'suivi-temps' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.time-tracking.title') }}</Link>
                         </div>
                         <Link :href="localizedRoute('pricing')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.pricing') }}</Link>
-                        <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.faia_validator') }}</Link>
+                        <Link :href="localizedRoute('tools')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.tools') }}</Link>
+                        <div class="pl-4 flex flex-col space-y-1">
+                            <Link :href="localizedRoute('tools.vat_calculator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.vat_calculator.title') }}</Link>
+                            <Link :href="localizedRoute('tools.vat_exemption')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.vat_exemption.title') }}</Link>
+                            <Link :href="localizedRoute('tools.iban_validator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.iban_validator.title') }}</Link>
+                            <Link :href="localizedRoute('faia-validator')" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('tools.index.faia_validator.title') }}</Link>
+                        </div>
                         <Link :href="localizedRoute('blog.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.blog') }}</Link>
 
                         <!-- Mobile Language Selector -->

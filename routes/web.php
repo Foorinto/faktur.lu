@@ -7,6 +7,7 @@ use App\Http\Controllers\AccountingSettingsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FeaturePageController;
+use App\Http\Controllers\ToolsController;
 use App\Models\BlogPost;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
@@ -198,6 +199,34 @@ Route::prefix('{locale}')
         // Contact page (explicit localized routes)
         Route::get('/contact', [ContactController::class, 'index'])->name('contact');
         Route::post('/contact', [ContactController::class, 'send'])->middleware('throttle:6,1')->name('contact.send');
+
+        // Tools hub + outils gratuits SEO/lead-gen
+        Route::get('/outils', [ToolsController::class, 'index'])->name('tools.fr');
+        Route::get('/werkzeuge', [ToolsController::class, 'index'])->name('tools.de');
+        Route::get('/tools', [ToolsController::class, 'index'])->name('tools.en');
+        Route::get('/handgeschir', [ToolsController::class, 'index'])->name('tools.lb');
+        Route::get('/ferramentas', [ToolsController::class, 'index'])->name('tools.pt');
+
+        // Calculateur TVA
+        Route::get('/outils/calculateur-tva', [ToolsController::class, 'vatCalculator'])->name('tools.vat_calculator.fr');
+        Route::get('/werkzeuge/mwst-rechner', [ToolsController::class, 'vatCalculator'])->name('tools.vat_calculator.de');
+        Route::get('/tools/vat-calculator', [ToolsController::class, 'vatCalculator'])->name('tools.vat_calculator.en');
+        Route::get('/handgeschir/tva-rechner', [ToolsController::class, 'vatCalculator'])->name('tools.vat_calculator.lb');
+        Route::get('/ferramentas/calculadora-iva', [ToolsController::class, 'vatCalculator'])->name('tools.vat_calculator.pt');
+
+        // Simulateur franchise TVA
+        Route::get('/outils/franchise-tva', [ToolsController::class, 'vatExemption'])->name('tools.vat_exemption.fr');
+        Route::get('/werkzeuge/mwst-befreiung', [ToolsController::class, 'vatExemption'])->name('tools.vat_exemption.de');
+        Route::get('/tools/vat-exemption', [ToolsController::class, 'vatExemption'])->name('tools.vat_exemption.en');
+        Route::get('/handgeschir/tva-befreiung', [ToolsController::class, 'vatExemption'])->name('tools.vat_exemption.lb');
+        Route::get('/ferramentas/isencao-iva', [ToolsController::class, 'vatExemption'])->name('tools.vat_exemption.pt');
+
+        // Validateur IBAN
+        Route::get('/outils/validateur-iban', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.fr');
+        Route::get('/werkzeuge/iban-pruefer', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.de');
+        Route::get('/tools/iban-validator', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.en');
+        Route::get('/handgeschir/iban-validateur', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.lb');
+        Route::get('/ferramentas/validador-iban', [ToolsController::class, 'ibanValidator'])->name('tools.iban_validator.pt');
 
         // Public FAIA Validator (explicit localized routes)
         Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.fr');
