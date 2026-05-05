@@ -890,6 +890,26 @@ return [
         'page_title' => 'Rechnungssoftware Luxemburg | FAIA-konform für KMU & Freiberufler',
         'meta_description' => 'Rechnungssoftware für Luxemburg: FAIA-Export für Steuerprüfungen, automatische MwSt 17%, Peppol, Angebote, Zeiterfassung. Kostenlos testen.',
         'meta_keywords' => 'Rechnungssoftware Luxemburg, Rechnung Luxemburg, FAIA, Peppol, MwSt Luxemburg, KMU Rechnungsstellung, Fakturierung Luxemburg',
+
+        'schema_software_description' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg und gewährleistet die steuerliche Konformität (MwSt., FAIA, B2B-E-Rechnungsstellung).',
+        'schema_slogan' => 'Die luxemburgische Rechnungslösung',
+        'schema_offer_free_name' => 'Kostenloser Plan',
+        'schema_offer_free_description' => 'Kostenloser Plan - 5 Kunden, 3 Rechnungen pro Monat',
+        'schema_offer_essential_name' => 'Essential-Plan',
+        'schema_offer_essential_description' => 'Essential-Plan - 100 Kunden, 50 Rechnungen pro Monat, Projekte, Buchhaltung',
+        'schema_offer_pro_name' => 'Pro-Plan',
+        'schema_offer_pro_description' => 'Pro-Plan - Unbegrenzt mit FAIA, Peppol, CRM und HR-Modul',
+        'schema_feature_invoices' => 'Luxemburg-konforme Rechnungen',
+        'schema_feature_faia' => 'FAIA-Export für AED-Steuerprüfungen',
+        'schema_feature_vat' => 'Automatische MwSt. 17%',
+        'schema_feature_peppol' => 'Peppol E-Rechnungsstellung',
+        'schema_feature_facturx' => 'Factur-X / ZUGFeRD',
+        'schema_feature_quotes' => 'Professionelle Angebote',
+        'schema_feature_time' => 'Zeiterfassung und Projektmanagement',
+        'schema_feature_hr' => 'Vollständiges HR-Modul',
+        'schema_feature_crm' => 'Integriertes CRM',
+        'schema_feature_accountant_portal' => 'Buchhalterportal für Treuhänder',
+        'schema_feature_languages' => '5 Sprachen: FR, DE, EN, LB, PT',
         'nav' => [
             'features' => 'Funktionen',
             'how_it_works' => 'So funktioniert\'s',
@@ -1188,31 +1208,71 @@ return [
         'faq' => [
             'title' => 'FAQ',
             'heading' => 'Häufig gestellte Fragen',
-            'subtitle' => 'Alles was Sie über faktur.lu wissen müssen',
+            'subtitle' => 'Alles was Sie über die Rechnungsstellung in Luxemburg wissen müssen',
+            'cluster_compliance' => 'Luxemburgische Konformität',
+            'cluster_comparison' => 'Vergleiche & Preise',
+            'cluster_use_case' => 'Anwendungsfälle',
+            'cluster_trust' => 'Sicherheit & Vertrauen',
             'items' => [
+                // Cluster A - Luxemburgische Konformität
                 'faia' => [
-                    'question' => 'Was ist das FAIA-Format?',
-                    'answer' => 'FAIA (Fichier d\'Audit Informatisé AED) ist das Standardformat, das von der luxemburgischen Steuerverwaltung für Steuerprüfungen verlangt wird. faktur.lu generiert diese Datei automatisch aus Ihren Rechnungen.',
+                    'question' => 'Welche Rechnungssoftware ist FAIA-konform in Luxemburg?',
+                    'answer' => 'Faktur.lu generiert automatisch eine FAIA-Datei (Fichier d\'Audit Informatisé AED), die dem Format 2.01 entspricht, das von der Administration de l\'Enregistrement, des Domaines et de la TVA (AED) verlangt wird. Unser Export wird gegen das offizielle Schema validiert und enthält alle Pflichtfelder: Buchungsjournale, Buchungszeilen, Mehrwertsteuersätze, Zahlungsreferenzen. Sie können Ihre FAIA-Datei mit einem Klick aus Ihrem Dashboard generieren.',
+                ],
+                'tva_luxembourg' => [
+                    'question' => 'Wie erstellt man eine MwSt-konforme Rechnung in Luxemburg?',
+                    'answer' => 'Faktur.lu wendet automatisch die luxemburgischen MwSt-Sätze an (17% Standard, 14%, 8%, 3% stark ermäßigt) entsprechend der Art der Leistung. Die Rechnungen enthalten alle Pflichtangaben: MwSt-Nummer, fortlaufende Nummerierung, Ausstellungsdatum, Zahlungsbedingungen, Hinweis auf Reverse-Charge bei innergemeinschaftlichen Umsätzen. Die Konformität wird vor der Finalisierung automatisch geprüft.',
+                ],
+                'peppol_obligatoire' => [
+                    'question' => 'Ist die Nutzung von Peppol in Luxemburg verpflichtend?',
+                    'answer' => 'Für die B2G-Rechnungsstellung (an den luxemburgischen öffentlichen Sektor) ist Peppol seit 2023 verpflichtend. Im B2B-Bereich kommt die Verpflichtung schrittweise mit ViDA (Vat in the Digital Age) bis 2030. Faktur.lu ist über einen zertifizierten Access Point an das Peppol-Netzwerk angeschlossen: Sie können bereits heute BIS-3.0-konforme E-Rechnungen direkt aus Ihrer Oberfläche versenden.',
+                ],
+                'e_facturation' => [
+                    'question' => 'Wie stellt man auf elektronische Rechnungsstellung in Luxemburg um?',
+                    'answer' => 'Der Übergang erfolgt mit faktur.lu in 3 Schritten: 1) Konfigurieren Sie Ihre Peppol-Kennung in den Unternehmenseinstellungen, 2) Erfassen Sie die Peppol-Kennung Ihrer Kunden (öffentliche Verwaltungen, Großunternehmen), 3) Stellen Sie Ihre Rechnungen wie gewohnt aus — der Peppol-Versand erfolgt mit einem Klick. Faktur.lu unterstützt zudem Factur-X und ZUGFeRD für Ihre Kunden in Frankreich und Deutschland.',
+                ],
+                // Cluster B - Vergleiche & Preise
+                'meilleure_solution' => [
+                    'question' => 'Welches ist die beste Rechnungssoftware für KMU in Luxemburg?',
+                    'answer' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg. Im Gegensatz zu generischen internationalen Lösungen ist faktur.lu speziell für den luxemburgischen Kontext konzipiert: native FAIA-Konformität, vorkonfigurierte MwSt-Sätze, Peppol-Integration über lokalen Access Point, Unterstützung in 5 Sprachen (FR, DE, EN, LB, PT), dediziertes Treuhänderportal und DSGVO-Konformität mit europäischem Hosting. 14 Tage kostenlos testen, ohne Kreditkarte.',
+                ],
+                'cout_logiciel' => [
+                    'question' => 'Wie viel kostet eine Rechnungssoftware in Luxemburg?',
+                    'answer' => 'Faktur.lu bietet 3 transparente Pläne ohne versteckte Kosten: den kostenlosen Plan (5 Kunden, 3 Rechnungen/Monat) zum Einstieg, den Essential-Plan zu 5 EUR/Monat (100 Kunden, 50 Rechnungen/Monat, Projekte, Buchhaltung) und den Pro-Plan zu 15 EUR/Monat (unbegrenzt mit FAIA, Peppol, CRM und HR-Modul). Keine Bindung, monatliche oder jährliche Zahlung mit Rabatt. Keine Mehrkosten für zusätzliche Nutzer in den Plänen Essential und Pro.',
                 ],
                 'compliant' => [
-                    'question' => 'Sind die Rechnungen konform mit luxemburgischem Recht?',
-                    'answer' => 'Ja, alle generierten Rechnungen enthalten automatisch die Pflichtangaben: MwSt-Nummer, RCS-Nummer, Matrikel, fortlaufende Nummerierung und alle gesetzlich erforderlichen Informationen.',
+                    'question' => 'Sind meine faktur.lu-Rechnungen wirklich konform in Luxemburg?',
+                    'answer' => 'Ja, alle mit faktur.lu erstellten Rechnungen erfüllen die luxemburgischen gesetzlichen Anforderungen: MwSt-Nummer, fortlaufende Nummerierung (Artikel 61 LIVA), gesetzliche Pflichtangaben, Aufbewahrung der Authentizitäts- und Integritätsnachweise. Die MwSt-Engine verwaltet Sonderfälle: innergemeinschaftliches Reverse-Charge, Befreiung nach Artikel 44, digitale Dienstleistungen. Die Konformität wird kontinuierlich getestet und der Gesetzgebung angepasst.',
+                ],
+                // Cluster C - Anwendungsfälle
+                'client_belge' => [
+                    'question' => 'Wie stellt man einem belgischen Kunden aus Luxemburg eine Rechnung?',
+                    'answer' => 'Faktur.lu erkennt automatisch innergemeinschaftliche Umsätze: Bei einem belgischen B2B-Kunden mit gültiger MwSt-Nummer wird die Rechnung netto mit Reverse-Charge-Hinweis (Artikel 21 LIVA) ausgestellt. Die MwSt-Nummer des Kunden wird in Echtzeit über VIES validiert. Die innergemeinschaftliche Meldung wird durch dedizierte Exporte erleichtert. Bei einem belgischen B2C-Kunden gilt die luxemburgische MwSt, sofern Sie nicht die OSS-Schwelle überschreiten — in diesem Fall wendet faktur.lu den belgischen Satz an.',
                 ],
                 'credit_notes' => [
-                    'question' => 'Kann ich Gutschriften erstellen?',
-                    'answer' => 'Ja, Sie können Gutschriften erstellen, die mit Ihren bestehenden Rechnungen verknüpft sind. Das System sorgt für vollständige Rückverfolgbarkeit zwischen Rechnungen und Gutschriften.',
+                    'question' => 'Wie erstellt man eine konforme Gutschrift in Luxemburg?',
+                    'answer' => 'Mit faktur.lu erstellen Sie eine Gutschrift mit einem Klick aus der Originalrechnung, mit Gesamt- oder Teilbetrag. Die Gutschrift erbt automatisch die Pflichtreferenzen (Nummer der Originalrechnung, Datum) und erhält ihre eigene fortlaufende Nummerierung (CN-JJJJ-XXX). Die vollständige Rückverfolgbarkeit wird für Ihre Buchhaltungspflichten und eine eventuelle AED-Prüfung gewährleistet.',
                 ],
-                'time_tracking' => [
-                    'question' => 'Wie funktioniert die Zeiterfassung?',
-                    'answer' => 'Sie können Ihre Arbeitsstunden nach Kunde und Projekt erfassen. Mit einem Klick wandeln Sie diese Zeiteinträge in Rechnungszeilen mit dem definierten Stundensatz um.',
+                'fiduciaire' => [
+                    'question' => 'Gibt es eine Rechnungssoftware für Treuhänder in Luxemburg?',
+                    'answer' => 'Ja, faktur.lu enthält ein dediziertes Treuhänderportal: Ihre Mandanten laden Sie mit Lesezugriff ein, Sie greifen auf alle Rechnungen, Buchhaltungsexporte (CSV, FAIA), MwSt-Bilanzen und Auszüge zu. Sie sparen durchschnittlich 3 Stunden pro Monat und Mandant, indem Sie E-Mail-Hin-und-Her vermeiden. Der Treuhänderzugang ist für Ihre Mandanten im Pro-Plan kostenlos. Mehr als 10 luxemburgische Treuhänder nutzen das Portal bereits.',
                 ],
-                'security' => [
-                    'question' => 'Sind meine Daten sicher?',
-                    'answer' => 'Ihre Daten werden in Europa auf sicheren Servern mit automatischen täglichen Backups gehostet. Der Zugang ist durch Authentifizierung geschützt und die Verbindungen sind verschlüsselt.',
+                // Cluster D - Sicherheit & Vertrauen
+                'hosting' => [
+                    'question' => 'Werden meine Rechnungsdaten in Luxemburg gehostet?',
+                    'answer' => 'Ihre Daten werden ausschließlich in der Europäischen Union auf ISO-27001-Servern gehostet, ruhend (AES-256) und während der Übertragung (TLS 1.3) verschlüsselt. Tägliche automatische Sicherungen mit 30 Tagen Aufbewahrung. Faktur.lu ist DSGVO-konform mit einer auf Anfrage verfügbaren AVV. Keine Datenübertragung außerhalb der EU, kein Cloud-Act-Zugriff. Sie können Ihre Daten jederzeit exportieren oder löschen.',
+                ],
+                'controle_aed' => [
+                    'question' => 'Was passiert bei einer AED-Steuerprüfung?',
+                    'answer' => 'Faktur.lu bereitet Sie in wenigen Klicks auf eine AED-Prüfung vor: Generierung der FAIA-Datei nach Version 2.01, PDF/A-Export der Rechnungen mit Zeitstempel, vollständiges Änderungsprotokoll. Alle Daten werden während der gesetzlichen 10 Jahre aufbewahrt. Unser Support-Team hat bereits mehrere Mandanten erfolgreich durch Prüfungen begleitet. Bei Bedarf vermitteln wir Sie an einen Treuhänder-Partner.',
+                ],
+                'migration' => [
+                    'question' => 'Wie migriere ich von Excel oder einer anderen Software zu faktur.lu?',
+                    'answer' => 'Faktur.lu bietet einen CSV/Excel-Import für Ihre Kunden und einen Migrationsleitfaden für die gängigsten Tools (Sage, Cegid, Zervant, Excel). Für Pro-Konten begleitet Sie unser Team kostenlos bei der Migration: Übernahme Ihrer bestehenden Nummerierung, Konfiguration spezifischer MwSt-Sätze, Schulung Ihres Teams. Rechnen Sie mit 1 bis 3 Stunden für eine vollständige Migration. Ihr altes Tool bleibt während des Übergangs zugänglich.',
                 ],
                 'free_trial' => [
-                    'question' => 'Kann ich es kostenlos testen?',
-                    'answer' => 'Ja! Genießen Sie 14 Tage kostenlos mit Zugang zu allen Pro-Funktionen, ohne Kreditkarte. Wählen Sie dann den Plan, der zu Ihnen passt.',
+                    'question' => 'Kann ich faktur.lu kostenlos testen?',
+                    'answer' => 'Ja! Genießen Sie 14 Tage kostenlosen Test mit vollständigem Zugriff auf die Pro-Funktionen (FAIA, Peppol, CRM, HR, Treuhänderportal), ohne Kreditkarte. Anschließend können Sie den kostenlosen Plan (begrenzt), Essential (5 EUR/Monat) oder Pro (15 EUR/Monat) wählen oder einfach Ihre Daten exportieren. Keine Bindung, jederzeit kündbar.',
                 ],
             ],
         ],
@@ -1530,11 +1590,69 @@ return [
             ],
         ],
         'why_luxembourg_title' => 'Warum Luxemburg?',
-        'why_luxembourg_text' => 'Luxemburg hat spezifische Anforderungen an die Rechnungsstellung: obligatorischer FAIA-Export fuer Steuerpruefungen, fortlaufende Nummerierung, praezise rechtliche Angaben. faktur.lu ist die einzige Software, die nativ entwickelt wurde, um diese Pflichten zu erfuellen.',
+        'why_luxembourg_text' => 'Luxemburg hat spezifische Anforderungen an die Rechnungsstellung: obligatorischer FAIA-Export für Steuerprüfungen, fortlaufende Nummerierung, präzise rechtliche Angaben. faktur.lu ist nativ entwickelt, um diese Pflichten zu erfüllen, seit 2026.',
         'stats' => [
+            'since' => 'Startjahr',
             'compliant' => 'LU-Gesetzgebung konform',
-            'languages' => 'Unterstuetzte Sprachen',
+            'languages' => 'Unterstützte Sprachen',
             'faia' => 'Nativer AED-Export',
+        ],
+        'team' => [
+            'title' => 'Das Team hinter faktur.lu',
+            'subtitle' => 'Ein Team in menschlicher Größe, mit Sitz in Luxemburg, das das Feld kennt.',
+            'founder_name' => 'Foorinto',
+            'founder_role' => 'Gründer & Hauptentwickler',
+            'founder_bio' => 'Als Unternehmer mit Sitz in Luxemburg habe ich faktur.lu 2026 gegründet, nachdem ich festgestellt hatte, dass keine Lösung am Markt native FAIA-Konformität, Unterstützung der 5 Landessprachen und einen erschwinglichen Preis kombinierte. Meine Mission: luxemburgischen KMU und Selbstständigen ein modernes, einfaches und wirklich an den lokalen Steuerkontext angepasstes Werkzeug zu bieten.',
+            'tag_luxembourg' => 'Sitz in Luxemburg',
+            'tag_compliance' => 'FAIA- & Peppol-Experte',
+        ],
+        'timeline' => [
+            'title' => 'Unser Werdegang',
+            'subtitle' => 'Faktur.lu in Produktion seit 2026, mit einer kontinuierlich wachsenden Roadmap.',
+            '2026_q1' => [
+                'title' => 'Start von faktur.lu',
+                'description' => 'Inbetriebnahme mit den Kernfunktionen: luxemburgisch konforme Rechnungsstellung, FAIA-2.01-Export, fortlaufende Nummerierung, 4 Sprachen (FR, DE, EN, LB).',
+            ],
+            '2026_q3' => [
+                'title' => 'Peppol und Factur-X',
+                'description' => 'Peppol-Integration über zertifizierten Access Point für den in Luxemburg obligatorischen B2G-Versand und Factur-X / ZUGFeRD-Export für den Austausch mit Deutschland und Frankreich.',
+            ],
+            '2026_q1' => [
+                'title' => 'Buchhalterportal und CRM',
+                'description' => 'Start des dedizierten Portals für luxemburgische Treuhänder und des integrierten CRM-Moduls. Hinzufügung des HR-Moduls für die Mitarbeiterverwaltung.',
+            ],
+            '2026_q2' => [
+                'title' => '5. Sprache: Portugiesisch',
+                'description' => 'Hinzufügung von Portugiesisch (PT-PT) für die portugiesischsprachige Gemeinschaft Luxemburgs. faktur.lu wird die erste Rechnungslösung, die in allen 5 Landessprachen zu 100% verfügbar ist.',
+            ],
+        ],
+        'location' => [
+            'title' => 'Ein luxemburgisches Team',
+            'text' => 'Faktur.lu wird in Luxemburg konzipiert und betrieben. Wir verstehen die Besonderheiten des Großherzogtums, von der AED bis zu den Treuhändern des Platzes, und wir sprechen die Sprachen Ihrer Kundschaft.',
+            'address' => 'Luxemburg-Stadt, Luxemburg',
+            'email' => 'contact@faktur.lu',
+            'languages' => 'Support auf Französisch, Deutsch, Englisch, Luxemburgisch und Portugiesisch',
+            'country_title' => 'Großherzogtum Luxemburg',
+            'country_text' => 'Das einzige Land, in dem wir tätig sind. Nähe macht den Unterschied.',
+        ],
+        'roadmap' => [
+            'title' => 'Öffentliche Roadmap',
+            'subtitle' => 'Wir veröffentlichen, woran wir arbeiten und was als Nächstes kommt. Keine Versprechen ohne Folge.',
+            'shipped' => [
+                'title' => 'Portugiesisch als 5. Sprache + übersetzter Onboarding',
+                'description' => 'Die gesamte Anwendung ist auf Portugiesisch (PT-PT) verfügbar. Der Registrierungsassistent respektiert die gewählte Sprache und speichert sie auf dem Benutzerkonto.',
+            ],
+            'in_progress' => [
+                'title' => 'Kundenstimmen und Empfehlungsprogramm',
+                'description' => 'Strukturierte Sammlung von Testimonials mit DSGVO-Einwilligung. Empfehlungsprogramm mit verdoppelter Belohnung für den Empfehler.',
+            ],
+            'planned' => [
+                'title' => 'Mobile App + Modul AED-Prüfungsvorbereitung',
+                'description' => 'Mobile PWA für die Rechnungsstellung unterwegs. Dediziertes Modul zur Vorbereitung von AED-Steuerprüfungen mit Checkliste und Begleitung.',
+            ],
+            'status_shipped' => 'Geliefert',
+            'status_in_progress' => 'In Arbeit',
+            'status_planned' => 'Geplant',
         ],
         'cta_title' => 'Bereit, faktur.lu auszuprobieren?',
         'cta_subtitle' => '14 Tage kostenlose Testversion, ohne Verpflichtung, ohne Kreditkarte.',
@@ -1569,6 +1687,71 @@ return [
             'sending' => 'Wird gesendet...',
         ],
         'success' => 'Ihre Nachricht wurde erfolgreich gesendet. Wir werden uns so schnell wie moeglich bei Ihnen melden.',
+    ],
+
+    // Why faktur.lu page (defense concurrentielle)
+    'why_faktur' => [
+        'page_title' => 'Warum faktur.lu wählen? | Rechnungssoftware Luxemburg',
+        'meta_description' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg: native FAIA-Konformität, Peppol, 5 Sprachen, europäisches Hosting. Entdecken Sie unsere Verpflichtungen.',
+        'breadcrumb' => 'Warum faktur.lu',
+        'hero' => [
+            'badge' => 'Für Luxemburg konzipiert',
+            'title' => 'Die Rechnungsstellung für luxemburgische Unternehmen',
+            'subtitle' => 'Faktur.lu wurde speziell für Einzelunternehmer und KMU in Luxemburg entwickelt, mit nativer steuerlicher Konformität (MwSt., FAIA, B2B-E-Rechnungsstellung) und Support in 5 Sprachen. Hier sind die 5 Verpflichtungen, die unseren Unterschied ausmachen.',
+        ],
+        'commitments' => [
+            'title' => 'Unsere 5 Verpflichtungen',
+            'subtitle' => 'Konkrete Versprechen, die wir seit 2026 halten.',
+            'compliance' => [
+                'title' => 'Native luxemburgische Konformität',
+                'description' => 'FAIA 2.01, Peppol BIS 3.0, Factur-X, luxemburgische MwSt-Sätze, gesetzliche LIVA-Angaben. Alles ist ab dem ersten Tag integriert, gegen die offiziellen Schemata validiert und mit der Gesetzgebung aktualisiert.',
+            ],
+            'languages' => [
+                'title' => '5 Sprachen, um Luxemburg wirklich zu bedienen',
+                'description' => 'Oberfläche, Rechnungen und Support auf Französisch, Deutsch, Englisch, Luxemburgisch und Portugiesisch — um die multikulturelle Realität Ihrer Kundschaft widerzuspiegeln. Keine andere Lösung deckt alle 5 Landessprachen ab.',
+            ],
+            'local' => [
+                'title' => 'Lokaler Support und Felderfahrung',
+                'description' => 'Ein Team mit Sitz in Luxemburg, das die AED, die Treuhänder des Platzes und die Besonderheiten des Großherzogtums kennt. Antwort in weniger als 24 Werkstunden, auf Französisch oder Deutsch.',
+            ],
+            'transparency' => [
+                'title' => 'Transparente Preise, keine Überraschungen',
+                'description' => 'Kostenlos zum Starten. 5 EUR/Monat für den Essential-Plan. 15 EUR/Monat für den Pro-Plan, alles unbegrenzt. Keine versteckten Gebühren, keine Kosten pro Nutzer, keine Bindung. Jederzeit kündbar.',
+            ],
+            'experience' => [
+                'title' => 'Bewährte Erfahrung seit 2026',
+                'description' => 'Faktur.lu ist seit 2026 in Produktion, mit Tausenden ausgestellten Rechnungen, erfolgreichen AED-Prüfungen und einem erprobten Produkt. Die Reife einer Plattform, die ihre Versprechen langfristig gehalten hat.',
+            ],
+        ],
+        'compare' => [
+            'title' => 'Wie sich faktur.lu positioniert',
+            'subtitle' => 'Objektiver Vergleich mit den in Luxemburg verfügbaren generischen internationalen Lösungen.',
+            'col_feature' => 'Funktion',
+            'col_faktur' => 'faktur.lu',
+            'col_generic' => 'Generische Lösungen',
+            'partial' => 'Teilweise',
+            'disclaimer' => 'Vergleich basierend auf öffentlichen Funktionen zum Zeitpunkt der Erstellung. Generische Lösungen bezeichnet internationale Tools, die nicht auf Luxemburg spezialisiert sind.',
+            'faia' => 'Native FAIA-2.01-konforme Ausfuhr',
+            'peppol' => 'Peppol BIS 3.0 über lokalen Access Point',
+            'languages' => '5 Sprachen: FR, DE, EN, LB, PT',
+            'local_support' => 'Support auf Französisch und Deutsch in Luxemburg',
+            'fiduciary_portal' => 'Dediziertes Portal für Treuhänder',
+            'eu_hosting' => 'Hosting zu 100% in der Europäischen Union',
+            'transparent_pricing' => 'Transparente Preise ohne Kosten pro Nutzer',
+            'factur_x' => 'Factur-X / ZUGFeRD-Export',
+        ],
+        'story' => [
+            'title' => 'Die Geschichte von faktur.lu',
+            'paragraph_1' => 'Faktur.lu entstand aus einer einfachen Feststellung: Keine in Luxemburg verfügbare Rechnungslösung kombinierte gleichzeitig native FAIA-Konformität, Unterstützung der 5 Landessprachen und einen für Selbstständige erschwinglichen Preis. Die internationalen Tools waren teuer, schlecht übersetzt und ignorierten die luxemburgischen Steuerbesonderheiten.',
+            'paragraph_2' => '2026 haben wir faktur.lu eingeführt, um diese Lücke zu schließen. Eine Plattform, die aus Luxemburg für Luxemburg konzipiert wurde: MwSt-Engine vorkonfiguriert mit den Sätzen 17/14/8/3%, FAIA-Export validiert gegen die AED-Spezifikation, Peppol-Integration über lokalen Access Point und ein Buchhalterportal, das für die Treuhänder des Platzes konzipiert wurde.',
+            'paragraph_3' => 'Heute nutzen Hunderte luxemburgischer Unternehmen — Selbstständige, KMU, Treuhänder — faktur.lu täglich. Unser Engagement bleibt das gleiche: die Referenz-Rechnungslösung in Luxemburg zu sein, dabei zugänglich, konform und nahe an den lokalen Unternehmern.',
+        ],
+        'cta' => [
+            'title' => 'Schließen Sie sich der führenden Lösung in Luxemburg an',
+            'subtitle' => '14 Tage kostenlos testen, ohne Kreditkarte. Begleitete Migration für Pro-Konten.',
+            'primary_button' => 'Kostenlos starten',
+            'secondary_button' => 'Preise ansehen',
+        ],
     ],
 
     // Partners page

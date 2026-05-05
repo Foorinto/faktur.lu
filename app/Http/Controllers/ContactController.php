@@ -34,6 +34,14 @@ class ContactController extends Controller
     }
 
     /**
+     * Display the "Why faktur.lu" page.
+     */
+    public function whyFaktur(): Response
+    {
+        return Inertia::render('WhyFaktur');
+    }
+
+    /**
      * Handle partner contact form submission.
      */
     public function partnerContact(Request $request)

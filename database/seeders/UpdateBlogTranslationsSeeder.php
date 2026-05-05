@@ -102,13 +102,13 @@ class UpdateBlogTranslationsSeeder extends Seeder
     {
         // Article 6: Entreprise individuelle Luxembourg
 
-        BlogPost::where('slug', 'einzelunternehmen-luxemburg-gruenden-leitfaden-2025')
+        BlogPost::where('slug', 'einzelunternehmen-luxemburg-gruenden-leitfaden-2026')
             ->update(['content' => $this->getArticle6DE()]);
 
-        BlogPost::where('slug', 'sole-proprietorship-luxembourg-guide-2025')
+        BlogPost::where('slug', 'sole-proprietorship-luxembourg-guide-2026')
             ->update(['content' => $this->getArticle6EN()]);
 
-        BlogPost::where('slug', 'eenzelentreprise-letzebuerg-grenden-guide-2025')
+        BlogPost::where('slug', 'eenzelentreprise-letzebuerg-grenden-guide-2026')
             ->update(['content' => $this->getArticle6LB()]);
     }
 
@@ -116,13 +116,13 @@ class UpdateBlogTranslationsSeeder extends Seeder
     {
         // Article 7: Entreprise individuelle France
 
-        BlogPost::where('slug', 'einzelunternehmen-frankreich-gruenden-leitfaden-2025')
+        BlogPost::where('slug', 'einzelunternehmen-frankreich-gruenden-leitfaden-2026')
             ->update(['content' => $this->getArticle7DE()]);
 
-        BlogPost::where('slug', 'sole-proprietorship-france-guide-2025')
+        BlogPost::where('slug', 'sole-proprietorship-france-guide-2026')
             ->update(['content' => $this->getArticle7EN()]);
 
-        BlogPost::where('slug', 'eenzelentreprise-frankreich-grenden-guide-2025')
+        BlogPost::where('slug', 'eenzelentreprise-frankreich-grenden-guide-2026')
             ->update(['content' => $this->getArticle7LB()]);
     }
 
@@ -130,13 +130,13 @@ class UpdateBlogTranslationsSeeder extends Seeder
     {
         // Article 8: Entreprise individuelle Belgique
 
-        BlogPost::where('slug', 'einzelunternehmen-belgien-gruenden-leitfaden-2025')
+        BlogPost::where('slug', 'einzelunternehmen-belgien-gruenden-leitfaden-2026')
             ->update(['content' => $this->getArticle8DE()]);
 
-        BlogPost::where('slug', 'sole-proprietorship-belgium-guide-2025')
+        BlogPost::where('slug', 'sole-proprietorship-belgium-guide-2026')
             ->update(['content' => $this->getArticle8EN()]);
 
-        BlogPost::where('slug', 'eenzelentreprise-belgien-grenden-guide-2025')
+        BlogPost::where('slug', 'eenzelentreprise-belgien-grenden-guide-2026')
             ->update(['content' => $this->getArticle8LB()]);
     }
 
@@ -144,13 +144,13 @@ class UpdateBlogTranslationsSeeder extends Seeder
     {
         // Article 9: Entreprise individuelle Allemagne
 
-        BlogPost::where('slug', 'einzelunternehmen-deutschland-gruenden-leitfaden-2025')
+        BlogPost::where('slug', 'einzelunternehmen-deutschland-gruenden-leitfaden-2026')
             ->update(['content' => $this->getArticle9DE()]);
 
-        BlogPost::where('slug', 'sole-proprietorship-germany-guide-2025')
+        BlogPost::where('slug', 'sole-proprietorship-germany-guide-2026')
             ->update(['content' => $this->getArticle9EN()]);
 
-        BlogPost::where('slug', 'eenzelentreprise-deutschland-grenden-guide-2025')
+        BlogPost::where('slug', 'eenzelentreprise-deutschland-grenden-guide-2026')
             ->update(['content' => $this->getArticle9LB()]);
     }
 

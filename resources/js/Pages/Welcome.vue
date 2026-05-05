@@ -32,6 +32,7 @@ const formatDate = (date) => {
         'de': 'de-DE',
         'en': 'en-GB',
         'lb': 'lb-LU',
+        'pt': 'pt-PT',
     };
     return new Date(date).toLocaleDateString(localeMap[currentLocale()] || 'fr-FR', {
         day: 'numeric',
@@ -49,16 +50,20 @@ const canonicalUrl = computed(() => props.appUrl);
 const schemaOrganization = computed(() => JSON.stringify({
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
+    "@id": `${props.appUrl}/#organization`,
     "name": "faktur.lu",
+    "alternateName": ["Faktur.lu", "Faktur"],
     "url": props.appUrl,
     "logo": `${props.appUrl}/images/logo.png`,
     "image": `${props.appUrl}/images/og-default.png`,
-    "description": t('landing.meta_description'),
-    "foundingDate": "2024",
+    "description": t('landing.schema_software_description'),
+    "foundingDate": "2026",
+    "slogan": t('landing.schema_slogan'),
     "address": {
         "@type": "PostalAddress",
         "addressLocality": "Luxembourg",
         "addressRegion": "Luxembourg",
+        "postalCode": "L-1855",
         "addressCountry": "LU"
     },
     "geo": {
@@ -72,50 +77,89 @@ const schemaOrganization = computed(() => JSON.stringify({
         { "@type": "Country", "name": "France" },
         { "@type": "Country", "name": "Germany" }
     ],
-    "priceRange": "$$",
-    "sameAs": []
+    "knowsAbout": [
+        "Luxembourg VAT",
+        "FAIA reporting",
+        "Peppol e-invoicing",
+        "Factur-X",
+        "ZUGFeRD",
+        "B2G e-invoicing Luxembourg",
+        "AED fiscal compliance",
+        "SAF-T Luxembourg"
+    ],
+    "knowsLanguage": ["fr", "de", "en", "lb", "pt"],
+    "priceRange": "0-15 EUR/mois",
+    "currenciesAccepted": "EUR",
+    "paymentAccepted": "Credit Card, SEPA",
+    "sameAs": [
+        "https://www.linkedin.com/company/faktur-lu/",
+        "https://www.trustpilot.com/review/faktur.lu"
+    ]
 }));
 
 const schemaSoftware = computed(() => JSON.stringify({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": `${props.appUrl}/#software`,
     "name": "faktur.lu",
+    "alternateName": "Faktur",
+    "description": t('landing.schema_software_description'),
     "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "availableLanguage": ["fr", "de", "en", "lb"],
+    "applicationSubCategory": "Invoicing & Billing Software",
+    "operatingSystem": "Web, iOS, Android",
+    "url": props.appUrl,
+    "datePublished": "2026-01-01",
+    "softwareVersion": "1.0",
+    "availableLanguage": ["fr", "de", "en", "lb", "pt"],
+    "inLanguage": ["fr-LU", "de-LU", "en-GB", "lb-LU", "pt-PT"],
+    "publisher": {
+        "@id": `${props.appUrl}/#organization`
+    },
     "offers": [
         {
             "@type": "Offer",
+            "name": t('landing.schema_offer_free_name'),
             "price": "0",
             "priceCurrency": "EUR",
-            "description": "Plan Gratuit - 5 clients, 3 factures/mois"
+            "description": t('landing.schema_offer_free_description')
         },
         {
             "@type": "Offer",
+            "name": t('landing.schema_offer_essential_name'),
             "price": "5",
             "priceCurrency": "EUR",
-            "description": "Plan Essentiel - 100 clients, 50 factures/mois, projets, comptabilit\u00e9"
+            "description": t('landing.schema_offer_essential_description')
         },
         {
             "@type": "Offer",
+            "name": t('landing.schema_offer_pro_name'),
             "price": "15",
             "priceCurrency": "EUR",
-            "description": "Plan Pro - Illimit\u00e9 avec FAIA, Peppol, CRM et module RH"
+            "description": t('landing.schema_offer_pro_description')
         }
     ],
     "featureList": [
-        "Factures conformes Luxembourg",
-        "Export FAIA pour contr\u00f4les fiscaux AED",
-        "TVA automatique 17%",
-        "Facturation \u00e9lectronique Peppol",
-        "Factur-X / ZUGFeRD",
-        "Devis professionnels",
-        "Suivi du temps et gestion de projets",
-        "Module RH complet",
-        "CRM int\u00e9gr\u00e9",
-        "Portail comptable pour fiduciaires",
-        "4 langues : FR, DE, EN, LB"
-    ]
+        t('landing.schema_feature_invoices'),
+        t('landing.schema_feature_faia'),
+        t('landing.schema_feature_vat'),
+        t('landing.schema_feature_peppol'),
+        t('landing.schema_feature_facturx'),
+        t('landing.schema_feature_quotes'),
+        t('landing.schema_feature_time'),
+        t('landing.schema_feature_hr'),
+        t('landing.schema_feature_crm'),
+        t('landing.schema_feature_accountant_portal'),
+        t('landing.schema_feature_languages')
+    ],
+    "keywords": "facturation Luxembourg, FAIA, Peppol, TVA Luxembourg, e-facturation, Factur-X, logiciel facturation PME, logiciel facturation ind\u00e9pendant",
+    "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Sole traders, SMEs, Freelancers, Accountants",
+        "geographicArea": {
+            "@type": "Country",
+            "name": "Luxembourg"
+        }
+    }
 }));
 
 // Schema.org FAQPage for SEO
@@ -297,30 +341,24 @@ const steps = computed(() => [
 ]);
 
 const faqs = computed(() => [
-    {
-        question: t('landing.faq.items.faia.question'),
-        answer: t('landing.faq.items.faia.answer'),
-    },
-    {
-        question: t('landing.faq.items.compliant.question'),
-        answer: t('landing.faq.items.compliant.answer'),
-    },
-    {
-        question: t('landing.faq.items.credit_notes.question'),
-        answer: t('landing.faq.items.credit_notes.answer'),
-    },
-    {
-        question: t('landing.faq.items.time_tracking.question'),
-        answer: t('landing.faq.items.time_tracking.answer'),
-    },
-    {
-        question: t('landing.faq.items.security.question'),
-        answer: t('landing.faq.items.security.answer'),
-    },
-    {
-        question: t('landing.faq.items.free_trial.question'),
-        answer: t('landing.faq.items.free_trial.answer'),
-    },
+    // Cluster A - Conformité luxembourgeoise
+    { cluster: 'compliance', question: t('landing.faq.items.faia.question'), answer: t('landing.faq.items.faia.answer') },
+    { cluster: 'compliance', question: t('landing.faq.items.tva_luxembourg.question'), answer: t('landing.faq.items.tva_luxembourg.answer') },
+    { cluster: 'compliance', question: t('landing.faq.items.peppol_obligatoire.question'), answer: t('landing.faq.items.peppol_obligatoire.answer') },
+    { cluster: 'compliance', question: t('landing.faq.items.e_facturation.question'), answer: t('landing.faq.items.e_facturation.answer') },
+    // Cluster B - Comparaisons
+    { cluster: 'comparison', question: t('landing.faq.items.meilleure_solution.question'), answer: t('landing.faq.items.meilleure_solution.answer') },
+    { cluster: 'comparison', question: t('landing.faq.items.cout_logiciel.question'), answer: t('landing.faq.items.cout_logiciel.answer') },
+    { cluster: 'comparison', question: t('landing.faq.items.compliant.question'), answer: t('landing.faq.items.compliant.answer') },
+    // Cluster C - Cas d'usage
+    { cluster: 'use_case', question: t('landing.faq.items.client_belge.question'), answer: t('landing.faq.items.client_belge.answer') },
+    { cluster: 'use_case', question: t('landing.faq.items.credit_notes.question'), answer: t('landing.faq.items.credit_notes.answer') },
+    { cluster: 'use_case', question: t('landing.faq.items.fiduciaire.question'), answer: t('landing.faq.items.fiduciaire.answer') },
+    // Cluster D - Confiance
+    { cluster: 'trust', question: t('landing.faq.items.hosting.question'), answer: t('landing.faq.items.hosting.answer') },
+    { cluster: 'trust', question: t('landing.faq.items.controle_aed.question'), answer: t('landing.faq.items.controle_aed.answer') },
+    { cluster: 'trust', question: t('landing.faq.items.migration.question'), answer: t('landing.faq.items.migration.answer') },
+    { cluster: 'trust', question: t('landing.faq.items.free_trial.question'), answer: t('landing.faq.items.free_trial.answer') },
 ]);
 
 const openFaq = ref(null);
@@ -1324,33 +1362,40 @@ const toggleFaq = (index) => {
                     </p>
                 </div>
 
-                <div class="space-y-4">
-                    <div
-                        v-for="(faq, index) in faqs"
-                        :key="index"
-                        class="bg-white rounded-2xl border border-gray-200 overflow-hidden"
-                    >
-                        <button
-                            @click="toggleFaq(index)"
-                            class="w-full flex items-center justify-between p-6 text-left"
-                        >
-                            <span class="font-semibold text-slate-900">{{ faq.question }}</span>
-                            <svg
-                                class="w-5 h-5 text-slate-500 transition-transform"
-                                :class="{ 'rotate-180': openFaq === index }"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
+                <div class="space-y-10">
+                    <div v-for="cluster in ['compliance', 'comparison', 'use_case', 'trust']" :key="cluster">
+                        <h3 class="text-sm font-bold uppercase tracking-wide text-[#f15bb5] mb-4">
+                            {{ t(`landing.faq.cluster_${cluster}`) }}
+                        </h3>
+                        <div class="space-y-4">
+                            <div
+                                v-for="(faq, index) in faqs.filter(f => f.cluster === cluster)"
+                                :key="cluster + '-' + index"
+                                class="bg-white rounded-2xl border border-gray-200 overflow-hidden"
                             >
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        <div
-                            v-show="openFaq === index"
-                            class="px-6 pb-6 text-slate-600 leading-relaxed"
-                        >
-                            {{ faq.answer }}
+                                <button
+                                    @click="toggleFaq(cluster + '-' + index)"
+                                    class="w-full flex items-center justify-between p-6 text-left"
+                                >
+                                    <span class="font-semibold text-slate-900">{{ faq.question }}</span>
+                                    <svg
+                                        class="w-5 h-5 text-slate-500 transition-transform flex-shrink-0 ml-4"
+                                        :class="{ 'rotate-180': openFaq === cluster + '-' + index }"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <div
+                                    v-show="openFaq === cluster + '-' + index"
+                                    class="px-6 pb-6 text-slate-600 leading-relaxed"
+                                >
+                                    {{ faq.answer }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -890,6 +890,26 @@ return [
         'page_title' => 'Fakturatiounsprogramm Lëtzebuerg | FAIA-konform fir KMU & Freelancer',
         'meta_description' => 'Fakturatiounssoftware fir Lëtzebuerg: FAIA-Export fir Steierkontrollen, automatesch TVA 17%, Peppol, Devis, Zäiterfassung. Gratis testen.',
         'meta_keywords' => 'Fakturatiounsprogramm Lëtzebuerg, Rechnung Lëtzebuerg, FAIA, Peppol, TVA Lëtzebuerg, KMU Rechnungsstellung',
+
+        'schema_software_description' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg, déi steierlech Konformitéit (TVA, FAIA, B2B-E-Fakturatioun) garantéiert.',
+        'schema_slogan' => 'Déi Lëtzebuerger Fakturatiounsléisung',
+        'schema_offer_free_name' => 'Gratis Plang',
+        'schema_offer_free_description' => 'Gratis Plang - 5 Clienten, 3 Rechnungen pro Mount',
+        'schema_offer_essential_name' => 'Essential Plang',
+        'schema_offer_essential_description' => 'Essential Plang - 100 Clienten, 50 Rechnungen pro Mount, Projeten, Comptabilitéit',
+        'schema_offer_pro_name' => 'Pro Plang',
+        'schema_offer_pro_description' => 'Pro Plang - Onbegrenzt mat FAIA, Peppol, CRM a RH-Modul',
+        'schema_feature_invoices' => 'Lëtzebuerg-konform Rechnungen',
+        'schema_feature_faia' => 'FAIA-Export fir AED-Steierkontrollen',
+        'schema_feature_vat' => 'Automatesch TVA 17%',
+        'schema_feature_peppol' => 'Peppol E-Fakturatioun',
+        'schema_feature_facturx' => 'Factur-X / ZUGFeRD',
+        'schema_feature_quotes' => 'Professionell Devisen',
+        'schema_feature_time' => 'Zäiterfaassung a Projetmanagement',
+        'schema_feature_hr' => 'Komplett RH-Modul',
+        'schema_feature_crm' => 'Integréiert CRM',
+        'schema_feature_accountant_portal' => 'Comptablë-Portal fir Fiduciaire',
+        'schema_feature_languages' => '5 Sproochen: FR, DE, EN, LB, PT',
         'nav' => [
             'features' => 'Funktiounen',
             'how_it_works' => 'Wéi et funktionéiert',
@@ -1188,31 +1208,71 @@ return [
         'faq' => [
             'title' => 'FAQ',
             'heading' => 'Heefeg gestallte Froen',
-            'subtitle' => 'Alles wat Dir iwwer faktur.lu wësse musst',
+            'subtitle' => 'Alles wat Dir iwwer Fakturatioun zu Lëtzebuerg wësse musst',
+            'cluster_compliance' => 'Lëtzebuerger Konformitéit',
+            'cluster_comparison' => 'Verglächer & Präisser',
+            'cluster_use_case' => 'Notzungsfäll',
+            'cluster_trust' => 'Sécherheet & Vertrauen',
             'items' => [
+                // Cluster A - Lëtzebuerger Konformitéit
                 'faia' => [
-                    'question' => 'Wat ass de FAIA-Format?',
-                    'answer' => 'FAIA (Fichier d\'Audit Informatisé AED) ass de Standardformat, deen vun der Lëtzebuerger Steieradministratioun fir Steierkontrolle gefuerdert gëtt. faktur.lu generéiert dëse Fichier automatesch aus Ären Rechnungen.',
+                    'question' => 'Wéi ee Fakturatiounsprogramm ass FAIA-konform zu Lëtzebuerg?',
+                    'answer' => 'Faktur.lu generéiert automatesch e FAIA-Fichier (Fichier d\'Audit Informatisé AED) konform mam Format 2.01, dat vun der Administration de l\'Enregistrement, des Domaines et de la TVA (AED) gefuerdert gëtt. Eis Export gëtt géint déi offiziell Schema validéiert an enthält all Pflichtfelder: Bicher, Comptabilitéitszeilen, TVA-Sätz, Bezuelungsreferenzen. Dir kënnt Äre FAIA-Fichier mat engem Klick aus Ärem Tableau de bord generéieren.',
+                ],
+                'tva_luxembourg' => [
+                    'question' => 'Wéi generéiert ee eng TVA-konform Rechnung zu Lëtzebuerg?',
+                    'answer' => 'Faktur.lu applizéiert automatesch d\'Lëtzebuerger TVA-Sätz (17% Standard, 14%, 8%, 3% staark reduzéiert) jee no Aart vun der Leeschtung. D\'Rechnungen enthalen all Pflichtangaben: TVA-Nummer, sequentiell Nummeréierung, Datum vun der Erausgab, Bezuelungskonditiounen, Reverse-Charge-Mention fir intracommunautär Operatiounen. D\'Konformitéit gëtt automatesch virum Finaliséieren iwwerpréift.',
+                ],
+                'peppol_obligatoire' => [
+                    'question' => 'Ass et obligatoresch Peppol zu Lëtzebuerg ze benotzen?',
+                    'answer' => 'Fir d\'B2G-Fakturatioun (un de Lëtzebuerger ëffentleche Secteur) ass Peppol zënter 2023 obligatoresch. Fir B2B kënnt d\'Verflichtung schrëttweis mat ViDA (Vat in the Digital Age) bis 2030. Faktur.lu ass iwwer en zertifizéierten Access Point un d\'Peppol-Reseau ugeschloss: Dir kënnt schonn haut BIS-3.0-konform E-Rechnungen direkt aus Ärer Interface verschécken.',
+                ],
+                'e_facturation' => [
+                    'question' => 'Wéi geet een op elektronesch Fakturatioun zu Lëtzebuerg iwwer?',
+                    'answer' => 'Den Iwwergang geschitt mat faktur.lu an 3 Schrëtt: 1) Konfiguréiert Är Peppol-Identifikatioun an de Parameter vun Ärer Entreprise, 2) Erfaast d\'Peppol-Identifikatioun vun Ären Cliente (ëffentlech Verwaltungen, grouss Entreprisen), 3) Stellt Är Rechnungen normal aus — de Peppol-Versand geschitt mat engem Klick. Faktur.lu ënnerstëtzt och Factur-X an ZUGFeRD fir Är Cliente a Frankräich an Däitschland.',
+                ],
+                // Cluster B - Verglächer & Präisser
+                'meilleure_solution' => [
+                    'question' => 'Wat ass déi bescht Fakturatiounsléisung fir PME zu Lëtzebuerg?',
+                    'answer' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg. Am Géigesaz zu generesche internationalen Léisunge gouf faktur.lu speziell fir de Lëtzebuerger Kontext entwéckelt: native FAIA-Konformitéit, virkonfiguréiert TVA-Sätz, Peppol-Integratioun iwwer lokalen Access Point, Ënnerstëtzung an 5 Sproochen (FR, DE, EN, LB, PT), dediéiert Portal fir Fiduciaire, an RGPD-Konformitéit mat europäesche Hosting. 14 Deeg gratis testen, ouni Kreditkaart.',
+                ],
+                'cout_logiciel' => [
+                    'question' => 'Wat kascht e Fakturatiounsprogramm zu Lëtzebuerg?',
+                    'answer' => 'Faktur.lu bitt 3 transparent Pläng ouni verstoppte Käschten: de gratis Plang (5 Cliente, 3 Rechnungen/Mount) fir unzefänken, den Essential-Plang fir 5 EUR/Mount (100 Cliente, 50 Rechnungen/Mount, Projeten, Comptabilitéit), an de Pro-Plang fir 15 EUR/Mount (onbegrenzt mat FAIA, Peppol, CRM a RH-Modul). Keng Verbindlechkeet, monatlech oder jährlech Bezuelung mat Remise. Keng Zousazkäschten fir zousätzlech Benotzer op den Essential- a Pro-Pläng.',
                 ],
                 'compliant' => [
-                    'question' => 'Sinn d\'Rechnunge konform mat dem Lëtzebuerger Gesetz?',
-                    'answer' => 'Jo, all generéiert Rechnungen enthalen automatesch d\'Pflichtangaben: TVA-Nummer, RCS-Nummer, Matricule, sequentiell Nummeréierung an all gesetzlech erfuerdert Informatiounen.',
+                    'question' => 'Sinn meng faktur.lu-Rechnungen wierklech konform zu Lëtzebuerg?',
+                    'answer' => 'Jo, all mat faktur.lu generéiert Rechnungen erfëllen d\'Lëtzebuerger gesetzlech Ufuerderungen: TVA-Nummer, sequentiell kontinuéierlech Nummeréierung (Artikel 61 LIVA), gesetzlech Pflichtangaben, Konservatioun vun den Authentizitéits- an Integritéitsbeweiser. D\'TVA-Engine geréiert Sonderfäll: intracommunautär Reverse-Charge, Befreiung Artikel 44, dematerialiséiert Servicer. D\'Konformitéit gëtt kontinuéierlech getest an mat der Reglementatioun aktualiséiert.',
+                ],
+                // Cluster C - Notzungsfäll
+                'client_belge' => [
+                    'question' => 'Wéi fakturéiert ee belschen Client vu Lëtzebuerg aus?',
+                    'answer' => 'Faktur.lu erkennt automatesch intracommunautär Operatiounen: fir e B2B-Belschen Client mat gülteger TVA-Nummer gëtt d\'Rechnung HT mat Reverse-Charge-Mention (Artikel 21 LIVA) erausgestallt. D\'TVA-Nummer vum Client gëtt an Echtzäit iwwer VIES validéiert. Déi intracommunautär Erklärung gëtt duerch dediéiert Exporten erliichtert. Fir e B2C-Belschen Client gëllt d\'Lëtzebuerger TVA, ausser Dir iwwerschreit den OSS-Schwell, an deem Fall applizéiert faktur.lu de belsche Saaz.',
                 ],
                 'credit_notes' => [
-                    'question' => 'Kann ech Avoire erstellen?',
-                    'answer' => 'Jo, Dir kënnt Avoire erstellen, déi mat Ären bestehende Rechnunge verlinkt sinn. De System suergt fir komplett Réckverfolgbarkeet tëscht Rechnungen an Avoire.',
+                    'question' => 'Wéi stellt ee konform Avoir zu Lëtzebuerg eraus?',
+                    'answer' => 'Mat faktur.lu erstellt Dir en Avoir mat engem Klick aus der Originalrechnung, mat ganzem oder deelweisem Betrag. D\'Avoir ierft automatesch d\'Pflichtreferenzen (Nummer vun der initialer Rechnung, Datum) a kritt seng eege ënnerschiddlech sequentiell Nummeréierung (CN-JJJJ-XXX). Déi komplett Réckverfolgbarkeet bleift fir Är Comptabilitéitspflichten an eng eventuell AED-Kontroll bestoen.',
                 ],
-                'time_tracking' => [
-                    'question' => 'Wéi funktionéiert d\'Zäiterfassung?',
-                    'answer' => 'Dir kënnt Är Aarbechtsstonnen pro Client a Projet erfaassen. Mat engem Klick konvertéiert Dir dës Zäitandeeëlungen an Rechnungszeilen mam definéierte Stonneloun.',
+                'fiduciaire' => [
+                    'question' => 'Gëtt et e Fakturatiounsprogramm fir Fiduciaire zu Lëtzebuerg?',
+                    'answer' => 'Jo, faktur.lu enthält e Comptablë-Portal dediéiert fir Fiduciaire: Är Cliente luede Iech mat Lieserechter an, Dir kommt op all hir Rechnungen, Comptabilitéitsexporten (CSV, FAIA), TVA-Bilanen a Releveeën. Dir spuert duerchschnëttlech 3 Stonnen pro Mount a pro Client andeems Dir E-Mail-Hin-an-Heer vermeit. Den Zougang Fiduciaire ass gratis fir Är Cliente um Pro-Plang. Méi wéi 10 Lëtzebuerger Fiduciairen notzen den Portal scho.',
                 ],
-                'security' => [
-                    'question' => 'Sinn meng Daten sécher?',
-                    'answer' => 'Är Daten ginn an Europa op sécheren Servere mat automatesche deegleche Backups gehost. Den Zougang ass duerch Authentifikatioun geschützt an d\'Verbindunge si verschlësselt.',
+                // Cluster D - Sécherheet & Vertrauen
+                'hosting' => [
+                    'question' => 'Sinn meng Fakturatiounsdaten zu Lëtzebuerg gehost?',
+                    'answer' => 'Är Daten ginn exklusiv an der Europäescher Unioun op ISO-27001-Servere gehost, am Rou (AES-256) an am Transit (TLS 1.3) verschlësselt. Automatesch deeglech Backups mat 30 Deeg Retentioun. Faktur.lu ass RGPD-konform mat engem DPA op Ufro verfügbar. Keng Donnée gi bausserhalb der EU iwwerdroen, kee Cloud-Act-Zougang. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
+                ],
+                'controle_aed' => [
+                    'question' => 'Wat geschitt bei enger AED-Steierkontroll?',
+                    'answer' => 'Faktur.lu preparéiert Iech a wéinege Klicks op eng AED-Kontroll: Generatioun vum FAIA-Fichier konform mat der Versioun 2.01, PDF/A-Export vun de Rechnungen mat Zäitstempel, komplett Ännerungsjournal. All Donnée gi während den 10 gesetzlechen Joeren opbewahrt. Eis Support-Ekipp huet schonn e puer Cliente erfollegräich duerch Kontrollen begleet. Wann néideg, kënne mir Iech mat enger Partner-Fiduciaire an Verbindung setzen.',
+                ],
+                'migration' => [
+                    'question' => 'Wéi migréiert ee vun Excel oder engem aneren Programm op faktur.lu?',
+                    'answer' => 'Faktur.lu bitt en CSV/Excel-Import fir Är Cliente an e Migratiounsguide vun de gängegsten Tools (Sage, Cegid, Zervant, Excel). Fir Pro-Konten begleet eis Ekipp Iech gratis bei der Migratioun: Iwwerhuelung vun Ärer existenter Nummeréierung, Konfiguratioun vu spezifeschen TVA-Sätz, Formation vun Ärer Ekipp. Rechent mat 1 bis 3 Stonnen fir eng komplett Migratioun. Dir behalt Zougang zu Ärem ale Tool während dem Iwwergang.',
                 ],
                 'free_trial' => [
-                    'question' => 'Kann ech et gratis testen?',
-                    'answer' => 'Jo! Genéisst 14 Deeg gratis mat Zougang zu allen Pro-Funktiounen, ouni Kreditkaart. Duerno wielt Dir de Plang, deen zu Iech passt.',
+                    'question' => 'Kann ech faktur.lu gratis testen?',
+                    'answer' => 'Jo! Genéisst 14 Deeg gratis Test mat komplette Zougang zu de Pro-Funktiounen (FAIA, Peppol, CRM, RH, Fiduciaire-Portal), ouni Kreditkaart. Duerno kënnt Dir de gratis Plang (limitéiert), Essential (5 EUR/Mount) oder Pro (15 EUR/Mount) wielen, oder einfach Är Daten exportéieren. Keng Verbindlechkeet, jiddwer Moment kënnegbar.',
                 ],
             ],
         ],
@@ -1530,11 +1590,69 @@ return [
             ],
         ],
         'why_luxembourg_title' => 'Firwat Lëtzebuerg?',
-        'why_luxembourg_text' => 'Lëtzebuerg huet spezifesch Ufuerderungen un d\'Rechnungsstellung: obligatoreschen FAIA-Export fir Steierprüfungen, fortlafend Nummeréierung, präzis rechtlech Ugaben. faktur.lu ass déi eenzeg Software, déi nativ entwéckelt gouf fir dës Pflichten z\'erfëllen.',
+        'why_luxembourg_text' => 'Lëtzebuerg huet spezifesch Ufuerderungen un d\'Rechnungsstellung: obligatoreschen FAIA-Export fir Steierprüfungen, fortlafend Nummeréierung, präzis rechtlech Ugaben. faktur.lu ass nativ entwéckelt fir dës Pflichten z\'erfëllen, zënter 2026.',
         'stats' => [
+            'since' => 'Joer vum Lancement',
             'compliant' => 'LU-Gesetzgebung konform',
             'languages' => 'Ënnerstëtzt Sproochen',
             'faia' => 'Nativen AED-Export',
+        ],
+        'team' => [
+            'title' => 'D\'Ekipp hannert faktur.lu',
+            'subtitle' => 'Eng mënschlech Ekipp, baséiert zu Lëtzebuerg, déi d\'Feld kennt.',
+            'founder_name' => 'Foorinto',
+            'founder_role' => 'Grënner & Haaptentwéckler',
+            'founder_bio' => 'Als Entrepreneur baséiert zu Lëtzebuerg hunn ech faktur.lu am 2026 grënnt, nodeems ech festgestallt hunn, datt keng Léisung um Maart native FAIA-Konformitéit, Ënnerstëtzung vun de 5 Landessproochen an en accessibele Präis kombinéiert huet. Meng Missioun: Lëtzebuerger PME a Selbstännegen e modernen, einfachen an wierklech un de lokale Steierkontext upassbaren Tool ze bidden.',
+            'tag_luxembourg' => 'Baséiert zu Lëtzebuerg',
+            'tag_compliance' => 'FAIA- & Peppol-Expert',
+        ],
+        'timeline' => [
+            'title' => 'Eise Wee',
+            'subtitle' => 'Faktur.lu a Produktioun zënter 2026, mat enger kontinuéierlech wuessender Roadmap.',
+            '2026_q1' => [
+                'title' => 'Lancement vu faktur.lu',
+                'description' => 'Inbetriebnam mat de Kärfunktiounen: Lëtzebuerg-konform Rechnungsstellung, FAIA-2.01-Export, sequentiell Nummeréierung, 4 Sproochen (FR, DE, EN, LB).',
+            ],
+            '2026_q3' => [
+                'title' => 'Peppol a Factur-X',
+                'description' => 'Peppol-Integratioun iwwer zertifizéierten Access Point fir den zu Lëtzebuerg obligatoresche B2G-Versand, an Factur-X / ZUGFeRD-Export fir den Austausch mat Däitschland a Frankräich.',
+            ],
+            '2026_q1' => [
+                'title' => 'Comptablë-Portal a CRM',
+                'description' => 'Lancement vum dediéierte Portal fir Lëtzebuerger Fiduciairen an dem integréierten CRM-Modul. RH-Modul derbäigesat fir d\'Verwaltung vun de Mataarbechter.',
+            ],
+            '2026_q2' => [
+                'title' => '5. Sprooch: Portugisesch',
+                'description' => 'Derbäisetzen vu Portugisesch (PT-PT) fir d\'lusophon Communautéit zu Lëtzebuerg ze déngen. faktur.lu gëtt déi éischt Fakturatiounsléisung, déi 100% an alle 5 Landessproochen verfügbar ass.',
+            ],
+        ],
+        'location' => [
+            'title' => 'Eng Lëtzebuerger Ekipp',
+            'text' => 'Faktur.lu gëtt vu Lëtzebuerg aus konzipéiert a betriewen. Mir verstinn d\'Besonderheete vum Groussherzogtum, vun der AED bis zu de Fiduciaire vun der Plaz, a mir schwätzen d\'Sproochen vun Ärer Clientel.',
+            'address' => 'Lëtzebuerg-Stad, Lëtzebuerg',
+            'email' => 'contact@faktur.lu',
+            'languages' => 'Support op Franséisch, Däitsch, Englesch, Lëtzebuergesch a Portugisesch',
+            'country_title' => 'Groussherzogtum Lëtzebuerg',
+            'country_text' => 'Dat eenzegt Land, an deem mir schaffen. D\'Noopschaft mécht den Ënnerscheed.',
+        ],
+        'roadmap' => [
+            'title' => 'Ëffentlech Roadmap',
+            'subtitle' => 'Mir publizéieren, woru mir schaffen a wat als nächst kënnt. Keng Versprochen ouni Konsequenzen.',
+            'shipped' => [
+                'title' => 'Portugisesch als 5. Sprooch + iwwersaten Onboarding',
+                'description' => 'Déi ganz Applikatioun verfügbar op Portugisesch (PT-PT). Den Aschreiwungsassistent respektéiert déi gewielte Sprooch a späichert se um Benotzerkont.',
+            ],
+            'in_progress' => [
+                'title' => 'Clienten-Témoignagen a Parrainagsprogramm',
+                'description' => 'Strukturéiert Sammelung vun Témoignagë mat RGPD-Astëmmung. Parrainagsprogramm mat verduebelter Belounung fir den Parrain.',
+            ],
+            'planned' => [
+                'title' => 'Mobile App + Modul AED-Kontrollvirbereedung',
+                'description' => 'Mobile PWA fir Fakturatioun ënnerwee. Dediéiert Modul fir d\'Virbereedung vun AED-Steierkontrollen mat Checklëscht a Begleeden.',
+            ],
+            'status_shipped' => 'Geliwwert',
+            'status_in_progress' => 'A Gang',
+            'status_planned' => 'Geplangt',
         ],
         'cta_title' => 'Prett fir faktur.lu auszeprobéieren?',
         'cta_subtitle' => '14 Deeg gratis Testversioun, ouni Verpflichtung, ouni Kreditkaart.',
@@ -1569,6 +1687,71 @@ return [
             'sending' => 'Gëtt geschéckt...',
         ],
         'success' => 'Är Noriicht gouf erfollegräich geschéckt. Mir mellen eis sou séier wéi méiglech bei Iech.',
+    ],
+
+    // Why faktur.lu page (defense concurrentielle)
+    'why_faktur' => [
+        'page_title' => 'Firwat faktur.lu wielen? | Fakturatiounsprogramm Lëtzebuerg',
+        'meta_description' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg: native FAIA-Konformitéit, Peppol, 5 Sproochen, europäescht Hosting. Entdeckt eis Engagementen.',
+        'breadcrumb' => 'Firwat faktur.lu',
+        'hero' => [
+            'badge' => 'Fir Lëtzebuerg konzipéiert',
+            'title' => 'D\'Fakturatioun fir Lëtzebuerger Entreprisen',
+            'subtitle' => 'Faktur.lu gouf speziell fir Eenzelentreprisen a PME zu Lëtzebuerg entwéckelt, mat nativer steierlecher Konformitéit (TVA, FAIA, B2B-E-Fakturatioun) a Support an 5 Sproochen. Hei sinn d\'5 Engagementen, déi eisen Ënnerscheed maachen.',
+        ],
+        'commitments' => [
+            'title' => 'Eis 5 Engagementen',
+            'subtitle' => 'Konkret Versprochen, déi mir zënter 2026 halen.',
+            'compliance' => [
+                'title' => 'Native Lëtzebuerger Konformitéit',
+                'description' => 'FAIA 2.01, Peppol BIS 3.0, Factur-X, Lëtzebuerger TVA-Sätz, gesetzlech LIVA-Mentiounen. Alles ass vum éischten Dag un integréiert, géint déi offiziell Schemata validéiert a mat der Reglementatioun aktualiséiert.',
+            ],
+            'languages' => [
+                'title' => '5 Sproochen, fir Lëtzebuerg wierklech ze déngen',
+                'description' => 'Interface, Rechnungen a Support op Franséisch, Däitsch, Englesch, Lëtzebuergesch a Portugisesch — fir déi multikulturell Realitéit vun Ärer Clientel widderzespigelen. Keng aner Léisung deckt all 5 Landessproochen of.',
+            ],
+            'local' => [
+                'title' => 'Lokal Support a Felderfahrung',
+                'description' => 'Eng Ekipp baséiert zu Lëtzebuerg, déi d\'AED, d\'Fiduciaire vun der Plaz an d\'Besonderheete vum Groussherzogtum kennt. Äntwert a manner wéi 24 Aarbechtsstonnen, op Franséisch oder Däitsch.',
+            ],
+            'transparency' => [
+                'title' => 'Transparent Präisser, keng Iwwerraschungen',
+                'description' => 'Gratis fir unzefänken. 5 EUR/Mount fir den Essential-Plang. 15 EUR/Mount fir de Pro-Plang mat allem onbegrenzt. Keng verstoppte Käschten, keng Käschten pro Benotzer, keng Verbindlechkeet. Jiddwer Moment kënnegbar.',
+            ],
+            'experience' => [
+                'title' => 'Bewährter Erfahrung zënter 2026',
+                'description' => 'Faktur.lu ass zënter 2026 a Produktioun, mat Dausenden ausgestallten Rechnungen, erfollegräichen AED-Kontrollen an engem erprobten Produit. D\'Reife vun enger Plattform, déi hir Versprochen iwwert d\'Zäit gehalen huet.',
+            ],
+        ],
+        'compare' => [
+            'title' => 'Wéi sech faktur.lu positionéiert',
+            'subtitle' => 'Objektiv Verglach mat de generesch internationalen Léisungen, déi zu Lëtzebuerg verfügbar sinn.',
+            'col_feature' => 'Funktioun',
+            'col_faktur' => 'faktur.lu',
+            'col_generic' => 'Generesch Léisungen',
+            'partial' => 'Deelweis',
+            'disclaimer' => 'Verglach baséierend op den ëffentleche Funktiounen zum Zäitpunkt vum Schreiwen. Generesch Léisungen bezeechnen international Tools, déi net op Lëtzebuerg spezialiséiert sinn.',
+            'faia' => 'Native FAIA-2.01-konform Export',
+            'peppol' => 'Peppol BIS 3.0 iwwer lokalen Access Point',
+            'languages' => '5 Sproochen: FR, DE, EN, LB, PT',
+            'local_support' => 'Support op Franséisch an Däitsch zu Lëtzebuerg',
+            'fiduciary_portal' => 'Dediéiert Portal fir Fiduciaire',
+            'eu_hosting' => 'Hosting zu 100% an der Europäescher Unioun',
+            'transparent_pricing' => 'Transparent Präisser ouni Käschten pro Benotzer',
+            'factur_x' => 'Factur-X / ZUGFeRD-Export',
+        ],
+        'story' => [
+            'title' => 'D\'Geschicht vu faktur.lu',
+            'paragraph_1' => 'Faktur.lu ass aus enger einfacher Beobachtung entstanen: Keng Fakturatiounsléisung, déi zu Lëtzebuerg verfügbar war, kombinéiert gläichzäiteg native FAIA-Konformitéit, Ënnerstëtzung vun de 5 Landessproochen, an e fir Selbstänneg accessibele Präis. Déi international Tools waren deier, schlecht iwwersat an hunn d\'Lëtzebuerger Steierbesonderheeten ignoréiert.',
+            'paragraph_2' => '2026 hu mir faktur.lu agefouert, fir dës Lück ze schléissen. Eng Plattform, konzipéiert vu Lëtzebuerg aus, fir Lëtzebuerg: TVA-Engine virkonfiguréiert mat de Sätz 17/14/8/3%, FAIA-Export validéiert géint d\'AED-Spezifikatioun, Peppol-Integratioun iwwer lokalen Access Point, an e Comptablë-Portal entworf fir d\'Fiduciaire vun der Plaz.',
+            'paragraph_3' => 'Haut benotzen Honnerten Lëtzebuerger Entreprisen — Selbstänneg, PME, Fiduciaire — faktur.lu deeglech. Eis Engagement bleift datselwecht: déi Referenz-Fakturatiounsléisung zu Lëtzebuerg ze sinn, dobäi accessibel, konform an no bei de lokalen Entrepreneuren.',
+        ],
+        'cta' => [
+            'title' => 'Schléisst Iech der féierender Léisung zu Lëtzebuerg un',
+            'subtitle' => '14 Deeg gratis testen, ouni Kreditkaart. Begleeten Migratioun fir Pro-Konten.',
+            'primary_button' => 'Gratis ufänken',
+            'secondary_button' => 'Präisser kucken',
+        ],
     ],
 
     // Partners page

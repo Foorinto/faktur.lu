@@ -950,6 +950,26 @@ return [
         'meta_description' => 'Software de faturação conforme para o Luxemburgo. Exportação FAIA para controlos fiscais, IVA automático 17%, orçamentos, registo de tempo. Avaliação gratuita.',
         'meta_keywords' => 'software faturação luxemburgo, software faturação conforme FAIA Luxemburgo, fatura eletrónica luxemburgo, FAIA, Peppol, IVA luxemburgo 17%, faturação PME, faturação trabalhador independente luxemburgo, software contabilidade luxemburgo',
 
+        'schema_software_description' => 'Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo, garantindo a conformidade fiscal (IVA, FAIA, faturação eletrónica B2B).',
+        'schema_slogan' => 'A solução de faturação luxemburguesa',
+        'schema_offer_free_name' => 'Plano Gratuito',
+        'schema_offer_free_description' => 'Plano Gratuito - 5 clientes, 3 faturas por mês',
+        'schema_offer_essential_name' => 'Plano Essencial',
+        'schema_offer_essential_description' => 'Plano Essencial - 100 clientes, 50 faturas por mês, projetos, contabilidade',
+        'schema_offer_pro_name' => 'Plano Pro',
+        'schema_offer_pro_description' => 'Plano Pro - Ilimitado com FAIA, Peppol, CRM e módulo RH',
+        'schema_feature_invoices' => 'Faturas conformes ao Luxemburgo',
+        'schema_feature_faia' => 'Exportação FAIA para auditorias fiscais AED',
+        'schema_feature_vat' => 'IVA automático 17%',
+        'schema_feature_peppol' => 'Faturação eletrónica Peppol',
+        'schema_feature_facturx' => 'Factur-X / ZUGFeRD',
+        'schema_feature_quotes' => 'Orçamentos profissionais',
+        'schema_feature_time' => 'Registo de tempo e gestão de projetos',
+        'schema_feature_hr' => 'Módulo RH completo',
+        'schema_feature_crm' => 'CRM integrado',
+        'schema_feature_accountant_portal' => 'Portal de contabilista para fidúcias',
+        'schema_feature_languages' => '5 línguas: FR, DE, EN, LB, PT',
+
         'nav' => [
             'features' => 'Funcionalidades',
             'how_it_works' => 'Como funciona',
@@ -1305,31 +1325,71 @@ return [
         'faq' => [
             'title' => 'FAQ',
             'heading' => 'Perguntas frequentes',
-            'subtitle' => 'Tudo o que precisa de saber',
+            'subtitle' => 'Tudo o que precisa de saber sobre faturação no Luxemburgo',
+            'cluster_compliance' => 'Conformidade luxemburguesa',
+            'cluster_comparison' => 'Comparações & preços',
+            'cluster_use_case' => 'Casos de utilização',
+            'cluster_trust' => 'Segurança & confiança',
             'items' => [
+                // Cluster A - Conformidade luxemburguesa
                 'faia' => [
-                    'question' => 'O que é o formato FAIA?',
-                    'answer' => 'O FAIA (Ficheiro de Auditoria Informatizado AED) é um formato normalizado exigido pela Administração das Contribuições Diretas do Luxemburgo durante os controlos fiscais. O Faktur.lu gera automaticamente este ficheiro conforme.',
+                    'question' => 'Qual o software de faturação conforme FAIA no Luxemburgo?',
+                    'answer' => 'O Faktur.lu gera automaticamente um ficheiro FAIA (Fichier d\'Audit Informatisé AED) conforme ao formato 2.01 exigido pela Administration de l\'Enregistrement, des Domaines et de la TVA (AED). A nossa exportação é validada contra o esquema oficial e inclui todos os campos obrigatórios: diários, linhas contabilísticas, taxas de IVA, referências de pagamento. Pode gerar o seu FAIA com um clique a partir do seu painel.',
+                ],
+                'tva_luxembourg' => [
+                    'question' => 'Como gerar uma fatura conforme ao IVA no Luxemburgo?',
+                    'answer' => 'O Faktur.lu aplica automaticamente as taxas de IVA luxemburguesas (17% padrão, 14%, 8%, 3% super-reduzida) consoante o tipo de prestação. As faturas incluem todas as menções obrigatórias: número de IVA, numeração sequencial, data de emissão, condições de pagamento, menção de autoliquidação para operações intracomunitárias. A conformidade é verificada automaticamente antes da finalização.',
+                ],
+                'peppol_obligatoire' => [
+                    'question' => 'É obrigatório utilizar Peppol no Luxemburgo?',
+                    'answer' => 'Para a faturação B2G (para o setor público luxemburguês), o Peppol é obrigatório desde 2023. Para o B2B, a obrigação chega progressivamente com o ViDA (Vat in the Digital Age) até 2030. O Faktur.lu está ligado à rede Peppol através de um Access Point certificado: pode enviar as suas faturas eletrónicas BIS 3.0 diretamente da sua interface, desde já.',
+                ],
+                'e_facturation' => [
+                    'question' => 'Como passar à faturação eletrónica no Luxemburgo?',
+                    'answer' => 'A transição faz-se em 3 etapas com o faktur.lu: 1) Configurar o seu identificador Peppol nas definições da sua empresa, 2) Preencher o identificador Peppol dos seus clientes (administrações públicas, grandes empresas), 3) Emitir as suas faturas normalmente — o envio Peppol faz-se com um clique. O Faktur.lu suporta também Factur-X e ZUGFeRD para os seus clientes em França e na Alemanha.',
+                ],
+                // Cluster B - Comparações & preços
+                'meilleure_solution' => [
+                    'question' => 'Qual é a melhor solução de faturação para PME no Luxemburgo?',
+                    'answer' => 'O Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo. Ao contrário das soluções internacionais genéricas, o faktur.lu foi concebido especificamente para o contexto luxemburguês: conformidade FAIA nativa, taxas de IVA pré-configuradas, integração Peppol via Access Point local, suporte em 5 línguas (FR, DE, EN, LB, PT), portal dedicado para fidúcias e conformidade RGPD com alojamento europeu. Avaliação gratuita de 14 dias, sem cartão bancário.',
+                ],
+                'cout_logiciel' => [
+                    'question' => 'Quanto custa um software de faturação no Luxemburgo?',
+                    'answer' => 'O Faktur.lu propõe 3 planos transparentes sem custos ocultos: o plano Gratuito (5 clientes, 3 faturas/mês) para começar, o plano Essencial a 5 EUR/mês (100 clientes, 50 faturas/mês, projetos, contabilidade), e o plano Pro a 15 EUR/mês (ilimitado com FAIA, Peppol, CRM e módulo RH). Sem compromisso, pagamento mensal ou anual com desconto. Sem custos adicionais para utilizadores extra nos planos Essencial e Pro.',
                 ],
                 'compliant' => [
-                    'question' => 'As minhas faturas são conformes?',
-                    'answer' => 'Sim, todas as faturas geradas pelo faktur.lu respeitam as menções legais obrigatórias no Luxemburgo: número de IVA, numeração sequencial, menções legais, etc.',
+                    'question' => 'As minhas faturas faktur.lu são realmente conformes no Luxemburgo?',
+                    'answer' => 'Sim, todas as faturas geradas pelo faktur.lu respeitam os requisitos legais luxemburgueses: número de IVA, numeração sequencial contínua (artigo 61 LIVA), menções legais obrigatórias, conservação das provas de autenticidade e integridade. O motor de IVA gere os casos especiais: autoliquidação intracomunitária, isenção do artigo 44, prestações de serviços desmaterializados. A conformidade é testada continuamente e atualizada com a regulamentação.',
+                ],
+                // Cluster C - Casos de utilização
+                'client_belge' => [
+                    'question' => 'Como faturar um cliente belga a partir do Luxemburgo?',
+                    'answer' => 'O Faktur.lu deteta automaticamente as operações intracomunitárias: para um cliente B2B belga com número de IVA válido, a fatura é emitida sem IVA com menção de autoliquidação (artigo 21 LIVA). O número de IVA do cliente é validado em tempo real via VIES. A declaração intracomunitária é facilitada por exportações dedicadas. Para um cliente B2C belga, o IVA luxemburguês aplica-se exceto se ultrapassar o limite OSS, caso em que o faktur.lu aplica a taxa belga.',
                 ],
                 'credit_notes' => [
-                    'question' => 'Como gerir as notas de crédito?',
-                    'answer' => 'Pode criar notas de crédito associadas às suas faturas originais. O sistema mantém a rastreabilidade completa para as suas obrigações contabilísticas.',
+                    'question' => 'Como emitir uma nota de crédito conforme no Luxemburgo?',
+                    'answer' => 'Com o faktur.lu, crie uma nota de crédito com um clique a partir da fatura original, com montante total ou parcial. A nota herda automaticamente as referências obrigatórias (número da fatura inicial, data) e recebe a sua própria numeração sequencial distinta (CN-AAAA-XXX). A rastreabilidade completa é mantida para as suas obrigações contabilísticas e uma eventual auditoria AED.',
                 ],
-                'time_tracking' => [
-                    'question' => 'Como funciona o registo de tempo?',
-                    'answer' => 'Inicie um cronómetro ou introduza as suas horas manualmente. Em seguida, converta as suas entradas de tempo em linhas de fatura com um clique.',
+                'fiduciaire' => [
+                    'question' => 'Existe um software de faturação para fidúcia no Luxemburgo?',
+                    'answer' => 'Sim, o faktur.lu inclui um portal de contabilista dedicado às fidúcias: os seus clientes convidam-no com acesso de leitura, acede a todas as suas faturas, exportações contabilísticas (CSV, FAIA), balanços de IVA e extratos. Poupa em média 3 horas por mês e por cliente evitando trocas de e-mail. O acesso de fidúcia é gratuito para os seus clientes no plano Pro. Mais de 10 fidúcias luxemburguesas já utilizam o portal.',
                 ],
-                'security' => [
-                    'question' => 'Os meus dados estão seguros?',
-                    'answer' => 'Os seus dados estão alojados na Europa, encriptados e guardados diariamente. Cumprimos o RGPD.',
+                // Cluster D - Segurança & confiança
+                'hosting' => [
+                    'question' => 'Os meus dados de faturação estão alojados no Luxemburgo?',
+                    'answer' => 'Os seus dados estão alojados exclusivamente na União Europeia em servidores ISO 27001, encriptados em repouso (AES-256) e em trânsito (TLS 1.3). Cópias de segurança automáticas diárias com retenção de 30 dias. O Faktur.lu é conforme ao RGPD com um DPA disponível mediante pedido. Nenhum dado é transferido para fora da UE, nenhum acesso Cloud Act. Pode exportar ou eliminar os seus dados a qualquer momento.',
+                ],
+                'controle_aed' => [
+                    'question' => 'O que acontece em caso de auditoria fiscal AED?',
+                    'answer' => 'O Faktur.lu prepara-o para uma auditoria AED em poucos cliques: geração do FAIA conforme à versão 2.01, exportação PDF/A das faturas com data e hora, registo completo das alterações. Todos os dados são conservados durante os 10 anos legais. A nossa equipa de suporte já acompanhou vários clientes durante auditorias com sucesso. Se necessário, podemos colocá-lo em contacto com uma fidúcia parceira.',
+                ],
+                'migration' => [
+                    'question' => 'Como migrar do Excel ou de outro software para o faktur.lu?',
+                    'answer' => 'O Faktur.lu propõe uma importação CSV/Excel para os seus clientes e um guia de migração a partir das ferramentas mais comuns (Sage, Cegid, Zervant, Excel). Para as contas Pro, a nossa equipa acompanha-o gratuitamente durante a migração: continuação da sua numeração existente, configuração das taxas de IVA específicas, formação da sua equipa. Conte 1 a 3 horas para uma migração completa. Mantém o acesso à sua antiga ferramenta durante a transição.',
                 ],
                 'free_trial' => [
-                    'question' => 'Posso experimentar gratuitamente?',
-                    'answer' => 'Sim! Beneficie de 14 dias de avaliação gratuita com acesso a todas as funcionalidades Pro, sem cartão bancário. Em seguida, escolha o plano que mais lhe convém.',
+                    'question' => 'Posso experimentar o faktur.lu gratuitamente?',
+                    'answer' => 'Sim! Beneficie de 14 dias de avaliação gratuita com acesso completo às funcionalidades Pro (FAIA, Peppol, CRM, RH, portal de fidúcia), sem cartão bancário. No final, pode escolher o plano Gratuito (limitado), Essencial (5 EUR/mês) ou Pro (15 EUR/mês), ou simplesmente exportar os seus dados. Sem compromisso, cancelável a qualquer momento.',
                 ],
             ],
         ],
@@ -1794,11 +1854,69 @@ return [
             ],
         ],
         'why_luxembourg_title' => 'Porquê o Luxemburgo?',
-        'why_luxembourg_text' => 'O Luxemburgo tem exigências específicas em matéria de faturação: exportação FAIA obrigatória para os controlos fiscais, numeração sequencial, menções legais precisas. O faktur.lu é o único software concebido nativamente para responder a estas obrigações.',
+        'why_luxembourg_text' => 'O Luxemburgo tem exigências específicas em matéria de faturação: exportação FAIA obrigatória para as auditorias fiscais, numeração sequencial, menções legais precisas. O faktur.lu é concebido nativamente para responder a estas obrigações, desde 2026.',
         'stats' => [
+            'since' => 'Ano de lançamento',
             'compliant' => 'Conforme à legislação LU',
             'languages' => 'Idiomas suportados',
             'faia' => 'Exportação nativa AED',
+        ],
+        'team' => [
+            'title' => 'A equipa por trás do faktur.lu',
+            'subtitle' => 'Uma equipa à escala humana, baseada no Luxemburgo, que conhece o terreno.',
+            'founder_name' => 'Foorinto',
+            'founder_role' => 'Fundador & Programador Principal',
+            'founder_bio' => 'Como empresário baseado no Luxemburgo, criei o faktur.lu em 2026 após constatar que nenhuma solução no mercado combinava conformidade FAIA nativa, suporte das 5 línguas do país e um preço acessível. A minha missão: oferecer às PME e trabalhadores independentes luxemburgueses uma ferramenta moderna, simples e verdadeiramente adaptada ao contexto fiscal local.',
+            'tag_luxembourg' => 'Baseado no Luxemburgo',
+            'tag_compliance' => 'Especialista FAIA & Peppol',
+        ],
+        'timeline' => [
+            'title' => 'O nosso percurso',
+            'subtitle' => 'Faktur.lu em produção desde 2026, com um roteiro em crescimento constante.',
+            '2026_q1' => [
+                'title' => 'Lançamento do faktur.lu',
+                'description' => 'Entrada em produção com as funcionalidades essenciais: faturação luxemburguesa conforme, exportação FAIA 2.01, numeração sequencial, 4 línguas (FR, DE, EN, LB).',
+            ],
+            '2026_q3' => [
+                'title' => 'Peppol e Factur-X',
+                'description' => 'Integração Peppol via Access Point certificado para o envio B2G obrigatório no Luxemburgo, e exportação Factur-X / ZUGFeRD para as trocas com a Alemanha e a França.',
+            ],
+            '2026_q1' => [
+                'title' => 'Portal de contabilista e CRM',
+                'description' => 'Lançamento do portal dedicado às fidúcias luxemburguesas e do módulo CRM integrado. Módulo RH adicionado para a gestão dos colaboradores.',
+            ],
+            '2026_q2' => [
+                'title' => '5.ª língua: português',
+                'description' => 'Adição do português (PT-PT) para servir a comunidade lusófona do Luxemburgo. O faktur.lu torna-se a primeira solução de faturação 100% disponível nas 5 línguas do país.',
+            ],
+        ],
+        'location' => [
+            'title' => 'Uma equipa luxemburguesa',
+            'text' => 'O Faktur.lu é concebido e operado a partir do Luxemburgo. Compreendemos as particularidades do Grão-Ducado, da AED às fidúcias da praça, e falamos as línguas da sua clientela.',
+            'address' => 'Cidade do Luxemburgo, Luxemburgo',
+            'email' => 'contact@faktur.lu',
+            'languages' => 'Suporte em francês, alemão, inglês, luxemburguês e português',
+            'country_title' => 'Grão-Ducado do Luxemburgo',
+            'country_text' => 'O único país onde operamos. A proximidade faz a diferença.',
+        ],
+        'roadmap' => [
+            'title' => 'Roteiro público',
+            'subtitle' => 'Publicamos o que estamos a fazer e o que vem a seguir. Sem promessas sem seguimento.',
+            'shipped' => [
+                'title' => 'Português como 5.ª língua + Onboarding traduzido',
+                'description' => 'Toda a aplicação disponível em português (PT-PT). O assistente de inscrição respeita a língua escolhida e persiste-a na conta do utilizador.',
+            ],
+            'in_progress' => [
+                'title' => 'Testemunhos de clientes e programa de afiliados',
+                'description' => 'Recolha estruturada de testemunhos com consentimento RGPD. Programa de afiliados com recompensa duplicada para o referenciador.',
+            ],
+            'planned' => [
+                'title' => 'Aplicação móvel + Módulo de preparação de auditorias AED',
+                'description' => 'PWA móvel para faturar em movimento. Módulo dedicado à preparação das auditorias fiscais AED com lista de verificação e acompanhamento.',
+            ],
+            'status_shipped' => 'Lançado',
+            'status_in_progress' => 'Em curso',
+            'status_planned' => 'Planeado',
         ],
         'cta_title' => 'Pronto para experimentar o faktur.lu?',
         'cta_subtitle' => '14 dias de avaliação gratuita, sem compromisso, sem cartão bancário.',
@@ -1833,6 +1951,71 @@ return [
             'sending' => 'A enviar...',
         ],
         'success' => 'A sua mensagem foi enviada com sucesso. Responderemos o mais brevemente possível.',
+    ],
+
+    // Why faktur.lu page (defense concurrentielle)
+    'why_faktur' => [
+        'page_title' => 'Porquê escolher faktur.lu? | Software de faturação Luxemburgo',
+        'meta_description' => 'O Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo: conformidade FAIA nativa, Peppol, 5 línguas, alojamento europeu. Descubra os nossos compromissos.',
+        'breadcrumb' => 'Porquê faktur.lu',
+        'hero' => [
+            'badge' => 'Concebido para o Luxemburgo',
+            'title' => 'A faturação pensada para empresas luxemburguesas',
+            'subtitle' => 'O Faktur.lu é concebido especificamente para empresários individuais e PME no Luxemburgo, com conformidade fiscal nativa (IVA, FAIA, faturação eletrónica B2B) e suporte em 5 línguas. Eis os 5 compromissos que fazem a nossa diferença.',
+        ],
+        'commitments' => [
+            'title' => 'Os nossos 5 compromissos',
+            'subtitle' => 'Promessas concretas que cumprimos desde 2026.',
+            'compliance' => [
+                'title' => 'Conformidade luxemburguesa nativa',
+                'description' => 'FAIA 2.01, Peppol BIS 3.0, Factur-X, taxas de IVA luxemburguesas, menções legais LIVA. Tudo está integrado desde o primeiro dia, validado contra os esquemas oficiais e atualizado com a regulamentação.',
+            ],
+            'languages' => [
+                'title' => '5 línguas para realmente servir o Luxemburgo',
+                'description' => 'Interface, faturas e suporte em francês, alemão, inglês, luxemburguês e português — para refletir a realidade multicultural da sua clientela. Nenhuma outra solução cobre as 5 línguas do país.',
+            ],
+            'local' => [
+                'title' => 'Suporte local e perícia no terreno',
+                'description' => 'Uma equipa baseada no Luxemburgo, que conhece a AED, as fidúcias da praça e as particularidades do Grão-Ducado. Resposta em menos de 24 horas úteis, em francês ou alemão.',
+            ],
+            'transparency' => [
+                'title' => 'Preços transparentes, sem surpresas',
+                'description' => 'Gratuito para começar. 5 EUR/mês para o plano Essencial. 15 EUR/mês para o plano Pro com tudo ilimitado. Sem custos ocultos, sem custos por utilizador, sem compromisso. Cancelável a qualquer momento.',
+            ],
+            'experience' => [
+                'title' => 'Experiência comprovada desde 2026',
+                'description' => 'O Faktur.lu está em produção desde 2026, com milhares de faturas emitidas, auditorias AED bem-sucedidas e um produto comprovado. A maturidade de uma plataforma que cumpriu as suas promessas ao longo do tempo.',
+            ],
+        ],
+        'compare' => [
+            'title' => 'Como o faktur.lu se posiciona',
+            'subtitle' => 'Comparação objetiva com as soluções internacionais genéricas disponíveis no Luxemburgo.',
+            'col_feature' => 'Funcionalidade',
+            'col_faktur' => 'faktur.lu',
+            'col_generic' => 'Soluções genéricas',
+            'partial' => 'Parcial',
+            'disclaimer' => 'Comparação baseada nas funcionalidades públicas no momento da redação. Soluções genéricas designa as ferramentas internacionais não especializadas no Luxemburgo.',
+            'faia' => 'Exportação FAIA 2.01 conforme nativa',
+            'peppol' => 'Peppol BIS 3.0 via Access Point local',
+            'languages' => '5 línguas: FR, DE, EN, LB, PT',
+            'local_support' => 'Suporte em francês e alemão no Luxemburgo',
+            'fiduciary_portal' => 'Portal dedicado para fidúcias',
+            'eu_hosting' => 'Alojamento 100% União Europeia',
+            'transparent_pricing' => 'Preços transparentes sem custos por utilizador',
+            'factur_x' => 'Exportação Factur-X / ZUGFeRD',
+        ],
+        'story' => [
+            'title' => 'A história do faktur.lu',
+            'paragraph_1' => 'O Faktur.lu nasceu de uma constatação simples: nenhuma solução de faturação disponível no Luxemburgo combinava simultaneamente conformidade FAIA nativa, suporte das 5 línguas do país e um preço acessível aos trabalhadores independentes. As ferramentas internacionais eram caras, mal traduzidas, e ignoravam as especificidades fiscais luxemburguesas.',
+            'paragraph_2' => 'Em 2026, lançámos o faktur.lu para preencher esta lacuna. Uma plataforma concebida a partir do Luxemburgo, para o Luxemburgo: motor de IVA pré-configurado com as taxas 17/14/8/3%, exportação FAIA validada contra a especificação AED, integração Peppol via Access Point local, e um portal de contabilista pensado para as fidúcias da praça.',
+            'paragraph_3' => 'Hoje, centenas de empresas luxemburguesas — trabalhadores independentes, PME, fidúcias — utilizam o faktur.lu diariamente. O nosso compromisso permanece o mesmo: ser a solução de faturação de referência no Luxemburgo, mantendo-se acessível, conforme e à escuta dos empresários locais.',
+        ],
+        'cta' => [
+            'title' => 'Junte-se à solução líder no Luxemburgo',
+            'subtitle' => 'Avaliação gratuita de 14 dias, sem cartão bancário. Migração acompanhada para contas Pro.',
+            'primary_button' => 'Começar gratuitamente',
+            'secondary_button' => 'Ver preços',
+        ],
     ],
 
     // Partners page

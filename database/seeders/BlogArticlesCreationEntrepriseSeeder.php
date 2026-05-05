@@ -41,10 +41,10 @@ class BlogArticlesCreationEntrepriseSeeder extends Seeder
     private function getLuxembourgArticle(): array
     {
         return [
-            'title' => 'Créer une entreprise individuelle au Luxembourg : Guide complet 2025',
-            'slug' => 'creer-entreprise-individuelle-luxembourg-guide-2025',
+            'title' => 'Créer une entreprise individuelle au Luxembourg : Guide complet 2026',
+            'slug' => 'creer-entreprise-individuelle-luxembourg-guide-2026',
             'excerpt' => 'Découvrez toutes les étapes pour créer votre entreprise individuelle au Luxembourg : autorisation d\'établissement, immatriculation RCS, cotisations sociales et obligations fiscales.',
-            'meta_title' => 'Créer une entreprise individuelle au Luxembourg | Guide 2025',
+            'meta_title' => 'Créer une entreprise individuelle au Luxembourg | Guide 2026',
             'meta_description' => 'Guide complet pour créer une entreprise individuelle au Luxembourg : démarches, coûts (100-150€), délais (1-3 mois), obligations TVA et cotisations sociales.',
             'cover_image' => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
             'content' => <<<'HTML'
@@ -263,10 +263,10 @@ HTML,
     private function getFranceArticle(): array
     {
         return [
-            'title' => 'Créer une entreprise individuelle en France : Guide complet 2025',
-            'slug' => 'creer-entreprise-individuelle-france-guide-2025',
+            'title' => 'Créer une entreprise individuelle en France : Guide complet 2026',
+            'slug' => 'creer-entreprise-individuelle-france-guide-2026',
             'excerpt' => 'Tout savoir pour créer votre entreprise individuelle ou micro-entreprise en France : démarches via le guichet unique INPI, régime fiscal, cotisations URSSAF et obligations.',
-            'meta_title' => 'Créer une entreprise individuelle en France | Guide 2025',
+            'meta_title' => 'Créer une entreprise individuelle en France | Guide 2026',
             'meta_description' => 'Guide complet pour créer une entreprise individuelle en France : micro-entreprise gratuite, guichet unique INPI, SIRET en 1-2 semaines, cotisations 12-25%.',
             'cover_image' => 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200',
             'content' => <<<'HTML'
@@ -293,7 +293,7 @@ HTML,
     <thead>
         <tr>
             <th class="text-left p-2 bg-slate-100">Type d'activité</th>
-            <th class="text-left p-2 bg-slate-100">Seuil de CA (2025)</th>
+            <th class="text-left p-2 bg-slate-100">Seuil de CA (2026)</th>
         </tr>
     </thead>
     <tbody>
@@ -479,10 +479,10 @@ HTML,
     private function getBelgiqueArticle(): array
     {
         return [
-            'title' => 'Créer une entreprise individuelle en Belgique : Guide complet 2025',
-            'slug' => 'creer-entreprise-individuelle-belgique-guide-2025',
+            'title' => 'Créer une entreprise individuelle en Belgique : Guide complet 2026',
+            'slug' => 'creer-entreprise-individuelle-belgique-guide-2026',
             'excerpt' => 'Comment devenir indépendant en Belgique : inscription à la BCE via un guichet d\'entreprises, affiliation à une caisse sociale, obligations TVA et cotisations INASTI.',
-            'meta_title' => 'Créer une entreprise individuelle en Belgique | Guide 2025',
+            'meta_title' => 'Créer une entreprise individuelle en Belgique | Guide 2026',
             'meta_description' => 'Guide complet pour créer une entreprise en personne physique en Belgique : coûts (~200-500€), délai (1-2 semaines), cotisations sociales 20,5%, franchise TVA.',
             'cover_image' => 'https://images.unsplash.com/photo-1559386484-97dfc0e15539?w=1200',
             'content' => <<<'HTML'
@@ -582,7 +582,7 @@ HTML,
     <thead>
         <tr>
             <th class="text-left p-2 bg-slate-100">Poste</th>
-            <th class="text-left p-2 bg-slate-100">Montant (2025)</th>
+            <th class="text-left p-2 bg-slate-100">Montant (2026)</th>
         </tr>
     </thead>
     <tbody>
@@ -638,7 +638,7 @@ HTML,
     <thead>
         <tr>
             <th class="text-left p-2 bg-slate-100">Tranche de revenus</th>
-            <th class="text-left p-2 bg-slate-100">Taux 2025</th>
+            <th class="text-left p-2 bg-slate-100">Taux 2026</th>
         </tr>
     </thead>
     <tbody>
@@ -648,7 +648,7 @@ HTML,
     </tbody>
 </table>
 
-<p><strong>Cotisation minimale 2025 :</strong> 450,15 €/trimestre (indépendant à titre principal)</p>
+<p><strong>Cotisation minimale 2026 :</strong> 450,15 €/trimestre (indépendant à titre principal)</p>
 
 <p><strong>Fonctionnement :</strong></p>
 <ul>
@@ -689,10 +689,10 @@ HTML,
     private function getAllemagneArticle(): array
     {
         return [
-            'title' => 'Créer une entreprise individuelle en Allemagne : Guide complet 2025',
-            'slug' => 'creer-entreprise-individuelle-allemagne-guide-2025',
+            'title' => 'Créer une entreprise individuelle en Allemagne : Guide complet 2026',
+            'slug' => 'creer-entreprise-individuelle-allemagne-guide-2026',
             'excerpt' => 'Tout savoir pour créer votre Einzelunternehmen ou devenir Freiberufler en Allemagne : Gewerbeanmeldung, Finanzamt, Kleinunternehmerregelung et obligations fiscales.',
-            'meta_title' => 'Créer une entreprise individuelle en Allemagne | Guide 2025',
+            'meta_title' => 'Créer une entreprise individuelle en Allemagne | Guide 2026',
             'meta_description' => 'Guide complet pour créer une entreprise individuelle en Allemagne : Gewerbeanmeldung (15-60€), délai 1-3 jours, Kleinunternehmerregelung, obligations IHK.',
             'cover_image' => 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200',
             'content' => <<<'HTML'

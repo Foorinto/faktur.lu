@@ -8,6 +8,7 @@ const localizedRoutes = [
     'features.index',
     'features.show',
     'about',
+    'why_faktur',
     'partners',
     'partners.contact',
     'contact',
@@ -50,6 +51,13 @@ const localizedSlugs = {
         en: 'about',
         lb: 'iwwer-eis',
         pt: 'sobre',
+    },
+    'why_faktur': {
+        fr: 'pourquoi-faktur-lu',
+        de: 'warum-faktur-lu',
+        en: 'why-faktur-lu',
+        lb: 'firwat-faktur-lu',
+        pt: 'porque-faktur-lu',
     },
     'partners': {
         fr: 'partenaires',

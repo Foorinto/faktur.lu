@@ -1125,9 +1125,9 @@ HTML;
 
     private function article6(): array
     {
-        $title = 'Criar uma empresa individual no Luxemburgo: Guia completo 2025';
+        $title = 'Criar uma empresa individual no Luxemburgo: Guia completo 2026';
         $excerpt = 'Descubra todas as etapas para criar a sua empresa individual no Luxemburgo: autorização de estabelecimento, registo no RCS, contribuições sociais e obrigações fiscais.';
-        $metaTitle = 'Criar uma empresa individual no Luxemburgo | Guia 2025';
+        $metaTitle = 'Criar uma empresa individual no Luxemburgo | Guia 2026';
         $metaDescription = 'Guia completo para criar uma empresa individual no Luxemburgo: trâmites, custos (100-150€), prazos (1-3 meses), obrigações de IVA e contribuições sociais.';
         $content = <<<'HTML'
 <p class="lead">O Luxemburgo oferece um ambiente favorável aos empreendedores com trâmites administrativos relativamente simples e custos de criação moderados. Este guia acompanha-o passo a passo na criação da sua empresa individual no Grão-Ducado.</p>
@@ -1340,7 +1340,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-luxembourg-guide-2025',
+            'creer-entreprise-individuelle-luxembourg-guide-2026',
             5,
             '2026-02-16 09:12:00',
             'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
@@ -1355,9 +1355,9 @@ HTML;
 
     private function article7(): array
     {
-        $title = 'Criar uma empresa individual em França: Guia completo 2025';
+        $title = 'Criar uma empresa individual em França: Guia completo 2026';
         $excerpt = 'Tudo o que precisa de saber para criar a sua empresa individual ou micro-empresa em França: trâmites via o balcão único INPI, regime fiscal, contribuições URSSAF e obrigações.';
-        $metaTitle = 'Criar uma empresa individual em França | Guia 2025';
+        $metaTitle = 'Criar uma empresa individual em França | Guia 2026';
         $metaDescription = 'Guia completo para criar uma empresa individual em França: micro-empresa gratuita, balcão único INPI, SIRET em 1-2 semanas, contribuições 12-25%.';
         $content = <<<'HTML'
 <p class="lead">A França oferece um quadro simplificado para criar a sua empresa individual, nomeadamente com o regime da micro-empresa. Desde 2023, todas as formalidades são feitas via o balcão único do INPI. Descubra as etapas, custos e obrigações para se lançar.</p>
@@ -1383,7 +1383,7 @@ HTML;
     <thead>
         <tr>
             <th class="text-left p-2 bg-slate-100">Tipo de atividade</th>
-            <th class="text-left p-2 bg-slate-100">Limiar de VN (2025)</th>
+            <th class="text-left p-2 bg-slate-100">Limiar de VN (2026)</th>
         </tr>
     </thead>
     <tbody>
@@ -1564,7 +1564,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-france-guide-2025',
+            'creer-entreprise-individuelle-france-guide-2026',
             5,
             '2026-02-16 09:12:21',
             'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200',
@@ -1579,9 +1579,9 @@ HTML;
 
     private function article8(): array
     {
-        $title = 'Criar uma empresa individual na Bélgica: Guia completo 2025';
+        $title = 'Criar uma empresa individual na Bélgica: Guia completo 2026';
         $excerpt = 'Como tornar-se trabalhador independente na Bélgica: inscrição na BCE através de um balcão de empresas, filiação a uma caixa social, obrigações de IVA e contribuições INASTI.';
-        $metaTitle = 'Criar uma empresa individual na Bélgica | Guia 2025';
+        $metaTitle = 'Criar uma empresa individual na Bélgica | Guia 2026';
         $metaDescription = 'Guia completo para criar uma empresa em pessoa singular na Bélgica: custos (~200-500€), prazo (1-2 semanas), contribuições sociais 20,5%, isenção de IVA.';
         $content = <<<'HTML'
 <p class="lead">A Bélgica oferece um quadro favorável aos trabalhadores independentes com trâmites simplificados desde a supressão dos conhecimentos de gestão de base. Este guia acompanha-o na criação da sua empresa em pessoa singular.</p>
@@ -1680,7 +1680,7 @@ HTML;
     <thead>
         <tr>
             <th class="text-left p-2 bg-slate-100">Rubrica</th>
-            <th class="text-left p-2 bg-slate-100">Montante (2025)</th>
+            <th class="text-left p-2 bg-slate-100">Montante (2026)</th>
         </tr>
     </thead>
     <tbody>
@@ -1736,7 +1736,7 @@ HTML;
     <thead>
         <tr>
             <th class="text-left p-2 bg-slate-100">Escalão de rendimentos</th>
-            <th class="text-left p-2 bg-slate-100">Taxa 2025</th>
+            <th class="text-left p-2 bg-slate-100">Taxa 2026</th>
         </tr>
     </thead>
     <tbody>
@@ -1746,7 +1746,7 @@ HTML;
     </tbody>
 </table>
 
-<p><strong>Contribuição mínima 2025:</strong> 450,15 €/trimestre (trabalhador independente a título principal)</p>
+<p><strong>Contribuição mínima 2026:</strong> 450,15 €/trimestre (trabalhador independente a título principal)</p>
 
 <p><strong>Funcionamento:</strong></p>
 <ul>
@@ -1782,7 +1782,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-belgique-guide-2025',
+            'creer-entreprise-individuelle-belgique-guide-2026',
             5,
             '2026-02-16 09:12:21',
             'https://images.unsplash.com/photo-1559386484-97dfc0e15539?w=1200',
@@ -1797,9 +1797,9 @@ HTML;
 
     private function article9(): array
     {
-        $title = 'Criar uma empresa individual na Alemanha: Guia completo 2025';
+        $title = 'Criar uma empresa individual na Alemanha: Guia completo 2026';
         $excerpt = 'Tudo o que precisa de saber para criar a sua Einzelunternehmen ou tornar-se Freiberufler na Alemanha: Gewerbeanmeldung, Finanzamt, Kleinunternehmerregelung e obrigações fiscais.';
-        $metaTitle = 'Criar uma empresa individual na Alemanha | Guia 2025';
+        $metaTitle = 'Criar uma empresa individual na Alemanha | Guia 2026';
         $metaDescription = 'Guia completo para criar uma empresa individual na Alemanha: Gewerbeanmeldung (15-60€), prazo 1-3 dias, Kleinunternehmerregelung, obrigações IHK.';
         $content = <<<'HTML'
 <p class="lead">A Alemanha oferece várias opções para criar uma empresa individual, com trâmites relativamente simples e rápidos. Este guia apresenta-lhe as diferentes formas jurídicas e as etapas para se lançar.</p>
@@ -2059,7 +2059,7 @@ HTML;
 </div>
 HTML;
         return $this->base(
-            'creer-entreprise-individuelle-allemagne-guide-2025',
+            'creer-entreprise-individuelle-allemagne-guide-2026',
             5,
             '2026-02-16 09:12:21',
             'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200',

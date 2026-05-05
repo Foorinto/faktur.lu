@@ -179,6 +179,13 @@ Route::prefix('{locale}')
         Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
         Route::get('/sobre', [ContactController::class, 'about'])->name('about.pt');
 
+        // Why faktur.lu page (explicit localized routes)
+        Route::get('/pourquoi-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.fr');
+        Route::get('/warum-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.de');
+        Route::get('/why-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.en');
+        Route::get('/firwat-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.lb');
+        Route::get('/porque-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.pt');
+
         // Partners page (explicit localized routes)
         Route::get('/partenaires', [ContactController::class, 'partners'])->name('partners.fr');
         Route::get('/partner', [ContactController::class, 'partners'])->name('partners.de');
@@ -246,6 +253,18 @@ Route::get('/confidentialite', fn () => redirect()->route('legal.privacy', ['loc
 Route::get('/cgu', fn () => redirect()->route('legal.terms', ['locale' => app()->getLocale()]));
 Route::get('/cookies', fn () => redirect()->route('legal.cookies', ['locale' => app()->getLocale()]));
 Route::get('/validateur-faia', fn () => redirect()->route('faia-validator', ['locale' => app()->getLocale()]));
+
+/*
+|--------------------------------------------------------------------------
+| 301 redirects: ancien slugs blog "-2025" → nouveaux slugs "-2026"
+| Préserve les backlinks et l'indexation Google des articles renommés.
+| Le mapping est centralisé dans UpdateBlog2025To2026SlugsSeeder::SLUG_MAP.
+|--------------------------------------------------------------------------
+*/
+foreach (\Database\Seeders\UpdateBlog2025To2026SlugsSeeder::SLUG_MAP as $oldSlug => $newSlug) {
+    Route::get('/{locale}/blog/' . $oldSlug, fn (string $locale) => redirect()->route('blog.show', ['locale' => $locale, 'post' => $newSlug], 301))
+        ->where('locale', 'fr|de|en|lb|pt');
+}
 
 /*
 |--------------------------------------------------------------------------
