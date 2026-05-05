@@ -23,3 +23,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Disable HTTP/2 push to prevent 421 Misdirected Request on shared hosting (o2switch)
+<IfModule mod_http2.c>
+    H2Push off
+</IfModule>
