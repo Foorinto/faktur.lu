@@ -1781,6 +1781,10 @@ return [
                 'title' => 'Express Rechnungsgenerator',
                 'description' => 'Erstellt eng Lëtzebuerg-konform Rechnung als PDF, ouni Aschreiwung. LIVA-Mentiounen + B2B Reverse-Charge.',
             ],
+            'templates' => [
+                'title' => 'Modeller fir erofzelueden',
+                'description' => 'Rechnungs-Modell, AED Kontroll-Checkliste, Rappel-Bréiwer, TVA-Kalenner. Gratis PDFs.',
+            ],
             'faia_validator' => [
                 'title' => 'Gratis FAIA-Validateur',
                 'description' => 'Validéiert Är FAIA-Datei géint d\'offiziell AED-Schema 2.01.',
@@ -1962,6 +1966,46 @@ return [
                 'q3' => 'Ass de BIC-Code ëmmer disponibel?',
                 'a3' => 'Fir Lëtzebuerger IBAN jo. Fir aner Länner net systematesch.',
             ],
+        ],
+        'templates' => [
+            'page_title' => 'Modeller Rechnung, Rappel, AED-Checkliste, TVA-Kalenner Lëtzebuerg | faktur.lu',
+            'meta_description' => 'Lued eis gratis Lëtzebuerger PDF-Modeller erof: eidel Rechnung, AED-Checkliste, Rappel-Bréiwer, TVA-Kalenner 2026. LIVA-konform.',
+            'breadcrumb' => 'Modeller',
+            'badge' => 'Gratis Modeller',
+            'title' => 'Gratis PDF-Modeller fir Lëtzebuerger Entrepreneuren',
+            'subtitle' => 'Lued eis 4 essenziell Modeller erof: LIVA-konform eidel Rechnung, AED-Steierkontrollcheckliste, Rappel-Bréiwer (3 Niveauen) an TVA-Kalenner 2026.',
+            'form_title' => 'Kritt d\'Modeller per E-Mail',
+            'form_subtitle' => 'Gitt Är E-Mail un fir d\'Modeller erofzelueden. Dir kritt och eis monatlech Tipps zu der Lëtzebuerger Steier (1-Klick-Ofmellung).',
+            'email_label' => 'E-Mail-Adress',
+            'email_placeholder' => 'är@email.lu',
+            'consent' => 'Ech akzeptéieren d\'Modeller direkt erofzelueden an de monatlechen Newsletter vu faktur.lu ze kréien. Jidder Zäit ofmeldbar.',
+            'download_button' => 'Eroflueden',
+            'downloading' => 'Eroflueden…',
+            'downloaded' => 'Erofgelueden',
+            'error_email' => 'Wgl. gitt eng valabel E-Mail-Adress un.',
+            'error_consent' => 'Wgl. akzeptéiert den Newsletter.',
+            'error_generic' => 'E Feeler ass opgetrueden. Wgl. nach eng Kéier probéieren.',
+            'items' => [
+                'invoice_blank' => [
+                    'title' => 'Rechnungs-Modell Lëtzebuerg',
+                    'description' => 'Druckbar PDF mat Felder zum Ausfëllen + obligatoresch LIVA-Mentiounen (Artikel 61, Reverse-Charge Artikel 21).',
+                ],
+                'aed_checklist' => [
+                    'title' => 'AED-Steierkontroll Checkliste',
+                    'description' => 'Checkliste mat 5 Sektiounen fir e Lëtzebuerger TVA-Kontroll virzebereeden: FAIA, Rechnungen, Erklärungen, Justifikatiounen.',
+                ],
+                'reminder_letter' => [
+                    'title' => 'Rappel-Bréiwer fir net bezuelte Rechnungen',
+                    'description' => '3 Eskalatiounsstufen (frëndlech Rappel → Inverzugsetzung → Aschreiwen) konform mat dem Lëtzebuerger Recht.',
+                ],
+                'vat_calendar' => [
+                    'title' => 'TVA-Kalenner Lëtzebuerg 2026',
+                    'description' => 'All Frist 2026: monatlech, quartalsweis Erklärungen, intra-EU Lëscht an Joresdeklaratioun.',
+                ],
+            ],
+            'cta_title' => 'Automatiséiert dat alles mat faktur.lu',
+            'cta_subtitle' => 'Ausstellung, Nummeréierung, Archivéierung, automatesch Rappeller, FAIA mat 1 Klick an TVA-Erënnerungskalenner — 14 Deeg gratis.',
+            'cta_button' => 'Gratis ufänken',
         ],
     ],
 

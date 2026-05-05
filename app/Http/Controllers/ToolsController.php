@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NewsletterSubscriber;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -47,6 +48,59 @@ class ToolsController extends Controller
     public function invoiceGenerator(): Response
     {
         return Inertia::render('Tools/InvoiceGenerator');
+    }
+
+    /**
+     * Page hub des templates téléchargeables avec capture email.
+     */
+    public function templates(): Response
+    {
+        return Inertia::render('Tools/Templates');
+    }
+
+    /**
+     * Telecharge un template apres capture de l'email.
+     */
+    public function downloadTemplate(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+            'template' => 'required|string|in:invoice_blank,aed_checklist,reminder_letter,vat_calendar',
+            'language' => 'nullable|string|in:fr,de,en,lb,pt',
+        ]);
+
+        $language = $validated['language'] ?? app()->getLocale();
+        $template = $validated['template'];
+
+        // Capturer l'email comme subscriber newsletter (source = templates)
+        NewsletterSubscriber::subscribe(
+            $validated['email'],
+            $language,
+            'templates_' . $template
+        );
+
+        // Générer le PDF correspondant
+        $views = [
+            'invoice_blank' => 'pdf.templates.invoice-blank',
+            'aed_checklist' => 'pdf.templates.aed-checklist',
+            'reminder_letter' => 'pdf.templates.reminder-letter',
+            'vat_calendar' => 'pdf.templates.vat-calendar',
+        ];
+
+        $filenames = [
+            'invoice_blank' => 'modele-facture-luxembourg',
+            'aed_checklist' => 'checklist-controle-aed',
+            'reminder_letter' => 'modele-lettre-relance-impaye',
+            'vat_calendar' => 'calendrier-tva-luxembourg-2026',
+        ];
+
+        $pdf = Pdf::loadView($views[$template], [
+            'language' => $language,
+        ]);
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->setOption('isRemoteEnabled', false);
+
+        return $pdf->download($filenames[$template] . '.pdf');
     }
 
     /**

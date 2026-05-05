@@ -1842,6 +1842,10 @@ return [
                 'title' => 'Express invoice generator',
                 'description' => 'Create a Luxembourg-compliant invoice in PDF, no signup. LIVA mentions + B2B reverse charge.',
             ],
+            'templates' => [
+                'title' => 'Downloadable templates',
+                'description' => 'Blank invoice, AED audit checklist, reminder letters, VAT calendar. Free PDFs.',
+            ],
             'faia_validator' => [
                 'title' => 'Free FAIA validator',
                 'description' => 'Validate your FAIA file against the official AED 2.01 schema before a tax audit.',
@@ -2023,6 +2027,46 @@ return [
                 'q3' => 'Is the BIC always available?',
                 'a3' => 'For Luxembourg IBANs yes: the bank code (3 digits after LUxx) identifies the bank. For other countries, BIC is not always derivable.',
             ],
+        ],
+        'templates' => [
+            'page_title' => 'Invoice, reminder, AED checklist, VAT calendar templates Luxembourg | faktur.lu',
+            'meta_description' => 'Download our free Luxembourg PDF templates: blank invoice, AED audit checklist, reminder letters, VAT calendar 2026. LIVA-compliant.',
+            'breadcrumb' => 'Templates',
+            'badge' => 'Free templates',
+            'title' => 'Free PDF templates for Luxembourg entrepreneurs',
+            'subtitle' => 'Download our 4 essential templates: LIVA-compliant blank invoice, AED tax audit checklist, unpaid invoice reminder letters (3 levels) and 2026 VAT calendar.',
+            'form_title' => 'Receive the templates by email',
+            'form_subtitle' => 'Enter your email to download the templates. You will also get our monthly Luxembourg tax tips (1-click unsubscribe).',
+            'email_label' => 'Email address',
+            'email_placeholder' => 'your@email.lu',
+            'consent' => 'I agree to download the templates immediately and to receive the monthly faktur.lu newsletter (Luxembourg tax tips). I can unsubscribe at any time.',
+            'download_button' => 'Download',
+            'downloading' => 'Downloading…',
+            'downloaded' => 'Downloaded',
+            'error_email' => 'Please enter a valid email address.',
+            'error_consent' => 'Please accept the newsletter to download.',
+            'error_generic' => 'An error occurred. Please try again.',
+            'items' => [
+                'invoice_blank' => [
+                    'title' => 'Luxembourg invoice template',
+                    'description' => 'Printable PDF with fields to fill in + mandatory LIVA legal mentions (Article 61, reverse charge Article 21, etc.).',
+                ],
+                'aed_checklist' => [
+                    'title' => 'AED tax audit checklist',
+                    'description' => '5-section checklist to prepare a Luxembourg VAT audit: FAIA, invoices, returns, supporting documents.',
+                ],
+                'reminder_letter' => [
+                    'title' => 'Unpaid invoice reminder letters',
+                    'description' => '3 escalation levels (friendly reminder → formal notice → registered letter) compliant with Luxembourg law.',
+                ],
+                'vat_calendar' => [
+                    'title' => '2026 Luxembourg VAT calendar',
+                    'description' => 'All 2026 deadlines: monthly, quarterly returns, EC sales list and annual return.',
+                ],
+            ],
+            'cta_title' => 'Automate all this with faktur.lu',
+            'cta_subtitle' => 'Issuing, numbering, archiving, automatic reminders, FAIA in 1 click and VAT reminder calendar — 14-day free trial.',
+            'cta_button' => 'Start free',
         ],
     ],
 

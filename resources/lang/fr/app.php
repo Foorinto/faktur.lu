@@ -2045,6 +2045,10 @@ return [
                 'title' => 'Générateur de facture express',
                 'description' => 'Créez une facture conforme Luxembourg en PDF, sans inscription. Mentions LIVA + autoliquidation B2B.',
             ],
+            'templates' => [
+                'title' => 'Modèles téléchargeables',
+                'description' => 'Modèle de facture, checklist contrôle AED, lettres de relance, calendrier TVA. PDF gratuits.',
+            ],
             'faia_validator' => [
                 'title' => 'Validateur FAIA gratuit',
                 'description' => 'Validez votre fichier FAIA contre le schéma officiel AED 2.01 avant un contrôle fiscal.',
@@ -2226,6 +2230,46 @@ return [
                 'q3' => 'Le code BIC est-il toujours disponible ?',
                 'a3' => 'Pour les IBAN luxembourgeois, oui : le code banque (3 chiffres après LUxx) permet d\'identifier la banque et son BIC standard. Pour les IBAN d\'autres pays, le BIC n\'est pas systématiquement déduisible — il faut consulter le client ou l\'annuaire SWIFT.',
             ],
+        ],
+        'templates' => [
+            'page_title' => 'Modèles facture, relance, checklist AED, calendrier TVA Luxembourg | faktur.lu',
+            'meta_description' => 'Téléchargez gratuitement nos modèles PDF Luxembourg : facture vierge, checklist contrôle AED, lettres de relance, calendrier TVA 2026. Mentions légales LIVA.',
+            'breadcrumb' => 'Modèles',
+            'badge' => 'Modèles gratuits',
+            'title' => 'Modèles PDF gratuits pour entrepreneurs luxembourgeois',
+            'subtitle' => 'Téléchargez nos 4 modèles indispensables : facture vierge conforme LIVA, checklist contrôle fiscal AED, lettres de relance impayés (3 niveaux) et calendrier TVA 2026.',
+            'form_title' => 'Recevez les modèles par email',
+            'form_subtitle' => 'Saisissez votre email pour télécharger les modèles. Vous recevrez aussi nos conseils mensuels sur la fiscalité luxembourgeoise (désinscription en 1 clic).',
+            'email_label' => 'Adresse email',
+            'email_placeholder' => 'votre@email.lu',
+            'consent' => 'J\'accepte de recevoir les modèles par téléchargement immédiat et la newsletter mensuelle de faktur.lu (conseils fiscaux Luxembourg). Je peux me désinscrire à tout moment.',
+            'download_button' => 'Télécharger',
+            'downloading' => 'Téléchargement…',
+            'downloaded' => 'Téléchargé',
+            'error_email' => 'Veuillez saisir une adresse email valide.',
+            'error_consent' => 'Veuillez accepter la newsletter pour télécharger.',
+            'error_generic' => 'Une erreur est survenue. Veuillez réessayer.',
+            'items' => [
+                'invoice_blank' => [
+                    'title' => 'Modèle de facture Luxembourg',
+                    'description' => 'PDF imprimable avec champs à remplir + mentions légales LIVA obligatoires (Article 61, autoliquidation Article 21, etc.).',
+                ],
+                'aed_checklist' => [
+                    'title' => 'Checklist contrôle fiscal AED',
+                    'description' => 'Checklist 5 sections pour préparer un contrôle TVA luxembourgeois : FAIA, factures, déclarations, justificatifs.',
+                ],
+                'reminder_letter' => [
+                    'title' => 'Lettres de relance impayés',
+                    'description' => '3 niveaux d\'escalade (rappel amical → mise en demeure → recommandé) conformes à la loi luxembourgeoise.',
+                ],
+                'vat_calendar' => [
+                    'title' => 'Calendrier TVA Luxembourg 2026',
+                    'description' => 'Toutes les échéances 2026 : déclarations mensuelles, trimestrielles, listes intra-UE et déclaration annuelle.',
+                ],
+            ],
+            'cta_title' => 'Automatisez tout cela avec faktur.lu',
+            'cta_subtitle' => 'Émission, numérotation, archivage, relances automatiques, FAIA en 1 clic et calendrier de rappels TVA — 14 jours d\'essai gratuit.',
+            'cta_button' => 'Démarrer gratuitement',
         ],
     ],
 

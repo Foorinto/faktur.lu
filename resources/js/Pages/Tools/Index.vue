@@ -43,6 +43,14 @@ const tools = computed(() => [
         badge: t('tools.index.badge_free'),
     },
     {
+        icon: 'download',
+        color: 'bg-orange-500/10 text-orange-600',
+        title: t('tools.index.templates.title'),
+        description: t('tools.index.templates.description'),
+        href: localizedRoute('tools.templates'),
+        badge: t('tools.index.badge_free'),
+    },
+    {
         icon: 'file-check',
         color: 'bg-[#f15bb5]/10 text-[#f15bb5]',
         title: t('tools.index.faia_validator.title'),
@@ -109,6 +117,9 @@ const tools = computed(() => [
                                 </svg>
                                 <svg v-else-if="tool.icon === 'file-check'" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                                <svg v-else-if="tool.icon === 'download'" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                             </div>
                             <div class="flex-1">

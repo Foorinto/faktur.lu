@@ -239,6 +239,15 @@ Route::prefix('{locale}')
             ->middleware('throttle:10,1')
             ->name('tools.generate_invoice_pdf');
 
+        // Templates téléchargeables avec capture email
+        Route::get('/outils/modeles-facture', [ToolsController::class, 'templates'])->name('tools.templates.fr');
+        Route::get('/werkzeuge/vorlagen', [ToolsController::class, 'templates'])->name('tools.templates.de');
+        Route::get('/tools/templates', [ToolsController::class, 'templates'])->name('tools.templates.en');
+        Route::get('/handgeschir/modellen', [ToolsController::class, 'templates'])->name('tools.templates.lb');
+        Route::get('/ferramentas/modelos', [ToolsController::class, 'templates'])->name('tools.templates.pt');
+        Route::post('/tools/download-template', [ToolsController::class, 'downloadTemplate'])
+            ->middleware('throttle:30,1')->name('tools.download_template');
+
         // Public FAIA Validator (explicit localized routes)
         Route::get('/validateur-faia', [FaiaValidatorController::class, 'index'])->name('faia-validator.fr');
         Route::get('/faia-validator', [FaiaValidatorController::class, 'index'])->name('faia-validator.other');

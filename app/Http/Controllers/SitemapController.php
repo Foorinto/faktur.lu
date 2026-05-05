@@ -120,6 +120,7 @@ class SitemapController extends Controller
             ['route' => 'tools.vat_exemption', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'tools.iban_validator', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'tools.invoice_generator', 'priority' => '0.9', 'changefreq' => 'monthly'],
+            ['route' => 'tools.templates', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'faia-validator', 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['route' => 'blog.index', 'priority' => '0.8', 'changefreq' => 'daily'],
             ['route' => 'legal.mentions', 'priority' => '0.3', 'changefreq' => 'yearly'],

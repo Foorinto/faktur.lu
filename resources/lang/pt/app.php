@@ -2045,6 +2045,10 @@ return [
                 'title' => 'Gerador de fatura express',
                 'description' => 'Crie uma fatura conforme ao Luxemburgo em PDF, sem inscrição. Menções LIVA + autoliquidação B2B.',
             ],
+            'templates' => [
+                'title' => 'Modelos para descarregar',
+                'description' => 'Modelo de fatura, checklist auditoria AED, cartas de cobrança, calendário IVA. PDFs gratuitos.',
+            ],
             'faia_validator' => [
                 'title' => 'Validador FAIA gratuito',
                 'description' => 'Valide o seu ficheiro FAIA contra o esquema oficial AED 2.01 antes de uma auditoria fiscal.',
@@ -2226,6 +2230,46 @@ return [
                 'q3' => 'O código BIC está sempre disponível?',
                 'a3' => 'Para IBAN luxemburgueses sim. Para outros países, nem sempre.',
             ],
+        ],
+        'templates' => [
+            'page_title' => 'Modelos fatura, cobrança, checklist AED, calendário IVA Luxemburgo | faktur.lu',
+            'meta_description' => 'Descarregue gratuitamente os nossos modelos PDF Luxemburgo: fatura em branco, checklist auditoria AED, cartas de cobrança, calendário IVA 2026. Conformes LIVA.',
+            'breadcrumb' => 'Modelos',
+            'badge' => 'Modelos gratuitos',
+            'title' => 'Modelos PDF gratuitos para empresários luxemburgueses',
+            'subtitle' => 'Descarregue os nossos 4 modelos essenciais: fatura em branco conforme LIVA, checklist auditoria fiscal AED, cartas de cobrança (3 níveis) e calendário IVA 2026.',
+            'form_title' => 'Receba os modelos por email',
+            'form_subtitle' => 'Insira o seu email para descarregar os modelos. Receberá também as nossas dicas mensais sobre fiscalidade luxemburguesa (cancelamento em 1 clique).',
+            'email_label' => 'Endereço de email',
+            'email_placeholder' => 'seu@email.lu',
+            'consent' => 'Aceito descarregar os modelos imediatamente e receber a newsletter mensal do faktur.lu (dicas fiscais Luxemburgo). Posso cancelar a qualquer momento.',
+            'download_button' => 'Descarregar',
+            'downloading' => 'A descarregar…',
+            'downloaded' => 'Descarregado',
+            'error_email' => 'Por favor, insira um email válido.',
+            'error_consent' => 'Por favor aceite a newsletter para descarregar.',
+            'error_generic' => 'Ocorreu um erro. Por favor tente novamente.',
+            'items' => [
+                'invoice_blank' => [
+                    'title' => 'Modelo de fatura Luxemburgo',
+                    'description' => 'PDF imprimível com campos para preencher + menções legais LIVA obrigatórias (Artigo 61, autoliquidação Artigo 21).',
+                ],
+                'aed_checklist' => [
+                    'title' => 'Checklist auditoria fiscal AED',
+                    'description' => 'Checklist de 5 secções para preparar uma auditoria IVA luxemburguesa: FAIA, faturas, declarações, justificativos.',
+                ],
+                'reminder_letter' => [
+                    'title' => 'Cartas de cobrança de faturas em atraso',
+                    'description' => '3 níveis de escalada (lembrete amigável → notificação formal → registado) conforme à lei luxemburguesa.',
+                ],
+                'vat_calendar' => [
+                    'title' => 'Calendário IVA Luxemburgo 2026',
+                    'description' => 'Todos os prazos 2026: declarações mensais, trimestrais, lista intra-UE e declaração anual.',
+                ],
+            ],
+            'cta_title' => 'Automatize tudo isto com o faktur.lu',
+            'cta_subtitle' => 'Emissão, numeração, arquivo, cobranças automáticas, FAIA em 1 clique e calendário de lembretes IVA — 14 dias gratuitos.',
+            'cta_button' => 'Começar gratuitamente',
         ],
     ],
 

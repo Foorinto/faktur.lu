@@ -251,6 +251,9 @@ class LocaleController extends Controller
         'tools.invoice_generator' => [
             'fr' => 'outils/generateur-facture', 'de' => 'werkzeuge/rechnungsgenerator', 'en' => 'tools/invoice-generator', 'lb' => 'handgeschir/rechnungsgenerator', 'pt' => 'ferramentas/gerador-fatura',
         ],
+        'tools.templates' => [
+            'fr' => 'outils/modeles-facture', 'de' => 'werkzeuge/vorlagen', 'en' => 'tools/templates', 'lb' => 'handgeschir/modellen', 'pt' => 'ferramentas/modelos',
+        ],
         'legal.mentions' => [
             'fr' => 'mentions-legales', 'de' => 'impressum', 'en' => 'legal-notice', 'lb' => 'impressum', 'pt' => 'aviso-legal',
         ],

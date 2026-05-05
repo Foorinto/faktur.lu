@@ -1781,6 +1781,10 @@ return [
                 'title' => 'Express-Rechnungsgenerator',
                 'description' => 'Erstellen Sie eine Luxemburg-konforme Rechnung als PDF, ohne Anmeldung. LIVA-Angaben + B2B-Reverse-Charge.',
             ],
+            'templates' => [
+                'title' => 'Herunterladbare Vorlagen',
+                'description' => 'Rechnungsvorlage, AED-Prüfungs-Checkliste, Mahnschreiben, MwSt-Kalender. Kostenlose PDFs.',
+            ],
             'faia_validator' => [
                 'title' => 'Kostenloser FAIA-Validator',
                 'description' => 'Validieren Sie Ihre FAIA-Datei gegen das offizielle AED-Schema 2.01.',
@@ -1962,6 +1966,46 @@ return [
                 'q3' => 'Ist der BIC-Code immer verfügbar?',
                 'a3' => 'Für luxemburgische IBAN ja. Für andere Länder nicht systematisch.',
             ],
+        ],
+        'templates' => [
+            'page_title' => 'Vorlagen Rechnung, Mahnung, AED-Checkliste, MwSt-Kalender Luxemburg | faktur.lu',
+            'meta_description' => 'Laden Sie unsere Luxemburg-PDF-Vorlagen kostenlos herunter: leere Rechnung, AED-Prüfungs-Checkliste, Mahnschreiben, MwSt-Kalender 2026. LIVA-konform.',
+            'breadcrumb' => 'Vorlagen',
+            'badge' => 'Kostenlose Vorlagen',
+            'title' => 'Kostenlose PDF-Vorlagen für luxemburgische Unternehmer',
+            'subtitle' => 'Laden Sie unsere 4 unverzichtbaren Vorlagen herunter: leere Rechnung mit LIVA-Angaben, AED-Prüfungs-Checkliste, Mahnschreiben (3 Stufen) und MwSt-Kalender 2026.',
+            'form_title' => 'Erhalten Sie die Vorlagen per E-Mail',
+            'form_subtitle' => 'Geben Sie Ihre E-Mail ein, um die Vorlagen herunterzuladen. Sie erhalten auch unsere monatlichen Tipps zur Luxemburger Steuer (1-Klick-Abmeldung).',
+            'email_label' => 'E-Mail-Adresse',
+            'email_placeholder' => 'ihre@email.lu',
+            'consent' => 'Ich stimme zu, die Vorlagen sofort herunterzuladen und den monatlichen Newsletter von faktur.lu zu erhalten. Jederzeit abbestellbar.',
+            'download_button' => 'Herunterladen',
+            'downloading' => 'Wird heruntergeladen…',
+            'downloaded' => 'Heruntergeladen',
+            'error_email' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+            'error_consent' => 'Bitte stimmen Sie dem Newsletter zu.',
+            'error_generic' => 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.',
+            'items' => [
+                'invoice_blank' => [
+                    'title' => 'Rechnungsvorlage Luxemburg',
+                    'description' => 'Druckbares PDF mit auszufüllenden Feldern + obligatorische LIVA-Angaben (Artikel 61, Reverse-Charge Artikel 21).',
+                ],
+                'aed_checklist' => [
+                    'title' => 'AED-Steuerprüfungs-Checkliste',
+                    'description' => 'Checkliste mit 5 Abschnitten zur Vorbereitung einer luxemburgischen MwSt-Prüfung: FAIA, Rechnungen, Erklärungen, Belege.',
+                ],
+                'reminder_letter' => [
+                    'title' => 'Mahnschreiben für unbezahlte Rechnungen',
+                    'description' => '3 Eskalationsstufen (freundliche Mahnung → Inverzugsetzung → Einschreiben) konform mit luxemburgischem Recht.',
+                ],
+                'vat_calendar' => [
+                    'title' => 'MwSt-Kalender Luxemburg 2026',
+                    'description' => 'Alle Fristen 2026: monatliche, vierteljährliche Erklärungen, ZM-Liste und Jahreserklärung.',
+                ],
+            ],
+            'cta_title' => 'Automatisieren Sie das alles mit faktur.lu',
+            'cta_subtitle' => 'Ausstellung, Nummerierung, Archivierung, automatische Mahnungen, FAIA mit 1 Klick und MwSt-Erinnerungskalender — 14 Tage kostenlos testen.',
+            'cta_button' => 'Kostenlos starten',
         ],
     ],
 

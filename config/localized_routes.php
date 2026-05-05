@@ -115,6 +115,14 @@ return [
         'pt' => 'ferramentas/gerador-fatura',
     ],
 
+    'tools.templates' => [
+        'fr' => 'outils/modeles-facture',
+        'de' => 'werkzeuge/vorlagen',
+        'en' => 'tools/templates',
+        'lb' => 'handgeschir/modellen',
+        'pt' => 'ferramentas/modelos',
+    ],
+
     'legal.mentions' => [
         'fr' => 'mentions-legales',
         'de' => 'impressum',
