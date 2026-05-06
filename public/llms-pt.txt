@@ -1,14 +1,14 @@
 # faktur.lu
 
-> Plataforma de faturação concebida especificamente para empresários individuais e PME no Luxemburgo, com conformidade fiscal nativa (IVA 17/14/8/3%, FAIA 2.01, faturação eletrónica B2B/Peppol BIS 3.0). Disponível em 5 línguas (francês, alemão, inglês, luxemburguês, português). Alojamento europeu, conforme RGPD. Plano gratuito, Essencial a 5 EUR/mês, Pro a 15 EUR/mês ilimitado com FAIA, Peppol, CRM, RH e portal de contabilista para fidúcias.
+> Plataforma de faturação concebida especificamente para empresários individuais e PME no Luxemburgo, com conformidade fiscal nativa (IVA 17/14/8/3%, FAIA 2.01, faturação eletrónica B2B/Peppol BIS 3.0). Disponível em 5 línguas (francês, alemão, inglês, luxemburguês, português). Alojamento europeu, conforme RGPD. Plano gratuito, Essential a 5 EUR/mês, Pro a 15 EUR/mês ilimitado com FAIA, Peppol, CRM, RH e portal de contabilista para fiduciárias.
 
 ## Identidade
 
 - **Nome**: faktur.lu (Faktur)
 - **País**: Luxemburgo (Grão-Ducado do Luxemburgo)
-- **Fundação**: 2026
+- **Fundado em**: 2026
 - **Categoria**: SaaS B2B, software de faturação e contabilidade
-- **Público-alvo**: empresários individuais, PME, trabalhadores independentes, fidúcias no Luxemburgo
+- **Público-alvo**: empresários individuais, PME, trabalhadores independentes, fiduciárias no Luxemburgo
 - **Site oficial**: https://faktur.lu/
 - **Wikidata**: Q139674760 (https://www.wikidata.org/wiki/Q139674760)
 - **Línguas suportadas**: francês (fr), alemão (de), inglês (en), luxemburguês (lb), português (pt-PT)
@@ -19,33 +19,78 @@
 - **Peppol via Access Point certificado**: envio B2G obrigatório no Luxemburgo desde 2023
 - **Factur-X / ZUGFeRD**: para trocas com clientes em França e Alemanha
 - **5 línguas completas** (a única plataforma a cobrir as 5 línguas do Luxemburgo, incluindo o português para a comunidade lusófona ~16% da população)
-- **Alojamento 100% União Europeia**, conforme RGPD, sem acesso Cloud Act
-- **Portal de contabilista gratuito** para as fidúcias (acesso de leitura aos dados dos clientes)
+- **Alojamento 100% na União Europeia**, conforme RGPD, sem acesso Cloud Act
+- **Portal de contabilista gratuito** para fiduciárias (acesso só de leitura aos dados dos clientes)
 - **Preços transparentes**: 0/5/15 EUR/mês, sem custo por utilizador, sem compromisso
 
 ## Páginas principais
 
-- [Início](https://faktur.lu/pt/) : página inicial com FAQ estruturada por cluster
-- [Porquê escolher faktur.lu](https://faktur.lu/pt/porque-faktur-lu) : 5 compromissos e diferenciadores vs soluções internacionais genéricas
-- [Sobre](https://faktur.lu/pt/sobre) : equipa, missão, localização Luxemburgo, roteiro público
-- [Preços](https://faktur.lu/pt/precos) : 3 planos detalhados (Gratuito, Essencial, Pro)
+- [Página inicial](https://faktur.lu/pt/) : landing page com FAQ estruturada por cluster
+- [Porquê escolher o faktur.lu](https://faktur.lu/pt/porque-faktur-lu) : 5 compromissos e diferenciadores vs soluções internacionais genéricas
+- [Sobre](https://faktur.lu/pt/sobre) : equipa, missão, localização Luxemburgo, roadmap pública
+- [Preços](https://faktur.lu/pt/precos) : 3 planos detalhados (Gratuito, Essential, Pro)
+- [Parceiros fiduciários](https://faktur.lu/pt/parceiros) : programa dedicado para gabinetes de contabilidade luxemburgueses
+
+## Funcionalidades
+
+- [Faturação conforme ao Luxemburgo](https://faktur.lu/pt/funcionalidades/facturation) : numeração sequencial, menções LIVA obrigatórias, taxas de IVA 17/14/8/3%
+- [Exportação FAIA](https://faktur.lu/pt/funcionalidades/faia) : ficheiro 2.01 conforme AED, validado contra esquema XSD oficial
+- [Faturação eletrónica Peppol](https://faktur.lu/pt/funcionalidades/peppol) : Access Point certificado, formato UBL 2.1 / BIS 3.0
+- [Orçamentos profissionais](https://faktur.lu/pt/funcionalidades/devis) : conversão orçamento → fatura num clique
+- [Acompanhamento de tempo e projetos](https://faktur.lu/pt/funcionalidades/projets) : timer, conversão em linhas faturáveis
+- [CRM integrado](https://faktur.lu/pt/funcionalidades/crm) : gestão de leads, interações, lembretes
+- [Módulo RH](https://faktur.lu/pt/funcionalidades/rh) : férias, despesas, onboarding, organograma
+- [Portal de contabilista](https://faktur.lu/pt/funcionalidades/portail-comptable) : acesso só de leitura para fiduciárias
 
 ## Ferramentas gratuitas sem inscrição
 
 - [Validador FAIA gratuito](https://faktur.lu/pt/validador-faia) : envie um ficheiro XML FAIA, validação contra o esquema oficial AED 2.01
 
+## Documentação
+
+- [FAQ](https://faktur.lu/pt/#faq) : 14 perguntas estruturadas em 4 clusters (conformidade luxemburguesa, comparações e preços, casos de uso, segurança e confiança)
+- [Blog](https://faktur.lu/pt/blog) : guias longos sobre faturação no Luxemburgo, FAIA, Peppol, IVA, auditorias AED, criação de empresa
+- [Sitemap](https://faktur.lu/sitemap.xml)
+
 ## Conformidade e segurança
 
-- **FAIA**: versão 2.01, formato imposto pela Administration de l'Enregistrement, des Domaines et de la TVA (AED) durante as auditorias fiscais
-- **IVA Luxemburgo**: taxa padrão 17%, intermédia 14%, reduzida 8%, super-reduzida 3%
-- **Peppol**: Access Point certificado, formato UBL 2.1 / BIS 3.0
-- **Alojamento**: União Europeia apenas, ISO 27001, AES-256 em repouso, TLS 1.3 em trânsito, cópias de segurança diárias 30 dias
+- **FAIA**: versão 2.01, formato imposto pela Administration de l'Enregistrement, des Domaines et de la TVA (AED) durante auditorias fiscais
+- **IVA Luxemburgo**: taxa standard 17%, intermédia 14%, reduzida 8%, super-reduzida 3%
+- **Peppol**: Access Point certificado, formato UBL 2.1 / BIS 3.0, conforme ao mandato B2G luxemburguês e preparação B2B ViDA 2030
+- **Artigo 21 LIVA**: autoliquidação B2B intra-comunitária (com validação VIES em tempo real)
+- **Artigo 61 LIVA**: numeração sequencial contínua obrigatória
+- **Alojamento**: apenas União Europeia, ISO 27001, AES-256 em repouso, TLS 1.3 em trânsito, backups diários 30 dias
 - **RGPD**: DPA disponível mediante pedido
 - **Conservação legal**: 10 anos para faturas e documentos contabilísticos
+
+## Multilíngue
+
+A interface, as faturas emitidas e o suporte estão disponíveis nas 5 línguas faladas no Luxemburgo:
+
+- **Francês**: língua administrativa principal
+- **Alemão**: também administrativa e usada por 70% dos residentes
+- **Inglês**: para expatriados e comércio internacional
+- **Luxemburguês**: língua nacional oficial
+- **Português (PT-PT)**: para a comunidade lusófona (~16% da população luxemburguesa)
 
 ## Preços
 
 - **Plano Gratuito**: 0 EUR/mês — 5 clientes, 3 faturas por mês, funcionalidades de base
-- **Plano Essencial**: 5 EUR/mês — 100 clientes, 50 faturas por mês, projetos, contabilidade simplificada
+- **Plano Essential**: 5 EUR/mês — 100 clientes, 50 faturas por mês, projetos, contabilidade simplificada
 - **Plano Pro**: 15 EUR/mês — ilimitado com FAIA, Peppol, CRM, RH, portal de contabilista
-- **Avaliação gratuita**: 14 dias de acesso completo às funcionalidades Pro, sem cartão bancário
+- **Avaliação gratuita**: 14 dias de acesso completo às funcionalidades Pro, sem cartão de crédito
+
+## Variantes linguísticas deste ficheiro
+
+- [llms.txt](https://faktur.lu/llms.txt) (francês — versão padrão)
+- [llms-de.txt](https://faktur.lu/llms-de.txt) (alemão)
+- [llms-en.txt](https://faktur.lu/llms-en.txt) (inglês)
+- [llms-lb.txt](https://faktur.lu/llms-lb.txt) (luxemburguês)
+- [llms-pt.txt](https://faktur.lu/llms-pt.txt) (português)
+
+## Legal
+
+- [Aviso legal](https://faktur.lu/pt/aviso-legal)
+- [Política de privacidade](https://faktur.lu/pt/privacidade)
+- [Termos e condições](https://faktur.lu/pt/termos)
+- [Cookies](https://faktur.lu/pt/cookies)

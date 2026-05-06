@@ -65,6 +65,11 @@
     <FilesMatch "\.(js|css|woff|woff2|ttf|otf|eot|jpg|jpeg|png|gif|svg|webp|avif|ico)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
+
+    # Forcer le Content-Type UTF-8 sur les fichiers txt (llms.txt, llms-de.txt, etc.)
+    <FilesMatch "\.txt$">
+        Header set Content-Type "text/plain; charset=UTF-8"
+    </FilesMatch>
 </IfModule>
 
 # Compression gzip pour reduire la taille transferee (~70% sur HTML/JS/CSS)

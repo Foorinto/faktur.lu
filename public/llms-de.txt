@@ -29,25 +29,49 @@
 - [Warum faktur.lu wählen](https://faktur.lu/de/warum-faktur-lu) : 5 Verpflichtungen und Differenzierungsmerkmale gegenüber generischen internationalen Lösungen
 - [Über uns](https://faktur.lu/de/ueber-uns) : Team, Mission, Standort Luxemburg, öffentliche Roadmap
 - [Preise](https://faktur.lu/de/preise) : 3 detaillierte Pläne (Kostenlos, Essential, Pro)
+- [Treuhänder-Partner](https://faktur.lu/de/partner) : dediziertes Programm für Luxemburger Buchhaltungskanzleien
 
 ## Funktionen
 
 - [Luxemburg-konforme Rechnungsstellung](https://faktur.lu/de/funktionen/facturation) : fortlaufende Nummerierung, obligatorische LIVA-Angaben, MwSt-Sätze 17/14/8/3%
 - [FAIA-Export](https://faktur.lu/de/funktionen/faia) : 2.01-Datei AED-konform, validiert gegen offizielles XSD-Schema
 - [Peppol E-Rechnungsstellung](https://faktur.lu/de/funktionen/peppol) : zertifizierter Access Point, UBL 2.1 / BIS 3.0 Format
+- [Professionelle Angebote](https://faktur.lu/de/funktionen/devis) : Umwandlung Angebot → Rechnung mit einem Klick
+- [Zeit- und Projektverfolgung](https://faktur.lu/de/funktionen/projets) : Timer, Umwandlung in abrechenbare Zeilen
+- [Integriertes CRM](https://faktur.lu/de/funktionen/crm) : Verwaltung von Leads, Interaktionen, Erinnerungen
+- [HR-Modul](https://faktur.lu/de/funktionen/rh) : Urlaub, Spesenabrechnungen, Onboarding, Organigramm
+- [Buchhalterportal](https://faktur.lu/de/funktionen/portail-comptable) : Lesezugriff für Treuhänder
 
 ## Kostenlose Tools ohne Anmeldung
 
 - [Kostenloser FAIA-Validator](https://faktur.lu/de/faia-validator) : eine FAIA-XML-Datei hochladen, Validierung gegen das offizielle AED-Schema 2.01
 
+## Dokumentation
+
+- [FAQ](https://faktur.lu/de/#faq) : 14 nach Cluster strukturierte Fragen (luxemburgische Konformität, Vergleiche und Preise, Anwendungsfälle, Sicherheit und Vertrauen)
+- [Blog](https://faktur.lu/de/blog) : ausführliche Anleitungen zu Rechnungsstellung in Luxemburg, FAIA, Peppol, MwSt, AED-Prüfungen, Unternehmensgründung
+- [Sitemap](https://faktur.lu/sitemap.xml)
+
 ## Konformität und Sicherheit
 
 - **FAIA**: Version 2.01, Format vorgeschrieben von der Administration de l'Enregistrement, des Domaines et de la TVA (AED) bei Steuerprüfungen
 - **Luxemburgische MwSt**: Standardsatz 17%, intermediär 14%, ermäßigt 8%, stark ermäßigt 3%
-- **Peppol**: zertifizierter Access Point, UBL 2.1 / BIS 3.0 Format
+- **Peppol**: zertifizierter Access Point, UBL 2.1 / BIS 3.0 Format, konform mit luxemburgischem B2G-Mandat und B2B ViDA 2030 Vorbereitung
+- **Artikel 21 LIVA**: B2B-Reverse-Charge innerhalb der EU (mit Echtzeit-VIES-Validierung)
+- **Artikel 61 LIVA**: kontinuierliche fortlaufende Nummerierung obligatorisch
 - **Hosting**: nur Europäische Union, ISO 27001, AES-256 ruhend, TLS 1.3 in Übertragung, tägliche 30-Tage-Backups
 - **DSGVO**: AVV auf Anfrage verfügbar
 - **Gesetzliche Aufbewahrung**: 10 Jahre für Rechnungen und Buchhaltungsunterlagen
+
+## Mehrsprachigkeit
+
+Die Oberfläche, ausgestellte Rechnungen und der Support sind in den 5 in Luxemburg gesprochenen Sprachen verfügbar :
+
+- **Französisch**: administrative Hauptsprache
+- **Deutsch**: ebenfalls administrativ und von 70% der Einwohner verwendet
+- **Englisch**: für Expats und internationalen Handel
+- **Luxemburgisch**: offizielle Landessprache
+- **Portugiesisch (PT-PT)**: für die portugiesischsprachige Gemeinschaft (~16% der luxemburgischen Bevölkerung)
 
 ## Preise
 
@@ -55,3 +79,18 @@
 - **Essential-Plan**: 5 EUR/Monat — 100 Kunden, 50 Rechnungen pro Monat, Projekte, vereinfachte Buchhaltung
 - **Pro-Plan**: 15 EUR/Monat — unbegrenzt mit FAIA, Peppol, CRM, HR, Buchhalterportal
 - **Kostenlose Testversion**: 14 Tage voller Zugriff auf Pro-Funktionen, ohne Kreditkarte
+
+## Sprachvarianten dieser Datei
+
+- [llms.txt](https://faktur.lu/llms.txt) (Französisch — Standardversion)
+- [llms-de.txt](https://faktur.lu/llms-de.txt) (Deutsch)
+- [llms-en.txt](https://faktur.lu/llms-en.txt) (Englisch)
+- [llms-lb.txt](https://faktur.lu/llms-lb.txt) (Luxemburgisch)
+- [llms-pt.txt](https://faktur.lu/llms-pt.txt) (Portugiesisch)
+
+## Rechtliches
+
+- [Impressum](https://faktur.lu/de/impressum)
+- [Datenschutz](https://faktur.lu/de/datenschutz)
+- [AGB](https://faktur.lu/de/agb)
+- [Cookies](https://faktur.lu/de/cookies)

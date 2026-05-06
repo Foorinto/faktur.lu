@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 import { Link, usePage } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
@@ -38,26 +39,17 @@ async function downloadTemplate(template) {
     downloading.value = template;
 
     try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        const response = await fetch(route('tools.download_template'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                Accept: 'application/pdf',
-            },
-            body: JSON.stringify({
+        const response = await axios.post(
+            route('tools.download_template'),
+            {
                 email: email.value,
                 template,
                 language: page.props.locale,
-            }),
-        });
+            },
+            { responseType: 'blob' }
+        );
 
-        if (!response.ok) {
-            throw new Error('Download failed');
-        }
-
-        const blob = await response.blob();
+        const blob = new Blob([response.data], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const filenames = {
             invoice_blank: 'modele-facture-luxembourg.pdf',
@@ -77,7 +69,11 @@ async function downloadTemplate(template) {
             downloaded.value.push(template);
         }
     } catch (e) {
-        error.value = t('tools.templates.error_generic');
+        if (e.response?.status === 429) {
+            error.value = t('tools.templates.error_rate_limit') || t('tools.templates.error_generic');
+        } else {
+            error.value = t('tools.templates.error_generic');
+        }
     } finally {
         downloading.value = null;
     }

@@ -1,6 +1,19 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Rediriger tout vers le dossier public
+    # Si la requete commence deja par /public/, ne pas la reecrire
+    RewriteCond %{REQUEST_URI} ^/public/
+    RewriteRule ^ - [L]
+
+    # Servir les fichiers statiques existants depuis public/ sans exposer /public/ dans l'URL
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
     RewriteRule ^(.*)$ public/$1 [L]
+
+    # Tout le reste : passer par public/index.php (Laravel front controller)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ public/index.php [L]
 </IfModule>
+
+# Empecher mod_dir d'ajouter automatiquement un slash final qui declencherait un 301 vers /public/
+DirectorySlash Off
