@@ -325,8 +325,8 @@ onUnmounted(() => {
                 </div>
 
                 <!-- Mobile menu -->
-                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200 mt-4">
-                    <div class="flex flex-col space-y-3">
+                <div v-if="mobileMenuOpen" class="md:hidden py-4 border-t border-gray-200 mt-4 max-h-[calc(100vh-5rem)] overflow-y-auto overscroll-contain">
+                    <div class="flex flex-col space-y-3 pb-4">
                         <Link :href="localizedRoute('features.index')" @click="mobileMenuOpen = false" class="text-sm font-medium text-slate-600 hover:text-slate-900 py-2">{{ t('landing.nav.features') }}</Link>
                         <div class="pl-4 flex flex-col space-y-1">
                             <Link :href="localizedRoute('features.show', { slug: 'facturation' })" @click="mobileMenuOpen = false" class="text-xs text-slate-500 hover:text-slate-900 py-1">{{ t('features.invoicing.title') }}</Link>
