@@ -8,6 +8,7 @@ const page = usePage();
 const navigation = [
     { name: 'Dashboard', href: 'admin.dashboard', icon: 'chart-bar' },
     { name: 'Utilisateurs', href: 'admin.users.index', icon: 'users' },
+    { name: 'Newsletter', href: 'admin.newsletter.index', icon: 'mail' },
     { name: 'Blog', href: 'admin.blog.index', icon: 'blog' },
     { name: 'Support', href: 'admin.support.index', icon: 'support' },
     { name: 'Monitoring', href: 'admin.monitoring', icon: 'monitoring' },
@@ -68,6 +69,9 @@ const isCurrentRoute = (routeName) => {
                             </svg>
                             <svg v-else-if="item.icon === 'blog'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
+                            <svg v-else-if="item.icon === 'mail'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                             <svg v-else-if="item.icon === 'support'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />

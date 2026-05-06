@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminBlogTagController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminMaintenanceController;
 use App\Http\Controllers\Admin\AdminMonitoringController;
+use App\Http\Controllers\Admin\AdminNewsletterController;
 use App\Http\Controllers\Admin\AdminSupportController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
@@ -84,4 +85,9 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         Route::post('blog-tags', [AdminBlogTagController::class, 'store'])->name('blog-tags.store');
         Route::put('blog-tags/{tag}', [AdminBlogTagController::class, 'update'])->name('blog-tags.update');
         Route::delete('blog-tags/{tag}', [AdminBlogTagController::class, 'destroy'])->name('blog-tags.destroy');
+
+        // Newsletter subscribers
+        Route::get('newsletter', [AdminNewsletterController::class, 'index'])->name('newsletter.index');
+        Route::get('newsletter/export', [AdminNewsletterController::class, 'export'])->name('newsletter.export');
+        Route::delete('newsletter/{subscriber}', [AdminNewsletterController::class, 'destroy'])->name('newsletter.destroy');
     });
