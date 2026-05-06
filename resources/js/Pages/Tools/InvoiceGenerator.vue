@@ -68,7 +68,7 @@ const generatePdf = async () => {
     error.value = null;
 
     try {
-        const response = await axios.post(route('tools.generate_invoice_pdf'), {
+        const response = await axios.post(`/${currentLocale()}/tools/generate-invoice-pdf`, {
             sender: sender.value,
             client: client.value,
             invoice: invoice.value,
@@ -89,6 +89,7 @@ const generatePdf = async () => {
         link.remove();
         window.URL.revokeObjectURL(url);
     } catch (e) {
+        console.error('[generateInvoicePdf]', e);
         error.value = e.response?.status === 429
             ? t('tools.invoice_generator.error_rate_limit')
             : t('tools.invoice_generator.error_generic');

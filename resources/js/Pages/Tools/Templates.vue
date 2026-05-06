@@ -40,7 +40,7 @@ async function downloadTemplate(template) {
 
     try {
         const response = await axios.post(
-            route('tools.download_template'),
+            `/${page.props.locale}/tools/download-template`,
             {
                 email: email.value,
                 template,
@@ -69,6 +69,7 @@ async function downloadTemplate(template) {
             downloaded.value.push(template);
         }
     } catch (e) {
+        console.error('[downloadTemplate]', e);
         if (e.response?.status === 429) {
             error.value = t('tools.templates.error_rate_limit') || t('tools.templates.error_generic');
         } else {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
@@ -9,6 +9,7 @@ import { useMatomo } from '@/Composables/useMatomo';
 
 const { t } = useTranslations();
 const matomo = useMatomo();
+const page = usePage();
 
 const props = defineProps({
     canLogin: Boolean,
@@ -87,7 +88,10 @@ const validate = async () => {
     formData.append('file', file.value);
 
     try {
-        const response = await axios.post(route('faia-validator.validate'), formData, {
+        const locale = page.props.locale;
+        const slug = locale === 'fr' ? 'validateur-faia' : locale === 'pt' ? 'validador-faia' : 'faia-validator';
+        const url = `/${locale}/${slug}/validate`;
+        const response = await axios.post(url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -96,6 +100,7 @@ const validate = async () => {
         result.value = response.data;
         matomo.trackEvent('faia_validator', 'validation_complete', response.data.status, response.data.score);
     } catch (e) {
+        console.error('[faia-validator]', e);
         if (e.response?.data?.message) {
             error.value = e.response.data.message;
         } else if (e.response?.data?.errors?.file) {
