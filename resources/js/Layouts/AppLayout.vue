@@ -48,7 +48,7 @@ const navigation = computed(() => {
         { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'] },
-        { name: t('accounting'), href: 'reports.revenue-book', icon: 'calculator', routes: ['reports', 'exports'], tour: 'accounting' },
+        { name: t('accounting'), href: 'exports.audit.index', icon: 'calculator', routes: ['reports', 'exports'], tour: 'accounting' },
         { name: t('hr.nav_title'), href: 'hr.dashboard', icon: 'identification' },
         { name: t('archive'), href: 'archive.index', icon: 'archive' },
         { name: t('business'), href: 'settings.business.edit', icon: 'building', routes: ['settings.business', 'settings.organization'], tour: 'settings' },
