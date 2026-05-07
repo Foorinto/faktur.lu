@@ -29,9 +29,9 @@ class GenerateInvoiceNumberAction
 
         return DB::transaction(function () use ($year, $type, $prefix) {
             // Lock the table to prevent race conditions
-            // Use withoutGlobalScope to search across ALL users (numbers must be globally unique)
-            $lastInvoice = Invoice::withoutGlobalScope('user')
-                ->whereYear('finalized_at', $year)
+            // BelongsToUser global scope filters by auth()->id() automatically,
+            // so the sequence is per-user (Article 61 LIVA: continuous numbering per taxpayer).
+            $lastInvoice = Invoice::whereYear('finalized_at', $year)
                 ->where('type', $type)
                 ->whereNotNull('number')
                 ->where('number', 'like', $prefix . '-%')
@@ -64,9 +64,8 @@ class GenerateInvoiceNumberAction
         $year = $year ?? now()->year;
         $prefix = $this->getPrefixForType($type);
 
-        // Use withoutGlobalScope to search across ALL users (numbers must be globally unique)
-        $lastInvoice = Invoice::withoutGlobalScope('user')
-            ->whereYear('finalized_at', $year)
+        // BelongsToUser global scope filters by auth()->id() automatically.
+        $lastInvoice = Invoice::whereYear('finalized_at', $year)
             ->where('type', $type)
             ->whereNotNull('number')
             ->where('number', 'like', $prefix . '-%')
