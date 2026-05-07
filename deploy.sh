@@ -117,13 +117,9 @@ trap 'echo \"[SAFETY NET] forcing php artisan up\" ; php artisan up || true' EXI
 # Stash automatique des modifs locales (.htaccess modifie par o2switch via cPanel,
 # logs, etc.) pour eviter que git pull echoue sur des fichiers modifies cote serveur.
 # Le stash sera applique a la fin si le pull a reussi ; sinon on l'ignore.
-GIT_PULL_SAFE="
-echo '--- Stash des modifs locales eventuelles (htaccess auto-modifie par cPanel...) ---' &&
-git stash push --include-untracked -m \"deploy-auto-stash-\$(date +%s)\" || true &&
-git pull origin main &&
-echo '--- Tentative de re-application du stash (peut echouer si conflits) ---' &&
-(git stash pop || git stash drop || true)
-"
+# IMPORTANT : la chaine doit se terminer sur une commande qui retourne 0,
+# sans newline final, pour que le `&&` qui suit dans DEPLOY_CMD reste valide.
+GIT_PULL_SAFE="echo '--- Stash des modifs locales eventuelles (htaccess auto-modifie par cPanel...) ---' && (git stash push --include-untracked -m \"deploy-auto-stash-\$(date +%s)\" || true) && git pull origin main && echo '--- Tentative de re-application du stash (peut echouer si conflits) ---' && (git stash pop || git stash drop || true)"
 
 if [ "$1" == "quick" ]; then
     DEPLOY_CMD="
