@@ -681,22 +681,26 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
     Route::delete('/exports/audit/{export}', [AuditExportController::class, 'destroy'])->name('exports.audit.destroy');
 
-    // Accounting exports
-    Route::get('/exports/accounting', [AccountingExportController::class, 'index'])->name('exports.accounting.index');
-    Route::get('/exports/accounting/preview', [AccountingExportController::class, 'preview'])->name('exports.accounting.preview');
-    Route::get('/exports/accounting/pdf-archive', [AccountingExportController::class, 'pdfArchive'])->name('exports.accounting.pdf-archive');
-    Route::post('/exports/accounting', [AccountingExportController::class, 'store'])->name('exports.accounting.store');
-    Route::get('/exports/accounting/{export}/download', [AccountingExportController::class, 'download'])->name('exports.accounting.download');
-    Route::delete('/exports/accounting/{export}', [AccountingExportController::class, 'destroy'])->name('exports.accounting.destroy');
+    // Accounting exports (Sage BOB, FID-Manager, CSV) — Essentiel ou Pro
+    Route::middleware('plan.feature:accounting_exports')->group(function () {
+        Route::get('/exports/accounting', [AccountingExportController::class, 'index'])->name('exports.accounting.index');
+        Route::get('/exports/accounting/preview', [AccountingExportController::class, 'preview'])->name('exports.accounting.preview');
+        Route::get('/exports/accounting/pdf-archive', [AccountingExportController::class, 'pdfArchive'])->name('exports.accounting.pdf-archive');
+        Route::post('/exports/accounting', [AccountingExportController::class, 'store'])->name('exports.accounting.store');
+        Route::get('/exports/accounting/{export}/download', [AccountingExportController::class, 'download'])->name('exports.accounting.download');
+        Route::delete('/exports/accounting/{export}', [AccountingExportController::class, 'destroy'])->name('exports.accounting.destroy');
+    });
 
     // Accounting settings
     Route::get('/settings/accounting', [AccountingSettingsController::class, 'edit'])->name('settings.accounting.edit');
     Route::put('/settings/accounting', [AccountingSettingsController::class, 'update'])->name('settings.accounting.update');
 
-    // Archive info (read-only)
-    Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
-    Route::get('/invoices/{invoice}/archive/verify', [ArchiveController::class, 'verify'])->name('invoices.archive.verify');
-    Route::get('/invoices/{invoice}/archive/info', [ArchiveController::class, 'info'])->name('invoices.archive.info');
+    // Archive (PDF/A long term archiving) — Pro only
+    Route::middleware('plan.feature:pdf_archive')->group(function () {
+        Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
+        Route::get('/invoices/{invoice}/archive/verify', [ArchiveController::class, 'verify'])->name('invoices.archive.verify');
+        Route::get('/invoices/{invoice}/archive/info', [ArchiveController::class, 'info'])->name('invoices.archive.info');
+    });
 
     // Company lookup API - 30 requests/minute
     Route::middleware('throttle:company-lookup')->group(function () {
