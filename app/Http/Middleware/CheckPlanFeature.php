@@ -29,20 +29,55 @@ class CheckPlanFeature
 
         if (!$this->planService->hasFeature($user, $feature)) {
             $message = $this->getFeatureMessage($feature);
+            $minPlan = $this->getMinPlanFor($feature);
 
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'feature_not_available',
                     'message' => $message,
                     'feature' => $feature,
+                    'min_plan' => $minPlan,
                     'upgrade_url' => route('subscription.index'),
                 ], 402);
             }
 
-            return redirect()->back()->with('error', $message);
+            // Redirect vers la page d'abonnement avec un flash structure
+            // (capture par le composant UpgradeBanner.vue qui s'affiche en gros)
+            return redirect()->route('subscription.index')->with('upgrade_required', [
+                'feature' => $feature,
+                'feature_label' => $this->getFeatureLabel($feature),
+                'min_plan' => $minPlan,
+                'message' => $message,
+            ]);
         }
 
         return $next($request);
+    }
+
+    private function getMinPlanFor(string $feature): string
+    {
+        $proFeatures = ['pdf_archive', 'email_reminders', 'no_branding', 'organizations', 'hr_module', 'crm', 'peppol_transmission', 'facturx', 'advanced_reporting', 'priority_support'];
+
+        return in_array($feature, $proFeatures, true) ? 'Pro' : 'Essentiel';
+    }
+
+    private function getFeatureLabel(string $feature): string
+    {
+        return match ($feature) {
+            'pdf_archive' => __('Archivage PDF longue durée'),
+            'email_reminders' => __('Relances automatiques par email'),
+            'no_branding' => __('Suppression du branding faktur.lu'),
+            'organizations' => __('Gestion d\'organisation'),
+            'hr_module' => __('Module RH'),
+            'crm' => __('CRM avancé'),
+            'peppol_transmission' => __('Transmission Peppol'),
+            'facturx' => __('Export Factur-X / ZUGFeRD'),
+            'projects' => __('Gestion de projets'),
+            'time_tracking' => __('Suivi du temps'),
+            'accounting_portal' => __('Portail comptable / fiduciaire'),
+            'accounting_exports' => __('Exports comptables (Sage BOB, FID-Manager)'),
+            default => __('Cette fonctionnalité'),
+        };
     }
 
     /**

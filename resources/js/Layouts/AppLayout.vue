@@ -11,13 +11,16 @@ import GlobalSearchModal from '@/Components/GlobalSearchModal.vue';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import HelpTourButton from '@/Components/HelpTourButton.vue';
 import SupportButton from '@/Components/SupportButton.vue';
+import UpgradeBanner from '@/Components/UpgradeBanner.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 import { useTour } from '@/Composables/useTour';
+import { usePlanFeatures } from '@/Composables/usePlanFeatures';
 
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 const { startDashboardTour, resetTours } = useTour();
+const { isLocked, minPlanFor } = usePlanFeatures();
 const showingSidebar = ref(false);
 const showSearch = ref(false);
 const sidebarCollapsed = ref(localStorage.getItem('sidebar-collapsed') === 'true');
@@ -47,10 +50,10 @@ const navigation = computed(() => {
         { name: t('clients'), href: 'clients.index', icon: 'users', tour: 'clients' },
         { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
-        { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'] },
+        { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'], requiresFeature: 'time_tracking' },
         { name: t('accounting'), href: 'exports.audit.index', icon: 'calculator', routes: ['reports', 'exports'], tour: 'accounting' },
-        { name: t('hr.nav_title'), href: 'hr.dashboard', icon: 'identification' },
-        { name: t('archive'), href: 'archive.index', icon: 'archive' },
+        { name: t('hr.nav_title'), href: 'hr.dashboard', icon: 'identification', requiresFeature: 'hr_module' },
+        { name: t('archive'), href: 'archive.index', icon: 'archive', requiresFeature: 'pdf_archive' },
         { name: t('business'), href: 'settings.business.edit', icon: 'building', routes: ['settings.business', 'settings.organization'], tour: 'settings' },
         { name: t('settings'), href: 'settings.email', icon: 'cog', routes: ['settings.email', 'settings.accountant', 'subscription'] },
     ];
@@ -207,7 +210,19 @@ const routeExists = (routeName) => {
                             <svg v-else-if="item.icon === 'user-circle'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span v-if="!sidebarCollapsed">{{ item.name }}</span>
+                            <span v-if="!sidebarCollapsed" class="flex-1">{{ item.name }}</span>
+                            <span
+                                v-if="!sidebarCollapsed && item.requiresFeature && isLocked(item.requiresFeature)"
+                                :class="[
+                                    'ml-2 inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold',
+                                    minPlanFor(item.requiresFeature) === 'Pro'
+                                        ? 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300'
+                                        : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+                                ]"
+                                :title="`Plan ${minPlanFor(item.requiresFeature)} requis`"
+                            >
+                                🔒 {{ minPlanFor(item.requiresFeature) }}
+                            </span>
                         </Link>
                         <span
                             v-else
@@ -376,6 +391,9 @@ const routeExists = (routeName) => {
             >
                 <FreePlanBanner />
             </div>
+
+            <!-- Banner d'upgrade affiche apres clic sur une feature verrouillee -->
+            <UpgradeBanner />
             <!-- Top bar -->
             <header :class="[page.props.auth?.user?.is_free ? 'top-[52px]' : 'top-0']" class="sticky z-30 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-surface-card/80 px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap items-center">

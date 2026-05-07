@@ -89,6 +89,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
                 'info' => fn () => $request->session()->get('info'),
+                'upgrade_required' => fn () => $request->session()->get('upgrade_required'),
             ],
             'locale' => $locale,
             'supportedLocales' => config('app.supported_locales', ['fr', 'de', 'en', 'lb', 'pt']),
