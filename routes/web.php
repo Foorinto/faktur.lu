@@ -497,31 +497,36 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/expenses-summary', [ExpenseController::class, 'summary'])->name('expenses.summary');
 
         // Time Tracking
-        Route::resource('time-entries', TimeEntryController::class)->except(['show', 'create', 'edit']);
-        Route::post('/time-entries/start', [TimeEntryController::class, 'start'])->name('time-entries.start');
-        Route::post('/time-entries/{timeEntry}/stop', [TimeEntryController::class, 'stop'])->name('time-entries.stop');
-        Route::get('/time-entries/running', [TimeEntryController::class, 'running'])->name('time-entries.running');
-        Route::get('/time-entries/summary', [TimeEntryController::class, 'summary'])->name('time-entries.summary');
-        Route::post('/time-entries/to-invoice', [TimeEntryController::class, 'toInvoice'])->name('time-entries.to-invoice');
-        Route::post('/time-entries/{timeEntry}/add-to-invoice', [TimeEntryController::class, 'addToInvoice'])->name('time-entries.add-to-invoice');
+        // Time entries — Essentiel ou Pro
+        Route::middleware('plan.feature:time_tracking')->group(function () {
+            Route::resource('time-entries', TimeEntryController::class)->except(['show', 'create', 'edit']);
+            Route::post('/time-entries/start', [TimeEntryController::class, 'start'])->name('time-entries.start');
+            Route::post('/time-entries/{timeEntry}/stop', [TimeEntryController::class, 'stop'])->name('time-entries.stop');
+            Route::get('/time-entries/running', [TimeEntryController::class, 'running'])->name('time-entries.running');
+            Route::get('/time-entries/summary', [TimeEntryController::class, 'summary'])->name('time-entries.summary');
+            Route::post('/time-entries/to-invoice', [TimeEntryController::class, 'toInvoice'])->name('time-entries.to-invoice');
+            Route::post('/time-entries/{timeEntry}/add-to-invoice', [TimeEntryController::class, 'addToInvoice'])->name('time-entries.add-to-invoice');
+        });
 
-        // Projects
-        Route::resource('projects', ProjectController::class)->except(['store']);
-        Route::post('/projects', [ProjectController::class, 'store'])
-            ->middleware('plan.limit:projects')
-            ->name('projects.store');
-        Route::post('/projects/{project}/status', [ProjectController::class, 'updateStatus'])->name('projects.status');
-        Route::post('/projects/reorder', [ProjectController::class, 'reorder'])->name('projects.reorder');
-        Route::post('/projects/{project}/archive', [ProjectController::class, 'archive'])->name('projects.archive');
+        // Projects + Tasks — Essentiel ou Pro
+        Route::middleware('plan.feature:projects')->group(function () {
+            Route::resource('projects', ProjectController::class)->except(['store']);
+            Route::post('/projects', [ProjectController::class, 'store'])
+                ->middleware('plan.limit:projects')
+                ->name('projects.store');
+            Route::post('/projects/{project}/status', [ProjectController::class, 'updateStatus'])->name('projects.status');
+            Route::post('/projects/reorder', [ProjectController::class, 'reorder'])->name('projects.reorder');
+            Route::post('/projects/{project}/archive', [ProjectController::class, 'archive'])->name('projects.archive');
 
-        // Tasks
-        Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])->name('tasks.store');
-        Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-        Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-        Route::post('/tasks/{task}/toggle', [TaskController::class, 'toggle'])->name('tasks.toggle');
-        Route::post('/tasks/{task}/subtasks', [TaskController::class, 'storeSubtask'])->name('tasks.subtasks.store');
-        Route::post('/projects/{project}/tasks/reorder', [TaskController::class, 'reorder'])->name('tasks.reorder');
-        Route::post('/projects/{project}/tasks/reorder-list', [TaskController::class, 'reorderList'])->name('tasks.reorder-list');
+            // Tasks
+            Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])->name('tasks.store');
+            Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+            Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+            Route::post('/tasks/{task}/toggle', [TaskController::class, 'toggle'])->name('tasks.toggle');
+            Route::post('/tasks/{task}/subtasks', [TaskController::class, 'storeSubtask'])->name('tasks.subtasks.store');
+            Route::post('/projects/{project}/tasks/reorder', [TaskController::class, 'reorder'])->name('tasks.reorder');
+            Route::post('/projects/{project}/tasks/reorder-list', [TaskController::class, 'reorderList'])->name('tasks.reorder-list');
+        });
 
         // Business Settings
         Route::get('/settings/business', [BusinessSettingsController::class, 'edit'])->name('settings.business.edit');
@@ -551,9 +556,13 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/quotes/{quote}/pdf', [QuoteController::class, 'downloadPdf'])->name('quotes.pdf');
         Route::get('/quotes/{quote}/pdf/stream', [QuoteController::class, 'streamPdf'])->name('quotes.pdf.stream');
         Route::get('/quotes/{quote}/pdf/preview', [QuoteController::class, 'previewPdf'])->name('quotes.pdf.preview');
-        Route::get('/reports/revenue-book/pdf', [RevenueBookController::class, 'exportPdf'])->name('reports.revenue-book.pdf');
-        Route::get('/reports/fiscal-summary/pdf', [FiscalSummaryController::class, 'exportPdf'])->name('reports.fiscal-summary.pdf');
         Route::get('/invoices/{invoice}/archive/download', [ArchiveController::class, 'download'])->name('invoices.archive.download');
+
+        // Reports comptables PDF — Essentiel ou Pro
+        Route::middleware('plan.feature:accounting_exports')->group(function () {
+            Route::get('/reports/revenue-book/pdf', [RevenueBookController::class, 'exportPdf'])->name('reports.revenue-book.pdf');
+            Route::get('/reports/fiscal-summary/pdf', [FiscalSummaryController::class, 'exportPdf'])->name('reports.fiscal-summary.pdf');
+        });
     });
 
     // HTML Preview - 60 requests/minute (less expensive than PDF)
@@ -581,12 +590,14 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::post('/settings/email/provider/test', [EmailProviderController::class, 'test'])->name('settings.email.provider.test');
     Route::post('/settings/email/provider/validate-smtp', [EmailProviderController::class, 'validateSmtp'])->name('settings.email.provider.validate-smtp');
 
-    // Accountant settings (invite/manage accountants)
-    Route::get('/settings/accountant', [AccountantSettingsController::class, 'index'])->name('settings.accountant');
-    Route::post('/settings/accountant/invite', [AccountantSettingsController::class, 'invite'])->name('settings.accountant.invite');
-    Route::post('/settings/accountant/invitations/{invitation}/resend', [AccountantSettingsController::class, 'resendInvitation'])->name('settings.accountant.resend');
-    Route::delete('/settings/accountant/invitations/{invitation}', [AccountantSettingsController::class, 'cancelInvitation'])->name('settings.accountant.cancel');
-    Route::delete('/settings/accountant/{accountant}', [AccountantSettingsController::class, 'revokeAccess'])->name('settings.accountant.revoke');
+    // Accountant settings (invite/manage accountants) — Essentiel ou Pro
+    Route::middleware('plan.feature:accounting_portal')->group(function () {
+        Route::get('/settings/accountant', [AccountantSettingsController::class, 'index'])->name('settings.accountant');
+        Route::post('/settings/accountant/invite', [AccountantSettingsController::class, 'invite'])->name('settings.accountant.invite');
+        Route::post('/settings/accountant/invitations/{invitation}/resend', [AccountantSettingsController::class, 'resendInvitation'])->name('settings.accountant.resend');
+        Route::delete('/settings/accountant/invitations/{invitation}', [AccountantSettingsController::class, 'cancelInvitation'])->name('settings.accountant.cancel');
+        Route::delete('/settings/accountant/{accountant}', [AccountantSettingsController::class, 'revokeAccess'])->name('settings.accountant.revoke');
+    });
 
     // Organization management (Pro only)
     Route::prefix('settings/organisation')->name('settings.organization.')->middleware('plan.feature:organizations')->group(function () {
@@ -649,16 +660,22 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     // Audit log export - 10 requests/hour
     Route::middleware('throttle:audit-export')->group(function () {
         Route::get('/audit-logs/export', [AuditLogController::class, 'export'])->name('audit-logs.export');
-        Route::get('/reports/revenue-book/csv', [RevenueBookController::class, 'exportCsv'])->name('reports.revenue-book.csv');
-        Route::get('/reports/fiscal-summary/csv', [FiscalSummaryController::class, 'exportCsv'])->name('reports.fiscal-summary.csv');
+
+        // Reports comptables CSV — Essentiel ou Pro
+        Route::middleware('plan.feature:accounting_exports')->group(function () {
+            Route::get('/reports/revenue-book/csv', [RevenueBookController::class, 'exportCsv'])->name('reports.revenue-book.csv');
+            Route::get('/reports/fiscal-summary/csv', [FiscalSummaryController::class, 'exportCsv'])->name('reports.fiscal-summary.csv');
+        });
     });
 
     // Audit log detail (must be after /audit-logs/export to avoid route conflict)
     Route::get('/audit-logs/{auditLog}', [AuditLogController::class, 'show'])->name('audit-logs.show');
 
-    // Reports and audit export views (no special rate limit beyond auth)
-    Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
-    Route::get('/reports/fiscal-summary', [FiscalSummaryController::class, 'index'])->name('reports.fiscal-summary');
+    // Reports views (HTML pages) — Essentiel ou Pro
+    Route::middleware('plan.feature:accounting_exports')->group(function () {
+        Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
+        Route::get('/reports/fiscal-summary', [FiscalSummaryController::class, 'index'])->name('reports.fiscal-summary');
+    });
     Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');
     Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
     Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
