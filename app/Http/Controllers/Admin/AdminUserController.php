@@ -18,13 +18,14 @@ class AdminUserController extends Controller
     {
         // withoutGlobalScope('user') sur les sous-requetes pour eviter que le
         // BelongsToUser scope (auth()->id() = admin) filtre les compteurs.
+        // Aliases 'invoices_count' / 'invoices_sum_total_ttc' attendus cote frontend.
         $query = User::query()
             ->withCount([
-                'userInvoices' => fn ($q) => $q->withoutGlobalScope('user'),
+                'userInvoices as invoices_count' => fn ($q) => $q->withoutGlobalScope('user'),
                 'clients' => fn ($q) => $q->withoutGlobalScope('user'),
             ])
             ->withSum([
-                'userInvoices' => fn ($q) => $q->withoutGlobalScope('user'),
+                'userInvoices as invoices_sum_total_ttc' => fn ($q) => $q->withoutGlobalScope('user'),
             ], 'total_ttc');
 
         // Search
@@ -51,7 +52,7 @@ class AdminUserController extends Controller
         // Sort
         $sortField = $request->get('sort', 'created_at');
         $sortDirection = $request->get('direction', 'desc');
-        $allowedSorts = ['name', 'email', 'created_at', 'user_invoices_count', 'user_invoices_sum_total_ttc'];
+        $allowedSorts = ['name', 'email', 'created_at', 'invoices_count', 'invoices_sum_total_ttc'];
 
         if (in_array($sortField, $allowedSorts)) {
             $query->orderBy($sortField, $sortDirection);
