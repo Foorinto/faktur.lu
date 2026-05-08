@@ -40,21 +40,22 @@ const verificationLinkSent = computed(
         </div>
 
         <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
+            <div class="mt-4">
                 <PrimaryButton
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     {{ t('resend_verification_email') }}
                 </PrimaryButton>
+            </div>
 
+            <div class="mt-6 text-center">
                 <Link
                     :href="route('logout')"
                     method="post"
                     as="button"
                     class="rounded-xl text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:text-slate-400 dark:hover:text-slate-100 dark:focus:ring-offset-surface-dark"
                 >{{ t('logout') }}</Link>
-
             </div>
         </form>
     </GuestLayout>

@@ -29,11 +29,15 @@ class VerifyEmailController extends Controller
 
     /**
      * Apres verification de l'email, on envoie l'utilisateur sur l'onboarding s'il
-     * ne l'a pas fini, sinon directement sur le dashboard.
+     * en a un en cours (cad : onboarding_step set et onboarding_completed_at non
+     * encore date). Sinon directement sur le dashboard.
+     *
+     * Note : les anciens utilisateurs (avant le systeme d'onboarding) ont
+     * onboarding_step = NULL, donc tombent bien sur dashboard.
      */
     protected function postVerificationRoute($user): string
     {
-        $needsOnboarding = $user->onboarding_step !== null && $user->onboarding_step !== 'completed';
+        $needsOnboarding = $user->onboarding_step !== null && $user->onboarding_completed_at === null;
 
         return $needsOnboarding
             ? route('onboarding.show', absolute: false) . '?verified=1'
