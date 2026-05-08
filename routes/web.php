@@ -81,7 +81,7 @@ Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, 
 
 // Newsletter routes (no auth required)
 Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])
-    ->middleware('throttle:6,1')
+    ->middleware(['honeypot', 'throttle:6,1'])
     ->name('newsletter.subscribe');
 Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterController::class, 'confirm'])
     ->name('newsletter.confirm');
@@ -193,12 +193,12 @@ Route::prefix('{locale}')
         Route::get('/partners', [ContactController::class, 'partners'])->name('partners.en');
         Route::get('/partneren', [ContactController::class, 'partners'])->name('partners.lb');
         Route::get('/parceiros', [ContactController::class, 'partners'])->name('partners.pt');
-        Route::post('/partenaires/contact', [ContactController::class, 'partnerContact'])->middleware('throttle:6,1')->name('partners.contact.fr');
-        Route::post('/partners/contact', [ContactController::class, 'partnerContact'])->middleware('throttle:6,1')->name('partners.contact.other');
+        Route::post('/partenaires/contact', [ContactController::class, 'partnerContact'])->middleware(['honeypot', 'throttle:6,1'])->name('partners.contact.fr');
+        Route::post('/partners/contact', [ContactController::class, 'partnerContact'])->middleware(['honeypot', 'throttle:6,1'])->name('partners.contact.other');
 
         // Contact page (explicit localized routes)
         Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-        Route::post('/contact', [ContactController::class, 'send'])->middleware('throttle:6,1')->name('contact.send');
+        Route::post('/contact', [ContactController::class, 'send'])->middleware(['honeypot', 'throttle:6,1'])->name('contact.send');
 
         // Tools hub + outils gratuits SEO/lead-gen
         Route::get('/outils', [ToolsController::class, 'index'])->name('tools.fr');

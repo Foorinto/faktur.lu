@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Link, usePage, router, useForm } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import HoneypotFields from '@/Components/HoneypotFields.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
 
@@ -46,6 +47,8 @@ const handleClickOutside = (event) => {
 const newsletterForm = useForm({
     email: '',
     source: 'footer',
+    homepage_url: '',
+    form_loaded_at: '',
 });
 
 const submitNewsletter = () => {
@@ -402,6 +405,10 @@ onUnmounted(() => {
                             {{ t('landing.footer.newsletter_success') }}
                         </div>
                         <form v-else @submit.prevent="submitNewsletter" class="max-w-xs">
+                            <HoneypotFields
+                                v-model:honeypot="newsletterForm.homepage_url"
+                                v-model:loadedAt="newsletterForm.form_loaded_at"
+                            />
                             <p class="text-sm font-medium text-slate-700 mb-2">{{ t('landing.footer.newsletter_title') }}</p>
                             <div class="flex gap-2">
                                 <input

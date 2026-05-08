@@ -2,6 +2,7 @@
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import HoneypotFields from '@/Components/HoneypotFields.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
@@ -34,6 +35,8 @@ const form = useForm({
     email: '',
     subject: '',
     message: '',
+    homepage_url: '',
+    form_loaded_at: '',
 });
 
 const success = computed(() => page.props.flash?.success);
@@ -134,6 +137,10 @@ const submit = () => {
                         </div>
 
                         <form @submit.prevent="submit" class="space-y-5">
+                            <HoneypotFields
+                                v-model:honeypot="form.homepage_url"
+                                v-model:loadedAt="form.form_loaded_at"
+                            />
                             <div>
                                 <label for="name" class="block text-sm font-medium text-slate-700 mb-1.5">{{ t('contact.form.name') }}</label>
                                 <input

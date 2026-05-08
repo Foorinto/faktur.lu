@@ -111,6 +111,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'plan.feature' => \App\Http\Middleware\CheckPlanFeature::class,
             'check.trial' => \App\Http\Middleware\CheckTrialExpired::class,
             'redirect.employee' => \App\Http\Middleware\RedirectEmployeeOnly::class,
+            'honeypot' => \App\Http\Middleware\ValidateHoneypot::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

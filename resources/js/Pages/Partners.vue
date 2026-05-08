@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import HoneypotFields from '@/Components/HoneypotFields.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 
@@ -16,6 +17,8 @@ const form = useForm({
     email: '',
     clients_count: '',
     message: '',
+    homepage_url: '',
+    form_loaded_at: '',
 });
 
 const submit = () => {
@@ -243,6 +246,10 @@ const faqs = computed(() => [
                         </div>
 
                         <form v-else @submit.prevent="submit" class="space-y-5">
+                            <HoneypotFields
+                                v-model:honeypot="form.homepage_url"
+                                v-model:loadedAt="form.form_loaded_at"
+                            />
                             <div class="grid sm:grid-cols-2 gap-5">
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700 mb-1">{{ t('partners.form.company') }} *</label>

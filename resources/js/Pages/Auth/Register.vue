@@ -4,6 +4,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import HoneypotFields from '@/Components/HoneypotFields.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
@@ -17,6 +18,8 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    homepage_url: '',
+    form_loaded_at: '',
 });
 
 const submit = () => {
@@ -31,6 +34,10 @@ const submit = () => {
         <Head :title="t('register')" />
 
         <form @submit.prevent="submit">
+            <HoneypotFields
+                v-model:honeypot="form.homepage_url"
+                v-model:loadedAt="form.form_loaded_at"
+            />
             <div>
                 <InputLabel for="name" :value="t('name')" />
 
