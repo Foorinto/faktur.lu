@@ -5,10 +5,10 @@
     RewriteCond %{REQUEST_URI} ^/public/
     RewriteRule ^ - [L]
 
-    # 2. Trailing slash redirect (SEO) au niveau racine, AVANT toute rewrite vers public/.
-    #    Si l'URL se termine par / et que ce n'est pas un vrai dossier, on redirige
-    #    vers la version sans slash. On le fait ici pour eviter l'exposition de /public/
-    #    dans l'URL si on le faisait dans public/.htaccess.
+    # 2. Trailing slash redirect (SEO) UNIQUEMENT sur les GET. Un POST avec trailing
+    #    slash (ex: webhook Stripe mal configure) ne doit JAMAIS etre redirige en 301
+    #    car les clients HTTP suivent la redirection en GET, ce qui casse les webhooks.
+    RewriteCond %{REQUEST_METHOD} =GET
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} ^/(.+)/$
     RewriteRule ^ /%1 [L,R=301]
