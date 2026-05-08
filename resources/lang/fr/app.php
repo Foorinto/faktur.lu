@@ -144,6 +144,13 @@ return [
     'thank_you_title' => 'Merci pour votre inscription !',
     'thank_you_message' => 'Un email de vérification vient de vous être envoyé à l\'adresse :',
     'thank_you_back_home' => 'Retour à la page d\'accueil',
+    'trial_card' => [
+        'title' => 'Période d\'essai',
+        'days_remaining' => 'jours restants',
+        'expires_on' => 'Expire le',
+        'full_access_info' => 'Accès complet aux fonctionnalités Pro. À l\'expiration, votre compte passera automatiquement en plan Gratuit (sans perte de données).',
+        'cta' => 'Choisir un abonnement',
+    ],
     'confirm_password' => 'Confirmer le mot de passe',
     'already_registered' => 'Déjà inscrit ?',
     'accept_terms_prefix' => 'J\'accepte les',

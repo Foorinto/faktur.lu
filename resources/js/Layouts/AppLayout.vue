@@ -280,19 +280,22 @@ const routeExists = (routeName) => {
                             <svg class="h-5 w-5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span class="text-sm font-semibold text-amber-800 dark:text-amber-200">Période d'essai</span>
+                            <span class="text-sm font-semibold text-amber-800 dark:text-amber-200">{{ t('trial_card.title') }}</span>
                         </div>
                         <p class="text-xs text-amber-700 dark:text-amber-300 mb-1">
-                            <strong>{{ page.props.auth.user.trial_days_remaining }}</strong> jours restants
+                            <strong>{{ page.props.auth.user.trial_days_remaining }}</strong> {{ t('trial_card.days_remaining') }}
                         </p>
-                        <p class="text-xs text-amber-600 dark:text-amber-400 mb-3">
-                            Expire le {{ new Date(page.props.auth.user.trial_ends_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }) }}
+                        <p class="text-xs text-amber-600 dark:text-amber-400 mb-2">
+                            {{ t('trial_card.expires_on') }} {{ new Date(page.props.auth.user.trial_ends_at).toLocaleDateString(page.props.locale || 'fr', { day: 'numeric', month: 'long' }) }}
+                        </p>
+                        <p class="text-xs text-amber-700 dark:text-amber-300 mb-3 leading-relaxed">
+                            {{ t('trial_card.full_access_info') }}
                         </p>
                         <Link
                             :href="route('subscription.index')"
                             class="block w-full text-center text-xs font-medium px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white transition-colors"
                         >
-                            Choisir un abonnement
+                            {{ t('trial_card.cta') }}
                         </Link>
                     </div>
                 </div>

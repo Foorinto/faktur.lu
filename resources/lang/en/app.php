@@ -144,6 +144,13 @@ return [
     'thank_you_title' => 'Thank you for signing up!',
     'thank_you_message' => 'A verification email has just been sent to:',
     'thank_you_back_home' => 'Back to home page',
+    'trial_card' => [
+        'title' => 'Trial period',
+        'days_remaining' => 'days remaining',
+        'expires_on' => 'Expires on',
+        'full_access_info' => 'Full access to Pro features. When the trial ends, your account will switch automatically to the Free plan (no data loss).',
+        'cta' => 'Choose a plan',
+    ],
     'confirm_password' => 'Confirm password',
     'already_registered' => 'Already registered?',
     'accept_terms_prefix' => 'I accept the',

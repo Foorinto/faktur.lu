@@ -85,6 +85,13 @@ return [
     'thank_you_title' => 'Vielen Dank für Ihre Registrierung!',
     'thank_you_message' => 'Eine Bestätigungsmail wurde gesendet an:',
     'thank_you_back_home' => 'Zurück zur Startseite',
+    'trial_card' => [
+        'title' => 'Testphase',
+        'days_remaining' => 'Tage übrig',
+        'expires_on' => 'Läuft ab am',
+        'full_access_info' => 'Voller Zugriff auf alle Pro-Funktionen. Nach Ablauf wird Ihr Konto automatisch auf den Gratis-Plan umgestellt (ohne Datenverlust).',
+        'cta' => 'Plan wählen',
+    ],
     'confirm_password' => 'Passwort bestätigen',
     'already_registered' => 'Bereits registriert?',
     'accept_terms_prefix' => 'Ich akzeptiere die',

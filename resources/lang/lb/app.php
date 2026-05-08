@@ -85,6 +85,13 @@ return [
     'thank_you_title' => 'Merci fir Är Aschreiwung!',
     'thank_you_message' => 'Eng Bestätegungs-E-Mail gouf un dës Adress geschéckt:',
     'thank_you_back_home' => 'Zréck op d\'Haaptsäit',
+    'trial_card' => [
+        'title' => 'Test-Period',
+        'days_remaining' => 'Deeg iwwereg',
+        'expires_on' => 'Leeft of de',
+        'full_access_info' => 'Voller Zougrëff op all Pro-Funktioune. Wann den Test eriwwer ass, wiesselt Äre Kont automatesch op de Gratis-Plang (keng Donnéeën verluer).',
+        'cta' => 'E Plang wielen',
+    ],
     'confirm_password' => 'Passwuert bestätegen',
     'already_registered' => 'Schonn registréiert?',
     'accept_terms_prefix' => 'Ech akzeptéieren d\'',

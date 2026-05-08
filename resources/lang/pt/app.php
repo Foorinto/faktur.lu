@@ -144,6 +144,13 @@ return [
     'thank_you_title' => 'Obrigado pela sua inscrição!',
     'thank_you_message' => 'Foi enviado um email de verificação para:',
     'thank_you_back_home' => 'Voltar à página inicial',
+    'trial_card' => [
+        'title' => 'Período de avaliação',
+        'days_remaining' => 'dias restantes',
+        'expires_on' => 'Expira em',
+        'full_access_info' => 'Acesso completo às funcionalidades Pro. No final do período, a sua conta passa automaticamente para o plano Gratuito (sem perda de dados).',
+        'cta' => 'Escolher um plano',
+    ],
     'confirm_password' => 'Confirmar a palavra-passe',
     'already_registered' => 'Já está registado?',
     'accept_terms_prefix' => 'Aceito os',
