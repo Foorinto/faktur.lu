@@ -14,14 +14,29 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->intended($this->postVerificationRoute($user));
         }
 
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return redirect()->intended($this->postVerificationRoute($user));
+    }
+
+    /**
+     * Apres verification de l'email, on envoie l'utilisateur sur l'onboarding s'il
+     * ne l'a pas fini, sinon directement sur le dashboard.
+     */
+    protected function postVerificationRoute($user): string
+    {
+        $needsOnboarding = $user->onboarding_step !== null && $user->onboarding_step !== 'completed';
+
+        return $needsOnboarding
+            ? route('onboarding.show', absolute: false) . '?verified=1'
+            : route('dashboard', absolute: false) . '?verified=1';
     }
 }

@@ -73,6 +73,9 @@ const submit = () => {
                     required
                     autocomplete="new-password"
                 />
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {{ t('password_requirements') }}
+                </p>
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>

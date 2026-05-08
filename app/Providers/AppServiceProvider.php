@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -60,6 +61,17 @@ class AppServiceProvider extends ServiceProvider
 
         // Configure rate limiters
         $this->configureRateLimiting();
+
+        // Politique de mot de passe : 8 caracteres min, 1 majuscule + 1 minuscule
+        // (mixedCase), 1 chiffre, 1 caractere special, et non-compromis
+        // (verifie via API HaveIBeenPwned).
+        Password::defaults(function () {
+            return Password::min(8)
+                ->mixedCase()
+                ->numbers()
+                ->symbols()
+                ->uncompromised();
+        });
     }
 
     /**

@@ -27,5 +27,17 @@ return [
     'unique' => 'La valeur de :attribute est déjà utilisée.',
     'uploaded' => 'Le fichier :attribute n\'a pas pu être téléversé. Vérifiez la taille du fichier.',
 
-    'attributes' => [],
+    'password' => [
+        'letters' => 'Le mot de passe doit contenir au moins une lettre.',
+        'mixed' => 'Le mot de passe doit contenir au moins une majuscule et une minuscule.',
+        'numbers' => 'Le mot de passe doit contenir au moins un chiffre.',
+        'symbols' => 'Le mot de passe doit contenir au moins un caractère spécial.',
+        'uncompromised' => 'Ce mot de passe a été divulgué dans une fuite de données. Veuillez en choisir un autre.',
+    ],
+
+    'attributes' => [
+        'password' => 'mot de passe',
+        'email' => 'email',
+        'name' => 'nom',
+    ],
 ];

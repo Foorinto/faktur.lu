@@ -59,6 +59,9 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('onboarding.show', absolute: false));
+        // Redirige vers une page de remerciement qui informe l'utilisateur qu'un
+        // email de verification a ete envoye. Le clic sur le lien email validera
+        // l'email et redirigera ensuite vers l'onboarding (cf. VerifyEmailController).
+        return redirect()->route('register.thank-you');
     }
 }
