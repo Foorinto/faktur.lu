@@ -37,6 +37,8 @@ class InvoiceItemController extends Controller
      */
     public function update(UpdateInvoiceItemRequest $request, Invoice $invoice, InvoiceItem $item): RedirectResponse
     {
+        abort_unless($item->invoice_id === $invoice->id, 404);
+
         $item->update($request->validated());
 
         return back()->with('success', 'Ligne mise à jour.');
@@ -47,6 +49,8 @@ class InvoiceItemController extends Controller
      */
     public function move(Request $request, Invoice $invoice, InvoiceItem $item): RedirectResponse
     {
+        abort_unless($item->invoice_id === $invoice->id, 404);
+
         if ($invoice->isImmutable()) {
             return back()->with('error', 'Impossible de modifier une facture finalisée.');
         }
@@ -88,6 +92,8 @@ class InvoiceItemController extends Controller
      */
     public function destroy(Invoice $invoice, InvoiceItem $item): RedirectResponse
     {
+        abort_unless($item->invoice_id === $invoice->id, 404);
+
         if ($invoice->isImmutable()) {
             return back()->with('error', 'Impossible de modifier une facture finalisée.');
         }

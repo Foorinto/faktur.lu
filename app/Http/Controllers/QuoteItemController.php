@@ -37,6 +37,8 @@ class QuoteItemController extends Controller
      */
     public function update(UpdateQuoteItemRequest $request, Quote $quote, QuoteItem $item): RedirectResponse
     {
+        abort_unless($item->quote_id === $quote->id, 404);
+
         $item->update($request->validated());
 
         return back()->with('success', 'Ligne mise à jour.');
@@ -47,6 +49,8 @@ class QuoteItemController extends Controller
      */
     public function move(Request $request, Quote $quote, QuoteItem $item): RedirectResponse
     {
+        abort_unless($item->quote_id === $quote->id, 404);
+
         if (!$quote->canEdit()) {
             return back()->with('error', 'Impossible de modifier ce devis.');
         }
@@ -88,6 +92,8 @@ class QuoteItemController extends Controller
      */
     public function destroy(Quote $quote, QuoteItem $item): RedirectResponse
     {
+        abort_unless($item->quote_id === $quote->id, 404);
+
         if (!$quote->canEdit()) {
             return back()->with('error', 'Impossible de modifier ce devis.');
         }
