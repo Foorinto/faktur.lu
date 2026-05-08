@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Plan;
 use App\Services\PlanService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 
@@ -88,11 +90,98 @@ class SubscriptionController extends Controller
 
     /**
      * Handle successful checkout.
+     *
+     * Fallback : si le webhook Stripe n'a pas mis a jour la subscription localement
+     * (webhook mal configure, retard reseau, etc.), on synchronise manuellement
+     * a partir du session_id retourne par Stripe Checkout.
      */
     public function success(Request $request)
     {
+        $user = $request->user();
+        $sessionId = $request->query('session_id');
+
+        if ($sessionId) {
+            try {
+                $this->syncSubscriptionFromCheckoutSession($user, $sessionId);
+            } catch (\Throwable $e) {
+                Log::error('Subscription sync from checkout session failed', [
+                    'user_id' => $user->id,
+                    'session_id' => $sessionId,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
+
         return redirect()->route('subscription.index')
             ->with('success', __('app.subscription_flash.activated'));
+    }
+
+    /**
+     * Recupere la session Stripe Checkout et cree/met a jour la subscription locale.
+     * Reproduit la logique du WebhookController de Cashier (handleCustomerSubscriptionCreated)
+     * pour ne pas dependre de l'arrivee du webhook.
+     */
+    protected function syncSubscriptionFromCheckoutSession($user, string $sessionId): void
+    {
+        $stripe = $user->stripe();
+        $session = $stripe->checkout->sessions->retrieve($sessionId, ['expand' => ['subscription']]);
+
+        if (! $session || ! $session->subscription) {
+            return;
+        }
+
+        // Lier le customer Stripe a l'utilisateur si pas deja fait
+        if ($session->customer && ! $user->stripe_id) {
+            $user->stripe_id = is_string($session->customer) ? $session->customer : $session->customer->id;
+            $user->save();
+        }
+
+        $stripeSubscription = is_string($session->subscription)
+            ? $stripe->subscriptions->retrieve($session->subscription, ['expand' => ['items.data']])
+            : $session->subscription;
+
+        if (! $stripeSubscription) {
+            return;
+        }
+
+        $firstItem = $stripeSubscription->items->data[0] ?? null;
+        if (! $firstItem) {
+            return;
+        }
+
+        $isSinglePrice = count($stripeSubscription->items->data) === 1;
+        $trialEndsAt = $stripeSubscription->trial_end
+            ? Carbon::createFromTimestamp($stripeSubscription->trial_end)
+            : null;
+
+        $subscription = $user->subscriptions()->updateOrCreate(
+            ['stripe_id' => $stripeSubscription->id],
+            [
+                'type' => 'default',
+                'stripe_status' => $stripeSubscription->status,
+                'stripe_price' => $isSinglePrice ? $firstItem->price->id : null,
+                'quantity' => $isSinglePrice && isset($firstItem->quantity) ? $firstItem->quantity : null,
+                'trial_ends_at' => $trialEndsAt,
+                'ends_at' => null,
+            ]
+        );
+
+        foreach ($stripeSubscription->items->data as $item) {
+            $subscription->items()->updateOrCreate(
+                ['stripe_id' => $item->id],
+                [
+                    'stripe_product' => $item->price->product,
+                    'stripe_price' => $item->price->id,
+                    'quantity' => $item->quantity ?? 1,
+                ]
+            );
+        }
+
+        Log::info('Subscription manually synced from checkout session', [
+            'user_id' => $user->id,
+            'subscription_id' => $stripeSubscription->id,
+            'status' => $stripeSubscription->status,
+        ]);
     }
 
     /**
