@@ -16,9 +16,16 @@ class AdminUserController extends Controller
      */
     public function index(Request $request)
     {
+        // withoutGlobalScope('user') sur les sous-requetes pour eviter que le
+        // BelongsToUser scope (auth()->id() = admin) filtre les compteurs.
         $query = User::query()
-            ->withCount(['userInvoices', 'clients'])
-            ->withSum('userInvoices', 'total_ttc');
+            ->withCount([
+                'userInvoices' => fn ($q) => $q->withoutGlobalScope('user'),
+                'clients' => fn ($q) => $q->withoutGlobalScope('user'),
+            ])
+            ->withSum([
+                'userInvoices' => fn ($q) => $q->withoutGlobalScope('user'),
+            ], 'total_ttc');
 
         // Search
         if ($search = $request->get('search')) {
@@ -70,22 +77,26 @@ class AdminUserController extends Controller
     {
         $user = User::withTrashed()->findOrFail($user);
 
-        $user->load(['userInvoices' => function ($query) {
-            $query->latest()->limit(10);
-        }, 'clients']);
+        // Les models Invoice et Client ont un global scope BelongsToUser qui filtre
+        // par auth()->id() (= l'admin courant). Pour voir les donnees du user
+        // consulte, il faut bypasser ce scope.
+        $invoicesQuery = fn () => $user->userInvoices()->withoutGlobalScope('user');
+        $clientsQuery = fn () => $user->clients()->withoutGlobalScope('user');
 
         $stats = [
-            'total_invoices' => $user->userInvoices()->count(),
-            'total_revenue' => $user->userInvoices()->where('status', 'paid')->sum('total_ttc'),
-            'paid_invoices' => $user->userInvoices()->where('status', 'paid')->count(),
-            'pending_invoices' => $user->userInvoices()->whereIn('status', ['draft', 'sent'])->count(),
-            'total_clients' => $user->clients()->count(),
+            'total_invoices' => $invoicesQuery()->count(),
+            'total_revenue' => $invoicesQuery()->where('status', 'paid')->sum('total_ttc'),
+            'paid_invoices' => $invoicesQuery()->where('status', 'paid')->count(),
+            'pending_invoices' => $invoicesQuery()->whereIn('status', ['draft', 'sent'])->count(),
+            'total_clients' => $clientsQuery()->count(),
         ];
+
+        $recentInvoices = $invoicesQuery()->latest()->limit(10)->get();
 
         return Inertia::render('Admin/Users/Show', [
             'user' => $user,
             'stats' => $stats,
-            'recentInvoices' => $user->userInvoices,
+            'recentInvoices' => $recentInvoices,
         ]);
     }
 
