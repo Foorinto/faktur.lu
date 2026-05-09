@@ -62,11 +62,11 @@ class AppServiceProvider extends ServiceProvider
         // Configure rate limiters
         $this->configureRateLimiting();
 
-        // Politique de mot de passe : 8 caracteres min, 1 majuscule + 1 minuscule
+        // Politique de mot de passe : 12 caracteres min, 1 majuscule + 1 minuscule
         // (mixedCase), 1 chiffre, 1 caractere special, et non-compromis
         // (verifie via API HaveIBeenPwned).
         Password::defaults(function () {
-            return Password::min(8)
+            return Password::min(12)
                 ->mixedCase()
                 ->numbers()
                 ->symbols()

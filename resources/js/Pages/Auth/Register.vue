@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import HoneypotFields from '@/Components/HoneypotFields.vue';
+import PasswordStrengthChecker from '@/Components/PasswordStrengthChecker.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
@@ -80,9 +81,8 @@ const submit = () => {
                     required
                     autocomplete="new-password"
                 />
-                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    {{ t('password_requirements') }}
-                </p>
+
+                <PasswordStrengthChecker :password="form.password" :min-length="12" />
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
