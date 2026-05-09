@@ -39,15 +39,21 @@ class RegisteredUserController extends Controller
             'terms' => 'required|accepted',
         ]);
 
+        // Champs fillable
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'trial_ends_at' => now()->addDays(14),
-            'account_status' => 'trial',
             'onboarding_step' => 'company',
             'locale' => session('locale', config('app.locale')),
         ]);
+
+        // trial_ends_at et account_status retires du fillable (champs sensibles)
+        // -> forceFill obligatoire
+        $user->forceFill([
+            'trial_ends_at' => now()->addDays(14),
+            'account_status' => 'trial',
+        ])->save();
 
         event(new Registered($user));
 

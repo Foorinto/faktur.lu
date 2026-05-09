@@ -106,9 +106,8 @@ class AdminUserController extends Controller
      */
     public function toggleActive(User $user)
     {
-        $user->update([
-            'is_active' => !$user->is_active,
-        ]);
+        // is_active retire du fillable (champ sensible) -> forceFill obligatoire
+        $user->forceFill(['is_active' => !$user->is_active])->save();
 
         $status = $user->is_active ? 'activé' : 'désactivé';
 

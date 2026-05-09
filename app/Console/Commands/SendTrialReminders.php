@@ -90,6 +90,9 @@ class SendTrialReminders extends Command
      */
     protected function updateExpiredTrialStatus(): void
     {
+        // ->update() en bulk passe directement par la query builder (PAS Eloquent),
+        // donc bypass le $fillable. Pas besoin de forceFill ici.
+        // Reference : https://laravel.com/docs/eloquent#mass-updates
         $count = User::whereNotNull('trial_ends_at')
             ->where('trial_ends_at', '<', Carbon::now())
             ->where('account_status', 'trial')

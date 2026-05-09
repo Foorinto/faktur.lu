@@ -282,10 +282,13 @@ class EmployeeController extends Controller
                 'name' => $employee->full_name,
                 'email' => $employee->email_pro,
                 'password' => Hash::make(Str::random(32)),
-                'email_verified_at' => now(),
-                'is_active' => true,
                 'locale' => auth()->user()->locale ?? 'fr',
             ]);
+            // is_active retire du fillable, email_verified_at jamais dans fillable
+            $user->forceFill([
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ])->save();
         } elseif (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
         }

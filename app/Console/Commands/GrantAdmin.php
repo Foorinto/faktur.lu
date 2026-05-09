@@ -20,7 +20,8 @@ class GrantAdmin extends Command
             return 1;
         }
 
-        $user->update(['is_admin' => true]);
+        // is_admin retire du fillable (champ sensible) -> forceFill obligatoire
+        $user->forceFill(['is_admin' => true])->save();
 
         if ($password = $this->option('reset-password')) {
             $user->update(['password' => bcrypt($password)]);

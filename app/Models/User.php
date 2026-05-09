@@ -36,17 +36,24 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_active',
-        'is_admin',
         'drip_unsubscribed',
         'locale',
-        'account_status',
-        'trial_ends_at',
         'onboarding_step',
         'onboarding_completed_at',
         'onboarding_skipped',
         'onboarding_checklist_dismissed',
     ];
+
+    /**
+     * Champs sensibles volontairement EXCLUS du $fillable :
+     * - is_admin : promotion admin (mass assignment = privilege escalation)
+     * - is_active : un user ne doit pas pouvoir se reactiver apres desactivation
+     * - account_status : statut (trial/paid/expired) controle par les flows
+     * - trial_ends_at : extension du trial possible si fillable
+     *
+     * Pour les modifier (admin/cron uniquement), utiliser forceFill() :
+     *   $user->forceFill(['is_admin' => true])->save();
+     */
 
     /**
      * The attributes that should be hidden for serialization.

@@ -81,9 +81,12 @@ class CollaboratorInvitationController extends Controller
                 'name' => $request->name,
                 'email' => $invitation->email,
                 'password' => Hash::make($request->password),
-                'email_verified_at' => now(),
-                'is_active' => true,
             ]);
+            // is_active retire du fillable, email_verified_at jamais dans fillable
+            $user->forceFill([
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ])->save();
         }
 
         // Add as organization member
