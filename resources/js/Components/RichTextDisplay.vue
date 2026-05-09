@@ -1,17 +1,36 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import DOMPurify from 'dompurify';
+
+const props = defineProps({
     content: {
         type: String,
         default: '',
     },
 });
+
+// Sanitize le HTML avec DOMPurify pour eviter le Stored XSS.
+// Whitelist limitee aux tags utilises par Tiptap (editeur rich-text).
+const sanitizedContent = computed(() => {
+    if (!props.content) return '';
+    return DOMPurify.sanitize(props.content, {
+        ALLOWED_TAGS: [
+            'p', 'br', 'strong', 'em', 'u', 's',
+            'ul', 'ol', 'li',
+            'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            'blockquote', 'code', 'pre',
+        ],
+        ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+        ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+    });
+});
 </script>
 
 <template>
     <div
-        v-if="content"
+        v-if="sanitizedContent"
         class="rich-text-display prose prose-sm dark:prose-invert max-w-none"
-        v-html="content"
+        v-html="sanitizedContent"
     />
 </template>
 
