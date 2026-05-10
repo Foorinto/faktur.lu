@@ -377,37 +377,50 @@ class Invoice extends Model
     }
 
     /**
-     * Get the effective VAT mention text (invoice-specific or global default).
+     * Get the effective VAT mention KEY (immutable classification, not user-facing text).
+     * Returns one of: 'franchise', 'reverse_charge', 'intra_eu', 'export', 'other', or null.
+     * Use this for any classification logic (Peppol XML, accounting exports, etc.) — NEVER do
+     * string matching on getEffectiveVatMentionAttribute() because that one is locale-translated.
      */
-    public function getEffectiveVatMentionAttribute(): ?string
+    public function getEffectiveVatMentionTypeAttribute(): ?string
     {
-        // Determine which mention type to use
         $mentionType = $this->vat_mention;
-        $customText = $this->custom_vat_mention;
 
-        // If no invoice-specific mention, use global default
         if (!$mentionType) {
             $settings = BusinessSettings::getInstance();
             $mentionType = $settings?->default_vat_mention;
-            $customText = $settings?->default_custom_vat_mention;
 
-            // If still no mention set, use franchise mention for VAT exempt businesses
             if (!$mentionType && $settings?->isVatExempt()) {
                 $mentionType = 'franchise';
             }
         }
 
-        // Return null if no mention or "none"
         if (!$mentionType || $mentionType === 'none') {
             return null;
         }
 
-        // Return custom text for "other"
-        if ($mentionType === 'other') {
-            return $customText;
+        return $mentionType;
+    }
+
+    /**
+     * Get the effective VAT mention text (invoice-specific or global default).
+     * The text is translated in the current locale — set by the PDF/Peppol service before rendering.
+     */
+    public function getEffectiveVatMentionAttribute(): ?string
+    {
+        $mentionType = $this->effective_vat_mention_type;
+
+        if (!$mentionType) {
+            return null;
         }
 
-        // Return predefined mention text — translated in the current locale (set by the PDF service)
+        // Custom user-supplied text bypasses translations
+        if ($mentionType === 'other') {
+            return $this->custom_vat_mention
+                ?? BusinessSettings::getInstance()?->default_custom_vat_mention;
+        }
+
+        // Predefined mention — translated in the current locale
         $translationKey = "invoice.vat_mentions.{$mentionType}";
         $translated = __($translationKey);
 

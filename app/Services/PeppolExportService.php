@@ -534,26 +534,17 @@ class PeppolExportService
     protected function getTaxCategoryCode(float $rate, Invoice $invoice): string
     {
         if ($rate == 0) {
-            // Determine exemption reason
-            $vatMention = $invoice->vat_mention ?? $invoice->effective_vat_mention ?? '';
+            // Use the immutable mention KEY (not the user-facing translated text) so this works
+            // regardless of the active locale at export time.
+            $mentionType = $invoice->effective_vat_mention_type;
 
-            if (str_contains($vatMention, 'reverse_charge') || str_contains($vatMention, 'autoliquidation')) {
-                return 'AE'; // VAT Reverse Charge
-            }
-
-            if (str_contains($vatMention, 'export')) {
-                return 'G'; // Export outside EU
-            }
-
-            if (str_contains($vatMention, 'intra') || str_contains($vatMention, 'intracommunautaire')) {
-                return 'K'; // Intra-community supply
-            }
-
-            if (str_contains($vatMention, 'franchise')) {
-                return 'E'; // Exempt from VAT
-            }
-
-            return 'E'; // Default to exempt
+            return match ($mentionType) {
+                'reverse_charge' => 'AE', // VAT Reverse Charge
+                'export' => 'G',          // Export outside EU
+                'intra_eu' => 'K',        // Intra-community supply
+                'franchise' => 'E',       // Exempt from VAT
+                default => 'E',           // Default to exempt for null / 'other'
+            };
         }
 
         return 'S'; // Standard rate

@@ -8,28 +8,44 @@
         {{-- Bing Webmaster Tools site verification --}}
         <meta name="msvalidate.01" content="13148CA3A8D92D8A7B0AAD35CAEE00D4" />
 
-        {{-- Canonical + hreflang for public multilingual pages
-             Detects /{locale}/... URLs and emits a canonical for the current locale plus
-             hreflang alternates for every supported locale. Skipped for private/non-localized routes
-             (login, dashboard, /up, etc.) so search engines don't see contradictory signals. --}}
+        {{-- Canonical for public multilingual pages.
+             Hreflang alternates are only emitted for routes whose URL slug is identical across
+             all 5 locales (homepage and selected slug-stable routes). Pricing, features, blog
+             posts etc. have language-specific slugs (/fr/tarifs vs /de/preise) — emitting
+             naive hreflang on those would point to non-existent URLs. Those routes get a
+             canonical only; their hreflang relations are owned by the per-page SeoHead component. --}}
         @php
             $supportedLocales = ['fr', 'de', 'en', 'lb', 'pt'];
             $segments = request()->segments();
             $firstSegment = $segments[0] ?? null;
             $isLocalizedPublicRoute = in_array($firstSegment, $supportedLocales, true);
+
+            // Routes whose slug after the locale is identical across all 5 languages.
+            // Keep this list in sync with routes/web.php — only add a slug here if it exists
+            // verbatim in every supported locale. Most marketing slugs (a-propos/ueber-uns,
+            // partenaires/partner, etc.) DIFFER per locale, so they must NOT be added here.
+            $slugStableRoutes = [
+                '',         // homepage: /fr, /de, /en, /lb, /pt
+                'contact',  // declared without per-locale variants
+                'cookies',  // declared without per-locale variants
+            ];
+
             if ($isLocalizedPublicRoute) {
                 $pathWithoutLocale = '/' . implode('/', array_slice($segments, 1));
                 $pathWithoutLocale = rtrim($pathWithoutLocale, '/');
-                $base = config('app.url') ?: 'https://faktur.lu';
-                $base = rtrim($base, '/');
+                $slugAfterLocale = ltrim($pathWithoutLocale, '/');
+                $base = rtrim(config('app.url') ?: 'https://faktur.lu', '/');
+                $canSafelyEmitHreflang = in_array($slugAfterLocale, $slugStableRoutes, true);
             }
         @endphp
         @if($isLocalizedPublicRoute)
             <link rel="canonical" href="{{ $base }}/{{ $firstSegment }}{{ $pathWithoutLocale }}" />
-            @foreach($supportedLocales as $altLocale)
-                <link rel="alternate" hreflang="{{ $altLocale }}" href="{{ $base }}/{{ $altLocale }}{{ $pathWithoutLocale }}" />
-            @endforeach
-            <link rel="alternate" hreflang="x-default" href="{{ $base }}/fr{{ $pathWithoutLocale }}" />
+            @if($canSafelyEmitHreflang)
+                @foreach($supportedLocales as $altLocale)
+                    <link rel="alternate" hreflang="{{ $altLocale }}" href="{{ $base }}/{{ $altLocale }}{{ $pathWithoutLocale }}" />
+                @endforeach
+                <link rel="alternate" hreflang="x-default" href="{{ $base }}/fr{{ $pathWithoutLocale }}" />
+            @endif
         @endif
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
