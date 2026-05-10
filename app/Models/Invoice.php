@@ -371,9 +371,9 @@ class Invoice extends Model
             return $this->footer_message;
         }
 
-        // Otherwise, use the global default
+        // Otherwise, use the global default (translated in current locale, which is set by the PDF service)
         $settings = BusinessSettings::getInstance();
-        return $settings?->default_invoice_footer ?? 'Merci pour votre confiance !';
+        return $settings?->default_invoice_footer ?? __('invoice.thank_you');
     }
 
     /**
@@ -407,8 +407,16 @@ class Invoice extends Model
             return $customText;
         }
 
-        // Return predefined mention text
-        return BusinessSettings::VAT_MENTIONS[$mentionType] ?? null;
+        // Return predefined mention text — translated in the current locale (set by the PDF service)
+        $translationKey = "invoice.vat_mentions.{$mentionType}";
+        $translated = __($translationKey);
+
+        // Fallback on the legacy hardcoded constant if the translation key is missing
+        if ($translated === $translationKey) {
+            return BusinessSettings::VAT_MENTIONS[$mentionType] ?? null;
+        }
+
+        return $translated;
     }
 
     /**

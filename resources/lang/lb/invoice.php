@@ -61,6 +61,14 @@ return [
     'vat_intra_community' => 'TVA-befreit - Innergemeinschaftlech Liwwerung',
     'vat_reverse_charge' => 'Steierulaaschter vum Leeschtungsempfänger',
 
+    // VAT mentions (full text used on invoice PDF)
+    'vat_mentions' => [
+        'franchise' => 'TVA net applicabel, Art. 57 vum lëtzebuerger TVA Code (Steierbefreiungsregelung)',
+        'reverse_charge' => 'Steierulaaschter vum Leeschtungsempfänger - Artikel 44 vun der Richtlinn 2006/112/EG',
+        'intra_eu' => 'TVA-befreit - Innergemeinschaftlech Liwwerung (Art. 43 vum TVA Code)',
+        'export' => 'TVA-befreit - Export (Art. 43 vum TVA Code)',
+    ],
+
     // Credit note
     'credit_note_reason' => 'Grond',
     'credit_note_cancels' => 'Dës Gutschrëft stornéiert d\'Rechnung Nr.',

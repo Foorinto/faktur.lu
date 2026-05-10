@@ -318,9 +318,11 @@ onUnmounted(() => {
                     <!-- Mobile menu button -->
                     <button
                         @click="mobileMenuOpen = !mobileMenuOpen"
+                        :aria-label="mobileMenuOpen ? t('landing.nav.close_menu') : t('landing.nav.open_menu')"
+                        :aria-expanded="mobileMenuOpen"
                         class="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-gray-50"
                     >
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>

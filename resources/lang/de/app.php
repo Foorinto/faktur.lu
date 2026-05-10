@@ -91,6 +91,14 @@ return [
     'thank_you_title' => 'Vielen Dank für Ihre Registrierung!',
     'thank_you_message' => 'Eine Bestätigungsmail wurde gesendet an:',
     'thank_you_back_home' => 'Zurück zur Startseite',
+    'thank_you_check_spam_title' => 'Spam-Ordner prüfen',
+    'thank_you_check_spam_message' => 'Falls Sie die E-Mail nicht im Posteingang finden, prüfen Sie bitte Ihren Spam-Ordner. Fügen Sie den Absender zur Liste der vertrauenswürdigen Adressen hinzu.',
+    'thank_you_next_steps' => 'Nächste Schritte',
+    'thank_you_step_open' => 'Öffnen Sie die E-Mail von faktur.lu',
+    'thank_you_step_click' => 'Klicken Sie auf den Bestätigungslink in der E-Mail',
+    'thank_you_step_onboarding' => 'Konfigurieren Sie Ihr Unternehmen (5 Minuten) und erstellen Sie Ihre erste Rechnung',
+    'thank_you_no_email' => 'Keine E-Mail erhalten?',
+    'thank_you_login_resend' => 'Anmelden, um sie erneut zu senden',
     'trial_card' => [
         'title' => 'Testphase',
         'days_remaining' => 'Tage übrig',
@@ -942,6 +950,8 @@ return [
             'language' => 'Sprache',
             'about' => 'Über uns',
             'contact' => 'Kontakt',
+            'open_menu' => 'Menü öffnen',
+            'close_menu' => 'Menü schließen',
         ],
 
         'footer' => [
@@ -1178,6 +1188,7 @@ return [
             'coming_soon' => 'Demnächst verfügbar',
             'trial_info' => '14 Tage kostenlos testen - Keine Kreditkarte erforderlich',
             'no_credit_card' => 'Keine Kreditkarte erforderlich',
+            'toggle_aria' => 'Zwischen monatlicher und jährlicher Abrechnung wechseln',
             'monthly' => 'Monatlich',
             'yearly' => 'Jährlich',
             'two_months_free' => '2 Monate gratis',

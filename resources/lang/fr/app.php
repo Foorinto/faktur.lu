@@ -150,6 +150,14 @@ return [
     'thank_you_title' => 'Merci pour votre inscription !',
     'thank_you_message' => 'Un email de vérification vient de vous être envoyé à l\'adresse :',
     'thank_you_back_home' => 'Retour à la page d\'accueil',
+    'thank_you_check_spam_title' => 'Vérifiez vos spams',
+    'thank_you_check_spam_message' => 'Si vous ne trouvez pas l\'email dans votre boîte de réception, regardez dans le dossier des courriers indésirables. Pensez à autoriser l\'expéditeur.',
+    'thank_you_next_steps' => 'Prochaines étapes',
+    'thank_you_step_open' => 'Ouvrez l\'email envoyé par faktur.lu',
+    'thank_you_step_click' => 'Cliquez sur le lien de vérification dans l\'email',
+    'thank_you_step_onboarding' => 'Configurez votre entreprise (5 minutes) et créez votre première facture',
+    'thank_you_no_email' => 'Vous n\'avez pas reçu l\'email ?',
+    'thank_you_login_resend' => 'Connectez-vous pour le renvoyer',
     'trial_card' => [
         'title' => 'Période d\'essai',
         'days_remaining' => 'jours restants',
@@ -1002,6 +1010,8 @@ return [
             'language' => 'Langue',
             'about' => 'A propos',
             'contact' => 'Contact',
+            'open_menu' => 'Ouvrir le menu',
+            'close_menu' => 'Fermer le menu',
         ],
 
         'footer' => [
@@ -1246,6 +1256,7 @@ return [
             'coming_soon' => 'Bientôt disponible',
             'trial_info' => '14 jours d\'essai gratuit - Sans carte bancaire',
             'no_credit_card' => 'Sans carte bancaire',
+            'toggle_aria' => 'Basculer entre la facturation mensuelle et annuelle',
             'monthly' => 'Mensuel',
             'yearly' => 'Annuel',
             'two_months_free' => '2 mois offerts',

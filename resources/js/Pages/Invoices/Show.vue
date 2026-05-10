@@ -5,8 +5,10 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
 import { useTranslations } from '@/Composables/useTranslations';
+import { usePlanFeatures } from '@/Composables/usePlanFeatures';
 
 const { t } = useTranslations();
+const { hasFeature: hasPlanFeature } = usePlanFeatures();
 
 const props = defineProps({
     invoice: Object,
@@ -584,17 +586,18 @@ const submitCreditNote = () => {
                 Peppol XML
             </a>
 
-            <!-- Factur-X Export Button -->
+            <!-- Factur-X Export Button (Pro feature) -->
             <a
                 v-if="invoice.status !== 'draft'"
-                :href="route('invoices.facturx', invoice.id)"
+                :href="hasPlanFeature('facturx') ? route('invoices.facturx', invoice.id) : route('subscription.index')"
                 class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                title="Télécharger Factur-X / ZUGFeRD (PDF hybride)"
+                :title="hasPlanFeature('facturx') ? 'Télécharger Factur-X / ZUGFeRD (PDF hybride)' : 'Factur-X est une fonctionnalité Pro — cliquez pour passer Pro'"
             >
                 <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 11.97a.75.75 0 001.5 0v-2.69l.72.72a.75.75 0 101.06-1.06l-2-2a.75.75 0 00-1.06 0l-2 2a.75.75 0 001.06 1.06l.72-.72v2.69z" clip-rule="evenodd" />
                 </svg>
                 Factur-X
+                <span v-if="!hasPlanFeature('facturx')" class="ml-1.5 inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">🔒 Pro</span>
             </a>
 
             <!-- Send via Peppol Button -->

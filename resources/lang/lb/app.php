@@ -91,6 +91,14 @@ return [
     'thank_you_title' => 'Merci fir Är Aschreiwung!',
     'thank_you_message' => 'Eng Bestätegungs-E-Mail gouf un dës Adress geschéckt:',
     'thank_you_back_home' => 'Zréck op d\'Haaptsäit',
+    'thank_you_check_spam_title' => 'Iwwerpréift Äre Spam-Dossier',
+    'thank_you_check_spam_message' => 'Wann Dir d\'E-Mail net an Ärem Postaganks-Dossier fannt, kuckt am Spam-Dossier no. Füügt den Sender op d\'Lëscht vun de vertrauenswierdegen Adressen.',
+    'thank_you_next_steps' => 'Nächst Schrëtt',
+    'thank_you_step_open' => 'Maacht d\'E-Mail vu faktur.lu op',
+    'thank_you_step_click' => 'Klickt op de Bestätegungslink an der E-Mail',
+    'thank_you_step_onboarding' => 'Konfiguréiert Ären Entreprise (5 Minutten) an erstellt Är éischt Rechnung',
+    'thank_you_no_email' => 'Keng E-Mail kritt?',
+    'thank_you_login_resend' => 'Loggt Iech un fir se erëm ze schécken',
     'trial_card' => [
         'title' => 'Test-Period',
         'days_remaining' => 'Deeg iwwereg',
@@ -942,6 +950,8 @@ return [
             'language' => 'Sprooch',
             'about' => 'Iwwer eis',
             'contact' => 'Kontakt',
+            'open_menu' => 'Menu opmaachen',
+            'close_menu' => 'Menu zoumaachen',
         ],
 
         'footer' => [
@@ -1178,6 +1188,7 @@ return [
             'coming_soon' => 'Geschwënn verfügbar',
             'trial_info' => '14 Deeg gratis testen - Keng Kreditkaart néideg',
             'no_credit_card' => 'Keng Kreditkaart néideg',
+            'toggle_aria' => 'Tëscht monatlecher a jäerlecher Rechnung wiesselen',
             'monthly' => 'Monatslech',
             'yearly' => 'Jäerlech',
             'two_months_free' => '2 Méint gratis',

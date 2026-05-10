@@ -61,6 +61,14 @@ return [
     'vat_intra_community' => 'MwSt.-befreit - Innergemeinschaftliche Lieferung',
     'vat_reverse_charge' => 'Steuerschuldnerschaft des Leistungsempfängers',
 
+    // VAT mentions (full text used on invoice PDF)
+    'vat_mentions' => [
+        'franchise' => 'Steuerbefreit gem. Art. 57 des luxemburgischen MwSt-Gesetzes (Steuerbefreiungsregelung)',
+        'reverse_charge' => 'Steuerschuldnerschaft des Leistungsempfängers - Artikel 44 der Richtlinie 2006/112/EG',
+        'intra_eu' => 'MwSt.-befreit - Innergemeinschaftliche Lieferung (Art. 43 des MwSt-Gesetzes)',
+        'export' => 'MwSt.-befreit - Ausfuhr (Art. 43 des MwSt-Gesetzes)',
+    ],
+
     // Credit note
     'credit_note_reason' => 'Grund',
     'credit_note_cancels' => 'Diese Gutschrift storniert Rechnung Nr.',

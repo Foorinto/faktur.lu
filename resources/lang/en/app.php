@@ -150,6 +150,14 @@ return [
     'thank_you_title' => 'Thank you for signing up!',
     'thank_you_message' => 'A verification email has just been sent to:',
     'thank_you_back_home' => 'Back to home page',
+    'thank_you_check_spam_title' => 'Check your spam folder',
+    'thank_you_check_spam_message' => 'If you don\'t see the email in your inbox, please check your spam folder. Consider adding the sender to your safe list.',
+    'thank_you_next_steps' => 'Next steps',
+    'thank_you_step_open' => 'Open the email sent by faktur.lu',
+    'thank_you_step_click' => 'Click the verification link in the email',
+    'thank_you_step_onboarding' => 'Set up your business (5 minutes) and create your first invoice',
+    'thank_you_no_email' => 'Didn\'t receive the email?',
+    'thank_you_login_resend' => 'Log in to resend it',
     'trial_card' => [
         'title' => 'Trial period',
         'days_remaining' => 'days remaining',
@@ -1001,6 +1009,8 @@ return [
             'language' => 'Language',
             'about' => 'About',
             'contact' => 'Contact',
+            'open_menu' => 'Open menu',
+            'close_menu' => 'Close menu',
         ],
 
         'footer' => [
@@ -1239,6 +1249,7 @@ return [
             'coming_soon' => 'Coming soon',
             'trial_info' => '14-day free trial - No credit card required',
             'no_credit_card' => 'No credit card required',
+            'toggle_aria' => 'Switch between monthly and annual billing',
             'monthly' => 'Monthly',
             'yearly' => 'Yearly',
             'two_months_free' => '2 months free',

@@ -61,6 +61,14 @@ return [
     'vat_intra_community' => 'Exonération de TVA - Livraison intracommunautaire',
     'vat_reverse_charge' => 'Autoliquidation de la TVA par le preneur',
 
+    // VAT mentions (full text used on invoice PDF)
+    'vat_mentions' => [
+        'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
+        'reverse_charge' => 'Autoliquidation - Article 44 de la directive 2006/112/CE',
+        'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 43 du Code de la TVA)',
+        'export' => 'Exonération de TVA - Exportation (Art. 43 du Code de la TVA)',
+    ],
+
     // Credit note
     'credit_note_reason' => 'Motif',
     'credit_note_cancels' => 'Cet avoir annule la facture N°',

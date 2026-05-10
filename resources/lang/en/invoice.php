@@ -61,6 +61,14 @@ return [
     'vat_intra_community' => 'VAT exempt - Intra-community supply',
     'vat_reverse_charge' => 'Reverse charge mechanism applies',
 
+    // VAT mentions (full text used on invoice PDF)
+    'vat_mentions' => [
+        'franchise' => 'VAT exempt pursuant to Art. 57 of the Luxembourg VAT Code (Tax exemption scheme)',
+        'reverse_charge' => 'Reverse charge - Article 44 of Directive 2006/112/EC',
+        'intra_eu' => 'VAT exempt - Intra-community supply (Art. 43 of the VAT Code)',
+        'export' => 'VAT exempt - Export (Art. 43 of the VAT Code)',
+    ],
+
     // Credit note
     'credit_note_reason' => 'Reason',
     'credit_note_cancels' => 'This credit note cancels invoice No.',

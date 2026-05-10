@@ -604,9 +604,9 @@ const toggleFaq = (index) => {
                         </div>
                     </div>
                     <div class="flex-1 text-center md:text-left">
-                        <h3 class="text-lg font-bold text-slate-900 mb-1">
+                        <h2 class="text-lg font-bold text-slate-900 mb-1">
                             {{ t('landing.faia_banner.title') }}
-                        </h3>
+                        </h2>
                         <p class="text-sm text-slate-600">
                             {{ t('landing.faia_banner.description') }}
                         </p>
@@ -852,12 +852,16 @@ const toggleFaq = (index) => {
                         </span>
                         <button
                             @click="billingPeriod = billingPeriod === 'monthly' ? 'yearly' : 'monthly'"
+                            role="switch"
+                            :aria-checked="billingPeriod === 'yearly'"
+                            :aria-label="t('landing.pricing.toggle_aria')"
                             class="relative inline-flex h-7 w-12 items-center rounded-full transition-colors"
                             :class="billingPeriod === 'yearly' ? 'bg-primary-500' : 'bg-slate-300'"
                         >
                             <span
                                 class="inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform"
                                 :class="billingPeriod === 'yearly' ? 'translate-x-6' : 'translate-x-1'"
+                                aria-hidden="true"
                             />
                         </button>
                         <span
@@ -993,7 +997,7 @@ const toggleFaq = (index) => {
                             <span class="px-4 py-1.5 text-xs font-bold bg-[#fee440] text-slate-900 rounded-full">{{ t('landing.pricing.popular') }}</span>
                         </div>
                         <div class="mb-6">
-                            <h3 class="text-xl font-semibold text-white">{{ t('landing.pricing.plans.professional.name') }}</h3>
+                            <h3 class="text-xl font-semibold text-white">{{ t('landing.pricing.plans.pro.name') }}</h3>
                             <p class="text-white/70 mt-1">Pour les PME en croissance</p>
                         </div>
                         <div class="mb-6">
