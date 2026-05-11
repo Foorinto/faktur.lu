@@ -100,7 +100,9 @@ const form = useForm({
     bank_name: props.settings?.bank_name ?? '',
     vat_regime: props.settings?.vat_regime ?? 'franchise',
     default_hourly_rate: props.settings?.default_hourly_rate ?? '',
-    default_invoice_footer: props.settings?.default_invoice_footer ?? 'Merci pour votre confiance !',
+    // Laisse vide par défaut : le PDF utilise alors la traduction "Merci pour votre confiance !" / "Thank you for your business!" / etc.
+    // selon la langue de la facture. Si l'utilisateur saisit une valeur, elle remplace ce message dans toutes les langues.
+    default_invoice_footer: props.settings?.default_invoice_footer ?? '',
     default_vat_mention: props.settings?.default_vat_mention ?? 'franchise',
     default_custom_vat_mention: props.settings?.default_custom_vat_mention ?? '',
     default_pdf_color: props.settings?.default_pdf_color ?? props.defaultPdfColor,
@@ -1119,7 +1121,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 v-model="form.default_invoice_footer"
                                 rows="3"
                                 class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                placeholder="Merci pour votre confiance !"
+                                :placeholder="t('default_footer_placeholder')"
                             ></textarea>
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('footer_message_help') }}

@@ -372,9 +372,18 @@ class Invoice extends Model
             return $this->footer_message;
         }
 
-        // Otherwise, use the global default (translated in current locale, which is set by the PDF service)
+        // Otherwise, use the global default if set ; fallback to the localized
+        // "thank_you" translation (rendered in the current locale, which is set
+        // by the PDF service before rendering). An empty/null default explicitly
+        // means "use the localized fallback".
         $settings = BusinessSettings::getInstance();
-        return $settings?->default_invoice_footer ?? __('invoice.thank_you');
+        $default = $settings?->default_invoice_footer;
+
+        if ($default === null || $default === '') {
+            return __('invoice.thank_you');
+        }
+
+        return $default;
     }
 
     /**
