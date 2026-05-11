@@ -111,7 +111,30 @@ class QuoteController extends Controller
             'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
             'suggestedVatMention' => $suggestedVatMention,
             'defaultQuoteFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
+            'numberingHint' => $this->buildQuoteNumberingHint($settings),
         ]);
+    }
+
+    /**
+     * Build the numbering hint shown on the quote create page for users who have
+     * not customised their numbering yet.
+     */
+    private function buildQuoteNumberingHint(?\App\Models\BusinessSettings $settings): ?array
+    {
+        $isCustomised = $settings && (
+            $settings->number_format !== \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE
+            || $settings->quote_prefix !== \App\Actions\GenerateQuoteNumberAction::DEFAULT_PREFIX
+            || $settings->quote_starting_number !== null
+            || $settings->number_padding !== 3
+        );
+
+        if ($isCustomised) {
+            return null;
+        }
+
+        return [
+            'preview_number' => app(\App\Actions\GenerateQuoteNumberAction::class)->preview(),
+        ];
     }
 
     /**

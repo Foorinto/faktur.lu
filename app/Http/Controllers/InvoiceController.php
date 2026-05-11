@@ -138,7 +138,34 @@ class InvoiceController extends Controller
             'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
             'suggestedVatMention' => $suggestedVatMention,
             'defaultInvoiceFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
+            'numberingHint' => $this->buildNumberingHint($settings),
         ]);
+    }
+
+    /**
+     * Build the numbering hint shown on the create page for users who have not
+     * customised their numbering yet. Returns null when the user already changed
+     * any numbering field — the assumption being they don't need the reminder.
+     */
+    private function buildNumberingHint(?BusinessSettings $settings): ?array
+    {
+        $isCustomised = $settings && (
+            $settings->number_format !== \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE
+            || $settings->invoice_prefix !== \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_INVOICE
+            || $settings->invoice_starting_number !== null
+            || $settings->number_padding !== 3
+        );
+
+        if ($isCustomised) {
+            return null;
+        }
+
+        $action = app(\App\Actions\GenerateInvoiceNumberAction::class);
+        $temp = new \App\Models\Invoice(['type' => \App\Models\Invoice::TYPE_INVOICE]);
+
+        return [
+            'preview_number' => $action->preview($temp),
+        ];
     }
 
     /**

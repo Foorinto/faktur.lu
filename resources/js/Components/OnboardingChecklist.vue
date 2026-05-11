@@ -80,18 +80,28 @@ const onTaskClick = (task) => {
                         'flex items-center gap-3 p-2 rounded-lg transition-colors',
                         task.completed
                             ? 'text-slate-500 dark:text-slate-400'
-                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-gray-800 cursor-pointer'
+                            : task.style === 'highlight'
+                                ? 'text-rose-700 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-900/20 cursor-pointer font-medium ring-1 ring-rose-200 dark:ring-rose-800'
+                                : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-gray-800 cursor-pointer'
                     ]"
                 >
                     <div :class="[
                         'flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0',
-                        task.completed ? 'bg-emerald-500' : 'border-2 border-slate-300 dark:border-gray-600'
+                        task.completed
+                            ? 'bg-emerald-500'
+                            : task.style === 'highlight'
+                                ? 'border-2 border-rose-400 dark:border-rose-500'
+                                : 'border-2 border-slate-300 dark:border-gray-600'
                     ]">
                         <svg v-if="task.completed" class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
+                        <span v-else-if="task.style === 'highlight'" class="block h-2 w-2 rounded-full bg-rose-500"></span>
                     </div>
                     <span :class="['text-sm', task.completed && 'line-through']">{{ task.label }}</span>
+                    <span v-if="!task.completed && task.style === 'highlight'" class="ml-auto inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300">
+                        {{ t('onboarding_checklist.new_badge') }}
+                    </span>
                 </Link>
             </li>
         </ul>

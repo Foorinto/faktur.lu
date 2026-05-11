@@ -329,6 +329,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     // Onboarding wizard
     Route::get('/onboarding', [\App\Http\Controllers\OnboardingController::class, 'show'])->name('onboarding.show');
     Route::post('/onboarding/company', [\App\Http\Controllers\OnboardingController::class, 'saveCompany'])->name('onboarding.company');
+    Route::post('/onboarding/numbering', [\App\Http\Controllers\OnboardingController::class, 'saveNumbering'])->name('onboarding.numbering');
     Route::post('/onboarding/branding', [\App\Http\Controllers\OnboardingController::class, 'saveBranding'])->name('onboarding.branding');
     Route::post('/onboarding/client', [\App\Http\Controllers\OnboardingController::class, 'saveClient'])->name('onboarding.client');
     Route::post('/onboarding/invoice', [\App\Http\Controllers\OnboardingController::class, 'saveInvoice'])->name('onboarding.invoice');

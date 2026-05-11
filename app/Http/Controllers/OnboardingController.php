@@ -57,13 +57,64 @@ class OnboardingController extends Controller
             ])
         );
 
-        $request->user()->update(['onboarding_step' => 'branding']);
+        $request->user()->update(['onboarding_step' => 'numbering']);
+
+        return response()->json(['success' => true, 'next_step' => 'numbering']);
+    }
+
+    /**
+     * Étape 2 (nouvelle) : Sauvegarde la configuration de numérotation.
+     */
+    public function saveNumbering(Request $request)
+    {
+        $data = $request->validate([
+            'number_format' => 'nullable|string|max:100',
+            'invoice_prefix' => 'nullable|string|max:20|regex:/^[A-Za-z0-9\-_\/]+$/',
+            'credit_note_prefix' => 'nullable|string|max:20|regex:/^[A-Za-z0-9\-_\/]+$/',
+            'quote_prefix' => 'nullable|string|max:20|regex:/^[A-Za-z0-9\-_\/]+$/',
+            'invoice_starting_number' => 'nullable|integer|min:1|max:999999',
+            'credit_note_starting_number' => 'nullable|integer|min:1|max:999999',
+            'quote_starting_number' => 'nullable|integer|min:1|max:999999',
+            'number_padding' => 'nullable|integer|min:1|max:10',
+            'keep_defaults' => 'nullable|boolean',
+        ]);
+
+        // Format template validation (re-use the service-level validator)
+        if (! empty($data['number_format'])) {
+            $errors = \App\Services\DocumentNumberFormatter::validateTemplate($data['number_format']);
+            if (! empty($errors)) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => ['number_format' => 'Format invalide : ' . implode(', ', $errors)],
+                ], 422);
+            }
+        }
+
+        // Only persist fields the user actually touched. "keep_defaults" tells us
+        // they explicitly skipped customisation — we still mark the step as
+        // acknowledged so the checklist task is considered done.
+        $persistable = collect($data)
+            ->except('keep_defaults')
+            ->filter(fn ($v) => $v !== null && $v !== '')
+            ->toArray();
+
+        if (! empty($persistable)) {
+            BusinessSettings::updateOrCreate(
+                ['user_id' => $request->user()->id],
+                $persistable,
+            );
+        }
+
+        $request->user()->update([
+            'onboarding_step' => 'branding',
+            'onboarding_numbering_acknowledged_at' => now(),
+        ]);
 
         return response()->json(['success' => true, 'next_step' => 'branding']);
     }
 
     /**
-     * Étape 2 : Sauvegarde le branding (logo, couleur).
+     * Étape 3 : Sauvegarde le branding (logo, couleur).
      */
     public function saveBranding(Request $request)
     {

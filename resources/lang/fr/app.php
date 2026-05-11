@@ -1285,6 +1285,7 @@ return [
                         '2 devis/mois',
                         'Gestion des dépenses (10/mois)',
                         'Authentification 2FA',
+                        'Numérotation personnalisable',
                     ],
                     'limitations' => [
                         'Watermark sur les PDF',
@@ -1306,6 +1307,7 @@ return [
                         'Portail comptable (1 expert)',
                         'Exports Sage BOB / FID-Manager',
                         'Peppol B2G (10/mois)',
+                        'Numérotation personnalisable',
                     ],
                 ],
                 'pro' => [
@@ -1323,6 +1325,7 @@ return [
                         '5 utilisateurs, 3 comptables',
                         'Sans mention "faktur.lu"',
                         'Support prioritaire',
+                        'Numérotation personnalisable',
                     ],
                 ],
             ],
@@ -1849,6 +1852,29 @@ return [
                 'what' => ['question' => 'Qu\'est-ce que Factur-X ?', 'answer' => 'Factur-X est un standard de facturation électronique franco-allemand. C\'est un PDF qui contient à la fois le visuel de la facture et les données structurées en XML, permettant un traitement automatisé.'],
                 'mandatory' => ['question' => 'Factur-X est-il obligatoire au Luxembourg ?', 'answer' => 'Pas encore pour le B2B, mais l\'Union européenne pousse vers l\'adoption généralisée de la facturation électronique. Factur-X vous prépare à ces futures obligations.'],
                 'plan' => ['question' => 'Sur quel plan Factur-X est-il disponible ?', 'answer' => 'L\'export Factur-X / ZUGFeRD est disponible uniquement sur le plan Pro.'],
+            ],
+        ],
+
+        'custom-numbering' => [
+            'title' => 'Numérotation personnalisable',
+            'short_description' => 'Définissez librement le format de vos numéros de facture, avoir et devis. Idéal pour migrer depuis un autre logiciel sans perdre votre continuité.',
+            'page_title' => 'Numérotation personnalisable Luxembourg | Migration logiciel | faktur.lu',
+            'meta_description' => 'Personnalisez vos numéros de facture, avoir et devis. Choisissez votre format, votre préfixe et continuez votre numérotation depuis un autre logiciel sans repartir à 1.',
+            'hero_description' => 'Contrairement aux autres outils de facturation, faktur.lu vous laisse définir 100 % le format de vos numéros : prefixe, année, mois, compteur, nom du client. Et si vous migrez depuis un autre logiciel en milieu d\'année, vous pouvez démarrer la séquence là où vous vous êtes arrêté — sans trou, conforme à l\'Article 61 LIVA.',
+            'details_title' => 'Toute la souplesse, zéro casse-tête fiscal',
+            'items' => [
+                'free_format' => ['title' => 'Format libre', 'description' => 'Combinez les placeholders comme vous le souhaitez : {prefix}-{year}-{number}, {year}/{number}-{client_name}, {yy}{month}-{number}, etc.'],
+                'placeholders' => ['title' => '7 placeholders disponibles', 'description' => 'Préfixe, année (2026 ou 26), mois, jour, compteur, nom du client (slug), et même un préfixe différent par type de document.'],
+                'migration' => ['title' => 'Migration sans douleur', 'description' => 'Vous étiez à FACT-2026-047 dans Excel ou un autre logiciel ? Configurez le numéro de départ et continuez à FACT-2026-048. Aucun trou dans la séquence.'],
+                'compliance' => ['title' => 'Conforme Article 61 LIVA', 'description' => 'Le format est verrouillé automatiquement dès la première facture finalisée pour garantir la continuité légale de la séquence.'],
+                'per_document' => ['title' => 'Préfixes individuels', 'description' => 'Factures, avoirs et devis peuvent avoir des préfixes différents (F, AV, DEV par défaut) tout en partageant le même squelette de format.'],
+                'free_plan' => ['title' => 'Inclus en gratuit', 'description' => 'Aucune fonctionnalité aussi importante ne devrait être payante. Disponible sur tous les plans, y compris le plan Gratuit.'],
+            ],
+            'faqs' => [
+                'how' => ['question' => 'Comment configurer mon format ?', 'answer' => 'Allez dans Paramètres > Entreprise > Numérotation. Saisissez votre format avec les placeholders souhaités, choisissez vos préfixes et un numéro de départ si vous migrez d\'un autre outil. Un aperçu en direct vous montre le résultat.'],
+                'migrate' => ['question' => 'Je migre d\'un autre logiciel en milieu d\'année, comment continuer ma numérotation ?', 'answer' => 'Renseignez votre dernier numéro émis dans le champ "Numéro de départ". Votre première facture sur faktur.lu reprendra à ce numéro + 1, sans recommencer à 1. Indispensable pour la conformité Article 61.'],
+                'lock' => ['question' => 'Puis-je changer mon format en cours d\'année ?', 'answer' => 'Non. Dès que vous avez finalisé au moins une facture pour une année donnée, le format est verrouillé pour cette année afin de garantir la continuité légale. Vous pourrez le modifier à nouveau à partir du 1er janvier suivant.'],
+                'plan' => ['question' => 'Sur quel plan est-ce disponible ?', 'answer' => 'Sur tous les plans, y compris le plan Gratuit. C\'est une fonctionnalité essentielle qui ne devrait pas être réservée aux plans payants.'],
             ],
         ],
     ],
@@ -3337,7 +3363,9 @@ return [
             'invoice' => 'Créer votre première facture',
             'send_invoice' => 'Envoyer votre première facture',
             'bank' => 'Configurer votre compte bancaire',
+            'numbering' => 'Personnaliser votre numérotation',
         ],
+        'new_badge' => 'Nouveau',
     ],
 
     'onboarding_wizard' => [
@@ -3351,6 +3379,22 @@ return [
         'creating' => 'Création...',
         'generic_error' => 'Erreur',
         'logo_too_large' => 'Le fichier est trop volumineux (:size Mo). Maximum : 2 Mo.',
+        'numbering' => [
+            'title' => 'Numérotation de vos documents',
+            'description' => 'Définissez le format de vos numéros de factures, avoirs et devis. Particulièrement utile si vous migrez depuis un autre logiciel.',
+            'format_label' => 'Format du numéro',
+            'placeholder_help' => 'Placeholders disponibles : {prefix}, {year}, {yy}, {month}, {day}, {number}, {client_name}. Vous pouvez les combiner librement.',
+            'invoice_prefix' => 'Préfixe facture',
+            'credit_note_prefix' => 'Préfixe avoir',
+            'quote_prefix' => 'Préfixe devis',
+            'migration_help_title' => 'J\'ai déjà émis des factures dans un autre logiciel cette année (avancé)',
+            'migration_help_body' => 'Indiquez votre dernier numéro émis pour continuer la séquence sans repartir à 1 (Article 61 LIVA).',
+            'invoice_start' => 'Prochaine facture #',
+            'credit_note_start' => 'Prochain avoir #',
+            'quote_start' => 'Prochain devis #',
+            'keep_defaults' => 'Garder les valeurs par défaut',
+            'save_and_continue' => 'Enregistrer et continuer →',
+        ],
         'company' => [
             'title' => 'Bienvenue !',
             'subtitle' => 'Commençons par configurer votre entreprise',
@@ -3570,6 +3614,14 @@ return [
         'error_no_active' => 'Vous n\'avez pas d\'abonnement actif.',
         'error_cannot_resume' => 'Impossible de reprendre l\'abonnement.',
         'error_plan_not_found' => 'Plan non trouvé.',
+    ],
+
+    'numbering_hint' => [
+        'invoice_title' => 'Votre première facture portera le numéro :number',
+        'quote_title' => 'Votre premier devis portera le numéro :number',
+        'description' => 'Vous migrez depuis un autre logiciel ou vous préférez un format différent ?',
+        'cta' => 'Personnaliser le format',
+        'dismiss' => 'Masquer ce message',
     ],
 
     'numbering_settings' => [

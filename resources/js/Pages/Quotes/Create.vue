@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import NumberingHintBanner from '@/Components/Numbering/NumberingHintBanner.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch, onMounted } from 'vue';
@@ -28,6 +29,7 @@ const props = defineProps({
     defaultVatMention: String,
     suggestedVatMention: String,
     defaultQuoteFooter: String,
+    numberingHint: { type: Object, default: null },
 });
 
 // Get selected client
@@ -166,6 +168,12 @@ if (form.items.length === 0) {
         </template>
 
         <BillingNav class="mb-6" />
+
+        <NumberingHintBanner
+            v-if="numberingHint && numberingHint.preview_number"
+            :preview-number="numberingHint.preview_number"
+            document-type="quote"
+        />
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->

@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import NumberingHintBanner from '@/Components/Numbering/NumberingHintBanner.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
@@ -30,6 +31,7 @@ const props = defineProps({
     defaultVatMention: String,
     suggestedVatMention: String,
     defaultInvoiceFooter: String,
+    numberingHint: { type: Object, default: null },
 });
 
 // Calculate effective default VAT rate based on exemption status and country
@@ -174,6 +176,12 @@ if (form.items.length === 0) {
         </template>
 
         <BillingNav class="mb-6" />
+
+        <NumberingHintBanner
+            v-if="numberingHint && numberingHint.preview_number"
+            :preview-number="numberingHint.preview_number"
+            document-type="invoice"
+        />
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- Client selection -->

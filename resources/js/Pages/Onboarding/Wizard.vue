@@ -13,7 +13,7 @@ const props = defineProps({
     business: { type: Object, default: null },
 });
 
-const stepOrder = ['company', 'branding', 'client', 'invoice', 'success'];
+const stepOrder = ['company', 'numbering', 'branding', 'client', 'invoice', 'success'];
 const step = ref(props.currentStep);
 
 onMounted(() => {
@@ -39,6 +39,34 @@ const brandingForm = ref({
     logo: null,
     default_pdf_color: props.business?.default_pdf_color || '#9b5de5',
 });
+
+const numberingForm = ref({
+    number_format: props.business?.number_format || '{prefix}-{year}-{number}',
+    invoice_prefix: props.business?.invoice_prefix || 'F',
+    credit_note_prefix: props.business?.credit_note_prefix || 'AV',
+    quote_prefix: props.business?.quote_prefix || 'DEV',
+    invoice_starting_number: props.business?.invoice_starting_number || null,
+    credit_note_starting_number: props.business?.credit_note_starting_number || null,
+    quote_starting_number: props.business?.quote_starting_number || null,
+    number_padding: props.business?.number_padding || 3,
+    keep_defaults: false,
+});
+
+const numberingPreview = (prefix, startingNumber) => {
+    const padding = Math.max(1, parseInt(numberingForm.value.number_padding) || 3);
+    const seq = String(startingNumber || 1).padStart(padding, '0');
+    const d = new Date();
+    return (numberingForm.value.number_format || '{prefix}-{year}-{number}')
+        .replaceAll('{prefix}', prefix || '')
+        .replaceAll('{year}', String(d.getFullYear()))
+        .replaceAll('{yy}', String(d.getFullYear()).slice(-2))
+        .replaceAll('{month}', String(d.getMonth() + 1).padStart(2, '0'))
+        .replaceAll('{day}', String(d.getDate()).padStart(2, '0'))
+        .replaceAll('{number}', seq)
+        .replaceAll('{client_name}', '')
+        .replace(/([\-_\/.])\1+/g, '$1')
+        .replace(/^[\-_\/.\s]+|[\-_\/.\s]+$/g, '');
+};
 
 const clientForm = ref({
     name: '',
@@ -105,6 +133,17 @@ const submitCompany = async () => {
     const data = await apiCall(route('onboarding.company'), companyForm.value);
     if (data) {
         onboarding.stepCompleted('company');
+        step.value = 'numbering';
+    }
+};
+
+const submitNumbering = async (keepDefaults = false) => {
+    const payload = keepDefaults
+        ? { keep_defaults: true }
+        : { ...numberingForm.value, keep_defaults: false };
+    const data = await apiCall(route('onboarding.numbering'), payload);
+    if (data) {
+        onboarding.stepCompleted('numbering');
         step.value = 'branding';
     }
 };
@@ -286,7 +325,93 @@ const goToInvoice = () => router.visit(route('invoices.edit', lastInvoiceId.valu
                     </form>
                 </div>
 
-                <!-- ÉTAPE 2 : BRANDING -->
+                <!-- ÉTAPE 2 : NUMÉROTATION -->
+                <div v-if="step === 'numbering'" class="bg-white dark:bg-surface-card rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-rose-500/10 mb-4">
+                            <svg class="w-7 h-7 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                        </div>
+                        <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                            {{ t('onboarding_wizard.numbering.title') }}
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-300">
+                            {{ t('onboarding_wizard.numbering.description') }}
+                        </p>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-900 dark:text-white mb-2">
+                                {{ t('onboarding_wizard.numbering.format_label') }}
+                            </label>
+                            <input
+                                type="text"
+                                v-model="numberingForm.number_format"
+                                placeholder="{prefix}-{year}-{number}"
+                                class="block w-full rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm focus:border-primary-500 focus:ring-primary-500 font-mono"
+                            />
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('onboarding_wizard.numbering.placeholder_help') }}
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('onboarding_wizard.numbering.invoice_prefix') }}</label>
+                                <input type="text" v-model="numberingForm.invoice_prefix" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 font-mono text-sm" />
+                                <code class="block mt-1 text-xs text-rose-700 dark:text-rose-300 font-mono">{{ numberingPreview(numberingForm.invoice_prefix, numberingForm.invoice_starting_number) }}</code>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('onboarding_wizard.numbering.credit_note_prefix') }}</label>
+                                <input type="text" v-model="numberingForm.credit_note_prefix" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 font-mono text-sm" />
+                                <code class="block mt-1 text-xs text-rose-700 dark:text-rose-300 font-mono">{{ numberingPreview(numberingForm.credit_note_prefix, numberingForm.credit_note_starting_number) }}</code>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('onboarding_wizard.numbering.quote_prefix') }}</label>
+                                <input type="text" v-model="numberingForm.quote_prefix" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 font-mono text-sm" />
+                                <code class="block mt-1 text-xs text-rose-700 dark:text-rose-300 font-mono">{{ numberingPreview(numberingForm.quote_prefix, numberingForm.quote_starting_number) }}</code>
+                            </div>
+                        </div>
+
+                        <details class="rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+                            <summary class="cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300">
+                                {{ t('onboarding_wizard.numbering.migration_help_title') }}
+                            </summary>
+                            <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">
+                                {{ t('onboarding_wizard.numbering.migration_help_body') }}
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+                                <div>
+                                    <label class="block text-xs text-slate-700 dark:text-slate-300 mb-1">{{ t('onboarding_wizard.numbering.invoice_start') }}</label>
+                                    <input type="number" min="1" v-model.number="numberingForm.invoice_starting_number" placeholder="1" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm" />
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-700 dark:text-slate-300 mb-1">{{ t('onboarding_wizard.numbering.credit_note_start') }}</label>
+                                    <input type="number" min="1" v-model.number="numberingForm.credit_note_starting_number" placeholder="1" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm" />
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-700 dark:text-slate-300 mb-1">{{ t('onboarding_wizard.numbering.quote_start') }}</label>
+                                    <input type="number" min="1" v-model.number="numberingForm.quote_starting_number" placeholder="1" class="block w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm" />
+                                </div>
+                            </div>
+                        </details>
+
+                        <p v-if="errors.general" class="text-sm text-red-600">{{ errors.general }}</p>
+
+                        <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                            <button @click="submitNumbering(true)" :disabled="submitting" type="button" class="flex-1 px-6 py-3 bg-slate-200 hover:bg-slate-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-slate-700 dark:text-slate-200 font-semibold rounded-xl disabled:opacity-50 transition-colors">
+                                {{ t('onboarding_wizard.numbering.keep_defaults') }}
+                            </button>
+                            <button @click="submitNumbering(false)" :disabled="submitting" type="button" class="flex-1 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl disabled:opacity-50 transition-colors">
+                                {{ submitting ? t('onboarding_wizard.saving') : t('onboarding_wizard.numbering.save_and_continue') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ÉTAPE 3 : BRANDING -->
                 <div v-if="step === 'branding'" class="bg-white dark:bg-surface-card rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
                     <div class="text-center mb-8">
                         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-500/10 mb-4">

@@ -6,6 +6,7 @@ use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\User;
+use App\Services\DocumentNumberFormatter;
 
 class OnboardingService
 {
@@ -66,6 +67,17 @@ class OnboardingService
                 'route' => 'settings.business.edit',
                 'hash' => 'bank',
             ],
+            [
+                'key' => 'numbering',
+                'label' => __('app.onboarding_checklist.tasks.numbering'),
+                // Considered done if the user either acknowledged it or actively customised
+                // any numbering setting away from defaults.
+                'completed' => $user->onboarding_numbering_acknowledged_at !== null
+                    || $this->numberingHasBeenCustomised($business),
+                'route' => 'settings.business.edit',
+                'hash' => 'numbering',
+                'style' => 'highlight', // red/orange visual treatment to make it stand out
+            ],
         ];
 
         $completed = collect($tasks)->filter(fn($t) => $t['completed'])->count();
@@ -78,6 +90,27 @@ class OnboardingService
             'percentage' => $total > 0 ? round(($completed / $total) * 100) : 0,
             'is_complete' => $completed === $total,
         ];
+    }
+
+    /**
+     * Did the user move any numbering field away from its default value? Used to
+     * mark the "numbering" checklist task as complete without forcing an explicit
+     * acknowledgement.
+     */
+    private function numberingHasBeenCustomised(?BusinessSettings $business): bool
+    {
+        if (! $business) {
+            return false;
+        }
+
+        return $business->number_format !== DocumentNumberFormatter::DEFAULT_TEMPLATE
+            || $business->invoice_prefix !== 'F'
+            || $business->credit_note_prefix !== 'AV'
+            || $business->quote_prefix !== 'DEV'
+            || $business->invoice_starting_number !== null
+            || $business->credit_note_starting_number !== null
+            || $business->quote_starting_number !== null
+            || $business->number_padding !== 3;
     }
 
     /**

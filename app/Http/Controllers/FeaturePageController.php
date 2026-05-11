@@ -70,6 +70,11 @@ class FeaturePageController extends Controller
             'icon' => 'document-duplicate',
             'color' => '#6366f1',
         ],
+        'numerotation-personnalisable' => [
+            'id' => 'custom-numbering',
+            'icon' => 'pencil-square',
+            'color' => '#ec4899',
+        ],
     ];
 
     /**
@@ -102,6 +107,10 @@ class FeaturePageController extends Controller
             'time-tracking' => 'suivi-temps',
             'hr-module' => 'module-rh',
             'accounting-exports' => 'exports-comptables',
+            'custom-numbering' => 'numerotation-personnalisable',
+            'benutzerdefinierte-nummerierung' => 'numerotation-personnalisable',
+            'personaliseier-nummeréierung' => 'numerotation-personnalisable',
+            'numeracao-personalizada' => 'numerotation-personnalisable',
             // Luxembourgish
             'fakturatioun' => 'facturation',
             'devis-lb' => 'devis',
