@@ -926,8 +926,8 @@ const toggleFaq = (index) => {
                                 Conforme Luxembourg
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-pink-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                                 Numérotation personnalisable
                             </li>
@@ -988,8 +988,8 @@ const toggleFaq = (index) => {
                                 Export Peppol (10/mois)
                             </li>
                             <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-pink-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                                 Numérotation personnalisable
                             </li>
@@ -1053,8 +1053,8 @@ const toggleFaq = (index) => {
                                 Sans branding faktur.lu
                             </li>
                             <li class="flex items-center gap-3 text-white/90">
-                                <svg class="w-5 h-5 text-pink-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                                 Numérotation personnalisable
                             </li>
@@ -1209,8 +1209,7 @@ const toggleFaq = (index) => {
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">
-                                        <Link :href="localizedRoute('features.show', { slug: 'numerotation-personnalisable' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2 inline-flex items-center gap-2">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" /></svg>
+                                        <Link :href="localizedRoute('features.show', { slug: 'numerotation-personnalisable' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">
                                             Numérotation personnalisable
                                         </Link>
                                     </td>

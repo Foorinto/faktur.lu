@@ -998,8 +998,7 @@ const proFeatures = computed(() => {
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">
-                                        <Link :href="localizedRoute('features.show', { slug: 'numerotation-personnalisable' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2 inline-flex items-center gap-2">
-                                            <svg class="w-4 h-4 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" /></svg>
+                                        <Link :href="localizedRoute('features.show', { slug: 'numerotation-personnalisable' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">
                                             Numérotation personnalisable
                                         </Link>
                                     </td>
