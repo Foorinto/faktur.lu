@@ -30,3 +30,6 @@ Thumbs.db
 Planning/
 # SQLite database
 database/*.sqlite
+
+# Local artifacts (smoke test reports, screenshots, Lighthouse reports, etc.)
+/tmp/
