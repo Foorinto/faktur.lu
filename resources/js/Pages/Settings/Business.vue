@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import EntrepriseNav from '@/Components/EntrepriseNav.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import NumberingSettingsSection from '@/Components/Numbering/NumberingSettingsSection.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
@@ -70,6 +71,16 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    numbering: {
+        type: Object,
+        default: () => ({
+            editability: { invoice: true, credit_note: true, quote: true },
+            finalized_counts: { invoice: 0, credit_note: 0, quote: 0 },
+            current_year: new Date().getFullYear(),
+            placeholders: ['{prefix}', '{year}', '{yy}', '{month}', '{day}', '{number}', '{client_name}'],
+            default_template: '{prefix}-{year}-{number}',
+        }),
+    },
 });
 
 const form = useForm({
@@ -100,6 +111,39 @@ const form = useForm({
     peppol_endpoint_scheme: props.settings?.peppol_endpoint_scheme ?? '',
     peppol_endpoint_id: props.settings?.peppol_endpoint_id ?? '',
     show_payment_qrcode: props.settings?.show_payment_qrcode ?? false,
+    // Numbering customization
+    number_format: props.settings?.number_format ?? '{prefix}-{year}-{number}',
+    invoice_prefix: props.settings?.invoice_prefix ?? 'F',
+    credit_note_prefix: props.settings?.credit_note_prefix ?? 'AV',
+    quote_prefix: props.settings?.quote_prefix ?? 'DEV',
+    invoice_starting_number: props.settings?.invoice_starting_number ?? null,
+    credit_note_starting_number: props.settings?.credit_note_starting_number ?? null,
+    quote_starting_number: props.settings?.quote_starting_number ?? null,
+    number_padding: props.settings?.number_padding ?? 3,
+});
+
+// Two-way binding for the NumberingSettingsSection (composite object editor)
+const numberingValues = computed({
+    get: () => ({
+        number_format: form.number_format,
+        invoice_prefix: form.invoice_prefix,
+        credit_note_prefix: form.credit_note_prefix,
+        quote_prefix: form.quote_prefix,
+        invoice_starting_number: form.invoice_starting_number,
+        credit_note_starting_number: form.credit_note_starting_number,
+        quote_starting_number: form.quote_starting_number,
+        number_padding: form.number_padding,
+    }),
+    set: (v) => {
+        form.number_format = v.number_format;
+        form.invoice_prefix = v.invoice_prefix;
+        form.credit_note_prefix = v.credit_note_prefix;
+        form.quote_prefix = v.quote_prefix;
+        form.invoice_starting_number = v.invoice_starting_number;
+        form.credit_note_starting_number = v.credit_note_starting_number;
+        form.quote_starting_number = v.quote_starting_number;
+        form.number_padding = v.number_padding;
+    },
 });
 
 const isCustomColor = computed(() => {
@@ -1141,6 +1185,17 @@ const cancelPaymentQrcodeUpload = () => {
                         </div>
                     </div>
                 </div>
+
+                <!-- Numbering customization -->
+                <NumberingSettingsSection
+                    v-model="numberingValues"
+                    :editability="props.numbering.editability"
+                    :finalized-counts="props.numbering.finalized_counts"
+                    :current-year="props.numbering.current_year"
+                    :placeholders="props.numbering.placeholders"
+                    :default-template="props.numbering.default_template"
+                    :errors="form.errors"
+                />
 
                 <!-- Actions -->
                 <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">

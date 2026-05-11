@@ -36,6 +36,22 @@ class BusinessSettingsController extends Controller
             ],
         ];
 
+        $currentYear = now()->year;
+        $numberingEditability = $settings?->numberingEditability($currentYear) ?? [
+            BusinessSettings::NUMBERING_TYPE_INVOICE => true,
+            BusinessSettings::NUMBERING_TYPE_CREDIT_NOTE => true,
+            BusinessSettings::NUMBERING_TYPE_QUOTE => true,
+        ];
+        $numberingFinalizedCounts = $settings ? [
+            BusinessSettings::NUMBERING_TYPE_INVOICE => $settings->finalizedCountFor(BusinessSettings::NUMBERING_TYPE_INVOICE, $currentYear),
+            BusinessSettings::NUMBERING_TYPE_CREDIT_NOTE => $settings->finalizedCountFor(BusinessSettings::NUMBERING_TYPE_CREDIT_NOTE, $currentYear),
+            BusinessSettings::NUMBERING_TYPE_QUOTE => $settings->finalizedCountFor(BusinessSettings::NUMBERING_TYPE_QUOTE, $currentYear),
+        ] : [
+            BusinessSettings::NUMBERING_TYPE_INVOICE => 0,
+            BusinessSettings::NUMBERING_TYPE_CREDIT_NOTE => 0,
+            BusinessSettings::NUMBERING_TYPE_QUOTE => 0,
+        ];
+
         return Inertia::render('Settings/Business', [
             'settings' => $settings ? array_merge($settings->toArray(), [
                 'logo_url' => $settings->logo_url,
@@ -44,6 +60,11 @@ class BusinessSettingsController extends Controller
             ]) : [
                 'country_code' => 'LU',
                 'franchise_threshold' => 35000,
+                'number_format' => \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE,
+                'invoice_prefix' => \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_INVOICE,
+                'credit_note_prefix' => \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_CREDIT_NOTE,
+                'quote_prefix' => \App\Actions\GenerateQuoteNumberAction::DEFAULT_PREFIX,
+                'number_padding' => 3,
             ],
             'countries' => BusinessSettings::getSupportedCountries(),
             'countriesConfig' => config('countries'),
@@ -53,6 +74,13 @@ class BusinessSettingsController extends Controller
             'pdfColorPresets' => BusinessSettings::getPdfColorPresets(),
             'defaultPdfColor' => BusinessSettings::DEFAULT_PDF_COLOR,
             'peppolSchemes' => BusinessSettings::getPeppolSchemeOptions(),
+            'numbering' => [
+                'editability' => $numberingEditability,
+                'finalized_counts' => $numberingFinalizedCounts,
+                'current_year' => $currentYear,
+                'placeholders' => \App\Services\DocumentNumberFormatter::PLACEHOLDERS,
+                'default_template' => \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE,
+            ],
         ]);
     }
 
