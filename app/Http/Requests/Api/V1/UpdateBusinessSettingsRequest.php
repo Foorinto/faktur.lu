@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Api\V1;
 
+use App\Models\BusinessSettings;
+use App\Services\DocumentNumberFormatter;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -73,7 +75,89 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'logo_path' => ['nullable', 'string', 'max:255'],
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
+            // Custom numbering — fields are optional in the form, server enforces the lock
+            // per type via withValidator() below so finalized years cannot be tampered with.
+            'number_format' => ['nullable', 'string', 'max:100', function ($attribute, $value, $fail) {
+                if ($value === null || $value === '') {
+                    return;
+                }
+                $errors = DocumentNumberFormatter::validateTemplate($value);
+                if (! empty($errors)) {
+                    if (in_array('empty_template', $errors, true)) {
+                        $fail('Le format ne peut pas être vide.');
+                    } elseif (in_array('too_long', $errors, true)) {
+                        $fail('Le format ne peut pas dépasser 100 caractères.');
+                    } elseif (in_array('missing_number_placeholder', $errors, true)) {
+                        $fail('Le format doit obligatoirement contenir {number}.');
+                    } else {
+                        $unknown = array_filter($errors, fn ($e) => str_starts_with($e, 'unknown_placeholder:'));
+                        if (! empty($unknown)) {
+                            $placeholder = explode(':', reset($unknown))[1] ?? '';
+                            $fail('Placeholder inconnu : {' . $placeholder . '}. Placeholders supportés : {prefix}, {year}, {yy}, {month}, {day}, {number}, {client_name}.');
+                        }
+                    }
+                }
+            }],
+            'invoice_prefix' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9\-_\/]+$/'],
+            'credit_note_prefix' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9\-_\/]+$/'],
+            'quote_prefix' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9\-_\/]+$/'],
+            'invoice_starting_number' => ['nullable', 'integer', 'min:1', 'max:999999'],
+            'credit_note_starting_number' => ['nullable', 'integer', 'min:1', 'max:999999'],
+            'quote_starting_number' => ['nullable', 'integer', 'min:1', 'max:999999'],
+            'number_padding' => ['nullable', 'integer', 'min:1', 'max:10'],
         ];
+    }
+
+    /**
+     * After base validation, refuse any numbering change that would tamper with a year
+     * that already has finalized documents (Article 61 LIVA continuous numbering).
+     */
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $settings = BusinessSettings::getInstance();
+            if (! $settings || ! $settings->exists) {
+                return;
+            }
+
+            $year = now()->year;
+            $editability = $settings->numberingEditability($year);
+
+            // Map each submitted field to the numbering type that gates it
+            $perTypeFields = [
+                BusinessSettings::NUMBERING_TYPE_INVOICE => ['invoice_prefix', 'invoice_starting_number'],
+                BusinessSettings::NUMBERING_TYPE_CREDIT_NOTE => ['credit_note_prefix', 'credit_note_starting_number'],
+                BusinessSettings::NUMBERING_TYPE_QUOTE => ['quote_prefix', 'quote_starting_number'],
+            ];
+
+            foreach ($perTypeFields as $type => $fields) {
+                if ($editability[$type]) {
+                    continue;
+                }
+                foreach ($fields as $field) {
+                    if ($this->has($field) && (string) $this->input($field) !== (string) ($settings->{$field} ?? '')) {
+                        $validator->errors()->add(
+                            $field,
+                            'Verrouillé pour ' . $year . ' : vous avez déjà émis des documents de ce type cette année.',
+                        );
+                    }
+                }
+            }
+
+            // The format and padding are shared across all three document types;
+            // they are locked as soon as ANY type is locked.
+            $anyLocked = in_array(false, $editability, true);
+            if ($anyLocked) {
+                foreach (['number_format', 'number_padding'] as $sharedField) {
+                    if ($this->has($sharedField) && (string) $this->input($sharedField) !== (string) ($settings->{$sharedField} ?? '')) {
+                        $validator->errors()->add(
+                            $sharedField,
+                            'Verrouillé pour ' . $year . ' : modifier le format casserait la continuité de la numérotation déjà émise (Article 61 LIVA).',
+                        );
+                    }
+                }
+            }
+        });
     }
 
     /**

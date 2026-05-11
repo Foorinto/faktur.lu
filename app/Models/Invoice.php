@@ -41,6 +41,7 @@ class Invoice extends Model
         'client_id',
         'title',
         'number',
+        'sequence_number',
         'status',
         'type',
         'credit_note_for',

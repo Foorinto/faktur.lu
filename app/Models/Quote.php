@@ -25,6 +25,7 @@ class Quote extends Model
     protected $fillable = [
         'client_id',
         'reference',
+        'sequence_number',
         'status',
         'valid_until',
         'seller_snapshot',
@@ -60,10 +61,13 @@ class Quote extends Model
      */
     protected static function booted(): void
     {
-        // Generate reference on creation
+        // Generate reference + sequence_number on creation using the user's custom
+        // numbering settings (BusinessSettings.number_format + quote_prefix + ...).
         static::creating(function (Quote $quote) {
             if (empty($quote->reference)) {
-                $quote->reference = static::generateReference();
+                $generated = app(\App\Actions\GenerateQuoteNumberAction::class)->execute($quote);
+                $quote->reference = $generated['reference'];
+                $quote->sequence_number = $generated['sequence_number'];
             }
 
             // Default validity: 30 days from now
@@ -78,33 +82,6 @@ class Quote extends Model
                 throw new \InvalidArgumentException('Impossible de supprimer un devis converti en facture.');
             }
         });
-    }
-
-    /**
-     * Generate a unique reference for the quote.
-     * Format: DEV-{YEAR}-{SEQUENCE}
-     */
-    public static function generateReference(): string
-    {
-        $year = now()->year;
-        $prefix = "DEV-{$year}-";
-
-        // BelongsToUser global scope filters by auth()->id() automatically,
-        // so the sequence is per-user (each taxpayer has their own continuous numbering).
-        $lastQuote = static::withTrashed()
-            ->where('reference', 'like', $prefix . '%')
-            ->orderByRaw('CAST(SUBSTRING(reference, -3) AS UNSIGNED) DESC')
-            ->first();
-
-        if ($lastQuote) {
-            // Extract the number and increment
-            $lastNumber = (int) substr($lastQuote->reference, -3);
-            $newNumber = $lastNumber + 1;
-        } else {
-            $newNumber = 1;
-        }
-
-        return $prefix . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
     }
 
     /**

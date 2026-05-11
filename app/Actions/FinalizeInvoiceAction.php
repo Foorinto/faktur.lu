@@ -48,22 +48,30 @@ class FinalizeInvoiceAction
             $this->calculateTotals->execute($invoice);
             $invoice->refresh();
 
-            // Generate the invoice/credit note number based on type
-            $number = $this->generateNumber->execute(null, $invoice->type ?? Invoice::TYPE_INVOICE);
+            // Determine dates first so the formatter can render {month}/{day} consistently
+            $issuedDate = $issuedAt ? now()->parse($issuedAt) : ($invoice->issued_at ?? now());
+            $invoice->issued_at = $issuedDate;
+            $invoice->finalized_at = now();
+
+            // Generate the invoice/credit note number based on type and custom format settings
+            $generated = $this->generateNumber->execute(
+                $invoice,
+                $issuedDate->year,
+                $invoice->type ?? Invoice::TYPE_INVOICE,
+            );
 
             // Create snapshots
             $sellerSnapshot = $settings->toSnapshot();
             $buyerSnapshot = $invoice->client->toSnapshot();
 
-            // Determine dates
-            $issuedDate = $issuedAt ? now()->parse($issuedAt) : ($invoice->issued_at ?? now());
             $paymentDays = config('billing.default_payment_days', 30);
             $dueDate = $invoice->due_at ?? $issuedDate->copy()->addDays($paymentDays);
 
             // Update invoice - use withoutEvents to bypass immutability check
-            Invoice::withoutEvents(function () use ($invoice, $number, $sellerSnapshot, $buyerSnapshot, $issuedDate, $dueDate) {
+            Invoice::withoutEvents(function () use ($invoice, $generated, $sellerSnapshot, $buyerSnapshot, $issuedDate, $dueDate) {
                 $invoice->update([
-                    'number' => $number,
+                    'number' => $generated['number'],
+                    'sequence_number' => $generated['sequence_number'],
                     'status' => Invoice::STATUS_FINALIZED,
                     'seller_snapshot' => $sellerSnapshot,
                     'buyer_snapshot' => $buyerSnapshot,

@@ -41,6 +41,25 @@ class BusinessSettings extends Model
         'show_payment_qrcode',
         'payment_qrcode_path',
         'logo_path',
+        // Custom document numbering (Invoice / Credit note / Quote)
+        'number_format',
+        'invoice_prefix',
+        'credit_note_prefix',
+        'quote_prefix',
+        'invoice_starting_number',
+        'credit_note_starting_number',
+        'quote_starting_number',
+        'number_padding',
+    ];
+
+    public const NUMBERING_TYPE_INVOICE = 'invoice';
+    public const NUMBERING_TYPE_CREDIT_NOTE = 'credit_note';
+    public const NUMBERING_TYPE_QUOTE = 'quote';
+
+    public const NUMBERING_TYPES = [
+        self::NUMBERING_TYPE_INVOICE,
+        self::NUMBERING_TYPE_CREDIT_NOTE,
+        self::NUMBERING_TYPE_QUOTE,
     ];
 
     /**
@@ -163,6 +182,86 @@ class BusinessSettings extends Model
         }
 
         return $instance;
+    }
+
+    /**
+     * Determine whether numbering settings (format, prefix, starting_number) for a
+     * given document type can still be edited for the given year. They become locked
+     * as soon as at least one document of that type has been finalised by this user
+     * for that year — this guarantees the Article 61 LIVA continuous numbering rule.
+     */
+    public function canEditNumbering(string $type, ?int $year = null): bool
+    {
+        $year = $year ?? now()->year;
+        $userId = $this->user_id;
+
+        return match ($type) {
+            self::NUMBERING_TYPE_INVOICE => ! Invoice::withoutGlobalScope('user')
+                ->where('user_id', $userId)
+                ->where('type', Invoice::TYPE_INVOICE)
+                ->whereYear('finalized_at', $year)
+                ->whereNotNull('finalized_at')
+                ->exists(),
+            self::NUMBERING_TYPE_CREDIT_NOTE => ! Invoice::withoutGlobalScope('user')
+                ->where('user_id', $userId)
+                ->where('type', Invoice::TYPE_CREDIT_NOTE)
+                ->whereYear('finalized_at', $year)
+                ->whereNotNull('finalized_at')
+                ->exists(),
+            self::NUMBERING_TYPE_QUOTE => ! Quote::withoutGlobalScope('user')
+                ->where('user_id', $userId)
+                ->whereYear('created_at', $year)
+                ->whereNotNull('reference')
+                ->exists(),
+            default => true,
+        };
+    }
+
+    /**
+     * Returns a map [type => bool] describing which numbering settings are still
+     * editable for the given year. Used by the Settings UI to disable fields
+     * contextually and by the controller to refuse changes server-side.
+     */
+    public function numberingEditability(?int $year = null): array
+    {
+        $year = $year ?? now()->year;
+
+        return [
+            self::NUMBERING_TYPE_INVOICE => $this->canEditNumbering(self::NUMBERING_TYPE_INVOICE, $year),
+            self::NUMBERING_TYPE_CREDIT_NOTE => $this->canEditNumbering(self::NUMBERING_TYPE_CREDIT_NOTE, $year),
+            self::NUMBERING_TYPE_QUOTE => $this->canEditNumbering(self::NUMBERING_TYPE_QUOTE, $year),
+        ];
+    }
+
+    /**
+     * Count of finalized documents for a given type and year. Used in the UI to display
+     * a contextual message: "Vous avez déjà émis N facture(s) en 2026."
+     */
+    public function finalizedCountFor(string $type, ?int $year = null): int
+    {
+        $year = $year ?? now()->year;
+        $userId = $this->user_id;
+
+        return match ($type) {
+            self::NUMBERING_TYPE_INVOICE => Invoice::withoutGlobalScope('user')
+                ->where('user_id', $userId)
+                ->where('type', Invoice::TYPE_INVOICE)
+                ->whereYear('finalized_at', $year)
+                ->whereNotNull('finalized_at')
+                ->count(),
+            self::NUMBERING_TYPE_CREDIT_NOTE => Invoice::withoutGlobalScope('user')
+                ->where('user_id', $userId)
+                ->where('type', Invoice::TYPE_CREDIT_NOTE)
+                ->whereYear('finalized_at', $year)
+                ->whereNotNull('finalized_at')
+                ->count(),
+            self::NUMBERING_TYPE_QUOTE => Quote::withoutGlobalScope('user')
+                ->where('user_id', $userId)
+                ->whereYear('created_at', $year)
+                ->whereNotNull('reference')
+                ->count(),
+            default => 0,
+        };
     }
 
     /**
