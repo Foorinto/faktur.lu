@@ -6,9 +6,36 @@ Liste de toutes les commandes personnalisées disponibles dans l'application.
 
 ## Gestion des utilisateurs
 
-### `user:grant-lifetime-pro`
+### `user:set-plan`
 
-Accorde un abonnement Pro illimite a vie a un utilisateur, sans passer par Stripe.
+Change manuellement le plan d'un utilisateur (Free / Essentiel / Pro), sans passer par Stripe. Utile pour partenaires, tests internes, fiduciaires.
+
+```bash
+# Passer en Free (revoque toutes souscriptions + clear trial)
+php artisan user:set-plan email@exemple.com free
+
+# Passer en Essentiel
+php artisan user:set-plan email@exemple.com essentiel              # mensuel
+php artisan user:set-plan email@exemple.com essentiel --yearly     # annuel
+
+# Passer en Pro
+php artisan user:set-plan email@exemple.com pro                    # mensuel
+php artisan user:set-plan email@exemple.com pro --yearly           # annuel
+
+# Skipper la confirmation interactive (utile en script)
+php artisan user:set-plan email@exemple.com pro --force
+```
+
+Comportement :
+- **Free** : supprime toutes les souscriptions de l'utilisateur + clear `trial_ends_at`. L'utilisateur repasse strictement au plan Gratuit.
+- **Essentiel / Pro** : cree un abonnement local avec `stripe_id = manual_<plan>_<userId>` (jamais envoye a Stripe, aucun debit). Cette convention est reconnue par `isPro()` et `isEssentiel()` du modele User. `ends_at` est `null` = jamais d'expiration.
+- **Transition de plan** : supprime d'abord les anciennes souscriptions, puis cree la nouvelle. Toujours propre.
+
+Note : `user:grant-lifetime-pro` (legacy) reste disponible et fait l'equivalent de `user:set-plan email pro --yearly --force`.
+
+### `user:grant-lifetime-pro` (legacy)
+
+Accorde un abonnement Pro illimite a vie a un utilisateur, sans passer par Stripe. Conserve pour retrocompatibilite — preferer `user:set-plan` pour les nouveaux usages.
 
 ```bash
 php artisan user:grant-lifetime-pro email@exemple.com
@@ -18,6 +45,31 @@ php artisan user:grant-lifetime-pro email@exemple.com
 - Cree un abonnement Pro local sans date d'expiration
 - Aucune facturation Stripe associee
 - L'utilisateur obtient toutes les fonctionnalites Pro sans limite
+
+---
+
+## Contenu blog
+
+### `blog:fix-accents`
+
+Restaure les accents francais et les umlauts allemands sur les articles de blog importes depuis l'ancien JSON sans accents (decouvrez → decouvrez, haeufige → haeufige, etc.).
+
+```bash
+# Preview sans modifier la base
+php artisan blog:fix-accents --dry
+
+# Appliquer sur FR + DE
+php artisan blog:fix-accents
+
+# Restreindre a une seule langue
+php artisan blog:fix-accents --locale=fr
+php artisan blog:fix-accents --locale=de
+```
+
+- Dictionnaire mot-entier avec word-boundaries Unicode (ne casse jamais le HTML, les URLs, ni un mot legitimement sans accent)
+- Touche `title`, `excerpt`, `content`, `meta_title`, `meta_description`
+- **Idempotente** : un second run ne fait rien (les mots accentues ne matchent plus le dictionnaire)
+- ~120 termes FR, ~60 termes DE
 
 ---
 
