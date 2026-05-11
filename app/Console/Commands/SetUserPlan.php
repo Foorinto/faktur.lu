@@ -23,13 +23,14 @@ class SetUserPlan extends Command
 {
     protected $signature = 'user:set-plan
                             {email : E-mail du compte utilisateur}
-                            {plan : Plan cible : free | essentiel | pro}
-                            {--yearly : Utiliser le prix annuel plutot que mensuel}
+                            {plan : Plan cible : free | trial | essentiel | pro}
+                            {--yearly : Utiliser le prix annuel plutot que mensuel (pour essentiel/pro)}
+                            {--days=14 : Duree du trial en jours (uniquement pour plan=trial)}
                             {--force : Ne pas demander de confirmation}';
 
-    protected $description = 'Change manuellement le plan d\'un utilisateur (Free / Essentiel / Pro), sans passer par Stripe';
+    protected $description = 'Change manuellement le plan d\'un utilisateur (Free / Trial / Essentiel / Pro), sans passer par Stripe';
 
-    private const SUPPORTED_PLANS = ['free', 'essentiel', 'pro'];
+    private const SUPPORTED_PLANS = ['free', 'trial', 'essentiel', 'pro'];
 
     public function handle(): int
     {
@@ -72,6 +73,15 @@ class SetUserPlan extends Command
             // Free = no subscription, no trial.
             $user->forceFill(['trial_ends_at' => null])->save();
             $this->info("Plan applique : Free (aucun abonnement, aucun trial).");
+            $this->info("Plan detecte par le modele : " . $user->fresh()->plan);
+            return self::SUCCESS;
+        }
+
+        if ($plan === 'trial') {
+            // Trial = no subscription, but trial_ends_at in the future grants Pro access
+            $days = max(1, (int) $this->option('days'));
+            $user->forceFill(['trial_ends_at' => now()->addDays($days)])->save();
+            $this->info("Plan applique : Trial ($days jours, expire le " . $user->fresh()->trial_ends_at->format('d/m/Y') . ").");
             $this->info("Plan detecte par le modele : " . $user->fresh()->plan);
             return self::SUCCESS;
         }

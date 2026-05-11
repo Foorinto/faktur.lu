@@ -8,11 +8,15 @@ Liste de toutes les commandes personnalisées disponibles dans l'application.
 
 ### `user:set-plan`
 
-Change manuellement le plan d'un utilisateur (Free / Essentiel / Pro), sans passer par Stripe. Utile pour partenaires, tests internes, fiduciaires.
+Change manuellement le plan d'un utilisateur (Free / Trial / Essentiel / Pro), sans passer par Stripe. Utile pour partenaires, tests internes, fiduciaires.
 
 ```bash
 # Passer en Free (revoque toutes souscriptions + clear trial)
 php artisan user:set-plan email@exemple.com free
+
+# Redonner un trial Pro (acces complet 14 jours)
+php artisan user:set-plan email@exemple.com trial
+php artisan user:set-plan email@exemple.com trial --days=30      # custom
 
 # Passer en Essentiel
 php artisan user:set-plan email@exemple.com essentiel              # mensuel
@@ -28,6 +32,7 @@ php artisan user:set-plan email@exemple.com pro --force
 
 Comportement :
 - **Free** : supprime toutes les souscriptions de l'utilisateur + clear `trial_ends_at`. L'utilisateur repasse strictement au plan Gratuit.
+- **Trial** : supprime toutes les souscriptions + set `trial_ends_at = now() + N jours` (defaut 14, configurable via `--days`). L'utilisateur a acces aux features Pro pendant la duree du trial, puis bascule en Free automatiquement.
 - **Essentiel / Pro** : cree un abonnement local avec `stripe_id = manual_<plan>_<userId>` (jamais envoye a Stripe, aucun debit). Cette convention est reconnue par `isPro()` et `isEssentiel()` du modele User. `ends_at` est `null` = jamais d'expiration.
 - **Transition de plan** : supprime d'abord les anciennes souscriptions, puis cree la nouvelle. Toujours propre.
 
