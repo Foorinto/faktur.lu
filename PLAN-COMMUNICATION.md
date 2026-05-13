@@ -31,44 +31,44 @@
 
 ### 🥇 Priorité 1 — À lancer maintenant
 
-| Réseau | Audience | Format | Meilleurs créneaux (heure LU) |
-|---|---|---|---|
-| **LinkedIn perso** | B2B Luxembourg, frontaliers, fiduciaires | Post long (~2700 caractères max), authentique | **Mardi/mercredi/jeudi 8h00 ou 12h30 ou 17h30** |
-| **LinkedIn page faktur.lu** | Idem (mais portée 5-10x plus faible) | Repost du post perso + occasionnellement post produit | Idem |
-| **Reddit r/Luxembourg** | Résidents LU, frontaliers, expats | Post écrit honnête, pas de marketing | **Mardi/mercredi/jeudi 8h-10h ou 18h-22h** |
-| **Reddit r/SideProject** | Indie makers internationaux | Post "I built X for Y" | **Mardi/mercredi 14h-18h** (heure US matinée) |
-| **Reddit r/IndieHackers** | Solo founders | Idem | **Lundi-jeudi 14h-18h** |
+| Réseau                      | Audience                                 | Format                                                | Meilleurs créneaux (heure LU)                   |
+| --------------------------- | ---------------------------------------- | ----------------------------------------------------- | ----------------------------------------------- |
+| **LinkedIn perso**          | B2B Luxembourg, frontaliers, fiduciaires | Post long (~2700 caractères max), authentique         | **Mardi/mercredi/jeudi 8h00 ou 12h30 ou 17h30** |
+| **LinkedIn page faktur.lu** | Idem (mais portée 5-10x plus faible)     | Repost du post perso + occasionnellement post produit | Idem                                            |
+| **Reddit r/Luxembourg**     | Résidents LU, frontaliers, expats        | Post écrit honnête, pas de marketing                  | **Mardi/mercredi/jeudi 8h-10h ou 18h-22h**      |
+| **Reddit r/SideProject**    | Indie makers internationaux              | Post "I built X for Y"                                | **Mardi/mercredi 14h-18h** (heure US matinée)   |
+| **Reddit r/IndieHackers**   | Solo founders                            | Idem                                                  | **Lundi-jeudi 14h-18h**                         |
 
 ### 🥈 Priorité 2 — Dans les 2 semaines
 
-| Réseau | Audience | Format | Meilleurs créneaux (heure LU) |
-|---|---|---|---|
-| **Hacker News (Show HN)** | Devs/founders monde entier | "Show HN: faktur.lu — invoicing built for Luxembourg" | **Mardi/mercredi 14h-17h** (= US matinée) |
-| **X / Twitter** | Indie makers, devs LU/EU | Thread de 5 tweets (depuis @foorintodev + retweet @faktur_lu) | **Mardi/mercredi/jeudi 9h, 13h ou 18h** |
-| **Bluesky** | Audience tech qui a quitté X | Thread similaire à X | Idem X |
-| **Indie Hackers** (forum) | Solo founders | Post communauté + milestone update | **Lundi-jeudi 14h-18h** |
-| **Product Hunt** | Tech early adopters | Launch produit avec visuels + vidéo de démo | **Mardi 6h-9h** (= US East Coast matin = pic d'engagement PH) |
+| Réseau                    | Audience                     | Format                                                        | Meilleurs créneaux (heure LU)                                 |
+| ------------------------- | ---------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Hacker News (Show HN)** | Devs/founders monde entier   | "Show HN: faktur.lu — invoicing built for Luxembourg"         | **Mardi/mercredi 14h-17h** (= US matinée)                     |
+| **X / Twitter**           | Indie makers, devs LU/EU     | Thread de 5 tweets (depuis @foorintodev + retweet @faktur_lu) | **Mardi/mercredi/jeudi 9h, 13h ou 18h**                       |
+| **Bluesky**               | Audience tech qui a quitté X | Thread similaire à X                                          | Idem X                                                        |
+| **Indie Hackers** (forum) | Solo founders                | Post communauté + milestone update                            | **Lundi-jeudi 14h-18h**                                       |
+| **Product Hunt**          | Tech early adopters          | Launch produit avec visuels + vidéo de démo                   | **Mardi 6h-9h** (= US East Coast matin = pic d'engagement PH) |
 
 ### 🥉 Priorité 3 — Dans le mois
 
-| Réseau | Audience | Format | Meilleurs créneaux (heure LU) |
-|---|---|---|---|
-| **Mastodon** (fosstodon.org, hachyderm.io) | Devs / open source | Thread style X | Mardi/mercredi/jeudi 9h-18h |
-| **Threads (Meta)** | B2C surtout, peu B2B | Post court | Mardi/jeudi 12h-13h |
-| **Reddit r/SaaS** | Founders SaaS | Post launch + leçons apprises | Mardi/mercredi 15h-18h |
-| **Reddit r/EUstartups** | Startups EU | Post launch | Mardi/mercredi 9h-11h |
-| **Reddit r/microsaas** | Solo founders | Post post-mortem ou avancement | Samedi-dimanche 10h-15h (sub plus actif WE) |
-| **Facebook : Frontaliers Luxembourg** | Frontaliers FR/BE/DE→LU | Post adapté plus casual | Mardi/jeudi 12h-13h ou 19h-21h |
-| **Facebook : Entrepreneurs Luxembourg** | Entrepreneurs LU | Idem | Idem |
-| **Facebook : Indépendants Luxembourg** | Freelances LU | Idem | Idem |
+| Réseau                                     | Audience                | Format                         | Meilleurs créneaux (heure LU)               |
+| ------------------------------------------ | ----------------------- | ------------------------------ | ------------------------------------------- |
+| **Mastodon** (fosstodon.org, hachyderm.io) | Devs / open source      | Thread style X                 | Mardi/mercredi/jeudi 9h-18h                 |
+| **Threads (Meta)**                         | B2C surtout, peu B2B    | Post court                     | Mardi/jeudi 12h-13h                         |
+| **Reddit r/SaaS**                          | Founders SaaS           | Post launch + leçons apprises  | Mardi/mercredi 15h-18h                      |
+| **Reddit r/EUstartups**                    | Startups EU             | Post launch                    | Mardi/mercredi 9h-11h                       |
+| **Reddit r/microsaas**                     | Solo founders           | Post post-mortem ou avancement | Samedi-dimanche 10h-15h (sub plus actif WE) |
+| **Facebook : Frontaliers Luxembourg**      | Frontaliers FR/BE/DE→LU | Post adapté plus casual        | Mardi/jeudi 12h-13h ou 19h-21h              |
+| **Facebook : Entrepreneurs Luxembourg**    | Entrepreneurs LU        | Idem                           | Idem                                        |
+| **Facebook : Indépendants Luxembourg**     | Freelances LU           | Idem                           | Idem                                        |
 
 ### ⛔ À skipper pour l'instant
 
-| Réseau | Pourquoi |
-|---|---|
-| **Instagram / TikTok** | B2B SaaS LU + 0 budget créa = ROI faible. Reviens-y dans 6 mois quand tu as des témoignages clients à filmer. |
-| **YouTube** | Plan séparé : voir `Planning/Backlog/FEAT-079-videos-youtube-tutoriels.md` (vidéos tutoriels prévues, pas pour le lancement) |
-| **Tiktok** | Idem Instagram |
+| Réseau                 | Pourquoi                                                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Instagram / TikTok** | B2B SaaS LU + 0 budget créa = ROI faible. Reviens-y dans 6 mois quand tu as des témoignages clients à filmer.                |
+| **YouTube**            | Plan séparé : voir `Planning/Backlog/FEAT-079-videos-youtube-tutoriels.md` (vidéos tutoriels prévues, pas pour le lancement) |
+| **Tiktok**             | Idem Instagram                                                                                                               |
 
 ---
 
@@ -78,23 +78,23 @@
 
 **Espace les posts** pour ne pas spammer ton réseau qui est sur plusieurs plateformes, et pour pouvoir répondre activement aux retours sur chaque.
 
-| Jour | Heure (LU) | Plateforme | Notes |
-|---|---|---|---|
-| **Lundi soir** | 19h-20h | — | Préparer les visuels et vérifier que les liens marchent |
-| **Mardi** | 8h00 | LinkedIn perso | Post de lancement complet |
-| Mardi | 9h-12h | LinkedIn | Répondre activement aux commentaires |
-| Mardi | 14h00 | LinkedIn page faktur.lu | Repartager le post perso |
-| Mardi | 15h00 | X / Twitter | Thread de 5 tweets |
-| Mardi | 15h05 | Bluesky | Cross-post du même thread |
-| **Mercredi** | 18h30 | Reddit r/Luxembourg | Post écrit honnête, ton humble |
-| Mercredi | 19h-22h | Reddit | Répondre activement aux commentaires |
-| **Jeudi** | 14h00 | Reddit r/SideProject | Post focus indie maker |
-| Jeudi | 16h00 | Indie Hackers | Post communauté |
-| **Vendredi** | — | — | Pause WE, observer les retours |
-| Samedi-Dimanche | — | — | Pause |
-| **Lundi semaine 2** | 14h00 | Reddit r/SaaS / r/microsaas / r/EUstartups | Post adapté à chaque sub (un par jour) |
-| **Mardi semaine 2** | 6h00 | Product Hunt | Launch (préparer les visuels la veille) |
-| **Mercredi semaine 2** | 14h00 | Hacker News | Show HN — point culminant si bien préparé |
+| Jour                   | Heure (LU) | Plateforme                                 | Notes                                                   |
+| ---------------------- | ---------- | ------------------------------------------ | ------------------------------------------------------- |
+| **Lundi soir**         | 19h-20h    | —                                          | Préparer les visuels et vérifier que les liens marchent |
+| **Mardi**              | 8h00       | LinkedIn perso                             | Post de lancement complet                               |
+| Mardi                  | 9h-12h     | LinkedIn                                   | Répondre activement aux commentaires                    |
+| Mardi                  | 14h00      | LinkedIn page faktur.lu                    | Repartager le post perso                                |
+| Mardi                  | 15h00      | X / Twitter                                | Thread de 5 tweets                                      |
+| Mardi                  | 15h05      | Bluesky                                    | Cross-post du même thread                               |
+| **Mercredi**           | 18h30      | Reddit r/Luxembourg                        | Post écrit honnête, ton humble                          |
+| Mercredi               | 19h-22h    | Reddit                                     | Répondre activement aux commentaires                    |
+| **Jeudi**              | 14h00      | Reddit r/SideProject                       | Post focus indie maker                                  |
+| Jeudi                  | 16h00      | Indie Hackers                              | Post communauté                                         |
+| **Vendredi**           | —          | —                                          | Pause WE, observer les retours                          |
+| Samedi-Dimanche        | —          | —                                          | Pause                                                   |
+| **Lundi semaine 2**    | 14h00      | Reddit r/SaaS / r/microsaas / r/EUstartups | Post adapté à chaque sub (un par jour)                  |
+| **Mardi semaine 2**    | 6h00       | Product Hunt                               | Launch (préparer les visuels la veille)                 |
+| **Mercredi semaine 2** | 14h00      | Hacker News                                | Show HN — point culminant si bien préparé               |
 
 ### 📋 Avant chaque post
 
@@ -116,6 +116,7 @@ Une fois le lancement passé, garde une présence régulière sans s'épuiser.
 **Fréquence** : 2-3 posts par semaine.
 
 **Pillars de contenu** (rotation) :
+
 1. **Construire** : un build update, une feature qu'on vient de livrer, un problème qu'on a résolu
 2. **Apprendre** : un retour client intéressant, une découverte sur le marché LU, un piège fiscal qu'on a rencontré
 3. **Aider** : une astuce concrète sur la facturation/TVA/FAIA Luxembourg
@@ -140,6 +141,7 @@ Très bon pour le **build in public** : screenshots, métriques, leçons rapides
 **Fréquence** : seulement quand tu as un vrai update significatif (1-2 fois par mois max). Reddit déteste les posts forcés.
 
 Subs à activer dans le temps :
+
 - r/Luxembourg → updates locaux
 - r/SideProject → milestones (50 users, 100 users)
 - r/IndieHackers → revenue updates
@@ -354,6 +356,7 @@ Et un repost m'aiderait beaucoup à atteindre les bonnes personnes 🙏
 **Titre** : `I built faktur.lu, an invoicing app made specifically for Luxembourg — looking for honest feedback`
 
 **Body** :
+
 ```
 Hi r/Luxembourg,
 
@@ -393,6 +396,7 @@ Happy to answer technical questions in the comments. Roast welcome.
 **Titre** : `I built an invoicing SaaS for Luxembourg — 6 months solo, going public today`
 
 **Body** :
+
 ```
 Hey r/SideProject,
 
@@ -430,6 +434,7 @@ Happy to answer any questions about the build, the niche, or the stack. Brutal f
 **Titre** : `6 months solo to launch a vertical SaaS for a country of 660k people — does the math even work?`
 
 **Body** :
+
 ```
 Hey IH,
 
@@ -469,6 +474,7 @@ Link: https://faktur.lu
 **Titre** : `Niching down to a 660k-person country: launching a vertical invoicing SaaS for Luxembourg`
 
 **Body** :
+
 ```
 6 months solo build, going public today: faktur.lu — invoicing SaaS for Luxembourg only.
 
@@ -511,6 +517,7 @@ Link: https://faktur.lu
 **Titre** : `Launching faktur.lu — invoicing SaaS built for Luxembourg compliance (Peppol, FAIA, ViDA-ready)`
 
 **Body** :
+
 ```
 Hi r/EUstartups,
 
@@ -553,6 +560,7 @@ Link: https://faktur.lu
 **Titre** : `Vertical micro-SaaS for Luxembourg — 6 months solo build, launching today`
 
 **Body** :
+
 ```
 Quick story for r/microsaas:
 
@@ -585,6 +593,7 @@ Question for the sub: anyone here running a hyperlocal vertical micro-SaaS profi
 ### X / Twitter / Bluesky — Thread (mardi 15h00)
 
 **Tweet 1 (hook)** :
+
 ```
 6 months ago I became a cross-border worker in Luxembourg.
 
@@ -596,6 +605,7 @@ Today I'm launching faktur.lu 🇱🇺
 ```
 
 **Tweet 2** :
+
 ```
 The problem with generic invoicing tools in Luxembourg:
 
@@ -607,6 +617,7 @@ The problem with generic invoicing tools in Luxembourg:
 ```
 
 **Tweet 3** :
+
 ```
 What's working today:
 
@@ -618,6 +629,7 @@ What's working today:
 ```
 
 **Tweet 4** :
+
 ```
 What's coded but not yet stress-tested in real conditions:
 
@@ -629,6 +641,7 @@ This is exactly why I'm publishing today: I need real-world feedback.
 ```
 
 **Tweet 5 (CTA)** :
+
 ```
 If you're:
 • Entrepreneur or freelancer in Luxembourg
@@ -651,6 +664,7 @@ Built solo with @laravelphp + @vuejs.
 **Titre** : `Show HN: faktur.lu – Invoicing built for Luxembourg compliance (FAIA, Peppol, 5 languages)`
 
 **Body (premier commentaire)** :
+
 ```
 Hi HN,
 
@@ -691,6 +705,7 @@ Happy to answer technical questions about the FAIA generation, the multi-tenant 
 **Titre** : `Launching today: faktur.lu — vertical invoicing SaaS for Luxembourg (660k people TAM)`
 
 **Body** :
+
 ```
 Hey makers,
 
@@ -748,4 +763,4 @@ Link: https://faktur.lu
 
 ---
 
-*Dernière mise à jour : 2026-05-09*
+_Dernière mise à jour : 2026-05-09_
