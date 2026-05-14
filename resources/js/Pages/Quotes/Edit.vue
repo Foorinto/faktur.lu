@@ -4,9 +4,13 @@ import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import FlagIcon from '@/Components/FlagIcon.vue';
+import { useTranslations } from '@/Composables/useTranslations';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import axios from 'axios';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     quote: Object,
@@ -39,11 +43,11 @@ const editingItemId = ref(null);
 const pdfLocale = ref(props.quote.client?.locale || 'fr');
 
 const pdfLanguages = [
-    { value: 'fr', label: 'Français', flag: '🇫🇷' },
-    { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
-    { value: 'en', label: 'English', flag: '🇬🇧' },
-    { value: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
-    { value: 'pt', label: 'Português', flag: '🇵🇹' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' },
+    { value: 'en', label: 'English' },
+    { value: 'lb', label: 'Lëtzebuergesch' },
+    { value: 'pt', label: 'Português' },
 ];
 
 const selectedPdfLanguage = computed(() => {
@@ -237,7 +241,7 @@ const loadPreview = async () => {
         previewHtml.value = response.data.html;
     } catch (error) {
         console.error('Error loading preview:', error);
-        previewHtml.value = '<p style="color: red; padding: 20px;">Erreur lors du chargement de l\'aperçu</p>';
+        previewHtml.value = `<p style="color: red; padding: 20px;">${t('preview_load_error')}</p>`;
     } finally {
         loadingPreview.value = false;
     }
@@ -434,7 +438,7 @@ const getStatusLabel = (status) => {
                                 @change="updateQuote"
                                 class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
-                                <option value="">Mention par défaut</option>
+                                <option value="">{{ t('default_mention_option') }}</option>
                                 <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
                                     {{ option.label }}
                                 </option>
@@ -528,7 +532,7 @@ const getStatusLabel = (status) => {
                                             v-model="editItemForm.unit"
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
-                                            <option value="">Sans unité</option>
+                                            <option value="">{{ t('option_no_unit') }}</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
                                                 {{ unit.label }}
                                             </option>
@@ -698,7 +702,7 @@ const getStatusLabel = (status) => {
                                             v-model="itemForm.unit"
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
-                                            <option value="">Sans unité</option>
+                                            <option value="">{{ t('option_no_unit') }}</option>
                                             <option v-for="unit in units" :key="unit.value" :value="unit.value">
                                                 {{ unit.label }}
                                             </option>
@@ -806,7 +810,7 @@ const getStatusLabel = (status) => {
                                         ? 'bg-primary-100 dark:bg-primary-900'
                                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
-                                    {{ lang.flag }}
+                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
                                 </button>
                             </div>
                             <a

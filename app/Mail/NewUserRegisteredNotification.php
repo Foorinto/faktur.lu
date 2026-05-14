@@ -26,8 +26,9 @@ class NewUserRegisteredNotification extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
+        // Admin notification — keep app default locale (admins typically read in fr)
         return new Envelope(
-            subject: "Nouvelle inscription : {$this->user->name}",
+            subject: __('app.mail_subject_new_user_registered', ['name' => $this->user->name]),
         );
     }
 

@@ -1,20 +1,20 @@
 <x-mail::message>
-# Nouvelle inscription
+# {{ __('app.email_admin_new_user_heading') }}
 
-Un nouvel utilisateur s'est inscrit sur {{ config('app.name') }}.
+{{ __('app.email_admin_new_user_intro', ['app' => config('app.name')]) }}
 
-**Nom:** {{ $user->name }}
+**{{ __('app.email_admin_new_user_name') }}** {{ $user->name }}
 
-**Email:** {{ $user->email }}
+**{{ __('app.email_admin_new_user_email') }}** {{ $user->email }}
 
-**Date:** {{ $user->created_at->format('d/m/Y à H:i') }}
+**{{ __('app.email_admin_new_user_date') }}** {{ $user->created_at->format('d/m/Y H:i') }}
 
 ---
 
 <x-mail::button :url="$adminUrl">
-Voir les utilisateurs
+{{ __('app.email_admin_new_user_cta') }}
 </x-mail::button>
 
-Cordialement,<br>
+{{ __('app.email_regards') }}<br>
 {{ config('app.name') }}
 </x-mail::message>

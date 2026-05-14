@@ -85,7 +85,7 @@ class OnboardingController extends Controller
             if (! empty($errors)) {
                 return response()->json([
                     'success' => false,
-                    'errors' => ['number_format' => 'Format invalide : ' . implode(', ', $errors)],
+                    'errors' => ['number_format' => __('app.onboarding_flash.error_format_invalid', ['errors' => implode(', ', $errors)])],
                 ], 422);
             }
         }
@@ -122,10 +122,10 @@ class OnboardingController extends Controller
             'logo' => 'nullable|file|mimes:jpg,jpeg,png,svg,webp|max:2048',
             'default_pdf_color' => 'nullable|string|max:50',
         ], [
-            'logo.uploaded' => 'Le fichier est trop volumineux. Taille maximum : 2 Mo.',
-            'logo.max' => 'Le fichier est trop volumineux. Taille maximum : 2 Mo.',
-            'logo.mimes' => 'Format non supporté. Utilisez JPG, PNG, SVG ou WEBP.',
-            'logo.file' => 'Le fichier uploadé est invalide.',
+            'logo.uploaded' => __('app.onboarding_flash.logo_uploaded_too_large'),
+            'logo.max' => __('app.onboarding_flash.logo_uploaded_too_large'),
+            'logo.mimes' => __('app.onboarding_flash.logo_unsupported_format'),
+            'logo.file' => __('app.onboarding_flash.logo_invalid_file'),
         ]);
 
         $business = BusinessSettings::firstOrCreate(['user_id' => $request->user()->id]);

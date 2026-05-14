@@ -108,7 +108,7 @@ class AccountantAuthController extends Controller
             ->first();
 
         if (!$invitation || $invitation->isExpired()) {
-            return back()->withErrors(['token' => 'Invitation invalide ou expirée.']);
+            return back()->withErrors(['token' => __('app.accountant_auth_flash.error_invitation_invalid')]);
         }
 
         // Check if accountant already exists
@@ -121,7 +121,7 @@ class AccountantAuthController extends Controller
             ]);
 
             if (!Hash::check($request->password, $accountant->password)) {
-                return back()->withErrors(['password' => 'Mot de passe incorrect.']);
+                return back()->withErrors(['password' => __('app.accountant_auth_flash.error_password_incorrect')]);
             }
         } else {
             // New accountant - create account
@@ -153,6 +153,6 @@ class AccountantAuthController extends Controller
         Auth::guard('accountant')->login($accountant, true);
 
         return redirect()->route('accountant.dashboard')
-            ->with('success', 'Bienvenue ! Vous avez maintenant accès aux exports comptables.');
+            ->with('success', __('app.accountant_auth_flash.welcome'));
     }
 }

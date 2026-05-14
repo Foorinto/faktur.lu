@@ -12,10 +12,10 @@ const props = defineProps({
 });
 
 const frequencyLabels = {
-    weekly: 'Hebdomadaire',
-    monthly: 'Mensuelle',
-    quarterly: 'Trimestrielle',
-    yearly: 'Annuelle',
+    weekly: t('recurring_invoice_freq_weekly'),
+    monthly: t('recurring_invoice_freq_monthly'),
+    quarterly: t('recurring_invoice_freq_quarterly'),
+    yearly: t('recurring_invoice_freq_yearly'),
 };
 
 const formatDate = (date) => {
@@ -34,24 +34,24 @@ const toggleActive = (recurring) => {
 };
 
 const deleteRecurring = (recurring) => {
-    if (confirm('Supprimer cette facturation récurrente ?')) {
+    if (confirm(t('recurring_invoice_confirm_delete'))) {
         router.delete(route('recurring-invoices.destroy', recurring.id));
     }
 };
 
 const duplicateRecurring = (recurring) => {
-    if (!confirm("Dupliquer cette récurrence ? La copie sera créée inactive — vous devrez l'activer manuellement après vérification.")) return;
+    if (!confirm(t('recurring_invoice_confirm_duplicate'))) return;
     router.post(route('recurring-invoices.duplicate', recurring.id), {}, { preserveScroll: true });
 };
 </script>
 
 <template>
-    <Head :title="t('recurring_invoices')" />
+    <Head :title="t('recurring_invoice_page_title')" />
 
     <AppLayout>
         <template #header>
             <h1 class="text-xl font-bold text-slate-900 dark:text-white">
-                {{ t('recurring_invoices') }}
+                {{ t('recurring_invoice_page_title') }}
             </h1>
         </template>
         <template #header-actions>
@@ -62,7 +62,7 @@ const duplicateRecurring = (recurring) => {
                 <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                 </svg>
-                Nouvelle récurrence
+                {{ t('recurring_invoice_new') }}
             </Link>
         </template>
 
@@ -74,21 +74,21 @@ const duplicateRecurring = (recurring) => {
                 <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span class="flex-1">Comment fonctionnent les facturations récurrentes ?</span>
+                <span class="flex-1">{{ t('recurring_invoice_how_it_works_title') }}</span>
                 <svg class="h-4 w-4 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
             </summary>
             <div class="px-4 pb-4 pt-1 text-sm text-blue-900/90 dark:text-blue-200/90 space-y-3">
-                <p>Une récurrence est un <strong>modèle</strong> qui génère automatiquement de nouvelles factures à intervalles réguliers (hebdomadaire, mensuel, trimestriel ou annuel).</p>
-                <p>Chaque jour à <strong>06:00</strong>, le système vérifie les récurrences <strong>actives</strong> dont la prochaine date est arrivée et crée la facture correspondante. Selon les options choisies :</p>
+                <p v-html="t('recurring_invoice_how_p1_html')"></p>
+                <p v-html="t('recurring_invoice_how_p2_html')"></p>
                 <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Aucune option</strong> → la facture est créée en <strong>brouillon</strong> ; vous la finalisez et l'envoyez manuellement.</li>
-                    <li><strong>Finalisation auto</strong> → la facture est <strong>finalisée</strong> automatiquement (numéro attribué) ; il ne reste qu'à l'envoyer.</li>
-                    <li><strong>Finalisation auto + envoi auto</strong> → la facture est <strong>envoyée par email</strong> au client sans intervention.</li>
+                    <li v-html="t('recurring_invoice_how_li1_html')"></li>
+                    <li v-html="t('recurring_invoice_how_li2_html')"></li>
+                    <li v-html="t('recurring_invoice_how_li3_html')"></li>
                 </ul>
-                <p>La date de la prochaine facture s'incrémente automatiquement après chaque génération. Si vous fixez une date de fin, la récurrence se désactive d'elle-même une fois passée.</p>
-                <p class="text-xs text-blue-800/80 dark:text-blue-300/80">💡 Astuce : modifier le modèle n'affecte que les <em>prochaines</em> factures — celles déjà émises restent inchangées. Vous pouvez désactiver/réactiver une récurrence à tout moment en cliquant sur son badge de statut.</p>
+                <p v-html="t('recurring_invoice_how_p3_html')"></p>
+                <p class="text-xs text-blue-800/80 dark:text-blue-300/80" v-html="t('recurring_invoice_how_tip_html')"></p>
             </div>
         </details>
 
@@ -99,13 +99,13 @@ const duplicateRecurring = (recurring) => {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
                 </svg>
             </div>
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Aucune facturation récurrente</h3>
-            <p class="text-slate-500 dark:text-slate-400 mb-6">Créez votre première récurrence pour automatiser vos factures.</p>
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">{{ t('recurring_invoice_empty_title') }}</h3>
+            <p class="text-slate-500 dark:text-slate-400 mb-6">{{ t('recurring_invoice_empty_desc') }}</p>
             <Link
                 :href="route('recurring-invoices.create')"
                 class="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm"
             >
-                Créer une récurrence
+                {{ t('recurring_invoice_create_cta') }}
             </Link>
         </div>
 
@@ -114,14 +114,14 @@ const duplicateRecurring = (recurring) => {
             <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                 <thead class="bg-slate-50 dark:bg-gray-800">
                     <tr>
-                        <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">Client</th>
-                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">Titre</th>
-                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">Fréquence</th>
-                        <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">Montant HT</th>
-                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">Prochaine</th>
-                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">Statut</th>
+                        <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white sm:pl-6">{{ t('recurring_invoice_col_client') }}</th>
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">{{ t('recurring_invoice_col_title') }}</th>
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">{{ t('recurring_invoice_col_frequency') }}</th>
+                        <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">{{ t('recurring_invoice_col_amount_ht') }}</th>
+                        <th class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">{{ t('recurring_invoice_col_next') }}</th>
+                        <th class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">{{ t('recurring_invoice_col_status') }}</th>
                         <th class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                            <span class="sr-only">Actions</span>
+                            <span class="sr-only">{{ t('recurring_invoice_actions') }}</span>
                         </th>
                     </tr>
                 </thead>
@@ -153,7 +153,7 @@ const duplicateRecurring = (recurring) => {
                                 ]"
                             >
                                 <span :class="['w-1.5 h-1.5 rounded-full', recurring.is_active ? 'bg-emerald-500' : 'bg-slate-400']"></span>
-                                {{ recurring.is_active ? 'Active' : 'Inactive' }}
+                                {{ recurring.is_active ? t('recurring_invoice_status_active') : t('recurring_invoice_status_inactive') }}
                             </button>
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
@@ -161,7 +161,7 @@ const duplicateRecurring = (recurring) => {
                                 <Link
                                     :href="route('recurring-invoices.edit', recurring.id)"
                                     class="text-slate-400 hover:text-primary-500 transition-colors"
-                                    title="Modifier"
+                                    :title="t('recurring_invoice_action_edit')"
                                 >
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -170,7 +170,7 @@ const duplicateRecurring = (recurring) => {
                                 <button
                                     @click="duplicateRecurring(recurring)"
                                     class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
-                                    title="Dupliquer (créera une copie inactive)"
+                                    :title="t('recurring_invoice_action_duplicate')"
                                 >
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
@@ -179,7 +179,7 @@ const duplicateRecurring = (recurring) => {
                                 <button
                                     @click="deleteRecurring(recurring)"
                                     class="text-slate-400 hover:text-red-500 transition-colors"
-                                    title="Supprimer"
+                                    :title="t('recurring_invoice_action_delete')"
                                 >
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

@@ -272,8 +272,8 @@ const cancelEditTask = () => {
 const deleteTask = (task) => {
     const hasSubtasks = task.children && task.children.length > 0;
     const message = hasSubtasks
-        ? `Êtes-vous sûr de vouloir supprimer cette tâche et ses ${task.children.length} sous-tâche(s) ?`
-        : 'Êtes-vous sûr de vouloir supprimer cette tâche ?';
+        ? t('confirm_delete_task_with_subtasks').replace(':count', task.children.length)
+        : t('confirm_delete_task');
 
     if (confirm(message)) {
         router.delete(route('tasks.destroy', task.id), { preserveScroll: true });
@@ -361,12 +361,12 @@ watch(() => props.project.tasks, initKanbanTasks, { immediate: true, deep: true 
 watch(() => currentSort.value, initKanbanTasks);
 
 // Sort options for display
-const sortOptions = [
-    { value: 'manual', label: 'Manuel' },
-    { value: 'priority', label: 'Priorité' },
-    { value: 'due_date', label: 'Échéance' },
-    { value: 'title', label: 'Nom' },
-];
+const sortOptions = computed(() => [
+    { value: 'manual', label: t('sort_manual') },
+    { value: 'priority', label: t('sort_priority') },
+    { value: 'due_date', label: t('sort_due_date') },
+    { value: 'title', label: t('sort_title') },
+]);
 
 // List view drag and drop
 const onListDragEnd = () => {
@@ -455,7 +455,7 @@ const onKanbanDragEnd = () => {
                                     {{ statuses[project.status] }}
                                 </span>
                                 <span v-if="project.client" class="text-slate-500 dark:text-slate-400">
-                                    Client: {{ project.client.name }}
+                                    {{ t('client') }}: {{ project.client.name }}
                                 </span>
                                 <span v-if="project.due_date" :class="project.is_overdue ? 'text-pink-600 dark:text-pink-400' : 'text-slate-500 dark:text-slate-400'">
                                     {{ t('due_date') }}: {{ formatDateDisplay(project.due_date) }}
@@ -496,7 +496,7 @@ const onKanbanDragEnd = () => {
                         <div class="flex flex-wrap items-center gap-2">
                             <!-- Sort selector -->
                             <div v-if="currentTaskView === 'list'" class="flex items-center gap-2">
-                                <span class="text-xs text-slate-500 dark:text-slate-400">Tri :</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">{{ t('sort_label') }}</span>
                                 <select
                                     :value="currentSort"
                                     @change="switchSort($event.target.value)"
@@ -518,7 +518,7 @@ const onKanbanDragEnd = () => {
                                             : 'text-slate-600 dark:text-slate-400'
                                     ]"
                                 >
-                                    Liste
+                                    {{ t('list_view') }}
                                 </button>
                                 <button
                                     @click="switchTaskView('kanban')"
@@ -529,7 +529,7 @@ const onKanbanDragEnd = () => {
                                             : 'text-slate-600 dark:text-slate-400'
                                     ]"
                                 >
-                                    Kanban
+                                    {{ t('kanban_view') }}
                                 </button>
                             </div>
                             <button
@@ -648,7 +648,7 @@ const onKanbanDragEnd = () => {
                                         </div>
                                         <!-- Actions -->
                                         <div v-if="editingTask !== task.id" class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button @click="startAddSubtask(task.id)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800" title="Ajouter une sous-tâche">
+                                            <button @click="startAddSubtask(task.id)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800" :title="t('add_subtask')">
                                                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
                                             </button>
                                             <button @click="startEditTask(task)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800">
@@ -685,11 +685,11 @@ const onKanbanDragEnd = () => {
                                             </template>
                                         </div>
                                         <div v-if="addingSubtaskTo === task.id" class="flex items-center gap-2 rounded-lg bg-slate-100 p-2 dark:bg-gray-800/50">
-                                            <input v-model="subtaskForm.title" type="text" placeholder="Nouvelle sous-tâche..." class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" @keyup.enter="submitSubtask(task)" @keyup.escape="cancelAddSubtask" />
+                                            <input v-model="subtaskForm.title" type="text" :placeholder="t('new_subtask_placeholder')" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" @keyup.enter="submitSubtask(task)" @keyup.escape="cancelAddSubtask" />
                                             <select v-model="subtaskForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                 <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
                                             </select>
-                                            <button @click="submitSubtask(task)" :disabled="subtaskForm.processing || !subtaskForm.title" class="rounded-lg bg-accent-rose px-2 py-1 text-xs font-medium text-white hover:bg-pink-500 disabled:opacity-50">Ajouter</button>
+                                            <button @click="submitSubtask(task)" :disabled="subtaskForm.processing || !subtaskForm.title" class="rounded-lg bg-accent-rose px-2 py-1 text-xs font-medium text-white hover:bg-pink-500 disabled:opacity-50">{{ t('add_short') }}</button>
                                             <button @click="cancelAddSubtask" class="text-slate-400 hover:text-slate-600"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg></button>
                                         </div>
                                     </div>
@@ -702,7 +702,7 @@ const onKanbanDragEnd = () => {
                     <div v-else-if="currentTaskView === 'kanban'">
                         <!-- Sort selector for Kanban -->
                         <div class="mb-4 flex items-center gap-2">
-                            <span class="text-xs text-slate-500 dark:text-slate-400">Tri :</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">{{ t('sort_label') }}</span>
                             <select
                                 :value="currentSort"
                                 @change="switchSort($event.target.value)"
@@ -794,7 +794,7 @@ const onKanbanDragEnd = () => {
             <div class="space-y-6">
                 <!-- Stats -->
                 <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Statistiques</h3>
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('statistics_label') }}</h3>
                     <div class="space-y-4">
                         <div>
                             <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('time_spent') }}</div>
@@ -812,7 +812,7 @@ const onKanbanDragEnd = () => {
                             </div>
                         </div>
                         <div v-if="project.client">
-                            <div class="text-sm text-slate-500 dark:text-slate-400">Client</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('client') }}</div>
                             <div class="text-slate-900 dark:text-white">{{ project.client.name }}</div>
                         </div>
                     </div>
@@ -820,7 +820,7 @@ const onKanbanDragEnd = () => {
 
                 <!-- Recent time entries -->
                 <div v-if="project.time_entries && project.time_entries.length > 0" class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">Temps récent</h3>
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">{{ t('recent_time_label') }}</h3>
                     <div class="space-y-3">
                         <div
                             v-for="entry in project.time_entries"
@@ -829,7 +829,7 @@ const onKanbanDragEnd = () => {
                         >
                             <div>
                                 <div class="text-slate-900 dark:text-white">
-                                    {{ entry.task?.title || entry.description || 'Sans description' }}
+                                    {{ entry.task?.title || entry.description || t('without_description') }}
                                 </div>
                                 <div class="text-xs text-slate-400">
                                     {{ new Date(entry.started_at).toLocaleDateString('fr-FR') }}

@@ -24,11 +24,11 @@ const submit = () => {
     });
 };
 
-const reminderLevelNames = {
-    1: 'Rappel',
-    2: 'Relance',
-    3: 'Mise en demeure',
-};
+const reminderLevelNames = computed(() => ({
+    1: t('reminder_level_1'),
+    2: t('reminder_level_2'),
+    3: t('reminder_level_3'),
+}));
 </script>
 
 <template>
@@ -54,19 +54,19 @@ const reminderLevelNames = {
                     :href="route('settings.email.provider')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Fournisseur Email
+                    {{ t('email_provider_tab') }}
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Accès Comptable
+                    {{ t('accountant_access_tab') }}
                 </Link>
                 <Link
                     :href="route('subscription.index')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Abonnement
+                    {{ t('subscription_tab') }}
                 </Link>
             </nav>
         </div>
@@ -77,7 +77,7 @@ const reminderLevelNames = {
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('default_email_message') }}</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Ce message sera utilisé par défaut lors de l'envoi de factures par email.
+                        {{ t('default_email_message_help') }}
                     </p>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -90,7 +90,7 @@ const reminderLevelNames = {
                             v-model="form.default_message"
                             rows="4"
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                            placeholder="Laissez vide pour utiliser le message par défaut du système..."
+                            :placeholder="t('default_email_message_placeholder')"
                         ></textarea>
                     </div>
 
@@ -103,7 +103,7 @@ const reminderLevelNames = {
                             v-model="form.signature"
                             rows="3"
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                            placeholder="Signature qui sera ajoutée à vos emails..."
+                            :placeholder="t('email_signature_placeholder')"
                         ></textarea>
                     </div>
 
@@ -115,7 +115,7 @@ const reminderLevelNames = {
                                 class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                             />
                             <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
-                                {{ t('send_copy_to_self') }} (par défaut)
+                                {{ t('send_copy_to_self') }} {{ t('send_copy_default') }}
                             </span>
                         </label>
                     </div>
@@ -127,9 +127,9 @@ const reminderLevelNames = {
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">Relances de paiement</h2>
+                            <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('payment_reminders') }}</h2>
                             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                Configurez les modèles de relance pour les factures impayées.
+                                {{ t('payment_reminders_description') }}
                             </p>
                         </div>
                         <label class="flex items-center">
@@ -169,7 +169,7 @@ const reminderLevelNames = {
                                         v-model="level.enabled"
                                         class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                                     />
-                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">Activé</span>
+                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">{{ t('enabled_label') }}</span>
                                 </label>
                             </div>
 
@@ -186,7 +186,7 @@ const reminderLevelNames = {
                                             max="365"
                                             class="w-20 rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         />
-                                        <span class="text-sm text-slate-500 dark:text-slate-400">jours</span>
+                                        <span class="text-sm text-slate-500 dark:text-slate-400">{{ t('days_label') }}</span>
                                     </div>
                                 </div>
 
@@ -200,7 +200,7 @@ const reminderLevelNames = {
                                         class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     />
                                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                        Variables: {numero}, {client_nom}, {montant}, {date_echeance}
+                                        {{ t('reminder_subject_variables') }}
                                     </p>
                                 </div>
 
@@ -214,7 +214,7 @@ const reminderLevelNames = {
                                         class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     ></textarea>
                                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                        Variables: {numero}, {client_nom}, {montant}, {date_echeance}, {jours_retard}, {entreprise}
+                                        {{ t('reminder_body_variables') }}
                                     </p>
                                 </div>
                             </div>

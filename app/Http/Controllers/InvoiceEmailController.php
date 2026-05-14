@@ -30,7 +30,7 @@ class InvoiceEmailController extends Controller
 
         // Only send finalized invoices
         if ($invoice->isDraft()) {
-            return back()->withErrors(['invoice' => 'Impossible d\'envoyer une facture en brouillon.']);
+            return back()->withErrors(['invoice' => __('app.invoice_email_flash.error_draft')]);
         }
 
         $validated = $request->validate([
@@ -93,7 +93,7 @@ class InvoiceEmailController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'La facture a été envoyée par email.');
+            return back()->with('success', __('app.invoice_email_flash.sent'));
         } catch (\Exception $e) {
             // Record the failed email
             $invoice->emails()->create([
@@ -107,7 +107,7 @@ class InvoiceEmailController extends Controller
 
             report($e);
 
-            return back()->withErrors(['email' => 'Erreur lors de l\'envoi de l\'email: ' . $e->getMessage()]);
+            return back()->withErrors(['email' => __('app.invoice_email_flash.error_email_send', ['error' => $e->getMessage()])]);
         }
     }
 
@@ -173,7 +173,7 @@ class InvoiceEmailController extends Controller
         $settings = EmailSettings::getOrCreate($request->user());
         $settings->update($validated);
 
-        return back()->with('success', 'Paramètres email mis à jour.');
+        return back()->with('success', __('app.invoice_email_flash.settings_saved'));
     }
 
     /**
@@ -187,12 +187,12 @@ class InvoiceEmailController extends Controller
 
         // Only send reminders for sent/unpaid invoices
         if (!in_array($invoice->status, [Invoice::STATUS_FINALIZED, Invoice::STATUS_SENT])) {
-            return back()->withErrors(['invoice' => 'Impossible d\'envoyer une relance pour cette facture.']);
+            return back()->withErrors(['invoice' => __('app.invoice_email_flash.error_reminder_invalid_status')]);
         }
 
         // Check if invoice is excluded from reminders
         if ($invoice->exclude_from_reminders) {
-            return back()->withErrors(['invoice' => 'Cette facture est exclue des relances.']);
+            return back()->withErrors(['invoice' => __('app.invoice_email_flash.error_reminder_excluded')]);
         }
 
         $validated = $request->validate([
@@ -244,7 +244,7 @@ class InvoiceEmailController extends Controller
                 ]);
             }
 
-            return back()->with('success', 'La relance a été envoyée.');
+            return back()->with('success', __('app.invoice_email_flash.reminder_sent'));
         } catch (\Exception $e) {
             $invoice->emails()->create([
                 'type' => match ($level) {
@@ -262,7 +262,7 @@ class InvoiceEmailController extends Controller
 
             report($e);
 
-            return back()->withErrors(['email' => 'Erreur lors de l\'envoi de la relance.']);
+            return back()->withErrors(['email' => __('app.invoice_email_flash.error_reminder_send')]);
         }
     }
 
@@ -285,8 +285,8 @@ class InvoiceEmailController extends Controller
         $invoice->refresh();
 
         return back()->with('success', $invoice->exclude_from_reminders
-            ? 'Facture exclue des relances automatiques.'
-            : 'Facture incluse dans les relances automatiques.'
+            ? __('app.invoice_email_flash.reminder_excluded')
+            : __('app.invoice_email_flash.reminder_included')
         );
     }
 }

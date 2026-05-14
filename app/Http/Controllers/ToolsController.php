@@ -88,10 +88,34 @@ class ToolsController extends Controller
         ];
 
         $filenames = [
-            'invoice_blank' => 'modele-facture-luxembourg',
-            'aed_checklist' => 'checklist-controle-aed',
-            'reminder_letter' => 'modele-lettre-relance-impaye',
-            'vat_calendar' => 'calendrier-tva-luxembourg-2026',
+            'invoice_blank' => [
+                'fr' => 'modele-facture-luxembourg',
+                'de' => 'rechnungsvorlage-luxemburg',
+                'en' => 'luxembourg-invoice-template',
+                'lb' => 'rechnungsmodell-letzebuerg',
+                'pt' => 'modelo-fatura-luxemburgo',
+            ],
+            'aed_checklist' => [
+                'fr' => 'checklist-controle-aed',
+                'de' => 'checkliste-aed-steuerpruefung',
+                'en' => 'aed-tax-audit-checklist',
+                'lb' => 'checklist-aed-steierpruefung',
+                'pt' => 'checklist-inspecao-fiscal-aed',
+            ],
+            'reminder_letter' => [
+                'fr' => 'modele-lettre-relance-impaye',
+                'de' => 'mahnschreiben-vorlage',
+                'en' => 'payment-reminder-letter-template',
+                'lb' => 'mahnungsmodell',
+                'pt' => 'modelo-carta-cobranca',
+            ],
+            'vat_calendar' => [
+                'fr' => 'calendrier-tva-luxembourg-2026',
+                'de' => 'mwst-kalender-luxemburg-2026',
+                'en' => 'luxembourg-vat-calendar-2026',
+                'lb' => 'tva-kalenner-letzebuerg-2026',
+                'pt' => 'calendario-iva-luxemburgo-2026',
+            ],
         ];
 
         $pdf = Pdf::loadView($views[$template], [
@@ -100,7 +124,9 @@ class ToolsController extends Controller
         $pdf->setPaper('A4', 'portrait');
         $pdf->setOption('isRemoteEnabled', false);
 
-        return $pdf->download($filenames[$template] . '.pdf');
+        $filename = $filenames[$template][$language] ?? $filenames[$template]['fr'];
+
+        return $pdf->download($filename . '.pdf');
     }
 
     /**
@@ -186,7 +212,15 @@ class ToolsController extends Controller
         $pdf->setPaper('A4', 'portrait');
         $pdf->setOption('isRemoteEnabled', false);
 
-        $filename = sprintf('facture-%s.pdf', preg_replace('/[^a-zA-Z0-9-_]/', '_', $validated['invoice']['number']));
+        $invoicePrefixes = [
+            'fr' => 'facture',
+            'de' => 'rechnung',
+            'en' => 'invoice',
+            'lb' => 'rechnung',
+            'pt' => 'fatura',
+        ];
+        $prefix = $invoicePrefixes[$language] ?? 'facture';
+        $filename = sprintf('%s-%s.pdf', $prefix, preg_replace('/[^a-zA-Z0-9-_]/', '_', $validated['invoice']['number']));
 
         return $pdf->download($filename);
     }

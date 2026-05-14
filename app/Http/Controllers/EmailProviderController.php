@@ -98,7 +98,7 @@ class EmailProviderController extends Controller
         }
 
         if (!$settings->provider_config) {
-            return back()->withErrors(['config' => 'Veuillez d\'abord configurer le provider.']);
+            return back()->withErrors(['config' => __('app.email_provider_flash_extra.error_not_configured')]);
         }
 
         $result = $this->emailProviderService->testConfiguration($settings);

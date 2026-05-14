@@ -339,7 +339,7 @@ const proFeatures = computed(() => {
                             <span
                                 class="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-primary-500 text-white"
                             >
-                                Recommandé
+                                {{ t('landing.pricing.popular') }}
                             </span>
                         </div>
 
@@ -467,22 +467,22 @@ const proFeatures = computed(() => {
                                     <th
                                         class="text-left py-4 px-6 text-sm font-semibold text-slate-900"
                                     >
-                                        Fonctionnalité
+                                        {{ t('landing.pricing.comparison.columns.feature') }}
                                     </th>
                                     <th
                                         class="text-center py-4 px-4 text-sm font-semibold text-slate-500 w-24"
                                     >
-                                        Gratuit
+                                        {{ t('landing.pricing.comparison.columns.free') }}
                                     </th>
                                     <th
                                         class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24"
                                     >
-                                        Essentiel
+                                        {{ t('landing.pricing.comparison.columns.essentiel') }}
                                     </th>
                                     <th
                                         class="text-center py-4 px-4 text-sm font-semibold text-primary-500 w-24"
                                     >
-                                        Pro
+                                        {{ t('landing.pricing.comparison.columns.pro') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -493,14 +493,14 @@ const proFeatures = computed(() => {
                                         colspan="4"
                                         class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider"
                                     >
-                                        Limites
+                                        {{ t('landing.pricing.comparison.sections.limits') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Clients
+                                        {{ t('landing.pricing.comparison.rows.clients') }}
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -515,14 +515,14 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Factures / mois
+                                        {{ t('landing.pricing.comparison.rows.invoices_per_month') }}
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -537,14 +537,14 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Devis / mois
+                                        {{ t('landing.pricing.comparison.rows.quotes_per_month') }}
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -559,14 +559,14 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Emails / mois
+                                        {{ t('landing.pricing.comparison.rows.emails_per_month') }}
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -581,14 +581,14 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Dépenses / mois
+                                        {{ t('landing.pricing.comparison.rows.expenses_per_month') }}
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -603,14 +603,14 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Projets actifs
+                                        {{ t('landing.pricing.comparison.rows.active_projects') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg
@@ -635,7 +635,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
 
@@ -645,7 +645,7 @@ const proFeatures = computed(() => {
                                         colspan="4"
                                         class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider"
                                     >
-                                        Fonctionnalités de base
+                                        {{ t('landing.pricing.comparison.sections.base') }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -660,7 +660,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Factures conformes Luxembourg</Link
+                                            >{{ t('landing.pricing.comparison.rows.compliant_invoices') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -721,7 +721,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Devis professionnels</Link
+                                            >{{ t('landing.pricing.comparison.rows.professional_quotes') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -782,7 +782,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Gestion des clients</Link
+                                            >{{ t('landing.pricing.comparison.rows.clients_management') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -835,7 +835,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Avoirs / notes de crédit
+                                        {{ t('landing.pricing.comparison.rows.credit_notes') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg
@@ -895,7 +895,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Suivi des dépenses</Link
+                                            >{{ t('landing.pricing.comparison.rows.expense_tracking') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -948,7 +948,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Authentification 2FA
+                                        {{ t('landing.pricing.comparison.rows.two_fa') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg
@@ -999,7 +999,7 @@ const proFeatures = computed(() => {
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">
                                         <Link :href="localizedRoute('features.show', { slug: 'numerotation-personnalisable' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">
-                                            Numérotation personnalisable
+                                            {{ t('landing.pricing.comparison.rows.custom_numbering') }}
                                         </Link>
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1019,8 +1019,7 @@ const proFeatures = computed(() => {
                                         colspan="4"
                                         class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider"
                                     >
-                                        Fonctionnalités Essentiel &amp;
-                                        supérieur
+                                        {{ t('landing.pricing.comparison.sections.essentiel_plus') }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -1035,7 +1034,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Suivi du temps</Link
+                                            >{{ t('landing.pricing.comparison.rows.time_tracking') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1096,7 +1095,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Gestion de projets</Link
+                                            >{{ t('landing.pricing.comparison.rows.project_management') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1159,7 +1158,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Portail comptable</Link
+                                            >{{ t('landing.pricing.comparison.rows.accountant_portal') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1222,7 +1221,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Exports comptables</Link
+                                            >{{ t('landing.pricing.comparison.rows.accounting_exports') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1283,7 +1282,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Export Peppol</Link
+                                            >{{ t('landing.pricing.comparison.rows.peppol_export') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1304,12 +1303,12 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
                                     >
-                                        10/mois
+                                        {{ t('landing.pricing.comparison.rows.peppol_per_month') }}
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
-                                        Illimité
+                                        {{ t('landing.pricing.unlimited') }}
                                     </td>
                                 </tr>
 
@@ -1319,7 +1318,7 @@ const proFeatures = computed(() => {
                                         colspan="4"
                                         class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider"
                                     >
-                                        Fonctionnalités Pro &amp; supérieur
+                                        {{ t('landing.pricing.comparison.sections.pro_plus') }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -1334,7 +1333,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Module RH</Link
+                                            >{{ t('landing.pricing.comparison.rows.hr_module') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1457,7 +1456,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Export FAIA (contrôle fiscal)</Link
+                                            >{{ t('landing.pricing.comparison.rows.faia_export') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1518,7 +1517,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Export Factur-X</Link
+                                            >{{ t('landing.pricing.comparison.rows.factur_x') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1579,7 +1578,7 @@ const proFeatures = computed(() => {
                                                 )
                                             "
                                             class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2"
-                                            >Transmission Peppol</Link
+                                            >{{ t('landing.pricing.comparison.rows.peppol_transmission') }}</Link
                                         >
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1632,7 +1631,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Archivage PDF/A 10 ans
+                                        {{ t('landing.pricing.comparison.rows.pdfa_archive') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg
@@ -1684,7 +1683,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Relances automatiques impayés
+                                        {{ t('landing.pricing.comparison.rows.auto_reminders') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg
@@ -1736,7 +1735,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Sans mention "faktur.lu"
+                                        {{ t('landing.pricing.comparison.rows.no_branding') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg
@@ -1788,7 +1787,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
-                                        Support email prioritaire
+                                        {{ t('landing.pricing.comparison.rows.priority_support') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg

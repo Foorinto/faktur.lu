@@ -1,32 +1,35 @@
 <x-mail::message>
-# Bom dia {{ $user->name }},
+# {{ __('app.email_greeting_name', ['name' => $user->name]) }}
 
-O seu período de teste gratuito do faktur.lu termina dentro de **{{ $daysRemaining }} {{ $daysRemaining > 1 ? 'dias' : 'dia' }}**.
+{!! __('app.email_trial_ending_intro', [
+    'days' => $daysRemaining,
+    'unit' => $daysRemaining > 1 ? __('app.email_reminder_days') : __('app.email_reminder_day'),
+]) !!}
 
-Durante o período de teste, teve acesso a todas as funcionalidades Pro:
-- Clientes e faturas ilimitados
-- Exportação FAIA para o controlo fiscal
-- Arquivo PDF/A durante 10 anos
-- Lembretes automáticos
+{{ __('app.email_trial_ending_access_intro') }}
+- {{ __('app.email_trial_feature_unlimited') }}
+- {{ __('app.email_trial_feature_faia') }}
+- {{ __('app.email_trial_feature_archive') }}
+- {{ __('app.email_trial_feature_reminders') }}
 
-## Continue a faturar com tranquilidade
+## {{ __('app.email_trial_keep_invoicing') }}
 
-Escolha o plano que corresponde às suas necessidades:
+{{ __('app.email_trial_choose_plan') }}
 
-**Essencial** - 4€/mês
-- 10 clientes, 20 faturas/mês
-- Ideal para começar
+**{{ __('app.email_trial_plan_essential') }}** - {{ __('app.email_trial_price_essential') }}
+- {{ __('app.email_trial_essential_quota') }}
+- {{ __('app.email_trial_essential_tagline') }}
 
-**Pro** - 9€/mês
-- Tudo ilimitado + FAIA + arquivo
-- Para freelancers estabelecidos
+**{{ __('app.email_trial_plan_pro') }}** - {{ __('app.email_trial_price_pro') }}
+- {{ __('app.email_trial_pro_features') }}
+- {{ __('app.email_trial_pro_tagline') }}
 
 <x-mail::button :url="$subscriptionUrl" color="primary">
-Escolher a minha subscrição
+{{ __('app.email_trial_cta_choose') }}
 </x-mail::button>
 
-Se tiver alguma questão, não hesite em contactar-nos através do suporte.
+{{ __('app.email_trial_questions') }}
 
-Com os melhores cumprimentos,<br>
-A equipa faktur.lu
+{{ __('app.email_regards') }}<br>
+{{ __('app.email_team_signature') }}
 </x-mail::message>

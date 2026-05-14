@@ -279,8 +279,8 @@ const restart = () => {
                             :disabled="validating"
                             class="px-6 py-2.5 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl disabled:opacity-50"
                         >
-                            <span v-if="validating">Validation...</span>
-                            <span v-else>Suivant : Aperçu →</span>
+                            <span v-if="validating">{{ t('validating') }}</span>
+                            <span v-else>{{ t('next_preview') }}</span>
                         </button>
                     </div>
                 </div>
@@ -361,7 +361,7 @@ const restart = () => {
                             :disabled="importing || session.valid_rows === 0"
                             class="px-6 py-2.5 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl disabled:opacity-50"
                         >
-                            <span v-if="importing">Import en cours...</span>
+                            <span v-if="importing">{{ t('import_in_progress') }}</span>
                             <span v-else>Importer {{ session.valid_rows }} clients →</span>
                         </button>
                     </div>

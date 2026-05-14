@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ $locale ?? app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Trombinoscope</title>
+    <title>{{ __('app.pdf_trombinoscope_title') }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -110,7 +110,7 @@
 <body>
 <div class="container">
     <div class="header">
-        <div class="title">Trombinoscope</div>
+        <div class="title">{{ __('app.pdf_trombinoscope_title') }}</div>
     </div>
 
     @foreach($grouped as $departmentName => $deptEmployees)

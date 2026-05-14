@@ -132,7 +132,7 @@ const archiveProject = (project, action) => {
 };
 
 const deleteProject = (project) => {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible.')) {
+    if (confirm(t('confirm_delete_project'))) {
         router.delete(route('projects.destroy', project.id));
     }
 };
@@ -184,7 +184,7 @@ const updateProjectStatus = (project, newStatus) => {
             </div>
             <div class="rounded-2xl bg-white p-4 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ stats.done_this_week }}</div>
-                <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('project_status.done') }} (semaine)</div>
+                <div class="text-sm text-slate-500 dark:text-slate-400">{{ t('project_status.done') }} ({{ t('week_label') }})</div>
             </div>
         </div>
 
@@ -236,7 +236,7 @@ const updateProjectStatus = (project, newStatus) => {
                         ? 'text-primary-500'
                         : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
                 ]"
-                :title="isDefaultView ? 'Vue par défaut' : 'Définir comme vue par défaut'"
+                :title="isDefaultView ? t('default_view') : t('set_default_view')"
             >
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
@@ -300,7 +300,7 @@ const updateProjectStatus = (project, newStatus) => {
                             {{ t('project') }}
                         </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white md:table-cell">
-                            Client
+                            {{ t('client') }}
                         </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white lg:table-cell">
                             {{ t('due_date') }}
@@ -312,7 +312,7 @@ const updateProjectStatus = (project, newStatus) => {
                             {{ t('time_spent') }}
                         </th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 dark:text-white">
-                            Statut
+                            {{ t('status') }}
                         </th>
                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                             <span class="sr-only">Actions</span>
@@ -409,7 +409,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 <Link
                                     :href="route('projects.show', project.id)"
                                     class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
-                                    title="Voir"
+                                    :title="t('view_action')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
@@ -419,7 +419,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 <Link
                                     :href="route('projects.edit', project.id)"
                                     class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
-                                    title="Modifier"
+                                    :title="t('edit_action')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
@@ -429,7 +429,7 @@ const updateProjectStatus = (project, newStatus) => {
                                     v-if="!project.is_archived"
                                     @click="archiveProject(project, 'archive')"
                                     class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
-                                    title="Archiver"
+                                    :title="t('archive_action')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M2 3a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1V4a1 1 0 00-1-1H2z" />
@@ -440,7 +440,7 @@ const updateProjectStatus = (project, newStatus) => {
                                     v-else
                                     @click="archiveProject(project, 'unarchive')"
                                     class="rounded-lg p-1.5 text-emerald-400 hover:bg-gray-50 hover:text-emerald-600 dark:hover:bg-gray-800"
-                                    title="Désarchiver"
+                                    :title="t('unarchive_action')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M4.606 12.97a.75.75 0 01-.134 1.051 2.494 2.494 0 00-.93 2.437 2.494 2.494 0 002.437-.93.75.75 0 111.186.918 3.995 3.995 0 01-4.482 1.332.75.75 0 01-.461-.461 3.994 3.994 0 011.332-4.482.75.75 0 011.052.134z" clip-rule="evenodd" />
@@ -450,7 +450,7 @@ const updateProjectStatus = (project, newStatus) => {
                                 <button
                                     @click="deleteProject(project)"
                                     class="rounded-lg p-1.5 text-red-400 hover:bg-gray-50 hover:text-red-600 dark:hover:bg-gray-800"
-                                    title="Supprimer"
+                                    :title="t('delete_action')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
@@ -466,7 +466,7 @@ const updateProjectStatus = (project, newStatus) => {
             <div v-if="props.projects.links && props.projects.links.length > 3" class="border-t border-gray-200 px-4 py-3 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div class="text-sm text-slate-700 dark:text-slate-400">
-                        {{ props.projects.from }} - {{ props.projects.to }} sur {{ props.projects.total }}
+                        {{ props.projects.from }} - {{ props.projects.to }} {{ t('on_label') }} {{ props.projects.total }}
                     </div>
                     <nav class="isolate inline-flex -space-x-px rounded-xl shadow-sm">
                         <template v-for="(link, index) in props.projects.links" :key="index">

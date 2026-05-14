@@ -559,13 +559,13 @@ const submit = () => {
                     </p>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
-                            <InputLabel for="peppol_endpoint_scheme" value="Schéma" />
+                            <InputLabel for="peppol_endpoint_scheme" :value="t('peppol_scheme_label')" />
                             <select
                                 id="peppol_endpoint_scheme"
                                 v-model="form.peppol_endpoint_scheme"
                                 class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                             >
-                                <option value="">Aucun</option>
+                                <option value="">{{ t('option_none') }}</option>
                                 <option v-for="scheme in peppolSchemes" :key="scheme.value" :value="scheme.value">
                                     {{ scheme.label }}
                                 </option>
@@ -643,13 +643,13 @@ const submit = () => {
                             v-model="selectedVatRateOption"
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
-                            <option value="">Automatique (selon scénario TVA)</option>
+                            <option value="">{{ t('vat_automatic_scenario') }}</option>
                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                 {{ rate.label }}
                             </option>
                         </select>
                         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                            Ce taux sera utilisé par défaut pour les factures de ce client.
+                            {{ t('default_vat_rate_help') }}
                         </p>
                         <InputError :message="form.errors.default_vat_rate" class="mt-2" />
                     </div>

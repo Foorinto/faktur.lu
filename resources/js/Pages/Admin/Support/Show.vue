@@ -2,6 +2,9 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     ticket: {
@@ -29,7 +32,7 @@ const form = useForm({
 });
 
 const resendMessage = (messageId) => {
-    if (!confirm('Renvoyer cette réponse par email à l\'utilisateur ?')) return;
+    if (!confirm(t('admin_support_resend_confirm'))) return;
     router.post(route('admin.support.message.resend', [props.ticket.id, messageId]), {}, {
         preserveScroll: true,
     });
@@ -75,7 +78,7 @@ const canMarkResolved = computed(() => {
 });
 
 const deleteTicket = () => {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce ticket ? Cette action est irréversible.')) {
+    if (confirm(t('admin_support_confirm_delete_simple'))) {
         router.delete(route('admin.support.destroy', props.ticket.id));
     }
 };
@@ -115,7 +118,7 @@ const formatDateTime = (dateString) => {
 </script>
 
 <template>
-    <Head :title="ticket.reference + ' - Support Admin'" />
+    <Head :title="t('admin_support_head_show', { reference: ticket.reference })" />
 
     <AdminLayout>
         <template #header>
@@ -140,7 +143,7 @@ const formatDateTime = (dateString) => {
                     </h2>
                     <div class="flex flex-wrap gap-4 text-sm text-slate-400">
                         <span>{{ categories[ticket.category] }}</span>
-                        <span>Créé le {{ formatDateTime(ticket.created_at) }}</span>
+                        <span>{{ t('admin_support_created_on', { date: formatDateTime(ticket.created_at) }) }}</span>
                     </div>
                 </div>
 
@@ -195,7 +198,7 @@ const formatDateTime = (dateString) => {
                                                 : 'text-white'
                                     ]"
                                 >
-                                    {{ message.is_internal ? 'Note interne' : (message.sender_type === 'admin' || message.sender_type === 'App\\Models\\AdminSession' ? 'Admin' : (message.sender?.name || 'Utilisateur')) }}
+                                    {{ message.is_internal ? t('admin_support_internal_note') : (message.sender_type === 'admin' || message.sender_type === 'App\\Models\\AdminSession' ? t('admin_support_admin') : (message.sender?.name || t('admin_support_user'))) }}
                                 </span>
                                 <span class="text-xs text-slate-400 ml-2">
                                     {{ formatDateTime(message.created_at) }}
@@ -211,12 +214,12 @@ const formatDateTime = (dateString) => {
                             <button
                                 @click="resendMessage(message.id)"
                                 class="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-purple-400 transition-colors"
-                                title="Renvoyer cette réponse par email"
+                                :title="t('admin_support_resend_email_title')"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
-                                Renvoyer par email
+                                {{ t('admin_support_resend_email') }}
                             </button>
                         </div>
 
@@ -237,13 +240,13 @@ const formatDateTime = (dateString) => {
 
                 <!-- Reply form -->
                 <div class="rounded-xl bg-slate-800 p-6 border border-slate-700">
-                    <h3 class="text-lg font-medium text-white mb-4">Répondre</h3>
+                    <h3 class="text-lg font-medium text-white mb-4">{{ t('admin_support_reply') }}</h3>
                     <form @submit.prevent="submit">
                         <textarea
                             v-model="form.message"
                             rows="4"
                             class="block w-full rounded-lg border-0 bg-slate-700 py-2 px-3 text-white placeholder:text-slate-400 focus:ring-2 focus:ring-purple-500 sm:text-sm"
-                            placeholder="Votre réponse..."
+                            :placeholder="t('admin_support_reply_placeholder')"
                             required
                         />
 
@@ -254,7 +257,7 @@ const formatDateTime = (dateString) => {
                                     v-model="form.is_internal"
                                     class="rounded border-slate-600 bg-slate-700 text-yellow-600 focus:ring-yellow-500"
                                 />
-                                <span>Note interne (invisible pour l'utilisateur)</span>
+                                <span>{{ t('admin_support_internal_note_label') }}</span>
                             </label>
 
                             <div class="flex gap-2">
@@ -265,14 +268,14 @@ const formatDateTime = (dateString) => {
                                     :disabled="form.processing"
                                     class="inline-flex justify-center items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50 w-full sm:w-auto"
                                 >
-                                    Marquer résolu
+                                    {{ t('admin_support_mark_resolved') }}
                                 </button>
                                 <button
                                     type="submit"
                                     :disabled="form.processing"
                                     class="inline-flex justify-center items-center rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-500 disabled:opacity-50 w-full sm:w-auto"
                                 >
-                                    Envoyer
+                                    {{ t('admin_support_send') }}
                                 </button>
                             </div>
                         </div>
@@ -284,14 +287,14 @@ const formatDateTime = (dateString) => {
             <div class="space-y-6">
                 <!-- User info -->
                 <div class="rounded-xl bg-slate-800 p-6 border border-slate-700">
-                    <h3 class="text-lg font-medium text-white mb-4">Utilisateur</h3>
+                    <h3 class="text-lg font-medium text-white mb-4">{{ t('admin_support_user') }}</h3>
                     <div class="space-y-3">
                         <div>
-                            <div class="text-sm text-slate-400">Nom</div>
+                            <div class="text-sm text-slate-400">{{ t('admin_support_label_name') }}</div>
                             <div class="text-white">{{ ticket.user?.name || '-' }}</div>
                         </div>
                         <div>
-                            <div class="text-sm text-slate-400">Email</div>
+                            <div class="text-sm text-slate-400">{{ t('admin_email') }}</div>
                             <div class="text-white">{{ ticket.user?.email || '-' }}</div>
                         </div>
                     </div>
@@ -299,10 +302,10 @@ const formatDateTime = (dateString) => {
 
                 <!-- Ticket details -->
                 <div class="rounded-xl bg-slate-800 p-6 border border-slate-700">
-                    <h3 class="text-lg font-medium text-white mb-4">Détails</h3>
+                    <h3 class="text-lg font-medium text-white mb-4">{{ t('admin_support_details') }}</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm text-slate-400 mb-1">Statut</label>
+                            <label class="block text-sm text-slate-400 mb-1">{{ t('admin_status') }}</label>
                             <select
                                 v-model="selectedStatus"
                                 @change="updateTicket"
@@ -314,7 +317,7 @@ const formatDateTime = (dateString) => {
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm text-slate-400 mb-1">Priorité</label>
+                            <label class="block text-sm text-slate-400 mb-1">{{ t('admin_support_th_priority') }}</label>
                             <select
                                 v-model="selectedPriority"
                                 @change="updateTicket"
@@ -326,19 +329,19 @@ const formatDateTime = (dateString) => {
                             </select>
                         </div>
                         <div>
-                            <div class="text-sm text-slate-400">Catégorie</div>
+                            <div class="text-sm text-slate-400">{{ t('admin_support_th_category') }}</div>
                             <div class="text-white">{{ categories[ticket.category] }}</div>
                         </div>
                         <div>
-                            <div class="text-sm text-slate-400">Créé le</div>
+                            <div class="text-sm text-slate-400">{{ t('admin_support_created_label') }}</div>
                             <div class="text-white">{{ formatDateTime(ticket.created_at) }}</div>
                         </div>
                         <div v-if="ticket.first_response_at">
-                            <div class="text-sm text-slate-400">1ère réponse</div>
+                            <div class="text-sm text-slate-400">{{ t('admin_support_first_response') }}</div>
                             <div class="text-white">{{ formatDateTime(ticket.first_response_at) }}</div>
                         </div>
                         <div v-if="ticket.resolved_at">
-                            <div class="text-sm text-slate-400">Résolu le</div>
+                            <div class="text-sm text-slate-400">{{ t('admin_support_resolved_on') }}</div>
                             <div class="text-white">{{ formatDateTime(ticket.resolved_at) }}</div>
                         </div>
                     </div>
@@ -346,7 +349,7 @@ const formatDateTime = (dateString) => {
 
                 <!-- Actions dangereuses -->
                 <div class="rounded-xl bg-slate-800 p-6 border border-slate-700">
-                    <h3 class="text-lg font-medium text-white mb-4">Zone de danger</h3>
+                    <h3 class="text-lg font-medium text-white mb-4">{{ t('admin_support_danger_zone') }}</h3>
                     <button
                         type="button"
                         @click="deleteTicket"
@@ -355,7 +358,7 @@ const formatDateTime = (dateString) => {
                         <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
                         </svg>
-                        Supprimer ce ticket
+                        {{ t('admin_support_delete_this_ticket') }}
                     </button>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
+import FlagIcon from '@/Components/FlagIcon.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import axios from 'axios';
@@ -32,11 +33,11 @@ const loadingPreview = ref(false);
 const pdfLocale = ref(props.invoice.buyer_snapshot?.locale || 'fr');
 
 const pdfLanguages = [
-    { value: 'fr', label: 'Français', flag: '🇫🇷' },
-    { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
-    { value: 'en', label: 'English', flag: '🇬🇧' },
-    { value: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
-    { value: 'pt', label: 'Português', flag: '🇵🇹' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' },
+    { value: 'en', label: 'English' },
+    { value: 'lb', label: 'Lëtzebuergesch' },
+    { value: 'pt', label: 'Português' },
 ];
 
 const pdfUrl = computed(() => {
@@ -1036,7 +1037,7 @@ const submitCreditNote = () => {
                                         ? 'bg-primary-100 dark:bg-primary-900'
                                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
-                                    {{ lang.flag }}
+                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
                                 </button>
                             </div>
                             <a

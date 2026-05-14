@@ -112,8 +112,15 @@ class RevenueBookController extends Controller
 
         $pdf->setPaper('A4', 'landscape');
 
+        $prefixes = [
+            'fr' => 'livre-recettes', 'de' => 'einnahmenbuch',
+            'en' => 'revenue-book', 'lb' => 'recettenbuch', 'pt' => 'livro-receitas',
+        ];
+        $prefix = $prefixes[app()->getLocale()] ?? $prefixes['fr'];
+
         $filename = sprintf(
-            'livre-recettes_%s_%s.pdf',
+            '%s_%s_%s.pdf',
+            $prefix,
             Carbon::parse($startDate)->format('Y-m-d'),
             Carbon::parse($endDate)->format('Y-m-d')
         );
@@ -138,8 +145,15 @@ class RevenueBookController extends Controller
             ->orderBy('paid_at', 'asc')
             ->get();
 
+        $prefixes = [
+            'fr' => 'livre-recettes', 'de' => 'einnahmenbuch',
+            'en' => 'revenue-book', 'lb' => 'recettenbuch', 'pt' => 'livro-receitas',
+        ];
+        $prefix = $prefixes[app()->getLocale()] ?? $prefixes['fr'];
+
         $filename = sprintf(
-            'livre-recettes_%s_%s.csv',
+            '%s_%s_%s.csv',
+            $prefix,
             Carbon::parse($startDate)->format('Y-m-d'),
             Carbon::parse($endDate)->format('Y-m-d')
         );

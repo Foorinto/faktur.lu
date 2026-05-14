@@ -7,14 +7,12 @@ import SeoHead from '@/Components/SeoHead.vue';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-
-const lastUpdated = '9 février 2026';
 </script>
 
 <template>
     <SeoHead
-        title="Mentions légales | faktur.lu"
-        description="Mentions légales de faktur.lu : informations sur l'éditeur, l'hébergeur et la propriété intellectuelle du logiciel de facturation."
+        :title="t('legal_mentions_seo_title')"
+        :description="t('legal_mentions_seo_description')"
         canonical-path="/mentions-legales"
     />
 
@@ -22,108 +20,108 @@ const lastUpdated = '9 février 2026';
         <!-- Content -->
         <div class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 lg:p-12">
-                <h1 class="text-3xl font-bold text-slate-900 mb-2">Mentions légales</h1>
-                <p class="text-sm text-slate-500 mb-8">Dernière mise à jour : {{ lastUpdated }}</p>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ t('legal_mentions_title') }}</h1>
+                <p class="text-sm text-slate-500 mb-8">{{ t('legal_mentions_last_updated_label') }} {{ t('legal_mentions_last_updated_date') }}</p>
 
                 <!-- Table des matières -->
                 <nav class="mb-10 p-4 bg-slate-50 rounded-xl">
-                    <h2 class="font-semibold text-slate-900 mb-3">Sommaire</h2>
+                    <h2 class="font-semibold text-slate-900 mb-3">{{ t('legal_mentions_toc_title') }}</h2>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#editeur" class="text-primary-500 hover:underline">1. Éditeur du site</a></li>
-                        <li><a href="#hebergeur" class="text-primary-500 hover:underline">2. Hébergeur</a></li>
-                        <li><a href="#propriete" class="text-primary-500 hover:underline">3. Propriété intellectuelle</a></li>
-                        <li><a href="#donnees" class="text-primary-500 hover:underline">4. Protection des données</a></li>
-                        <li><a href="#cookies" class="text-primary-500 hover:underline">5. Cookies</a></li>
-                        <li><a href="#contact" class="text-primary-500 hover:underline">6. Contact</a></li>
+                        <li><a href="#editeur" class="text-primary-500 hover:underline">{{ t('legal_mentions_toc_1') }}</a></li>
+                        <li><a href="#hebergeur" class="text-primary-500 hover:underline">{{ t('legal_mentions_toc_2') }}</a></li>
+                        <li><a href="#propriete" class="text-primary-500 hover:underline">{{ t('legal_mentions_toc_3') }}</a></li>
+                        <li><a href="#donnees" class="text-primary-500 hover:underline">{{ t('legal_mentions_toc_4') }}</a></li>
+                        <li><a href="#cookies" class="text-primary-500 hover:underline">{{ t('legal_mentions_toc_5') }}</a></li>
+                        <li><a href="#contact" class="text-primary-500 hover:underline">{{ t('legal_mentions_toc_6') }}</a></li>
                     </ul>
                 </nav>
 
                 <div class="prose prose-slate max-w-none">
                     <!-- 1. Éditeur -->
                     <section id="editeur" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">1. Éditeur du site</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s1_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Le site <strong>faktur.lu</strong> est édité par :
+                            {{ t('legal_mentions_s1_intro_before') }} <strong>faktur.lu</strong> {{ t('legal_mentions_s1_intro_after') }}
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>Raison sociale :</strong> Alexandre Beaudier</li>
-                                <li><strong>Forme juridique :</strong> Entreprise individuelle</li>
-                                <li><strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
-                                <li><strong>Numéro RCS Luxembourg :</strong> A46648</li>
-                                <li><strong>Numéro de TVA intracommunautaire :</strong> LU37176916</li>
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
-                                <li><strong>Directeur de la publication :</strong> Alexandre Beaudier</li>
+                                <li><strong>{{ t('legal_mentions_s1_label_company') }}</strong> {{ t('legal_mentions_s1_value_company') }}</li>
+                                <li><strong>{{ t('legal_mentions_s1_label_legal_form') }}</strong> {{ t('legal_mentions_s1_value_legal_form') }}</li>
+                                <li><strong>{{ t('legal_mentions_s1_label_address') }}</strong> {{ t('legal_mentions_s1_value_address') }}</li>
+                                <li><strong>{{ t('legal_mentions_s1_label_rcs') }}</strong> {{ t('legal_mentions_s1_value_rcs') }}</li>
+                                <li><strong>{{ t('legal_mentions_s1_label_vat') }}</strong> {{ t('legal_mentions_s1_value_vat') }}</li>
+                                <li><strong>{{ t('legal_mentions_s1_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_mentions_s1_label_publication_director') }}</strong> {{ t('legal_mentions_s1_value_publication_director') }}</li>
                             </ul>
                         </div>
                     </section>
 
                     <!-- 2. Hébergeur -->
                     <section id="hebergeur" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">2. Hébergeur</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s2_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Le site faktur.lu est hébergé par :
+                            {{ t('legal_mentions_s2_intro') }}
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>Nom :</strong> o2switch</li>
-                                <li><strong>Adresse :</strong> Chemin des Pardiaux, 63000 Clermont-Ferrand, France</li>
-                                <li><strong>Site web :</strong> <a href="https://www.o2switch.fr" target="_blank" rel="noopener" class="text-primary-500">www.o2switch.fr</a></li>
+                                <li><strong>{{ t('legal_mentions_s2_label_name') }}</strong> {{ t('legal_mentions_s2_value_name') }}</li>
+                                <li><strong>{{ t('legal_mentions_s2_label_address') }}</strong> {{ t('legal_mentions_s2_value_address') }}</li>
+                                <li><strong>{{ t('legal_mentions_s2_label_website') }}</strong> <a href="https://www.o2switch.fr" target="_blank" rel="noopener" class="text-primary-500">www.o2switch.fr</a></li>
                             </ul>
                         </div>
                     </section>
 
                     <!-- 3. Propriété intellectuelle -->
                     <section id="propriete" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">3. Propriété intellectuelle</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s3_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            L'ensemble du contenu du site faktur.lu (textes, images, graphismes, logo, icônes, logiciels, etc.) est la propriété exclusive de Alexandre Beaudier ou de ses partenaires, sauf mention contraire.
+                            {{ t('legal_mentions_s3_p1') }}
                         </p>
                         <p class="text-slate-600 mb-4">
-                            Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans l'autorisation écrite préalable de Alexandre Beaudier.
+                            {{ t('legal_mentions_s3_p2') }}
                         </p>
                         <p class="text-slate-600">
-                            Toute exploitation non autorisée du site ou de l'un des éléments qu'il contient sera considérée comme constitutive d'une contrefaçon et poursuivie conformément aux dispositions du droit luxembourgeois.
+                            {{ t('legal_mentions_s3_p3') }}
                         </p>
                     </section>
 
                     <!-- 4. Protection des données -->
                     <section id="donnees" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">4. Protection des données personnelles</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s4_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi luxembourgeoise du 1er août 2018 relative à la protection des données personnelles, vous disposez de droits sur vos données personnelles.
+                            {{ t('legal_mentions_s4_p1') }}
                         </p>
                         <p class="text-slate-600 mb-4">
-                            Pour plus d'informations sur le traitement de vos données et l'exercice de vos droits, veuillez consulter notre
-                            <Link :href="localizedRoute('legal.privacy')" class="text-primary-500 hover:underline">Politique de confidentialité</Link>.
+                            {{ t('legal_mentions_s4_p2_before_link') }}
+                            <Link :href="localizedRoute('legal.privacy')" class="text-primary-500 hover:underline">{{ t('legal_mentions_s4_p2_link_text') }}</Link>{{ t('legal_mentions_s4_p2_after_link') }}
                         </p>
                         <p class="text-slate-600">
-                            <strong>Autorité de contrôle :</strong> Commission Nationale pour la Protection des Données (CNPD)<br>
+                            <strong>{{ t('legal_mentions_s4_authority_label') }}</strong> {{ t('legal_mentions_s4_authority_value') }}<br>
                             <a href="https://cnpd.public.lu" target="_blank" rel="noopener" class="text-primary-500">https://cnpd.public.lu</a>
                         </p>
                     </section>
 
                     <!-- 5. Cookies -->
                     <section id="cookies" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">5. Cookies</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s5_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Le site faktur.lu utilise des cookies pour assurer son bon fonctionnement et améliorer l'expérience utilisateur.
+                            {{ t('legal_mentions_s5_p1') }}
                         </p>
                         <p class="text-slate-600">
-                            Pour en savoir plus sur les cookies utilisés et gérer vos préférences, consultez notre
-                            <Link :href="localizedRoute('legal.cookies')" class="text-primary-500 hover:underline">Politique relative aux cookies</Link>.
+                            {{ t('legal_mentions_s5_p2_before_link') }}
+                            <Link :href="localizedRoute('legal.cookies')" class="text-primary-500 hover:underline">{{ t('legal_mentions_s5_p2_link_text') }}</Link>{{ t('legal_mentions_s5_p2_after_link') }}
                         </p>
                     </section>
 
                     <!-- 6. Contact -->
                     <section id="contact">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">6. Contact</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s6_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Pour toute question concernant ces mentions légales, vous pouvez nous contacter :
+                            {{ t('legal_mentions_s6_p') }}
                         </p>
                         <ul class="text-slate-600 space-y-1">
-                            <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
-                            <li><strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
+                            <li><strong>{{ t('legal_mentions_s6_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                            <li><strong>{{ t('legal_mentions_s6_label_address') }}</strong> {{ t('legal_mentions_s6_value_address') }}</li>
                         </ul>
                     </section>
                 </div>
@@ -131,11 +129,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-primary-500">Politique de confidentialité</Link>
+                <Link :href="localizedRoute('legal.privacy')" class="text-slate-600 hover:text-primary-500">{{ t('legal_mentions_link_privacy') }}</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-primary-500">Conditions générales</Link>
+                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-primary-500">{{ t('legal_mentions_link_terms') }}</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">{{ t('legal_mentions_link_cookies') }}</Link>
             </div>
         </div>
     </MarketingLayout>

@@ -1,11 +1,11 @@
 <x-mail::message>
-# Réponse à votre demande de support
+# {{ __('app.email_support_reply_heading') }}
 
-Bonjour {{ $ticket->user->name }},
+{{ __('app.email_greeting_name', ['name' => $ticket->user->name]) }}
 
-Vous avez reçu une réponse concernant votre demande **{{ $ticket->reference }}** :
+{!! __('app.email_support_reply_received', ['reference' => $ticket->reference]) !!}
 
-**Sujet :** {{ $ticket->subject }}
+**{{ __('app.email_support_reply_subject') }}** {{ $ticket->subject }}
 
 ---
 
@@ -14,11 +14,11 @@ Vous avez reçu une réponse concernant votre demande **{{ $ticket->reference }}
 ---
 
 <x-mail::button :url="$ticketUrl">
-Voir et répondre
+{{ __('app.email_support_reply_cta') }}
 </x-mail::button>
 
-Vous pouvez consulter l'historique complet et répondre directement depuis votre espace.
+{{ __('app.email_support_reply_history') }}
 
-Cordialement,<br>
-L'équipe {{ config('app.name') }}
+{{ __('app.email_regards') }}<br>
+{{ __('app.email_support_team_signature', ['app' => config('app.name')]) }}
 </x-mail::message>

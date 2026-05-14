@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ $locale ?? app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Récapitulatif fiscal {{ $year }}</title>
+    <title>{{ __('app.pdf_fiscal_summary_title') }} {{ $year }}</title>
     <style>
         * {
             margin: 0;
@@ -208,18 +208,18 @@
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <div class="title">Récapitulatif fiscal</div>
-                <div class="subtitle">Année {{ $year }}</div>
+                <div class="title">{{ __('app.pdf_fiscal_summary_title') }}</div>
+                <div class="subtitle">{{ __('app.pdf_fiscal_summary_year', ['year' => $year]) }}</div>
             </div>
             <div class="header-right">
                 @if($settings)
                     <div class="company-name">{{ $settings->company_name }}</div>
                     <div class="company-info">
                         @if($settings->matricule)
-                            Matricule: {{ $settings->matricule }}<br>
+                            {{ __('app.pdf_matricule_label') }}: {{ $settings->matricule }}<br>
                         @endif
                         @if($settings->vat_number)
-                            N° TVA: {{ $settings->vat_number }}
+                            {{ __('app.pdf_vat_number_label') }}: {{ $settings->vat_number }}
                         @endif
                     </div>
                 @endif
@@ -229,19 +229,19 @@
         <!-- KPI Summary -->
         <div class="summary">
             <div class="summary-box">
-                <div class="summary-label">CA HT</div>
+                <div class="summary-label">{{ __('app.pdf_kpi_revenue_ht') }}</div>
                 <div class="summary-value">{{ number_format($summary['revenue']['total_ht'], 2, ',', ' ') }} €</div>
             </div>
             <div class="summary-box">
-                <div class="summary-label">Dépenses HT</div>
+                <div class="summary-label">{{ __('app.pdf_kpi_expenses_ht') }}</div>
                 <div class="summary-value">{{ number_format($summary['expenses']['total_ht'], 2, ',', ' ') }} €</div>
             </div>
             <div class="summary-box">
-                <div class="summary-label">TVA nette</div>
+                <div class="summary-label">{{ __('app.pdf_kpi_vat_net') }}</div>
                 <div class="summary-value">{{ number_format($summary['vat']['balance'], 2, ',', ' ') }} €</div>
             </div>
             <div class="summary-box">
-                <div class="summary-label">Bénéfice imposable</div>
+                <div class="summary-label">{{ __('app.pdf_kpi_taxable_profit') }}</div>
                 <div class="summary-value {{ $summary['net_profit'] >= 0 ? 'positive' : 'negative' }}">
                     {{ number_format($summary['net_profit'], 2, ',', ' ') }} €
                 </div>
@@ -249,17 +249,30 @@
         </div>
 
         <!-- Monthly Revenue -->
-        <div class="section-title">Revenus mensuels</div>
+        <div class="section-title">{{ __('app.pdf_monthly_revenue') }}</div>
         <table>
             <thead>
                 <tr>
-                    <th>Mois</th>
-                    <th class="right">CA HT</th>
+                    <th>{{ __('app.pdf_month') }}</th>
+                    <th class="right">{{ __('app.pdf_kpi_revenue_ht') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @php
-                    $months = [1=>'Janvier',2=>'Février',3=>'Mars',4=>'Avril',5=>'Mai',6=>'Juin',7=>'Juillet',8=>'Août',9=>'Septembre',10=>'Octobre',11=>'Novembre',12=>'Décembre'];
+                    $months = [
+                        1 => __('app.pdf_month_jan'),
+                        2 => __('app.pdf_month_feb'),
+                        3 => __('app.pdf_month_mar'),
+                        4 => __('app.pdf_month_apr'),
+                        5 => __('app.pdf_month_may'),
+                        6 => __('app.pdf_month_jun'),
+                        7 => __('app.pdf_month_jul'),
+                        8 => __('app.pdf_month_aug'),
+                        9 => __('app.pdf_month_sep'),
+                        10 => __('app.pdf_month_oct'),
+                        11 => __('app.pdf_month_nov'),
+                        12 => __('app.pdf_month_dec'),
+                    ];
                 @endphp
                 @foreach($summary['revenue']['by_month'] as $month => $amount)
                 <tr>
@@ -270,22 +283,22 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td>Total ({{ $summary['revenue']['invoice_count'] }} facture{{ $summary['revenue']['invoice_count'] > 1 ? 's' : '' }})</td>
+                    <td>{{ __('app.pdf_total_invoices_count', ['count' => $summary['revenue']['invoice_count'], 'plural' => $summary['revenue']['invoice_count'] > 1 ? 's' : '']) }}</td>
                     <td class="number">{{ number_format($summary['revenue']['total_ht'], 2, ',', ' ') }} €</td>
                 </tr>
             </tfoot>
         </table>
 
         <!-- Expenses by Category -->
-        <div class="section-title">Dépenses par catégorie</div>
+        <div class="section-title">{{ __('app.pdf_expenses_by_category') }}</div>
         <table>
             <thead>
                 <tr>
-                    <th>Catégorie</th>
-                    <th>Ligne Form. 152</th>
-                    <th class="right">HT</th>
-                    <th class="right">TVA déd.</th>
-                    <th class="right">Nb</th>
+                    <th>{{ __('app.pdf_category') }}</th>
+                    <th>{{ __('app.pdf_form152_line') }}</th>
+                    <th class="right">{{ __('app.pdf_ht_short') }}</th>
+                    <th class="right">{{ __('app.pdf_vat_deductible_short') }}</th>
+                    <th class="right">{{ __('app.pdf_count_short') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -300,7 +313,7 @@
                 @empty
                 <tr>
                     <td colspan="5" style="text-align: center; padding: 5mm; color: #6b7280;">
-                        Aucune dépense enregistrée.
+                        {{ __('app.pdf_no_expenses') }}
                     </td>
                 </tr>
                 @endforelse
@@ -308,7 +321,7 @@
             @if(count($summary['expenses']['by_category']) > 0)
             <tfoot>
                 <tr>
-                    <td colspan="2">Total</td>
+                    <td colspan="2">{{ __('app.pdf_total') }}</td>
                     <td class="number">{{ number_format($summary['expenses']['total_ht'], 2, ',', ' ') }} €</td>
                     <td class="number">{{ number_format($summary['expenses']['total_vat_deductible'], 2, ',', ' ') }} €</td>
                     <td></td>
@@ -318,21 +331,21 @@
         </table>
 
         <!-- VAT Summary -->
-        <div class="section-title">Récapitulatif TVA</div>
+        <div class="section-title">{{ __('app.pdf_vat_summary_title') }}</div>
         <table>
             <tbody>
                 <tr>
-                    <td>TVA collectée (factures)</td>
+                    <td>{{ __('app.pdf_vat_collected') }}</td>
                     <td class="number">{{ number_format($summary['vat']['collected'], 2, ',', ' ') }} €</td>
                 </tr>
                 <tr>
-                    <td>TVA déductible (dépenses)</td>
+                    <td>{{ __('app.pdf_vat_deductible') }}</td>
                     <td class="number">{{ number_format($summary['vat']['deductible'], 2, ',', ' ') }} €</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td>Solde TVA</td>
+                    <td>{{ __('app.pdf_vat_balance') }}</td>
                     <td class="number" style="color: {{ $summary['vat']['balance'] >= 0 ? '#059669' : '#dc2626' }};">
                         {{ number_format($summary['vat']['balance'], 2, ',', ' ') }} €
                     </td>
@@ -341,13 +354,13 @@
         </table>
 
         @if(count($summary['revenue']['vat_breakdown']) > 0)
-        <div class="section-title">Ventilation TVA par taux</div>
+        <div class="section-title">{{ __('app.pdf_vat_breakdown_by_rate') }}</div>
         <table>
             <thead>
                 <tr>
-                    <th>Taux</th>
-                    <th class="right">Base HT</th>
-                    <th class="right">Montant TVA</th>
+                    <th>{{ __('app.pdf_rate') }}</th>
+                    <th class="right">{{ __('app.pdf_base_ht') }}</th>
+                    <th class="right">{{ __('app.pdf_vat_amount') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -364,15 +377,13 @@
 
         <!-- Disclaimer -->
         <div class="disclaimer">
-            ⚠ Document de synthèse à usage interne — non importable directement dans taxx.lu ou MyGuichet.lu.
-            Utilisez les montants ci-dessus pour remplir manuellement votre déclaration ou transmettez ce document à votre comptable.
-            Ce récapitulatif ne remplace pas un avis professionnel.
+            {{ __('app.pdf_disclaimer') }}
         </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        Document généré le {{ $generatedAt->format('d/m/Y à H:i') }} | Page <span class="page-number"></span>
+        {{ __('app.pdf_generated_on', ['date' => $generatedAt->format('d/m/Y H:i')]) }} | {{ __('app.pdf_page') }} <span class="page-number"></span>
     </div>
 </body>
 </html>

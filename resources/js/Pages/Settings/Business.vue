@@ -225,8 +225,8 @@ const dynamicVatMentionOptions = computed(() => {
     }
 
     // Add static options
-    options.push({ value: 'none', label: 'Aucune mention' });
-    options.push({ value: 'other', label: 'Autre (texte personnalisé)' });
+    options.push({ value: 'none', label: t('business_settings_no_footer_option') });
+    options.push({ value: 'other', label: t('business_settings_other_footer_option') });
 
     return options;
 });

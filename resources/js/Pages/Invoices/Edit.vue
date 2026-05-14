@@ -5,6 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
+import FlagIcon from '@/Components/FlagIcon.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import axios from 'axios';
@@ -62,11 +63,11 @@ const editingItemId = ref(null);
 const pdfLocale = ref(props.invoice.client?.locale || 'fr');
 
 const pdfLanguages = [
-    { value: 'fr', label: 'Français', flag: '🇫🇷' },
-    { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
-    { value: 'en', label: 'English', flag: '🇬🇧' },
-    { value: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
-    { value: 'pt', label: 'Português', flag: '🇵🇹' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' },
+    { value: 'en', label: 'English' },
+    { value: 'lb', label: 'Lëtzebuergesch' },
+    { value: 'pt', label: 'Português' },
 ];
 
 const selectedPdfLanguage = computed(() => {
@@ -467,15 +468,15 @@ const openPreview = () => {
                         <div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
                             <div class="flex items-center gap-2 mb-3">
                                 <input id="enable_retention_edit" type="checkbox" v-model="showRetention" class="rounded border-gray-300 text-primary-500 focus:ring-primary-500" />
-                                <label for="enable_retention_edit" class="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">Retenue de garantie (BTP)</label>
+                                <label for="enable_retention_edit" class="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">{{ t('retention_section_title') }}</label>
                             </div>
                             <div v-if="showRetention" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <InputLabel for="retention_rate_edit" value="Pourcentage retenu (%)" />
+                                    <InputLabel for="retention_rate_edit" :value="t('retention_percentage_label')" />
                                     <input id="retention_rate_edit" v-model="form.retention_guarantee_rate" type="number" step="0.01" min="0" max="100" placeholder="5" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                                 </div>
                                 <div>
-                                    <InputLabel for="retention_release_edit" value="Date de libération" />
+                                    <InputLabel for="retention_release_edit" :value="t('retention_release_date_label')" />
                                     <input id="retention_release_edit" v-model="form.retention_release_date" type="date" class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                                 </div>
                             </div>
@@ -803,7 +804,7 @@ const openPreview = () => {
                                         ? 'bg-primary-100 dark:bg-primary-900'
                                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
-                                    {{ lang.flag }}
+                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
                                 </button>
                             </div>
                             <a

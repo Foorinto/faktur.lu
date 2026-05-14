@@ -2,6 +2,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BillingNav from "@/Components/BillingNav.vue";
 import EmptyState from "@/Components/EmptyState.vue";
+import FlagIcon from "@/Components/FlagIcon.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, watch, computed, onMounted } from "vue";
 import axios from "axios";
@@ -35,11 +36,11 @@ const previewInvoice = ref(null);
 const pdfLocale = ref("fr");
 
 const pdfLanguages = [
-    { value: "fr", label: "Français", flag: "🇫🇷" },
-    { value: "de", label: "Deutsch", flag: "🇩🇪" },
-    { value: "en", label: "English", flag: "🇬🇧" },
-    { value: "lb", label: "Lëtzebuergesch", flag: "🇱🇺" },
-    { value: "pt", label: "Português", flag: "🇵🇹" },
+    { value: "fr", label: "Français" },
+    { value: "de", label: "Deutsch" },
+    { value: "en", label: "English" },
+    { value: "lb", label: "Lëtzebuergesch" },
+    { value: "pt", label: "Português" },
 ];
 
 const pdfUrl = computed(() => {
@@ -183,7 +184,7 @@ const canChangeStatus = (invoice) => {
 };
 
 const duplicateInvoice = (invoice) => {
-    if (!confirm("Dupliquer cette facture en nouveau brouillon ? Vous pourrez ensuite l'éditer avant de la finaliser.")) return;
+    if (!confirm(t('duplicate_invoice_confirm'))) return;
     router.post(route("invoices.duplicate", invoice.id), {}, {
         preserveScroll: true,
     });
@@ -340,9 +341,9 @@ const changeStatus = (invoice, newStatus) => {
                         <td colspan="7">
                             <EmptyState
                                 icon="document"
-                                title="Aucune facture pour le moment"
-                                description="Créez votre première facture conforme au Luxembourg en quelques clics."
-                                cta-label="Créer ma première facture"
+                                :title="t('no_invoices_yet')"
+                                :description="t('no_invoices_yet_description')"
+                                :cta-label="t('create_first_invoice')"
                                 :cta-href="route('invoices.create')"
                             />
                         </td>
@@ -628,7 +629,7 @@ const changeStatus = (invoice, newStatus) => {
                                     @click="duplicateInvoice(invoice)"
                                     type="button"
                                     class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors"
-                                    title="Dupliquer en brouillon"
+                                    :title="t('duplicate_to_draft')"
                                 >
                                     <svg
                                         class="h-5 w-5"
@@ -760,7 +761,7 @@ const changeStatus = (invoice, newStatus) => {
                                             : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'
                                     "
                                 >
-                                    {{ lang.flag }}
+                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
                                 </button>
                             </div>
                             <a

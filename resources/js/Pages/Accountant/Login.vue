@@ -1,5 +1,8 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
 
 const form = useForm({
     email: '',
@@ -15,7 +18,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Connexion Comptable" />
+    <Head :title="t('accountant_login_title')" />
 
     <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-surface-dark">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -25,10 +28,10 @@ const submit = () => {
                 </svg>
             </div>
             <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                Espace Comptable
+                {{ t('accountant_login_title') }}
             </h2>
             <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-                Accédez aux exports comptables de vos clients
+                {{ t('accountant_login_subtitle') }}
             </p>
         </div>
 
@@ -53,7 +56,7 @@ const submit = () => {
 
                     <div>
                         <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Mot de passe
+                            {{ t('password') }}
                         </label>
                         <input
                             id="password"
@@ -74,7 +77,7 @@ const submit = () => {
                             class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                         />
                         <label for="remember" class="ml-2 block text-sm text-slate-700 dark:text-slate-300">
-                            Se souvenir de moi
+                            {{ t('accountant_remember_me') }}
                         </label>
                     </div>
 
@@ -87,7 +90,7 @@ const submit = () => {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Se connecter
+                        {{ t('accountant_signin') }}
                     </button>
                 </form>
             </div>

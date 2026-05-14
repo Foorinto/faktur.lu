@@ -83,7 +83,7 @@ const getStatusColor = (status) => {
                     </span>
                     <div>
                         <p class="text-sm font-medium text-primary-900 dark:text-primary-100">
-                            {{ runningTimer.description || t('timer_running') || 'Timer en cours' }}
+                            {{ runningTimer.description || t('timer_running') }}
                         </p>
                         <p v-if="runningTimer.project_name" class="text-xs text-primary-600 dark:text-primary-400">
                             {{ runningTimer.project_name }}
@@ -153,7 +153,7 @@ const getStatusColor = (status) => {
         <!-- Recent Projects -->
         <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('recent_projects') || 'Projets récents' }}</h2>
+                <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('recent_projects') }}</h2>
                 <Link
                     :href="route('collaborator.projects.index')"
                     class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400"
@@ -163,7 +163,7 @@ const getStatusColor = (status) => {
             </div>
 
             <div v-if="projects.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                {{ t('no_projects') || 'Aucun projet pour le moment.' }}
+                {{ t('no_projects') }}
             </div>
 
             <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -190,7 +190,7 @@ const getStatusColor = (status) => {
                             </div>
                             <div class="text-right">
                                 <p class="text-sm text-slate-500 dark:text-slate-400">
-                                    {{ project.completed_tasks_count }}/{{ project.tasks_count }} {{ t('tasks') || 'tâches' }}
+                                    {{ project.completed_tasks_count }}/{{ project.tasks_count }} {{ t('tasks') }}
                                 </p>
                                 <div v-if="project.tasks_count > 0" class="mt-1 w-20 h-1.5 bg-slate-200 dark:bg-gray-800 rounded-full overflow-hidden">
                                     <div

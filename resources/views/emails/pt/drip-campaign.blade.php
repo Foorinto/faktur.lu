@@ -1,16 +1,16 @@
 <x-mail::message>
-# Bom dia {{ $user->name }},
+# {{ __('app.email_greeting_name', ['name' => $user->name]) }}
 
 {!! $body !!}
 
 <x-mail::button :url="config('app.url')" color="primary">
-Aceder ao faktur.lu
+{{ __('app.email_drip_cta_access') }}
 </x-mail::button>
 
-Com os melhores cumprimentos,<br>
-A equipa faktur.lu
+{{ __('app.email_regards') }}<br>
+{{ __('app.email_team_signature') }}
 
 <small style="color: #999;">
-<a href="{{ $unsubscribeUrl }}" style="color: #999;">Cancelar a subscrição destes emails</a>
+<a href="{{ $unsubscribeUrl }}" style="color: #999;">{{ __('app.email_drip_unsubscribe') }}</a>
 </small>
 </x-mail::message>

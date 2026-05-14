@@ -25,19 +25,19 @@ class PeppolExportController extends Controller
 
         // Check invoice is finalized
         if ($invoice->isDraft()) {
-            return back()->with('error', 'Seules les factures finalisées peuvent être exportées au format Peppol.');
+            return back()->with('error', __('app.peppol_export_flash.error_requires_finalized'));
         }
 
         // Check seller has Peppol endpoint
         $seller = $invoice->seller;
         if (empty($seller['peppol_endpoint_id']) || empty($seller['peppol_endpoint_scheme'])) {
-            return back()->with('error', 'Veuillez configurer votre identifiant Peppol dans les paramètres entreprise.');
+            return back()->with('error', __('app.peppol_export_flash.error_seller_endpoint'));
         }
 
         // Check buyer has Peppol endpoint
         $buyer = $invoice->buyer;
         if (empty($buyer['peppol_endpoint_id']) || empty($buyer['peppol_endpoint_scheme'])) {
-            return back()->with('error', 'Le client doit avoir un identifiant Peppol configuré.');
+            return back()->with('error', __('app.peppol_export_flash.error_buyer_endpoint'));
         }
 
         // Generate XML

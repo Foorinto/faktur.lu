@@ -225,6 +225,19 @@ onUnmounted(() => {
 
 const billingPeriod = ref('monthly');
 
+const freeCardFeatures = computed(() => {
+    const items = t('landing.pricing.plans.free.card_features');
+    return Array.isArray(items) ? items : [];
+});
+const essentielCardFeatures = computed(() => {
+    const items = t('landing.pricing.plans.essentiel.card_features');
+    return Array.isArray(items) ? items : [];
+});
+const proCardFeatures = computed(() => {
+    const items = t('landing.pricing.plans.pro.card_features');
+    return Array.isArray(items) ? items : [];
+});
+
 // Quick highlight features (6 main ones for hero area)
 const highlightFeatures = computed(() => [
     {
@@ -848,7 +861,7 @@ const toggleFaq = (index) => {
                                 billingPeriod === 'monthly' ? 'text-slate-900' : 'text-slate-500'
                             ]"
                         >
-                            Mensuel
+                            {{ t('landing.pricing.monthly') }}
                         </span>
                         <button
                             @click="billingPeriod = billingPeriod === 'monthly' ? 'yearly' : 'monthly'"
@@ -870,13 +883,13 @@ const toggleFaq = (index) => {
                                 billingPeriod === 'yearly' ? 'text-slate-900' : 'text-slate-500'
                             ]"
                         >
-                            Annuel
+                            {{ t('landing.pricing.yearly') }}
                         </span>
                         <span
                             v-if="billingPeriod === 'yearly'"
                             class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#00f5d4]/20 text-[#00a896]"
                         >
-                            -17% (2 mois offerts)
+                            {{ t('landing.pricing.discount_yearly') }} ({{ t('landing.pricing.two_months_free') }})
                         </span>
                     </div>
 
@@ -885,7 +898,7 @@ const toggleFaq = (index) => {
                         <svg class="w-5 h-5 text-[#00f5d4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span class="text-sm font-medium">14 jours d'essai gratuit • Sans carte bancaire</span>
+                        <span class="text-sm font-medium">{{ t('trial_14_days') }} • {{ t('landing.pricing.no_credit_card') }}</span>
                     </div>
                 </div>
 
@@ -893,43 +906,23 @@ const toggleFaq = (index) => {
                     <!-- Plan Gratuit -->
                     <div class="bg-slate-50 rounded-3xl p-8 flex flex-col">
                         <div class="mb-6">
-                            <h3 class="text-xl font-semibold text-slate-900">Gratuit</h3>
-                            <p class="text-slate-500 mt-1">Pour découvrir faktur.lu</p>
+                            <h3 class="text-xl font-semibold text-slate-900">{{ t('landing.pricing.plans.free.name') }}</h3>
+                            <p class="text-slate-500 mt-1">{{ t('landing.pricing.plans.free.description') }}</p>
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-slate-900">0€</span>
-                            <span class="text-slate-500 ml-1">/mois</span>
+                            <span class="text-slate-500 ml-1">{{ t('landing.pricing.per_month') }}</span>
                         </div>
                         <ul class="space-y-4 mb-8 flex-1">
-                            <li class="flex items-center gap-3 text-slate-700">
+                            <li
+                                v-for="(feature, idx) in freeCardFeatures"
+                                :key="'free-' + idx"
+                                class="flex items-center gap-3 text-slate-700"
+                            >
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                5 clients
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                3 factures / mois
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                2 devis / mois
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Conforme Luxembourg
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Numérotation personnalisable
+                                {{ feature }}
                             </li>
                         </ul>
                         <Link
@@ -937,7 +930,7 @@ const toggleFaq = (index) => {
                             :href="route('register')"
                             class="block w-full py-3.5 text-center font-semibold text-slate-700 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
                         >
-                            Créer un compte
+                            {{ t('landing.pricing.create_account') }}
                         </Link>
                     </div>
 
@@ -945,53 +938,27 @@ const toggleFaq = (index) => {
                     <div class="bg-slate-50 rounded-3xl p-8 flex flex-col">
                         <div class="mb-6">
                             <h3 class="text-xl font-semibold text-slate-900">{{ t('landing.pricing.plans.essentiel.name') }}</h3>
-                            <p class="text-slate-500 mt-1">Pour les freelances et indépendants</p>
+                            <p class="text-slate-500 mt-1">{{ t('landing.pricing.plans.essentiel.description') }}</p>
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-slate-900">
                                 {{ billingPeriod === 'yearly' ? '4,17€' : '5€' }}
                             </span>
-                            <span class="text-slate-500 ml-1">/mois HT</span>
+                            <span class="text-slate-500 ml-1">{{ t('landing.pricing.per_month_excl_vat') }}</span>
                             <p v-if="billingPeriod === 'yearly'" class="text-sm text-slate-500 mt-1">
-                                50€ facturé annuellement
+                                50€ {{ t('landing.pricing.billed_yearly') }}
                             </p>
                         </div>
                         <ul class="space-y-4 mb-8 flex-1">
-                            <li class="flex items-center gap-3 text-slate-700">
+                            <li
+                                v-for="(feature, idx) in essentielCardFeatures"
+                                :key="'essentiel-' + idx"
+                                class="flex items-center gap-3 text-slate-700"
+                            >
                                 <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                100 clients
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                50 factures / mois
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Projets &amp; suivi du temps
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Portail comptable &amp; exports
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Export Peppol (10/mois)
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-700">
-                                <svg class="w-5 h-5 text-[#00f5d4] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Numérotation personnalisable
+                                {{ feature }}
                             </li>
                         </ul>
                         <Link
@@ -1010,53 +977,27 @@ const toggleFaq = (index) => {
                         </div>
                         <div class="mb-6">
                             <h3 class="text-xl font-semibold text-white">{{ t('landing.pricing.plans.pro.name') }}</h3>
-                            <p class="text-white/70 mt-1">Pour les PME en croissance</p>
+                            <p class="text-white/70 mt-1">{{ t('landing.pricing.plans.pro.description') }}</p>
                         </div>
                         <div class="mb-6">
                             <span class="text-4xl font-bold text-white">
                                 {{ billingPeriod === 'yearly' ? '12,50€' : '15€' }}
                             </span>
-                            <span class="text-white/70 ml-1">/mois HT</span>
+                            <span class="text-white/70 ml-1">{{ t('landing.pricing.per_month_excl_vat') }}</span>
                             <p v-if="billingPeriod === 'yearly'" class="text-sm text-white/60 mt-1">
-                                150€ facturé annuellement
+                                150€ {{ t('landing.pricing.billed_yearly') }}
                             </p>
                         </div>
                         <ul class="space-y-4 mb-8 flex-1">
-                            <li class="flex items-center gap-3 text-white/90">
+                            <li
+                                v-for="(feature, idx) in proCardFeatures"
+                                :key="'pro-' + idx"
+                                class="flex items-center gap-3 text-white/90"
+                            >
                                 <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
-                                Tout illimité
-                            </li>
-                            <li class="flex items-center gap-3 text-white/90">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Module RH &amp; CRM
-                            </li>
-                            <li class="flex items-center gap-3 text-white/90">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Export FAIA &amp; Factur-X
-                            </li>
-                            <li class="flex items-center gap-3 text-white/90">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Relances automatiques
-                            </li>
-                            <li class="flex items-center gap-3 text-white/90">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Sans branding faktur.lu
-                            </li>
-                            <li class="flex items-center gap-3 text-white/90">
-                                <svg class="w-5 h-5 text-[#fee440] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Numérotation personnalisable
+                                {{ feature }}
                             </li>
                         </ul>
                         <Link
@@ -1073,82 +1014,70 @@ const toggleFaq = (index) => {
                 <!-- Feature Comparison Table -->
                 <div class="mt-16 max-w-5xl mx-auto">
                     <h3 class="text-xl font-semibold text-slate-900 text-center mb-8">
-                        Comparatif détaillé des fonctionnalités
+                        {{ t('landing.pricing.feature_comparison') }}
                     </h3>
                     <div class="bg-white rounded-2xl border border-gray-200 overflow-x-auto">
                         <table class="w-full min-w-[640px]">
                             <thead>
                                 <tr class="bg-slate-50 border-b border-gray-200">
-                                    <th class="text-left py-4 px-6 text-sm font-semibold text-slate-900">Fonctionnalité</th>
-                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-500 w-24">Gratuit</th>
-                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24">Essentiel</th>
-                                    <th class="text-center py-4 px-4 text-sm font-semibold text-primary-500 w-24">Pro</th>
+                                    <th class="text-left py-4 px-6 text-sm font-semibold text-slate-900">{{ t('landing.pricing.comparison.columns.feature') }}</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-500 w-24">{{ t('landing.pricing.comparison.columns.free') }}</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-slate-900 w-24">{{ t('landing.pricing.comparison.columns.essentiel') }}</th>
+                                    <th class="text-center py-4 px-4 text-sm font-semibold text-primary-500 w-24">{{ t('landing.pricing.comparison.columns.pro') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
                                 <!-- Limites -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Limites</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ t('landing.pricing.comparison.sections.limits') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Clients</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.clients') }}</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">100</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Factures / mois</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.invoices_per_month') }}</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">3</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">50</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Devis / mois</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.quotes_per_month') }}</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">2</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">20</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Emails / mois</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.emails_per_month') }}</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">100</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Dépenses / mois</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.expenses_per_month') }}</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">30</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Projets actifs</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.active_projects') }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     </td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
 
                                 <!-- Fonctionnalités de base -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités de base</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ t('landing.pricing.comparison.sections.base') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'facturation' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Factures conformes Luxembourg</Link></td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'devis' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Devis professionnels</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'facturation' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.compliant_invoices') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1160,7 +1089,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'clients' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Gestion des clients</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'devis' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.professional_quotes') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1172,7 +1101,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Avoirs / notes de crédit</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'clients' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.clients_management') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1184,7 +1113,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'depenses' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Suivi des dépenses</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.credit_notes') }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1196,7 +1125,19 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Authentification 2FA</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'depenses' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.expense_tracking') }}</Link></td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.two_fa') }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
@@ -1210,7 +1151,7 @@ const toggleFaq = (index) => {
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">
                                         <Link :href="localizedRoute('features.show', { slug: 'numerotation-personnalisable' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">
-                                            Numérotation personnalisable
+                                            {{ t('landing.pricing.comparison.rows.custom_numbering') }}
                                         </Link>
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -1226,10 +1167,10 @@ const toggleFaq = (index) => {
 
                                 <!-- Fonctionnalités Essentiel+ -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Essentiel &amp; supérieur</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ t('landing.pricing.comparison.sections.essentiel_plus') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'suivi-temps' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Suivi du temps</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'suivi-temps' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.time_tracking') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1241,7 +1182,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'gestion-projets' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Gestion de projets</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'gestion-projets' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.project_management') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1253,7 +1194,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Portail comptable</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.accountant_portal') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1265,7 +1206,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Exports comptables</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.accounting_exports') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1277,32 +1218,20 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Export Peppol</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.peppol_export') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
-                                    <td class="py-3 px-4 text-center text-sm text-slate-600">10/mois</td>
-                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">Illimité</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">{{ t('landing.pricing.comparison.rows.peppol_per_month') }}</td>
+                                    <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>
 
                                 <!-- Fonctionnalités Pro -->
                                 <tr class="bg-slate-50/50">
-                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">Fonctionnalités Pro &amp; supérieur</td>
+                                    <td colspan="4" class="py-3 px-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ t('landing.pricing.comparison.sections.pro_plus') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'module-rh' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Module RH</Link></td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'crm' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">CRM (interactions, rappels, tags)</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'module-rh' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.hr_module') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1314,19 +1243,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'faia' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Export FAIA (contrôle fiscal)</Link></td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'factur-x' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Export Factur-X</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'crm' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.crm') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1338,7 +1255,19 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">Transmission Peppol</Link></td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'faia' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.faia_export') }}</Link></td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'factur-x' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.factur_x') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1350,7 +1279,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Archivage PDF/A 10 ans</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'peppol' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.peppol_transmission') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1362,7 +1291,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Relances automatiques impayés</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.pdfa_archive') }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1374,7 +1303,7 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Sans mention "faktur.lu"</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.auto_reminders') }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1386,7 +1315,19 @@ const toggleFaq = (index) => {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-6 text-sm text-slate-700">Support email prioritaire</td>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.no_branding') }}</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.priority_support') }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </td>
@@ -1493,10 +1434,10 @@ const toggleFaq = (index) => {
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-slate-900 mb-4">
-                        Derniers articles du blog
+                        {{ t('landing.pricing.latest_blog.heading') }}
                     </h2>
                     <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                        Conseils et actualités sur la facturation et la fiscalité au Luxembourg
+                        {{ t('landing.pricing.latest_blog.subtitle') }}
                     </p>
                 </div>
 
@@ -1540,7 +1481,7 @@ const toggleFaq = (index) => {
                                     <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    {{ post.reading_time }} min de lecture
+                                    {{ post.reading_time }} {{ t('landing.pricing.latest_blog.reading_time') }}
                                 </div>
                             </div>
                         </Link>
@@ -1552,7 +1493,7 @@ const toggleFaq = (index) => {
                         :href="localizedRoute('blog.index')"
                         class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-slate-700 font-semibold rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-colors"
                     >
-                        Voir tous les articles
+                        {{ t('landing.pricing.latest_blog.view_all') }}
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>

@@ -104,7 +104,7 @@ const submitManualEntry = () => {
 };
 
 const deleteEntry = (entryId) => {
-    if (confirm(t('confirm_delete') || 'Confirmer la suppression ?')) {
+    if (confirm(t('confirm_delete'))) {
         router.delete(route('collaborator.time.destroy', entryId), {
             preserveScroll: true,
         });
@@ -154,7 +154,7 @@ const formatDate = (isoString) => {
                     </span>
                     <div>
                         <p class="text-sm font-medium text-slate-900 dark:text-white">
-                            {{ runningTimer.description || t('no_description') || 'Sans description' }}
+                            {{ runningTimer.description || t('no_description') }}
                         </p>
                         <p v-if="runningTimer.project_name" class="text-xs text-slate-500 dark:text-slate-400">
                             {{ runningTimer.project_name }}
@@ -180,7 +180,7 @@ const formatDate = (isoString) => {
                     <input
                         v-model="timerForm.description"
                         type="text"
-                        :placeholder="t('what_are_you_working_on') || 'Sur quoi travaillez-vous ?'"
+                        :placeholder="t('what_are_you_working_on')"
                         class="flex-1 rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                     />
                     <select
@@ -188,7 +188,7 @@ const formatDate = (isoString) => {
                         @change="timerForm.task_id = ''"
                         class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                     >
-                        <option value="">{{ t('no_project') || 'Aucun projet' }}</option>
+                        <option value="">{{ t('no_project') }}</option>
                         <option v-for="project in projects" :key="project.id" :value="project.id">
                             {{ project.title }}
                         </option>
@@ -198,7 +198,7 @@ const formatDate = (isoString) => {
                         v-model="timerForm.task_id"
                         class="rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                     >
-                        <option value="">{{ t('task') || 'Tâche' }} ({{ t('optional') || 'optionnel' }})</option>
+                        <option value="">{{ t('task') }} ({{ t('optional') }})</option>
                         <option v-for="task in timerTasks" :key="task.id" :value="task.id">
                             {{ task.title }}
                         </option>
@@ -229,13 +229,13 @@ const formatDate = (isoString) => {
                         ? 'bg-white dark:bg-gray-800 text-slate-900 dark:text-white shadow-sm'
                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'"
                 >
-                    {{ p === 'today' ? (t('today') || "Aujourd'hui") : p === 'week' ? (t('this_week') || 'Cette semaine') : (t('this_month') || 'Ce mois') }}
+                    {{ p === 'today' ? t('today') : p === 'week' ? t('this_week') : t('this_month') }}
                 </button>
             </div>
 
             <div class="flex items-center gap-3">
                 <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    {{ t('total') || 'Total' }}: <strong>{{ totalHours }}h</strong>
+                    {{ t('total') }}: <strong>{{ totalHours }}h</strong>
                 </span>
                 <button
                     @click="showManualEntry = !showManualEntry"
@@ -244,14 +244,14 @@ const formatDate = (isoString) => {
                     <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    {{ t('manual_entry') || 'Saisie manuelle' }}
+                    {{ t('manual_entry') }}
                 </button>
             </div>
         </div>
 
         <!-- Manual Entry Form -->
         <div v-if="showManualEntry" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-6 mb-6">
-            <h3 class="text-sm font-medium text-slate-900 dark:text-white mb-4">{{ t('manual_entry') || 'Saisie manuelle' }}</h3>
+            <h3 class="text-sm font-medium text-slate-900 dark:text-white mb-4">{{ t('manual_entry') }}</h3>
             <form @submit.prevent="submitManualEntry" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -269,19 +269,19 @@ const formatDate = (isoString) => {
                             @change="manualForm.task_id = ''"
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                         >
-                            <option value="">{{ t('no_project') || 'Aucun projet' }}</option>
+                            <option value="">{{ t('no_project') }}</option>
                             <option v-for="project in projects" :key="project.id" :value="project.id">
                                 {{ project.title }}
                             </option>
                         </select>
                     </div>
                     <div v-if="manualTasks.length">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('task') || 'Tâche' }}</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('task') }}</label>
                         <select
                             v-model="manualForm.task_id"
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                         >
-                            <option value="">{{ t('optional') || 'Optionnel' }}</option>
+                            <option value="">{{ t('optional') }}</option>
                             <option v-for="task in manualTasks" :key="task.id" :value="task.id">
                                 {{ task.title }}
                             </option>
@@ -297,7 +297,7 @@ const formatDate = (isoString) => {
                         />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('end') || 'Fin' }} *</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('end') }} *</label>
                         <input
                             v-model="manualForm.stopped_at"
                             type="datetime-local"
@@ -330,7 +330,7 @@ const formatDate = (isoString) => {
                 <svg class="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p class="text-sm">{{ t('no_time_entries') || 'Aucune entrée de temps pour cette période.' }}</p>
+                <p class="text-sm">{{ t('no_time_entries') }}</p>
             </div>
 
             <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -339,10 +339,10 @@ const formatDate = (isoString) => {
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center space-x-2">
                                 <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
-                                    {{ entry.description || t('no_description') || 'Sans description' }}
+                                    {{ entry.description || t('no_description') }}
                                 </p>
                                 <span v-if="entry.is_running" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400">
-                                    {{ t('running') || 'En cours' }}
+                                    {{ t('running') }}
                                 </span>
                             </div>
                             <div class="flex items-center space-x-3 mt-1 text-xs text-slate-500 dark:text-slate-400">

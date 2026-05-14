@@ -391,7 +391,7 @@ if (form.items.length === 0) {
                             v-model="form.vat_mention"
                             class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                         >
-                            <option value="">Mention par défaut</option>
+                            <option value="">{{ t('default_mention_option') }}</option>
                             <option v-for="option in vatMentionOptions" :key="option.value" :value="option.value">
                                 {{ option.label }}
                             </option>

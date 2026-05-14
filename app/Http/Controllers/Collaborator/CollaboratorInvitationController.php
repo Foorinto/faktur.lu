@@ -58,7 +58,7 @@ class CollaboratorInvitationController extends Controller
             ->first();
 
         if (!$invitation || $invitation->isExpired()) {
-            return back()->withErrors(['token' => 'Invitation invalide ou expirée.']);
+            return back()->withErrors(['token' => __('app.collaborator_flash.error_invitation_invalid')]);
         }
 
         $user = User::where('email', $invitation->email)->first();
@@ -69,7 +69,7 @@ class CollaboratorInvitationController extends Controller
             ]);
 
             if (!Hash::check($request->password, $user->password)) {
-                return back()->withErrors(['password' => 'Mot de passe incorrect.']);
+                return back()->withErrors(['password' => __('app.collaborator_flash.error_password_incorrect')]);
             }
         } else {
             $request->validate([
@@ -107,6 +107,6 @@ class CollaboratorInvitationController extends Controller
         Auth::login($user, true);
 
         return redirect()->route('collaborator.dashboard')
-            ->with('success', 'Bienvenue dans l\'organisation ' . $invitation->organization->name . ' !');
+            ->with('success', __('app.collaborator_flash.welcome', ['organization' => $invitation->organization->name]));
     }
 }

@@ -29,28 +29,17 @@ class ReminderMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $isPt = $this->resolveLocale() === 'pt';
+        app()->setLocale($this->resolveLocale());
 
-        if ($isPt) {
-            $levelLabel = match ($this->level) {
-                1 => 'Lembrete',
-                2 => 'Aviso',
-                3 => 'Notificação formal',
-                default => 'Lembrete',
-            };
-            $subject = "{$levelLabel}: Fatura {$this->invoice->number}";
-        } else {
-            $levelLabel = match ($this->level) {
-                1 => 'Rappel',
-                2 => 'Relance',
-                3 => 'Mise en demeure',
-                default => 'Rappel',
-            };
-            $subject = "{$levelLabel} : Facture {$this->invoice->number}";
-        }
+        $key = match ($this->level) {
+            1 => 'app.mail_subject_reminder_level1',
+            2 => 'app.mail_subject_reminder_level2',
+            3 => 'app.mail_subject_reminder_level3',
+            default => 'app.mail_subject_reminder_level1',
+        };
 
         return new Envelope(
-            subject: $subject,
+            subject: __($key, ['number' => $this->invoice->number]),
         );
     }
 

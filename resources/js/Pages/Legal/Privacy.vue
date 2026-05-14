@@ -7,14 +7,12 @@ import SeoHead from '@/Components/SeoHead.vue';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-
-const lastUpdated = '9 février 2026';
 </script>
 
 <template>
     <SeoHead
-        title="Politique de confidentialité | faktur.lu"
-        description="Politique de confidentialité de faktur.lu. Comment nous collectons, utilisons et protégeons vos données personnelles conformément au RGPD."
+        :title="t('legal_privacy_seo_title')"
+        :description="t('legal_privacy_seo_description')"
         canonical-path="/confidentialite"
     />
 
@@ -22,129 +20,129 @@ const lastUpdated = '9 février 2026';
         <!-- Content -->
         <div class="mx-auto max-w-4xl px-6 lg:px-8 py-12">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 lg:p-12">
-                <h1 class="text-3xl font-bold text-slate-900 mb-2">Politique de confidentialité</h1>
-                <p class="text-sm text-slate-500 mb-8">Dernière mise à jour : {{ lastUpdated }}</p>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ t('legal_privacy_h1_title') }}</h1>
+                <p class="text-sm text-slate-500 mb-8">{{ t('legal_privacy_last_updated_label') }} {{ t('legal_privacy_last_updated_date') }}</p>
 
                 <!-- Table des matières -->
                 <nav class="mb-10 p-4 bg-slate-50 rounded-xl">
-                    <h2 class="font-semibold text-slate-900 mb-3">Sommaire</h2>
+                    <h2 class="font-semibold text-slate-900 mb-3">{{ t('legal_privacy_toc_title') }}</h2>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#introduction" class="text-primary-500 hover:underline">1. Introduction</a></li>
-                        <li><a href="#responsable" class="text-primary-500 hover:underline">2. Responsable du traitement</a></li>
-                        <li><a href="#donnees-collectees" class="text-primary-500 hover:underline">3. Données collectées</a></li>
-                        <li><a href="#finalites" class="text-primary-500 hover:underline">4. Finalités et bases légales</a></li>
-                        <li><a href="#conservation" class="text-primary-500 hover:underline">5. Durée de conservation</a></li>
-                        <li><a href="#destinataires" class="text-primary-500 hover:underline">6. Destinataires des données</a></li>
-                        <li><a href="#transferts" class="text-primary-500 hover:underline">7. Transferts hors UE</a></li>
-                        <li><a href="#droits" class="text-primary-500 hover:underline">8. Vos droits</a></li>
-                        <li><a href="#securite" class="text-primary-500 hover:underline">9. Sécurité</a></li>
-                        <li><a href="#modifications" class="text-primary-500 hover:underline">10. Modifications</a></li>
-                        <li><a href="#contact" class="text-primary-500 hover:underline">11. Contact</a></li>
+                        <li><a href="#introduction" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_1') }}</a></li>
+                        <li><a href="#responsable" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_2') }}</a></li>
+                        <li><a href="#donnees-collectees" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_3') }}</a></li>
+                        <li><a href="#finalites" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_4') }}</a></li>
+                        <li><a href="#conservation" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_5') }}</a></li>
+                        <li><a href="#destinataires" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_6') }}</a></li>
+                        <li><a href="#transferts" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_7') }}</a></li>
+                        <li><a href="#droits" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_8') }}</a></li>
+                        <li><a href="#securite" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_9') }}</a></li>
+                        <li><a href="#modifications" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_10') }}</a></li>
+                        <li><a href="#contact" class="text-primary-500 hover:underline">{{ t('legal_privacy_toc_11') }}</a></li>
                     </ul>
                 </nav>
 
                 <div class="prose prose-slate max-w-none">
                     <!-- 1. Introduction -->
                     <section id="introduction" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">1. Introduction</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s1_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            La présente politique de confidentialité décrit comment faktur.lu collecte, utilise et protège vos données personnelles conformément au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 (RGPD) et à la loi luxembourgeoise du 1er août 2018 portant organisation de la Commission nationale pour la protection des données.
+                            {{ t('legal_privacy_s1_p1') }}
                         </p>
                         <p class="text-slate-600">
-                            En utilisant notre service, vous acceptez les pratiques décrites dans cette politique.
+                            {{ t('legal_privacy_s1_p2') }}
                         </p>
                     </section>
 
                     <!-- 2. Responsable du traitement -->
                     <section id="responsable" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">2. Responsable du traitement</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s2_title') }}</h2>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>Responsable :</strong> Alexandre Beaudier</li>
-                                <li><strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
-                                <li><strong>Numéro RCS :</strong> A46648</li>
+                                <li><strong>{{ t('legal_privacy_s2_label_responsable') }}</strong> {{ t('legal_privacy_s2_value_responsable') }}</li>
+                                <li><strong>{{ t('legal_privacy_s2_label_address') }}</strong> {{ t('legal_privacy_s2_value_address') }}</li>
+                                <li><strong>{{ t('legal_privacy_s2_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_privacy_s2_label_rcs') }}</strong> {{ t('legal_privacy_s2_value_rcs') }}</li>
                             </ul>
                         </div>
                     </section>
 
                     <!-- 3. Données collectées -->
                     <section id="donnees-collectees" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">3. Données collectées</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s3_title') }}</h2>
 
-                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">3.1 Données de compte</h3>
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_privacy_s3_1_title') }}</h3>
                         <ul class="list-disc list-inside text-slate-600 space-y-1 mb-4">
-                            <li>Nom et prénom</li>
-                            <li>Adresse email</li>
-                            <li>Mot de passe (chiffré)</li>
-                            <li>Informations d'entreprise (raison sociale, adresse, TVA, RCS)</li>
+                            <li>{{ t('legal_privacy_s3_1_li1') }}</li>
+                            <li>{{ t('legal_privacy_s3_1_li2') }}</li>
+                            <li>{{ t('legal_privacy_s3_1_li3') }}</li>
+                            <li>{{ t('legal_privacy_s3_1_li4') }}</li>
                         </ul>
 
-                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">3.2 Données de facturation</h3>
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_privacy_s3_2_title') }}</h3>
                         <ul class="list-disc list-inside text-slate-600 space-y-1 mb-4">
-                            <li>Informations sur vos clients (nom, adresse, TVA)</li>
-                            <li>Factures, devis et avoirs créés</li>
-                            <li>Historique des transactions</li>
+                            <li>{{ t('legal_privacy_s3_2_li1') }}</li>
+                            <li>{{ t('legal_privacy_s3_2_li2') }}</li>
+                            <li>{{ t('legal_privacy_s3_2_li3') }}</li>
                         </ul>
 
-                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">3.3 Données de paiement</h3>
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_privacy_s3_3_title') }}</h3>
                         <p class="text-slate-600 mb-4">
-                            Les paiements sont traités par notre partenaire <strong>Stripe</strong>. Nous ne stockons pas directement vos données de carte bancaire. Stripe agit en tant que sous-traitant certifié PCI-DSS.
+                            {{ t('legal_privacy_s3_3_p1') }}
                         </p>
 
-                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">3.4 Données techniques</h3>
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_privacy_s3_4_title') }}</h3>
                         <ul class="list-disc list-inside text-slate-600 space-y-1">
-                            <li>Adresse IP</li>
-                            <li>Type de navigateur et système d'exploitation</li>
-                            <li>Pages visitées et actions effectuées</li>
-                            <li>Horodatage des connexions</li>
+                            <li>{{ t('legal_privacy_s3_4_li1') }}</li>
+                            <li>{{ t('legal_privacy_s3_4_li2') }}</li>
+                            <li>{{ t('legal_privacy_s3_4_li3') }}</li>
+                            <li>{{ t('legal_privacy_s3_4_li4') }}</li>
                         </ul>
                     </section>
 
                     <!-- 4. Finalités et bases légales -->
                     <section id="finalites" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">4. Finalités et bases légales du traitement</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s4_title') }}</h2>
 
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm border-collapse">
                                 <thead>
                                     <tr class="bg-slate-100">
-                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Finalité</th>
-                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Base légale</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">{{ t('legal_privacy_s4_th_purpose') }}</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">{{ t('legal_privacy_s4_th_legal_basis') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-slate-600">
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Fourniture du service de facturation</td>
-                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row1_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row1_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Gestion de votre compte utilisateur</td>
-                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row2_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row2_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Facturation et paiement de l'abonnement</td>
-                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row3_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row3_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Support client</td>
-                                        <td class="border border-gray-200 px-4 py-2">Exécution du contrat (Art. 6.1.b RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row4_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row4_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Obligations comptables et fiscales</td>
-                                        <td class="border border-gray-200 px-4 py-2">Obligation légale (Art. 6.1.c RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row5_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row5_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Sécurité et prévention des fraudes</td>
-                                        <td class="border border-gray-200 px-4 py-2">Intérêt légitime (Art. 6.1.f RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row6_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row6_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Amélioration du service</td>
-                                        <td class="border border-gray-200 px-4 py-2">Intérêt légitime (Art. 6.1.f RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row7_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row7_basis') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Communications marketing (si consentement)</td>
-                                        <td class="border border-gray-200 px-4 py-2">Consentement (Art. 6.1.a RGPD)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row8_purpose') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s4_row8_basis') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -153,36 +151,36 @@ const lastUpdated = '9 février 2026';
 
                     <!-- 5. Durée de conservation -->
                     <section id="conservation" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">5. Durée de conservation</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s5_title') }}</h2>
 
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm border-collapse">
                                 <thead>
                                     <tr class="bg-slate-100">
-                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Type de données</th>
-                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">Durée</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">{{ t('legal_privacy_s5_th_type') }}</th>
+                                        <th class="border border-gray-200 px-4 py-2 text-left font-medium">{{ t('legal_privacy_s5_th_duration') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-slate-600">
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Données de compte actif</td>
-                                        <td class="border border-gray-200 px-4 py-2">Durée de la relation contractuelle</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row1_type') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row1_duration') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Données après suppression du compte</td>
-                                        <td class="border border-gray-200 px-4 py-2">30 jours (période de grâce)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row2_type') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row2_duration') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Factures et documents comptables</td>
-                                        <td class="border border-gray-200 px-4 py-2">10 ans (obligation légale luxembourgeoise)</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row3_type') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row3_duration') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Logs de sécurité</td>
-                                        <td class="border border-gray-200 px-4 py-2">12 mois</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row4_type') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row4_duration') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="border border-gray-200 px-4 py-2">Données de paiement (chez Stripe)</td>
-                                        <td class="border border-gray-200 px-4 py-2">Selon politique Stripe</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row5_type') }}</td>
+                                        <td class="border border-gray-200 px-4 py-2">{{ t('legal_privacy_s5_row5_duration') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -191,121 +189,121 @@ const lastUpdated = '9 février 2026';
 
                     <!-- 6. Destinataires -->
                     <section id="destinataires" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">6. Destinataires des données</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s6_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Vos données peuvent être partagées avec les destinataires suivants :
+                            {{ t('legal_privacy_s6_p1') }}
                         </p>
 
-                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">Sous-traitants</h3>
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_privacy_s6_h3_subprocessors') }}</h3>
                         <ul class="list-disc list-inside text-slate-600 space-y-2">
-                            <li><strong>Stripe</strong> (Irlande) - Traitement des paiements</li>
-                            <li><strong>Brevo</strong> (France) - Envoi d'emails transactionnels</li>
-                            <li><strong>o2switch</strong> (France) - Hébergement web</li>
+                            <li><strong>Stripe</strong> {{ t('legal_privacy_s6_sub_stripe') }}</li>
+                            <li><strong>Brevo</strong> {{ t('legal_privacy_s6_sub_brevo') }}</li>
+                            <li><strong>o2switch</strong> {{ t('legal_privacy_s6_sub_o2switch') }}</li>
                         </ul>
 
-                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">Autres destinataires</h3>
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_privacy_s6_h3_other') }}</h3>
                         <ul class="list-disc list-inside text-slate-600 space-y-2">
-                            <li>Votre comptable (si vous utilisez la fonctionnalité d'accès comptable)</li>
-                            <li>Autorités compétentes (sur réquisition légale)</li>
+                            <li>{{ t('legal_privacy_s6_other_li1') }}</li>
+                            <li>{{ t('legal_privacy_s6_other_li2') }}</li>
                         </ul>
                     </section>
 
                     <!-- 7. Transferts hors UE -->
                     <section id="transferts" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">7. Transferts hors Union Européenne</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s7_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Nos sous-traitants principaux sont situés dans l'Union Européenne. Dans le cas où des données seraient transférées en dehors de l'UE, nous nous assurons que des garanties appropriées sont en place :
+                            {{ t('legal_privacy_s7_p1') }}
                         </p>
                         <ul class="list-disc list-inside text-slate-600 space-y-1">
-                            <li>Clauses Contractuelles Types de la Commission Européenne</li>
-                            <li>Décision d'adéquation de la Commission Européenne</li>
-                            <li>Certifications appropriées (ex: Privacy Shield successor frameworks)</li>
+                            <li>{{ t('legal_privacy_s7_li1') }}</li>
+                            <li>{{ t('legal_privacy_s7_li2') }}</li>
+                            <li>{{ t('legal_privacy_s7_li3') }}</li>
                         </ul>
                     </section>
 
                     <!-- 8. Vos droits -->
                     <section id="droits" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">8. Vos droits</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s8_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Conformément au RGPD, vous disposez des droits suivants :
+                            {{ t('legal_privacy_s8_p1') }}
                         </p>
 
                         <div class="space-y-4">
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit d'accès (Art. 15)</h4>
-                                <p class="text-sm text-slate-600">Obtenir une copie de vos données personnelles.</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right1_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right1_desc') }}</p>
                             </div>
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit de rectification (Art. 16)</h4>
-                                <p class="text-sm text-slate-600">Corriger vos données inexactes ou incomplètes.</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right2_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right2_desc') }}</p>
                             </div>
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit à l'effacement (Art. 17)</h4>
-                                <p class="text-sm text-slate-600">Demander la suppression de vos données (sous réserve des obligations légales de conservation).</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right3_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right3_desc') }}</p>
                             </div>
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit à la limitation (Art. 18)</h4>
-                                <p class="text-sm text-slate-600">Limiter le traitement de vos données dans certains cas.</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right4_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right4_desc') }}</p>
                             </div>
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit à la portabilité (Art. 20)</h4>
-                                <p class="text-sm text-slate-600">Recevoir vos données dans un format structuré (export FAIA, CSV).</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right5_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right5_desc') }}</p>
                             </div>
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit d'opposition (Art. 21)</h4>
-                                <p class="text-sm text-slate-600">Vous opposer au traitement basé sur l'intérêt légitime.</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right6_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right6_desc') }}</p>
                             </div>
                             <div class="bg-slate-50 rounded-lg p-4">
-                                <h4 class="font-medium text-slate-800 mb-2">Droit de retirer le consentement</h4>
-                                <p class="text-sm text-slate-600">Retirer votre consentement à tout moment (sans affecter la licéité du traitement antérieur).</p>
+                                <h4 class="font-medium text-slate-800 mb-2">{{ t('legal_privacy_s8_right7_title') }}</h4>
+                                <p class="text-sm text-slate-600">{{ t('legal_privacy_s8_right7_desc') }}</p>
                             </div>
                         </div>
 
                         <p class="text-slate-600 mt-6">
-                            Pour exercer vos droits, contactez-nous à <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a>. Nous répondrons dans un délai d'un mois.
+                            {{ t('legal_privacy_s8_p_contact_before') }} <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a>{{ t('legal_privacy_s8_p_contact_after') }}
                         </p>
 
                         <p class="text-slate-600 mt-4">
-                            <strong>Réclamation :</strong> Vous pouvez introduire une réclamation auprès de la Commission Nationale pour la Protection des Données (CNPD) :
+                            <strong>{{ t('legal_privacy_s8_complaint_label') }}</strong> {{ t('legal_privacy_s8_complaint_text') }}
                             <a href="https://cnpd.public.lu" target="_blank" rel="noopener" class="text-primary-500">https://cnpd.public.lu</a>
                         </p>
                     </section>
 
                     <!-- 9. Sécurité -->
                     <section id="securite" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">9. Sécurité des données</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s9_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Nous mettons en oeuvre des mesures techniques et organisationnelles appropriées pour protéger vos données :
+                            {{ t('legal_privacy_s9_p1') }}
                         </p>
                         <ul class="list-disc list-inside text-slate-600 space-y-1">
-                            <li>Chiffrement des données en transit (TLS/SSL)</li>
-                            <li>Chiffrement des mots de passe (bcrypt)</li>
-                            <li>Authentification à deux facteurs disponible</li>
-                            <li>Journalisation des accès et actions sensibles</li>
-                            <li>Sauvegardes régulières et chiffrées</li>
-                            <li>Contrôle d'accès strict aux données</li>
-                            <li>Hébergement sécurisé en France (UE)</li>
+                            <li>{{ t('legal_privacy_s9_li1') }}</li>
+                            <li>{{ t('legal_privacy_s9_li2') }}</li>
+                            <li>{{ t('legal_privacy_s9_li3') }}</li>
+                            <li>{{ t('legal_privacy_s9_li4') }}</li>
+                            <li>{{ t('legal_privacy_s9_li5') }}</li>
+                            <li>{{ t('legal_privacy_s9_li6') }}</li>
+                            <li>{{ t('legal_privacy_s9_li7') }}</li>
                         </ul>
                     </section>
 
                     <!-- 10. Modifications -->
                     <section id="modifications" class="mb-10">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">10. Modifications de cette politique</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s10_title') }}</h2>
                         <p class="text-slate-600">
-                            Nous pouvons modifier cette politique de confidentialité. En cas de modification substantielle, nous vous en informerons par email ou via une notification sur le service. La date de dernière mise à jour figure en haut de ce document.
+                            {{ t('legal_privacy_s10_p1') }}
                         </p>
                     </section>
 
                     <!-- 11. Contact -->
                     <section id="contact">
-                        <h2 class="text-xl font-semibold text-slate-900 mb-4">11. Contact</h2>
+                        <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_privacy_s11_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            Pour toute question relative à cette politique ou à vos données personnelles :
+                            {{ t('legal_privacy_s11_p1') }}
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>Email :</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
-                                <li><strong>Adresse :</strong> Alexandre Beaudier, 13 Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg</li>
+                                <li><strong>{{ t('legal_privacy_s11_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_privacy_s11_label_address') }}</strong> {{ t('legal_privacy_s11_value_address') }}</li>
                             </ul>
                         </div>
                     </section>
@@ -314,11 +312,11 @@ const lastUpdated = '9 février 2026';
 
             <!-- Other legal links -->
             <div class="mt-8 flex flex-wrap gap-4 justify-center text-sm">
-                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-primary-500">Mentions légales</Link>
+                <Link :href="localizedRoute('legal.mentions')" class="text-slate-600 hover:text-primary-500">{{ t('legal_privacy_link_mentions') }}</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-primary-500">Conditions générales</Link>
+                <Link :href="localizedRoute('legal.terms')" class="text-slate-600 hover:text-primary-500">{{ t('legal_privacy_link_terms') }}</Link>
                 <span class="text-slate-300">|</span>
-                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">Politique cookies</Link>
+                <Link :href="localizedRoute('legal.cookies')" class="text-slate-600 hover:text-primary-500">{{ t('legal_privacy_link_cookies') }}</Link>
             </div>
         </div>
     </MarketingLayout>

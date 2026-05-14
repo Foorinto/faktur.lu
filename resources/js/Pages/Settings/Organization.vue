@@ -64,7 +64,7 @@ const resendInvitation = (invitationId) => {
 };
 
 const cancelInvitation = (invitationId) => {
-    if (confirm(t('confirm_cancel_invitation') || 'Annuler cette invitation ?')) {
+    if (confirm(t('confirm_cancel_invitation'))) {
         router.delete(route('settings.organization.invitation.cancel', invitationId), {
             preserveScroll: true,
         });
@@ -72,7 +72,7 @@ const cancelInvitation = (invitationId) => {
 };
 
 const removeMember = (memberId, memberName) => {
-    if (confirm((t('confirm_remove_member') || 'Retirer ce membre ?') + ` ${memberName}`)) {
+    if (confirm(t('confirm_remove_member') + ` ${memberName}`)) {
         router.delete(route('settings.organization.member.remove', memberId), {
             preserveScroll: true,
         });
@@ -103,7 +103,7 @@ const toggleProjectVisibility = (projectId) => {
             <div v-if="!organization" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 p-6">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white mb-2">{{ t('create_organization') }}</h2>
                 <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">
-                    {{ t('create_organization_description') || 'Créez une organisation pour inviter des collaborateurs à travailler sur vos projets.' }}
+                    {{ t('create_organization_description') }}
                 </p>
 
                 <form @submit.prevent="submitCreate" class="max-w-md space-y-4">
@@ -117,7 +117,7 @@ const toggleProjectVisibility = (projectId) => {
                             type="text"
                             required
                             class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                            :placeholder="t('organization_name_placeholder') || 'Mon entreprise'"
+                            :placeholder="t('organization_name_placeholder')"
                         />
                         <p v-if="createForm.errors.name" class="mt-1 text-sm text-pink-600">{{ createForm.errors.name }}</p>
                     </div>
@@ -226,7 +226,7 @@ const toggleProjectVisibility = (projectId) => {
                                     <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ invitation.email }}</p>
                                     <p v-if="invitation.name" class="text-sm text-slate-500 dark:text-slate-400 truncate">{{ invitation.name }}</p>
                                     <p class="text-xs text-slate-400 mt-1">
-                                        {{ t('sent_on') || 'Envoyée le' }} {{ invitation.created_at }} - {{ t('expires_on') || 'Expire le' }} {{ invitation.expires_at }}
+                                        {{ t('sent_on') }} {{ invitation.created_at }} - {{ t('expires_on') }} {{ invitation.expires_at }}
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-3">
@@ -251,13 +251,13 @@ const toggleProjectVisibility = (projectId) => {
                 <!-- Project Visibility -->
                 <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('project_visibility') || 'Visibilité des projets' }}</h3>
+                        <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('project_visibility') }}</h3>
                         <p class="text-sm text-slate-500 dark:text-slate-400">
-                            {{ t('project_visibility_description') || 'Choisissez quels projets sont visibles par vos collaborateurs.' }}
+                            {{ t('project_visibility_description') }}
                         </p>
                     </div>
                     <div v-if="projects.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                        {{ t('no_active_projects') || 'Aucun projet actif.' }}
+                        {{ t('no_active_projects') }}
                     </div>
                     <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
                         <li v-for="project in projects" :key="project.id" class="px-6 py-3">
@@ -309,7 +309,7 @@ const toggleProjectVisibility = (projectId) => {
 
                             <div>
                                 <label for="invite_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    {{ t('name') }} ({{ t('optional') || 'optionnel' }})
+                                    {{ t('name') }} ({{ t('optional') }})
                                 </label>
                                 <input
                                     id="invite_name"
@@ -336,7 +336,7 @@ const toggleProjectVisibility = (projectId) => {
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    {{ t('send_invitation') || 'Envoyer l\'invitation' }}
+                                    {{ t('send_invitation') }}
                                 </button>
                             </div>
                         </form>

@@ -29,7 +29,7 @@ class InvoiceItemController extends Controller
             'sort_order' => $request->validated('sort_order') ?? ($maxOrder + 1),
         ]);
 
-        return back()->with('success', 'Ligne ajoutée.');
+        return back()->with('success', __('app.invoice_items_flash.created'));
     }
 
     /**
@@ -41,7 +41,7 @@ class InvoiceItemController extends Controller
 
         $item->update($request->validated());
 
-        return back()->with('success', 'Ligne mise à jour.');
+        return back()->with('success', __('app.invoice_items_flash.updated'));
     }
 
     /**
@@ -52,20 +52,20 @@ class InvoiceItemController extends Controller
         abort_unless($item->invoice_id === $invoice->id, 404);
 
         if ($invoice->isImmutable()) {
-            return back()->with('error', 'Impossible de modifier une facture finalisée.');
+            return back()->with('error', __('app.invoice_items_flash.error_finalized'));
         }
 
         $direction = $request->input('direction');
 
         if (!in_array($direction, ['up', 'down'])) {
-            return back()->with('error', 'Direction invalide.');
+            return back()->with('error', __('app.invoice_items_flash.error_invalid_direction'));
         }
 
         $items = $invoice->items()->orderBy('sort_order')->get();
         $currentIndex = $items->search(fn($i) => $i->id === $item->id);
 
         if ($currentIndex === false) {
-            return back()->with('error', 'Ligne non trouvée.');
+            return back()->with('error', __('app.invoice_items_flash.error_not_found'));
         }
 
         $targetIndex = $direction === 'up' ? $currentIndex - 1 : $currentIndex + 1;
@@ -95,11 +95,11 @@ class InvoiceItemController extends Controller
         abort_unless($item->invoice_id === $invoice->id, 404);
 
         if ($invoice->isImmutable()) {
-            return back()->with('error', 'Impossible de modifier une facture finalisée.');
+            return back()->with('error', __('app.invoice_items_flash.error_finalized'));
         }
 
         $item->delete();
 
-        return back()->with('success', 'Ligne supprimée.');
+        return back()->with('success', __('app.invoice_items_flash.deleted'));
     }
 }

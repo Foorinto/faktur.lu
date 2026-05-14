@@ -112,13 +112,13 @@ const submit = () => {
 
             <div class="space-y-4">
                 <div data-tour="project-form-client">
-                    <InputLabel for="client_id" value="Client" />
+                    <InputLabel for="client_id" :value="t('client')" />
                     <select
                         id="client_id"
                         v-model="form.client_id"
                         class="mt-1 block w-full rounded-xl border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
                     >
-                        <option value="">Aucun client</option>
+                        <option value="">{{ t('option_no_client') }}</option>
                         <option v-for="client in clients" :key="client.id" :value="client.id">
                             {{ client.name }}
                         </option>

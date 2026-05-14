@@ -187,12 +187,12 @@ if (form.items.length === 0) {
             <!-- Client selection -->
             <div class="overflow-hidden rounded-xl bg-white shadow-sm border border-gray-200 dark:bg-surface-card dark:border-gray-700">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">Client</h2>
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('client') }}</h2>
                 </div>
                 <div class="px-6 py-4">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div data-tour="invoice-form-client">
-                            <InputLabel for="client_id" value="Client" />
+                            <InputLabel for="client_id" :value="t('client')" />
                             <select
                                 id="client_id"
                                 v-model="form.client_id"
@@ -397,7 +397,7 @@ if (form.items.length === 0) {
                 </div>
                 <div class="px-6 py-4 space-y-4">
                     <div>
-                        <InputLabel for="notes" value="Notes" />
+                        <InputLabel for="notes" :value="t('notes')" />
                         <textarea
                             id="notes"
                             v-model="form.notes"
@@ -460,12 +460,12 @@ if (form.items.length === 0) {
                                 class="rounded border-gray-300 text-primary-500 focus:ring-primary-500"
                             />
                             <label for="enable_retention" class="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">
-                                Retenue de garantie (BTP)
+                                {{ t('retention_section_title') }}
                             </label>
                         </div>
                         <div v-if="showRetention" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <InputLabel for="retention_rate" value="Pourcentage retenu (%)" />
+                                <InputLabel for="retention_rate" :value="t('retention_percentage_label')" />
                                 <input
                                     id="retention_rate"
                                     v-model="form.retention_guarantee_rate"
@@ -478,14 +478,14 @@ if (form.items.length === 0) {
                                 />
                             </div>
                             <div>
-                                <InputLabel for="retention_release" value="Date de libération" />
+                                <InputLabel for="retention_release" :value="t('retention_release_date_label')" />
                                 <input
                                     id="retention_release"
                                     v-model="form.retention_release_date"
                                     type="date"
                                     class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
-                                <p class="mt-1 text-xs text-slate-500">Généralement 1 an après la réception des travaux</p>
+                                <p class="mt-1 text-xs text-slate-500">{{ t('retention_release_date_hint') }}</p>
                             </div>
                         </div>
                     </div>

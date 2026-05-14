@@ -28,16 +28,12 @@ class InvoiceMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $isPt = $this->resolveLocale() === 'pt';
+        app()->setLocale($this->resolveLocale());
 
-        if ($isPt) {
-            $type = $this->invoice->is_credit_note ? 'Nota de Crédito' : 'Fatura';
-        } else {
-            $type = $this->invoice->is_credit_note ? 'Avoir' : 'Facture';
-        }
+        $key = $this->invoice->is_credit_note ? 'app.mail_subject_credit_note' : 'app.mail_subject_invoice';
 
         return new Envelope(
-            subject: "{$type} {$this->invoice->number}",
+            subject: __($key, ['number' => $this->invoice->number]),
         );
     }
 

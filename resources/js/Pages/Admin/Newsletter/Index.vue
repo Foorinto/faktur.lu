@@ -3,7 +3,10 @@ import { ref, watch, computed } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { useTranslations } from '@/Composables/useTranslations';
 import debounce from 'lodash/debounce';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     subscribers: Object,
@@ -72,11 +75,11 @@ const exportUrl = computed(() => {
 
 const sourceLabel = (src) => {
     const labels = {
-        templates_invoice_blank: 'Modèle facture',
-        templates_aed_checklist: 'Checklist AED',
-        templates_reminder_letter: 'Lettre relance',
-        templates_vat_calendar: 'Calendrier TVA',
-        footer: 'Footer',
+        templates_invoice_blank: t('admin_newsletter_source_invoice'),
+        templates_aed_checklist: t('admin_newsletter_source_aed'),
+        templates_reminder_letter: t('admin_newsletter_source_reminder'),
+        templates_vat_calendar: t('admin_newsletter_source_vat'),
+        footer: t('admin_newsletter_source_footer'),
     };
     return labels[src] || src;
 };
@@ -88,7 +91,7 @@ const sourceBadgeClass = (src) => {
 };
 
 const deleteSubscriber = (subscriber) => {
-    if (!confirm(`Supprimer définitivement l'abonné ${subscriber.email} ?`)) return;
+    if (!confirm(t('admin_newsletter_confirm_delete', { email: subscriber.email }))) return;
     router.delete(route('admin.newsletter.destroy', subscriber.id), {
         preserveScroll: true,
     });
@@ -96,40 +99,40 @@ const deleteSubscriber = (subscriber) => {
 </script>
 
 <template>
-    <Head title="Newsletter — Abonnés" />
+    <Head :title="t('admin_newsletter_head_title')" />
 
     <AdminLayout>
         <template #header>
-            <h1 class="text-xl font-semibold text-white">Newsletter & Outils — Abonnés</h1>
+            <h1 class="text-xl font-semibold text-white">{{ t('admin_newsletter_title') }}</h1>
         </template>
 
         <!-- Stats cards -->
         <div class="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-xs uppercase text-slate-400">Total</p>
+                <p class="text-xs uppercase text-slate-400">{{ t('admin_newsletter_stat_total') }}</p>
                 <p class="mt-1 text-2xl font-bold text-white">{{ stats.total }}</p>
             </div>
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-xs uppercase text-slate-400">Via outils</p>
+                <p class="text-xs uppercase text-slate-400">{{ t('admin_newsletter_stat_tools') }}</p>
                 <p class="mt-1 text-2xl font-bold text-orange-400">{{ stats.tools }}</p>
             </div>
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-xs uppercase text-slate-400">Via footer</p>
+                <p class="text-xs uppercase text-slate-400">{{ t('admin_newsletter_stat_footer') }}</p>
                 <p class="mt-1 text-2xl font-bold text-blue-400">{{ stats.footer }}</p>
             </div>
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-xs uppercase text-slate-400">Confirmés</p>
+                <p class="text-xs uppercase text-slate-400">{{ t('admin_newsletter_stat_confirmed') }}</p>
                 <p class="mt-1 text-2xl font-bold text-emerald-400">{{ stats.confirmed }}</p>
             </div>
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-xs uppercase text-slate-400">Désinscrits</p>
+                <p class="text-xs uppercase text-slate-400">{{ t('admin_newsletter_stat_unsubscribed') }}</p>
                 <p class="mt-1 text-2xl font-bold text-rose-400">{{ stats.unsubscribed }}</p>
             </div>
         </div>
 
         <!-- Breakdown par template -->
         <div v-if="Object.keys(stats.by_template).length" class="mb-6 rounded-xl bg-slate-800 p-4">
-            <p class="mb-3 text-xs uppercase text-slate-400">Téléchargements par modèle</p>
+            <p class="mb-3 text-xs uppercase text-slate-400">{{ t('admin_newsletter_downloads_per_template') }}</p>
             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <div v-for="(count, src) in stats.by_template" :key="src" class="flex items-center justify-between rounded-lg bg-slate-900 px-3 py-2">
                     <span class="text-sm text-slate-300">{{ sourceLabel(src) }}</span>
@@ -145,21 +148,21 @@ const deleteSubscriber = (subscriber) => {
                     <TextInput
                         v-model="search"
                         type="search"
-                        placeholder="Rechercher par email..."
+                        :placeholder="t('admin_newsletter_search_placeholder')"
                         class="w-full"
                     />
                 </div>
                 <select v-model="source" class="rounded-md border-gray-300 bg-slate-900 text-slate-100 focus:border-rose-500 focus:ring-rose-500">
-                    <option value="">Toutes les sources</option>
-                    <option value="tools">Tous les outils</option>
-                    <option value="templates_invoice_blank">Modèle facture</option>
-                    <option value="templates_aed_checklist">Checklist AED</option>
-                    <option value="templates_reminder_letter">Lettre relance</option>
-                    <option value="templates_vat_calendar">Calendrier TVA</option>
-                    <option value="footer">Footer</option>
+                    <option value="">{{ t('admin_newsletter_all_sources') }}</option>
+                    <option value="tools">{{ t('admin_newsletter_source_all_tools') }}</option>
+                    <option value="templates_invoice_blank">{{ t('admin_newsletter_source_invoice') }}</option>
+                    <option value="templates_aed_checklist">{{ t('admin_newsletter_source_aed') }}</option>
+                    <option value="templates_reminder_letter">{{ t('admin_newsletter_source_reminder') }}</option>
+                    <option value="templates_vat_calendar">{{ t('admin_newsletter_source_vat') }}</option>
+                    <option value="footer">{{ t('admin_newsletter_source_footer') }}</option>
                 </select>
                 <select v-model="locale" class="rounded-md border-gray-300 bg-slate-900 text-slate-100 focus:border-rose-500 focus:ring-rose-500">
-                    <option value="">Toutes langues</option>
+                    <option value="">{{ t('admin_newsletter_all_languages') }}</option>
                     <option value="fr">Français</option>
                     <option value="de">Deutsch</option>
                     <option value="en">English</option>
@@ -173,7 +176,7 @@ const deleteSubscriber = (subscriber) => {
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    Exporter CSV
+                    {{ t('admin_newsletter_export_csv') }}
                 </a>
             </div>
         </div>
@@ -185,28 +188,28 @@ const deleteSubscriber = (subscriber) => {
                     <thead class="bg-slate-900">
                         <tr>
                             <th class="cursor-pointer px-4 py-3 text-left text-xs font-medium uppercase text-slate-400" @click="sortBy('email')">
-                                Email {{ getSortIcon('email') }}
+                                {{ t('admin_email') }} {{ getSortIcon('email') }}
                             </th>
                             <th class="cursor-pointer px-4 py-3 text-left text-xs font-medium uppercase text-slate-400" @click="sortBy('source')">
-                                Source {{ getSortIcon('source') }}
+                                {{ t('admin_newsletter_th_source') }} {{ getSortIcon('source') }}
                             </th>
                             <th class="cursor-pointer px-4 py-3 text-left text-xs font-medium uppercase text-slate-400" @click="sortBy('locale')">
-                                Langue {{ getSortIcon('locale') }}
+                                {{ t('admin_newsletter_th_language') }} {{ getSortIcon('locale') }}
                             </th>
                             <th class="cursor-pointer px-4 py-3 text-left text-xs font-medium uppercase text-slate-400" @click="sortBy('confirmed_at')">
-                                Confirmé {{ getSortIcon('confirmed_at') }}
+                                {{ t('admin_newsletter_th_confirmed') }} {{ getSortIcon('confirmed_at') }}
                             </th>
                             <th class="cursor-pointer px-4 py-3 text-left text-xs font-medium uppercase text-slate-400" @click="sortBy('created_at')">
-                                Inscription {{ getSortIcon('created_at') }}
+                                {{ t('admin_newsletter_th_registration') }} {{ getSortIcon('created_at') }}
                             </th>
-                            <th class="px-4 py-3 text-right text-xs font-medium uppercase text-slate-400">Actions</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium uppercase text-slate-400">{{ t('admin_actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-700">
                         <tr v-for="sub in subscribers.data" :key="sub.id" class="hover:bg-slate-700/40">
                             <td class="px-4 py-3 text-sm">
                                 <a :href="`mailto:${sub.email}`" class="font-medium text-white hover:text-rose-400">{{ sub.email }}</a>
-                                <div v-if="sub.unsubscribed_at" class="text-xs text-rose-400">désinscrit</div>
+                                <div v-if="sub.unsubscribed_at" class="text-xs text-rose-400">{{ t('admin_newsletter_unsubscribed') }}</div>
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 <span :class="['inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium', sourceBadgeClass(sub.source)]">
@@ -221,13 +224,13 @@ const deleteSubscriber = (subscriber) => {
                                     class="text-xs text-rose-400 hover:text-rose-300"
                                     @click="deleteSubscriber(sub)"
                                 >
-                                    Supprimer
+                                    {{ t('admin_delete') }}
                                 </button>
                             </td>
                         </tr>
                         <tr v-if="!subscribers.data.length">
                             <td colspan="6" class="px-4 py-12 text-center text-sm text-slate-400">
-                                Aucun abonné trouvé.
+                                {{ t('admin_newsletter_no_subscribers') }}
                             </td>
                         </tr>
                     </tbody>
@@ -237,7 +240,7 @@ const deleteSubscriber = (subscriber) => {
             <!-- Pagination -->
             <div v-if="subscribers.last_page > 1" class="flex items-center justify-between border-t border-slate-700 px-4 py-3">
                 <p class="text-sm text-slate-400">
-                    Affichage de {{ subscribers.from }} à {{ subscribers.to }} sur {{ subscribers.total }}
+                    {{ t('admin_newsletter_pagination', { from: subscribers.from, to: subscribers.to, total: subscribers.total }) }}
                 </p>
                 <div class="flex gap-2">
                     <Link

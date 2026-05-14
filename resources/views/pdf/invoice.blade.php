@@ -644,7 +644,7 @@
         <div class="footer-content">
             @if($showBranding ?? false)
                 <div class="footer-branding">
-                    Créé avec <a href="https://faktur.lu">faktur.lu</a> — Facturation simplifiée pour le Luxembourg
+                    {!! __('app.pdf_branding_text', ['app' => '<a href="https://faktur.lu">faktur.lu</a>']) !!}
                 </div>
             @endif
             <div class="footer-page">{{ __('invoice.page') }} 1/1</div>

@@ -89,7 +89,7 @@ class SupportController extends Controller
 
         return redirect()
             ->route('support.show', $ticket)
-            ->with('success', 'Votre demande a été envoyée. Référence : ' . $ticket->reference);
+            ->with('success', __('app.support_flash.created', ['reference' => $ticket->reference]));
     }
 
     /**
@@ -152,6 +152,6 @@ class SupportController extends Controller
             $ticket->update(['status' => 'open']);
         }
 
-        return back()->with('success', 'Réponse envoyée.');
+        return back()->with('success', __('app.support_flash.reply_sent'));
     }
 }

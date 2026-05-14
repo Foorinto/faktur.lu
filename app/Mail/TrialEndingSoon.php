@@ -27,14 +27,13 @@ class TrialEndingSoon extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
-        $isPt = $this->resolveLocale() === 'pt';
-
-        $subject = $isPt
-            ? "Faltam {$this->daysRemaining} dias para aproveitar o faktur.lu"
-            : "Plus que {$this->daysRemaining} jours pour profiter de faktur.lu";
+        app()->setLocale($this->resolveLocale());
 
         return new Envelope(
-            subject: $subject,
+            subject: __('app.mail_subject_trial_ending_soon', [
+                'days' => $this->daysRemaining,
+                'app' => 'faktur.lu',
+            ]),
         );
     }
 

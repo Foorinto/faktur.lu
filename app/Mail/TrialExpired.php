@@ -26,14 +26,10 @@ class TrialExpired extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
-        $isPt = $this->resolveLocale() === 'pt';
-
-        $subject = $isPt
-            ? 'O seu período de teste do faktur.lu terminou'
-            : 'Votre essai faktur.lu est terminé';
+        app()->setLocale($this->resolveLocale());
 
         return new Envelope(
-            subject: $subject,
+            subject: __('app.mail_subject_trial_expired', ['app' => 'faktur.lu']),
         );
     }
 

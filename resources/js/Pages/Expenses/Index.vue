@@ -260,9 +260,9 @@ const deleteExpense = (expense) => {
                         <td colspan="7">
                             <EmptyState
                                 icon="credit-card"
-                                title="Aucune dépense pour le moment"
-                                description="Enregistrez vos dépenses professionnelles pour suivre votre TVA déductible."
-                                cta-label="Ajouter une dépense"
+                                :title="t('no_expenses_yet_full')"
+                                :description="t('no_expenses_yet_description')"
+                                :cta-label="t('add_expense_cta')"
                                 :cta-href="route('expenses.create')"
                             />
                         </td>

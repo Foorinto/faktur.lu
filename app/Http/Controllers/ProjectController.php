@@ -97,7 +97,7 @@ class ProjectController extends Controller
         if (!empty($validated['client_id'])) {
             $client = Client::find($validated['client_id']);
             if (!$client || !$client->belongsToAuthUser()) {
-                return back()->withErrors(['client_id' => 'Client invalide.']);
+                return back()->withErrors(['client_id' => __('app.projects_flash_extra.error_invalid_client')]);
             }
         }
 
@@ -178,7 +178,7 @@ class ProjectController extends Controller
         if (!empty($validated['client_id'])) {
             $client = Client::find($validated['client_id']);
             if (!$client || !$client->belongsToAuthUser()) {
-                return back()->withErrors(['client_id' => 'Client invalide.']);
+                return back()->withErrors(['client_id' => __('app.projects_flash_extra.error_invalid_client')]);
             }
         }
 

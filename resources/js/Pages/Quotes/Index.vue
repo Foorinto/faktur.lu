@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
 import EmptyState from '@/Components/EmptyState.vue';
+import FlagIcon from '@/Components/FlagIcon.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed, onMounted } from 'vue';
 import axios from 'axios';
@@ -35,11 +36,11 @@ const previewQuote = ref(null);
 const pdfLocale = ref('fr');
 
 const pdfLanguages = [
-    { value: 'fr', label: 'Français', flag: '🇫🇷' },
-    { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
-    { value: 'en', label: 'English', flag: '🇬🇧' },
-    { value: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
-    { value: 'pt', label: 'Português', flag: '🇵🇹' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' },
+    { value: 'en', label: 'English' },
+    { value: 'lb', label: 'Lëtzebuergesch' },
+    { value: 'pt', label: 'Português' },
 ];
 
 const pdfUrl = computed(() => {
@@ -138,7 +139,7 @@ const canEdit = (quote) => {
 };
 
 const duplicateQuote = (quote) => {
-    if (!confirm("Dupliquer ce devis en nouveau brouillon ? Vous pourrez ensuite l'éditer avant de l'envoyer.")) return;
+    if (!confirm(t('duplicate_quote_confirm'))) return;
     router.post(route('quotes.duplicate', quote.id), {}, {
         preserveScroll: true,
     });
@@ -235,9 +236,9 @@ const duplicateQuote = (quote) => {
                         <td colspan="7">
                             <EmptyState
                                 icon="clipboard"
-                                title="Aucun devis pour le moment"
-                                description="Créez votre premier devis professionnel et convertissez-le en facture en un clic."
-                                cta-label="Créer mon premier devis"
+                                :title="t('no_quotes_yet')"
+                                :description="t('no_quotes_yet_description')"
+                                :cta-label="t('create_first_quote_cta')"
                                 :cta-href="route('quotes.create')"
                             />
                         </td>
@@ -311,7 +312,7 @@ const duplicateQuote = (quote) => {
                                     @click="duplicateQuote(quote)"
                                     type="button"
                                     class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300 transition-colors"
-                                    title="Dupliquer en brouillon"
+                                    :title="t('duplicate_to_draft')"
                                 >
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
@@ -374,7 +375,7 @@ const duplicateQuote = (quote) => {
                                         ? 'bg-primary-100 dark:bg-primary-900'
                                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
-                                    {{ lang.flag }}
+                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
                                 </button>
                             </div>
                             <a

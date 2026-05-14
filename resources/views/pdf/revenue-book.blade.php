@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ $locale ?? app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Livre des recettes</title>
+    <title>{{ __('app.pdf_revenue_book_title') }}</title>
     <style>
         * {
             margin: 0;
@@ -194,9 +194,9 @@
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <div class="title">Livre des recettes</div>
+                <div class="title">{{ __('app.pdf_revenue_book_title') }}</div>
                 <div class="period">
-                    Du {{ $startDate->format('d/m/Y') }} au {{ $endDate->format('d/m/Y') }}
+                    {{ __('app.pdf_period_from_to', ['start' => $startDate->format('d/m/Y'), 'end' => $endDate->format('d/m/Y')]) }}
                 </div>
             </div>
             <div class="header-right">
@@ -204,10 +204,10 @@
                     <div class="company-name">{{ $settings->company_name }}</div>
                     <div class="company-info">
                         @if($settings->matricule)
-                            Matricule: {{ $settings->matricule }}<br>
+                            {{ __('app.pdf_matricule_label') }}: {{ $settings->matricule }}<br>
                         @endif
                         @if($settings->vat_number)
-                            N° TVA: {{ $settings->vat_number }}
+                            {{ __('app.pdf_vat_number_label') }}: {{ $settings->vat_number }}
                         @endif
                     </div>
                 @endif
@@ -217,19 +217,19 @@
         <!-- Summary -->
         <div class="summary">
             <div class="summary-box">
-                <div class="summary-label">Factures payées</div>
+                <div class="summary-label">{{ __('app.pdf_paid_invoices') }}</div>
                 <div class="summary-value">{{ $totals['count'] }}</div>
             </div>
             <div class="summary-box">
-                <div class="summary-label">Total HT</div>
+                <div class="summary-label">{{ __('app.pdf_total_ht') }}</div>
                 <div class="summary-value">{{ number_format($totals['ht'], 2, ',', ' ') }} €</div>
             </div>
             <div class="summary-box">
-                <div class="summary-label">Total TVA</div>
+                <div class="summary-label">{{ __('app.pdf_total_vat') }}</div>
                 <div class="summary-value">{{ number_format($totals['vat'], 2, ',', ' ') }} €</div>
             </div>
             <div class="summary-box">
-                <div class="summary-label">Total TTC</div>
+                <div class="summary-label">{{ __('app.pdf_total_ttc') }}</div>
                 <div class="summary-value highlight">{{ number_format($totals['ttc'], 2, ',', ' ') }} €</div>
             </div>
         </div>
@@ -237,13 +237,13 @@
         <!-- VAT Breakdown -->
         @if(count($vatBreakdown) > 0)
         <div class="vat-summary">
-            <div class="section-title">Récapitulatif TVA</div>
+            <div class="section-title">{{ __('app.pdf_vat_summary_title') }}</div>
             <table>
                 <thead>
                     <tr>
-                        <th>Taux TVA</th>
-                        <th class="right">Base HT</th>
-                        <th class="right">Montant TVA</th>
+                        <th>{{ __('app.pdf_vat_rate') }}</th>
+                        <th class="right">{{ __('app.pdf_base_ht') }}</th>
+                        <th class="right">{{ __('app.pdf_vat_amount') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -257,7 +257,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>Total</td>
+                        <td>{{ __('app.pdf_total') }}</td>
                         <td class="number">{{ number_format($totals['ht'], 2, ',', ' ') }} €</td>
                         <td class="number">{{ number_format($totals['vat'], 2, ',', ' ') }} €</td>
                     </tr>
@@ -267,16 +267,16 @@
         @endif
 
         <!-- Invoices List -->
-        <div class="section-title">Détail des recettes</div>
+        <div class="section-title">{{ __('app.pdf_revenue_details') }}</div>
         <table>
             <thead>
                 <tr>
-                    <th>Date paiement</th>
-                    <th>N° Facture</th>
-                    <th>Client</th>
-                    <th class="right">Total HT</th>
-                    <th class="right">TVA</th>
-                    <th class="right">Total TTC</th>
+                    <th>{{ __('app.pdf_payment_date') }}</th>
+                    <th>{{ __('app.pdf_invoice_number_short') }}</th>
+                    <th>{{ __('app.pdf_client') }}</th>
+                    <th class="right">{{ __('app.pdf_total_ht') }}</th>
+                    <th class="right">{{ __('invoice.vat') }}</th>
+                    <th class="right">{{ __('app.pdf_total_ttc') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -292,7 +292,7 @@
                 @empty
                 <tr>
                     <td colspan="6" style="text-align: center; padding: 10mm; color: #6b7280;">
-                        Aucune recette sur cette période.
+                        {{ __('app.pdf_no_revenue_period') }}
                     </td>
                 </tr>
                 @endforelse
@@ -300,7 +300,7 @@
             @if(count($invoices) > 0)
             <tfoot>
                 <tr>
-                    <td colspan="3">Total ({{ $totals['count'] }} facture{{ $totals['count'] > 1 ? 's' : '' }})</td>
+                    <td colspan="3">{{ __('app.pdf_total_invoices_count', ['count' => $totals['count'], 'plural' => $totals['count'] > 1 ? 's' : '']) }}</td>
                     <td class="number">{{ number_format($totals['ht'], 2, ',', ' ') }} €</td>
                     <td class="number">{{ number_format($totals['vat'], 2, ',', ' ') }} €</td>
                     <td class="number" style="color: #059669;">{{ number_format($totals['ttc'], 2, ',', ' ') }} €</td>
@@ -312,7 +312,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        Document généré le {{ $generatedAt->format('d/m/Y à H:i') }} | Page <span class="page-number"></span>
+        {{ __('app.pdf_generated_on', ['date' => $generatedAt->format('d/m/Y H:i')]) }} | {{ __('app.pdf_page') }} <span class="page-number"></span>
     </div>
 </body>
 </html>

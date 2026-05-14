@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
+import FlagIcon from '@/Components/FlagIcon.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import axios from 'axios';
@@ -23,11 +24,11 @@ const loadingPreview = ref(false);
 const pdfLocale = ref(props.quote.buyer_snapshot?.locale || props.quote.client?.locale || 'fr');
 
 const pdfLanguages = [
-    { value: 'fr', label: 'Français', flag: '🇫🇷' },
-    { value: 'de', label: 'Deutsch', flag: '🇩🇪' },
-    { value: 'en', label: 'English', flag: '🇬🇧' },
-    { value: 'lb', label: 'Lëtzebuergesch', flag: '🇱🇺' },
-    { value: 'pt', label: 'Português', flag: '🇵🇹' },
+    { value: 'fr', label: 'Français' },
+    { value: 'de', label: 'Deutsch' },
+    { value: 'en', label: 'English' },
+    { value: 'lb', label: 'Lëtzebuergesch' },
+    { value: 'pt', label: 'Português' },
 ];
 
 const pdfUrl = computed(() => {
@@ -132,7 +133,7 @@ const convertToInvoice = () => {
 
 const duplicateQuote = () => {
     if (processing.value) return;
-    if (!confirm("Dupliquer ce devis en nouveau brouillon ? Vous pourrez ensuite l'éditer avant de l'envoyer.")) return;
+    if (!confirm(t('duplicate_quote_confirm'))) return;
     processing.value = true;
     router.post(route('quotes.duplicate', props.quote.id), {}, {
         onFinish: () => processing.value = false,
@@ -210,12 +211,12 @@ const duplicateQuote = () => {
                 @click="duplicateQuote"
                 :disabled="processing"
                 class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                title="Dupliquer en nouveau brouillon"
+                :title="t('duplicate_to_new_draft')"
             >
                 <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
                 </svg>
-                Dupliquer
+                {{ t('duplicate') }}
             </button>
 
             <!-- Convert to Invoice -->
@@ -444,7 +445,7 @@ const duplicateQuote = () => {
                                         ? 'bg-primary-100 dark:bg-primary-900'
                                         : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
                                 >
-                                    {{ lang.flag }}
+                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
                                 </button>
                             </div>
                             <a

@@ -55,7 +55,7 @@ const uploadDocument = () => {
 };
 
 const deleteDocument = (doc) => {
-    if (confirm('Supprimer ce document ?')) {
+    if (confirm(t('confirm_delete_document'))) {
         router.delete(route('hr.employees.evaluations.delete-document', [props.employee.id, props.evaluation.id, doc.id]), {
             preserveScroll: true,
         });
@@ -125,8 +125,8 @@ const formatFileSize = (bytes) => {
                 <!-- Documents -->
                 <div class="rounded-2xl bg-white shadow dark:bg-surface-card">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">Documents</h2>
-                        <span class="text-sm text-slate-500 dark:text-slate-400">{{ evaluation.documents?.length || 0 }} fichier(s)</span>
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('documents_label') }}</h2>
+                        <span class="text-sm text-slate-500 dark:text-slate-400">{{ evaluation.documents?.length || 0 }} {{ t('documents_count_files') }}</span>
                     </div>
 
                     <!-- Upload form -->
@@ -134,11 +134,11 @@ const formatFileSize = (bytes) => {
                         <form @submit.prevent="uploadDocument" class="flex flex-col sm:flex-row items-start sm:items-end gap-3">
                             <input ref="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" @change="onFileSelected" />
                             <div class="flex-1 w-full sm:w-auto">
-                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Nom du document</label>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">{{ t('document_name') }}</label>
                                 <input
                                     v-model="docForm.name"
                                     type="text"
-                                    placeholder="Ex: Evaluation annuelle 2026"
+                                    :placeholder="t('document_name_placeholder')"
                                     class="w-full rounded-xl border-gray-300 text-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                             </div>
@@ -151,7 +151,7 @@ const formatFileSize = (bytes) => {
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                     </svg>
-                                    {{ docForm.file ? docForm.file.name : 'Choisir un fichier' }}
+                                    {{ docForm.file ? docForm.file.name : t('choose_file') }}
                                 </button>
                                 <button
                                     v-if="docForm.file"
@@ -159,12 +159,12 @@ const formatFileSize = (bytes) => {
                                     :disabled="docForm.processing"
                                     class="inline-flex items-center rounded-xl bg-primary-500 px-3 py-2 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-50"
                                 >
-                                    {{ docForm.processing ? 'Envoi...' : 'Ajouter' }}
+                                    {{ docForm.processing ? t('uploading_short') : t('add_short') }}
                                 </button>
                             </div>
                         </form>
                         <p v-if="docForm.errors.file" class="mt-1 text-sm text-red-600">{{ docForm.errors.file }}</p>
-                        <p class="mt-1 text-xs text-slate-400">PDF, JPG ou PNG - max 10 Mo</p>
+                        <p class="mt-1 text-xs text-slate-400">{{ t('files_help_pdf') }}</p>
                     </div>
 
                     <!-- Documents list -->
@@ -185,7 +185,7 @@ const formatFileSize = (bytes) => {
                                         :href="`/storage/${doc.file_path}`"
                                         target="_blank"
                                         class="text-slate-400 hover:text-primary-500 transition-colors"
-                                        title="Télécharger"
+                                        :title="t('download_short')"
                                     >
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -194,7 +194,7 @@ const formatFileSize = (bytes) => {
                                     <button
                                         @click="deleteDocument(doc)"
                                         class="text-slate-400 hover:text-red-500 transition-colors"
-                                        title="Supprimer"
+                                        :title="t('delete_short')"
                                     >
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -205,7 +205,7 @@ const formatFileSize = (bytes) => {
                         </ul>
                     </div>
                     <div v-else class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
-                        Aucun document rattaché à cette évaluation.
+                        {{ t('no_documents_attached') }}
                     </div>
                 </div>
             </div>

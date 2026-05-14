@@ -43,7 +43,7 @@ class AccountantMassExportController extends Controller
         $accessibleClientIds = $accountant->activeClients()->pluck('users.id')->toArray();
         $unauthorized = array_diff($clientIds, $accessibleClientIds);
         if (!empty($unauthorized)) {
-            abort(403, 'Accès refusé pour certains clients.');
+            abort(403, __('app.accountant_auth_flash.error_unauthorized_clients'));
         }
 
         // Build period
@@ -116,7 +116,7 @@ class AccountantMassExportController extends Controller
             @unlink($zipPath);
             @rmdir($tempDir);
 
-            return back()->withErrors(['export' => 'Aucune donnée à exporter pour les clients sélectionnés.']);
+            return back()->withErrors(['export' => __('app.accountant_auth_flash.error_no_data_export')]);
         }
 
         $zip->close();
@@ -148,7 +148,7 @@ class AccountantMassExportController extends Controller
         $accessibleClientIds = $accountant->activeClients()->pluck('users.id')->toArray();
         $unauthorized = array_diff($clientIds, $accessibleClientIds);
         if (!empty($unauthorized)) {
-            abort(403, 'Accès refusé pour certains clients.');
+            abort(403, __('app.accountant_auth_flash.error_unauthorized_clients'));
         }
 
         // Build period

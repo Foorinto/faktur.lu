@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted, onUnmounted } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import FlagIcon from '@/Components/FlagIcon.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
@@ -222,7 +223,7 @@ const roadmap = computed(() => [
                         </div>
                     </div>
                     <div class="bg-gradient-to-br from-primary-100 to-primary-50 rounded-3xl p-12 text-center">
-                        <div class="text-7xl mb-4">🇱🇺</div>
+                        <FlagIcon code="lb" class="w-32 h-20 mb-4 mx-auto shadow-md" />
                         <h3 class="text-2xl font-bold text-slate-900 mb-2">{{ t('about.location.country_title') }}</h3>
                         <p class="text-slate-600">{{ t('about.location.country_text') }}</p>
                     </div>

@@ -1,27 +1,27 @@
 <x-mail::message>
 # @if($level === 1)
-Rappel de paiement
+{{ __('app.email_reminder_level_1') }}
 @elseif($level === 2)
-Relance de paiement
+{{ __('app.email_reminder_level_2') }}
 @else
-Mise en demeure
+{{ __('app.email_reminder_level_3') }}
 @endif
 
 {{ $customMessage }}
 
-## Détails de la facture
+## {{ __('app.email_invoice_details_heading') }}
 
 | | |
 |:--|--:|
-| **Numéro** | {{ $invoice->number }} |
-| **Date d'émission** | {{ $invoice->issued_at?->format('d/m/Y') }} |
-| **Date d'échéance** | {{ $invoice->due_at?->format('d/m/Y') }} |
-| **Montant TTC** | {{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }} |
+| **{{ __('app.email_reminder_number') }}** | {{ $invoice->number }} |
+| **{{ __('app.email_invoice_issued_at') }}** | {{ $invoice->issued_at?->format('d/m/Y') }} |
+| **{{ __('app.email_invoice_due_at') }}** | {{ $invoice->due_at?->format('d/m/Y') }} |
+| **{{ __('app.email_invoice_amount_ttc') }}** | {{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }} |
 @if($daysOverdue > 0)
-| **Retard** | {{ $daysOverdue }} jour{{ $daysOverdue > 1 ? 's' : '' }} |
+| **{{ __('app.email_reminder_overdue') }}** | {{ $daysOverdue }} {{ $daysOverdue > 1 ? __('app.email_reminder_days') : __('app.email_reminder_day') }} |
 @endif
 
-## Informations de paiement
+## {{ __('app.email_invoice_payment_info') }}
 
 @if(!empty($seller['iban']))
 - **IBAN:** `{{ $seller['iban'] }}`
@@ -29,13 +29,13 @@ Mise en demeure
 @if(!empty($seller['bic']))
 - **BIC:** {{ $seller['bic'] }}
 @endif
-- **Référence:** {{ $invoice->number }}
+- **{{ __('app.email_invoice_reference') }}:** {{ $invoice->number }}
 
 ---
 
-Cordialement,
+{{ __('app.email_regards') }}
 
-**{{ $seller['company_name'] ?? $seller['name'] ?? 'L\'équipe' }}**
+**{{ $seller['company_name'] ?? $seller['name'] ?? __('app.email_fallback_team') }}**
 
 @if(!empty($seller['email']))
 {{ $seller['email'] }}
@@ -45,6 +45,6 @@ Cordialement,
 @endif
 
 <x-mail::subcopy>
-La facture originale est jointe à cet email au format PDF.
+{{ __('app.email_reminder_subcopy') }}
 </x-mail::subcopy>
 </x-mail::message>

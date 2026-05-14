@@ -86,7 +86,7 @@ class AccountantSettingsController extends Controller
             ->first();
 
         if ($existingInvitation) {
-            return back()->withErrors(['email' => 'Une invitation est déjà en attente pour cette adresse.']);
+            return back()->withErrors(['email' => __('app.accountant_settings_flash.error_invitation_pending')]);
         }
 
         $existingAccess = $user->activeAccountants()
@@ -94,7 +94,7 @@ class AccountantSettingsController extends Controller
             ->first();
 
         if ($existingAccess) {
-            return back()->withErrors(['email' => 'Ce comptable a déjà accès à vos données.']);
+            return back()->withErrors(['email' => __('app.accountant_settings_flash.error_already_has_access')]);
         }
 
         // Create invitation

@@ -17,7 +17,8 @@ class QuotePdfService
     public function generate(Quote $quote): string
     {
         $pdf = $this->createPdf($quote);
-        $filename = $this->getFilename($quote);
+        // Always use FR filename for storage to keep paths stable across user locale changes.
+        $filename = $this->getFilename($quote, 'fr');
         $path = 'quotes/' . $filename;
 
         Storage::put($path, $pdf->output());
@@ -41,7 +42,7 @@ class QuotePdfService
     public function stream(Quote $quote, ?string $localeOverride = null): Response
     {
         $pdf = $this->createPdf($quote, $localeOverride);
-        $filename = $this->getFilename($quote);
+        $filename = $this->getFilename($quote, $localeOverride);
 
         return $pdf->stream($filename);
     }
@@ -52,7 +53,7 @@ class QuotePdfService
     public function download(Quote $quote, ?string $localeOverride = null): Response
     {
         $pdf = $this->createPdf($quote, $localeOverride);
-        $filename = $this->getFilename($quote);
+        $filename = $this->getFilename($quote, $localeOverride);
 
         return $pdf->download($filename);
     }
@@ -204,9 +205,15 @@ class QuotePdfService
     /**
      * Get PDF filename.
      */
-    protected function getFilename(Quote $quote): string
+    protected function getFilename(Quote $quote, ?string $localeOverride = null): string
     {
-        return "devis-{$quote->reference}.pdf";
+        $locale = $localeOverride ?? app()->getLocale();
+        $words = [
+            'fr' => 'devis', 'de' => 'angebot', 'en' => 'quote', 'lb' => 'devis', 'pt' => 'orcamento',
+        ];
+        $type = $words[$locale] ?? $words['fr'];
+
+        return "{$type}-{$quote->reference}.pdf";
     }
 
     /**

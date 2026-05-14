@@ -30,10 +30,10 @@ const consolidatedLoading = ref(false);
 
 const quarters = [
     { value: null, label: t('full_year') },
-    { value: 1, label: 'T1 (Jan-Mar)' },
-    { value: 2, label: 'T2 (Avr-Jun)' },
-    { value: 3, label: 'T3 (Jul-Sep)' },
-    { value: 4, label: 'T4 (Oct-Déc)' },
+    { value: 1, label: 'Q1 (Jan-Mar)' },
+    { value: 2, label: 'Q2 (Apr-Jun)' },
+    { value: 3, label: 'Q3 (Jul-Sep)' },
+    { value: 4, label: 'Q4 (Oct-Dec)' },
 ];
 
 // Client-side search for instant feedback
@@ -321,7 +321,7 @@ const exportSingleClient = (clientId) => {
                     <tr>
                         <td class="py-3 pl-4 pr-2"></td>
                         <td class="px-3 py-3 text-sm font-semibold text-slate-900 dark:text-white">
-                            Total ({{ filteredClients.length }} clients)
+                            {{ t('total') }} ({{ filteredClients.length }} {{ t('total_clients_label') }})
                         </td>
                         <td class="hidden lg:table-cell px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white">
                             {{ formatCurrency(totals.ca_ht) }}

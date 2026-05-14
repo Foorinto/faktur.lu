@@ -56,8 +56,8 @@ class ArchiveController extends Controller
             $result = $this->archiveService->archive($invoice, $format);
 
             $message = $result['pdf_a_converted']
-                ? "Facture archivée au format {$result['format']}."
-                : "Facture archivée au format PDF (PDF/A non disponible).";
+                ? __('app.archive_flash.archived_format', ['format' => $result['format']])
+                : __('app.archive_flash.archived_no_pdfa');
 
             return back()->with('success', $message);
         } catch (\Exception $e) {
@@ -80,12 +80,12 @@ class ArchiveController extends Controller
 
         $result = $this->archiveService->archiveBatch($validated['invoice_ids'], $format);
 
-        $message = "{$result['success']} facture(s) archivée(s)";
+        $message = __('app.archive_flash.batch_summary', ['success' => $result['success']]);
         if ($result['skipped'] > 0) {
-            $message .= ", {$result['skipped']} ignorée(s)";
+            $message .= __('app.archive_flash.batch_skipped', ['skipped' => $result['skipped']]);
         }
         if ($result['failed'] > 0) {
-            $message .= ", {$result['failed']} en erreur";
+            $message .= __('app.archive_flash.batch_failed', ['failed' => $result['failed']]);
         }
 
         if ($result['failed'] > 0) {
@@ -101,13 +101,13 @@ class ArchiveController extends Controller
     public function download(Invoice $invoice): StreamedResponse|RedirectResponse
     {
         if (!$invoice->isArchived()) {
-            return back()->with('error', 'Cette facture n\'est pas archivée.');
+            return back()->with('error', __('app.archive_flash.error_not_archived'));
         }
 
         $content = $this->archiveService->getArchivedContent($invoice);
 
         if (!$content) {
-            return back()->with('error', 'Le fichier d\'archive est introuvable.');
+            return back()->with('error', __('app.archive_flash.error_file_missing'));
         }
 
         $filename = $invoice->number . '_archive.pdf';

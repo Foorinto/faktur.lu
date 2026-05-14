@@ -65,7 +65,7 @@ const stopTimer = () => {
         <div v-if="timer" class="max-w-2xl mx-auto">
             <div class="overflow-hidden rounded-lg bg-gradient-to-r from-primary-500 to-purple-600 shadow-lg">
                 <div class="px-8 py-12 text-center">
-                    <p class="text-sm font-medium text-primary-100">En cours</p>
+                    <p class="text-sm font-medium text-primary-100">{{ t('in_progress_label') }}</p>
                     <p class="mt-4 text-6xl font-bold text-white font-mono">{{ formattedTimerDuration }}</p>
                     <p class="mt-4 text-lg text-primary-200">
                         {{ timer.client?.name }}
@@ -84,7 +84,7 @@ const stopTimer = () => {
                         <svg class="mr-3 h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5.5 3.5A1.5 1.5 0 017 5v10a1.5 1.5 0 01-3 0V5a1.5 1.5 0 011.5-1.5zm8 0A1.5 1.5 0 0115 5v10a1.5 1.5 0 01-3 0V5a1.5 1.5 0 011.5-1.5z" clip-rule="evenodd" />
                         </svg>
-                        Arrêter le timer
+                        {{ t('stop_timer') }}
                     </button>
                 </div>
             </div>
@@ -94,7 +94,7 @@ const stopTimer = () => {
                     :href="route('time-entries.index')"
                     class="text-primary-600 hover:text-primary-500 dark:text-primary-400"
                 >
-                    Retour à la liste des entrées
+                    {{ t('back_to_entries') }}
                 </Link>
             </div>
         </div>
@@ -103,15 +103,15 @@ const stopTimer = () => {
             <svg class="mx-auto h-16 w-16 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 class="mt-4 text-lg font-medium text-slate-900 dark:text-white">Aucun timer en cours</h3>
+            <h3 class="mt-4 text-lg font-medium text-slate-900 dark:text-white">{{ t('no_timer_running') }}</h3>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                Démarrez un nouveau timer depuis la page de suivi du temps.
+                {{ t('start_new_timer_help') }}
             </p>
             <Link
                 :href="route('time-entries.index')"
                 class="mt-6 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
             >
-                Démarrer un timer
+                {{ t('start_timer') }}
             </Link>
         </div>
     </AppLayout>

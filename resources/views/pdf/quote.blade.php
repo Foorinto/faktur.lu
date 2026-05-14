@@ -360,7 +360,7 @@
         <div class="top-header">
             <div class="title-section">
                 <div class="document-title">{{ __('invoice.quote') }}</div>
-                <div class="document-number">{{ __('invoice.reference') }} {{ $quote->reference ?? 'BROUILLON' }}</div>
+                <div class="document-number">{{ __('invoice.reference') }} {{ $quote->reference ?? __('app.draft') }}</div>
             </div>
             @if(!empty($logoPath))
                 <div class="logo-section">
@@ -381,7 +381,7 @@
                     {{ $seller['postal_code'] ?? '' }} {{ $seller['city'] ?? '' }} {{ $seller['country'] ?? '' }}
                 </div>
                 @if(!empty($seller['matricule']))
-                    <div class="company-details">N° Matricule : {{ $seller['matricule'] }}</div>
+                    <div class="company-details">{{ __('app.pdf_matricule_label') }} : {{ $seller['matricule'] }}</div>
                 @endif
                 @if(!empty($seller['rcs_number']))
                     <div class="company-details">{{ __('invoice.rcs_number') }} {{ $seller['rcs_number'] }}</div>
@@ -539,7 +539,7 @@
         <div class="footer-content">
             @if($showBranding ?? false)
                 <div class="footer-branding">
-                    Créé avec <a href="https://faktur.lu">faktur.lu</a> — Facturation simplifiée pour le Luxembourg
+                    {!! __('app.pdf_branding_text', ['app' => '<a href="https://faktur.lu">faktur.lu</a>']) !!}
                 </div>
             @endif
             <div class="footer-page">{{ __('invoice.page') }} 1/1</div>

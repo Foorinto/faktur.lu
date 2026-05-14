@@ -2,7 +2,10 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+import { useTranslations } from '@/Composables/useTranslations';
 import debounce from 'lodash/debounce';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     tickets: {
@@ -84,37 +87,37 @@ const formatDate = (dateString) => {
 };
 
 const deleteTicket = (ticket) => {
-    if (confirm(`Êtes-vous sûr de vouloir supprimer le ticket ${ticket.reference} ? Cette action est irréversible.`)) {
+    if (confirm(t('admin_support_confirm_delete', { reference: ticket.reference }))) {
         router.delete(route('admin.support.destroy', ticket.id));
     }
 };
 </script>
 
 <template>
-    <Head title="Support - Admin" />
+    <Head :title="t('admin_support_head_title')" />
 
     <AdminLayout>
         <template #header>
-            <h1 class="text-xl font-semibold text-white">Support</h1>
+            <h1 class="text-xl font-semibold text-white">{{ t('admin_support_title') }}</h1>
         </template>
 
         <!-- Stats cards -->
         <div class="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
             <div class="rounded-xl bg-slate-800 p-4 border border-slate-700">
                 <div class="text-2xl font-bold text-purple-400">{{ stats.new }}</div>
-                <div class="text-sm text-slate-400">Nouveaux</div>
+                <div class="text-sm text-slate-400">{{ t('admin_support_stat_new') }}</div>
             </div>
             <div class="rounded-xl bg-slate-800 p-4 border border-slate-700">
                 <div class="text-2xl font-bold text-blue-400">{{ stats.open }}</div>
-                <div class="text-sm text-slate-400">Ouverts</div>
+                <div class="text-sm text-slate-400">{{ t('admin_support_stat_open') }}</div>
             </div>
             <div class="rounded-xl bg-slate-800 p-4 border border-slate-700">
                 <div class="text-2xl font-bold text-orange-400">{{ stats.waiting }}</div>
-                <div class="text-sm text-slate-400">En attente</div>
+                <div class="text-sm text-slate-400">{{ t('admin_support_stat_waiting') }}</div>
             </div>
             <div class="rounded-xl bg-slate-800 p-4 border border-slate-700">
                 <div class="text-2xl font-bold text-emerald-400">{{ stats.resolved_today }}</div>
-                <div class="text-sm text-slate-400">Résolus aujourd'hui</div>
+                <div class="text-sm text-slate-400">{{ t('admin_support_stat_resolved_today') }}</div>
             </div>
         </div>
 
@@ -129,7 +132,7 @@ const deleteTicket = (ticket) => {
                 <input
                     v-model="search"
                     type="text"
-                    placeholder="Rechercher (réf., sujet, email)..."
+                    :placeholder="t('admin_support_search_placeholder')"
                     class="block w-full rounded-lg border-0 bg-slate-700 py-2 pl-10 pr-3 text-white placeholder:text-slate-400 focus:ring-2 focus:ring-purple-500 sm:text-sm"
                 />
             </div>
@@ -138,7 +141,7 @@ const deleteTicket = (ticket) => {
                 v-model="statusFilter"
                 class="rounded-lg border-0 bg-slate-700 py-2 pl-3 pr-10 text-white focus:ring-2 focus:ring-purple-500 sm:text-sm"
             >
-                <option value="">Tous les statuts</option>
+                <option value="">{{ t('admin_support_all_statuses') }}</option>
                 <option v-for="(label, value) in statuses" :key="value" :value="value">
                     {{ label }}
                 </option>
@@ -148,7 +151,7 @@ const deleteTicket = (ticket) => {
                 v-model="categoryFilter"
                 class="rounded-lg border-0 bg-slate-700 py-2 pl-3 pr-10 text-white focus:ring-2 focus:ring-purple-500 sm:text-sm"
             >
-                <option value="">Toutes catégories</option>
+                <option value="">{{ t('admin_support_all_categories') }}</option>
                 <option v-for="(label, value) in categories" :key="value" :value="value">
                     {{ label }}
                 </option>
@@ -158,7 +161,7 @@ const deleteTicket = (ticket) => {
                 v-model="priorityFilter"
                 class="rounded-lg border-0 bg-slate-700 py-2 pl-3 pr-10 text-white focus:ring-2 focus:ring-purple-500 sm:text-sm"
             >
-                <option value="">Toutes priorités</option>
+                <option value="">{{ t('admin_support_all_priorities') }}</option>
                 <option v-for="(label, value) in priorities" :key="value" :value="value">
                     {{ label }}
                 </option>
@@ -171,35 +174,35 @@ const deleteTicket = (ticket) => {
                 <thead>
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6">
-                            Réf.
+                            {{ t('admin_support_th_ref') }}
                         </th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                            Utilisateur
+                            {{ t('admin_support_th_user') }}
                         </th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                            Sujet
+                            {{ t('admin_support_th_subject') }}
                         </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-white md:table-cell">
-                            Catégorie
+                            {{ t('admin_support_th_category') }}
                         </th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                            Priorité
+                            {{ t('admin_support_th_priority') }}
                         </th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                            Statut
+                            {{ t('admin_status') }}
                         </th>
                         <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-white lg:table-cell">
-                            Date
+                            {{ t('admin_date') }}
                         </th>
                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                            <span class="sr-only">Actions</span>
+                            <span class="sr-only">{{ t('admin_actions') }}</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-700">
                     <tr v-if="tickets.data.length === 0">
                         <td colspan="8" class="py-10 text-center text-sm text-slate-400">
-                            Aucun ticket trouvé.
+                            {{ t('admin_support_no_tickets') }}
                         </td>
                     </tr>
                     <tr v-for="ticket in tickets.data" :key="ticket.id" class="hover:bg-slate-700/50">
@@ -240,7 +243,7 @@ const deleteTicket = (ticket) => {
                                 <Link
                                     :href="route('admin.support.show', ticket.id)"
                                     class="rounded-lg p-1.5 text-purple-400 hover:bg-slate-700 hover:text-purple-300"
-                                    title="Voir le ticket"
+                                    :title="t('admin_support_view_ticket')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
@@ -251,7 +254,7 @@ const deleteTicket = (ticket) => {
                                     type="button"
                                     @click="deleteTicket(ticket)"
                                     class="rounded-lg p-1.5 text-red-400 hover:bg-slate-700 hover:text-red-300"
-                                    title="Supprimer le ticket"
+                                    :title="t('admin_support_delete_ticket')"
                                 >
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
@@ -267,7 +270,7 @@ const deleteTicket = (ticket) => {
         <!-- Pagination -->
         <div v-if="tickets.links && tickets.links.length > 3" class="mt-6 flex items-center justify-between">
             <div class="text-sm text-slate-400">
-                Affichage {{ tickets.from }} à {{ tickets.to }} sur {{ tickets.total }} tickets
+                {{ t('admin_support_pagination', { from: tickets.from, to: tickets.to, total: tickets.total }) }}
             </div>
             <nav class="isolate inline-flex -space-x-px rounded-lg shadow-sm">
                 <template v-for="(link, index) in tickets.links" :key="index">

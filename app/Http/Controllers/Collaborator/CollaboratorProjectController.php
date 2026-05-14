@@ -181,7 +181,7 @@ class CollaboratorProjectController extends Controller
 
         // Only creator or org admin can update
         if ($project->created_by !== $request->user()->id) {
-            abort(403, 'Vous ne pouvez modifier que vos propres projets.');
+            abort(403, __('app.collaborator_flash.error_project_not_owner_update'));
         }
 
         $validated = $request->validate([
@@ -204,11 +204,11 @@ class CollaboratorProjectController extends Controller
         $project = $this->findProject($project, $ownerId);
 
         if ($project->created_by !== $request->user()->id) {
-            abort(403, 'Vous ne pouvez supprimer que vos propres projets.');
+            abort(403, __('app.collaborator_flash.error_project_not_owner_delete'));
         }
 
         if (!$project->canBeDeleted()) {
-            return back()->withErrors(['project' => 'Ce projet ne peut pas être supprimé car il contient des entrées de temps.']);
+            return back()->withErrors(['project' => __('app.collaborator_flash.error_project_has_time_entries')]);
         }
 
         $project->delete();

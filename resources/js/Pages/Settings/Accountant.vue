@@ -36,7 +36,7 @@ const resendInvitation = (invitationId) => {
 };
 
 const cancelInvitation = (invitationId) => {
-    if (confirm('Annuler cette invitation ?')) {
+    if (confirm(t('confirm_cancel_invitation_action'))) {
         router.delete(route('settings.accountant.cancel', invitationId), {
             preserveScroll: true,
         });
@@ -44,7 +44,7 @@ const cancelInvitation = (invitationId) => {
 };
 
 const revokeAccess = (accountantId, accountantName) => {
-    if (confirm(`Révoquer l'accès de ${accountantName} ? Cette action est irréversible.`)) {
+    if (confirm(t('confirm_revoke_access').replace(':name', accountantName))) {
         router.delete(route('settings.accountant.revoke', accountantId), {
             preserveScroll: true,
         });
@@ -53,12 +53,12 @@ const revokeAccess = (accountantId, accountantName) => {
 </script>
 
 <template>
-    <Head title="Accès Comptable" />
+    <Head :title="t('accountant_access_title')" />
 
     <AppLayout>
         <template #header>
             <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                Paramètres
+                {{ t('settings_label') }}
             </h1>
         </template>
 
@@ -75,19 +75,19 @@ const revokeAccess = (accountantId, accountantName) => {
                     :href="route('settings.email.provider')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Fournisseur Email
+                    {{ t('email_provider_tab') }}
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
-                    Accès Comptable
+                    {{ t('accountant_access_tab') }}
                 </Link>
                 <Link
                     :href="route('subscription.index')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Abonnement
+                    {{ t('subscription_tab') }}
                 </Link>
             </nav>
         </div>
@@ -96,9 +96,9 @@ const revokeAccess = (accountantId, accountantName) => {
             <!-- Header -->
             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">Accès Comptable</h2>
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('accountant_access_title') }}</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Invitez votre comptable à accéder à vos exports comptables.
+                        {{ t('manage_export_clients') }}
                     </p>
                 </div>
                 <button
@@ -108,17 +108,17 @@ const revokeAccess = (accountantId, accountantName) => {
                     <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Inviter un comptable
+                    {{ t('invite_accountant_action') }}
                 </button>
             </div>
 
             <!-- Active Accountants -->
             <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-base font-medium text-slate-900 dark:text-white">Comptables actifs</h3>
+                    <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('active_accountants') }}</h3>
                 </div>
                 <div v-if="accountants.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                    Aucun comptable n'a accès à vos données.
+                    {{ t('no_accountant_access') }}
                 </div>
                 <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
                     <li v-for="accountant in accountants" :key="accountant.id" class="px-6 py-4">
@@ -127,15 +127,15 @@ const revokeAccess = (accountantId, accountantName) => {
                                 <p class="text-sm font-medium text-slate-900 dark:text-white">{{ accountant.name }}</p>
                                 <p class="text-sm text-slate-500 dark:text-slate-400">{{ accountant.email }}</p>
                                 <div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
-                                    <span>Accès depuis : {{ accountant.granted_at }}</span>
-                                    <span v-if="accountant.last_download">Dernier téléchargement : {{ accountant.last_download }}</span>
+                                    <span>{{ t('access_since') }} {{ accountant.granted_at }}</span>
+                                    <span v-if="accountant.last_download">{{ t('last_download') }} {{ accountant.last_download }}</span>
                                 </div>
                             </div>
                             <button
                                 @click="revokeAccess(accountant.id, accountant.name)"
                                 class="text-sm text-pink-600 hover:text-pink-800 dark:text-pink-400 dark:hover:text-pink-300"
                             >
-                                Révoquer
+                                {{ t('revoke_label') }}
                             </button>
                         </div>
                     </li>
@@ -145,7 +145,7 @@ const revokeAccess = (accountantId, accountantName) => {
             <!-- Pending Invitations -->
             <div v-if="pendingInvitations.length > 0" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-base font-medium text-slate-900 dark:text-white">Invitations en attente</h3>
+                    <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('invitations_pending') }}</h3>
                 </div>
                 <ul class="divide-y divide-slate-200 dark:divide-slate-700">
                     <li v-for="invitation in pendingInvitations" :key="invitation.id" class="px-6 py-4">
@@ -154,7 +154,7 @@ const revokeAccess = (accountantId, accountantName) => {
                                 <p class="text-sm font-medium text-slate-900 dark:text-white">{{ invitation.email }}</p>
                                 <p v-if="invitation.name" class="text-sm text-slate-500 dark:text-slate-400">{{ invitation.name }}</p>
                                 <p class="text-xs text-slate-400 mt-1">
-                                    Envoyée le {{ invitation.created_at }} - Expire le {{ invitation.expires_at }}
+                                    {{ t('sent_on_at') }} {{ invitation.created_at }} - {{ t('expires_on_at') }} {{ invitation.expires_at }}
                                 </p>
                             </div>
                             <div class="flex items-center space-x-2">
@@ -162,13 +162,13 @@ const revokeAccess = (accountantId, accountantName) => {
                                     @click="resendInvitation(invitation.id)"
                                     class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400"
                                 >
-                                    Renvoyer
+                                    {{ t('resend') }}
                                 </button>
                                 <button
                                     @click="cancelInvitation(invitation.id)"
                                     class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400"
                                 >
-                                    Annuler
+                                    {{ t('cancel') }}
                                 </button>
                             </div>
                         </div>
@@ -179,7 +179,7 @@ const revokeAccess = (accountantId, accountantName) => {
             <!-- Recent Downloads -->
             <div v-if="recentDownloads.length > 0" class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-base font-medium text-slate-900 dark:text-white">Téléchargements récents</h3>
+                    <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('recent_downloads_section') }}</h3>
                 </div>
                 <ul class="divide-y divide-slate-200 dark:divide-slate-700">
                     <li v-for="download in recentDownloads" :key="download.id" class="px-6 py-4">
@@ -187,11 +187,11 @@ const revokeAccess = (accountantId, accountantName) => {
                             <div>
                                 <p class="text-sm text-slate-900 dark:text-white">
                                     <span class="font-medium">{{ download.accountant_name }}</span>
-                                    a téléchargé
+                                    {{ t('has_downloaded') }}
                                     <span class="font-medium">{{ download.export_type_label }}</span>
                                 </p>
                                 <p class="text-xs text-slate-500 dark:text-slate-400">
-                                    Période : {{ download.period }}
+                                    {{ t('period_colon') }} {{ download.period }}
                                 </p>
                             </div>
                             <span class="text-xs text-slate-400">{{ download.downloaded_at }}</span>
@@ -209,13 +209,13 @@ const revokeAccess = (accountantId, accountantName) => {
 
                     <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl max-w-md w-full p-6">
                         <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-4">
-                            Inviter un comptable
+                            {{ t('invite_accountant_action') }}
                         </h3>
 
                         <form @submit.prevent="submitInvite" class="space-y-4">
                             <div>
                                 <label for="invite_email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Email du comptable *
+                                    {{ t('accountant_email_label') }} *
                                 </label>
                                 <input
                                     id="invite_email"
@@ -230,7 +230,7 @@ const revokeAccess = (accountantId, accountantName) => {
 
                             <div>
                                 <label for="invite_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Nom (optionnel)
+                                    {{ t('name_optional') }}
                                 </label>
                                 <input
                                     id="invite_name"
@@ -247,7 +247,7 @@ const revokeAccess = (accountantId, accountantName) => {
                                     @click="showInviteModal = false"
                                     class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 w-full sm:w-auto justify-center"
                                 >
-                                    Annuler
+                                    {{ t('cancel') }}
                                 </button>
                                 <button
                                     type="submit"
@@ -258,7 +258,7 @@ const revokeAccess = (accountantId, accountantName) => {
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Envoyer l'invitation
+                                    {{ t('send_invitation_action') }}
                                 </button>
                             </div>
                         </form>

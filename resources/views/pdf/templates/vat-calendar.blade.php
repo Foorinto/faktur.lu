@@ -22,10 +22,130 @@
 </head>
 <body>
 @php
-    $isEN = ($language ?? 'fr') === 'en';
-    $T = $isEN
-        ? ['title' => 'Luxembourg VAT Calendar 2026', 'subtitle' => 'Filing deadlines for monthly, quarterly and annual returns', 'date' => 'Date', 'deadline' => 'Deadline', 'desc' => 'Description', 'monthly' => 'Monthly returns', 'quarterly' => 'Quarterly returns', 'annual' => 'Annual returns', 'esl' => 'EC Sales List', 'declaration_for' => 'Return for', 'monthly_desc' => 'Monthly VAT return — turnover > €620,000', 'quarterly_desc' => 'Quarterly VAT return — turnover €112,000 to €620,000', 'esl_desc' => 'EC sales list (intra-EU B2B operations)', 'annual_desc' => 'Annual VAT return — recapitulative declaration', 'q1' => 'Q1 (Jan-Mar)', 'q2' => 'Q2 (Apr-Jun)', 'q3' => 'Q3 (Jul-Sep)', 'q4' => 'Q4 (Oct-Dec)', 'jan' => 'January', 'feb' => 'February', 'mar' => 'March', 'apr' => 'April', 'may' => 'May', 'jun' => 'June', 'jul' => 'July', 'aug' => 'August', 'sep' => 'September', 'oct' => 'October', 'nov' => 'November', 'dec' => 'December']
-        : ['title' => 'Calendrier TVA Luxembourg 2026', 'subtitle' => 'Échéances de déclarations mensuelles, trimestrielles et annuelles', 'date' => 'Date', 'deadline' => 'Échéance', 'desc' => 'Description', 'monthly' => 'Déclarations mensuelles', 'quarterly' => 'Déclarations trimestrielles', 'annual' => 'Déclarations annuelles', 'esl' => 'Liste récapitulative intracommunautaire', 'declaration_for' => 'Déclaration pour', 'monthly_desc' => 'Déclaration TVA mensuelle — CA > 620 000 EUR', 'quarterly_desc' => 'Déclaration TVA trimestrielle — CA 112 000 à 620 000 EUR', 'esl_desc' => 'Liste récapitulative (opérations B2B intra-UE)', 'annual_desc' => 'Déclaration annuelle — déclaration récapitulative', 'q1' => 'T1 (jan-mar)', 'q2' => 'T2 (avr-jun)', 'q3' => 'T3 (jul-sep)', 'q4' => 'T4 (oct-dec)', 'jan' => 'janvier', 'feb' => 'février', 'mar' => 'mars', 'apr' => 'avril', 'may' => 'mai', 'jun' => 'juin', 'jul' => 'juillet', 'aug' => 'août', 'sep' => 'septembre', 'oct' => 'octobre', 'nov' => 'novembre', 'dec' => 'décembre'];
+    $lang = $language ?? 'fr';
+    $L = [
+        'fr' => [
+            'title' => 'Calendrier TVA Luxembourg 2026',
+            'subtitle' => 'Échéances de déclarations mensuelles, trimestrielles et annuelles',
+            'info' => 'Toutes les déclarations TVA luxembourgeoises se font via la plateforme eCDF de l\'AED. Échéance : le 15 du deuxième mois suivant la période.',
+            'date' => 'Date',
+            'deadline' => 'Échéance',
+            'desc' => 'Description',
+            'monthly' => 'Déclarations mensuelles',
+            'quarterly' => 'Déclarations trimestrielles',
+            'annual' => 'Déclarations annuelles',
+            'esl' => 'Liste récapitulative intracommunautaire',
+            'declaration_for' => 'Déclaration pour',
+            'monthly_desc' => 'Déclaration TVA mensuelle — CA > 620 000 EUR',
+            'quarterly_desc' => 'Déclaration TVA trimestrielle — CA 112 000 à 620 000 EUR',
+            'esl_desc' => 'Liste récapitulative (opérations B2B intra-UE)',
+            'annual_desc' => 'Déclaration annuelle — déclaration récapitulative',
+            'q1' => 'T1 (jan-mar)', 'q2' => 'T2 (avr-jun)', 'q3' => 'T3 (jul-sep)', 'q4' => 'T4 (oct-dec)',
+            'jan' => 'janvier', 'feb' => 'février', 'mar' => 'mars', 'apr' => 'avril', 'may' => 'mai', 'jun' => 'juin',
+            'jul' => 'juillet', 'aug' => 'août', 'sep' => 'septembre', 'oct' => 'octobre', 'nov' => 'novembre', 'dec' => 'décembre',
+            'annual_taxable' => 'Déclaration annuelle TVA 2026 — Assujettis TVA',
+            'annual_exempt' => 'Déclaration annuelle 2026 — Franchise TVA',
+            'cta' => '💡 Avec faktur.lu, recevez des rappels avant chaque échéance TVA + un export de données prêt à soumettre. Essai gratuit 14 jours : faktur.lu',
+            'footer' => 'Modèle gratuit — 2026',
+        ],
+        'de' => [
+            'title' => 'MwSt-Kalender Luxemburg 2026',
+            'subtitle' => 'Abgabetermine für monatliche, vierteljährliche und jährliche Erklärungen',
+            'info' => 'Alle luxemburgischen MwSt-Erklärungen werden über die eCDF-Plattform der AED eingereicht. Frist: 15. Tag des zweiten Monats nach dem Zeitraum.',
+            'date' => 'Datum',
+            'deadline' => 'Frist',
+            'desc' => 'Beschreibung',
+            'monthly' => 'Monatliche Erklärungen',
+            'quarterly' => 'Vierteljährliche Erklärungen',
+            'annual' => 'Jährliche Erklärungen',
+            'esl' => 'Zusammenfassende Meldung',
+            'declaration_for' => 'Erklärung für',
+            'monthly_desc' => 'Monatliche MwSt-Erklärung — Umsatz > 620.000 EUR',
+            'quarterly_desc' => 'Vierteljährliche MwSt-Erklärung — Umsatz 112.000 bis 620.000 EUR',
+            'esl_desc' => 'Zusammenfassende Meldung (B2B-Operationen innerhalb der EU)',
+            'annual_desc' => 'Jährliche Erklärung — Zusammenfassungsmeldung',
+            'q1' => 'Q1 (Jan-Mär)', 'q2' => 'Q2 (Apr-Jun)', 'q3' => 'Q3 (Jul-Sep)', 'q4' => 'Q4 (Okt-Dez)',
+            'jan' => 'Januar', 'feb' => 'Februar', 'mar' => 'März', 'apr' => 'April', 'may' => 'Mai', 'jun' => 'Juni',
+            'jul' => 'Juli', 'aug' => 'August', 'sep' => 'September', 'oct' => 'Oktober', 'nov' => 'November', 'dec' => 'Dezember',
+            'annual_taxable' => 'Jährliche MwSt-Erklärung 2026 — MwSt-pflichtig',
+            'annual_exempt' => 'Jährliche Erklärung 2026 — MwSt-Befreiung',
+            'cta' => '💡 Mit faktur.lu erhalten Sie Erinnerungen vor jeder MwSt-Frist + einen abgabebereiten Datenexport. 14 Tage gratis testen: faktur.lu',
+            'footer' => 'Kostenlose Vorlage — 2026',
+        ],
+        'en' => [
+            'title' => 'Luxembourg VAT Calendar 2026',
+            'subtitle' => 'Filing deadlines for monthly, quarterly and annual returns',
+            'info' => 'All Luxembourg VAT returns must be filed via the eCDF platform of the AED. Deadline: 15th day of the second month following the period.',
+            'date' => 'Date',
+            'deadline' => 'Deadline',
+            'desc' => 'Description',
+            'monthly' => 'Monthly returns',
+            'quarterly' => 'Quarterly returns',
+            'annual' => 'Annual returns',
+            'esl' => 'EC Sales List',
+            'declaration_for' => 'Return for',
+            'monthly_desc' => 'Monthly VAT return — turnover > €620,000',
+            'quarterly_desc' => 'Quarterly VAT return — turnover €112,000 to €620,000',
+            'esl_desc' => 'EC sales list (intra-EU B2B operations)',
+            'annual_desc' => 'Annual VAT return — recapitulative declaration',
+            'q1' => 'Q1 (Jan-Mar)', 'q2' => 'Q2 (Apr-Jun)', 'q3' => 'Q3 (Jul-Sep)', 'q4' => 'Q4 (Oct-Dec)',
+            'jan' => 'January', 'feb' => 'February', 'mar' => 'March', 'apr' => 'April', 'may' => 'May', 'jun' => 'June',
+            'jul' => 'July', 'aug' => 'August', 'sep' => 'September', 'oct' => 'October', 'nov' => 'November', 'dec' => 'December',
+            'annual_taxable' => 'Annual VAT return 2026 — VAT taxable',
+            'annual_exempt' => 'Annual return 2026 — VAT exempt (franchise)',
+            'cta' => '💡 With faktur.lu, get reminders before each VAT deadline + ready-to-submit data export. Free 14-day trial: faktur.lu',
+            'footer' => 'Free template — 2026',
+        ],
+        'lb' => [
+            'title' => 'TVA-Kalenner Lëtzebuerg 2026',
+            'subtitle' => 'Echéancen vu mounatlechen, trimestriellen a jährlechen Deklaratiounen',
+            'info' => 'All Lëtzebuerger TVA-Deklaratioune ginn iwwer d\'eCDF-Plattform vun der AED gemaach. Echéance: de 15. Dag vum zweete Mount no der Period.',
+            'date' => 'Datum',
+            'deadline' => 'Echéance',
+            'desc' => 'Beschreiwung',
+            'monthly' => 'Mounatlech Deklaratiounen',
+            'quarterly' => 'Trimestriell Deklaratiounen',
+            'annual' => 'Jährlech Deklaratiounen',
+            'esl' => 'Rekapitulativ Lëscht',
+            'declaration_for' => 'Deklaratioun fir',
+            'monthly_desc' => 'Mounatlech TVA-Deklaratioun — Chiffre d\'affaires > 620.000 EUR',
+            'quarterly_desc' => 'Trimestriell TVA-Deklaratioun — Chiffre d\'affaires 112.000 bis 620.000 EUR',
+            'esl_desc' => 'Rekapitulativ Lëscht (B2B-Operatiounen bannent der EU)',
+            'annual_desc' => 'Jährlech Deklaratioun — rekapitulativ Deklaratioun',
+            'q1' => 'T1 (Jan-Mäe)', 'q2' => 'T2 (Abr-Jun)', 'q3' => 'T3 (Jul-Sep)', 'q4' => 'T4 (Okt-Dez)',
+            'jan' => 'Januar', 'feb' => 'Februar', 'mar' => 'Mäerz', 'apr' => 'Abrëll', 'may' => 'Mee', 'jun' => 'Juni',
+            'jul' => 'Juli', 'aug' => 'August', 'sep' => 'September', 'oct' => 'Oktober', 'nov' => 'November', 'dec' => 'Dezember',
+            'annual_taxable' => 'Jährlech TVA-Deklaratioun 2026 — TVA-pflichtig',
+            'annual_exempt' => 'Jährlech Deklaratioun 2026 — TVA-Franchise',
+            'cta' => '💡 Mat faktur.lu kritt Dir Rappeller virun all TVA-Echéance + en Datenexport prett fir ze soumetéieren. Gratis Essai 14 Deeg: faktur.lu',
+            'footer' => 'Gratis Modell — 2026',
+        ],
+        'pt' => [
+            'title' => 'Calendário IVA Luxemburgo 2026',
+            'subtitle' => 'Prazos das declarações mensais, trimestrais e anuais',
+            'info' => 'Todas as declarações de IVA do Luxemburgo são submetidas através da plataforma eCDF da AED. Prazo: dia 15 do segundo mês após o período.',
+            'date' => 'Data',
+            'deadline' => 'Prazo',
+            'desc' => 'Descrição',
+            'monthly' => 'Declarações mensais',
+            'quarterly' => 'Declarações trimestrais',
+            'annual' => 'Declarações anuais',
+            'esl' => 'Mapa recapitulativo intracomunitário',
+            'declaration_for' => 'Declaração de',
+            'monthly_desc' => 'Declaração mensal de IVA — volume de negócios > 620 000 EUR',
+            'quarterly_desc' => 'Declaração trimestral de IVA — volume de negócios 112 000 a 620 000 EUR',
+            'esl_desc' => 'Mapa recapitulativo (operações B2B intra-UE)',
+            'annual_desc' => 'Declaração anual — declaração recapitulativa',
+            'q1' => 'T1 (jan-mar)', 'q2' => 'T2 (abr-jun)', 'q3' => 'T3 (jul-set)', 'q4' => 'T4 (out-dez)',
+            'jan' => 'janeiro', 'feb' => 'fevereiro', 'mar' => 'março', 'apr' => 'abril', 'may' => 'maio', 'jun' => 'junho',
+            'jul' => 'julho', 'aug' => 'agosto', 'sep' => 'setembro', 'oct' => 'outubro', 'nov' => 'novembro', 'dec' => 'dezembro',
+            'annual_taxable' => 'Declaração anual de IVA 2026 — Sujeitos a IVA',
+            'annual_exempt' => 'Declaração anual 2026 — Isenção de IVA',
+            'cta' => '💡 Com o faktur.lu, receba lembretes antes de cada prazo de IVA + uma exportação de dados pronta a submeter. Avaliação gratuita de 14 dias: faktur.lu',
+            'footer' => 'Modelo gratuito — 2026',
+        ],
+    ];
+    $T = $L[$lang] ?? $L['fr'];
 @endphp
 
 <div class="header">
@@ -34,9 +154,7 @@
 </div>
 
 <div class="info">
-    {{ $isEN
-        ? 'All Luxembourg VAT returns must be filed via the eCDF platform of the AED. Deadline: 15th day of the second month following the period.'
-        : 'Toutes les déclarations TVA luxembourgeoises se font via la plateforme eCDF de l\'AED. Échéance : le 15 du deuxième mois suivant la période.' }}
+    {{ $T['info'] }}
 </div>
 
 <h2>{{ $T['monthly'] }} — {{ $T['monthly_desc'] }}</h2>
@@ -85,18 +203,16 @@
 <h2>{{ $T['annual'] }} — {{ $T['annual_desc'] }}</h2>
 <table>
     <tr><th style="width:25%">{{ $T['deadline'] }}</th><th>{{ $T['declaration_for'] }}</th></tr>
-    <tr><td class="deadline">01/05/2027</td><td>{{ $isEN ? 'Annual VAT return 2026 — VAT taxable' : 'Déclaration annuelle TVA 2026 — Assujettis TVA' }}</td></tr>
-    <tr><td class="deadline">01/03/2027</td><td>{{ $isEN ? 'Annual return 2026 — VAT exempt (franchise)' : 'Déclaration annuelle 2026 — Franchise TVA' }}</td></tr>
+    <tr><td class="deadline">01/05/2027</td><td>{{ $T['annual_taxable'] }}</td></tr>
+    <tr><td class="deadline">01/03/2027</td><td>{{ $T['annual_exempt'] }}</td></tr>
 </table>
 
 <div class="info">
-    {{ $isEN
-        ? '💡 With faktur.lu, get reminders before each VAT deadline + ready-to-submit data export. Free 14-day trial: faktur.lu'
-        : '💡 Avec faktur.lu, recevez des rappels avant chaque échéance TVA + un export de données prêt à soumettre. Essai gratuit 14 jours : faktur.lu' }}
+    {{ $T['cta'] }}
 </div>
 
 <div class="footer">
-    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> — {{ $isEN ? 'Free template — 2026' : 'Modèle gratuit — 2026' }}
+    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> — {{ $T['footer'] }}
 </div>
 </body>
 </html>

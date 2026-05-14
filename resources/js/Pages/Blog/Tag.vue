@@ -3,8 +3,10 @@ import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useTranslations } from '@/Composables/useTranslations';
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
+const { t } = useTranslations();
 
 const props = defineProps({
     tag: Object,
@@ -24,7 +26,7 @@ const formatDate = (date) => {
 <template>
     <SeoHead
         :title="`#${tag.name} - Blog | faktur.lu`"
-        :description="`Articles tagués ${tag.name} sur la facturation au Luxembourg.`"
+        :description="t('blog_tag_meta_description', { name: tag.name })"
         :canonical-path="`/blog/tag/${tag.slug}`"
     />
 
@@ -35,7 +37,7 @@ const formatDate = (date) => {
                 <nav class="mb-8">
                     <ol class="flex items-center gap-2 text-sm text-gray-500">
                         <li>
-                            <Link href="/" class="hover:text-primary-500">Accueil</Link>
+                            <Link href="/" class="hover:text-primary-500">{{ t('breadcrumb_home') }}</Link>
                         </li>
                         <li>/</li>
                         <li>

@@ -89,10 +89,10 @@ const goToday = () => {
     router.get(route('hr.leaves.calendar'), { month: now.getMonth() + 1, year: now.getFullYear() }, { preserveState: true });
 };
 
-const monthNames = [
-    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre',
-];
+const monthNames = computed(() => [
+    t('month_january'), t('month_february'), t('month_march'), t('month_april'), t('month_may'), t('month_june'),
+    t('month_july'), t('month_august'), t('month_september'), t('month_october'), t('month_november'), t('month_december'),
+]);
 </script>
 
 <template>

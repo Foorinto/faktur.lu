@@ -7,6 +7,9 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     categories: Array,
@@ -89,7 +92,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Nouvel article" />
+    <Head :title="t('admin_blog_head_new')" />
 
     <AdminLayout>
         <template #header>
@@ -98,7 +101,7 @@ const submit = () => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </Link>
-            <h1 class="text-xl font-semibold text-white">Nouvel article</h1>
+            <h1 class="text-xl font-semibold text-white">{{ t('admin_blog_head_new') }}</h1>
         </template>
 
         <form @submit.prevent="submit" class="grid gap-6 lg:grid-cols-3">
@@ -107,7 +110,7 @@ const submit = () => {
                 <!-- Title -->
                 <div class="rounded-xl bg-slate-800 p-6">
                     <div class="mb-4">
-                        <InputLabel for="title" value="Titre" class="text-white" />
+                        <InputLabel for="title" :value="t('admin_blog_field_title')" class="text-white" />
                         <TextInput
                             id="title"
                             v-model="form.title"
@@ -119,13 +122,13 @@ const submit = () => {
                     </div>
 
                     <div>
-                        <InputLabel for="slug" value="Slug URL" class="text-white" />
+                        <InputLabel for="slug" :value="t('admin_blog_field_slug')" class="text-white" />
                         <TextInput
                             id="slug"
                             v-model="form.slug"
                             type="text"
                             class="mt-1 block w-full bg-slate-700 border-slate-600 text-white"
-                            placeholder="auto-généré si vide"
+                            :placeholder="t('admin_blog_slug_placeholder')"
                         />
                         <InputError :message="form.errors.slug" class="mt-2" />
                     </div>
@@ -133,58 +136,58 @@ const submit = () => {
 
                 <!-- Excerpt -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <InputLabel for="excerpt" value="Extrait (résumé)" class="text-white" />
+                    <InputLabel for="excerpt" :value="t('admin_blog_field_excerpt')" class="text-white" />
                     <textarea
                         id="excerpt"
                         v-model="form.excerpt"
                         rows="3"
                         class="mt-1 block w-full rounded-lg border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:border-purple-500 focus:ring-purple-500"
-                        placeholder="Court résumé pour la liste des articles..."
+                        :placeholder="t('admin_blog_excerpt_placeholder')"
                     ></textarea>
                     <InputError :message="form.errors.excerpt" class="mt-2" />
                 </div>
 
                 <!-- Content -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <InputLabel for="content" value="Contenu (HTML)" class="text-white" />
+                    <InputLabel for="content" :value="t('admin_blog_field_content')" class="text-white" />
                     <textarea
                         id="content"
                         v-model="form.content"
                         rows="20"
                         class="mt-1 block w-full rounded-lg border-slate-600 bg-slate-700 font-mono text-sm text-white placeholder-slate-400 focus:border-purple-500 focus:ring-purple-500"
-                        placeholder="<p>Votre contenu HTML ici...</p>"
+                        :placeholder="t('admin_blog_content_placeholder')"
                         required
                     ></textarea>
                     <InputError :message="form.errors.content" class="mt-2" />
                     <p class="mt-2 text-sm text-slate-400">
-                        Vous pouvez utiliser du HTML pour formater votre article.
+                        {{ t('admin_blog_content_hint') }}
                     </p>
                 </div>
 
                 <!-- SEO -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-4 text-lg font-semibold text-white">SEO</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">{{ t('admin_blog_seo') }}</h3>
 
                     <div class="mb-4">
-                        <InputLabel for="meta_title" value="Meta Title" class="text-white" />
+                        <InputLabel for="meta_title" :value="t('admin_blog_meta_title')" class="text-white" />
                         <TextInput
                             id="meta_title"
                             v-model="form.meta_title"
                             type="text"
                             class="mt-1 block w-full bg-slate-700 border-slate-600 text-white"
-                            placeholder="Titre pour les moteurs de recherche"
+                            :placeholder="t('admin_blog_meta_title_placeholder')"
                         />
                         <InputError :message="form.errors.meta_title" class="mt-2" />
                     </div>
 
                     <div>
-                        <InputLabel for="meta_description" value="Meta Description" class="text-white" />
+                        <InputLabel for="meta_description" :value="t('admin_blog_meta_description')" class="text-white" />
                         <textarea
                             id="meta_description"
                             v-model="form.meta_description"
                             rows="2"
                             class="mt-1 block w-full rounded-lg border-slate-600 bg-slate-700 text-white placeholder-slate-400 focus:border-purple-500 focus:ring-purple-500"
-                            placeholder="Description pour les moteurs de recherche (160 caractères max)"
+                            :placeholder="t('admin_blog_meta_description_placeholder')"
                         ></textarea>
                         <InputError :message="form.errors.meta_description" class="mt-2" />
                     </div>
@@ -195,24 +198,24 @@ const submit = () => {
             <div class="space-y-6">
                 <!-- Publish -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-4 text-lg font-semibold text-white">Publication</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">{{ t('admin_blog_publication') }}</h3>
 
                     <div class="mb-4">
-                        <InputLabel for="status" value="Statut" class="text-white" />
+                        <InputLabel for="status" :value="t('admin_status')" class="text-white" />
                         <select
                             id="status"
                             v-model="form.status"
                             class="mt-1 block w-full rounded-lg border-slate-600 bg-slate-700 text-white focus:border-purple-500 focus:ring-purple-500"
                         >
-                            <option value="draft">Brouillon</option>
-                            <option value="published">Publié</option>
-                            <option value="archived">Archivé</option>
+                            <option value="draft">{{ t('admin_blog_status_draft') }}</option>
+                            <option value="published">{{ t('admin_blog_status_published') }}</option>
+                            <option value="archived">{{ t('admin_blog_status_archived') }}</option>
                         </select>
                         <InputError :message="form.errors.status" class="mt-2" />
                     </div>
 
                     <div class="mb-4">
-                        <InputLabel for="published_at" value="Date de publication" class="text-white" />
+                        <InputLabel for="published_at" :value="t('admin_blog_published_at')" class="text-white" />
                         <TextInput
                             id="published_at"
                             v-model="form.published_at"
@@ -224,14 +227,14 @@ const submit = () => {
 
                     <div class="flex gap-2">
                         <PrimaryButton :disabled="form.processing" class="flex-1 justify-center">
-                            {{ form.processing ? 'Enregistrement...' : 'Enregistrer' }}
+                            {{ form.processing ? t('admin_saving') : t('admin_save') }}
                         </PrimaryButton>
                     </div>
                 </div>
 
                 <!-- Locale -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-4 text-lg font-semibold text-white">Langue</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">{{ t('admin_blog_language') }}</h3>
 
                     <select
                         v-model="form.locale"
@@ -246,8 +249,8 @@ const submit = () => {
 
                 <!-- Translation key -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-2 text-lg font-semibold text-white">Clé de traduction</h3>
-                    <p class="mb-3 text-xs text-slate-400">Partagez la même clé entre les versions d'un article dans différentes langues pour les lier.</p>
+                    <h3 class="mb-2 text-lg font-semibold text-white">{{ t('admin_blog_translation_key') }}</h3>
+                    <p class="mb-3 text-xs text-slate-400">{{ t('admin_blog_translation_key_hint') }}</p>
                     <input
                         v-model="form.translation_key"
                         type="text"
@@ -259,13 +262,13 @@ const submit = () => {
 
                 <!-- Category -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-4 text-lg font-semibold text-white">Catégorie</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">{{ t('admin_blog_category') }}</h3>
 
                     <select
                         v-model="form.category_id"
                         class="block w-full rounded-lg border-slate-600 bg-slate-700 text-white focus:border-purple-500 focus:ring-purple-500"
                     >
-                        <option value="">Aucune catégorie</option>
+                        <option value="">{{ t('admin_blog_no_category') }}</option>
                         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                             {{ cat.name }}
                         </option>
@@ -275,7 +278,7 @@ const submit = () => {
 
                 <!-- Tags -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-4 text-lg font-semibold text-white">Tags</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">{{ t('admin_blog_tags') }}</h3>
 
                     <!-- Existing tags -->
                     <div class="flex flex-wrap gap-2">
@@ -324,7 +327,7 @@ const submit = () => {
                         <input
                             v-model="newTagInput"
                             type="text"
-                            placeholder="Nouveau tag..."
+                            :placeholder="t('admin_blog_new_tag_placeholder')"
                             class="flex-1 rounded-lg border-slate-600 bg-slate-700 px-3 py-1.5 text-sm text-white placeholder-slate-400 focus:border-purple-500 focus:ring-purple-500"
                             @keydown="handleTagInputKeydown"
                         />
@@ -337,7 +340,7 @@ const submit = () => {
                         </button>
                     </div>
                     <p class="mt-2 text-xs text-slate-400">
-                        Appuyer sur Entrer pour ajouter un nouveau tag
+                        {{ t('admin_blog_tag_enter_hint') }}
                     </p>
 
                     <InputError :message="form.errors.tags" class="mt-2" />
@@ -346,7 +349,7 @@ const submit = () => {
 
                 <!-- Cover image -->
                 <div class="rounded-xl bg-slate-800 p-6">
-                    <h3 class="mb-4 text-lg font-semibold text-white">Image de couverture</h3>
+                    <h3 class="mb-4 text-lg font-semibold text-white">{{ t('admin_blog_cover_image') }}</h3>
 
                     <div v-if="previewImage" class="mb-4">
                         <img :src="previewImage" alt="Preview" class="w-full rounded-lg" />
@@ -355,7 +358,7 @@ const submit = () => {
                             @click="removeImage"
                             class="mt-2 text-sm text-red-400 hover:text-red-300"
                         >
-                            Supprimer l'image
+                            {{ t('admin_blog_remove_image') }}
                         </button>
                     </div>
 

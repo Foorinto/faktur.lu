@@ -1,31 +1,31 @@
 <x-mail::message>
-# {{ $isCreditNote ? 'Nota de Crédito' : 'Fatura' }} {{ $invoice->number }}
+# {{ $isCreditNote ? __('app.email_invoice_heading_credit_note') : __('app.email_invoice_heading_invoice') }} {{ $invoice->number }}
 
-Bom dia,
+{{ __('app.email_greeting_generic') }}
 
 @if($customMessage)
 {{ $customMessage }}
 
 @else
 @if($isCreditNote)
-Em anexo encontra-se a nota de crédito N.º **{{ $invoice->number }}**.
+{!! __('app.email_invoice_attached_credit_note', ['number' => $invoice->number]) !!}
 @else
-Em anexo encontra-se a fatura N.º **{{ $invoice->number }}** no valor de **{{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }}**.
+{!! __('app.email_invoice_attached_invoice', ['number' => $invoice->number, 'amount' => number_format($invoice->total_ttc, 2, ',', ' ').' '.$invoice->currency]) !!}
 @endif
 @endif
 
 @if(!$isCreditNote)
-## Detalhes da fatura
+## {{ __('app.email_invoice_details_heading') }}
 
 | | |
 |:--|--:|
-| **Data de emissão** | {{ $invoice->issued_at?->format('d/m/Y') }} |
-| **Data de vencimento** | {{ $invoice->due_at?->format('d/m/Y') }} |
-| **Valor sem IVA** | {{ number_format($invoice->total_ht, 2, ',', ' ') }} {{ $invoice->currency }} |
-| **IVA** | {{ number_format($invoice->total_vat, 2, ',', ' ') }} {{ $invoice->currency }} |
-| **Total com IVA** | {{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }} |
+| **{{ __('app.email_invoice_issued_at') }}** | {{ $invoice->issued_at?->format('d/m/Y') }} |
+| **{{ __('app.email_invoice_due_at') }}** | {{ $invoice->due_at?->format('d/m/Y') }} |
+| **{{ __('app.email_invoice_amount_ht') }}** | {{ number_format($invoice->total_ht, 2, ',', ' ') }} {{ $invoice->currency }} |
+| **{{ __('app.email_invoice_vat') }}** | {{ number_format($invoice->total_vat, 2, ',', ' ') }} {{ $invoice->currency }} |
+| **{{ __('app.email_invoice_amount_ttc') }}** | {{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }} |
 
-## Informações de pagamento
+## {{ __('app.email_invoice_payment_info') }}
 
 @if(!empty($seller['iban']))
 - **IBAN:** `{{ $seller['iban'] }}`
@@ -33,14 +33,14 @@ Em anexo encontra-se a fatura N.º **{{ $invoice->number }}** no valor de **{{ n
 @if(!empty($seller['bic']))
 - **BIC:** {{ $seller['bic'] }}
 @endif
-- **Referência:** {{ $invoice->number }}
+- **{{ __('app.email_invoice_reference') }}:** {{ $invoice->number }}
 @endif
 
 ---
 
-Com os melhores cumprimentos,
+{{ __('app.email_regards') }}
 
-**{{ $seller['company_name'] ?? $seller['name'] ?? 'A equipa' }}**
+**{{ $seller['company_name'] ?? $seller['name'] ?? __('app.email_fallback_team') }}**
 
 @if(!empty($seller['email']))
 {{ $seller['email'] }}
@@ -50,6 +50,6 @@ Com os melhores cumprimentos,
 @endif
 
 <x-mail::subcopy>
-Esta mensagem foi enviada automaticamente. A fatura segue em anexo a este email em formato PDF.
+{{ __('app.email_invoice_subcopy') }}
 </x-mail::subcopy>
 </x-mail::message>

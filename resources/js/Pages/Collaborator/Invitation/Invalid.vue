@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="t('invalid_invitation') || 'Invitation invalide'" />
+    <Head :title="t('invalid_invitation')" />
 
     <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-surface-dark">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -20,7 +20,7 @@ defineProps({
                 </svg>
             </div>
             <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                {{ t('invalid_invitation') || 'Invitation invalide' }}
+                {{ t('invalid_invitation') }}
             </h2>
         </div>
 
@@ -34,7 +34,7 @@ defineProps({
                         :href="route('login')"
                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
                     >
-                        {{ t('go_to_login') || 'Aller à la page de connexion' }}
+                        {{ t('go_to_login') }}
                     </Link>
                 </div>
             </div>

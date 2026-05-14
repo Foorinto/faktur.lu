@@ -5,7 +5,10 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
+import { useTranslations } from '@/Composables/useTranslations';
 import debounce from 'lodash/debounce';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     posts: Object,
@@ -49,7 +52,7 @@ const applyFilters = debounce(() => {
 watch([search, status, category, locale], applyFilters);
 
 const deletePost = (post) => {
-    if (confirm(`Supprimer l'article "${post.title}" ?`)) {
+    if (confirm(t('admin_blog_confirm_delete', { title: post.title }))) {
         router.delete(route('admin.blog.destroy', post.slug));
     }
 };
@@ -60,9 +63,9 @@ const duplicatePost = (post) => {
 
 const statusLabel = (status) => {
     const labels = {
-        draft: 'Brouillon',
-        published: 'Publié',
-        archived: 'Archivé',
+        draft: t('admin_blog_status_draft'),
+        published: t('admin_blog_status_published'),
+        archived: t('admin_blog_status_archived'),
     };
     return labels[status] || status;
 };
@@ -87,36 +90,36 @@ const formatDate = (date) => {
 </script>
 
 <template>
-    <Head title="Blog - Articles" />
+    <Head :title="t('admin_blog_head_title')" />
 
     <AdminLayout>
         <template #header>
-            <h1 class="text-xl font-semibold text-white">Blog</h1>
+            <h1 class="text-xl font-semibold text-white">{{ t('admin_blog_title') }}</h1>
         </template>
         <template #header-actions>
             <Link :href="route('admin.blog-categories.index')">
-                <SecondaryButton>Catégories</SecondaryButton>
+                <SecondaryButton>{{ t('admin_blog_categories') }}</SecondaryButton>
             </Link>
             <Link :href="route('admin.blog-tags.index')">
-                <SecondaryButton>Tags</SecondaryButton>
+                <SecondaryButton>{{ t('admin_blog_tags') }}</SecondaryButton>
             </Link>
             <Link :href="route('admin.blog.create')">
-                <PrimaryButton>Nouvel article</PrimaryButton>
+                <PrimaryButton>{{ t('admin_blog_new_post') }}</PrimaryButton>
             </Link>
         </template>
 
         <!-- Stats -->
         <div class="mb-6 grid gap-4 sm:grid-cols-3">
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-sm text-slate-400">Total</p>
+                <p class="text-sm text-slate-400">{{ t('admin_total') }}</p>
                 <p class="text-2xl font-bold text-white">{{ stats.total }}</p>
             </div>
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-sm text-slate-400">Publiés</p>
+                <p class="text-sm text-slate-400">{{ t('admin_blog_stat_published') }}</p>
                 <p class="text-2xl font-bold text-green-400">{{ stats.published }}</p>
             </div>
             <div class="rounded-xl bg-slate-800 p-4">
-                <p class="text-sm text-slate-400">Brouillons</p>
+                <p class="text-sm text-slate-400">{{ t('admin_blog_stat_drafts') }}</p>
                 <p class="text-2xl font-bold text-yellow-400">{{ stats.draft }}</p>
             </div>
         </div>
@@ -126,23 +129,23 @@ const formatDate = (date) => {
             <input
                 v-model="search"
                 type="text"
-                placeholder="Rechercher..."
+                :placeholder="t('admin_search')"
                 class="rounded-lg border-slate-600 bg-slate-700 px-4 py-2 text-white placeholder-slate-400 focus:border-purple-500 focus:ring-purple-500"
             />
             <select
                 v-model="status"
                 class="rounded-lg border-slate-600 bg-slate-700 px-4 py-2 text-white focus:border-purple-500 focus:ring-purple-500"
             >
-                <option value="">Tous les statuts</option>
-                <option value="draft">Brouillon</option>
-                <option value="published">Publié</option>
-                <option value="archived">Archivé</option>
+                <option value="">{{ t('admin_blog_all_statuses') }}</option>
+                <option value="draft">{{ t('admin_blog_status_draft') }}</option>
+                <option value="published">{{ t('admin_blog_status_published') }}</option>
+                <option value="archived">{{ t('admin_blog_status_archived') }}</option>
             </select>
             <select
                 v-model="category"
                 class="rounded-lg border-slate-600 bg-slate-700 px-4 py-2 text-white focus:border-purple-500 focus:ring-purple-500"
             >
-                <option value="">Toutes les catégories</option>
+                <option value="">{{ t('admin_blog_all_categories') }}</option>
                 <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                     {{ cat.name }}
                 </option>
@@ -151,7 +154,7 @@ const formatDate = (date) => {
                 v-model="locale"
                 class="rounded-lg border-slate-600 bg-slate-700 px-4 py-2 text-white focus:border-purple-500 focus:ring-purple-500"
             >
-                <option value="">Toutes les langues</option>
+                <option value="">{{ t('admin_blog_all_languages') }}</option>
                 <option v-for="(name, code) in locales" :key="code" :value="code">
                     {{ localeFlags[code] }} {{ name }}
                 </option>
@@ -163,13 +166,13 @@ const formatDate = (date) => {
             <table class="w-full text-left text-sm">
                 <thead class="border-b border-slate-700 text-slate-400">
                     <tr>
-                        <th class="px-6 py-4 font-medium">Titre</th>
-                        <th class="px-6 py-4 font-medium">Langue</th>
-                        <th class="px-6 py-4 font-medium">Catégorie</th>
-                        <th class="px-6 py-4 font-medium">Statut</th>
-                        <th class="px-6 py-4 font-medium">Date</th>
-                        <th class="px-6 py-4 font-medium">Vues</th>
-                        <th class="px-6 py-4 font-medium text-right">Actions</th>
+                        <th class="px-6 py-4 font-medium">{{ t('admin_blog_th_title') }}</th>
+                        <th class="px-6 py-4 font-medium">{{ t('admin_blog_th_locale') }}</th>
+                        <th class="px-6 py-4 font-medium">{{ t('admin_blog_th_category') }}</th>
+                        <th class="px-6 py-4 font-medium">{{ t('admin_blog_th_status') }}</th>
+                        <th class="px-6 py-4 font-medium">{{ t('admin_blog_th_date') }}</th>
+                        <th class="px-6 py-4 font-medium">{{ t('admin_blog_th_views') }}</th>
+                        <th class="px-6 py-4 font-medium text-right">{{ t('admin_actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-700">
@@ -179,7 +182,7 @@ const formatDate = (date) => {
                             <div class="text-xs text-slate-400">/{{ post.locale || 'fr' }}/blog/{{ post.slug }}</div>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span :title="locales[post.locale] || 'Français'" class="text-lg">
+                            <span :title="locales[post.locale] || locales.fr" class="text-lg">
                                 {{ localeFlags[post.locale] || '🇫🇷' }}
                             </span>
                         </td>
@@ -204,7 +207,7 @@ const formatDate = (date) => {
                                     :href="route('blog.show', post.slug)"
                                     target="_blank"
                                     class="text-slate-400 hover:text-white"
-                                    title="Voir"
+                                    :title="t('admin_view')"
                                 >
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -214,7 +217,7 @@ const formatDate = (date) => {
                                 <Link
                                     :href="route('admin.blog.edit', post.slug)"
                                     class="text-slate-400 hover:text-white"
-                                    title="Modifier"
+                                    :title="t('admin_edit')"
                                 >
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -223,7 +226,7 @@ const formatDate = (date) => {
                                 <button
                                     @click="duplicatePost(post)"
                                     class="text-slate-400 hover:text-white"
-                                    title="Dupliquer"
+                                    :title="t('admin_duplicate')"
                                 >
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -232,7 +235,7 @@ const formatDate = (date) => {
                                 <button
                                     @click="deletePost(post)"
                                     class="text-red-400 hover:text-red-300"
-                                    title="Supprimer"
+                                    :title="t('admin_delete')"
                                 >
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -243,7 +246,7 @@ const formatDate = (date) => {
                     </tr>
                     <tr v-if="posts.data.length === 0">
                         <td colspan="7" class="px-6 py-12 text-center text-slate-400">
-                            Aucun article trouvé
+                            {{ t('admin_blog_no_posts') }}
                         </td>
                     </tr>
                 </tbody>

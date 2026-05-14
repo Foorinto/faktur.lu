@@ -1,16 +1,16 @@
 <x-mail::message>
-# Confirme a sua subscrição
+# {{ __('app.email_newsletter_confirm_heading') }}
 
-Obrigado por se ter subscrito à newsletter do faktur.lu!
+{{ __('app.email_newsletter_confirm_thanks') }}
 
-Clique no botão abaixo para confirmar o seu endereço de email e começar a receber as nossas dicas sobre faturação e fiscalidade no Luxemburgo.
+{{ __('app.email_newsletter_confirm_intro') }}
 
 <x-mail::button :url="$confirmUrl" color="primary">
-Confirmar a minha subscrição
+{{ __('app.email_newsletter_confirm_cta') }}
 </x-mail::button>
 
-Se não foi você que se subscreveu, basta ignorar este email.
+{{ __('app.email_newsletter_confirm_ignore') }}
 
-Com os melhores cumprimentos,<br>
-A equipa faktur.lu
+{{ __('app.email_regards') }}<br>
+{{ __('app.email_team_signature') }}
 </x-mail::message>

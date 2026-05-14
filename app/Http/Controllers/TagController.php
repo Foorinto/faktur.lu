@@ -53,13 +53,13 @@ class TagController extends Controller
     {
         $client->tags()->syncWithoutDetaching([$tag->id]);
 
-        return back()->with('success', 'Tag ajouté.');
+        return back()->with('success', __('app.tags_flash.attached'));
     }
 
     public function detach(Client $client, Tag $tag): RedirectResponse
     {
         $client->tags()->detach($tag->id);
 
-        return back()->with('success', 'Tag retiré.');
+        return back()->with('success', __('app.tags_flash.detached'));
     }
 }

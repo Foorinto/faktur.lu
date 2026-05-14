@@ -1,27 +1,27 @@
 <x-mail::message>
 # @if($level === 1)
-Lembrete de pagamento
+{{ __('app.email_reminder_level_1') }}
 @elseif($level === 2)
-Aviso de pagamento
+{{ __('app.email_reminder_level_2') }}
 @else
-Notificação formal
+{{ __('app.email_reminder_level_3') }}
 @endif
 
 {{ $customMessage }}
 
-## Detalhes da fatura
+## {{ __('app.email_invoice_details_heading') }}
 
 | | |
 |:--|--:|
-| **Número** | {{ $invoice->number }} |
-| **Data de emissão** | {{ $invoice->issued_at?->format('d/m/Y') }} |
-| **Data de vencimento** | {{ $invoice->due_at?->format('d/m/Y') }} |
-| **Total com IVA** | {{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }} |
+| **{{ __('app.email_reminder_number') }}** | {{ $invoice->number }} |
+| **{{ __('app.email_invoice_issued_at') }}** | {{ $invoice->issued_at?->format('d/m/Y') }} |
+| **{{ __('app.email_invoice_due_at') }}** | {{ $invoice->due_at?->format('d/m/Y') }} |
+| **{{ __('app.email_invoice_amount_ttc') }}** | {{ number_format($invoice->total_ttc, 2, ',', ' ') }} {{ $invoice->currency }} |
 @if($daysOverdue > 0)
-| **Atraso** | {{ $daysOverdue }} dia{{ $daysOverdue > 1 ? 's' : '' }} |
+| **{{ __('app.email_reminder_overdue') }}** | {{ $daysOverdue }} {{ $daysOverdue > 1 ? __('app.email_reminder_days') : __('app.email_reminder_day') }} |
 @endif
 
-## Informações de pagamento
+## {{ __('app.email_invoice_payment_info') }}
 
 @if(!empty($seller['iban']))
 - **IBAN:** `{{ $seller['iban'] }}`
@@ -29,13 +29,13 @@ Notificação formal
 @if(!empty($seller['bic']))
 - **BIC:** {{ $seller['bic'] }}
 @endif
-- **Referência:** {{ $invoice->number }}
+- **{{ __('app.email_invoice_reference') }}:** {{ $invoice->number }}
 
 ---
 
-Com os melhores cumprimentos,
+{{ __('app.email_regards') }}
 
-**{{ $seller['company_name'] ?? $seller['name'] ?? 'A equipa' }}**
+**{{ $seller['company_name'] ?? $seller['name'] ?? __('app.email_fallback_team') }}**
 
 @if(!empty($seller['email']))
 {{ $seller['email'] }}
@@ -45,6 +45,6 @@ Com os melhores cumprimentos,
 @endif
 
 <x-mail::subcopy>
-A fatura original segue em anexo a este email em formato PDF.
+{{ __('app.email_reminder_subcopy') }}
 </x-mail::subcopy>
 </x-mail::message>

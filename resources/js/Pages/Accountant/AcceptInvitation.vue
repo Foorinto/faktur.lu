@@ -1,5 +1,8 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     invitation: Object,
@@ -20,7 +23,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Accepter l'invitation" />
+    <Head :title="t('accept_invitation')" />
 
     <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-100 dark:bg-surface-dark">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -30,10 +33,10 @@ const submit = () => {
                 </svg>
             </div>
             <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                Invitation à l'Espace Comptable
+                {{ t('accountant_invitation_title') }}
             </h2>
             <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-                <strong>{{ invitation.user_name }}</strong> vous invite à accéder à ses exports comptables
+                <strong>{{ invitation.user_name }}</strong> {{ t('accountant_invites_you') }}
             </p>
         </div>
 
@@ -41,24 +44,24 @@ const submit = () => {
             <div class="bg-white dark:bg-surface-card py-8 px-4 shadow-xl shadow-gray-200/50 sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-gray-700">
                 <div class="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
                     <p class="text-sm text-primary-700 dark:text-primary-300">
-                        En acceptant cette invitation, vous pourrez télécharger :
+                        {{ t('accountant_capabilities_intro') }}
                     </p>
                     <ul class="mt-2 text-sm text-primary-600 dark:text-primary-400 list-disc list-inside">
-                        <li>Les exports FAIA (XML)</li>
-                        <li>Les exports Excel des factures</li>
-                        <li>Les archives PDF des factures</li>
+                        <li>{{ t('accountant_capability_faia') }}</li>
+                        <li>{{ t('accountant_capability_excel') }}</li>
+                        <li>{{ t('accountant_capability_pdf') }}</li>
                     </ul>
                 </div>
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div v-if="accountantExists">
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            Un compte existe déjà avec l'email <strong>{{ invitation.email }}</strong>.
-                            Entrez votre mot de passe pour accepter cette invitation.
+                            {{ t('accountant_account_exists_message') }} <strong>{{ invitation.email }}</strong>.
+                            {{ t('accountant_enter_password') }}
                         </p>
                         <div>
                             <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Mot de passe
+                                {{ t('password') }}
                             </label>
                             <input
                                 id="password"
@@ -73,7 +76,7 @@ const submit = () => {
 
                     <template v-else>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            Créez votre compte comptable pour accéder aux exports.
+                            {{ t('accountant_create_account') }}
                         </p>
 
                         <div>
@@ -91,7 +94,7 @@ const submit = () => {
 
                         <div>
                             <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Nom
+                                {{ t('name') }}
                             </label>
                             <input
                                 id="name"
@@ -105,7 +108,7 @@ const submit = () => {
 
                         <div>
                             <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Mot de passe
+                                {{ t('password') }}
                             </label>
                             <input
                                 id="password"
@@ -119,7 +122,7 @@ const submit = () => {
 
                         <div>
                             <label for="password_confirmation" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Confirmer le mot de passe
+                                {{ t('confirm_password') }}
                             </label>
                             <input
                                 id="password_confirmation"
@@ -140,7 +143,7 @@ const submit = () => {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Accepter l'invitation
+                        {{ t('accept_invitation') }}
                     </button>
                 </form>
             </div>

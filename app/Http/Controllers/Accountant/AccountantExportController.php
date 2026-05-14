@@ -54,7 +54,7 @@ class AccountantExportController extends Controller
         $invoices = $this->getInvoicesForPeriod($user, $year, $quarter);
 
         if ($invoices->isEmpty()) {
-            return back()->withErrors(['export' => 'Aucune facture pour cette période.']);
+            return back()->withErrors(['export' => __('app.accountant_auth_flash.error_no_invoices_period')]);
         }
 
         // Record the download

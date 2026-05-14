@@ -142,26 +142,43 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
+     * In-process cache of filtered translations per locale.
+     * Prevents re-reading and re-filtering lang files on every Inertia request,
+     * which otherwise multiplies memory usage in long-running processes (octane, tests).
+     */
+    protected static array $translationsCache = [];
+
+    /**
      * Get translations for the given locale.
+     * Filters out backend-only keys to reduce payload size sent to the frontend.
      */
     protected function getTranslations(string $locale): array
     {
+        if (isset(self::$translationsCache[$locale])) {
+            return self::$translationsCache[$locale];
+        }
+
         $appPath = lang_path("{$locale}/app.php");
+        $translations = file_exists($appPath) ? require $appPath : null;
 
-        if (file_exists($appPath)) {
-            return [
-                'app' => require $appPath,
-            ];
+        if ($translations === null) {
+            $fallbackPath = lang_path('fr/app.php');
+            if (! file_exists($fallbackPath)) {
+                return self::$translationsCache[$locale] = [];
+            }
+            $translations = require $fallbackPath;
         }
 
-        // Fallback to French
-        $fallbackPath = lang_path('fr/app.php');
-        if (file_exists($fallbackPath)) {
-            return [
-                'app' => require $fallbackPath,
-            ];
+        $backendOnlyPrefixes = ['email_', 'pdf_', 'mail_subject_'];
+        foreach ($translations as $key => $value) {
+            foreach ($backendOnlyPrefixes as $prefix) {
+                if (str_starts_with($key, $prefix)) {
+                    unset($translations[$key]);
+                    break;
+                }
+            }
         }
 
-        return [];
+        return self::$translationsCache[$locale] = ['app' => $translations];
     }
 }

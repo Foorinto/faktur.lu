@@ -361,11 +361,11 @@ const showNewDropdown = ref(false);
                         <td colspan="8">
                             <EmptyState
                                 icon="users"
-                                title="Aucun client pour le moment"
-                                description="Commencez par ajouter votre premier client pour pouvoir créer des devis et factures."
-                                cta-label="Créer mon premier client"
+                                :title="t('no_clients_yet_full')"
+                                :description="t('no_clients_yet_description')"
+                                :cta-label="t('create_first_client')"
                                 :cta-href="route('clients.create')"
-                                secondary-label="Importer depuis Excel/CSV"
+                                :secondary-label="t('import_from_excel_csv')"
                                 :secondary-href="route('clients.import.index')"
                             />
                         </td>

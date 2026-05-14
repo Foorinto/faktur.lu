@@ -254,7 +254,7 @@ const getUsagePercentage = (used, limit) => {
                                     <template v-else-if="isEssentiel">
                                         Plan Essentiel
                                     </template>
-                                    <template v-else> Plan Gratuit </template>
+                                    <template v-else>{{ t('subscription_plan_free') }}</template>
                                 </h3>
                                 <p class="text-slate-500 dark:text-slate-400">
                                     <template v-if="onTrial">
@@ -358,9 +358,7 @@ const getUsagePercentage = (used, limit) => {
                     <!-- Clients -->
                     <div>
                         <div class="flex justify-between text-sm mb-2">
-                            <span class="text-slate-600 dark:text-slate-400"
-                                >Clients</span
-                            >
+                            <span class="text-slate-600 dark:text-slate-400">{{ t('subscription_clients_label') }}</span>
                             <span
                                 class="font-medium text-slate-900 dark:text-white"
                             >
@@ -387,9 +385,7 @@ const getUsagePercentage = (used, limit) => {
                     <!-- Invoices -->
                     <div>
                         <div class="flex justify-between text-sm mb-2">
-                            <span class="text-slate-600 dark:text-slate-400"
-                                >Factures</span
-                            >
+                            <span class="text-slate-600 dark:text-slate-400">{{ t('subscription_invoices_label') }}</span>
                             <span
                                 class="font-medium text-slate-900 dark:text-white"
                             >
@@ -416,9 +412,7 @@ const getUsagePercentage = (used, limit) => {
                     <!-- Quotes -->
                     <div>
                         <div class="flex justify-between text-sm mb-2">
-                            <span class="text-slate-600 dark:text-slate-400"
-                                >Devis</span
-                            >
+                            <span class="text-slate-600 dark:text-slate-400">{{ t('quotes') }}</span>
                             <span
                                 class="font-medium text-slate-900 dark:text-white"
                             >
@@ -445,9 +439,7 @@ const getUsagePercentage = (used, limit) => {
                     <!-- Expenses -->
                     <div v-if="usage.expenses_this_month">
                         <div class="flex justify-between text-sm mb-2">
-                            <span class="text-slate-600 dark:text-slate-400"
-                                >Dépenses</span
-                            >
+                            <span class="text-slate-600 dark:text-slate-400">{{ t('expenses') }}</span>
                             <span
                                 class="font-medium text-slate-900 dark:text-white"
                             >
@@ -475,7 +467,7 @@ const getUsagePercentage = (used, limit) => {
                     <div v-if="usage.active_projects">
                         <div class="flex justify-between text-sm mb-2">
                             <span class="text-slate-600 dark:text-slate-400"
-                                >Projets actifs</span
+                                >{{ t('landing.pricing.comparison.rows.active_projects') }}</span
                             >
                             <span
                                 class="font-medium text-slate-900 dark:text-white"
@@ -833,10 +825,8 @@ const getUsagePercentage = (used, limit) => {
                                     :disabled="isCheckingOut"
                                     class="w-full py-3 px-4 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50"
                                 >
-                                    <span v-if="isCheckingOut"
-                                        >Chargement...</span
-                                    >
-                                    <span v-else>Choisir Pro</span>
+                                    <span v-if="isCheckingOut">{{ t('loading') }}</span>
+                                    <span v-else>{{ t('subscription_choose_pro') }}</span>
                                 </button>
                             </form>
                         </div>
@@ -862,7 +852,7 @@ const getUsagePercentage = (used, limit) => {
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
                                 />
                             </svg>
-                            Voir le comparatif détaillé des fonctionnalités
+                            {{ t('subscription_view_full_comparison') }}
                             <svg
                                 class="h-4 w-4 ml-1"
                                 fill="none"
@@ -999,17 +989,15 @@ const getUsagePercentage = (used, limit) => {
                                 @click="showCancelModal = false"
                                 class="w-full sm:w-auto justify-center"
                             >
-                                Garder mon abonnement
+                                {{ t('subscription_keep') }}
                             </SecondaryButton>
                             <button
                                 @click="cancelSubscription"
                                 :disabled="cancelForm.processing"
                                 class="w-full sm:w-auto justify-center inline-flex items-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50"
                             >
-                                <span v-if="cancelForm.processing"
-                                    >Annulation...</span
-                                >
-                                <span v-else>Confirmer l'annulation</span>
+                                <span v-if="cancelForm.processing">{{ t('subscription_cancelling') }}</span>
+                                <span v-else>{{ t('subscription_confirm_cancel') }}</span>
                             </button>
                         </div>
                     </div>

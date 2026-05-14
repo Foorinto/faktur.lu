@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ $locale ?? app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -113,41 +113,41 @@
 
     <div class="meta">
         <div class="meta-row">
-            <div class="meta-label">Employé</div>
+            <div class="meta-label">{{ __('app.pdf_employee') }}</div>
             <div class="meta-value">{{ $employee->full_name }}</div>
         </div>
         @if($employee->job_title)
             <div class="meta-row">
-                <div class="meta-label">Poste</div>
+                <div class="meta-label">{{ __('app.pdf_job_title') }}</div>
                 <div class="meta-value">{{ $employee->job_title }}</div>
             </div>
         @endif
         @if($employee->department)
             <div class="meta-row">
-                <div class="meta-label">Département</div>
+                <div class="meta-label">{{ __('app.pdf_department') }}</div>
                 <div class="meta-value">{{ $employee->department->name }}</div>
             </div>
         @endif
         @if($evaluation->evaluator)
             <div class="meta-row">
-                <div class="meta-label">Évaluateur</div>
+                <div class="meta-label">{{ __('app.pdf_evaluator') }}</div>
                 <div class="meta-value">{{ $evaluation->evaluator->first_name }} {{ $evaluation->evaluator->last_name }}</div>
             </div>
         @endif
         <div class="meta-row">
-            <div class="meta-label">Date</div>
+            <div class="meta-label">{{ __('app.pdf_date') }}</div>
             <div class="meta-value">{{ $evaluation->date->format('d/m/Y') }}</div>
         </div>
     </div>
 
-    <div class="section-title">Contenu de l'évaluation</div>
+    <div class="section-title">{{ __('app.pdf_evaluation_content') }}</div>
     <div class="content">
         {!! $evaluation->description !!}
     </div>
 </div>
 
 <div class="footer">
-    Généré le {{ $generatedAt }}
+    {{ __('app.pdf_generated_at_simple', ['date' => $generatedAt]) }}
 </div>
 </body>
 </html>

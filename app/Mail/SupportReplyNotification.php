@@ -21,14 +21,13 @@ class SupportReplyNotification extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
-        $isPt = $this->resolveLocale() === 'pt';
-
-        $subject = $isPt
-            ? "[{$this->ticket->reference}] Resposta ao seu pedido: {$this->ticket->subject}"
-            : "[{$this->ticket->reference}] Réponse à votre demande : {$this->ticket->subject}";
+        app()->setLocale($this->resolveLocale());
 
         return new Envelope(
-            subject: $subject,
+            subject: __('app.mail_subject_support_reply', [
+                'reference' => $this->ticket->reference,
+                'subject' => $this->ticket->subject,
+            ]),
         );
     }
 

@@ -1,13 +1,13 @@
 <x-mail::message>
-Bonjour {{ $client->contact_name ?: $client->name }},
+{{ __('app.email_greeting_name', ['name' => $client->contact_name ?: $client->name]) }}
 
 {!! $body !!}
 
 ---
 
-Cordialement,
+{{ __('app.email_regards') }}
 
-**{{ $senderName ?? 'L\'équipe' }}**
+**{{ $senderName ?? __('app.email_fallback_team') }}**
 
 @if($senderEmail)
 {{ $senderEmail }}
@@ -17,6 +17,6 @@ Cordialement,
 @endif
 
 <x-mail::subcopy>
-Cet email a été envoyé via faktur.lu. Pour toute question, répondez directement à cet email.
+{{ __('app.email_crm_subcopy') }}
 </x-mail::subcopy>
 </x-mail::message>

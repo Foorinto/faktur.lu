@@ -51,7 +51,13 @@ class FiscalSummaryController extends Controller
 
         $pdf->setPaper('A4', 'portrait');
 
-        return $pdf->download("recapitulatif-fiscal-{$year}.pdf");
+        $prefixes = [
+            'fr' => 'recapitulatif-fiscal', 'de' => 'steuerzusammenfassung',
+            'en' => 'fiscal-summary', 'lb' => 'steiersummaire', 'pt' => 'resumo-fiscal',
+        ];
+        $prefix = $prefixes[app()->getLocale()] ?? $prefixes['fr'];
+
+        return $pdf->download("{$prefix}-{$year}.pdf");
     }
 
     /**
@@ -62,7 +68,12 @@ class FiscalSummaryController extends Controller
         $year = (int) $request->input('year', now()->year);
         $summary = $this->fiscalSummaryService->getSummary($year);
 
-        $filename = "recapitulatif-fiscal-{$year}.csv";
+        $prefixes = [
+            'fr' => 'recapitulatif-fiscal', 'de' => 'steuerzusammenfassung',
+            'en' => 'fiscal-summary', 'lb' => 'steiersummaire', 'pt' => 'resumo-fiscal',
+        ];
+        $prefix = $prefixes[app()->getLocale()] ?? $prefixes['fr'];
+        $filename = "{$prefix}-{$year}.csv";
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',

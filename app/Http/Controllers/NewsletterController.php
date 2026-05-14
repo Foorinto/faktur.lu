@@ -39,7 +39,7 @@ class NewsletterController extends Controller
         $subscriber = NewsletterSubscriber::where('confirm_token', $token)->first();
 
         if (!$subscriber) {
-            return redirect(config('app.url'))->with('error', 'Lien invalide.');
+            return redirect(config('app.url'))->with('error', __('app.newsletter_flash.error_invalid_link'));
         }
 
         $subscriber->confirm();

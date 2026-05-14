@@ -57,13 +57,13 @@ const needsConfiguration = computed(() => {
     return ['smtp', 'brevo', 'postmark', 'resend'].includes(form.provider);
 });
 
-const providerDescriptions = {
-    faktur: 'Envoi via les serveurs de faktur.lu. Aucune configuration requise.',
-    smtp: 'Utilisez votre propre serveur SMTP (Gmail, Office 365, OVH, etc.).',
-    brevo: 'Service d\'email marketing et transactionnel (anciennement Sendinblue).',
-    postmark: 'Service d\'email transactionnel premium avec excellent taux de délivrabilité.',
-    resend: 'API email moderne et simple à configurer.',
-};
+const providerDescriptions = computed(() => ({
+    faktur: t('provider_desc_faktur'),
+    smtp: t('provider_desc_smtp'),
+    brevo: t('provider_desc_brevo'),
+    postmark: t('provider_desc_postmark'),
+    resend: t('provider_desc_resend'),
+}));
 
 const submit = () => {
     form.put(route('settings.email.provider.update'), {
@@ -94,7 +94,7 @@ const getInputType = (field, fieldConfig) => {
 </script>
 
 <template>
-    <Head title="Configuration Email" />
+    <Head :title="t('email_provider_config_title')" />
 
     <AppLayout>
         <template #header>
@@ -116,19 +116,19 @@ const getInputType = (field, fieldConfig) => {
                     :href="route('settings.email.provider')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-accent-rose text-accent-rose dark:text-pink-400"
                 >
-                    Fournisseur Email
+                    {{ t('email_provider_tab') }}
                 </Link>
                 <Link
                     :href="route('settings.accountant')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Accès Comptable
+                    {{ t('accountant_access_tab') }}
                 </Link>
                 <Link
                     :href="route('subscription.index')"
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
-                    Abonnement
+                    {{ t('subscription_tab') }}
                 </Link>
             </nav>
         </div>
@@ -137,9 +137,9 @@ const getInputType = (field, fieldConfig) => {
             <!-- Provider Selection -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">Provider d'envoi</h2>
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('email_send_provider') }}</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Choisissez comment envoyer vos factures par email.
+                        {{ t('email_send_provider_description') }}
                     </p>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -165,7 +165,7 @@ const getInputType = (field, fieldConfig) => {
                             <label :for="'provider-' + key" class="font-medium text-slate-900 dark:text-white cursor-pointer">
                                 {{ label }}
                                 <span v-if="key === 'faktur'" class="ml-2 inline-flex items-center rounded-xl bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
-                                    Recommandé
+                                    {{ t('recommended_badge') }}
                                 </span>
                             </label>
                             <p class="text-sm text-slate-500 dark:text-slate-400">
@@ -180,7 +180,7 @@ const getInputType = (field, fieldConfig) => {
             <div v-if="needsConfiguration" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-lg font-medium text-slate-900 dark:text-white">
-                        Configuration {{ providers[form.provider] }}
+                        {{ t('configuration_for') }} {{ providers[form.provider] }}
                     </h2>
                 </div>
                 <div class="px-6 py-4 space-y-4">
@@ -251,15 +251,15 @@ const getInputType = (field, fieldConfig) => {
             <!-- From Address -->
             <div v-if="needsConfiguration" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">Expéditeur</h2>
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('sender_section') }}</h2>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Personnalisez l'adresse et le nom de l'expéditeur.
+                        {{ t('sender_section_description') }}
                     </p>
                 </div>
                 <div class="px-6 py-4 space-y-4">
                     <div>
                         <label for="from_address" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Adresse email
+                            {{ t('sender_email_address') }}
                         </label>
                         <input
                             id="from_address"
@@ -271,7 +271,7 @@ const getInputType = (field, fieldConfig) => {
                     </div>
                     <div>
                         <label for="from_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Nom de l'expéditeur
+                            {{ t('sender_name') }}
                         </label>
                         <input
                             id="from_name"
@@ -302,10 +302,10 @@ const getInputType = (field, fieldConfig) => {
                             </div>
                             <div>
                                 <p class="font-medium text-slate-900 dark:text-white">
-                                    {{ settings.provider_verified ? 'Configuration vérifiée' : 'Configuration non vérifiée' }}
+                                    {{ settings.provider_verified ? t('config_verified') : t('config_not_verified') }}
                                 </p>
                                 <p v-if="settings.last_test_at" class="text-sm text-slate-500 dark:text-slate-400">
-                                    Dernier test : {{ settings.last_test_at }}
+                                    {{ t('last_test_label') }} {{ settings.last_test_at }}
                                 </p>
                             </div>
                         </div>
@@ -319,11 +319,11 @@ const getInputType = (field, fieldConfig) => {
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            {{ testing ? 'Envoi en cours...' : 'Envoyer un email de test' }}
+                            {{ testing ? t('sending_in_progress') : t('send_test_email') }}
                         </button>
                     </div>
                     <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                        Un email de test sera envoyé à {{ userEmail }}.
+                        {{ t('test_email_will_be_sent_to') }} {{ userEmail }}.
                     </p>
                 </div>
             </div>

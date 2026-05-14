@@ -1,28 +1,28 @@
 <x-mail::message>
-# Nouvelle demande de support
+# {{ __('app.email_support_new_ticket_heading') }}
 
-Une nouvelle demande de support a été soumise.
+{{ __('app.email_support_new_ticket_intro') }}
 
-**Référence:** {{ $ticket->reference }}
+**{{ __('app.email_support_reference') }}** {{ $ticket->reference }}
 
-**De:** {{ $ticket->user->name }} ({{ $ticket->user->email }})
+**{{ __('app.email_support_from') }}** {{ $ticket->user->name }} ({{ $ticket->user->email }})
 
-**Catégorie:** {{ \App\Models\SupportTicket::CATEGORIES[$ticket->category] ?? $ticket->category }}
+**{{ __('app.email_support_category') }}** {{ \App\Models\SupportTicket::CATEGORIES[$ticket->category] ?? $ticket->category }}
 
-**Sujet:** {{ $ticket->subject }}
+**{{ __('app.email_support_subject') }}** {{ $ticket->subject }}
 
 ---
 
-**Message:**
+**{{ __('app.email_support_message') }}**
 
 {{ $messageContent }}
 
 ---
 
 <x-mail::button :url="$adminUrl">
-Voir le ticket
+{{ __('app.email_support_cta_view_ticket') }}
 </x-mail::button>
 
-Cordialement,<br>
+{{ __('app.email_regards') }}<br>
 {{ config('app.name') }}
 </x-mail::message>

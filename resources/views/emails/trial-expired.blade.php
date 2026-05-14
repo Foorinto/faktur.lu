@@ -1,33 +1,33 @@
 <x-mail::message>
-# Bonjour {{ $user->name }},
+# {{ __('app.email_greeting_name', ['name' => $user->name]) }}
 
-Votre période d'essai gratuit de faktur.lu est maintenant terminée.
+{{ __('app.email_trial_expired_intro') }}
 
-## Votre compte est en lecture seule
+## {{ __('app.email_trial_expired_readonly_h') }}
 
-Vous pouvez toujours vous connecter pour :
-- Consulter vos factures existantes
-- Télécharger vos documents
-- Accéder à vos données
+{{ __('app.email_trial_expired_login_intro') }}
+- {{ __('app.email_trial_expired_view_inv') }}
+- {{ __('app.email_trial_expired_download') }}
+- {{ __('app.email_trial_expired_access_data') }}
 
-Mais vous ne pouvez plus créer de nouvelles factures ou devis.
+{{ __('app.email_trial_expired_no_create') }}
 
-## Réactivez votre compte
+## {{ __('app.email_trial_expired_reactivate_h') }}
 
-Choisissez un abonnement pour retrouver l'accès complet :
+{{ __('app.email_trial_expired_reactivate_p') }}
 
-**Essentiel** - 4€/mois
-- 10 clients, 20 factures/mois
+**{{ __('app.email_trial_plan_essential') }}** - {{ __('app.email_trial_price_essential') }}
+- {{ __('app.email_trial_essential_quota') }}
 
-**Pro** - 9€/mois
-- Tout illimité + FAIA + archivage
+**{{ __('app.email_trial_plan_pro') }}** - {{ __('app.email_trial_price_pro') }}
+- {{ __('app.email_trial_pro_features') }}
 
 <x-mail::button :url="$subscriptionUrl" color="primary">
-S'abonner maintenant
+{{ __('app.email_trial_expired_cta') }}
 </x-mail::button>
 
-Vos données sont conservées et vous attendent. Aucune perte d'information.
+{{ __('app.email_trial_expired_data_safe') }}
 
-Cordialement,<br>
-L'équipe faktur.lu
+{{ __('app.email_regards') }}<br>
+{{ __('app.email_team_signature') }}
 </x-mail::message>

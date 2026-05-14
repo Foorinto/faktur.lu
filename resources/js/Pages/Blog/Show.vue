@@ -68,7 +68,7 @@ const shareOnFacebook = () => {
                         <nav class="mb-5">
                             <ol class="flex items-center gap-2 text-sm text-white/80">
                                 <li>
-                                    <Link href="/" class="hover:text-white transition-colors">Accueil</Link>
+                                    <Link href="/" class="hover:text-white transition-colors">{{ t('breadcrumb_home') }}</Link>
                                 </li>
                                 <li class="text-white/40">›</li>
                                 <li>

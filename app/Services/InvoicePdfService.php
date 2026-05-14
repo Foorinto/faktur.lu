@@ -19,7 +19,8 @@ class InvoicePdfService
         $this->ensureFinalized($invoice);
 
         $pdf = $this->createPdf($invoice);
-        $filename = $this->getFilename($invoice);
+        // Always use FR filename for storage to keep paths stable across user locale changes.
+        $filename = $this->getFilename($invoice, 'fr');
         $path = 'invoices/' . $filename;
 
         Storage::put($path, $pdf->output());
@@ -95,7 +96,7 @@ class InvoicePdfService
         $this->ensureFinalized($invoice);
 
         $pdf = $this->createPdf($invoice, $localeOverride);
-        $filename = $this->getFilename($invoice);
+        $filename = $this->getFilename($invoice, $localeOverride);
 
         return $pdf->stream($filename);
     }
@@ -108,7 +109,7 @@ class InvoicePdfService
         $this->ensureFinalized($invoice);
 
         $pdf = $this->createPdf($invoice, $localeOverride);
-        $filename = $this->getFilename($invoice);
+        $filename = $this->getFilename($invoice, $localeOverride);
 
         return $pdf->download($filename);
     }
@@ -362,9 +363,21 @@ class InvoicePdfService
     /**
      * Get PDF filename.
      */
-    protected function getFilename(Invoice $invoice): string
+    protected function getFilename(Invoice $invoice, ?string $localeOverride = null): string
     {
-        $type = $invoice->isCreditNote() ? 'avoir' : 'facture';
+        $locale = $localeOverride ?? app()->getLocale();
+        $isCredit = $invoice->isCreditNote();
+
+        $invoiceWords = [
+            'fr' => 'facture', 'de' => 'rechnung', 'en' => 'invoice', 'lb' => 'rechnung', 'pt' => 'fatura',
+        ];
+        $creditWords = [
+            'fr' => 'avoir', 'de' => 'gutschrift', 'en' => 'credit-note', 'lb' => 'gutschrëft', 'pt' => 'nota-credito',
+        ];
+
+        $words = $isCredit ? $creditWords : $invoiceWords;
+        $type = $words[$locale] ?? $words['fr'];
+
         return "{$type}-{$invoice->number}.pdf";
     }
 

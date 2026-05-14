@@ -39,7 +39,7 @@ const toggleTask = (taskId) => {
 };
 
 const deleteTask = (taskId) => {
-    if (confirm(t('confirm_delete') || 'Confirmer la suppression ?')) {
+    if (confirm(t('confirm_delete'))) {
         router.delete(route('collaborator.tasks.destroy', taskId), {
             preserveScroll: true,
         });
@@ -80,14 +80,14 @@ const getPriorityColor = (priority) => {
                 <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
-                {{ t('back_to_projects') || 'Retour aux projets' }}
+                {{ t('back_to_projects') }}
             </Link>
 
             <div class="flex items-start justify-between">
                 <div class="flex items-center space-x-3">
                     <div
                         class="w-4 h-4 rounded-full flex-shrink-0"
-                        :style="{ backgroundColor: project.color || '#6366f1' }"
+                        :style="{ backgroundColor: project.color }"
                     ></div>
                     <div>
                         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.title }}</h1>
@@ -109,19 +109,19 @@ const getPriorityColor = (priority) => {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.completion_percentage }}%</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('completion') || 'Complétion' }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('completion') }}</p>
             </div>
             <div class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.tasks.length }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('tasks') || 'Tâches' }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('tasks') }}</p>
             </div>
             <div class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
-                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.total_time_spent || '0h' }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('time_spent') || 'Temps passé' }}</p>
+                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.total_time_spent }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('time_spent') }}</p>
             </div>
             <div v-if="project.budget_hours" class="bg-white dark:bg-surface-card rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.budget_hours }}h</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('budget') || 'Budget' }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('budget') }}</p>
             </div>
         </div>
 
@@ -130,7 +130,7 @@ const getPriorityColor = (priority) => {
             <div class="lg:col-span-2">
                 <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('tasks') || 'Tâches' }}</h2>
+                        <h2 class="text-base font-medium text-slate-900 dark:text-white">{{ t('tasks') }}</h2>
                         <button
                             @click="showAddTask = !showAddTask"
                             class="w-full sm:w-auto justify-center inline-flex items-center px-3 py-1.5 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500"
@@ -138,7 +138,7 @@ const getPriorityColor = (priority) => {
                             <svg class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
-                            {{ t('add_task') || 'Ajouter' }}
+                            {{ t('add_task') }}
                         </button>
                     </div>
 
@@ -148,7 +148,7 @@ const getPriorityColor = (priority) => {
                             <input
                                 v-model="taskForm.title"
                                 type="text"
-                                :placeholder="t('task_title') || 'Titre de la tâche'"
+                                :placeholder="t('task_title')"
                                 required
                                 class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                             />
@@ -157,9 +157,9 @@ const getPriorityColor = (priority) => {
                                     v-model="taskForm.priority"
                                     class="w-full sm:w-auto rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                 >
-                                    <option value="low">{{ t('low') || 'Basse' }}</option>
-                                    <option value="normal">{{ t('normal') || 'Normale' }}</option>
-                                    <option value="high">{{ t('high') || 'Haute' }}</option>
+                                    <option value="low">{{ t('low') }}</option>
+                                    <option value="normal">{{ t('normal') }}</option>
+                                    <option value="high">{{ t('high') }}</option>
                                 </select>
                                 <input
                                     v-model="taskForm.due_date"
@@ -171,7 +171,7 @@ const getPriorityColor = (priority) => {
                                     :disabled="taskForm.processing"
                                     class="w-full sm:w-auto justify-center inline-flex items-center px-3 py-2 border border-transparent rounded-xl text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 disabled:opacity-50"
                                 >
-                                    {{ t('add') || 'Ajouter' }}
+                                    {{ t('add') }}
                                 </button>
                             </div>
                             <p v-if="taskForm.errors.title" class="text-sm text-pink-600">{{ taskForm.errors.title }}</p>
@@ -179,7 +179,7 @@ const getPriorityColor = (priority) => {
                     </div>
 
                     <div v-if="project.tasks.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                        {{ t('no_tasks') || 'Aucune tâche.' }}
+                        {{ t('no_tasks') }}
                     </div>
 
                     <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -253,14 +253,14 @@ const getPriorityColor = (priority) => {
                     </div>
 
                     <div v-if="timeEntries.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400 text-sm">
-                        {{ t('no_time_entries') || 'Aucune entrée de temps.' }}
+                        {{ t('no_time_entries') }}
                     </div>
 
                     <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
                         <li v-for="entry in timeEntries" :key="entry.id" class="px-6 py-3">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-sm text-slate-900 dark:text-white">{{ entry.description || '-' }}</p>
+                                    <p class="text-sm text-slate-900 dark:text-white">{{ entry.description }}</p>
                                     <p class="text-xs text-slate-400">
                                         {{ new Date(entry.started_at).toLocaleDateString('fr-FR') }}
                                     </p>
@@ -277,7 +277,7 @@ const getPriorityColor = (priority) => {
                             :href="route('collaborator.time.index')"
                             class="text-sm text-primary-600 hover:text-primary-800 dark:text-primary-400"
                         >
-                            {{ t('view_all_time') || 'Voir tout le temps' }}
+                            {{ t('view_all_time') }}
                         </Link>
                     </div>
                 </div>

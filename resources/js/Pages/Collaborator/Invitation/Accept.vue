@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const form = useForm({
-    name: props.invitation.name || '',
+    name: props.invitation.name,
     password: '',
     password_confirmation: '',
 });
@@ -36,7 +36,7 @@ const submit = () => {
                 {{ t('join_organization') }}
             </h2>
             <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-                <strong>{{ invitation.owner_name }}</strong> {{ t('invites_you_to') || 'vous invite à rejoindre' }}
+                <strong>{{ invitation.owner_name }}</strong> {{ t('invites_you_to') }}
                 <strong>{{ invitation.organization_name }}</strong>
             </p>
         </div>
@@ -45,21 +45,21 @@ const submit = () => {
             <div class="bg-white dark:bg-surface-card py-8 px-4 shadow-xl shadow-gray-200/50 sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-gray-700">
                 <div class="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
                     <p class="text-sm text-primary-700 dark:text-primary-300">
-                        {{ t('collaborator_capabilities_intro') || 'En acceptant cette invitation, vous pourrez :' }}
+                        {{ t('collaborator_capabilities_intro') }}
                     </p>
                     <ul class="mt-2 text-sm text-primary-600 dark:text-primary-400 list-disc list-inside">
-                        <li>{{ t('capability_view_projects') || 'Voir et gérer les projets partagés' }}</li>
-                        <li>{{ t('capability_track_time') || 'Tracker votre temps de travail' }}</li>
-                        <li>{{ t('capability_manage_tasks') || 'Gérer les tâches des projets' }}</li>
+                        <li>{{ t('capability_view_projects') }}</li>
+                        <li>{{ t('capability_track_time') }}</li>
+                        <li>{{ t('capability_manage_tasks') }}</li>
                     </ul>
                 </div>
 
                 <form @submit.prevent="submit" class="space-y-6">
                     <div v-if="userExists">
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            {{ t('account_exists_message') || 'Un compte existe déjà avec l\'email' }}
+                            {{ t('account_exists_message') }}
                             <strong>{{ invitation.email }}</strong>.
-                            {{ t('enter_password_to_accept') || 'Entrez votre mot de passe pour accepter cette invitation.' }}
+                            {{ t('enter_password_to_accept') }}
                         </p>
                         <div>
                             <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -78,7 +78,7 @@ const submit = () => {
 
                     <template v-else>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                            {{ t('create_account_to_join') || 'Créez votre compte pour rejoindre l\'organisation.' }}
+                            {{ t('create_account_to_join') }}
                         </p>
 
                         <div>
