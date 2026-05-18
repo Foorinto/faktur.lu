@@ -90,6 +90,10 @@ class PortalSharedCalendarController extends Controller
                 'allDay' => $e->is_all_day,
                 'extendedProps' => [
                     'room' => $e->room?->name,
+                    'location_type' => $e->location_type,
+                    'address' => $e->address,
+                    'video_url' => $e->video_url,
+                    'description' => $e->description,
                     'creator' => $e->creator ? trim($e->creator->first_name.' '.$e->creator->last_name) : null,
                 ],
             ]);
@@ -140,8 +144,13 @@ class PortalSharedCalendarController extends Controller
                     'allDay' => true,
                     'extendedProps' => [
                         'employee_id' => $lr->employee_id,
+                        'employee_name' => $lr->employee ? trim($lr->employee->first_name.' '.$lr->employee->last_name) : null,
                         'leave_type' => $lr->leaveType?->name,
                         'status' => $lr->status,
+                        'status_label' => $statusLabel,
+                        'days_count' => $lr->days_count,
+                        'start_date' => $lr->start_date,
+                        'end_date' => $lr->end_date,
                         // No reason exposed in employee portal (privacy)
                     ],
                 ];

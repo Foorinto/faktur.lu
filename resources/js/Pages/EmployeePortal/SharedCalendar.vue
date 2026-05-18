@@ -64,6 +64,35 @@ const calendarOptions = computed(() => ({
             router.get(route('employee-portal.shared-calendar.events.show', info.event.id.replace('evt-', '')));
         }
     },
+    eventDidMount: (info) => {
+        const props = info.event.extendedProps;
+        let tooltip = info.event.title;
+
+        if (info.event.id?.startsWith('lv-')) {
+            const parts = [];
+            if (props.employee_name) parts.push(props.employee_name);
+            if (props.leave_type) parts.push(props.leave_type);
+            if (props.days_count) parts.push(`${props.days_count} ${t('hr.days')}`);
+            if (props.status_label) parts.push(`[${props.status_label}]`);
+            if (props.start_date && props.end_date) {
+                parts.push(`${props.start_date} → ${props.end_date}`);
+            }
+            tooltip = parts.join('\n');
+        } else if (info.event.id?.startsWith('evt-')) {
+            const parts = [info.event.title];
+            const start = info.event.start ? new Date(info.event.start).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : null;
+            const end = info.event.end ? new Date(info.event.end).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : null;
+            if (start && end) parts.push(`${start} → ${end}`);
+            if (props.location_type === 'room' && props.room) parts.push(`📍 ${props.room}`);
+            else if (props.location_type === 'address' && props.address) parts.push(`📍 ${props.address}`);
+            else if (props.location_type === 'video' && props.video_url) parts.push(`🎥 ${props.video_url}`);
+            if (props.creator) parts.push(`${t('hr_event_creator')}: ${props.creator}`);
+            if (props.description) parts.push(`\n${props.description}`);
+            tooltip = parts.join('\n');
+        }
+
+        info.el.title = tooltip;
+    },
     dateClick: (info) => {
         router.get(route('employee-portal.shared-calendar.events.create'), { date: info.dateStr });
     },

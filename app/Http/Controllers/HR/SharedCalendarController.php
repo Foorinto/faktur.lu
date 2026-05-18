@@ -77,6 +77,9 @@ class SharedCalendarController extends Controller
                 'extendedProps' => [
                     'room' => $e->room?->name,
                     'location_type' => $e->location_type,
+                    'address' => $e->address,
+                    'video_url' => $e->video_url,
+                    'description' => $e->description,
                     'creator' => $e->creator ? trim($e->creator->first_name.' '.$e->creator->last_name) : null,
                     'participants_count' => $e->participants->count(),
                 ],
@@ -118,8 +121,13 @@ class SharedCalendarController extends Controller
                     'allDay' => true,
                     'extendedProps' => [
                         'employee_id' => $lr->employee_id,
+                        'employee_name' => $lr->employee ? trim($lr->employee->first_name.' '.$lr->employee->last_name) : null,
                         'leave_type' => $lr->leaveType?->name,
                         'status' => $lr->status,
+                        'status_label' => $statusLabel,
+                        'days_count' => $lr->days_count,
+                        'start_date' => $lr->start_date,
+                        'end_date' => $lr->end_date,
                         'reason' => $isAdmin ? $lr->reason : null,
                     ],
                 ];
