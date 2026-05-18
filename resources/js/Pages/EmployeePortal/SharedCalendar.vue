@@ -147,4 +147,15 @@ const toggleEmployee = (id) => {
 :deep(.fc-button) { background-color: white; color: #475569; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.4rem 0.75rem; text-transform: capitalize; font-weight: 500; }
 :deep(.fc-button-active) { background-color: #9b5de5 !important; color: white !important; border-color: #9b5de5 !important; }
 :deep(.fc-event) { border-radius: 0.375rem; padding: 2px 4px; font-size: 0.75rem; cursor: pointer; }
+:deep(.fc-event-pending) {
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 4px,
+        rgba(255, 255, 255, 0.25) 4px,
+        rgba(255, 255, 255, 0.25) 8px
+    ) !important;
+    opacity: 0.85;
+    font-style: italic;
+}
 </style>

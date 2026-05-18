@@ -240,4 +240,15 @@ const clearEmployees = () => {
     font-size: 0.75rem;
     cursor: pointer;
 }
+:deep(.fc-event-pending) {
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 4px,
+        rgba(255, 255, 255, 0.25) 4px,
+        rgba(255, 255, 255, 0.25) 8px
+    ) !important;
+    opacity: 0.85;
+    font-style: italic;
+}
 </style>

@@ -82,10 +82,10 @@ class SharedCalendarController extends Controller
                 ],
             ]);
 
-        // 2. Approved leaves (alimentés depuis LeaveRequest approved)
+        // 2. Approved + pending leaves (alimentés depuis LeaveRequest)
         $leavesQuery = LeaveRequest::query()
             ->with(['employee:id,first_name,last_name,hide_leaves_from_team', 'leaveType:id,name,color'])
-            ->where('status', 'approved')
+            ->whereIn('status', ['approved', 'pending'])
             ->whereDate('start_date', '<=', $end)
             ->whereDate('end_date', '>=', $start);
 
@@ -97,21 +97,29 @@ class SharedCalendarController extends Controller
             ->filter(fn (LeaveRequest $lr) => $isAdmin || ! ($lr->employee?->hide_leaves_from_team ?? false))
             ->map(function (LeaveRequest $lr) use ($isAdmin) {
                 $endDate = Carbon::parse($lr->end_date)->addDay(); // FullCalendar exclusive
+                $isPending = $lr->status === 'pending';
+                $statusLabel = $isPending ? __('app.hr.leave_status_pending') : __('app.hr.leave_status_approved');
+
+                $name = $lr->employee
+                    ? trim($lr->employee->first_name.' '.($lr->employee->last_name ? substr($lr->employee->last_name, 0, 1).'.' : ''))
+                    : '';
+
+                $typeName = $lr->leaveType?->name ?? '';
 
                 return [
                     'id' => 'lv-'.$lr->id,
                     'kind' => 'leave',
                     'leave_id' => $lr->id,
-                    'title' => $lr->employee
-                        ? trim($lr->employee->first_name.' '.($lr->employee->last_name ? substr($lr->employee->last_name, 0, 1).'.' : '')).' — '.($lr->leaveType?->name ?? '')
-                        : ($lr->leaveType?->name ?? ''),
+                    'title' => trim($name.' — '.$typeName.' ('.$statusLabel.')'),
                     'color' => $lr->leaveType?->color ?? '#94a3b8',
+                    'classNames' => $isPending ? ['fc-event-pending'] : [],
                     'start' => $lr->start_date,
                     'end' => $endDate->format('Y-m-d'),
                     'allDay' => true,
                     'extendedProps' => [
                         'employee_id' => $lr->employee_id,
                         'leave_type' => $lr->leaveType?->name,
+                        'status' => $lr->status,
                         'reason' => $isAdmin ? $lr->reason : null,
                     ],
                 ];
