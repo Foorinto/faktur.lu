@@ -137,6 +137,7 @@ return [
     'hr_calendar_filter_none' => 'None',
     'hr_calendar_disabled_title' => 'Shared calendar disabled',
     'hr_calendar_disabled_description' => 'The HR admin has disabled the shared calendar for this organisation.',
+    'hr_calendar_my_leave_label' => 'Me',
     'hr_event_new' => 'New event',
     'hr_event_edit' => 'Edit event',
     'hr_event_create' => 'Create event',

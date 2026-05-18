@@ -137,6 +137,7 @@ return [
     'hr_calendar_filter_none' => 'Aucun',
     'hr_calendar_disabled_title' => 'Calendrier partagé désactivé',
     'hr_calendar_disabled_description' => 'L\'admin RH a désactivé le calendrier partagé pour cette organisation.',
+    'hr_calendar_my_leave_label' => 'Moi',
     'hr_event_new' => 'Nouvel événement',
     'hr_event_edit' => 'Modifier l\'événement',
     'hr_event_create' => 'Créer l\'événement',

@@ -137,6 +137,7 @@ return [
     'hr_calendar_filter_none' => 'Nenhum',
     'hr_calendar_disabled_title' => 'Calendário partilhado desativado',
     'hr_calendar_disabled_description' => 'O administrador de RH desativou o calendário partilhado para esta organização.',
+    'hr_calendar_my_leave_label' => 'Eu',
     'hr_event_new' => 'Novo evento',
     'hr_event_edit' => 'Editar evento',
     'hr_event_create' => 'Criar evento',

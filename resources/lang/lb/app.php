@@ -79,6 +79,7 @@ return [
     'hr_calendar_filter_none' => 'Keen',
     'hr_calendar_disabled_title' => 'Gedeelte Kalenner deaktivéiert',
     'hr_calendar_disabled_description' => 'Den RH-Administrator huet de gedeelte Kalenner fir dës Organisatioun deaktivéiert.',
+    'hr_calendar_my_leave_label' => 'Ech',
     'hr_event_new' => 'Neit Evenement',
     'hr_event_edit' => 'Evenement änneren',
     'hr_event_create' => 'Evenement erstellen',

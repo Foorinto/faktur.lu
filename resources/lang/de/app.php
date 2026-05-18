@@ -79,6 +79,7 @@ return [
     'hr_calendar_filter_none' => 'Keine',
     'hr_calendar_disabled_title' => 'Geteilter Kalender deaktiviert',
     'hr_calendar_disabled_description' => 'Der HR-Administrator hat den geteilten Kalender für diese Organisation deaktiviert.',
+    'hr_calendar_my_leave_label' => 'Ich',
     'hr_event_new' => 'Neues Ereignis',
     'hr_event_edit' => 'Ereignis bearbeiten',
     'hr_event_create' => 'Ereignis erstellen',

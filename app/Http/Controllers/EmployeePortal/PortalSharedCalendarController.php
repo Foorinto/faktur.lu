@@ -122,36 +122,45 @@ class PortalSharedCalendarController extends Controller
                 $lr->employee_id === $employee->id
                 || ! ($lr->employee?->hide_leaves_from_team ?? false)
             )
-            ->map(function (LeaveRequest $lr) {
+            ->map(function (LeaveRequest $lr) use ($employee) {
                 $endDate = Carbon::parse($lr->end_date)->addDay();
                 $isPending = $lr->status === 'pending';
+                $isOwn = $lr->employee_id === $employee->id;
                 $statusLabel = $isPending ? __('app.hr.leave_status_pending') : __('app.hr.leave_status_approved');
 
-                $name = $lr->employee
-                    ? trim($lr->employee->first_name.' '.($lr->employee->last_name ? substr($lr->employee->last_name, 0, 1).'.' : ''))
-                    : '';
+                $name = $isOwn
+                    ? __('app.hr_calendar_my_leave_label')
+                    : ($lr->employee
+                        ? trim($lr->employee->first_name.' '.($lr->employee->last_name ? substr($lr->employee->last_name, 0, 1).'.' : ''))
+                        : '');
 
                 $typeName = $lr->leaveType?->name ?? '';
+
+                $classNames = [];
+                if ($isPending) $classNames[] = 'fc-event-pending';
+                if ($isOwn) $classNames[] = 'fc-event-mine';
 
                 return [
                     'id' => 'lv-'.$lr->id,
                     'kind' => 'leave',
                     'title' => trim($name.' — '.$typeName.' ('.$statusLabel.')'),
                     'color' => $lr->leaveType?->color ?? '#94a3b8',
-                    'classNames' => $isPending ? ['fc-event-pending'] : [],
+                    'classNames' => $classNames,
                     'start' => $lr->start_date,
                     'end' => $endDate->format('Y-m-d'),
                     'allDay' => true,
                     'extendedProps' => [
                         'employee_id' => $lr->employee_id,
-                        'employee_name' => $lr->employee ? trim($lr->employee->first_name.' '.$lr->employee->last_name) : null,
+                        'employee_name' => $isOwn
+                            ? __('app.hr_calendar_my_leave_label')
+                            : ($lr->employee ? trim($lr->employee->first_name.' '.$lr->employee->last_name) : null),
+                        'is_own' => $isOwn,
                         'leave_type' => $lr->leaveType?->name,
                         'status' => $lr->status,
                         'status_label' => $statusLabel,
                         'days_count' => $lr->days_count,
                         'start_date' => $lr->start_date,
                         'end_date' => $lr->end_date,
-                        // No reason exposed in employee portal (privacy)
                     ],
                 ];
             })

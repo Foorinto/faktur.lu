@@ -272,4 +272,10 @@ const clearEmployees = () => {
     opacity: 0.85;
     font-style: italic;
 }
+:deep(.fc-event-mine) {
+    box-shadow: 0 0 0 2px #9b5de5, 0 0 0 4px white;
+    border-width: 2px !important;
+    border-color: #9b5de5 !important;
+    font-weight: 600;
+}
 </style>
