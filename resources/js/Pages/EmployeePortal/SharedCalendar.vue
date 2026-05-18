@@ -1,7 +1,7 @@
 <script setup>
 import EmployeePortalLayout from '@/Layouts/EmployeePortalLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import { useTranslations } from '@/Composables/useTranslations';
 import FullCalendar from '@fullcalendar/vue3';
@@ -46,6 +46,22 @@ const selectedEmployees = ref(props.employees.map(e => e.id));
 const selectedTypes = ref(['meeting', 'training', 'team_building', 'deadline', 'other']);
 const showLeaves = ref(true);
 const showEvents = ref(true);
+
+const openDropdown = ref(null);
+const displayDropdownRef = ref(null);
+const employeesDropdownRef = ref(null);
+
+const handleClickOutside = (e) => {
+    if (
+        displayDropdownRef.value && !displayDropdownRef.value.contains(e.target)
+        && employeesDropdownRef.value && !employeesDropdownRef.value.contains(e.target)
+    ) {
+        openDropdown.value = null;
+    }
+};
+
+onMounted(() => document.addEventListener('click', handleClickOutside));
+onUnmounted(() => document.removeEventListener('click', handleClickOutside));
 
 const fetchEvents = async (info, successCallback, failureCallback) => {
     try {
@@ -140,6 +156,16 @@ const toggleEmployee = (id) => {
     }
     refresh();
 };
+
+const selectAllEmployees = () => {
+    selectedEmployees.value = props.employees.map(e => e.id);
+    refresh();
+};
+
+const clearEmployees = () => {
+    selectedEmployees.value = [];
+    refresh();
+};
 </script>
 
 <template>
@@ -164,33 +190,55 @@ const toggleEmployee = (id) => {
                 <p class="text-yellow-800">{{ t('hr_calendar_disabled_description') }}</p>
             </div>
 
-            <div v-else class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
-                <!-- Sidebar filters -->
-                <aside class="bg-white dark:bg-surface-card rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 h-fit">
-                    <div class="mb-5">
-                        <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">{{ t('hr_calendar_filter_display') }}</h3>
-                        <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 mb-2 cursor-pointer">
-                            <input type="checkbox" v-model="showEvents" @change="refresh" class="rounded text-primary-500" />
-                            {{ t('hr_calendar_filter_events') }}
-                        </label>
-                        <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
-                            <input type="checkbox" v-model="showLeaves" @change="refresh" class="rounded text-primary-500" />
-                            {{ t('hr_calendar_filter_leaves') }}
-                        </label>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-2">{{ t('hr_calendar_filter_employees') }}</h3>
-                        <div class="space-y-1.5 max-h-72 overflow-y-auto pr-1">
-                            <label v-for="emp in employees" :key="emp.id" class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded px-2 py-1">
-                                <input type="checkbox" :checked="selectedEmployees.includes(emp.id)" @change="toggleEmployee(emp.id)" class="rounded text-primary-500" />
-                                <span class="truncate">{{ emp.first_name }} {{ emp.last_name }}</span>
+            <div v-else>
+                <!-- Filters bar -->
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <div class="relative" ref="displayDropdownRef">
+                        <button
+                            @click="openDropdown = openDropdown === 'display' ? null : 'display'"
+                            class="inline-flex items-center gap-2 rounded-xl bg-white dark:bg-gray-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-slate-600 hover:bg-gray-50"
+                        >
+                            <span>{{ t('hr_calendar_filter_display') }}</span>
+                            <span class="px-1.5 py-0.5 rounded bg-primary-100 text-primary-700 text-xs dark:bg-primary-900/30 dark:text-primary-300">{{ (showEvents ? 1 : 0) + (showLeaves ? 1 : 0) }}/2</span>
+                            <svg class="h-4 w-4 transition-transform" :class="{ 'rotate-180': openDropdown === 'display' }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div v-if="openDropdown === 'display'" class="absolute z-20 mt-2 w-56 rounded-xl bg-white dark:bg-surface-card shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-slate-700 p-3 space-y-2">
+                            <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded px-2 py-1.5">
+                                <input type="checkbox" v-model="showEvents" @change="refresh" class="rounded text-primary-500" />
+                                {{ t('hr_calendar_filter_events') }}
+                            </label>
+                            <label class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded px-2 py-1.5">
+                                <input type="checkbox" v-model="showLeaves" @change="refresh" class="rounded text-primary-500" />
+                                {{ t('hr_calendar_filter_leaves') }}
                             </label>
                         </div>
                     </div>
-                </aside>
 
-                <!-- Calendar -->
+                    <div class="relative" ref="employeesDropdownRef">
+                        <button
+                            @click="openDropdown = openDropdown === 'employees' ? null : 'employees'"
+                            class="inline-flex items-center gap-2 rounded-xl bg-white dark:bg-gray-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-slate-600 hover:bg-gray-50"
+                        >
+                            <span>{{ t('hr_calendar_filter_employees') }}</span>
+                            <span class="px-1.5 py-0.5 rounded bg-primary-100 text-primary-700 text-xs dark:bg-primary-900/30 dark:text-primary-300">{{ selectedEmployees.length }}/{{ employees.length }}</span>
+                            <svg class="h-4 w-4 transition-transform" :class="{ 'rotate-180': openDropdown === 'employees' }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div v-if="openDropdown === 'employees'" class="absolute z-20 mt-2 w-72 rounded-xl bg-white dark:bg-surface-card shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-slate-700 p-3">
+                            <div class="flex items-center justify-between pb-2 mb-2 border-b border-gray-100 dark:border-gray-700">
+                                <button @click="selectAllEmployees" class="text-xs font-medium text-primary-500 hover:underline">{{ t('hr_calendar_filter_all') }}</button>
+                                <button @click="clearEmployees" class="text-xs font-medium text-slate-400 hover:underline">{{ t('hr_calendar_filter_none') }}</button>
+                            </div>
+                            <div class="space-y-1 max-h-72 overflow-y-auto pr-1">
+                                <label v-for="emp in employees" :key="emp.id" class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded px-2 py-1.5">
+                                    <input type="checkbox" :checked="selectedEmployees.includes(emp.id)" @change="toggleEmployee(emp.id)" class="rounded text-primary-500" />
+                                    <span class="truncate">{{ emp.first_name }} {{ emp.last_name }}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar full width -->
                 <div class="bg-white dark:bg-surface-card rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
                     <FullCalendar ref="calendarRef" :options="calendarOptions" />
                 </div>
