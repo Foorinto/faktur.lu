@@ -95,9 +95,15 @@ class PortalSharedCalendarController extends Controller
             ]);
 
         // 2. Approved + pending leaves of the organisation (filtered by hide_leaves_from_team)
+        // We must bypass the global 'user' scope on both LeaveRequest AND Employee
+        // because the employee's auth()->id() is their account_id, not the org owner's user_id.
         $leavesQuery = LeaveRequest::withoutGlobalScope('user')
-            ->whereHas('employee', fn ($q) => $q->where('user_id', $orgUserId))
-            ->with(['employee:id,first_name,last_name,hide_leaves_from_team,user_id', 'leaveType:id,name,color'])
+            ->where('user_id', $orgUserId)
+            ->with([
+                'employee' => fn ($q) => $q->withoutGlobalScope('user')
+                    ->select(['id', 'first_name', 'last_name', 'hide_leaves_from_team', 'user_id']),
+                'leaveType:id,name,color',
+            ])
             ->whereIn('status', ['approved', 'pending'])
             ->whereDate('start_date', '<=', $end)
             ->whereDate('end_date', '>=', $start);
