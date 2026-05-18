@@ -90,7 +90,11 @@ class LeaveRequestController extends Controller
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'days_count' => ['required', 'numeric', 'min:0.5'],
             'reason' => ['nullable', 'string', 'max:1000'],
+            'status' => ['nullable', 'string', 'in:pending,approved'],
         ]);
+
+        // Default to pending if not provided
+        $validated['status'] = $validated['status'] ?? 'pending';
 
         // Check for overlapping requests
         $overlap = LeaveRequest::forEmployee($validated['employee_id'])
@@ -126,9 +130,25 @@ class LeaveRequestController extends Controller
             ]);
         }
 
-        LeaveRequest::create($validated);
+        // If the leave is created directly as 'approved' (HR creates on behalf),
+        // also update the balance immediately and set approved_at / approved_by.
+        $isApproved = $validated['status'] === 'approved';
 
-        return back()->with('success', 'Demande de congé créée.');
+        if ($isApproved) {
+            $validated['approved_at'] = now();
+            $validated['approved_by'] = auth()->id();
+        }
+
+        $leave = LeaveRequest::create($validated);
+
+        // Update balance if approved directly
+        if ($isApproved && $balance) {
+            $balance->increment('used_days', $validated['days_count']);
+        }
+
+        return back()->with('success', $isApproved
+            ? 'Congé créé et approuvé.'
+            : 'Demande de congé créée.');
     }
 
     public function update(Request $request, LeaveRequest $leaveRequest): RedirectResponse

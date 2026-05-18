@@ -11,7 +11,13 @@ const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 const { startTour } = useTour();
 
-onMounted(() => setTimeout(() => startTour("hrLeaves"), 600));
+onMounted(() => {
+    setTimeout(() => startTour("hrLeaves"), 600);
+    // Auto-open the create modal when ?new=1 is in the URL (used from shared calendar)
+    if (new URLSearchParams(window.location.search).get('new') === '1') {
+        showNewModal.value = true;
+    }
+});
 
 const props = defineProps({
     leaveRequests: { type: Object, required: true },
@@ -220,6 +226,7 @@ const newForm = useForm({
     end_date: "",
     days_count: 1,
     reason: "",
+    status: "pending",
 });
 
 const remainingDays = computed(() => {
@@ -892,6 +899,19 @@ const submitNew = () => {
                                 rows="2"
                                 class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"
                             ></textarea>
+                        </div>
+                        <div class="flex items-start gap-2 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
+                            <input
+                                id="approve_directly"
+                                type="checkbox"
+                                :checked="newForm.status === 'approved'"
+                                @change="(e) => newForm.status = e.target.checked ? 'approved' : 'pending'"
+                                class="mt-0.5 rounded text-emerald-500 focus:ring-emerald-500"
+                            />
+                            <label for="approve_directly" class="text-sm text-emerald-800 dark:text-emerald-300 cursor-pointer">
+                                {{ t('hr.approve_directly') }}
+                                <span class="block text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">{{ t('hr.approve_directly_hint') }}</span>
+                            </label>
                         </div>
                         <div
                             class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"
