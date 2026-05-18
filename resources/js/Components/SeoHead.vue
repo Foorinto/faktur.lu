@@ -68,14 +68,25 @@ const alternateLocales = computed(() => {
 });
 
 // Generate canonical URL
+// IMPORTANT: must work both server-side (SSR/initial render) AND client-side.
+// Server-side, `window` is undefined, so we rely on `currentPath` shared by Inertia.
 const canonicalUrl = computed(() => {
     if (props.canonicalPath) {
         return `${appUrl.value}/${locale.value}${props.canonicalPath}`;
     }
-    // Use current URL path
-    const path = typeof window !== 'undefined' ? window.location.pathname : '';
-    return `${appUrl.value}${path}`;
+    // Priority: server-shared path > window.location > '/'
+    const path = page.props.currentPath
+        || (typeof window !== 'undefined' ? window.location.pathname : '/');
+    // Strip query params and trailing slash (except root) to avoid duplicate canonicals
+    const cleanPath = path.replace(/\?.*$/, '').replace(/\/+$/, '') || '/';
+    return `${appUrl.value}${cleanPath}`;
 });
+
+// Helper: get the current path, working both SSR and client-side.
+const resolveCurrentPath = () => {
+    return page.props.currentPath
+        || (typeof window !== 'undefined' ? window.location.pathname : '/');
+};
 
 // Generate hreflang URLs for all locales
 const hreflangUrls = computed(() => {
@@ -90,7 +101,7 @@ const hreflangUrls = computed(() => {
 
     // Fallback: simple locale prefix swap (works for routes without localized slugs)
     const locales = availableLocales();
-    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+    const currentPath = resolveCurrentPath();
     const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb|pt)/, '') || '/';
 
     return Object.keys(locales).map(code => ({
@@ -106,7 +117,7 @@ const xDefaultUrl = computed(() => {
         return alternates.fr || `${appUrl.value}/fr/`;
     }
 
-    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+    const currentPath = resolveCurrentPath();
     const pathWithoutLocale = currentPath.replace(/^\/(fr|de|en|lb|pt)/, '') || '/';
     return `${appUrl.value}/fr${pathWithoutLocale}`;
 });

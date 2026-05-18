@@ -100,6 +100,8 @@ class HandleInertiaRequests extends Middleware
                 'lb' => 'Lëtzebuergesch',
             ]),
             'translations' => $this->getTranslations($locale),
+            'currentPath' => $request->getPathInfo(),
+            'currentUrl' => $request->url(),
             'unreadSupportCount' => fn () => $this->getUnreadSupportCount($request),
             'pendingRemindersCount' => fn () => $this->getPendingRemindersCount($request),
         ];
