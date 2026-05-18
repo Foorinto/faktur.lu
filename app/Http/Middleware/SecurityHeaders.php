@@ -67,8 +67,8 @@ class SecurityHeaders
             // Images - allow data URIs for QR codes
             "img-src 'self' data: https:",
 
-            // Fonts - Google/Bunny fonts
-            "font-src 'self' https://fonts.bunny.net https://fonts.gstatic.com",
+            // Fonts - Google/Bunny fonts + data URIs (FullCalendar embeds its icon font as base64)
+            "font-src 'self' data: https://fonts.bunny.net https://fonts.gstatic.com",
 
             // Connect - API calls + Matomo analytics + Stripe
             "connect-src 'self' " . $this->getMatomoDomain() . " https://api.stripe.com",
