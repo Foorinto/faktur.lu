@@ -50,6 +50,8 @@ class BusinessSettings extends Model
         'credit_note_starting_number',
         'quote_starting_number',
         'number_padding',
+        // Shared calendar (HR module Pro)
+        'shared_calendar_enabled',
     ];
 
     public const NUMBERING_TYPE_INVOICE = 'invoice';
@@ -129,6 +131,7 @@ class BusinessSettings extends Model
         'show_email_on_invoice' => 'boolean',
         'show_phone_on_invoice' => 'boolean',
         'show_payment_qrcode' => 'boolean',
+        'shared_calendar_enabled' => 'boolean',
     ];
 
     /**

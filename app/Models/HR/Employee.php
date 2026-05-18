@@ -51,6 +51,7 @@ class Employee extends Model
         'termination_reason',
         'account_id',
         'portal_activated_at',
+        'hide_leaves_from_team',
     ];
 
     protected $casts = [
@@ -63,6 +64,7 @@ class Employee extends Model
         'benefits' => 'array',
         'emergency_contact' => 'array',
         'portal_activated_at' => 'datetime',
+        'hide_leaves_from_team' => 'boolean',
     ];
 
     protected $appends = ['full_name'];

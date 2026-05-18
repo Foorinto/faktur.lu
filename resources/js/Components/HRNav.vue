@@ -12,6 +12,7 @@ const links = [
     { label: () => t('hr.employees'), href: 'hr.employees.index', match: ['/hr/employees'] },
     { label: () => t('hr.trombinoscope'), href: 'hr.trombinoscope', match: ['/hr/trombinoscope'] },
     { label: () => t('hr.leave_requests'), href: 'hr.leaves.index', match: ['/hr/leaves'] },
+    { label: () => t('hr_calendar_title'), href: 'hr.shared-calendar.index', match: ['/hr/shared-calendar', '/hr/events', '/hr/rooms'] },
     { label: () => t('hr.expenses'), href: 'hr.expenses.index', match: ['/hr/expenses'] },
 ];
 

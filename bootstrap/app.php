@@ -46,6 +46,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Send HR event reminders (J-1 and J0) daily at 7:00 AM
+        $schedule->command('hr:send-event-reminders')
+            ->dailyAt('07:00')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Database backup daily at configured time (default 3:00 AM)
         if (config('backup.enabled')) {
             $schedule->command('backup:run')

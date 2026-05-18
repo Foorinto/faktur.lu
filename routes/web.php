@@ -425,6 +425,24 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             Route::resource('departments', HR\DepartmentController::class)->except(['create', 'show', 'edit']);
             Route::resource('leave-types', HR\LeaveTypeController::class)->except(['create', 'show', 'edit']);
 
+            // Shared calendar (FEAT-079)
+            Route::get('/shared-calendar', [HR\SharedCalendarController::class, 'index'])->name('shared-calendar.index');
+            Route::get('/shared-calendar/events', [HR\SharedCalendarController::class, 'events'])->name('shared-calendar.events');
+
+            // HR events
+            Route::get('/events/create', [HR\HrEventController::class, 'create'])->name('events.create');
+            Route::post('/events', [HR\HrEventController::class, 'store'])->name('events.store');
+            Route::get('/events/{event}', [HR\HrEventController::class, 'show'])->name('events.show');
+            Route::get('/events/{event}/edit', [HR\HrEventController::class, 'edit'])->name('events.edit');
+            Route::put('/events/{event}', [HR\HrEventController::class, 'update'])->name('events.update');
+            Route::delete('/events/{event}', [HR\HrEventController::class, 'destroy'])->name('events.destroy');
+
+            // Rooms
+            Route::get('/rooms', [HR\RoomController::class, 'index'])->name('rooms.index');
+            Route::post('/rooms', [HR\RoomController::class, 'store'])->name('rooms.store');
+            Route::put('/rooms/{room}', [HR\RoomController::class, 'update'])->name('rooms.update');
+            Route::delete('/rooms/{room}', [HR\RoomController::class, 'destroy'])->name('rooms.destroy');
+
             Route::get('/leaves', [HR\LeaveRequestController::class, 'index'])->name('leaves.index');
             Route::get('/leaves/calendar', [HR\LeaveRequestController::class, 'calendar'])->name('leaves.calendar');
             Route::post('/leaves', [HR\LeaveRequestController::class, 'store'])->name('leaves.store');
