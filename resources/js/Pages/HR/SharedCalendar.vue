@@ -23,6 +23,31 @@ const calendarRef = ref(null);
 const events = ref([]);
 const loading = ref(false);
 
+// Custom tooltip (no delay, replaces native title attribute)
+const tooltip = ref({ visible: false, content: '', x: 0, y: 0 });
+
+const escapeHtml = (str) => String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+const formatDate = (d) => {
+    if (!d) return '';
+    return new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+};
+
+const positionTooltip = (jsEvent, el) => {
+    const rect = el.getBoundingClientRect();
+    // Place tooltip below the event by default, switch above if not enough room
+    const tooltipHeight = 200; // approximate
+    const willOverflowBottom = (rect.bottom + tooltipHeight) > window.innerHeight;
+
+    tooltip.value.x = Math.min(window.innerWidth - 320, rect.left);
+    tooltip.value.y = willOverflowBottom ? Math.max(10, rect.top - tooltipHeight) : rect.bottom + 6;
+};
+
 // Filters
 const selectedEmployees = ref(props.employees.map(e => e.id));
 const selectedTypes = ref(['meeting', 'training', 'team_building', 'deadline', 'other']);
@@ -86,38 +111,42 @@ const calendarOptions = computed(() => ({
             router.get(route('hr.events.show', info.event.id.replace('evt-', '')));
         }
     },
-    eventDidMount: (info) => {
+    eventMouseEnter: (info) => {
         const props = info.event.extendedProps;
-        let tooltip = info.event.title;
+        const lines = [];
 
         if (info.event.id?.startsWith('lv-')) {
-            // Leave tooltip
-            const parts = [];
-            if (props.employee_name) parts.push(props.employee_name);
-            if (props.leave_type) parts.push(props.leave_type);
-            if (props.days_count) parts.push(`${props.days_count} ${t('hr.days')}`);
-            if (props.status_label) parts.push(`[${props.status_label}]`);
-            if (props.start_date && props.end_date) {
-                parts.push(`${props.start_date} → ${props.end_date}`);
+            if (props.employee_name) lines.push(`<strong>${escapeHtml(props.employee_name)}</strong>`);
+            if (props.leave_type) lines.push(escapeHtml(props.leave_type));
+            if (props.days_count) lines.push(`${props.days_count} ${t('hr.days')}`);
+            if (props.status_label) {
+                const isPending = props.status === 'pending';
+                const cls = isPending ? 'text-amber-300' : 'text-emerald-300';
+                lines.push(`<span class="${cls}">[${escapeHtml(props.status_label)}]</span>`);
             }
-            if (props.reason) parts.push(`\n${t('hr.reason')}: ${props.reason}`);
-            tooltip = parts.join('\n');
+            if (props.start_date && props.end_date) {
+                lines.push(`<span class="text-slate-300">${formatDate(props.start_date)} → ${formatDate(props.end_date)}</span>`);
+            }
+            if (props.reason) lines.push(`<div class="mt-2 pt-2 border-t border-slate-600">${escapeHtml(t('hr.reason'))}: ${escapeHtml(props.reason)}</div>`);
         } else if (info.event.id?.startsWith('evt-')) {
-            // Event tooltip
-            const parts = [info.event.title];
+            lines.push(`<strong>${escapeHtml(info.event.title)}</strong>`);
             const start = info.event.start ? new Date(info.event.start).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : null;
             const end = info.event.end ? new Date(info.event.end).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : null;
-            if (start && end) parts.push(`${start} → ${end}`);
-            if (props.location_type === 'room' && props.room) parts.push(`📍 ${props.room}`);
-            else if (props.location_type === 'address' && props.address) parts.push(`📍 ${props.address}`);
-            else if (props.location_type === 'video' && props.video_url) parts.push(`🎥 ${props.video_url}`);
-            if (props.creator) parts.push(`${t('hr_event_creator')}: ${props.creator}`);
-            if (props.participants_count) parts.push(`${t('hr_event_participants')}: ${props.participants_count}`);
-            if (props.description) parts.push(`\n${props.description}`);
-            tooltip = parts.join('\n');
+            if (start && end) lines.push(`<span class="text-slate-300">${start} → ${end}</span>`);
+            if (props.location_type === 'room' && props.room) lines.push(`📍 ${escapeHtml(props.room)}`);
+            else if (props.location_type === 'address' && props.address) lines.push(`📍 ${escapeHtml(props.address)}`);
+            else if (props.location_type === 'video' && props.video_url) lines.push(`🎥 ${escapeHtml(props.video_url)}`);
+            if (props.creator) lines.push(`${t('hr_event_creator')}: ${escapeHtml(props.creator)}`);
+            if (props.participants_count) lines.push(`${t('hr_event_participants')}: ${props.participants_count}`);
+            if (props.description) lines.push(`<div class="mt-2 pt-2 border-t border-slate-600">${escapeHtml(props.description)}</div>`);
         }
 
-        info.el.title = tooltip;
+        tooltip.value.content = lines.join('<br>');
+        tooltip.value.visible = true;
+        positionTooltip(info.jsEvent, info.el);
+    },
+    eventMouseLeave: () => {
+        tooltip.value.visible = false;
     },
     dateClick: (info) => {
         router.get(route('hr.events.create'), { date: info.dateStr });
@@ -247,6 +276,16 @@ const clearEmployees = () => {
                 </div>
             </div>
         </div>
+
+        <!-- Custom tooltip (instant, no delay) -->
+        <Teleport to="body">
+            <div
+                v-show="tooltip.visible"
+                class="fixed z-50 max-w-xs px-3 py-2 text-xs text-white bg-slate-800 dark:bg-slate-900 rounded-lg shadow-xl pointer-events-none whitespace-normal leading-relaxed"
+                :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }"
+                v-html="tooltip.content"
+            />
+        </Teleport>
     </AppLayout>
 </template>
 
