@@ -2893,6 +2893,7 @@ return [
         'nav_title' => 'Mäin HR-Beräich',
         'dashboard' => 'Dashboard',
         'my_leaves' => 'Meng Congéen',
+        'shared_calendar' => 'Team-Kalenner',
         'my_expenses' => 'Meng Spesen',
         'my_documents' => 'Meng Dokumenter',
         'my_evaluations' => 'Meng Bewäertungen',

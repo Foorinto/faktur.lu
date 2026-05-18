@@ -40,5 +40,15 @@ Route::prefix('mon-espace-rh')->name('employee-portal.')->group(function () {
         // Profile
         Route::get('/profil', [EmployeePortal\PortalProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profil', [EmployeePortal\PortalProfileController::class, 'update'])->name('profile.update');
+
+        // Shared calendar (FEAT-079)
+        Route::get('/calendrier-partage', [EmployeePortal\PortalSharedCalendarController::class, 'index'])->name('shared-calendar.index');
+        Route::get('/calendrier-partage/events', [EmployeePortal\PortalSharedCalendarController::class, 'events'])->name('shared-calendar.events');
+        Route::get('/calendrier-partage/evenements/create', [EmployeePortal\PortalSharedCalendarController::class, 'createEvent'])->name('shared-calendar.events.create');
+        Route::post('/calendrier-partage/evenements', [EmployeePortal\PortalSharedCalendarController::class, 'storeEvent'])->name('shared-calendar.events.store');
+        Route::get('/calendrier-partage/evenements/{event}', [EmployeePortal\PortalSharedCalendarController::class, 'showEvent'])->name('shared-calendar.events.show');
+        Route::get('/calendrier-partage/evenements/{event}/edit', [EmployeePortal\PortalSharedCalendarController::class, 'editEvent'])->name('shared-calendar.events.edit');
+        Route::put('/calendrier-partage/evenements/{event}', [EmployeePortal\PortalSharedCalendarController::class, 'updateEvent'])->name('shared-calendar.events.update');
+        Route::delete('/calendrier-partage/evenements/{event}', [EmployeePortal\PortalSharedCalendarController::class, 'destroyEvent'])->name('shared-calendar.events.destroy');
     });
 });

@@ -3159,6 +3159,7 @@ return [
         'nav_title' => 'A Minha Área RH',
         'dashboard' => 'Painel de controlo',
         'my_leaves' => 'As minhas férias',
+        'shared_calendar' => 'Calendário da equipa',
         'my_expenses' => 'As minhas notas de despesa',
         'my_documents' => 'Os meus documentos',
         'my_evaluations' => 'As minhas avaliações',

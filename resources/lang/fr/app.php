@@ -3182,6 +3182,7 @@ return [
         'nav_title' => 'Mon Espace RH',
         'dashboard' => 'Tableau de bord',
         'my_leaves' => 'Mes congés',
+        'shared_calendar' => 'Calendrier équipe',
         'my_expenses' => 'Mes notes de frais',
         'my_documents' => 'Mes documents',
         'my_evaluations' => 'Mes évaluations',

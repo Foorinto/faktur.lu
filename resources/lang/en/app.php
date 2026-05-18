@@ -2953,6 +2953,7 @@ return [
         'nav_title' => 'My HR Space',
         'dashboard' => 'Dashboard',
         'my_leaves' => 'My leaves',
+        'shared_calendar' => 'Team calendar',
         'my_expenses' => 'My expenses',
         'my_documents' => 'My documents',
         'my_evaluations' => 'My evaluations',

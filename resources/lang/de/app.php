@@ -2893,6 +2893,7 @@ return [
         'nav_title' => 'Mein HR-Bereich',
         'dashboard' => 'Dashboard',
         'my_leaves' => 'Mein Urlaub',
+        'shared_calendar' => 'Team-Kalender',
         'my_expenses' => 'Meine Spesen',
         'my_documents' => 'Meine Dokumente',
         'my_evaluations' => 'Meine Bewertungen',
