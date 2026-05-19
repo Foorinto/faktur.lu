@@ -23,7 +23,7 @@ class TaskController extends Controller
             'estimated_hours' => 'nullable|numeric|min:0|max:999',
             'parent_id' => 'nullable|exists:tasks,id',
             'assignees' => 'nullable|array',
-            'assignees.*' => 'string|regex:/^(employee|user):\d+$/',
+            'assignees.*' => ['string', 'regex:/^(employee|user):\d+$/'],
         ]);
 
         $assignees = $validated['assignees'] ?? [];
@@ -106,7 +106,7 @@ class TaskController extends Controller
             'due_date' => 'nullable|date',
             'estimated_hours' => 'nullable|numeric|min:0|max:999',
             'assignees' => 'nullable|array',
-            'assignees.*' => 'string|regex:/^(employee|user):\d+$/',
+            'assignees.*' => ['string', 'regex:/^(employee|user):\d+$/'],
         ]);
 
         $assignees = $request->has('assignees') ? ($validated['assignees'] ?? []) : null;
