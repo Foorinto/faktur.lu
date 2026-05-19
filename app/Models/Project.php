@@ -88,6 +88,37 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_members')->withTimestamps();
     }
 
+    /**
+     * Employees assigned to this project (with active flag in pivot).
+     * FEAT-081: employees are auto-attached on project creation and can be toggled off individually.
+     */
+    public function employees(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\HR\Employee::class, 'project_employees')
+            ->withPivot('active', 'added_at')
+            ->withTimestamps();
+    }
+
+    /**
+     * Active employees on this project (pivot.active = true).
+     */
+    public function activeEmployees(): BelongsToMany
+    {
+        return $this->employees()->wherePivot('active', true);
+    }
+
+    /**
+     * External collaborators invited specifically on this project.
+     * FEAT-081: replaces the org-wide collaborator visibility model.
+     */
+    public function collaborators(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_members')
+            ->wherePivot('member_type', 'collaborator')
+            ->withPivot('invited_email', 'invited_at', 'accepted_at')
+            ->withTimestamps();
+    }
+
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

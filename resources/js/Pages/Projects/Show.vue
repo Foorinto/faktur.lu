@@ -6,6 +6,7 @@ import { ref, computed, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import draggable from 'vuedraggable';
 import RichTextDisplay from '@/Components/RichTextDisplay.vue';
+import ProjectMembersPanel from '@/Components/Project/ProjectMembersPanel.vue';
 
 const { t } = useTranslations();
 
@@ -841,6 +842,11 @@ const onKanbanDragEnd = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- FEAT-081: Project members section (employees + external collaborators) -->
+            <div class="mt-6">
+                <ProjectMembersPanel :project="project" />
             </div>
         </div>
     </AppLayout>

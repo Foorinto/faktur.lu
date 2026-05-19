@@ -103,6 +103,16 @@ class ProjectController extends Controller
 
         $project = Project::create($validated);
 
+        // FEAT-081: auto-attach all active employees to the newly created project
+        try {
+            app(\App\Actions\Project\AutoAttachEmployeesToProjectAction::class)->execute($project);
+        } catch (\Throwable $e) {
+            \Log::warning('AutoAttachEmployees failed', [
+                'project_id' => $project->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
         return redirect()
             ->route('projects.show', $project)
             ->with('success', __('app.projects_flash.created'));

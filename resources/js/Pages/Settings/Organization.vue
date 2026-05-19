@@ -79,11 +79,7 @@ const removeMember = (memberId, memberName) => {
     }
 };
 
-const toggleProjectVisibility = (projectId) => {
-    router.post(route('settings.organization.project.toggle', projectId), {}, {
-        preserveScroll: true,
-    });
-};
+// toggleProjectVisibility removed (FEAT-081) - visibility is now managed per project via project members panel
 </script>
 
 <template>
@@ -248,35 +244,7 @@ const toggleProjectVisibility = (projectId) => {
                     </ul>
                 </div>
 
-                <!-- Project Visibility -->
-                <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-200 dark:border-gray-700 dark:shadow-gray-900/50 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-base font-medium text-slate-900 dark:text-white">{{ t('project_visibility') }}</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400">
-                            {{ t('project_visibility_description') }}
-                        </p>
-                    </div>
-                    <div v-if="projects.length === 0" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
-                        {{ t('no_active_projects') }}
-                    </div>
-                    <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
-                        <li v-for="project in projects" :key="project.id" class="px-6 py-3">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm text-slate-900 dark:text-white">{{ project.title }}</span>
-                                <button
-                                    @click="toggleProjectVisibility(project.id)"
-                                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                    :class="project.hidden_from_collaborators ? 'bg-slate-200 dark:bg-slate-600' : 'bg-primary-600'"
-                                >
-                                    <span
-                                        :class="project.hidden_from_collaborators ? 'translate-x-0' : 'translate-x-5'"
-                                        class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
-                                    />
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <!-- Project visibility section removed (FEAT-081) - now managed per project via project members panel -->
             </template>
         </div>
 

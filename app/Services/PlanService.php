@@ -150,6 +150,48 @@ class PlanService
     }
 
     /**
+     * Check if user can invite a new collaborator on a given project.
+     * FEAT-081: per-project quota driven by plan.max_collaborators_per_project.
+     */
+    public function canInviteCollaboratorToProject(User $user, \App\Models\Project $project): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_collaborators_per_project');
+
+        if ($limit === null) {
+            return true;
+        }
+
+        $count = \DB::table('project_members')
+            ->where('project_id', $project->id)
+            ->where('member_type', 'collaborator')
+            ->count();
+
+        return $count < $limit;
+    }
+
+    /**
+     * Get current collaborator usage on a project.
+     * Returns ['used' => int, 'max' => int|null, 'plan' => string].
+     */
+    public function collaboratorQuotaForProject(User $user, \App\Models\Project $project): array
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_collaborators_per_project');
+
+        $count = \DB::table('project_members')
+            ->where('project_id', $project->id)
+            ->where('member_type', 'collaborator')
+            ->count();
+
+        return [
+            'used' => $count,
+            'max' => $limit,
+            'plan' => $plan->name,
+        ];
+    }
+
+    /**
      * Check if user can export more Peppol this month.
      */
     public function canExportPeppol(User $user): bool

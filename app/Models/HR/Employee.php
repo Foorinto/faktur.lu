@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -136,6 +137,25 @@ class Employee extends Model
     public function onboardingTasks(): HasMany
     {
         return $this->hasMany(OnboardingTask::class);
+    }
+
+    /**
+     * Projects this employee is assigned to (with active flag in pivot).
+     * FEAT-081: employees are linked at project level.
+     */
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Project::class, 'project_employees')
+            ->withPivot('active', 'added_at')
+            ->withTimestamps();
+    }
+
+    /**
+     * Active projects only (pivot.active = true).
+     */
+    public function activeProjects(): BelongsToMany
+    {
+        return $this->projects()->wherePivot('active', true);
     }
 
     // Scopes

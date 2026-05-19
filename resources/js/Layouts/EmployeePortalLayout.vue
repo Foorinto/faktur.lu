@@ -17,6 +17,7 @@ const navigation = [
     { name: () => t('employee_portal.dashboard'), href: 'employee-portal.dashboard', icon: 'home' },
     { name: () => t('employee_portal.my_leaves'), href: 'employee-portal.leaves.index', icon: 'calendar' },
     { name: () => t('employee_portal.shared_calendar'), href: 'employee-portal.shared-calendar.index', icon: 'calendar' },
+    { name: () => t('employee_portal.my_projects'), href: 'employee-portal.projects.index', icon: 'folder' },
     { name: () => t('employee_portal.my_expenses'), href: 'employee-portal.expenses.index', icon: 'receipt' },
     { name: () => t('employee_portal.my_documents'), href: 'employee-portal.documents.index', icon: 'folder' },
     { name: () => t('employee_portal.my_evaluations'), href: 'employee-portal.evaluations.index', icon: 'clipboard' },

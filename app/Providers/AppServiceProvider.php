@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Listeners\LogAuthenticationEvents;
 use App\Models\AdminSession;
+use App\Models\HR\Employee;
 use App\Models\Import\ImportSession;
+use App\Observers\EmployeeObserver;
 use App\Policies\ImportSessionPolicy;
 use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\Peppol\SimulationService;
@@ -58,6 +60,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Register policies for models in subdirectories (auto-discovery doesn't work)
         Gate::policy(ImportSession::class, ImportSessionPolicy::class);
+
+        // FEAT-081: auto-remove terminated employees from all their active projects
+        Employee::observe(EmployeeObserver::class);
 
         // Configure rate limiters
         $this->configureRateLimiting();

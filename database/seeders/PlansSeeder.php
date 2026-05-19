@@ -31,6 +31,7 @@ class PlansSeeder extends Seeder
                     'max_quotes_per_month' => 2,
                     'max_emails_per_month' => 5,
                     'max_expenses_per_month' => 10,
+                    'max_collaborators_per_project' => 3,
                 ],
                 'features' => [
                     'invoices',
@@ -63,6 +64,7 @@ class PlansSeeder extends Seeder
                     'max_expenses_per_month' => 30,
                     'max_active_projects' => 10,
                     'max_peppol_per_month' => 10,
+                    'max_collaborators_per_project' => 5,
                 ],
                 'features' => [
                     'invoices',
@@ -100,6 +102,7 @@ class PlansSeeder extends Seeder
                     'max_expenses_per_month' => null,
                     'max_active_projects' => null,
                     'max_peppol_per_month' => null,
+                    'max_collaborators_per_project' => 10,
                 ],
                 'features' => [
                     'invoices',

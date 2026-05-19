@@ -41,6 +41,10 @@ Route::prefix('mon-espace-rh')->name('employee-portal.')->group(function () {
         Route::get('/profil', [EmployeePortal\PortalProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profil', [EmployeePortal\PortalProfileController::class, 'update'])->name('profile.update');
 
+        // Projects (FEAT-081)
+        Route::get('/projets', [EmployeePortal\PortalProjectController::class, 'index'])->name('projects.index');
+        Route::get('/projets/{project}', [EmployeePortal\PortalProjectController::class, 'show'])->name('projects.show');
+
         // Shared calendar (FEAT-079)
         Route::get('/calendrier-partage', [EmployeePortal\PortalSharedCalendarController::class, 'index'])->name('shared-calendar.index');
         Route::get('/calendrier-partage/events', [EmployeePortal\PortalSharedCalendarController::class, 'events'])->name('shared-calendar.events');
