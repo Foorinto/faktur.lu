@@ -103,7 +103,7 @@ class PortalProjectController extends Controller
                 'assignedUsers:id,name',
             ])
             ->orderByRaw("CASE status WHEN 'in_progress' THEN 1 WHEN 'next' THEN 2 WHEN 'backlog' THEN 3 WHEN 'waiting_for' THEN 4 WHEN 'done' THEN 5 ELSE 6 END")
-            ->get(['id', 'title', 'description', 'status', 'is_completed', 'due_date']);
+            ->get(['id', 'title', 'description', 'status', 'priority', 'is_completed', 'due_date']);
 
         // Employee's time entries on this project (last 30)
         $timeEntries = TimeEntry::query()
@@ -118,6 +118,8 @@ class PortalProjectController extends Controller
             'project' => $project,
             'tasks' => $tasks,
             'timeEntries' => $timeEntries,
+            'taskStatuses' => Task::STATUSES,
+            'taskPriorities' => Task::PRIORITIES,
         ]);
     }
 }

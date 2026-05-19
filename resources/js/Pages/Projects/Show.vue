@@ -687,6 +687,7 @@ const onKanbanDragEnd = () => {
                                         <div class="flex-1 min-w-0">
                                             <div v-if="editingTask !== task.id" class="flex items-center gap-2 flex-wrap">
                                                 <span :class="['text-sm', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</span>
+                                                <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] }}</span>
                                                 <select
                                                     :value="task.status"
                                                     @change="changeTaskStatus(task, $event.target.value)"
@@ -694,7 +695,6 @@ const onKanbanDragEnd = () => {
                                                 >
                                                     <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
                                                 </select>
-                                                <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] }}</span>
                                                 <span v-for="(a, i) in assigneeLabels(task)" :key="'a'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300" :title="a.kind === 'collaborator' ? t('task_assignee_external') : t('employee')">
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
                                                     {{ a.label }}
@@ -743,6 +743,7 @@ const onKanbanDragEnd = () => {
                                             </button>
                                             <template v-if="editingTask !== subtask.id">
                                                 <span :class="['flex-1 text-sm', subtask.is_completed ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-300']">{{ subtask.title }}</span>
+                                                <span :class="getPriorityBadgeClass(subtask.priority)" class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium">{{ taskPriorities[subtask.priority] }}</span>
                                                 <select
                                                     :value="subtask.status"
                                                     @change="changeTaskStatus(subtask, $event.target.value)"
@@ -750,8 +751,7 @@ const onKanbanDragEnd = () => {
                                                 >
                                                     <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
                                                 </select>
-                                                <span :class="getPriorityBadgeClass(subtask.priority)" class="inline-flex items-center rounded px-1 py-0.5 text-xs font-medium">{{ taskPriorities[subtask.priority] }}</span>
-                                                <span v-for="(a, i) in assigneeLabels(subtask)" :key="'sa'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-1.5 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                                <span v-for="(a, i) in assigneeLabels(subtask)" :key="'sa'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
                                                     {{ a.label }}
                                                 </span>

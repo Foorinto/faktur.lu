@@ -10,7 +10,15 @@ defineProps({
     project: { type: Object, required: true },
     tasks: { type: Array, required: true },
     timeEntries: { type: Array, required: true },
+    taskStatuses: { type: Object, default: () => ({}) },
+    taskPriorities: { type: Object, default: () => ({}) },
 });
+
+const getPriorityBadgeClass = (priority) => ({
+    low: 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400',
+    normal: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+    high: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
+}[priority] || 'bg-blue-100 text-blue-700');
 
 const formatDuration = (seconds) => {
     if (!seconds) return '0h';
@@ -38,8 +46,6 @@ const taskAssignees = (task) => {
     (task.assigned_users || []).forEach(u => out.push({ label: u.name }));
     return out;
 };
-
-const TASK_STATUSES = ['backlog', 'next', 'in_progress', 'waiting_for', 'done'];
 
 const toggleTask = (task) => {
     router.post(route('employee-portal.tasks.toggle', task.id), {}, { preserveScroll: true });
@@ -93,35 +99,32 @@ const changeTaskStatus = (task, status) => {
                 </h2>
                 <ul v-if="tasks.length > 0" class="divide-y divide-gray-100 dark:divide-gray-700">
                     <li v-for="task in tasks" :key="task.id" class="py-3">
-                        <div class="flex items-start gap-3">
+                        <div class="flex items-center gap-2">
                             <button
                                 @click="toggleTask(task)"
-                                :class="['mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors', task.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 hover:border-primary-500 dark:border-gray-700']"
+                                :class="['flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors', task.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 hover:border-primary-500 dark:border-gray-700']"
                                 :title="t(task.is_completed ? 'mark_incomplete' : 'mark_complete')"
                             >
                                 <svg v-if="task.is_completed" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>
                             </button>
-                            <div class="flex-1 min-w-0">
-                                <p :class="['text-sm font-medium', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</p>
-                                <p v-if="task.description" class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ task.description }}</p>
-                                <div v-if="taskAssignees(task).length > 0" class="mt-1 flex flex-wrap items-center gap-1">
-                                    <span v-for="(a, i) in taskAssignees(task)" :key="'ea'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
-                                        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
-                                        {{ a.label }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-end gap-1 flex-shrink-0">
+                            <div class="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
+                                <span :class="['text-sm font-medium', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</span>
+                                <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] }}</span>
                                 <select
                                     :value="task.status"
                                     @change="changeTaskStatus(task, $event.target.value)"
                                     :class="['text-xs rounded-full border-0 py-0.5 pl-2 pr-7 font-medium ring-1 ring-inset focus:ring-2 focus:ring-primary-500 cursor-pointer', statusColor(task.status)]"
                                 >
-                                    <option v-for="s in TASK_STATUSES" :key="s" :value="s">{{ t('project_status.' + s) }}</option>
+                                    <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
                                 </select>
-                                <span v-if="task.due_date" class="text-xs text-slate-500">{{ formatDate(task.due_date) }}</span>
+                                <span v-for="(a, i) in taskAssignees(task)" :key="'ea'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                    {{ a.label }}
+                                </span>
+                                <span v-if="task.due_date" class="text-xs text-slate-400">{{ formatDate(task.due_date) }}</span>
                             </div>
                         </div>
+                        <p v-if="task.description" class="ml-7 mt-1 text-xs text-slate-500 dark:text-slate-400 truncate">{{ task.description }}</p>
                     </li>
                 </ul>
                 <p v-else class="text-sm text-slate-500 py-2">{{ t('no_tasks') }}</p>
