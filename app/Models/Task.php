@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -50,8 +51,6 @@ class Task extends Model
         'is_completed',
         'completed_at',
         'sort_order',
-        'assigned_to_employee_id',
-        'assigned_to_user_id',
     ];
 
     protected function casts(): array
@@ -91,14 +90,16 @@ class Task extends Model
         return $this->hasMany(TimeEntry::class);
     }
 
-    public function assignedEmployee(): BelongsTo
+    public function assignedEmployees(): BelongsToMany
     {
-        return $this->belongsTo(\App\Models\HR\Employee::class, 'assigned_to_employee_id');
+        return $this->belongsToMany(\App\Models\HR\Employee::class, 'task_assignees', 'task_id', 'employee_id')
+            ->withTimestamps();
     }
 
-    public function assignedUser(): BelongsTo
+    public function assignedUsers(): BelongsToMany
     {
-        return $this->belongsTo(User::class, 'assigned_to_user_id');
+        return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id')
+            ->withTimestamps();
     }
 
     // Scopes

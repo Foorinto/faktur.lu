@@ -22,12 +22,12 @@ class TaskController extends Controller
             'due_date' => 'nullable|date',
             'estimated_hours' => 'nullable|numeric|min:0|max:999',
             'parent_id' => 'nullable|exists:tasks,id',
-            'assignee' => 'nullable|string|regex:/^(employee|user):\d+$/',
+            'assignees' => 'nullable|array',
+            'assignees.*' => 'string|regex:/^(employee|user):\d+$/',
         ]);
 
-        [$validated['assigned_to_employee_id'], $validated['assigned_to_user_id']]
-            = $this->parseAssignee($validated['assignee'] ?? null, $project);
-        unset($validated['assignee']);
+        $assignees = $validated['assignees'] ?? [];
+        unset($validated['assignees']);
 
         // Set default values
         $validated['status'] = $validated['status'] ?? Task::STATUS_BACKLOG;
@@ -51,7 +51,8 @@ class TaskController extends Controller
 
         $validated['sort_order'] = $maxOrder + 1;
 
-        $project->tasks()->create($validated);
+        $task = $project->tasks()->create($validated);
+        $this->syncAssignees($task, $assignees, $project);
 
         return back()->with('success', __('app.tasks_flash.created'));
     }
@@ -104,16 +105,17 @@ class TaskController extends Controller
             'priority' => 'nullable|in:' . implode(',', array_keys(Task::PRIORITIES)),
             'due_date' => 'nullable|date',
             'estimated_hours' => 'nullable|numeric|min:0|max:999',
-            'assignee' => 'nullable|string|regex:/^(employee|user):\d+$/',
+            'assignees' => 'nullable|array',
+            'assignees.*' => 'string|regex:/^(employee|user):\d+$/',
         ]);
 
-        if (array_key_exists('assignee', $validated)) {
-            [$validated['assigned_to_employee_id'], $validated['assigned_to_user_id']]
-                = $this->parseAssignee($validated['assignee'], $task->project);
-            unset($validated['assignee']);
-        }
+        $assignees = $request->has('assignees') ? ($validated['assignees'] ?? []) : null;
+        unset($validated['assignees']);
 
         $task->update($validated);
+        if ($assignees !== null) {
+            $this->syncAssignees($task, $assignees, $task->project);
+        }
 
         // If status is done, mark as completed
         if (($validated['status'] ?? null) === Task::STATUS_DONE && !$task->is_completed) {
@@ -165,29 +167,47 @@ class TaskController extends Controller
     }
 
     /**
-     * Parse "employee:123" or "user:456" payload, validating membership on the project.
-     * Returns [employeeId|null, userId|null].
+     * Sync the many-to-many assignees on a task.
+     * Each entry is "employee:N" or "user:N"; entries are validated against project membership.
      */
-    private function parseAssignee(?string $assignee, ?Project $project): array
+    private function syncAssignees(Task $task, array $assignees, ?Project $project): void
     {
-        if (!$assignee || !$project) {
-            return [null, null];
+        if (!$project) {
+            return;
         }
-        [$type, $id] = explode(':', $assignee, 2);
-        $id = (int) $id;
 
-        if ($type === 'employee') {
-            $isActive = $project->activeEmployees()->where('employees.id', $id)->exists();
-            return $isActive ? [$id, null] : [null, null];
+        $employeeIds = [];
+        $userIds = [];
+        foreach ($assignees as $entry) {
+            [$type, $id] = explode(':', $entry, 2);
+            $id = (int) $id;
+            if ($type === 'employee'
+                && $project->activeEmployees()->where('employees.id', $id)->exists()) {
+                $employeeIds[] = $id;
+            }
+            if ($type === 'user'
+                && $project->collaborators()
+                    ->where('users.id', $id)
+                    ->wherePivotNotNull('accepted_at')
+                    ->exists()) {
+                $userIds[] = $id;
+            }
         }
-        if ($type === 'user') {
-            $isMember = $project->collaborators()
-                ->where('users.id', $id)
-                ->wherePivotNotNull('accepted_at')
-                ->exists();
-            return $isMember ? [null, $id] : [null, null];
+
+        // Sync employee + user pivots independently. Both share the task_assignees table
+        // (an entry has either employee_id or user_id set, never both).
+        \DB::table('task_assignees')->where('task_id', $task->id)->delete();
+        $rows = [];
+        $now = now();
+        foreach (array_unique($employeeIds) as $eid) {
+            $rows[] = ['task_id' => $task->id, 'employee_id' => $eid, 'user_id' => null, 'created_at' => $now, 'updated_at' => $now];
         }
-        return [null, null];
+        foreach (array_unique($userIds) as $uid) {
+            $rows[] = ['task_id' => $task->id, 'employee_id' => null, 'user_id' => $uid, 'created_at' => $now, 'updated_at' => $now];
+        }
+        if ($rows) {
+            \DB::table('task_assignees')->insert($rows);
+        }
     }
 
     /**

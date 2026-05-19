@@ -126,14 +126,14 @@ class ProjectController extends Controller
         $taskView = $request->get('task_view', 'list');
         $taskSort = $request->get('sort', 'manual');
 
-        // Load tasks with children (sorting is done client-side for responsiveness)
+        // Load tasks with children + many-to-many assignees
         $tasks = $project->tasks()
             ->rootTasks()
             ->with([
-                'children.assignedEmployee:id,first_name,last_name',
-                'children.assignedUser:id,name',
-                'assignedEmployee:id,first_name,last_name',
-                'assignedUser:id,name',
+                'children.assignedEmployees:id,first_name,last_name',
+                'children.assignedUsers:id,name',
+                'assignedEmployees:id,first_name,last_name',
+                'assignedUsers:id,name',
             ])
             ->orderBy('sort_order')
             ->get();

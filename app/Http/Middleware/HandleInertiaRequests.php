@@ -171,8 +171,21 @@ class HandleInertiaRequests extends Middleware
             $translations = require $fallbackPath;
         }
 
+        // Strip top-level keys used only by backend email/PDF templates (long content
+        // strings) to reduce payload size. Frontend-needed labels with the same prefix
+        // (email_settings, email_signature, pdf_color, …) are kept via the allowlist.
         $backendOnlyPrefixes = ['email_', 'pdf_', 'mail_subject_'];
+        $frontendKept = [
+            'email_settings', 'email_history', 'email_signature', 'email_signature_placeholder',
+            'email_provider', 'email_provider_tab', 'email_provider_config_title',
+            'email_send_provider', 'email_send_provider_description',
+            'email_unverified', 'email_verification_title', 'email_verification_message',
+            'pdf_color', 'pdf_color_help', 'pdf_a_archiving',
+        ];
         foreach ($translations as $key => $value) {
+            if (in_array($key, $frontendKept, true)) {
+                continue;
+            }
             foreach ($backendOnlyPrefixes as $prefix) {
                 if (str_starts_with($key, $prefix)) {
                     unset($translations[$key]);

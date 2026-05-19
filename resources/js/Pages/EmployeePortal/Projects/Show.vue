@@ -31,6 +31,13 @@ const statusColor = (status) => ({
     waiting_for: 'bg-amber-100 text-amber-700',
     done: 'bg-violet-100 text-violet-700',
 }[status] || 'bg-slate-100 text-slate-700');
+
+const taskAssignees = (task) => {
+    const out = [];
+    (task.assigned_employees || []).forEach(e => out.push({ label: [e.first_name, e.last_name].filter(Boolean).join(' ') }));
+    (task.assigned_users || []).forEach(u => out.push({ label: u.name }));
+    return out;
+};
 </script>
 
 <template>
@@ -68,26 +75,32 @@ const statusColor = (status) => ({
                 </div>
             </div>
 
-            <!-- My tasks -->
+            <!-- Project tasks (all) -->
             <div class="rounded-2xl bg-white dark:bg-surface-card border border-gray-200 dark:border-gray-700 p-6">
                 <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">
-                    {{ t('employee_portal.my_tasks') }} ({{ tasks.length }})
+                    {{ t('tasks') }} ({{ tasks.length }})
                 </h2>
                 <ul v-if="tasks.length > 0" class="divide-y divide-gray-100 dark:divide-gray-700">
                     <li v-for="task in tasks" :key="task.id" class="py-3">
-                        <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center justify-between gap-3 flex-wrap">
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ task.title }}</p>
+                                <p class="text-sm font-medium text-slate-900 dark:text-white">{{ task.title }}</p>
                                 <p v-if="task.description" class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ task.description }}</p>
+                                <div v-if="taskAssignees(task).length > 0" class="mt-1 flex flex-wrap items-center gap-1">
+                                    <span v-for="(a, i) in taskAssignees(task)" :key="'ea'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                        {{ a.label }}
+                                    </span>
+                                </div>
                             </div>
                             <div class="flex items-center gap-2 flex-shrink-0">
-                                <span class="text-xs" :class="statusColor(task.status)">{{ t('project_status.' + task.status) }}</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" :class="statusColor(task.status)">{{ t('project_status.' + task.status) }}</span>
                                 <span v-if="task.due_date" class="text-xs text-slate-500">{{ formatDate(task.due_date) }}</span>
                             </div>
                         </div>
                     </li>
                 </ul>
-                <p v-else class="text-sm text-slate-500 py-2">{{ t('employee_portal.no_tasks_assigned') }}</p>
+                <p v-else class="text-sm text-slate-500 py-2">{{ t('no_tasks') }}</p>
             </div>
 
             <!-- Recent time entries -->
