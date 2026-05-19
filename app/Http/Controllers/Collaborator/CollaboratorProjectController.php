@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Collaborator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -119,6 +120,10 @@ class CollaboratorProjectController extends Controller
         $project->load([
             'tasks' => fn ($q) => $q->rootTasks()->orderBy('sort_order'),
             'tasks.children' => fn ($q) => $q->orderBy('sort_order'),
+            'tasks.assignedEmployees' => fn ($q) => $q->withoutGlobalScope('user')->select(['employees.id', 'first_name', 'last_name']),
+            'tasks.assignedUsers:id,name',
+            'tasks.children.assignedEmployees' => fn ($q) => $q->withoutGlobalScope('user')->select(['employees.id', 'first_name', 'last_name']),
+            'tasks.children.assignedUsers:id,name',
             'client:id,name',
         ]);
 
@@ -161,16 +166,39 @@ class CollaboratorProjectController extends Controller
                     'is_completed' => $t->is_completed,
                     'due_date' => $t->due_date?->format('Y-m-d'),
                     'sort_order' => $t->sort_order,
+                    'assigned_employees' => $t->assignedEmployees->map(fn ($e) => [
+                        'id' => $e->id,
+                        'first_name' => $e->first_name,
+                        'last_name' => $e->last_name,
+                    ]),
+                    'assigned_users' => $t->assignedUsers->map(fn ($u) => [
+                        'id' => $u->id,
+                        'name' => $u->name,
+                    ]),
                     'children' => $t->children->map(fn ($c) => [
                         'id' => $c->id,
                         'title' => $c->title,
+                        'status' => $c->status,
+                        'priority' => $c->priority,
                         'is_completed' => $c->is_completed,
+                        'due_date' => $c->due_date?->format('Y-m-d'),
                         'sort_order' => $c->sort_order,
+                        'assigned_employees' => $c->assignedEmployees->map(fn ($e) => [
+                            'id' => $e->id,
+                            'first_name' => $e->first_name,
+                            'last_name' => $e->last_name,
+                        ]),
+                        'assigned_users' => $c->assignedUsers->map(fn ($u) => [
+                            'id' => $u->id,
+                            'name' => $u->name,
+                        ]),
                     ]),
                 ]),
             ],
             'timeEntries' => $timeEntries,
             'statuses' => Project::STATUSES,
+            'taskStatuses' => Task::STATUSES,
+            'taskPriorities' => Task::PRIORITIES,
         ]);
     }
 

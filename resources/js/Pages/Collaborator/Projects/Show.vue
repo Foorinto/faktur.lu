@@ -10,6 +10,8 @@ const props = defineProps({
     project: Object,
     timeEntries: Array,
     statuses: Object,
+    taskStatuses: { type: Object, default: () => ({}) },
+    taskPriorities: { type: Object, default: () => ({}) },
 });
 
 const showAddTask = ref(false);
@@ -38,6 +40,26 @@ const toggleTask = (taskId) => {
     });
 };
 
+const changeTaskStatus = (task, status) => {
+    if (status === task.status) return;
+    router.put(route('collaborator.tasks.update', task.id), { title: task.title, status }, {
+        preserveScroll: true,
+    });
+};
+
+const taskAssignees = (task) => {
+    const out = [];
+    (task.assigned_employees || []).forEach(e => out.push({
+        label: [e.first_name, e.last_name].filter(Boolean).join(' '),
+        kind: 'employee',
+    }));
+    (task.assigned_users || []).forEach(u => out.push({
+        label: u.name,
+        kind: 'collaborator',
+    }));
+    return out;
+};
+
 const deleteTask = (taskId) => {
     if (confirm(t('confirm_delete'))) {
         router.delete(route('collaborator.tasks.destroy', taskId), {
@@ -57,14 +79,19 @@ const getStatusColor = (status) => {
     return colors[status] || colors.backlog;
 };
 
-const getPriorityColor = (priority) => {
-    const colors = {
-        low: 'text-slate-400',
-        normal: 'text-sky-500',
-        high: 'text-pink-500',
-    };
-    return colors[priority] || colors.normal;
-};
+const getPriorityBadgeClass = (priority) => ({
+    low: 'bg-slate-100 text-slate-600 dark:bg-gray-800 dark:text-slate-400',
+    normal: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+    high: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
+}[priority] || 'bg-blue-100 text-blue-700');
+
+const getStatusBadgeClass = (status) => ({
+    backlog: 'bg-slate-100 text-slate-700 ring-slate-200 dark:bg-gray-800 dark:text-slate-300 dark:ring-slate-700',
+    next: 'bg-blue-100 text-blue-700 ring-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:ring-blue-800',
+    in_progress: 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-800',
+    waiting_for: 'bg-orange-100 text-orange-700 ring-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:ring-orange-800',
+    done: 'bg-emerald-100 text-emerald-700 ring-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:ring-emerald-800',
+}[status] || 'bg-slate-100 text-slate-700 ring-slate-200');
 </script>
 
 <template>
@@ -184,30 +211,33 @@ const getPriorityColor = (priority) => {
 
                     <ul v-else class="divide-y divide-slate-200 dark:divide-slate-700">
                         <li v-for="task in project.tasks" :key="task.id" class="px-6 py-3">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-3">
-                                    <button
-                                        @click="toggleTask(task.id)"
-                                        class="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors"
-                                        :class="task.is_completed
-                                            ? 'bg-primary-500 border-primary-500'
-                                            : 'border-gray-300 dark:border-gray-700 hover:border-primary-400'"
+                            <div class="flex items-center gap-2">
+                                <button
+                                    @click="toggleTask(task.id)"
+                                    class="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors"
+                                    :class="task.is_completed
+                                        ? 'bg-primary-500 border-primary-500'
+                                        : 'border-gray-300 dark:border-gray-700 hover:border-primary-400'"
+                                >
+                                    <svg v-if="task.is_completed" class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </button>
+                                <div class="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
+                                    <span :class="['text-sm font-medium', task.is_completed ? 'line-through text-slate-400' : 'text-slate-900 dark:text-white']">{{ task.title }}</span>
+                                    <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] || task.priority }}</span>
+                                    <select
+                                        :value="task.status"
+                                        @change="changeTaskStatus(task, $event.target.value)"
+                                        :class="['text-xs rounded-full border-0 py-0.5 pl-2 pr-7 font-medium ring-1 ring-inset focus:ring-2 focus:ring-primary-500 cursor-pointer', getStatusBadgeClass(task.status)]"
                                     >
-                                        <svg v-if="task.is_completed" class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </button>
-                                    <div>
-                                        <p class="text-sm" :class="task.is_completed ? 'line-through text-slate-400' : 'text-slate-900 dark:text-white'">
-                                            {{ task.title }}
-                                        </p>
-                                        <div class="flex items-center space-x-2 mt-0.5">
-                                            <span v-if="task.priority !== 'normal'" :class="getPriorityColor(task.priority)" class="text-xs font-medium">
-                                                {{ task.priority }}
-                                            </span>
-                                            <span v-if="task.due_date" class="text-xs text-slate-400">{{ task.due_date }}</span>
-                                        </div>
-                                    </div>
+                                        <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
+                                    </select>
+                                    <span v-for="(a, i) in taskAssignees(task)" :key="'ca'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300" :title="a.kind === 'collaborator' ? t('task_assignee_external') : t('employee')">
+                                        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                        {{ a.label }}
+                                    </span>
+                                    <span v-if="task.due_date" class="text-xs text-slate-400">{{ task.due_date }}</span>
                                 </div>
                                 <button
                                     @click="deleteTask(task.id)"
@@ -221,22 +251,33 @@ const getPriorityColor = (priority) => {
 
                             <!-- Subtasks -->
                             <ul v-if="task.children && task.children.length > 0" class="ml-8 mt-2 space-y-1">
-                                <li v-for="child in task.children" :key="child.id" class="flex items-center justify-between py-1">
-                                    <div class="flex items-center space-x-2">
-                                        <button
-                                            @click="toggleTask(child.id)"
-                                            class="flex-shrink-0 w-4 h-4 rounded border-2 flex items-center justify-center transition-colors"
-                                            :class="child.is_completed
-                                                ? 'bg-primary-500 border-primary-500'
-                                                : 'border-gray-300 dark:border-gray-700 hover:border-primary-400'"
+                                <li v-for="child in task.children" :key="child.id" class="flex items-center gap-2 py-1">
+                                    <button
+                                        @click="toggleTask(child.id)"
+                                        class="flex-shrink-0 w-4 h-4 rounded border-2 flex items-center justify-center transition-colors"
+                                        :class="child.is_completed
+                                            ? 'bg-primary-500 border-primary-500'
+                                            : 'border-gray-300 dark:border-gray-700 hover:border-primary-400'"
+                                    >
+                                        <svg v-if="child.is_completed" class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </button>
+                                    <div class="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
+                                        <span :class="['text-xs', child.is_completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-300']">{{ child.title }}</span>
+                                        <span :class="getPriorityBadgeClass(child.priority)" class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium">{{ taskPriorities[child.priority] || child.priority }}</span>
+                                        <select
+                                            :value="child.status"
+                                            @change="changeTaskStatus(child, $event.target.value)"
+                                            :class="['text-xs rounded-full border-0 py-0.5 pl-2 pr-6 font-medium ring-1 ring-inset focus:ring-2 focus:ring-primary-500 cursor-pointer', getStatusBadgeClass(child.status)]"
                                         >
-                                            <svg v-if="child.is_completed" class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </button>
-                                        <span class="text-xs" :class="child.is_completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-300'">
-                                            {{ child.title }}
+                                            <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
+                                        </select>
+                                        <span v-for="(a, i) in taskAssignees(child)" :key="'csa'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                            <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                            {{ a.label }}
                                         </span>
+                                        <span v-if="child.due_date" class="text-xs text-slate-400">{{ child.due_date }}</span>
                                     </div>
                                 </li>
                             </ul>
