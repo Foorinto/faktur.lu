@@ -549,6 +549,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
             Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
             Route::post('/tasks/{task}/toggle', [TaskController::class, 'toggle'])->name('tasks.toggle');
+            Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.status');
             Route::post('/tasks/{task}/subtasks', [TaskController::class, 'storeSubtask'])->name('tasks.subtasks.store');
             Route::post('/projects/{project}/tasks/reorder', [TaskController::class, 'reorder'])->name('tasks.reorder');
             Route::post('/projects/{project}/tasks/reorder-list', [TaskController::class, 'reorderList'])->name('tasks.reorder-list');

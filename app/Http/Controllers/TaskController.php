@@ -152,6 +152,28 @@ class TaskController extends Controller
     }
 
     /**
+     * Quick status change (called from the inline status select on task rows).
+     */
+    public function updateStatus(Request $request, Task $task): RedirectResponse
+    {
+        if (!$task->project || !$task->project->belongsToAuthUser()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:' . implode(',', array_keys(Task::STATUSES)),
+        ]);
+
+        $task->update([
+            'status' => $validated['status'],
+            'is_completed' => $validated['status'] === Task::STATUS_DONE,
+            'completed_at' => $validated['status'] === Task::STATUS_DONE ? now() : null,
+        ]);
+
+        return back();
+    }
+
+    /**
      * Toggle task completion status.
      */
     public function toggle(Task $task): RedirectResponse

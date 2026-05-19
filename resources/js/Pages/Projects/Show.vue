@@ -253,6 +253,11 @@ const toggleTask = (task) => {
     router.post(route('tasks.toggle', task.id), {}, { preserveScroll: true });
 };
 
+const changeTaskStatus = (task, status) => {
+    if (status === task.status) return;
+    router.patch(route('tasks.status', task.id), { status }, { preserveScroll: true });
+};
+
 const startEditTask = (task) => {
     editingTask.value = task.id;
     editForm.title = task.title;
@@ -522,10 +527,12 @@ const onKanbanDragEnd = () => {
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Tasks section -->
-                <div class="rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
-                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+            <!-- Tasks section: pulled out of lg:col-span-2 via lg:col-span-3 + lg:order-last
+                 so it renders full-width on row 2, with the sidebar filling row 1 col 3. -->
+            <div class="lg:col-span-3 lg:order-last rounded-2xl bg-white p-6 border border-gray-200 dark:bg-surface-card dark:border-gray-700">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('tasks') }}</h2>
                         <div class="flex flex-wrap items-center gap-2">
                             <!-- Sort selector -->
@@ -680,6 +687,13 @@ const onKanbanDragEnd = () => {
                                         <div class="flex-1 min-w-0">
                                             <div v-if="editingTask !== task.id" class="flex items-center gap-2 flex-wrap">
                                                 <span :class="['text-sm', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</span>
+                                                <select
+                                                    :value="task.status"
+                                                    @change="changeTaskStatus(task, $event.target.value)"
+                                                    :class="['text-xs rounded-full border-0 py-0.5 pl-2 pr-7 font-medium ring-1 ring-inset focus:ring-2 focus:ring-primary-500 cursor-pointer', getStatusBadgeClass(task.status)]"
+                                                >
+                                                    <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
+                                                </select>
                                                 <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] }}</span>
                                                 <span v-for="(a, i) in assigneeLabels(task)" :key="'a'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300" :title="a.kind === 'collaborator' ? t('task_assignee_external') : t('employee')">
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
@@ -729,6 +743,13 @@ const onKanbanDragEnd = () => {
                                             </button>
                                             <template v-if="editingTask !== subtask.id">
                                                 <span :class="['flex-1 text-sm', subtask.is_completed ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-300']">{{ subtask.title }}</span>
+                                                <select
+                                                    :value="subtask.status"
+                                                    @change="changeTaskStatus(subtask, $event.target.value)"
+                                                    :class="['text-xs rounded-full border-0 py-0.5 pl-2 pr-6 font-medium ring-1 ring-inset focus:ring-2 focus:ring-primary-500 cursor-pointer', getStatusBadgeClass(subtask.status)]"
+                                                >
+                                                    <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
+                                                </select>
                                                 <span :class="getPriorityBadgeClass(subtask.priority)" class="inline-flex items-center rounded px-1 py-0.5 text-xs font-medium">{{ taskPriorities[subtask.priority] }}</span>
                                                 <span v-for="(a, i) in assigneeLabels(subtask)" :key="'sa'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-1.5 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
@@ -860,7 +881,6 @@ const onKanbanDragEnd = () => {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
 
             <!-- Sidebar -->
