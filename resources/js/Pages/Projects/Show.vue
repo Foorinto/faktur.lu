@@ -844,10 +844,11 @@ const onKanbanDragEnd = () => {
                 </div>
             </div>
 
-            <!-- FEAT-081: Project members section (employees + external collaborators) -->
-            <div class="mt-6">
-                <ProjectMembersPanel :project="project" />
-            </div>
+        </div>
+
+        <!-- FEAT-081: Project members section (full-width, outside the 2/3-1/3 grid) -->
+        <div class="mt-6">
+            <ProjectMembersPanel :project="project" />
         </div>
     </AppLayout>
 </template>

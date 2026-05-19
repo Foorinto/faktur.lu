@@ -104,13 +104,7 @@ return [
     'project_employee_activated' => 'Mataarbechter op dësem Projet aktivéiert.',
     'project_employee_deactivated' => 'Mataarbechter op dësem Projet deaktivéiert.',
 
-    'employee_portal.my_projects' => 'Meng Projeten',
-    'employee_portal.my_projects_title' => 'Meng Projeten',
-    'employee_portal.no_projects' => 'Dir sidd am Moment kengem aktive Projet zougewisen.',
-    'employee_portal.my_tasks' => 'Meng Aufgaben',
-    'employee_portal.no_tasks_assigned' => 'Keng Aufgaben op dësem Projet.',
-    'employee_portal.recent_time_entries' => 'Rezent Zäitentreeën',
-    'employee_portal.no_time_entries' => 'Keng Zäitentreeën op dësem Projet.',
+    // FEAT-081: employee_portal.* keys are now inside the employee_portal nested array below
 
     'mail_subject_project_member_added' => 'Dir sidd zum Projet dobäigesat: :project',
     'mail_subject_project_member_removed' => 'Dir sidd aus dem Projet ewechgeholl: :project',
@@ -2948,6 +2942,13 @@ return [
         'dashboard' => 'Dashboard',
         'my_leaves' => 'Meng Congéen',
         'shared_calendar' => 'Team-Kalenner',
+        'my_projects' => 'Meng Projeten',
+        'my_projects_title' => 'Meng Projeten',
+        'no_projects' => 'Dir sidd am Moment kengem aktive Projet zougewisen.',
+        'my_tasks' => 'Meng Aufgaben',
+        'no_tasks_assigned' => 'Keng Aufgaben op dësem Projet.',
+        'recent_time_entries' => 'Rezent Zäitentreeën',
+        'no_time_entries' => 'Keng Zäitentreeën op dësem Projet.',
         'my_expenses' => 'Meng Spesen',
         'my_documents' => 'Meng Dokumenter',
         'my_evaluations' => 'Meng Bewäertungen',

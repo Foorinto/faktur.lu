@@ -162,13 +162,7 @@ return [
     'project_employee_activated' => 'Colaborador ativado neste projeto.',
     'project_employee_deactivated' => 'Colaborador desativado neste projeto.',
 
-    'employee_portal.my_projects' => 'Os meus projetos',
-    'employee_portal.my_projects_title' => 'Os meus projetos',
-    'employee_portal.no_projects' => 'Não está atribuído a nenhum projeto ativo no momento.',
-    'employee_portal.my_tasks' => 'As minhas tarefas',
-    'employee_portal.no_tasks_assigned' => 'Nenhuma tarefa atribuída neste projeto.',
-    'employee_portal.recent_time_entries' => 'Registos de tempo recentes',
-    'employee_portal.no_time_entries' => 'Nenhum registo de tempo neste projeto.',
+    // FEAT-081: employee_portal.* keys are now inside the employee_portal nested array below
 
     'mail_subject_project_member_added' => 'Foi adicionado ao projeto: :project',
     'mail_subject_project_member_removed' => 'Foi removido do projeto: :project',
@@ -3213,6 +3207,13 @@ return [
         'dashboard' => 'Painel de controlo',
         'my_leaves' => 'As minhas férias',
         'shared_calendar' => 'Calendário da equipa',
+        'my_projects' => 'Os meus projetos',
+        'my_projects_title' => 'Os meus projetos',
+        'no_projects' => 'Não está atribuído a nenhum projeto ativo no momento.',
+        'my_tasks' => 'As minhas tarefas',
+        'no_tasks_assigned' => 'Nenhuma tarefa atribuída neste projeto.',
+        'recent_time_entries' => 'Registos de tempo recentes',
+        'no_time_entries' => 'Nenhum registo de tempo neste projeto.',
         'my_expenses' => 'As minhas notas de despesa',
         'my_documents' => 'Os meus documentos',
         'my_evaluations' => 'As minhas avaliações',

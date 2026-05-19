@@ -43,7 +43,7 @@ Route::prefix('mon-espace-rh')->name('employee-portal.')->group(function () {
 
         // Projects (FEAT-081)
         Route::get('/projets', [EmployeePortal\PortalProjectController::class, 'index'])->name('projects.index');
-        Route::get('/projets/{project}', [EmployeePortal\PortalProjectController::class, 'show'])->name('projects.show');
+        Route::get('/projets/{projectId}', [EmployeePortal\PortalProjectController::class, 'show'])->whereNumber('projectId')->name('projects.show');
 
         // Shared calendar (FEAT-079)
         Route::get('/calendrier-partage', [EmployeePortal\PortalSharedCalendarController::class, 'index'])->name('shared-calendar.index');

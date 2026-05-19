@@ -104,14 +104,7 @@ return [
     'project_employee_activated' => 'Mitarbeiter in diesem Projekt aktiviert.',
     'project_employee_deactivated' => 'Mitarbeiter in diesem Projekt deaktiviert.',
 
-    // Employee portal — projects
-    'employee_portal.my_projects' => 'Meine Projekte',
-    'employee_portal.my_projects_title' => 'Meine Projekte',
-    'employee_portal.no_projects' => 'Sie sind derzeit keinem aktiven Projekt zugeordnet.',
-    'employee_portal.my_tasks' => 'Meine Aufgaben',
-    'employee_portal.no_tasks_assigned' => 'Keine Aufgaben in diesem Projekt zugewiesen.',
-    'employee_portal.recent_time_entries' => 'Letzte Zeiteinträge',
-    'employee_portal.no_time_entries' => 'Keine Zeiteinträge für dieses Projekt.',
+    // Employee portal — projects (FEAT-081 nested below)
 
     // FEAT-081 — Emails
     'mail_subject_project_member_added' => 'Sie wurden dem Projekt hinzugefügt: :project',
@@ -2949,6 +2942,13 @@ return [
         'dashboard' => 'Dashboard',
         'my_leaves' => 'Mein Urlaub',
         'shared_calendar' => 'Team-Kalender',
+        'my_projects' => 'Meine Projekte',
+        'my_projects_title' => 'Meine Projekte',
+        'no_projects' => 'Sie sind derzeit keinem aktiven Projekt zugeordnet.',
+        'my_tasks' => 'Meine Aufgaben',
+        'no_tasks_assigned' => 'Keine Aufgaben in diesem Projekt zugewiesen.',
+        'recent_time_entries' => 'Letzte Zeiteinträge',
+        'no_time_entries' => 'Keine Zeiteinträge für dieses Projekt.',
         'my_expenses' => 'Meine Spesen',
         'my_documents' => 'Meine Dokumente',
         'my_evaluations' => 'Meine Bewertungen',

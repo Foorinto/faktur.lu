@@ -52,7 +52,7 @@ const statusColor = (status) => ({
                     <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ project.title }}</h1>
                 </div>
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="statusColor(project.status)">
-                    {{ t('project_status_' + project.status) }}
+                    {{ t('project_status.' + project.status) }}
                 </span>
                 <p v-if="project.description" class="mt-3 text-slate-600 dark:text-slate-400 whitespace-pre-wrap">{{ project.description }}</p>
                 <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
@@ -80,7 +80,7 @@ const statusColor = (status) => ({
                                 <p v-if="task.description" class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ task.description }}</p>
                             </div>
                             <div class="flex items-center gap-2 flex-shrink-0">
-                                <span class="text-xs" :class="statusColor(task.status)">{{ t('task_status_' + task.status) }}</span>
+                                <span class="text-xs" :class="statusColor(task.status)">{{ t('project_status.' + task.status) }}</span>
                                 <span v-if="task.due_date" class="text-xs text-slate-500">{{ formatDate(task.due_date) }}</span>
                             </div>
                         </div>

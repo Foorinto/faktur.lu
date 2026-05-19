@@ -72,9 +72,16 @@ class PortalProjectController extends Controller
     /**
      * Show project detail (only if employee has active access).
      */
-    public function show(Project $project): Response
+    public function show(int $projectId): Response
     {
         $employee = $this->employee();
+
+        // Bypass global 'user' scope: the employee's auth()->id() is their account_id,
+        // not the org owner's user_id (which is what Project.user_id points to).
+        $project = Project::withoutGlobalScope('user')
+            ->where('id', $projectId)
+            ->where('user_id', $employee->user_id)
+            ->firstOrFail();
 
         // Verify employee has active access on this project
         $hasAccess = $employee->activeProjects()

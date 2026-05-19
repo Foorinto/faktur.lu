@@ -54,7 +54,7 @@ const statusColor = (status) => ({
                                 class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
                                 :class="statusColor(project.status)"
                             >
-                                {{ t('project_status_' + project.status) }}
+                                {{ t('project_status.' + project.status) }}
                             </span>
                             <p v-if="project.client" class="mt-2 text-sm text-slate-500 dark:text-slate-400">
                                 {{ t('client') }}: {{ project.client.name }}

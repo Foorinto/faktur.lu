@@ -162,14 +162,7 @@ return [
     'project_employee_activated' => 'Employé activé sur ce projet.',
     'project_employee_deactivated' => 'Employé désactivé sur ce projet.',
 
-    // Employee portal — projects
-    'employee_portal.my_projects' => 'Mes projets',
-    'employee_portal.my_projects_title' => 'Mes projets',
-    'employee_portal.no_projects' => 'Vous n\'êtes assigné à aucun projet actif pour le moment.',
-    'employee_portal.my_tasks' => 'Mes tâches',
-    'employee_portal.no_tasks_assigned' => 'Aucune tâche assignée pour ce projet.',
-    'employee_portal.recent_time_entries' => 'Entrées de temps récentes',
-    'employee_portal.no_time_entries' => 'Aucune entrée de temps pour ce projet.',
+    // Employee portal — projects (FEAT-081 nested keys are inside the employee_portal array below)
 
     // FEAT-081 — Emails
     'mail_subject_project_member_added' => 'Vous avez été ajouté au projet : :project',
@@ -3238,6 +3231,14 @@ return [
         'dashboard' => 'Tableau de bord',
         'my_leaves' => 'Mes congés',
         'shared_calendar' => 'Calendrier équipe',
+        // FEAT-081
+        'my_projects' => 'Mes projets',
+        'my_projects_title' => 'Mes projets',
+        'no_projects' => 'Vous n\'êtes assigné à aucun projet actif pour le moment.',
+        'my_tasks' => 'Mes tâches',
+        'no_tasks_assigned' => 'Aucune tâche assignée pour ce projet.',
+        'recent_time_entries' => 'Entrées de temps récentes',
+        'no_time_entries' => 'Aucune entrée de temps pour ce projet.',
         'my_expenses' => 'Mes notes de frais',
         'my_documents' => 'Mes documents',
         'my_evaluations' => 'Mes évaluations',
