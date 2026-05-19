@@ -129,7 +129,12 @@ class ProjectController extends Controller
         // Load tasks with children (sorting is done client-side for responsiveness)
         $tasks = $project->tasks()
             ->rootTasks()
-            ->with('children')
+            ->with([
+                'children.assignedEmployee:id,first_name,last_name',
+                'children.assignedUser:id,name',
+                'assignedEmployee:id,first_name,last_name',
+                'assignedUser:id,name',
+            ])
             ->orderBy('sort_order')
             ->get();
 
@@ -146,6 +151,9 @@ class ProjectController extends Controller
 
         $project->loadSum('timeEntries', 'duration_seconds');
 
+        // FEAT-081: assignable members for task assignment dropdown
+        $assignableMembers = $this->buildAssignableMembers($project);
+
         return Inertia::render('Projects/Show', [
             'project' => $project,
             'taskView' => $taskView,
@@ -153,7 +161,39 @@ class ProjectController extends Controller
             'statuses' => Project::STATUSES,
             'taskStatuses' => \App\Models\Task::STATUSES,
             'taskPriorities' => \App\Models\Task::PRIORITIES,
+            'assignableMembers' => $assignableMembers,
         ]);
+    }
+
+    /**
+     * Build the list of members assignable to a task on this project:
+     * active employees + accepted collaborators.
+     */
+    private function buildAssignableMembers(Project $project): array
+    {
+        $employees = $project->activeEmployees()
+            ->withoutGlobalScope('user')
+            ->get(['employees.id', 'first_name', 'last_name'])
+            ->map(fn ($e) => [
+                'value' => 'employee:' . $e->id,
+                'label' => trim($e->first_name . ' ' . $e->last_name),
+                'kind' => 'employee',
+            ])
+            ->values()
+            ->all();
+
+        $collaborators = $project->collaborators()
+            ->wherePivotNotNull('accepted_at')
+            ->get(['users.id', 'users.name', 'users.email'])
+            ->map(fn ($u) => [
+                'value' => 'user:' . $u->id,
+                'label' => $u->name ?: $u->email,
+                'kind' => 'collaborator',
+            ])
+            ->values()
+            ->all();
+
+        return array_merge($employees, $collaborators);
     }
 
     /**

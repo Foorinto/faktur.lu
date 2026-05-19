@@ -50,6 +50,8 @@ class Task extends Model
         'is_completed',
         'completed_at',
         'sort_order',
+        'assigned_to_employee_id',
+        'assigned_to_user_id',
     ];
 
     protected function casts(): array
@@ -87,6 +89,16 @@ class Task extends Model
     public function timeEntries(): HasMany
     {
         return $this->hasMany(TimeEntry::class);
+    }
+
+    public function assignedEmployee(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\HR\Employee::class, 'assigned_to_employee_id');
+    }
+
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to_user_id');
     }
 
     // Scopes

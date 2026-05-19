@@ -2,6 +2,7 @@
 import EmployeePortalLayout from '@/Layouts/EmployeePortalLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import RichTextDisplay from '@/Components/RichTextDisplay.vue';
 
 const { t } = useTranslations();
 
@@ -54,7 +55,7 @@ const statusColor = (status) => ({
                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="statusColor(project.status)">
                     {{ t('project_status.' + project.status) }}
                 </span>
-                <p v-if="project.description" class="mt-3 text-slate-600 dark:text-slate-400 whitespace-pre-wrap">{{ project.description }}</p>
+                <RichTextDisplay v-if="project.description" :content="project.description" class="mt-3" />
                 <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
                     <div v-if="project.client">
                         <p class="text-slate-500 dark:text-slate-400">{{ t('client') }}</p>

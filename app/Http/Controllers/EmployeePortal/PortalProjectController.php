@@ -43,7 +43,12 @@ class PortalProjectController extends Controller
         $tasksCount = Task::query()
             ->withoutGlobalScope('user')
             ->whereIn('project_id', $projectIds)
-            ->where('assigned_to_employee_id', $employee->id)
+            ->where(function ($q) use ($employee) {
+                $q->where('assigned_to_employee_id', $employee->id);
+                if ($employee->account_id) {
+                    $q->orWhere('assigned_to_user_id', $employee->account_id);
+                }
+            })
             ->whereNotIn('status', ['done'])
             ->selectRaw('project_id, COUNT(*) as count')
             ->groupBy('project_id')
@@ -93,11 +98,16 @@ class PortalProjectController extends Controller
 
         $project->load(['client:id,name']);
 
-        // Tasks assigned to this employee on this project
+        // Tasks assigned to this employee on this project (or to this employee's user account)
         $tasks = Task::query()
             ->withoutGlobalScope('user')
             ->where('project_id', $project->id)
-            ->where('assigned_to_employee_id', $employee->id)
+            ->where(function ($q) use ($employee) {
+                $q->where('assigned_to_employee_id', $employee->id);
+                if ($employee->account_id) {
+                    $q->orWhere('assigned_to_user_id', $employee->account_id);
+                }
+            })
             ->orderByRaw("CASE status WHEN 'in_progress' THEN 1 WHEN 'next' THEN 2 WHEN 'backlog' THEN 3 WHEN 'waiting_for' THEN 4 WHEN 'done' THEN 5 ELSE 6 END")
             ->get(['id', 'title', 'description', 'status', 'due_date']);
 

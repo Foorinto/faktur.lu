@@ -60,6 +60,19 @@ return [
     'project_details' => 'Detalhes do projeto',
     'add_task' => 'Adicionar uma tarefa',
     'quick_add_task' => 'Adição rápida',
+    'task_assignee_unassigned' => 'Não atribuído',
+    'task_assignee_external' => 'externo',
+    'task_assignee_label' => 'Atribuído a',
+    'employee' => 'Colaborador',
+    'restart_tour' => 'Reiniciar tour',
+    'collapse_sidebar' => 'Recolher barra lateral',
+    'deductible' => 'Dedutível',
+    'non_deductible' => 'Não dedutível',
+    'invoice_status_finalized' => 'Finalizada',
+    'invoice_status_sent' => 'Enviada',
+    'invoice_status_paid' => 'Paga',
+    'amount_ht_short' => 'S/IVA',
+    'amount_ttc_short' => 'C/IVA',
     'project_status' => [
         'backlog' => 'Backlog',
         'next' => 'A fazer',
@@ -2535,6 +2548,7 @@ return [
             'error_email' => 'Por favor, insira um email válido.',
             'error_consent' => 'Por favor aceite a newsletter para descarregar.',
             'error_generic' => 'Ocorreu um erro. Por favor tente novamente.',
+            'error_rate_limit' => 'Demasiados pedidos. Aguarde alguns minutos.',
             'items' => [
                 'invoice_blank' => [
                     'title' => 'Modelo de fatura Luxemburgo',
@@ -2873,6 +2887,8 @@ return [
     'hr' => [
         'nav_title' => 'RH',
         'dashboard' => 'Painel de controlo RH',
+        'from' => 'De',
+        'to' => 'A',
         'employees' => 'Colaboradores',
         'employee' => 'Colaborador',
         'new_employee' => 'Novo colaborador',

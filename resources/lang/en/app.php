@@ -60,6 +60,19 @@ return [
     'project_details' => 'Project details',
     'add_task' => 'Add task',
     'quick_add_task' => 'Quick add',
+    'task_assignee_unassigned' => 'Unassigned',
+    'task_assignee_external' => 'external',
+    'task_assignee_label' => 'Assigned to',
+    'employee' => 'Employee',
+    'restart_tour' => 'Restart tour',
+    'collapse_sidebar' => 'Collapse sidebar',
+    'deductible' => 'Deductible',
+    'non_deductible' => 'Non-deductible',
+    'invoice_status_finalized' => 'Finalized',
+    'invoice_status_sent' => 'Sent',
+    'invoice_status_paid' => 'Paid',
+    'amount_ht_short' => 'Net',
+    'amount_ttc_short' => 'Gross',
     'project_status' => [
         'backlog' => 'Backlog',
         'next' => 'Next',
@@ -2330,6 +2343,7 @@ return [
             'error_email' => 'Please enter a valid email address.',
             'error_consent' => 'Please accept the newsletter to download.',
             'error_generic' => 'An error occurred. Please try again.',
+            'error_rate_limit' => 'Too many requests. Please wait a few minutes.',
             'items' => [
                 'invoice_blank' => [
                     'title' => 'Luxembourg invoice template',
@@ -2668,6 +2682,8 @@ return [
     'hr' => [
         'nav_title' => 'HR',
         'dashboard' => 'HR Dashboard',
+        'from' => 'From',
+        'to' => 'To',
         'employees' => 'Employees',
         'employee' => 'Employee',
         'new_employee' => 'New employee',

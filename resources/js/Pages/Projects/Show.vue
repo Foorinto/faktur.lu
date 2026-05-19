@@ -35,6 +35,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    assignableMembers: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const currentTaskView = ref(props.taskView);
@@ -140,6 +144,7 @@ const taskForm = useForm({
     priority: 'normal',
     due_date: '',
     estimated_hours: '',
+    assignee: '',
 });
 
 const editForm = useForm({
@@ -149,6 +154,7 @@ const editForm = useForm({
     priority: '',
     due_date: '',
     estimated_hours: '',
+    assignee: '',
 });
 
 const subtaskForm = useForm({
@@ -255,6 +261,19 @@ const startEditTask = (task) => {
     editForm.priority = task.priority;
     editForm.due_date = formatDateForInput(task.due_date);
     editForm.estimated_hours = task.estimated_hours || '';
+    editForm.assignee = task.assigned_to_employee_id
+        ? 'employee:' + task.assigned_to_employee_id
+        : (task.assigned_to_user_id ? 'user:' + task.assigned_to_user_id : '');
+};
+
+const assigneeLabel = (task) => {
+    if (task.assigned_employee) {
+        return [task.assigned_employee.first_name, task.assigned_employee.last_name].filter(Boolean).join(' ');
+    }
+    if (task.assigned_user) {
+        return task.assigned_user.name;
+    }
+    return null;
 };
 
 const saveEditTask = (task) => {
@@ -569,6 +588,16 @@ const onKanbanDragEnd = () => {
                                     type="date"
                                     class="rounded-lg border-0 py-1.5 px-3 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600"
                                 />
+                                <select
+                                    v-if="assignableMembers.length > 0"
+                                    v-model="taskForm.assignee"
+                                    class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600"
+                                >
+                                    <option value="">{{ t('task_assignee_unassigned') }}</option>
+                                    <option v-for="m in assignableMembers" :key="m.value" :value="m.value">
+                                        {{ m.label }}{{ m.kind === 'collaborator' ? ' (' + t('task_assignee_external') + ')' : '' }}
+                                    </option>
+                                </select>
                                 <div class="flex-1" />
                                 <button
                                     type="button"
@@ -628,9 +657,13 @@ const onKanbanDragEnd = () => {
                                         </button>
                                         <!-- Task content -->
                                         <div class="flex-1 min-w-0">
-                                            <div v-if="editingTask !== task.id" class="flex items-center gap-2">
+                                            <div v-if="editingTask !== task.id" class="flex items-center gap-2 flex-wrap">
                                                 <span :class="['text-sm', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</span>
                                                 <span :class="getPriorityBadgeClass(task.priority)" class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium">{{ taskPriorities[task.priority] }}</span>
+                                                <span v-if="assigneeLabel(task)" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300" :title="task.assigned_to_user_id ? t('task_assignee_external') : t('employee')">
+                                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                                    {{ assigneeLabel(task) }}
+                                                </span>
                                                 <span v-if="task.due_date" :class="task.is_overdue ? 'text-pink-500' : 'text-slate-400'" class="text-xs">{{ formatDateDisplay(task.due_date) }}</span>
                                                 <span v-if="task.children && task.children.length > 0" class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-gray-800 dark:text-slate-400">
                                                     <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" /></svg>
@@ -641,6 +674,10 @@ const onKanbanDragEnd = () => {
                                                 <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
                                                 <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
+                                                </select>
+                                                <select v-if="assignableMembers.length > 0" v-model="editForm.assignee" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
+                                                    <option value="">{{ t('task_assignee_unassigned') }}</option>
+                                                    <option v-for="m in assignableMembers" :key="m.value" :value="m.value">{{ m.label }}{{ m.kind === 'collaborator' ? ' (' + t('task_assignee_external') + ')' : '' }}</option>
                                                 </select>
                                                 <input v-model="editForm.due_date" type="date" class="rounded-lg border-0 py-1 px-2 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
                                                 <button @click="saveEditTask(task)" class="text-emerald-500 hover:text-emerald-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg></button>
@@ -669,6 +706,10 @@ const onKanbanDragEnd = () => {
                                             <template v-if="editingTask !== subtask.id">
                                                 <span :class="['flex-1 text-sm', subtask.is_completed ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-300']">{{ subtask.title }}</span>
                                                 <span :class="getPriorityBadgeClass(subtask.priority)" class="inline-flex items-center rounded px-1 py-0.5 text-xs font-medium">{{ taskPriorities[subtask.priority] }}</span>
+                                                <span v-if="assigneeLabel(subtask)" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-1.5 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+                                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                                    {{ assigneeLabel(subtask) }}
+                                                </span>
                                                 <span v-if="subtask.due_date" :class="subtask.is_overdue ? 'text-pink-500' : 'text-slate-400'" class="text-xs">{{ formatDateDisplay(subtask.due_date) }}</span>
                                                 <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <button @click="startEditTask(subtask)" class="rounded p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-600 dark:hover:bg-gray-800"><svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" /></svg></button>
@@ -679,6 +720,10 @@ const onKanbanDragEnd = () => {
                                                 <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
                                                 <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
+                                                </select>
+                                                <select v-if="assignableMembers.length > 0" v-model="editForm.assignee" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
+                                                    <option value="">{{ t('task_assignee_unassigned') }}</option>
+                                                    <option v-for="m in assignableMembers" :key="m.value" :value="m.value">{{ m.label }}</option>
                                                 </select>
                                                 <input v-model="editForm.due_date" type="date" class="rounded-lg border-0 py-1 px-2 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
                                                 <button @click="saveEditTask(subtask)" class="text-emerald-500 hover:text-emerald-600"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg></button>
@@ -767,6 +812,10 @@ const onKanbanDragEnd = () => {
                                                     class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium"
                                                 >
                                                     {{ taskPriorities[task.priority] }}
+                                                </span>
+                                                <span v-if="assigneeLabel(task)" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300" :title="task.assigned_to_user_id ? t('task_assignee_external') : t('employee')">
+                                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                                    {{ assigneeLabel(task) }}
                                                 </span>
                                                 <span v-if="task.due_date" :class="task.is_overdue ? 'text-pink-500' : 'text-slate-400'" class="text-xs">
                                                     {{ formatDateDisplay(task.due_date) }}

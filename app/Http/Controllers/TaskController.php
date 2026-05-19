@@ -22,7 +22,12 @@ class TaskController extends Controller
             'due_date' => 'nullable|date',
             'estimated_hours' => 'nullable|numeric|min:0|max:999',
             'parent_id' => 'nullable|exists:tasks,id',
+            'assignee' => 'nullable|string|regex:/^(employee|user):\d+$/',
         ]);
+
+        [$validated['assigned_to_employee_id'], $validated['assigned_to_user_id']]
+            = $this->parseAssignee($validated['assignee'] ?? null, $project);
+        unset($validated['assignee']);
 
         // Set default values
         $validated['status'] = $validated['status'] ?? Task::STATUS_BACKLOG;
@@ -99,7 +104,14 @@ class TaskController extends Controller
             'priority' => 'nullable|in:' . implode(',', array_keys(Task::PRIORITIES)),
             'due_date' => 'nullable|date',
             'estimated_hours' => 'nullable|numeric|min:0|max:999',
+            'assignee' => 'nullable|string|regex:/^(employee|user):\d+$/',
         ]);
+
+        if (array_key_exists('assignee', $validated)) {
+            [$validated['assigned_to_employee_id'], $validated['assigned_to_user_id']]
+                = $this->parseAssignee($validated['assignee'], $task->project);
+            unset($validated['assignee']);
+        }
 
         $task->update($validated);
 
@@ -150,6 +162,32 @@ class TaskController extends Controller
         $task->toggle();
 
         return back();
+    }
+
+    /**
+     * Parse "employee:123" or "user:456" payload, validating membership on the project.
+     * Returns [employeeId|null, userId|null].
+     */
+    private function parseAssignee(?string $assignee, ?Project $project): array
+    {
+        if (!$assignee || !$project) {
+            return [null, null];
+        }
+        [$type, $id] = explode(':', $assignee, 2);
+        $id = (int) $id;
+
+        if ($type === 'employee') {
+            $isActive = $project->activeEmployees()->where('employees.id', $id)->exists();
+            return $isActive ? [$id, null] : [null, null];
+        }
+        if ($type === 'user') {
+            $isMember = $project->collaborators()
+                ->where('users.id', $id)
+                ->wherePivotNotNull('accepted_at')
+                ->exists();
+            return $isMember ? [null, $id] : [null, null];
+        }
+        return [null, null];
     }
 
     /**

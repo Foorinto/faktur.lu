@@ -60,6 +60,19 @@ return [
     'project_details' => 'Détails du projet',
     'add_task' => 'Ajouter une tâche',
     'quick_add_task' => 'Ajout rapide',
+    'task_assignee_unassigned' => 'Non assigné',
+    'task_assignee_external' => 'externe',
+    'task_assignee_label' => 'Assigné à',
+    'employee' => 'Employé',
+    'restart_tour' => 'Relancer la visite',
+    'collapse_sidebar' => 'Réduire la barre latérale',
+    'deductible' => 'Déductible',
+    'non_deductible' => 'Non déductible',
+    'invoice_status_finalized' => 'Finalisée',
+    'invoice_status_sent' => 'Envoyée',
+    'invoice_status_paid' => 'Payée',
+    'amount_ht_short' => 'HT',
+    'amount_ttc_short' => 'TTC',
     'project_status' => [
         'backlog' => 'Backlog',
         'next' => 'À faire',
@@ -2559,6 +2572,7 @@ return [
             'error_email' => 'Veuillez saisir une adresse email valide.',
             'error_consent' => 'Veuillez accepter la newsletter pour télécharger.',
             'error_generic' => 'Une erreur est survenue. Veuillez réessayer.',
+            'error_rate_limit' => 'Trop de demandes. Patientez quelques minutes avant de réessayer.',
             'items' => [
                 'invoice_blank' => [
                     'title' => 'Modèle de facture Luxembourg',
@@ -2897,6 +2911,8 @@ return [
     'hr' => [
         'nav_title' => 'RH',
         'dashboard' => 'Tableau de bord RH',
+        'from' => 'Du',
+        'to' => 'Au',
         'employees' => 'Employés',
         'employee' => 'Employé',
         'new_employee' => 'Nouvel employé',
