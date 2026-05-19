@@ -44,6 +44,8 @@ Route::prefix('mon-espace-rh')->name('employee-portal.')->group(function () {
         // Projects (FEAT-081)
         Route::get('/projets', [EmployeePortal\PortalProjectController::class, 'index'])->name('projects.index');
         Route::get('/projets/{projectId}', [EmployeePortal\PortalProjectController::class, 'show'])->whereNumber('projectId')->name('projects.show');
+        Route::patch('/taches/{taskId}/status', [EmployeePortal\PortalTaskController::class, 'updateStatus'])->whereNumber('taskId')->name('tasks.status');
+        Route::post('/taches/{taskId}/toggle', [EmployeePortal\PortalTaskController::class, 'toggle'])->whereNumber('taskId')->name('tasks.toggle');
 
         // Shared calendar (FEAT-079)
         Route::get('/calendrier-partage', [EmployeePortal\PortalSharedCalendarController::class, 'index'])->name('shared-calendar.index');

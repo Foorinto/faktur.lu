@@ -94,15 +94,16 @@ class PortalProjectController extends Controller
         $project->load(['client:id,name']);
 
         // All project tasks (employees see the full backlog; assignees are shown for transparency).
+        // Disable Employee's user-scope: portal user_id ≠ project owner's user_id.
         $tasks = Task::query()
             ->withoutGlobalScope('user')
             ->where('project_id', $project->id)
             ->with([
-                'assignedEmployees:id,first_name,last_name',
+                'assignedEmployees' => fn ($q) => $q->withoutGlobalScope('user')->select(['employees.id', 'first_name', 'last_name']),
                 'assignedUsers:id,name',
             ])
             ->orderByRaw("CASE status WHEN 'in_progress' THEN 1 WHEN 'next' THEN 2 WHEN 'backlog' THEN 3 WHEN 'waiting_for' THEN 4 WHEN 'done' THEN 5 ELSE 6 END")
-            ->get(['id', 'title', 'description', 'status', 'due_date']);
+            ->get(['id', 'title', 'description', 'status', 'is_completed', 'due_date']);
 
         // Employee's time entries on this project (last 30)
         $timeEntries = TimeEntry::query()

@@ -693,6 +693,9 @@ const onKanbanDragEnd = () => {
                                             </div>
                                             <div v-else class="flex items-center gap-2">
                                                 <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
+                                                <select v-model="editForm.status" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
+                                                    <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
+                                                </select>
                                                 <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
                                                 </select>
@@ -739,6 +742,9 @@ const onKanbanDragEnd = () => {
                                             </template>
                                             <template v-else>
                                                 <input v-model="editForm.title" type="text" class="flex-1 rounded-lg border-0 py-1 px-2 text-sm text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600" />
+                                                <select v-model="editForm.status" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
+                                                    <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
+                                                </select>
                                                 <select v-model="editForm.priority" class="rounded-lg border-0 py-1 pl-2 pr-6 text-xs text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-surface-card dark:text-white dark:ring-slate-600">
                                                     <option v-for="(label, value) in taskPriorities" :key="value" :value="value">{{ label }}</option>
                                                 </select>

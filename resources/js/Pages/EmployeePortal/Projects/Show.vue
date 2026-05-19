@@ -1,6 +1,6 @@
 <script setup>
 import EmployeePortalLayout from '@/Layouts/EmployeePortalLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
 import RichTextDisplay from '@/Components/RichTextDisplay.vue';
 
@@ -37,6 +37,17 @@ const taskAssignees = (task) => {
     (task.assigned_employees || []).forEach(e => out.push({ label: [e.first_name, e.last_name].filter(Boolean).join(' ') }));
     (task.assigned_users || []).forEach(u => out.push({ label: u.name }));
     return out;
+};
+
+const TASK_STATUSES = ['backlog', 'next', 'in_progress', 'waiting_for', 'done'];
+
+const toggleTask = (task) => {
+    router.post(route('employee-portal.tasks.toggle', task.id), {}, { preserveScroll: true });
+};
+
+const changeTaskStatus = (task, status) => {
+    if (status === task.status) return;
+    router.patch(route('employee-portal.tasks.status', task.id), { status }, { preserveScroll: true });
 };
 </script>
 
@@ -82,9 +93,16 @@ const taskAssignees = (task) => {
                 </h2>
                 <ul v-if="tasks.length > 0" class="divide-y divide-gray-100 dark:divide-gray-700">
                     <li v-for="task in tasks" :key="task.id" class="py-3">
-                        <div class="flex items-center justify-between gap-3 flex-wrap">
+                        <div class="flex items-start gap-3">
+                            <button
+                                @click="toggleTask(task)"
+                                :class="['mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors', task.is_completed ? 'border-emerald-500 bg-emerald-500 text-white' : 'border-gray-300 hover:border-primary-500 dark:border-gray-700']"
+                                :title="t(task.is_completed ? 'mark_incomplete' : 'mark_complete')"
+                            >
+                                <svg v-if="task.is_completed" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>
+                            </button>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-slate-900 dark:text-white">{{ task.title }}</p>
+                                <p :class="['text-sm font-medium', task.is_completed ? 'text-slate-400 line-through' : 'text-slate-900 dark:text-white']">{{ task.title }}</p>
                                 <p v-if="task.description" class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ task.description }}</p>
                                 <div v-if="taskAssignees(task).length > 0" class="mt-1 flex flex-wrap items-center gap-1">
                                     <span v-for="(a, i) in taskAssignees(task)" :key="'ea'+i" class="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
@@ -93,8 +111,14 @@ const taskAssignees = (task) => {
                                     </span>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-2 flex-shrink-0">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium" :class="statusColor(task.status)">{{ t('project_status.' + task.status) }}</span>
+                            <div class="flex flex-col items-end gap-1 flex-shrink-0">
+                                <select
+                                    :value="task.status"
+                                    @change="changeTaskStatus(task, $event.target.value)"
+                                    :class="['text-xs rounded-full border-0 py-0.5 pl-2 pr-7 font-medium ring-1 ring-inset focus:ring-2 focus:ring-primary-500 cursor-pointer', statusColor(task.status)]"
+                                >
+                                    <option v-for="s in TASK_STATUSES" :key="s" :value="s">{{ t('project_status.' + s) }}</option>
+                                </select>
                                 <span v-if="task.due_date" class="text-xs text-slate-500">{{ formatDate(task.due_date) }}</span>
                             </div>
                         </div>
