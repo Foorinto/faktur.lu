@@ -6,11 +6,11 @@
 @if ($isNewUser)
 {{ __('app.email_project_collab_invitation_new_user_hint') }}
 
-<x-mail::button :url="route('password.request')">
+<x-mail::button :url="$acceptUrl">
 {{ __('app.email_project_collab_invitation_setup_button') }}
 </x-mail::button>
 @else
-<x-mail::button :url="route('login')">
+<x-mail::button :url="$acceptUrl">
 {{ __('app.email_project_collab_invitation_login_button') }}
 </x-mail::button>
 @endif

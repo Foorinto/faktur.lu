@@ -18,6 +18,7 @@ class ProjectCollaboratorInvitation extends Mailable
         public Project $project,
         public User $invitee,
         public bool $isNewUser = false,
+        public ?string $token = null,
     ) {}
 
     public function envelope(): Envelope
@@ -39,6 +40,9 @@ class ProjectCollaboratorInvitation extends Mailable
                 'project' => $this->project,
                 'invitee' => $this->invitee,
                 'isNewUser' => $this->isNewUser,
+                'acceptUrl' => $this->token
+                    ? route('collaborator.project-invitation.show', $this->token)
+                    : route('login'),
             ],
         );
     }

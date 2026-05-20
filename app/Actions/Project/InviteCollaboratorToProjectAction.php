@@ -69,7 +69,8 @@ class InviteCollaboratorToProjectAction
                 ]);
             }
 
-            // Insert pivot
+            // Insert pivot with invitation token (14-day expiry)
+            $token = Str::random(48);
             DB::table('project_members')->insert([
                 'project_id' => $project->id,
                 'user_id' => $user->id,
@@ -77,6 +78,8 @@ class InviteCollaboratorToProjectAction
                 'invited_email' => $email,
                 'invited_at' => now(),
                 'accepted_at' => null,
+                'invitation_token' => $token,
+                'invitation_expires_at' => now()->addDays(14),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -86,7 +89,8 @@ class InviteCollaboratorToProjectAction
                 Mail::to($email)->queue(new \App\Mail\ProjectCollaboratorInvitation(
                     $project,
                     $user,
-                    $isNewUser
+                    $isNewUser,
+                    $token,
                 ));
             } catch (\Throwable $e) {
                 Log::warning('ProjectCollaboratorInvitation mail failed', [
@@ -99,6 +103,7 @@ class InviteCollaboratorToProjectAction
             return [
                 'user' => $user,
                 'is_new_user' => $isNewUser,
+                'token' => $token,
             ];
         });
     }

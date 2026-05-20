@@ -18,9 +18,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('collaborateur')->name('collaborator.')->group(function () {
-    // Invitation acceptance (no auth required)
+    // Invitation acceptance (no auth required) — legacy org-level invitations
     Route::get('/invitation/{token}', [CollaboratorInvitationController::class, 'show'])->name('invitation.show');
     Route::post('/invitation/{token}', [CollaboratorInvitationController::class, 'accept'])->name('invitation.accept');
+
+    // FEAT-081 — Project-level invitation acceptance (token on project_members)
+    Route::get('/invitation-projet/{token}', [\App\Http\Controllers\Collaborator\ProjectInvitationController::class, 'show'])
+        ->name('project-invitation.show');
+    Route::post('/invitation-projet/{token}', [\App\Http\Controllers\Collaborator\ProjectInvitationController::class, 'accept'])
+        ->name('project-invitation.accept');
 
     // Authenticated collaborator routes
     Route::middleware(['auth', 'verified', 'collaborator'])->group(function () {
