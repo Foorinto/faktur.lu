@@ -24,15 +24,22 @@ class ProjectInvitationController extends Controller
             ->where('invitation_token', $token)
             ->first();
 
+        // Token cleared = either invalid OR already-accepted by the original invitee.
+        // If authenticated and member of the project: send them to the project.
         if (!$invitation) {
+            $authUser = Auth::user();
+            if ($authUser) {
+                $accepted = DB::table('project_members')
+                    ->where('user_id', $authUser->id)
+                    ->where('member_type', 'collaborator')
+                    ->whereNotNull('accepted_at')
+                    ->first();
+                if ($accepted) {
+                    return redirect()->route('collaborator.projects.show', $accepted->project_id);
+                }
+            }
             return Inertia::render('Collaborator/Invitation/Invalid', [
                 'message' => __('app.project_invitation_invalid'),
-            ]);
-        }
-
-        if ($invitation->accepted_at !== null) {
-            return Inertia::render('Collaborator/Invitation/Invalid', [
-                'message' => __('app.project_invitation_already_accepted'),
                 'loginUrl' => route('login'),
             ]);
         }
