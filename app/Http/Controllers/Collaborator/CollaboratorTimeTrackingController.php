@@ -57,7 +57,7 @@ class CollaboratorTimeTrackingController extends Controller
         // Available projects for timer
         $projects = Project::withoutGlobalScopes()
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($request->user()->id)
             ->active()
             ->orderBy('title')
             ->with(['tasks' => fn ($q) => $q->withoutGlobalScopes()->select('id', 'project_id', 'title', 'parent_id')->where('is_completed', false)->whereNull('parent_id')->orderBy('sort_order')])
@@ -107,7 +107,7 @@ class CollaboratorTimeTrackingController extends Controller
             Project::withoutGlobalScopes()
                 ->where('id', $validated['project_id'])
                 ->where('user_id', $organization->user_id)
-                ->visibleToCollaborators()
+                ->accessibleByCollaborator($request->user()->id)
                 ->firstOrFail();
         }
 
@@ -146,7 +146,7 @@ class CollaboratorTimeTrackingController extends Controller
             Project::withoutGlobalScopes()
                 ->where('id', $validated['project_id'])
                 ->where('user_id', $organization->user_id)
-                ->visibleToCollaborators()
+                ->accessibleByCollaborator($request->user()->id)
                 ->firstOrFail();
         }
 
@@ -186,7 +186,7 @@ class CollaboratorTimeTrackingController extends Controller
             Project::withoutGlobalScopes()
                 ->where('id', $validated['project_id'])
                 ->where('user_id', $organization->user_id)
-                ->visibleToCollaborators()
+                ->accessibleByCollaborator($request->user()->id)
                 ->firstOrFail();
         }
 

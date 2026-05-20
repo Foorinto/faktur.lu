@@ -145,6 +145,18 @@ class Project extends Model
         return $query->where('hidden_from_collaborators', false);
     }
 
+    /**
+     * FEAT-081: filter to projects where the given user is an accepted collaborator
+     * (project_members.user_id = $userId AND member_type = 'collaborator' AND accepted_at IS NOT NULL).
+     * Replaces the org-wide hidden_from_collaborators visibility check.
+     */
+    public function scopeAccessibleByCollaborator(Builder $query, int $userId): Builder
+    {
+        return $query->whereHas('collaborators', function ($q) use ($userId) {
+            $q->where('users.id', $userId)->wherePivotNotNull('accepted_at');
+        });
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_archived', false);

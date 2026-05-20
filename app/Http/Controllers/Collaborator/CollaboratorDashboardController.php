@@ -25,7 +25,7 @@ class CollaboratorDashboardController extends Controller
         // Active projects visible to collaborator
         $projects = Project::withoutGlobalScopes()
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($user->id)
             ->active()
             ->withCount(['tasks', 'tasks as completed_tasks_count' => fn ($q) => $q->where('is_completed', true)])
             ->orderBy('updated_at', 'desc')
@@ -69,7 +69,7 @@ class CollaboratorDashboardController extends Controller
             'stats' => [
                 'active_projects' => Project::withoutGlobalScopes()
                     ->where('user_id', $ownerId)
-                    ->visibleToCollaborators()
+                    ->accessibleByCollaborator($user->id)
                     ->active()
                     ->count(),
                 'hours_this_week' => round($hoursThisWeek / 3600, 1),

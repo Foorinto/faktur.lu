@@ -17,19 +17,19 @@ class CollaboratorTaskController extends Controller
         return $organization->user_id;
     }
 
-    private function findVisibleProject(int $projectId, int $ownerId): Project
+    private function findVisibleProject(int $projectId, int $ownerId, int $userId): Project
     {
         return Project::withoutGlobalScopes()
             ->where('id', $projectId)
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($userId)
             ->firstOrFail();
     }
 
     public function store(Request $request, int $project)
     {
         $ownerId = $this->getOrganizationOwnerId($request);
-        $project = $this->findVisibleProject($project, $ownerId);
+        $project = $this->findVisibleProject($project, $ownerId, $request->user()->id);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -70,11 +70,11 @@ class CollaboratorTaskController extends Controller
     {
         $ownerId = $this->getOrganizationOwnerId($request);
 
-        // Verify task belongs to a visible project
+        // Verify task belongs to a project the collaborator has access to
         $project = Project::withoutGlobalScopes()
             ->where('id', $task->project_id)
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($request->user()->id)
             ->firstOrFail();
 
         $validated = $request->validate([
@@ -106,7 +106,7 @@ class CollaboratorTaskController extends Controller
         Project::withoutGlobalScopes()
             ->where('id', $task->project_id)
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($request->user()->id)
             ->firstOrFail();
 
         $task->delete();
@@ -121,7 +121,7 @@ class CollaboratorTaskController extends Controller
         Project::withoutGlobalScopes()
             ->where('id', $task->project_id)
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($request->user()->id)
             ->firstOrFail();
 
         $task->toggle();

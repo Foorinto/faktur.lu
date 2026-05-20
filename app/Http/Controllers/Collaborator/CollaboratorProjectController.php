@@ -18,12 +18,12 @@ class CollaboratorProjectController extends Controller
         return $organization->user_id;
     }
 
-    private function findProject(int $projectId, int $ownerId): Project
+    private function findProject(int $projectId, int $ownerId, int $userId): Project
     {
         return Project::withoutGlobalScopes()
             ->where('id', $projectId)
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($userId)
             ->firstOrFail();
     }
 
@@ -38,7 +38,7 @@ class CollaboratorProjectController extends Controller
 
         $query = Project::withoutGlobalScopes()
             ->where('user_id', $ownerId)
-            ->visibleToCollaborators()
+            ->accessibleByCollaborator($request->user()->id)
             ->active()
             ->withCount(['tasks', 'tasks as completed_tasks_count' => fn ($q) => $q->where('is_completed', true)])
             ->with('client:id,name');
@@ -97,7 +97,7 @@ class CollaboratorProjectController extends Controller
             'budget_hours' => 'nullable|numeric|min:0',
         ]);
 
-        Project::withoutGlobalScopes()->create([
+        $project = Project::withoutGlobalScopes()->create([
             'user_id' => $ownerId,
             'created_by' => $request->user()->id,
             'title' => $validated['title'],
@@ -108,6 +108,21 @@ class CollaboratorProjectController extends Controller
             'budget_hours' => $validated['budget_hours'] ?? null,
         ]);
 
+        // FEAT-081: the creator must be a project_member to retain access via accessibleByCollaborator().
+        \DB::table('project_members')->insertOrIgnore([
+            'project_id' => $project->id,
+            'user_id' => $request->user()->id,
+            'member_type' => 'collaborator',
+            'invited_email' => $request->user()->email,
+            'invited_at' => now(),
+            'accepted_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Auto-attach active employees of the org (same behaviour as admin Project creation).
+        app(\App\Actions\Project\AutoAttachEmployeesToProjectAction::class)->execute($project);
+
         return redirect()->route('collaborator.projects.index')
             ->with('success', __('app.projects_flash.created'));
     }
@@ -115,7 +130,7 @@ class CollaboratorProjectController extends Controller
     public function show(Request $request, int $project)
     {
         $ownerId = $this->getOrganizationOwnerId($request);
-        $project = $this->findProject($project, $ownerId);
+        $project = $this->findProject($project, $ownerId, $request->user()->id);
 
         $project->load([
             'tasks' => fn ($q) => $q->rootTasks()->orderBy('sort_order'),
@@ -205,7 +220,7 @@ class CollaboratorProjectController extends Controller
     public function update(Request $request, int $project)
     {
         $ownerId = $this->getOrganizationOwnerId($request);
-        $project = $this->findProject($project, $ownerId);
+        $project = $this->findProject($project, $ownerId, $request->user()->id);
 
         // Only creator or org admin can update
         if ($project->created_by !== $request->user()->id) {
@@ -229,7 +244,7 @@ class CollaboratorProjectController extends Controller
     public function destroy(Request $request, int $project)
     {
         $ownerId = $this->getOrganizationOwnerId($request);
-        $project = $this->findProject($project, $ownerId);
+        $project = $this->findProject($project, $ownerId, $request->user()->id);
 
         if ($project->created_by !== $request->user()->id) {
             abort(403, __('app.collaborator_flash.error_project_not_owner_delete'));
