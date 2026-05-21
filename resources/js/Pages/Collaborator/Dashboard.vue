@@ -64,13 +64,23 @@ const getStatusColor = (status) => {
 
     <CollaboratorLayout>
         <!-- Welcome -->
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
-                {{ t('collaborator_dashboard') }}
-            </h1>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                {{ organization.name }}
-            </p>
+        <div class="mb-8 flex items-start justify-between gap-4 flex-wrap">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+                    {{ t('collaborator_dashboard') }}
+                </h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    {{ organization.name }}
+                </p>
+            </div>
+            <a
+                :href="route('collaborator.upgrade.show')"
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900/20 text-sm text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/40"
+                :title="t('upgrade_intro')"
+            >
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 011 1v2.586l1.707-1.707a1 1 0 111.414 1.414L12.414 7H15a1 1 0 110 2h-2.586l1.707 1.707a1 1 0 11-1.414 1.414L11 10.414V13a1 1 0 11-2 0v-2.586l-1.707 1.707a1 1 0 11-1.414-1.414L7.586 9H5a1 1 0 110-2h2.586L5.879 5.293a1 1 0 011.414-1.414L9 5.586V3a1 1 0 011-1z" /></svg>
+                {{ t('upgrade_cta') }}
+            </a>
         </div>
 
         <!-- Running Timer Banner -->

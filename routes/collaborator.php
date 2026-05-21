@@ -32,6 +32,10 @@ Route::prefix('collaborateur')->name('collaborator.')->group(function () {
     Route::middleware(['auth', 'verified', 'collaborator'])->group(function () {
         Route::get('/', [CollaboratorDashboardController::class, 'index'])->name('dashboard');
 
+        // Upgrade flow: collaborator → owner (creates own org + onboarding)
+        Route::get('/upgrade', [\App\Http\Controllers\Collaborator\CollaboratorUpgradeController::class, 'show'])->name('upgrade.show');
+        Route::post('/upgrade', [\App\Http\Controllers\Collaborator\CollaboratorUpgradeController::class, 'store'])->name('upgrade.store');
+
         // Projects
         Route::get('/projets', [CollaboratorProjectController::class, 'index'])->name('projects.index');
         Route::get('/projets/create', [CollaboratorProjectController::class, 'create'])->name('projects.create');

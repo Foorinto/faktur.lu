@@ -33,7 +33,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if ($request->user()->isCollaborator()) {
+        // Org owner takes precedence (dual-role user keeps their own dashboard).
+        $user = $request->user();
+        if (!$user->isOrganizationOwner() && $user->isCollaborator()) {
             return redirect()->route('collaborator.dashboard');
         }
 
