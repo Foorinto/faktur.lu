@@ -48,19 +48,9 @@ class CollaboratorUpgradeController extends Controller
             return redirect()->route('dashboard');
         }
 
+        // Dual-role: collaborator memberships and project_members rows are PRESERVED.
+        // The user keeps full access to /collaborateur AND gains their own /dashboard.
         DB::transaction(function () use ($user) {
-            // Detach from all project memberships (collaborator role)
-            DB::table('project_members')
-                ->where('user_id', $user->id)
-                ->where('member_type', 'collaborator')
-                ->delete();
-
-            // Detach from organizations as collaborator
-            OrganizationMember::where('user_id', $user->id)
-                ->where('role', OrganizationMember::ROLE_COLLABORATOR)
-                ->delete();
-
-            // Create their own org + admin membership
             $organization = Organization::create([
                 'user_id' => $user->id,
                 'name' => $user->name . ' — ' . __('app.upgrade_default_org_suffix'),
