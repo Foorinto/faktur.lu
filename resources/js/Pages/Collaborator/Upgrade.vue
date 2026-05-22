@@ -45,6 +45,7 @@ const submit = () => {
                                 <li v-if="orgsCount > 0">{{ t('upgrade_keep_orgs', { count: orgsCount }) }}</li>
                                 <li v-if="projectsCount > 0">{{ t('upgrade_keep_projects', { count: projectsCount }) }}</li>
                                 <li>{{ t('upgrade_keep_data') }}</li>
+                                <li>{{ t('upgrade_keep_switcher_hint') }}</li>
                             </ul>
                         </div>
                     </div>

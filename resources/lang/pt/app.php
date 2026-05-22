@@ -85,6 +85,7 @@ return [
     'upgrade_keep_orgs' => 'Continuará a ser colaborador em :count organização(ões).',
     'upgrade_keep_projects' => 'Mantém o acesso a :count projeto(s) para os quais foi convidado.',
     'upgrade_keep_data' => 'Os seus registos de tempo e histórico são preservados.',
+    'upgrade_keep_switcher_hint' => 'Para voltar ao seu espaço de colaborador, clique no seu avatar no topo esquerdo do painel e depois em "Vista colaborador".',
     'upgrade_what_you_get' => 'O que recebe',
     'upgrade_feature_invoices' => 'Emitir as suas próprias faturas conformes ao Luxemburgo',
     'upgrade_feature_clients' => 'Gerir os seus clientes, orçamentos, projetos',

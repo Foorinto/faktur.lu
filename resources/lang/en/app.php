@@ -85,6 +85,7 @@ return [
     'upgrade_keep_orgs' => 'You will remain a collaborator on :count organization(s).',
     'upgrade_keep_projects' => 'You keep access to :count project(s) you were invited to.',
     'upgrade_keep_data' => 'Your time entries and history are preserved.',
+    'upgrade_keep_switcher_hint' => 'To go back to your collaborator space, click your avatar in the top-left of the dashboard then "Collaborator view".',
     'upgrade_what_you_get' => 'What you get',
     'upgrade_feature_invoices' => 'Issue your own Luxembourg-compliant invoices',
     'upgrade_feature_clients' => 'Manage your clients, quotes, projects',

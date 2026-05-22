@@ -2574,6 +2574,7 @@ return [
     'upgrade_keep_orgs' => 'Sie bleiben Mitarbeiter in :count Organisation(en).',
     'upgrade_keep_projects' => 'Sie behalten den Zugriff auf :count Projekt(e), zu denen Sie eingeladen wurden.',
     'upgrade_keep_data' => 'Ihre Zeiteinträge und Ihr Verlauf bleiben erhalten.',
+    'upgrade_keep_switcher_hint' => 'Um zur Mitarbeiter-Ansicht zurückzukehren, klicken Sie auf Ihren Avatar oben links im Dashboard und dann auf „Mitarbeiter-Ansicht".',
     'upgrade_what_you_get' => 'Was Sie erhalten',
     'upgrade_feature_invoices' => 'Erstellen Sie Ihre eigenen Luxemburg-konformen Rechnungen',
     'upgrade_feature_clients' => 'Verwalten Sie Ihre Kunden, Angebote, Projekte',

@@ -2574,6 +2574,7 @@ return [
     'upgrade_keep_orgs' => 'Dir bleiwt Mataarbechter op :count Organisatioun(en).',
     'upgrade_keep_projects' => 'Dir behaalt den Zougang zu :count Projet(en) wou Dir invitéiert sidd.',
     'upgrade_keep_data' => 'Är Zäitentreeën a Geschicht bleiwen erhalen.',
+    'upgrade_keep_switcher_hint' => 'Fir zréck op är Mataarbechter-Vue ze kommen, klickt op ären Avatar uewen lénks am Dashboard a dann op „Mataarbechter-Vue".',
     'upgrade_what_you_get' => 'Wat Dir kritt',
     'upgrade_feature_invoices' => 'Är eege Lëtzebuerger Rechnungen ausstellen',
     'upgrade_feature_clients' => 'Är Cliente, Offerten, Projeten geréieren',
