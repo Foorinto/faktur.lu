@@ -52,6 +52,15 @@ const logout = () => {
                     </nav>
 
                     <div class="flex items-center space-x-4">
+                        <Link
+                            v-if="page.props.auth?.user?.is_organization_owner"
+                            :href="route('dashboard')"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-primary-200 dark:border-primary-700 rounded-xl text-sm font-medium text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/40"
+                            :title="t('switch_to_owner_view')"
+                        >
+                            <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                            <span class="hidden sm:inline">{{ t('switch_to_owner_view') }}</span>
+                        </Link>
                         <span class="text-sm text-slate-600 dark:text-slate-300 hidden sm:inline">{{ user?.name }}</span>
                         <button
                             @click="logout"

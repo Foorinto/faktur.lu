@@ -2582,6 +2582,8 @@ return [
     'upgrade_confirm' => 'Eigenes Konto erstellen?',
     'upgrade_success' => 'Willkommen! Vervollständigen Sie Ihr Profil, um loszulegen.',
     'upgrade_default_org_suffix' => 'Mein Unternehmen',
+    'switch_to_collaborator_view' => 'Mitarbeiter-Ansicht',
+    'switch_to_owner_view' => 'Mein Unternehmen',
     'password_choose' => 'Passwort wählen',
     'password_confirmation' => 'Passwort bestätigen',
     'email_label' => 'E-Mail',

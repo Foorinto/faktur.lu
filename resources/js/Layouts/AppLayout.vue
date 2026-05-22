@@ -354,6 +354,14 @@ const routeExists = (routeName) => {
                             <DropdownLink :href="route('profile.edit')">
                                 {{ t('profile') }}
                             </DropdownLink>
+                            <DropdownLink
+                                v-if="$page.props.auth?.user?.is_organization_owner && $page.props.auth?.user?.is_collaborator"
+                                :href="route('collaborator.dashboard')"
+                                class="flex items-center gap-2"
+                            >
+                                <svg class="h-4 w-4 text-primary-600" viewBox="0 0 20 20" fill="currentColor"><path d="M13 7a3 3 0 11-6 0 3 3 0 016 0zM5.5 16a4.5 4.5 0 119 0H5.5z" /></svg>
+                                <span>{{ t('switch_to_collaborator_view') }}</span>
+                            </DropdownLink>
                             <DropdownLink :href="route('support.index')" class="flex items-center justify-between">
                                 <span>{{ t('support') }}</span>
                                 <span

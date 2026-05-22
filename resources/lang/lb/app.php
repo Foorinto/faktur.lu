@@ -2582,6 +2582,8 @@ return [
     'upgrade_confirm' => 'Eegene Kont erstellen?',
     'upgrade_success' => 'Wëllkomm! Komplettéiert äre Profil fir unzefänken.',
     'upgrade_default_org_suffix' => 'Meng Firma',
+    'switch_to_collaborator_view' => 'Mataarbechter-Vue',
+    'switch_to_owner_view' => 'Meng Firma',
     'password_choose' => 'Passwuert wielen',
     'password_confirmation' => 'Passwuert bestätegen',
     'email_label' => 'E-Mail',

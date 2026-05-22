@@ -93,6 +93,8 @@ return [
     'upgrade_confirm' => 'Créer votre propre compte ?',
     'upgrade_success' => 'Bienvenue ! Complétez votre profil pour commencer.',
     'upgrade_default_org_suffix' => 'Mon entreprise',
+    'switch_to_collaborator_view' => 'Vue collaborateur',
+    'switch_to_owner_view' => 'Mon entreprise',
     'password_choose' => 'Choisir un mot de passe',
     'password_confirmation' => 'Confirmer le mot de passe',
     'email_label' => 'Adresse email',

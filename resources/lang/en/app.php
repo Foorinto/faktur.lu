@@ -93,6 +93,8 @@ return [
     'upgrade_confirm' => 'Create your own account?',
     'upgrade_success' => 'Welcome! Complete your profile to get started.',
     'upgrade_default_org_suffix' => 'My company',
+    'switch_to_collaborator_view' => 'Collaborator view',
+    'switch_to_owner_view' => 'My company',
     'password_choose' => 'Choose a password',
     'password_confirmation' => 'Confirm password',
     'email_label' => 'Email',

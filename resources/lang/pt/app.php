@@ -93,6 +93,8 @@ return [
     'upgrade_confirm' => 'Criar a sua própria conta?',
     'upgrade_success' => 'Bem-vindo! Complete o seu perfil para começar.',
     'upgrade_default_org_suffix' => 'A minha empresa',
+    'switch_to_collaborator_view' => 'Vista colaborador',
+    'switch_to_owner_view' => 'A minha empresa',
     'password_choose' => 'Escolha uma palavra-passe',
     'password_confirmation' => 'Confirmar palavra-passe',
     'email_label' => 'Email',
