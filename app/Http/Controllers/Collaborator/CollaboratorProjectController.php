@@ -22,7 +22,6 @@ class CollaboratorProjectController extends Controller
     {
         return Project::withoutGlobalScopes()
             ->where('id', $projectId)
-            ->where('user_id', $ownerId)
             ->accessibleByCollaborator($userId)
             ->firstOrFail();
     }
@@ -37,7 +36,6 @@ class CollaboratorProjectController extends Controller
         ]);
 
         $query = Project::withoutGlobalScopes()
-            ->where('user_id', $ownerId)
             ->accessibleByCollaborator($request->user()->id)
             ->active()
             ->withCount(['tasks', 'tasks as completed_tasks_count' => fn ($q) => $q->where('is_completed', true)])

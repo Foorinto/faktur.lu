@@ -21,7 +21,6 @@ class CollaboratorTaskController extends Controller
     {
         return Project::withoutGlobalScopes()
             ->where('id', $projectId)
-            ->where('user_id', $ownerId)
             ->accessibleByCollaborator($userId)
             ->firstOrFail();
     }
@@ -73,7 +72,6 @@ class CollaboratorTaskController extends Controller
         // Verify task belongs to a project the collaborator has access to
         $project = Project::withoutGlobalScopes()
             ->where('id', $task->project_id)
-            ->where('user_id', $ownerId)
             ->accessibleByCollaborator($request->user()->id)
             ->firstOrFail();
 
@@ -105,7 +103,6 @@ class CollaboratorTaskController extends Controller
 
         Project::withoutGlobalScopes()
             ->where('id', $task->project_id)
-            ->where('user_id', $ownerId)
             ->accessibleByCollaborator($request->user()->id)
             ->firstOrFail();
 
@@ -120,7 +117,6 @@ class CollaboratorTaskController extends Controller
 
         Project::withoutGlobalScopes()
             ->where('id', $task->project_id)
-            ->where('user_id', $ownerId)
             ->accessibleByCollaborator($request->user()->id)
             ->firstOrFail();
 
