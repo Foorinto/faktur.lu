@@ -203,11 +203,11 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Quel plan faktur.lu est fait pour vous ?',
-                    'body' => "Votre essai se termine dans **:days jours**. Voici nos plans pour continuer à facturer sereinement :\n\n**Gratuit** — 0€/mois\n- 5 clients, 3 factures/mois\n- Idéal pour tester\n\n**Essentiel** — 5€/mois\n- 100 clients, 50 factures/mois\n- Projets, suivi du temps, portail comptable\n- Export FAIA inclus\n\n**Pro** — 15€/mois\n- Tout illimité\n- CRM, module RH, Peppol, archivage PDF/A\n\n**Économisez 20%** avec la facturation annuelle.\n\nTous les plans incluent l'export FAIA et la conformité luxembourgeoise.",
+                    'body' => "Votre essai se termine dans **:days jours**. Voici nos plans pour continuer à facturer sereinement :\n\n**Gratuit** — 0€/mois\n- 10 clients, 10 factures/mois\n- Idéal pour tester\n\n**Essentiel** — 5€/mois\n- 100 clients, 50 factures/mois\n- Projets, suivi du temps, portail comptable\n- Export FAIA inclus\n\n**Pro** — 15€/mois\n- Tout illimité\n- CRM, module RH, Peppol, archivage PDF/A\n\n**Économisez 20%** avec la facturation annuelle.\n\nTous les plans incluent l'export FAIA et la conformité luxembourgeoise.",
                 ],
                 'urgency' => [
                     'subject' => 'Plus que 2 jours d\'essai faktur.lu',
-                    'body' => "Votre essai gratuit se termine dans **2 jours**.\n\nAprès cette date, votre compte passera en mode gratuit limité (5 clients, 3 factures/mois). Vos données seront conservées, mais certaines fonctionnalités ne seront plus accessibles.\n\n**Pour continuer sans interruption**, choisissez votre plan dès maintenant.\n\nÀ partir de **5€/mois** seulement pour le plan Essentiel.",
+                    'body' => "Votre essai gratuit se termine dans **2 jours**.\n\nAprès cette date, votre compte passera en mode gratuit limité (10 clients, 10 factures/mois). Vos données seront conservées, mais certaines fonctionnalités ne seront plus accessibles.\n\n**Pour continuer sans interruption**, choisissez votre plan dès maintenant.\n\nÀ partir de **5€/mois** seulement pour le plan Essentiel.",
                 ],
                 'last_chance' => [
                     'subject' => 'Dernier jour d\'essai — ne perdez pas vos avantages',
@@ -245,11 +245,11 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Which faktur.lu plan is right for you?',
-                    'body' => "Your trial ends in **:days days**. Here are our plans to keep invoicing smoothly:\n\n**Free** — 0€/month\n- 5 clients, 3 invoices/month\n- Ideal for testing\n\n**Essentiel** — 5€/month\n- 100 clients, 50 invoices/month\n- Projects, time tracking, accountant portal\n- FAIA export included\n\n**Pro** — 15€/month\n- Everything unlimited\n- CRM, HR module, Peppol, PDF/A archiving\n\n**Save 20%** with annual billing.\n\nAll plans include FAIA export and Luxembourg compliance.",
+                    'body' => "Your trial ends in **:days days**. Here are our plans to keep invoicing smoothly:\n\n**Free** — 0€/month\n- 10 clients, 10 invoices/month\n- Ideal for testing\n\n**Essentiel** — 5€/month\n- 100 clients, 50 invoices/month\n- Projects, time tracking, accountant portal\n- FAIA export included\n\n**Pro** — 15€/month\n- Everything unlimited\n- CRM, HR module, Peppol, PDF/A archiving\n\n**Save 20%** with annual billing.\n\nAll plans include FAIA export and Luxembourg compliance.",
                 ],
                 'urgency' => [
                     'subject' => 'Only 2 days left on your faktur.lu trial',
-                    'body' => "Your free trial ends in **2 days**.\n\nAfter this date, your account will switch to the limited free plan (5 clients, 3 invoices/month). Your data will be preserved, but some features won't be accessible.\n\n**To continue without interruption**, choose your plan now.\n\nFrom only **5€/month** for the Essentiel plan.",
+                    'body' => "Your free trial ends in **2 days**.\n\nAfter this date, your account will switch to the limited free plan (10 clients, 10 invoices/month). Your data will be preserved, but some features won't be accessible.\n\n**To continue without interruption**, choose your plan now.\n\nFrom only **5€/month** for the Essentiel plan.",
                 ],
                 'last_chance' => [
                     'subject' => 'Last day of trial — don\'t lose your benefits',
@@ -287,11 +287,11 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Welcher faktur.lu-Plan passt zu Ihnen?',
-                    'body' => "Ihre Testphase endet in **:days Tagen**. Unsere Plaene:\n\n**Kostenlos** — 0 EUR/Monat\n- 5 Kunden, 3 Rechnungen/Monat\n\n**Essentiel** — 5 EUR/Monat\n- 100 Kunden, 50 Rechnungen/Monat\n- Projekte, Zeiterfassung, Buchhalterportal\n\n**Pro** — 15 EUR/Monat\n- Alles unbegrenzt\n- CRM, HR-Modul, Peppol, PDF/A-Archivierung\n\n**Sparen Sie 20%** mit jaehrlicher Abrechnung.",
+                    'body' => "Ihre Testphase endet in **:days Tagen**. Unsere Plaene:\n\n**Kostenlos** — 0 EUR/Monat\n- 10 Kunden, 10 Rechnungen/Monat\n\n**Essentiel** — 5 EUR/Monat\n- 100 Kunden, 50 Rechnungen/Monat\n- Projekte, Zeiterfassung, Buchhalterportal\n\n**Pro** — 15 EUR/Monat\n- Alles unbegrenzt\n- CRM, HR-Modul, Peppol, PDF/A-Archivierung\n\n**Sparen Sie 20%** mit jaehrlicher Abrechnung.",
                 ],
                 'urgency' => [
                     'subject' => 'Nur noch 2 Tage Testphase bei faktur.lu',
-                    'body' => "Ihre kostenlose Testphase endet in **2 Tagen**.\n\nDanach wechselt Ihr Konto zum limitierten kostenlosen Plan (5 Kunden, 3 Rechnungen/Monat). Ihre Daten bleiben erhalten.\n\n**Fuer nahtlose Weiternutzung** waehlen Sie jetzt Ihren Plan.\n\nAb nur **5 EUR/Monat** fuer den Essentiel-Plan.",
+                    'body' => "Ihre kostenlose Testphase endet in **2 Tagen**.\n\nDanach wechselt Ihr Konto zum limitierten kostenlosen Plan (10 Kunden, 10 Rechnungen/Monat). Ihre Daten bleiben erhalten.\n\n**Fuer nahtlose Weiternutzung** waehlen Sie jetzt Ihren Plan.\n\nAb nur **5 EUR/Monat** fuer den Essentiel-Plan.",
                 ],
                 'last_chance' => [
                     'subject' => 'Letzter Tag der Testphase',
@@ -329,7 +329,7 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Wéi ee faktur.lu-Plang passt zu Iech?',
-                    'body' => "Är Testphas leeft a **:days Deeg** of.\n\n**Gratis** — 0 EUR/Mount\n- 5 Clienten, 3 Rechnungen/Mount\n\n**Essentiel** — 5 EUR/Mount\n- 100 Clienten, 50 Rechnungen/Mount\n\n**Pro** — 15 EUR/Mount\n- Alles onlimitéiert\n\n**Spart 20%** mat jäerlecher Ofrechnong.",
+                    'body' => "Är Testphas leeft a **:days Deeg** of.\n\n**Gratis** — 0 EUR/Mount\n- 10 Clienten, 10 Rechnungen/Mount\n\n**Essentiel** — 5 EUR/Mount\n- 100 Clienten, 50 Rechnungen/Mount\n\n**Pro** — 15 EUR/Mount\n- Alles onlimitéiert\n\n**Spart 20%** mat jäerlecher Ofrechnong.",
                 ],
                 'urgency' => [
                     'subject' => 'Nëmmen nach 2 Deeg Testphas bei faktur.lu',

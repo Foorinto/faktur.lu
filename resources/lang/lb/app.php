@@ -1101,7 +1101,7 @@ return [
         'schema_software_description' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg, déi steierlech Konformitéit (TVA, FAIA, B2B-E-Fakturatioun) garantéiert.',
         'schema_slogan' => 'Déi Lëtzebuerger Fakturatiounsléisung',
         'schema_offer_free_name' => 'Gratis Plang',
-        'schema_offer_free_description' => 'Gratis Plang - 5 Clienten, 3 Rechnungen pro Mount',
+        'schema_offer_free_description' => 'Gratis Plang - 10 Clienten, 10 Rechnungen pro Mount',
         'schema_offer_essential_name' => 'Essential Plang',
         'schema_offer_essential_description' => 'Essential Plang - 100 Clienten, 50 Rechnungen pro Mount, Projeten, Comptabilitéit',
         'schema_offer_pro_name' => 'Pro Plang',
@@ -1422,7 +1422,7 @@ return [
             'faq_heading' => 'Heefeg gestallte Froen',
             'faq' => [
                 'trial' => ['question' => 'Wéi funktionéiert d\'gratis Testphas?', 'answer' => 'Genéisst 14 Deeg vollen Zougang zu allen Pro-Funktiounen, ouni Kreditkaart. Um Enn vun der Testphas wielt Dir de passenden Plang.'],
-                'after_trial' => ['question' => 'Wat geschitt no der Testphas wann ech net abonnéieren?', 'answer' => 'Äre Kont wiesselt automatesch op de gratis Plang: Dir kënnt weiderhi Rechnungen erstellen (3/Mount) a bis zu 5 Clienten verwalten.'],
+                'after_trial' => ['question' => 'Wat geschitt no der Testphas wann ech net abonnéieren?', 'answer' => 'Äre Kont wiesselt automatesch op de gratis Plang: Dir kënnt weiderhi Rechnungen erstellen (10/Mount) a bis zu 10 Clienten verwalten.'],
                 'change_plan' => ['question' => 'Kann ech de Plang jidderzäit wiesselen?', 'answer' => 'Jo, Dir kënnt jidderzäit vun Essentiel op Pro wiesselen. D\'Ännerung ass direkt a d\'anteileg Berechnung gëtt automatesch gemaach.'],
                 'faia' => ['question' => 'Ass den FAIA-Export wierklech wichteg?', 'answer' => 'Jo. Bei enger Steierprüfung zu Lëtzebuerg kann d\'Steierverwaltung Är Donnéeën am FAIA-Format verlaangen. Dëst ass obligatoresch fir TVA-pflichteg Entreprisen.'],
                 'billing' => ['question' => 'Wéi funktionéiert d\'Ofrechnung?', 'answer' => 'Mir benotze Stripe fir sécher Bezuelungen. Dir kënnt mat Kreditkaart bezuelen. D\'Rechnung ass an Ärem Clientsberäich verfügbar.'],
@@ -1552,7 +1552,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wat kascht e Fakturatiounsprogramm zu Lëtzebuerg?',
-                    'answer' => 'Faktur.lu bitt 3 transparent Pläng ouni verstoppte Käschten: de gratis Plang (5 Cliente, 3 Rechnungen/Mount) fir unzefänken, den Essential-Plang fir 5 EUR/Mount (100 Cliente, 50 Rechnungen/Mount, Projeten, Comptabilitéit), an de Pro-Plang fir 15 EUR/Mount (onbegrenzt mat FAIA, Peppol, CRM a RH-Modul). Keng Verbindlechkeet, monatlech oder jährlech Bezuelung mat Remise. Keng Zousazkäschten fir zousätzlech Benotzer op den Essential- a Pro-Pläng.',
+                    'answer' => 'Faktur.lu bitt 3 transparent Pläng ouni verstoppte Käschten: de gratis Plang (10 Cliente, 10 Rechnungen/Mount) fir unzefänken, den Essential-Plang fir 5 EUR/Mount (100 Cliente, 50 Rechnungen/Mount, Projeten, Comptabilitéit), an de Pro-Plang fir 15 EUR/Mount (onbegrenzt mat FAIA, Peppol, CRM a RH-Modul). Keng Verbindlechkeet, monatlech oder jährlech Bezuelung mat Remise. Keng Zousazkäschten fir zousätzlech Benotzer op den Essential- a Pro-Pläng.',
                 ],
                 'compliant' => [
                     'question' => 'Sinn meng faktur.lu-Rechnungen wierklech konform zu Lëtzebuerg?',
@@ -1736,7 +1736,7 @@ return [
             ],
             'faqs' => [
                 'convert' => ['question' => 'Wéi wandelen ech en Devis an eng Rechnung ëm?', 'answer' => 'Beim akzeptéierten Devis klickt op "An Rechnung ëmwandelen". All Informatiounen ginn automatesch iwwerholl.'],
-                'limit' => ['question' => 'Wéi vill Devis kann ech erstellen?', 'answer' => 'De gratis Plang erlaabt 2 Devis/Mount, Essentiel 20/Mount, a Pro bitt onlimitéiert Devis.'],
+                'limit' => ['question' => 'Wéi vill Devis kann ech erstellen?', 'answer' => 'De gratis Plang erlaabt 5 Devis/Mount, Essentiel 20/Mount, a Pro bitt onlimitéiert Devis.'],
                 'customize' => ['question' => 'Kann ech meng Devis upassen?', 'answer' => 'Jo, setzt Äert Logo derbäi, wielt Är Faarwen a setzt Är AGB an.'],
             ],
         ],
@@ -1757,7 +1757,7 @@ return [
                 'notes' => ['title' => 'Notizen a Kontakter', 'description' => 'Setzt intern Notizen a méi Kontakter pro Clientsënnernehmen derbäi.'],
             ],
             'faqs' => [
-                'limit' => ['question' => 'Wéi vill Clientë kann ech verwalten?', 'answer' => 'De gratis Plang erlaabt 5 Clienten, Essentiel 100, a Pro bitt onlimitéiert Clienten.'],
+                'limit' => ['question' => 'Wéi vill Clientë kann ech verwalten?', 'answer' => 'De gratis Plang erlaabt 10 Clienten, Essentiel 100, a Pro bitt onlimitéiert Clienten.'],
                 'vies' => ['question' => 'Wéi funktionéiert d\'TVA Validéierung?', 'answer' => 'Bei der Agab vun enger innergemeinschaftlecher TVA Nummer iwwerpréift faktur.lu automatesch d\'Gëltegkeet iwwer de VIES Service vun der Europäescher Kommissioun.'],
                 'import' => ['question' => 'Kann ech meng existent Clienten importéieren?', 'answer' => 'Jo, Dir kënnt Är Clienten iwwer eng CSV Datei vun Ärer viregter Fakturatiounssoftware importéieren.'],
             ],

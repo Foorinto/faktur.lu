@@ -268,7 +268,7 @@ HTML,
     <li>Avoir l'esprit tranquille</li>
 </ul>
 
-<p>faktur.lu propose un <strong>plan gratuit</strong> pour demarrer (3 factures/mois) et un plan Essentiel a 5 EUR/mois pour les freelances.</p>
+<p>faktur.lu propose un <strong>plan gratuit</strong> pour demarrer (10 factures/mois) et un plan Essentiel a 5 EUR/mois pour les freelances.</p>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Passez d'Excel a faktur.lu en 5 minutes</h3>

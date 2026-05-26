@@ -1101,7 +1101,7 @@ return [
         'schema_software_description' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg und gewährleistet die steuerliche Konformität (MwSt., FAIA, B2B-E-Rechnungsstellung).',
         'schema_slogan' => 'Die luxemburgische Rechnungslösung',
         'schema_offer_free_name' => 'Kostenloser Plan',
-        'schema_offer_free_description' => 'Kostenloser Plan - 5 Kunden, 3 Rechnungen pro Monat',
+        'schema_offer_free_description' => 'Kostenloser Plan - 10 Kunden, 10 Rechnungen pro Monat',
         'schema_offer_essential_name' => 'Essential-Plan',
         'schema_offer_essential_description' => 'Essential-Plan - 100 Kunden, 50 Rechnungen pro Monat, Projekte, Buchhaltung',
         'schema_offer_pro_name' => 'Pro-Plan',
@@ -1422,7 +1422,7 @@ return [
             'faq_heading' => 'Häufig gestellte Fragen',
             'faq' => [
                 'trial' => ['question' => 'Wie funktioniert die kostenlose Testphase?', 'answer' => 'Genießen Sie 14 Tage vollen Zugang zu allen Pro-Funktionen, ohne Kreditkarte. Am Ende der Testphase wählen Sie den passenden Plan.'],
-                'after_trial' => ['question' => 'Was passiert nach der Testphase, wenn ich nicht abonniere?', 'answer' => 'Ihr Konto wechselt automatisch zum kostenlosen Plan: Sie können weiterhin Rechnungen erstellen (3/Monat) und bis zu 5 Kunden verwalten.'],
+                'after_trial' => ['question' => 'Was passiert nach der Testphase, wenn ich nicht abonniere?', 'answer' => 'Ihr Konto wechselt automatisch zum kostenlosen Plan: Sie können weiterhin Rechnungen erstellen (10/Monat) und bis zu 10 Kunden verwalten.'],
                 'change_plan' => ['question' => 'Kann ich den Plan jederzeit wechseln?', 'answer' => 'Ja, Sie können jederzeit von Essentiel auf Pro wechseln. Die Änderung ist sofort wirksam und die anteilige Berechnung erfolgt automatisch.'],
                 'faia' => ['question' => 'Ist der FAIA-Export wirklich wichtig?', 'answer' => 'Ja. Bei einer Steuerprüfung in Luxemburg kann die Steuerverwaltung Ihre Daten im FAIA-Format verlangen. Dies ist für MwSt-pflichtige Unternehmen obligatorisch.'],
                 'billing' => ['question' => 'Wie funktioniert die Abrechnung?', 'answer' => 'Wir verwenden Stripe für sichere Zahlungen. Sie können per Kreditkarte bezahlen. Die Rechnung ist in Ihrem Kundenbereich verfügbar.'],
@@ -1552,7 +1552,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wie viel kostet eine Rechnungssoftware in Luxemburg?',
-                    'answer' => 'Faktur.lu bietet 3 transparente Pläne ohne versteckte Kosten: den kostenlosen Plan (5 Kunden, 3 Rechnungen/Monat) zum Einstieg, den Essential-Plan zu 5 EUR/Monat (100 Kunden, 50 Rechnungen/Monat, Projekte, Buchhaltung) und den Pro-Plan zu 15 EUR/Monat (unbegrenzt mit FAIA, Peppol, CRM und HR-Modul). Keine Bindung, monatliche oder jährliche Zahlung mit Rabatt. Keine Mehrkosten für zusätzliche Nutzer in den Plänen Essential und Pro.',
+                    'answer' => 'Faktur.lu bietet 3 transparente Pläne ohne versteckte Kosten: den kostenlosen Plan (10 Kunden, 10 Rechnungen/Monat) zum Einstieg, den Essential-Plan zu 5 EUR/Monat (100 Kunden, 50 Rechnungen/Monat, Projekte, Buchhaltung) und den Pro-Plan zu 15 EUR/Monat (unbegrenzt mit FAIA, Peppol, CRM und HR-Modul). Keine Bindung, monatliche oder jährliche Zahlung mit Rabatt. Keine Mehrkosten für zusätzliche Nutzer in den Plänen Essential und Pro.',
                 ],
                 'compliant' => [
                     'question' => 'Sind meine faktur.lu-Rechnungen wirklich konform in Luxemburg?',
@@ -1736,7 +1736,7 @@ return [
             ],
             'faqs' => [
                 'convert' => ['question' => 'Wie wandle ich ein Angebot in eine Rechnung um?', 'answer' => 'Klicken Sie beim akzeptierten Angebot auf "In Rechnung umwandeln". Alle Informationen werden automatisch übernommen.'],
-                'limit' => ['question' => 'Wie viele Angebote kann ich erstellen?', 'answer' => 'Der kostenlose Plan erlaubt 2 Angebote/Monat, Essentiel 20/Monat, und Pro bietet unbegrenzte Angebote.'],
+                'limit' => ['question' => 'Wie viele Angebote kann ich erstellen?', 'answer' => 'Der kostenlose Plan erlaubt 5 Angebote/Monat, Essentiel 20/Monat, und Pro bietet unbegrenzte Angebote.'],
                 'customize' => ['question' => 'Kann ich meine Angebote anpassen?', 'answer' => 'Ja, fügen Sie Ihr Logo hinzu, wählen Sie Ihre Farben und fügen Sie Ihre AGB ein.'],
             ],
         ],
@@ -1757,7 +1757,7 @@ return [
                 'notes' => ['title' => 'Notizen und Kontakte', 'description' => 'Fügen Sie interne Notizen und mehrere Ansprechpartner pro Kundenunternehmen hinzu.'],
             ],
             'faqs' => [
-                'limit' => ['question' => 'Wie viele Kunden kann ich verwalten?', 'answer' => 'Der kostenlose Plan erlaubt 5 Kunden, Essentiel 100, und Pro bietet unbegrenzte Kunden.'],
+                'limit' => ['question' => 'Wie viele Kunden kann ich verwalten?', 'answer' => 'Der kostenlose Plan erlaubt 10 Kunden, Essentiel 100, und Pro bietet unbegrenzte Kunden.'],
                 'vies' => ['question' => 'Wie funktioniert die MwSt-Validierung?', 'answer' => 'Bei Eingabe einer innergemeinschaftlichen MwSt-Nummer überprüft faktur.lu automatisch deren Gültigkeit über den VIES-Dienst der Europäischen Kommission.'],
                 'import' => ['question' => 'Kann ich meine bestehenden Kunden importieren?', 'answer' => 'Ja, Sie können Ihre Kunden über eine CSV-Datei aus Ihrer bisherigen Fakturierungssoftware importieren.'],
             ],

@@ -505,7 +505,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
                                     >
-                                        5
+                                        10
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -527,7 +527,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
                                     >
-                                        3
+                                        10
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -549,7 +549,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
                                     >
-                                        2
+                                        5
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
@@ -571,7 +571,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
                                     >
-                                        5
+                                        10
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"

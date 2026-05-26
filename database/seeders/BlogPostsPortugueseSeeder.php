@@ -2917,7 +2917,7 @@ HTML;
     <li>Ter a mente tranquila</li>
 </ul>
 
-<p>O faktur.lu propõe um <strong>plano gratuito</strong> para começar (3 faturas/mês) e um plano Essencial a 5 EUR/mês para os freelancers.</p>
+<p>O faktur.lu propõe um <strong>plano gratuito</strong> para começar (10 faturas/mês) e um plano Essencial a 5 EUR/mês para os freelancers.</p>
 
 <div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/choisir-logiciel-facturation-luxembourg-comparatif" class="text-primary-500 hover:text-primary-600 text-sm">escolher o seu software →</a></li><li><a href="/pt/blog/automatiser-facturation-7-conseils-gagner-temps" class="text-primary-500 hover:text-primary-600 text-sm">automatizar a sua faturação →</a></li><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li></ul></div>
 

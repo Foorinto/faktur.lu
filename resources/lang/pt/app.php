@@ -1197,7 +1197,7 @@ return [
         'schema_software_description' => 'Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo, garantindo a conformidade fiscal (IVA, FAIA, faturação eletrónica B2B).',
         'schema_slogan' => 'A solução de faturação luxemburguesa',
         'schema_offer_free_name' => 'Plano Gratuito',
-        'schema_offer_free_description' => 'Plano Gratuito - 5 clientes, 3 faturas por mês',
+        'schema_offer_free_description' => 'Plano Gratuito - 10 clientes, 10 faturas por mês',
         'schema_offer_essential_name' => 'Plano Essencial',
         'schema_offer_essential_description' => 'Plano Essencial - 100 clientes, 50 faturas por mês, projetos, contabilidade',
         'schema_offer_pro_name' => 'Plano Pro',
@@ -1659,7 +1659,7 @@ return [
                 ],
                 'after_trial' => [
                     'question' => 'O que acontece após a avaliação se eu não subscrever?',
-                    'answer' => 'A sua conta passa automaticamente ao plano Gratuito: pode continuar a criar faturas (3/mês) e a gerir até 5 clientes. Subscreva a qualquer momento para desbloquear mais funcionalidades.',
+                    'answer' => 'A sua conta passa automaticamente ao plano Gratuito: pode continuar a criar faturas (10/mês) e a gerir até 10 clientes. Subscreva a qualquer momento para desbloquear mais funcionalidades.',
                 ],
                 'change_plan' => [
                     'question' => 'Posso mudar de plano a qualquer momento?',
@@ -1709,7 +1709,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Quanto custa um software de faturação no Luxemburgo?',
-                    'answer' => 'O Faktur.lu propõe 3 planos transparentes sem custos ocultos: o plano Gratuito (5 clientes, 3 faturas/mês) para começar, o plano Essencial a 5 EUR/mês (100 clientes, 50 faturas/mês, projetos, contabilidade), e o plano Pro a 15 EUR/mês (ilimitado com FAIA, Peppol, CRM e módulo RH). Sem compromisso, pagamento mensal ou anual com desconto. Sem custos adicionais para utilizadores extra nos planos Essencial e Pro.',
+                    'answer' => 'O Faktur.lu propõe 3 planos transparentes sem custos ocultos: o plano Gratuito (10 clientes, 10 faturas/mês) para começar, o plano Essencial a 5 EUR/mês (100 clientes, 50 faturas/mês, projetos, contabilidade), e o plano Pro a 15 EUR/mês (ilimitado com FAIA, Peppol, CRM e módulo RH). Sem compromisso, pagamento mensal ou anual com desconto. Sem custos adicionais para utilizadores extra nos planos Essencial e Pro.',
                 ],
                 'compliant' => [
                     'question' => 'As minhas faturas faktur.lu são realmente conformes no Luxemburgo?',
@@ -2040,7 +2040,7 @@ return [
             ],
             'faqs' => [
                 'convert' => ['question' => 'Como converter um orçamento em fatura?', 'answer' => 'A partir da ficha do orçamento aceite, clique em "Converter em fatura". Todas as informações são retomadas automaticamente.'],
-                'limit' => ['question' => 'Quantos orçamentos posso criar?', 'answer' => 'O plano Gratuito permite 2 orçamentos/mês, Essencial 20/mês, e Pro oferece orçamentos ilimitados.'],
+                'limit' => ['question' => 'Quantos orçamentos posso criar?', 'answer' => 'O plano Gratuito permite 5 orçamentos/mês, Essencial 20/mês, e Pro oferece orçamentos ilimitados.'],
                 'customize' => ['question' => 'Posso personalizar os meus orçamentos?', 'answer' => 'Sim, adicione o seu logótipo, escolha as suas cores e inclua as suas condições gerais de venda.'],
             ],
         ],
@@ -2061,7 +2061,7 @@ return [
                 'notes' => ['title' => 'Notas e contactos', 'description' => 'Adicione notas internas e vários contactos por empresa cliente.'],
             ],
             'faqs' => [
-                'limit' => ['question' => 'Quantos clientes posso gerir?', 'answer' => 'O plano Gratuito permite 5 clientes, Essencial 100, e Pro oferece um número ilimitado de clientes.'],
+                'limit' => ['question' => 'Quantos clientes posso gerir?', 'answer' => 'O plano Gratuito permite 10 clientes, Essencial 100, e Pro oferece um número ilimitado de clientes.'],
                 'vies' => ['question' => 'Como funciona a validação do IVA?', 'answer' => 'Ao introduzir um número de IVA intracomunitário, o faktur.lu verifica automaticamente a sua validade através do serviço VIES da Comissão Europeia.'],
                 'import' => ['question' => 'Posso importar os meus clientes existentes?', 'answer' => 'Sim, pode importar os seus clientes através de um ficheiro CSV a partir do seu antigo software de faturação.'],
             ],

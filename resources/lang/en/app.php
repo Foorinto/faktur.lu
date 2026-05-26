@@ -1198,7 +1198,7 @@ return [
         'schema_software_description' => 'Faktur.lu is the leading invoicing platform for sole traders and SMEs in Luxembourg, guaranteeing tax compliance (VAT, FAIA, B2B e-invoicing).',
         'schema_slogan' => 'The Luxembourg invoicing solution',
         'schema_offer_free_name' => 'Free Plan',
-        'schema_offer_free_description' => 'Free Plan - 5 clients, 3 invoices per month',
+        'schema_offer_free_description' => 'Free Plan - 10 clients, 10 invoices per month',
         'schema_offer_essential_name' => 'Essential Plan',
         'schema_offer_essential_description' => 'Essential Plan - 100 clients, 50 invoices per month, projects, accounting',
         'schema_offer_pro_name' => 'Pro Plan',
@@ -1521,7 +1521,7 @@ return [
             'faq_heading' => 'Frequently asked questions',
             'faq' => [
                 'trial' => ['question' => 'How does the free trial work?', 'answer' => 'Enjoy 14 days of full access to all Pro features, no credit card required. At the end of the trial, choose the plan that suits you.'],
-                'after_trial' => ['question' => 'What happens after the trial if I don\'t subscribe?', 'answer' => 'Your account automatically switches to the Free plan: you can still create invoices (3/month) and manage up to 5 clients. Subscribe at any time to unlock more features.'],
+                'after_trial' => ['question' => 'What happens after the trial if I don\'t subscribe?', 'answer' => 'Your account automatically switches to the Free plan: you can still create invoices (10/month) and manage up to 10 clients. Subscribe at any time to unlock more features.'],
                 'change_plan' => ['question' => 'Can I change plans at any time?', 'answer' => 'Yes, you can upgrade from Essentiel to Pro at any time. The change is immediate and proration is calculated automatically.'],
                 'faia' => ['question' => 'Is FAIA export really important?', 'answer' => 'Yes. In case of a tax audit in Luxembourg, the Administration des contributions directes may require your data in FAIA format. It is mandatory for VAT-registered businesses.'],
                 'billing' => ['question' => 'How does billing work?', 'answer' => 'We use Stripe for secure payments. You can pay by credit card. The invoice is available in your client area.'],
@@ -1651,7 +1651,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'How much does invoicing software cost in Luxembourg?',
-                    'answer' => 'Faktur.lu offers 3 transparent plans with no hidden fees: the Free plan (5 clients, 3 invoices/month) to get started, the Essential plan at 5 EUR/month (100 clients, 50 invoices/month, projects, accounting), and the Pro plan at 15 EUR/month (unlimited with FAIA, Peppol, CRM and HR module). No commitment, monthly or annual payment with discount. No additional fees for extra users on Essential and Pro plans.',
+                    'answer' => 'Faktur.lu offers 3 transparent plans with no hidden fees: the Free plan (10 clients, 10 invoices/month) to get started, the Essential plan at 5 EUR/month (100 clients, 50 invoices/month, projects, accounting), and the Pro plan at 15 EUR/month (unlimited with FAIA, Peppol, CRM and HR module). No commitment, monthly or annual payment with discount. No additional fees for extra users on Essential and Pro plans.',
                 ],
                 'compliant' => [
                     'question' => 'Are my faktur.lu invoices truly compliant in Luxembourg?',
@@ -1835,7 +1835,7 @@ return [
             ],
             'faqs' => [
                 'convert' => ['question' => 'How do I convert a quote to an invoice?', 'answer' => 'From the accepted quote, click "Convert to invoice". All information is automatically carried over.'],
-                'limit' => ['question' => 'How many quotes can I create?', 'answer' => 'The Free plan allows 2 quotes/month, Essentiel 20/month, and Pro offers unlimited quotes.'],
+                'limit' => ['question' => 'How many quotes can I create?', 'answer' => 'The Free plan allows 5 quotes/month, Essentiel 20/month, and Pro offers unlimited quotes.'],
                 'customize' => ['question' => 'Can I customise my quotes?', 'answer' => 'Yes, add your logo, choose your colours and include your general terms and conditions.'],
             ],
         ],
@@ -1856,7 +1856,7 @@ return [
                 'notes' => ['title' => 'Notes and contacts', 'description' => 'Add internal notes and multiple contacts per client company.'],
             ],
             'faqs' => [
-                'limit' => ['question' => 'How many clients can I manage?', 'answer' => 'The Free plan allows 5 clients, Essentiel 100, and Pro offers unlimited clients.'],
+                'limit' => ['question' => 'How many clients can I manage?', 'answer' => 'The Free plan allows 10 clients, Essentiel 100, and Pro offers unlimited clients.'],
                 'vies' => ['question' => 'How does VAT validation work?', 'answer' => 'When entering an intra-community VAT number, faktur.lu automatically verifies its validity via the European Commission VIES service.'],
                 'import' => ['question' => 'Can I import my existing clients?', 'answer' => 'Yes, you can import your clients via a CSV file from your previous invoicing software.'],
             ],

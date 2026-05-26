@@ -1198,7 +1198,7 @@ return [
         'schema_software_description' => 'Faktur.lu est la plateforme de facturation leader pour les entreprises individuelles et PME au Luxembourg, garantissant la conformité fiscale (TVA, FAIA, e-facturation B2B).',
         'schema_slogan' => 'La solution de facturation luxembourgeoise',
         'schema_offer_free_name' => 'Plan Gratuit',
-        'schema_offer_free_description' => 'Plan Gratuit - 5 clients, 3 factures par mois',
+        'schema_offer_free_description' => 'Plan Gratuit - 10 clients, 10 factures par mois',
         'schema_offer_essential_name' => 'Plan Essentiel',
         'schema_offer_essential_description' => 'Plan Essentiel - 100 clients, 50 factures par mois, projets, comptabilité',
         'schema_offer_pro_name' => 'Plan Pro',
@@ -1660,7 +1660,7 @@ return [
                 ],
                 'after_trial' => [
                     'question' => 'Que se passe-t-il après l\'essai si je ne m\'abonne pas ?',
-                    'answer' => 'Votre compte passe automatiquement au plan Gratuit : vous pouvez toujours créer des factures (3/mois) et gérer jusqu\'à 5 clients. Abonnez-vous à tout moment pour débloquer plus de fonctionnalités.',
+                    'answer' => 'Votre compte passe automatiquement au plan Gratuit : vous pouvez toujours créer des factures (10/mois) et gérer jusqu\'à 10 clients. Abonnez-vous à tout moment pour débloquer plus de fonctionnalités.',
                 ],
                 'change_plan' => [
                     'question' => 'Puis-je changer de plan à tout moment ?',
@@ -1710,7 +1710,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Combien coûte un logiciel de facturation au Luxembourg ?',
-                    'answer' => 'Faktur.lu propose 3 plans transparents sans frais cachés : le plan Gratuit (5 clients, 3 factures/mois) pour démarrer, le plan Essentiel à 5 EUR/mois (100 clients, 50 factures/mois, projets, comptabilité), et le plan Pro à 15 EUR/mois (illimité avec FAIA, Peppol, CRM et module RH). Aucun engagement, paiement mensuel ou annuel avec remise. Pas de surcoût pour les utilisateurs supplémentaires sur les plans Essentiel et Pro.',
+                    'answer' => 'Faktur.lu propose 3 plans transparents sans frais cachés : le plan Gratuit (10 clients, 10 factures/mois) pour démarrer, le plan Essentiel à 5 EUR/mois (100 clients, 50 factures/mois, projets, comptabilité), et le plan Pro à 15 EUR/mois (illimité avec FAIA, Peppol, CRM et module RH). Aucun engagement, paiement mensuel ou annuel avec remise. Pas de surcoût pour les utilisateurs supplémentaires sur les plans Essentiel et Pro.',
                 ],
                 'compliant' => [
                     'question' => 'Mes factures faktur.lu sont-elles vraiment conformes au Luxembourg ?',
@@ -2041,7 +2041,7 @@ return [
             ],
             'faqs' => [
                 'convert' => ['question' => 'Comment convertir un devis en facture ?', 'answer' => 'Depuis la fiche du devis accepté, cliquez sur "Convertir en facture". Toutes les informations sont reprises automatiquement.'],
-                'limit' => ['question' => 'Combien de devis puis-je créer ?', 'answer' => 'Le plan Gratuit permet 2 devis/mois, Essentiel 20/mois, et Pro offre des devis illimités.'],
+                'limit' => ['question' => 'Combien de devis puis-je créer ?', 'answer' => 'Le plan Gratuit permet 5 devis/mois, Essentiel 20/mois, et Pro offre des devis illimités.'],
                 'customize' => ['question' => 'Puis-je personnaliser mes devis ?', 'answer' => 'Oui, ajoutez votre logo, choisissez vos couleurs et incluez vos conditions générales de vente.'],
             ],
         ],
@@ -2062,7 +2062,7 @@ return [
                 'notes' => ['title' => 'Notes et contacts', 'description' => 'Ajoutez des notes internes et plusieurs contacts par entreprise cliente.'],
             ],
             'faqs' => [
-                'limit' => ['question' => 'Combien de clients puis-je gérer ?', 'answer' => 'Le plan Gratuit permet 5 clients, Essentiel 100, et Pro offre un nombre illimité de clients.'],
+                'limit' => ['question' => 'Combien de clients puis-je gérer ?', 'answer' => 'Le plan Gratuit permet 10 clients, Essentiel 100, et Pro offre un nombre illimité de clients.'],
                 'vies' => ['question' => 'Comment fonctionne la validation TVA ?', 'answer' => 'Lors de la saisie d\'un numéro de TVA intracommunautaire, faktur.lu vérifie automatiquement sa validité via le service VIES de la Commission européenne.'],
                 'import' => ['question' => 'Puis-je importer mes clients existants ?', 'answer' => 'Oui, vous pouvez importer vos clients via un fichier CSV depuis votre ancien logiciel de facturation.'],
             ],
