@@ -306,10 +306,10 @@ class PlanService
         $plan->name = 'free';
         $plan->display_name = 'Gratuit';
         $plan->limits = [
-            'max_clients' => 5,
-            'max_invoices_per_month' => 3,
-            'max_quotes_per_month' => 2,
-            'max_emails_per_month' => 5,
+            'max_clients' => 10,
+            'max_invoices_per_month' => 10,
+            'max_quotes_per_month' => 5,
+            'max_emails_per_month' => 10,
             'max_expenses_per_month' => 10,
         ];
         $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];

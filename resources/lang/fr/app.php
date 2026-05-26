@@ -1258,15 +1258,17 @@ return [
         ],
 
         'hero' => [
-            'badge' => 'Conforme FAIA Luxembourg',
-            'title_1' => 'Facturez ',
-            'title_2' => 'simplement',
-            'title_3' => ' au Luxembourg',
-            'subtitle' => 'Créez des factures conformes à la législation luxembourgeoise en quelques clics. Export FAIA pour vos contrôles fiscaux.',
-            'cta_start' => 'Essayer 14 jours gratuitement',
+            'badge' => 'Conçu pour le Luxembourg',
+            'title_1' => 'La facturation ',
+            'title_2' => 'conforme',
+            'title_3' => ' pour les freelances & PME au Luxembourg',
+            'subtitle' => 'Factures, devis, suivi du temps et export FAIA — pensé pour la législation luxembourgeoise (LIVA, AED, TVA 17%). Sans expert-comptable obligatoire.',
+            'cta_start' => 'Démarrer gratuitement',
             'cta_login' => 'Déjà inscrit ?',
-            'badge_faia' => 'Export FAIA',
-            'badge_secure' => 'Données sécurisées',
+            'cta_reassurance' => 'Sans carte bancaire · Annulez à tout moment · Première facture en 5 min',
+            'badge_faia' => 'Export FAIA inclus',
+            'badge_secure' => 'Données hébergées en UE',
+            'badge_languages' => '5 langues : FR · DE · EN · LB · PT',
         ],
 
         'preview' => [
@@ -1288,6 +1290,28 @@ return [
             'intra_vat' => 'TVA intracommunautaire',
         ],
 
+        'free_tools_section' => [
+            'eyebrow' => 'Outils gratuits',
+            'title' => 'Avant même de créer un compte',
+            'subtitle' => 'Calculez, validez, générez. Sans inscription, sans carte bancaire — utilisez nos outils gratuits dédiés au contexte luxembourgeois.',
+            'cta_all' => 'Voir tous les outils gratuits',
+            'tool_vat' => [
+                'title' => 'Calculateur TVA Luxembourg',
+                'description' => 'HT ⇄ TTC avec les 4 taux LU (17%, 14%, 8%, 3%).',
+            ],
+            'tool_iban' => [
+                'title' => 'Validateur IBAN',
+                'description' => 'Vérification + identification de la banque + code BIC.',
+            ],
+            'tool_invoice' => [
+                'title' => 'Générateur de facture',
+                'description' => 'Facture PDF conforme LIVA, sans inscription.',
+            ],
+            'tool_templates' => [
+                'title' => 'Modèles téléchargeables',
+                'description' => 'Facture vierge, checklist AED, lettres de relance, calendrier TVA.',
+            ],
+        ],
         'faia_banner' => [
             'title' => 'Validateur FAIA gratuit + Export FAIA intégré',
             'description' => 'Vérifiez vos fichiers FAIA en ligne gratuitement. Et avec faktur.lu, générez automatiquement des exports FAIA conformes à chaque facture.',
@@ -1464,6 +1488,10 @@ return [
             'vat_luxembourg' => 'TVA Luxembourg',
             'unlimited_invoices' => 'Factures illimitées*',
             'online_access' => 'Accès en ligne',
+            'no_card_label' => 'CB demandée',
+            'first_invoice_label' => 'pour ta 1ʳᵉ facture',
+            'free_plan_label' => 'pour démarrer',
+            'languages_label' => 'langues supportées',
         ],
 
         'pricing' => [
@@ -1500,27 +1528,27 @@ return [
             'plans' => [
                 'free' => [
                     'name' => 'Gratuit',
-                    'description' => 'Pour découvrir faktur.lu',
+                    'description' => 'Pour démarrer en douceur',
                     'card_features' => [
-                        '5 clients',
-                        '3 factures / mois',
-                        '2 devis / mois',
+                        '10 clients',
+                        '10 factures / mois',
+                        '5 devis / mois',
+                        'Export FAIA inclus',
                         'Conforme Luxembourg',
-                        'Numérotation personnalisable',
                     ],
                     'features' => [
-                        '3 factures/mois',
-                        '5 clients maximum',
-                        '2 devis/mois',
+                        '10 factures/mois',
+                        '10 clients maximum',
+                        '5 devis/mois',
                         'Gestion des dépenses (10/mois)',
                         'Authentification 2FA',
+                        'Export FAIA inclus',
                         'Numérotation personnalisable',
                     ],
                     'limitations' => [
-                        'Watermark sur les PDF',
-                        'Pas de projets ni time tracking',
-                        'Pas de CRM ni RH',
-                        'Pas d\'export comptable',
+                        'Pas de projets ni suivi du temps',
+                        'Pas de CRM ni module RH',
+                        'Pas d\'export comptable avancé',
                     ],
                 ],
                 'essentiel' => [

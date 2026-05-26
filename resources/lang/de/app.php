@@ -1160,15 +1160,17 @@ return [
         ],
 
         'hero' => [
-            'badge' => 'Luxemburg-konform',
-            'title_1' => 'Rechnungsstellung',
-            'title_2' => 'vereinfacht',
-            'title_3' => 'für Luxemburg',
-            'subtitle' => 'Erstellen Sie konforme Rechnungen mit wenigen Klicks. Verwalten Sie Kunden, Angebote und Gutschriften über eine moderne und intuitive Oberfläche.',
-            'cta_start' => '14 Tage kostenlos testen',
-            'cta_login' => 'Anmelden',
-            'badge_faia' => 'FAIA-Export',
-            'badge_secure' => 'Sichere Daten',
+            'badge' => 'Für Luxemburg konzipiert',
+            'title_1' => 'Rechtskonforme Rechnungen',
+            'title_2' => 'einfach gemacht',
+            'title_3' => 'für Freelancer & KMU in Luxemburg',
+            'subtitle' => 'Rechnungen, Angebote, Zeiterfassung und FAIA-Export — entwickelt für luxemburgisches Steuerrecht (LIVA, AED, 17% MwSt.). Kein Steuerberater erforderlich.',
+            'cta_start' => 'Kostenlos starten',
+            'cta_login' => 'Schon Mitglied?',
+            'cta_reassurance' => 'Keine Kreditkarte · Jederzeit kündbar · Erste Rechnung in 5 Min.',
+            'badge_faia' => 'FAIA-Export inklusive',
+            'badge_secure' => 'Daten in der EU',
+            'badge_languages' => '5 Sprachen: FR · DE · EN · LB · PT',
         ],
         'preview' => [
             'invoice' => 'Rechnung',
@@ -1186,6 +1188,28 @@ return [
             'faia_format' => 'FAIA-Format',
             'gdpr' => 'DSGVO',
             'intra_vat' => 'Innergemeinschaftliche MwSt',
+        ],
+        'free_tools_section' => [
+            'eyebrow' => 'Kostenlose Tools',
+            'title' => 'Bevor Sie sich registrieren',
+            'subtitle' => 'Berechnen, prüfen, erstellen. Ohne Anmeldung, ohne Kreditkarte — nutzen Sie unsere kostenlosen Tools für den luxemburgischen Kontext.',
+            'cta_all' => 'Alle kostenlosen Tools',
+            'tool_vat' => [
+                'title' => 'Luxemburg MwSt.-Rechner',
+                'description' => 'Netto ⇄ Brutto mit den 4 LU-Sätzen (17%, 14%, 8%, 3%).',
+            ],
+            'tool_iban' => [
+                'title' => 'IBAN-Validator',
+                'description' => 'IBAN prüfen, Bank identifizieren, BIC-Code erhalten.',
+            ],
+            'tool_invoice' => [
+                'title' => 'Rechnungsgenerator',
+                'description' => 'LIVA-konforme PDF-Rechnung, keine Anmeldung erforderlich.',
+            ],
+            'tool_templates' => [
+                'title' => 'Vorlagen zum Download',
+                'description' => 'Leere Rechnung, AED-Checkliste, Mahnungen, MwSt.-Kalender.',
+            ],
         ],
         'faia_banner' => [
             'title' => 'Kostenloser FAIA-Validator + integrierter FAIA-Export',
@@ -1359,6 +1383,10 @@ return [
             'vat_luxembourg' => 'Luxemburger MwSt',
             'unlimited_invoices' => 'Mögliche Rechnungen',
             'online_access' => 'Online-Zugang',
+            'no_card_label' => 'Karte nötig',
+            'first_invoice_label' => 'für die 1. Rechnung',
+            'free_plan_label' => 'zum Starten',
+            'languages_label' => 'unterstützte Sprachen',
         ],
         'pricing' => [
             'title' => 'PREISE',
@@ -1402,16 +1430,16 @@ return [
             'plans' => [
                 'free' => [
                     'name' => 'Kostenlos',
-                    'description' => 'Um faktur.lu zu entdecken',
+                    'description' => 'Für einen einfachen Start',
                     'card_features' => [
-                        '5 Kunden',
-                        '3 Rechnungen / Monat',
-                        '2 Angebote / Monat',
+                        '10 Kunden',
+                        '10 Rechnungen / Monat',
+                        '5 Angebote / Monat',
+                        'FAIA-Export inklusive',
                         'Luxemburg-konform',
-                        'Anpassbare Nummerierung',
                     ],
-                    'features' => ['3 Rechnungen/Monat', 'Maximal 5 Kunden', '2 Angebote/Monat', 'Ausgabenverfolgung (10/Monat)', '2FA-Authentifizierung', 'Anpassbare Nummerierung'],
-                    'limitations' => ['Wasserzeichen auf PDFs', 'Keine Projekte oder Zeiterfassung', 'Kein CRM oder HR', 'Kein Buchhaltungsexport'],
+                    'features' => ['10 Rechnungen/Monat', 'Maximal 10 Kunden', '5 Angebote/Monat', 'Ausgabenverfolgung (10/Monat)', '2FA-Authentifizierung', 'FAIA-Export inklusive', 'Anpassbare Nummerierung'],
+                    'limitations' => ['Keine Projekte oder Zeiterfassung', 'Kein CRM oder HR-Modul', 'Kein erweiterter Buchhaltungsexport'],
                 ],
                 'essentiel' => [
                     'name' => 'Essentiel',

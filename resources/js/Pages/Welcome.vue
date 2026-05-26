@@ -470,8 +470,13 @@ const toggleFaq = (index) => {
                             </Link>
                         </div>
 
+                        <!-- Reassurance line under CTA -->
+                        <p class="mt-3 text-sm text-slate-500">
+                            {{ t('landing.hero.cta_reassurance') }}
+                        </p>
+
                         <!-- Trust badges -->
-                        <div class="mt-12 flex items-center gap-6 text-sm text-slate-500">
+                        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-500">
                             <div class="flex items-center gap-2">
                                 <svg class="w-5 h-5 text-[#00f5d4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -483,6 +488,12 @@ const toggleFaq = (index) => {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                                 {{ t('landing.hero.badge_secure') }}
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-[#00f5d4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                                </svg>
+                                {{ t('landing.hero.badge_languages') }}
                             </div>
                         </div>
                     </div>
@@ -635,6 +646,68 @@ const toggleFaq = (index) => {
                             </svg>
                         </Link>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Free Tools Section: capture SEO intent + low-friction entry -->
+        <section class="py-16 bg-white">
+            <div class="mx-auto max-w-6xl px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <p class="text-[#00a896] font-semibold mb-3 text-sm uppercase tracking-wide">{{ t('landing.free_tools_section.eyebrow') }}</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900">{{ t('landing.free_tools_section.title') }}</h2>
+                    <p class="mt-3 text-slate-600 max-w-2xl mx-auto">{{ t('landing.free_tools_section.subtitle') }}</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <Link
+                        :href="localizedRoute('tools.vat_calculator')"
+                        class="group p-5 rounded-2xl border border-gray-200 hover:border-[#00a896] hover:shadow-md transition-all bg-white"
+                    >
+                        <div class="w-10 h-10 rounded-xl bg-[#00f5d4]/15 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-[#00a896]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m-6 4h6m-6 4h4m1 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <h3 class="font-semibold text-slate-900 group-hover:text-[#00a896]">{{ t('landing.free_tools_section.tool_vat.title') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">{{ t('landing.free_tools_section.tool_vat.description') }}</p>
+                    </Link>
+                    <Link
+                        :href="localizedRoute('tools.iban_validator')"
+                        class="group p-5 rounded-2xl border border-gray-200 hover:border-[#00a896] hover:shadow-md transition-all bg-white"
+                    >
+                        <div class="w-10 h-10 rounded-xl bg-[#00bbf9]/15 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-[#00bbf9]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                        </div>
+                        <h3 class="font-semibold text-slate-900 group-hover:text-[#00a896]">{{ t('landing.free_tools_section.tool_iban.title') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">{{ t('landing.free_tools_section.tool_iban.description') }}</p>
+                    </Link>
+                    <Link
+                        :href="localizedRoute('tools.invoice_generator')"
+                        class="group p-5 rounded-2xl border border-gray-200 hover:border-[#00a896] hover:shadow-md transition-all bg-white"
+                    >
+                        <div class="w-10 h-10 rounded-xl bg-[#f15bb5]/15 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-[#f15bb5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <h3 class="font-semibold text-slate-900 group-hover:text-[#00a896]">{{ t('landing.free_tools_section.tool_invoice.title') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">{{ t('landing.free_tools_section.tool_invoice.description') }}</p>
+                    </Link>
+                    <Link
+                        :href="localizedRoute('tools.templates')"
+                        class="group p-5 rounded-2xl border border-gray-200 hover:border-[#00a896] hover:shadow-md transition-all bg-white"
+                    >
+                        <div class="w-10 h-10 rounded-xl bg-[#fee440]/30 flex items-center justify-center mb-3">
+                            <svg class="w-5 h-5 text-[#a87f00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        </div>
+                        <h3 class="font-semibold text-slate-900 group-hover:text-[#00a896]">{{ t('landing.free_tools_section.tool_templates.title') }}</h3>
+                        <p class="mt-1 text-sm text-slate-600">{{ t('landing.free_tools_section.tool_templates.description') }}</p>
+                    </Link>
+                </div>
+                <div class="text-center mt-8">
+                    <Link
+                        :href="localizedRoute('tools')"
+                        class="inline-flex items-center gap-1 text-[#00a896] hover:text-[#009485] font-medium"
+                    >
+                        {{ t('landing.free_tools_section.cta_all') }}
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                    </Link>
                 </div>
             </div>
         </section>
@@ -815,26 +888,26 @@ const toggleFaq = (index) => {
             </div>
         </section>
 
-        <!-- Stats Section -->
+        <!-- Stats Section: reassuring concrete numbers (not vanity metrics) -->
         <section class="py-20">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <div class="bg-primary-500 rounded-3xl p-10 sm:p-12">
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
                         <div class="text-center">
-                            <p class="text-4xl sm:text-5xl font-bold text-white">100%</p>
-                            <p class="mt-2 text-white/70">{{ t('landing.stats.faia_compliant') }}</p>
+                            <p class="text-4xl sm:text-5xl font-bold text-white">0€</p>
+                            <p class="mt-2 text-white/70">{{ t('landing.stats.free_plan_label') }}</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-4xl sm:text-5xl font-bold text-[#fee440]">17%</p>
-                            <p class="mt-2 text-white/70">{{ t('landing.stats.vat_luxembourg') }}</p>
+                            <p class="text-4xl sm:text-5xl font-bold text-[#fee440]">0</p>
+                            <p class="mt-2 text-white/70">{{ t('landing.stats.no_card_label') }}</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-4xl sm:text-5xl font-bold text-white">∞</p>
-                            <p class="mt-2 text-white/70">{{ t('landing.stats.unlimited_invoices') }}</p>
+                            <p class="text-4xl sm:text-5xl font-bold text-white">5 min</p>
+                            <p class="mt-2 text-white/70">{{ t('landing.stats.first_invoice_label') }}</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-4xl sm:text-5xl font-bold text-[#00f5d4]">24/7</p>
-                            <p class="mt-2 text-white/70">{{ t('landing.stats.online_access') }}</p>
+                            <p class="text-4xl sm:text-5xl font-bold text-[#00f5d4]">5</p>
+                            <p class="mt-2 text-white/70">{{ t('landing.stats.languages_label') }}</p>
                         </div>
                     </div>
                 </div>

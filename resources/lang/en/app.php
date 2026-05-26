@@ -1257,15 +1257,17 @@ return [
         ],
 
         'hero' => [
-            'badge' => 'Luxembourg Compliant',
-            'title_1' => 'Invoicing',
-            'title_2' => 'simplified',
-            'title_3' => 'for Luxembourg',
-            'subtitle' => 'Create compliant invoices in just a few clicks. Manage clients, quotes and credit notes from a modern and intuitive interface.',
-            'cta_start' => 'Try 14 days free',
-            'cta_login' => 'Sign in',
-            'badge_faia' => 'FAIA Export',
-            'badge_secure' => 'Secure data',
+            'badge' => 'Built for Luxembourg',
+            'title_1' => 'Compliant invoicing',
+            'title_2' => 'made simple',
+            'title_3' => 'for Luxembourg freelancers & SMEs',
+            'subtitle' => 'Invoices, quotes, time tracking and FAIA export — built around Luxembourg tax law (LIVA, AED, 17% VAT). No accountant required.',
+            'cta_start' => 'Start for free',
+            'cta_login' => 'Already a member?',
+            'cta_reassurance' => 'No credit card · Cancel anytime · First invoice in 5 min',
+            'badge_faia' => 'FAIA export included',
+            'badge_secure' => 'EU-hosted data',
+            'badge_languages' => '5 languages: FR · DE · EN · LB · PT',
         ],
         'preview' => [
             'invoice' => 'Invoice',
@@ -1283,6 +1285,28 @@ return [
             'faia_format' => 'FAIA Format',
             'gdpr' => 'GDPR',
             'intra_vat' => 'Intra-Community VAT',
+        ],
+        'free_tools_section' => [
+            'eyebrow' => 'Free tools',
+            'title' => 'Before you even sign up',
+            'subtitle' => 'Calculate, validate, generate. No signup, no credit card — use our free tools built around the Luxembourg context.',
+            'cta_all' => 'See all free tools',
+            'tool_vat' => [
+                'title' => 'Luxembourg VAT calculator',
+                'description' => 'Net ⇄ Gross with the 4 LU rates (17%, 14%, 8%, 3%).',
+            ],
+            'tool_iban' => [
+                'title' => 'IBAN validator',
+                'description' => 'Check IBAN + identify bank + get the BIC code.',
+            ],
+            'tool_invoice' => [
+                'title' => 'Invoice generator',
+                'description' => 'LIVA-compliant PDF invoice, no signup needed.',
+            ],
+            'tool_templates' => [
+                'title' => 'Downloadable templates',
+                'description' => 'Blank invoice, AED checklist, reminder letters, VAT calendar.',
+            ],
         ],
         'faia_banner' => [
             'title' => 'Free FAIA Validator + Built-in FAIA Export',
@@ -1458,6 +1482,10 @@ return [
             'vat_luxembourg' => 'Luxembourg VAT',
             'unlimited_invoices' => 'Possible invoices',
             'online_access' => 'Online access',
+            'no_card_label' => 'card required',
+            'first_invoice_label' => 'for your 1st invoice',
+            'free_plan_label' => 'to get started',
+            'languages_label' => 'supported languages',
         ],
         'pricing' => [
             'title' => 'PRICING',
@@ -1501,16 +1529,16 @@ return [
             'plans' => [
                 'free' => [
                     'name' => 'Free',
-                    'description' => 'To discover faktur.lu',
+                    'description' => 'To get started smoothly',
                     'card_features' => [
-                        '5 clients',
-                        '3 invoices / month',
-                        '2 quotes / month',
+                        '10 clients',
+                        '10 invoices / month',
+                        '5 quotes / month',
+                        'FAIA export included',
                         'Luxembourg-compliant',
-                        'Custom numbering',
                     ],
-                    'features' => ['3 invoices/month', '5 clients maximum', '2 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'Custom numbering'],
-                    'limitations' => ['Watermark on PDFs', 'No projects or time tracking', 'No CRM or HR', 'No accounting export'],
+                    'features' => ['10 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Custom numbering'],
+                    'limitations' => ['No projects or time tracking', 'No CRM or HR module', 'No advanced accounting export'],
                 ],
                 'essentiel' => [
                     'name' => 'Essentiel',

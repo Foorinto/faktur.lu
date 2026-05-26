@@ -1160,15 +1160,17 @@ return [
         ],
 
         'hero' => [
-            'badge' => 'Lëtzebuerg-konform',
-            'title_1' => 'Rechnungsstellung',
-            'title_2' => 'vereinfacht',
-            'title_3' => 'fir Lëtzebuerg',
-            'subtitle' => 'Erstellt konform Rechnungen mat e puer Klicks. Geréiert Clienten, Devis an Avoire vun enger moderner an intuitiver Interface.',
-            'cta_start' => '14 Deeg gratis testen',
-            'cta_login' => 'Aloggen',
-            'badge_faia' => 'FAIA-Export',
-            'badge_secure' => 'Sécher Daten',
+            'badge' => 'Fir Lëtzebuerg konzipéiert',
+            'title_1' => 'Konform Rechnungen',
+            'title_2' => 'einfach gemaach',
+            'title_3' => 'fir Freelance & KMU zu Lëtzebuerg',
+            'subtitle' => 'Rechnungen, Devis, Zäiterfassung an FAIA-Export — geduecht fir d\'Lëtzebuerger Steiergesetz (LIVA, AED, 17% TVA). Kee Steierberoder gebraucht.',
+            'cta_start' => 'Gratis starten',
+            'cta_login' => 'Schonn Member?',
+            'cta_reassurance' => 'Keng Kreditkaart · Jiddesriicht kënnegbar · Éischt Rechnung an 5 Min.',
+            'badge_faia' => 'FAIA-Export inklusiv',
+            'badge_secure' => 'Donnéeën an der EU',
+            'badge_languages' => '5 Sproochen: FR · DE · EN · LB · PT',
         ],
         'preview' => [
             'invoice' => 'Rechnung',
@@ -1186,6 +1188,28 @@ return [
             'faia_format' => 'FAIA-Format',
             'gdpr' => 'RGPD',
             'intra_vat' => 'Intrakommunautär TVA',
+        ],
+        'free_tools_section' => [
+            'eyebrow' => 'Gratis Tools',
+            'title' => 'Ier Dir Iech aschreift',
+            'subtitle' => 'Berechent, validéiert, generéiert. Ouni Aschreiwung, ouni Kreditkaart — benotzt eis gratis Tools fir de Lëtzebuerger Kontext.',
+            'cta_all' => 'All gratis Tools weisen',
+            'tool_vat' => [
+                'title' => 'Lëtzebuerger TVA-Rechner',
+                'description' => 'Netto ⇄ Brutto mat den 4 LU-Saatzen (17%, 14%, 8%, 3%).',
+            ],
+            'tool_iban' => [
+                'title' => 'IBAN-Validator',
+                'description' => 'IBAN iwwerpréiwen + Bank erkennen + BIC-Code.',
+            ],
+            'tool_invoice' => [
+                'title' => 'Rechnungsgenerator',
+                'description' => 'LIVA-konform PDF-Rechnung, ouni Aschreiwung.',
+            ],
+            'tool_templates' => [
+                'title' => 'Templates zum Download',
+                'description' => 'Eidel Rechnung, AED-Checklëscht, Rappellen, TVA-Kalenner.',
+            ],
         ],
         'faia_banner' => [
             'title' => 'Gratis FAIA-Validator + integréierten FAIA-Export',
@@ -1359,6 +1383,10 @@ return [
             'vat_luxembourg' => 'Lëtzebuerger TVA',
             'unlimited_invoices' => 'Méiglech Rechnungen',
             'online_access' => 'Online-Zougang',
+            'no_card_label' => 'Kaart néideg',
+            'first_invoice_label' => 'fir d\'1. Rechnung',
+            'free_plan_label' => 'fir unzefänken',
+            'languages_label' => 'ënnerstëtzt Sproochen',
         ],
         'pricing' => [
             'title' => 'PRÄISSER',
@@ -1402,16 +1430,16 @@ return [
             'plans' => [
                 'free' => [
                     'name' => 'Gratis',
-                    'description' => 'Fir faktur.lu z\'entdecken',
+                    'description' => 'Fir einfach unzefänken',
                     'card_features' => [
-                        '5 Clienten',
-                        '3 Rechnungen / Mount',
-                        '2 Devis / Mount',
+                        '10 Clienten',
+                        '10 Rechnungen / Mount',
+                        '5 Devis / Mount',
+                        'FAIA-Export inklusiv',
                         'Lëtzebuerg-konform',
-                        'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['3 Rechnungen/Mount', 'Maximal 5 Clienten', '2 Devis/Mount', 'Ausgabenverfolgung (10/Mount)', '2FA Authentifikatioun', 'Personaliséierbar Nummeréierung'],
-                    'limitations' => ['Waasserzeechen op PDFen', 'Keng Projeten oder Zäiterfassung', 'Keen CRM oder RH', 'Keen Buchhaltungsexport'],
+                    'features' => ['10 Rechnungen/Mount', 'Maximal 10 Clienten', '5 Devis/Mount', 'Ausgabenverfolgung (10/Mount)', '2FA Authentifikatioun', 'FAIA-Export inklusiv', 'Personaliséierbar Nummeréierung'],
+                    'limitations' => ['Keng Projeten oder Zäiterfassung', 'Keen CRM oder RH-Modul', 'Keen erweiderten Buchhaltungsexport'],
                 ],
                 'essentiel' => [
                     'name' => 'Essentiel',
