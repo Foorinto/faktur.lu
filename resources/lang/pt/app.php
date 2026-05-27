@@ -1242,6 +1242,7 @@ return [
             'privacy' => 'Privacidade',
             'terms' => 'Termos e condições',
             'cookies' => 'Cookies',
+            'dpa' => 'DPA (subcontratação RGPD)',
             'gdpr' => 'Conformidade RGPD',
             'newsletter_title' => 'Conselhos de faturação e fiscalidade',
             'newsletter_placeholder' => 'O seu email',

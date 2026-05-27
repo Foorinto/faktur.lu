@@ -1145,6 +1145,7 @@ return [
             'privacy' => 'Datenschutz',
             'terms' => 'AGB',
             'cookies' => 'Cookies',
+            'dpa' => 'AVV (DSGVO-Auftragsverarbeitung)',
             'gdpr' => 'DSGVO-Konformität',
             'newsletter_title' => 'Rechnungs- & Steuertipps',
             'newsletter_placeholder' => 'Ihre E-Mail',

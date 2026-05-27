@@ -1243,6 +1243,7 @@ return [
             'privacy' => 'Confidentialité',
             'terms' => 'CGU / CGV',
             'cookies' => 'Cookies',
+            'dpa' => 'DPA (sous-traitance RGPD)',
             'gdpr' => 'Conformité RGPD',
             'newsletter_title' => 'Conseils facturation & fiscalité',
             'newsletter_placeholder' => 'Votre email',

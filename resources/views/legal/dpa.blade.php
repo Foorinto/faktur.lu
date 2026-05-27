@@ -40,10 +40,10 @@
             <strong>Email DPO/Contact :</strong> ___________________________
         </td>
         <td>
-            <strong>Raison sociale :</strong> faktur.lu (à compléter par l'entité juridique exploitante)<br>
-            <strong>Pays :</strong> Luxembourg (Grand-Duché)<br>
+            <strong>Exploitant :</strong> Alexandre Beaudier (entreprise individuelle)<br>
+            <strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg<br>
             <strong>Site :</strong> https://faktur.lu/<br>
-            <strong>Contact RGPD :</strong> privacy@faktur.lu
+            <strong>Contact RGPD :</strong> contact@faktur.lu
         </td>
     </tr>
 </table>
@@ -133,7 +133,7 @@
 <h3>Gestion des incidents</h3>
 <ul>
     <li>Procédure de notification au Client sous 48h en cas de violation de données</li>
-    <li>Contact dédié : <a href="mailto:privacy@faktur.lu">privacy@faktur.lu</a></li>
+    <li>Contact dédié : <a href="mailto:contact@faktur.lu">contact@faktur.lu</a></li>
 </ul>
 
 <h2>Annexe 2 — Sous-traitants ultérieurs autorisés</h2>

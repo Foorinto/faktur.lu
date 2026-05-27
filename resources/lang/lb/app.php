@@ -1145,6 +1145,7 @@ return [
             'privacy' => 'Dateschutz',
             'terms' => 'AGB',
             'cookies' => 'Cookies',
+            'dpa' => 'DPA (RGPD Verarbeitung)',
             'gdpr' => 'DSGVO-Konformitéit',
             'newsletter_title' => 'Rechnungs- & Steiertipps',
             'newsletter_placeholder' => 'Är E-Mail',

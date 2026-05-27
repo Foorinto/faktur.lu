@@ -1242,6 +1242,7 @@ return [
             'privacy' => 'Privacy',
             'terms' => 'Terms of service',
             'cookies' => 'Cookies',
+            'dpa' => 'DPA (GDPR processing)',
             'gdpr' => 'GDPR Compliance',
             'newsletter_title' => 'Invoicing & tax tips',
             'newsletter_placeholder' => 'Your email',

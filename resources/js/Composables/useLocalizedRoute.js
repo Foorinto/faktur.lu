@@ -26,6 +26,7 @@ const localizedRoutes = [
     'legal.privacy',
     'legal.terms',
     'legal.cookies',
+    'legal.dpa',
     'blog.index',
     'blog.show',
     'blog.category',
@@ -176,6 +177,13 @@ const localizedSlugs = {
         en: 'cookies',
         lb: 'cookies',
         pt: 'cookies',
+    },
+    'legal.dpa': {
+        fr: 'dpa',
+        de: 'dpa',
+        en: 'dpa',
+        lb: 'dpa',
+        pt: 'dpa',
     },
     'blog.index': {
         fr: 'blog',

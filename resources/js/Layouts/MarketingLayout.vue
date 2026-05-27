@@ -1265,6 +1265,13 @@ onUnmounted(() => {
                                     >{{ t("landing.footer.cookies") }}</Link
                                 >
                             </li>
+                            <li>
+                                <Link
+                                    :href="localizedRoute('legal.dpa')"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t("landing.footer.dpa") }}</Link
+                                >
+                            </li>
                         </ul>
                     </div>
                 </div>
