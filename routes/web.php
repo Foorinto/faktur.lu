@@ -209,6 +209,13 @@ Route::prefix('{locale}')
         Route::get('/fir-kmu', [ContactController::class, 'forSmes'])->name('for_smes.lb');
         Route::get('/para-pme', [ContactController::class, 'forSmes'])->name('for_smes.pt');
 
+        // Glossary page (DefinedTermSet for LLM/SEO optimization)
+        Route::get('/glossaire', [ContactController::class, 'glossary'])->name('glossary.fr');
+        Route::get('/glossar', [ContactController::class, 'glossary'])->name('glossary.de');
+        Route::get('/glossary', [ContactController::class, 'glossary'])->name('glossary.en');
+        Route::get('/glossaire-lu', [ContactController::class, 'glossary'])->name('glossary.lb');
+        Route::get('/glossario', [ContactController::class, 'glossary'])->name('glossary.pt');
+
         // Contact page (explicit localized routes)
         Route::get('/contact', [ContactController::class, 'index'])->name('contact');
         Route::post('/contact', [ContactController::class, 'send'])->middleware(['honeypot', 'throttle:6,1'])->name('contact.send');

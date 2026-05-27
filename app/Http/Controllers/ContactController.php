@@ -58,6 +58,14 @@ class ContactController extends Controller
     }
 
     /**
+     * Display the glossary page (DefinedTermSet for LLMs + SEO long-tail).
+     */
+    public function glossary(): Response
+    {
+        return Inertia::render('Glossary');
+    }
+
+    /**
      * Handle partner contact form submission.
      */
     public function partnerContact(Request $request)

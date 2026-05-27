@@ -1313,6 +1313,13 @@ onUnmounted(() => {
                             </li>
                             <li>
                                 <Link
+                                    :href="localizedRoute('glossary')"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t("glossary.breadcrumb") }}</Link
+                                >
+                            </li>
+                            <li>
+                                <Link
                                     :href="localizedRoute('partners')"
                                     class="text-slate-600 hover:text-slate-900"
                                     >{{ t("partners.breadcrumb") }}</Link

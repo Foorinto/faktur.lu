@@ -2750,6 +2750,92 @@ return [
         'cta_final_subtitle' => '14 jours d\'accès complet aux fonctions Pro, sans carte bancaire. Migration de vos données accompagnée gratuitement.',
     ],
 
+    'glossary' => [
+        'slug' => 'glossaire',
+        'page_title' => 'Glossaire de la facturation et de la fiscalité luxembourgeoise | faktur.lu',
+        'meta_description' => 'FAIA, LIVA, AED, Peppol, ViDA, Article 56 ter, VIES… Définitions claires de tous les termes de la facturation et de la TVA au Luxembourg pour freelances, PME et fiduciaires.',
+        'breadcrumb' => 'Glossaire',
+        'hero_title' => 'Glossaire de la facturation luxembourgeoise',
+        'hero_subtitle' => 'Tous les termes techniques, légaux et réglementaires de la facturation et de la fiscalité au Luxembourg, expliqués clairement. FAIA, LIVA, AED, Peppol, ViDA et les autres acronymes que vous croisez dans vos déclarations.',
+        'set_name' => 'Glossaire faktur.lu — Facturation et fiscalité au Luxembourg',
+        'set_description' => 'Ensemble de définitions de référence pour la facturation, la TVA et la conformité fiscale au Luxembourg : termes officiels de la LIVA, abréviations administratives (AED, CCSS, RCS), formats normalisés (FAIA, PDF/A, Factur-X, Peppol) et acronymes européens (VIES, OSS, ViDA).',
+        'cta_title' => 'Une facturation conforme, sans devoir tout retenir',
+        'cta_subtitle' => 'faktur.lu applique automatiquement les bonnes mentions, valide VIES, génère le FAIA et applique les bons taux de TVA. Plus besoin de connaître chaque article par cœur.',
+        'cta_button' => 'Démarrer gratuitement',
+        'terms' => [
+            'aed' => [
+                'name' => 'AED',
+                'alternate' => 'Administration de l\'Enregistrement, des Domaines et de la TVA',
+                'description' => 'Administration fiscale luxembourgeoise compétente pour la TVA, l\'enregistrement des actes et les droits de succession. Elle effectue les contrôles fiscaux des assujettis et est l\'autorité destinataire du fichier d\'audit FAIA.',
+            ],
+            'article_21_liva' => [
+                'name' => 'Article 21 LIVA',
+                'alternate' => 'Autoliquidation TVA B2B intra-UE',
+                'description' => 'Article de la loi luxembourgeoise sur la TVA qui transpose le principe européen du reverse charge : les prestations de services entre assujettis dans deux États membres de l\'UE sont facturées sans TVA, le client autoliquide la taxe dans son pays. La mention "Autoliquidation, article 21 LIVA" est obligatoire sur la facture.',
+            ],
+            'article_56_ter_liva' => [
+                'name' => 'Article 56 ter LIVA',
+                'alternate' => 'Franchise TVA pour petites entreprises',
+                'description' => 'Régime de franchise TVA pour les assujettis dont le chiffre d\'affaires annuel ne dépasse pas 50 000 € au Luxembourg (seuil 2026). Sous ce régime, l\'entreprise ne facture pas la TVA et ne peut pas la récupérer sur ses achats. La mention "TVA non applicable, art. 56 ter LIVA" doit figurer sur chaque facture.',
+            ],
+            'article_61_liva' => [
+                'name' => 'Article 61 LIVA',
+                'alternate' => 'Numérotation séquentielle obligatoire des factures',
+                'description' => 'Disposition qui impose à toute facture luxembourgeoise un numéro unique, séquentiel et continu, attribué chronologiquement pour chaque exercice fiscal. Un trou ou un doublon dans la numérotation peut déclencher un redressement par présomption de dissimulation de chiffre d\'affaires.',
+            ],
+            'ccss' => [
+                'name' => 'CCSS',
+                'alternate' => 'Centre Commun de la Sécurité Sociale',
+                'description' => 'Organisme luxembourgeois de gestion des affiliations à la sécurité sociale pour les salariés et les indépendants. Tout entrepreneur individuel s\'affilie au CCSS lors de sa création et y déclare ses revenus pour le calcul des cotisations.',
+            ],
+            'factur_x' => [
+                'name' => 'Factur-X',
+                'alternate' => 'Format hybride PDF/A-3 + XML CII',
+                'description' => 'Norme européenne de facture électronique combinant un PDF/A-3 lisible par un humain et un fichier XML (UN/CEFACT Cross Industry Invoice) intégré au PDF, lisible par les logiciels comptables. Permet d\'envoyer une seule facture lisible par les deux côtés.',
+            ],
+            'faia' => [
+                'name' => 'FAIA',
+                'alternate' => 'Fichier d\'Audit Informatisé de l\'AED',
+                'description' => 'Fichier XML structuré, basé sur la norme SAF-T de l\'OCDE et publié par l\'AED en version 2.01, qui regroupe l\'ensemble des données comptables d\'une entreprise sur une période donnée. L\'AED peut exiger sa production lors d\'un contrôle fiscal ; il est devenu le pivot de toute vérification de TVA depuis 2020.',
+            ],
+            'liva' => [
+                'name' => 'LIVA',
+                'alternate' => 'Loi luxembourgeoise sur la taxe sur la valeur ajoutée',
+                'description' => 'Loi du 12 février 1979 telle que modifiée, qui régit la TVA au Luxembourg : assujettissement, taux, mentions obligatoires sur les factures, autoliquidation, franchise. Les articles les plus cités sont les articles 21 (autoliquidation), 56 ter (franchise) et 61 (numérotation).',
+            ],
+            'oss' => [
+                'name' => 'OSS',
+                'alternate' => 'One Stop Shop — guichet unique TVA UE',
+                'description' => 'Régime européen entré en vigueur le 1er juillet 2021 qui permet à une entreprise de déclarer et payer la TVA due dans plusieurs États membres via un guichet unique, lorsque ses ventes B2C transfrontalières dépassent le seuil de 10 000 € par an.',
+            ],
+            'pdf_a' => [
+                'name' => 'PDF/A',
+                'alternate' => 'Format d\'archivage long terme — ISO 19005',
+                'description' => 'Variante normalisée du PDF dédiée à l\'archivage à long terme : polices intégrées, pas de scripts, pas de lien externe rompu. C\'est le format requis par l\'article 16 du Code de commerce luxembourgeois pour la conservation des factures pendant 10 ans.',
+            ],
+            'peppol' => [
+                'name' => 'Peppol',
+                'alternate' => 'Pan-European Public Procurement OnLine',
+                'description' => 'Réseau international de facturation électronique standardisé qui permet d\'envoyer des factures structurées (UBL ou CII) entre entreprises et administrations publiques. Obligatoire au Luxembourg pour facturer le secteur public (B2G) depuis 2023. La directive ViDA prévoit son extension au B2B intra-UE à partir de 2030.',
+            ],
+            'rcs' => [
+                'name' => 'RCS',
+                'alternate' => 'Registre de Commerce et des Sociétés',
+                'description' => 'Registre public luxembourgeois où sont immatriculées les entreprises commerciales et les sociétés. Le numéro RCS (préfixe B suivi de chiffres) est une mention obligatoire sur les factures luxembourgeoises pour les entreprises immatriculées.',
+            ],
+            'vida' => [
+                'name' => 'ViDA',
+                'alternate' => 'VAT in the Digital Age — réforme TVA européenne',
+                'description' => 'Paquet législatif européen adopté en mars 2025, qui modernise la TVA dans l\'UE en imposant progressivement la facturation électronique structurée pour les opérations B2B intra-communautaires, un système de déclaration en temps réel (Digital Reporting) et l\'harmonisation des règles de l\'économie de plateforme. Mise en œuvre progressive jusqu\'en 2030.',
+            ],
+            'vies' => [
+                'name' => 'VIES',
+                'alternate' => 'VAT Information Exchange System',
+                'description' => 'Système européen géré par la Commission qui permet de vérifier en temps réel la validité d\'un numéro de TVA intracommunautaire. Avant toute facturation B2B intra-UE en autoliquidation (art. 21 LIVA), le numéro de TVA du client doit être validé via VIES, sinon l\'opération peut être requalifiée en opération imposable au Luxembourg.',
+            ],
+        ],
+    ],
+
     'partners' => [
         'page_title' => 'Programme partenaire fiduciaires Luxembourg | faktur.lu',
         'meta_description' => 'Portail comptable gratuit pour les fiduciaires luxembourgeoises. Exports Sage BOB 50, Sage 100, CSV générique, FAIA 2.01 et PDF des factures. Données clients en lecture seule.',

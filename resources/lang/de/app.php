@@ -2421,6 +2421,92 @@ return [
         'cta_final_subtitle' => '14 Tage voller Pro-Zugriff, keine Kreditkarte. Datenmigration kostenfrei begleitet.',
     ],
 
+    'glossary' => [
+        'slug' => 'glossar',
+        'page_title' => 'Glossar der luxemburgischen Rechnungsstellung und Steuer | faktur.lu',
+        'meta_description' => 'FAIA, LIVA, AED, Peppol, ViDA, Artikel 56 ter, VIES… Klare Definitionen aller Begriffe der Rechnungsstellung und Mehrwertsteuer in Luxemburg fuer Freiberufler, KMU und Treuhaender.',
+        'breadcrumb' => 'Glossar',
+        'hero_title' => 'Glossar der luxemburgischen Rechnungsstellung',
+        'hero_subtitle' => 'Alle technischen, rechtlichen und regulatorischen Begriffe der Rechnungsstellung und Besteuerung in Luxemburg, klar erklaert. FAIA, LIVA, AED, Peppol, ViDA und die anderen Abkuerzungen, die Ihnen in Ihren Erklaerungen begegnen.',
+        'set_name' => 'faktur.lu-Glossar — Rechnungsstellung und Besteuerung in Luxemburg',
+        'set_description' => 'Referenzdefinitionen fuer Rechnungsstellung, Mehrwertsteuer und steuerliche Compliance in Luxemburg: offizielle LIVA-Begriffe, behoerdliche Abkuerzungen (AED, CCSS, RCS), normierte Formate (FAIA, PDF/A, Factur-X, Peppol) und europaeische Akronyme (VIES, OSS, ViDA).',
+        'cta_title' => 'Konforme Rechnungsstellung ohne alles auswendig zu lernen',
+        'cta_subtitle' => 'faktur.lu fuegt die richtigen Pflichtangaben automatisch hinzu, validiert ueber VIES, erzeugt FAIA und wendet die richtigen Mehrwertsteuersaetze an. Sie muessen nicht jeden Artikel kennen.',
+        'cta_button' => 'Kostenlos starten',
+        'terms' => [
+            'aed' => [
+                'name' => 'AED',
+                'alternate' => 'Verwaltung fuer Eintragung, Domaenen und Mehrwertsteuer',
+                'description' => 'Luxemburgische Steuerverwaltung, zustaendig fuer die Mehrwertsteuer, die Eintragung von Urkunden und Erbschaftssteuern. Sie fuehrt Steuerpruefungen durch und ist die Empfaengerin der FAIA-Pruefdatei.',
+            ],
+            'article_21_liva' => [
+                'name' => 'Artikel 21 LIVA',
+                'alternate' => 'Reverse-Charge bei innergemeinschaftlichem B2B',
+                'description' => 'Artikel des luxemburgischen MwSt-Gesetzes, der das EU-Reverse-Charge-Prinzip umsetzt: Dienstleistungen zwischen Steuerpflichtigen in zwei EU-Mitgliedstaaten werden ohne MwSt fakturiert, der Kunde schuldet die Steuer in seinem Land. Der Hinweis "Autoliquidation, article 21 LIVA" ist auf der Rechnung obligatorisch.',
+            ],
+            'article_56_ter_liva' => [
+                'name' => 'Artikel 56 ter LIVA',
+                'alternate' => 'MwSt-Befreiung fuer Kleinunternehmen',
+                'description' => 'MwSt-Befreiungsregime fuer Steuerpflichtige mit einem jaehrlichen Umsatz unter 50 000 EUR in Luxemburg (Schwelle 2026). Unter dieser Regelung wird keine MwSt berechnet und keine Vorsteuer abgezogen. Der Hinweis "TVA non applicable, art. 56 ter LIVA" muss auf jeder Rechnung erscheinen.',
+            ],
+            'article_61_liva' => [
+                'name' => 'Artikel 61 LIVA',
+                'alternate' => 'Verpflichtende laufende Rechnungsnummerierung',
+                'description' => 'Bestimmung, die jede luxemburgische Rechnung verpflichtet, eine eindeutige, lueckenlose und chronologisch je Geschaeftsjahr vergebene Nummer zu tragen. Luecken oder Doppelnummern koennen zu einer Steuernachzahlung wegen vermuteter nicht erklaerter Einnahmen fuehren.',
+            ],
+            'ccss' => [
+                'name' => 'CCSS',
+                'alternate' => 'Gemeinsames Zentrum fuer soziale Sicherheit Luxemburg',
+                'description' => 'Luxemburgische Stelle fuer die Verwaltung der Sozialversicherungsanmeldungen von Arbeitnehmern und Selbststaendigen. Jeder Einzelunternehmer meldet sich bei Gruendung beim CCSS an und meldet seine Einkuenfte zur Beitragsberechnung.',
+            ],
+            'factur_x' => [
+                'name' => 'Factur-X',
+                'alternate' => 'Hybrides Format PDF/A-3 + XML CII',
+                'description' => 'Europaeische Norm fuer elektronische Rechnungen, die ein fuer Menschen lesbares PDF/A-3 mit einer eingebetteten XML-Datei (UN/CEFACT Cross Industry Invoice) kombiniert, lesbar von Buchhaltungssoftware. Eine einzige Rechnung, lesbar fuer beide Seiten.',
+            ],
+            'faia' => [
+                'name' => 'FAIA',
+                'alternate' => 'Standardisierte Pruefdatei der AED',
+                'description' => 'Strukturierte XML-Datei nach dem OECD-SAF-T-Standard, in der Version 2.01 von der AED veroeffentlicht, die alle Buchhaltungsdaten eines Unternehmens ueber einen bestimmten Zeitraum buendelt. Die AED kann sie bei einer Steuerpruefung verlangen; sie ist seit 2020 zentraler Bestandteil jeder MwSt-Pruefung.',
+            ],
+            'liva' => [
+                'name' => 'LIVA',
+                'alternate' => 'Luxemburgisches Mehrwertsteuergesetz',
+                'description' => 'Gesetz vom 12. Februar 1979 in der geaenderten Fassung, das die MwSt in Luxemburg regelt: Steuerpflicht, Saetze, Pflichtangaben auf Rechnungen, Reverse-Charge, Befreiungen. Die meistzitierten Artikel sind 21 (Reverse-Charge), 56 ter (Befreiung) und 61 (Nummerierung).',
+            ],
+            'oss' => [
+                'name' => 'OSS',
+                'alternate' => 'One Stop Shop — EU-MwSt-Einheitsschalter',
+                'description' => 'EU-Regime seit 1. Juli 2021, das Unternehmen erlaubt, die in mehreren Mitgliedstaaten geschuldete MwSt ueber einen einzigen Schalter anzumelden und zu zahlen, sobald die grenzueberschreitenden B2C-Verkaeufe 10 000 EUR pro Jahr ueberschreiten.',
+            ],
+            'pdf_a' => [
+                'name' => 'PDF/A',
+                'alternate' => 'Langzeitarchivformat — ISO 19005',
+                'description' => 'Standardisierte PDF-Variante fuer die langfristige Archivierung: eingebettete Schriftarten, keine Skripte, keine externen Links. Es ist das von Artikel 16 des luxemburgischen Handelsgesetzbuchs vorgeschriebene Format fuer die 10-jaehrige Aufbewahrung von Rechnungen.',
+            ],
+            'peppol' => [
+                'name' => 'Peppol',
+                'alternate' => 'Pan-European Public Procurement OnLine',
+                'description' => 'Internationales standardisiertes Netzwerk fuer den elektronischen Rechnungsaustausch (UBL oder CII) zwischen Unternehmen und oeffentlichen Verwaltungen. In Luxemburg seit 2023 verpflichtend fuer B2G-Rechnungen. Die ViDA-Richtlinie plant die Ausweitung auf das innergemeinschaftliche B2B ab 2030.',
+            ],
+            'rcs' => [
+                'name' => 'RCS',
+                'alternate' => 'Luxemburger Handels- und Gesellschaftsregister',
+                'description' => 'Oeffentliches luxemburgisches Register zur Eintragung von Handelsunternehmen und Gesellschaften. Die RCS-Nummer (Praefix B gefolgt von Ziffern) ist eine Pflichtangabe auf luxemburgischen Rechnungen eingetragener Unternehmen.',
+            ],
+            'vida' => [
+                'name' => 'ViDA',
+                'alternate' => 'VAT in the Digital Age — europaeische MwSt-Reform',
+                'description' => 'EU-Gesetzespaket vom Maerz 2025, das die MwSt in der EU modernisiert: schrittweise Pflicht zur strukturierten elektronischen Rechnungsstellung fuer innergemeinschaftliche B2B-Geschaefte, Echtzeit-Meldesystem (Digital Reporting) und Harmonisierung der Plattformwirtschaft. Schrittweise Umsetzung bis 2030.',
+            ],
+            'vies' => [
+                'name' => 'VIES',
+                'alternate' => 'VAT Information Exchange System',
+                'description' => 'Von der Europaeischen Kommission verwaltetes System zur Echtzeit-Ueberpruefung einer innergemeinschaftlichen MwSt-Nummer. Vor jeder Reverse-Charge-B2B-Rechnung (Art. 21 LIVA) muss die MwSt-Nummer des Kunden ueber VIES geprueft werden, sonst kann der Vorgang als in Luxemburg steuerpflichtig umqualifiziert werden.',
+            ],
+        ],
+    ],
+
     'partners' => [
         'page_title' => 'Partnerprogramm fuer Treuhandgesellschaften | faktur.lu',
         'meta_description' => 'Kostenloses Buchhalterportal für luxemburgische Treuhandgesellschaften. Exporte Sage BOB 50, Sage 100, generisches CSV, FAIA 2.01 und Rechnungs-PDF. Kundendaten im Nur-Lese-Modus.',

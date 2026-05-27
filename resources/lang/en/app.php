@@ -2520,6 +2520,92 @@ return [
         'cta_final_subtitle' => '14 days full Pro access, no credit card. Data migration assisted free of charge.',
     ],
 
+    'glossary' => [
+        'slug' => 'glossary',
+        'page_title' => 'Glossary of Luxembourg invoicing and tax terms | faktur.lu',
+        'meta_description' => 'FAIA, LIVA, AED, Peppol, ViDA, Article 56 ter, VIES… Clear definitions of every Luxembourg invoicing and VAT term for freelancers, SMEs and accountants.',
+        'breadcrumb' => 'Glossary',
+        'hero_title' => 'Luxembourg invoicing & tax glossary',
+        'hero_subtitle' => 'Every technical, legal and regulatory term used in Luxembourg invoicing and taxation, explained clearly. FAIA, LIVA, AED, Peppol, ViDA and the other acronyms you keep meeting in your filings.',
+        'set_name' => 'faktur.lu glossary — Luxembourg invoicing & taxation',
+        'set_description' => 'Reference set of definitions for invoicing, VAT and tax compliance in Luxembourg: official LIVA terms, administrative abbreviations (AED, CCSS, RCS), standardised formats (FAIA, PDF/A, Factur-X, Peppol) and EU acronyms (VIES, OSS, ViDA).',
+        'cta_title' => 'Compliant invoicing without memorising the rules',
+        'cta_subtitle' => 'faktur.lu adds the right mandatory mentions automatically, validates VIES, generates FAIA and applies the right VAT rates. You no longer need to know every article by heart.',
+        'cta_button' => 'Get started for free',
+        'terms' => [
+            'aed' => [
+                'name' => 'AED',
+                'alternate' => 'Administration de l\'Enregistrement, des Domaines et de la TVA',
+                'description' => 'Luxembourg tax authority responsible for VAT, registration of deeds and inheritance duties. It conducts tax audits and is the recipient of the FAIA audit file.',
+            ],
+            'article_21_liva' => [
+                'name' => 'Article 21 LIVA',
+                'alternate' => 'Intra-EU B2B VAT reverse charge',
+                'description' => 'Article of the Luxembourg VAT law transposing the EU reverse-charge principle: services between taxable persons in two different EU member states are invoiced without VAT, and the customer self-assesses VAT in their own country. The mention "Autoliquidation, article 21 LIVA" is mandatory on the invoice.',
+            ],
+            'article_56_ter_liva' => [
+                'name' => 'Article 56 ter LIVA',
+                'alternate' => 'VAT exemption for small businesses',
+                'description' => 'VAT exemption scheme for taxable persons whose annual turnover does not exceed EUR 50,000 in Luxembourg (2026 threshold). Under this scheme the business charges no VAT and cannot deduct it on its purchases. The mention "TVA non applicable, art. 56 ter LIVA" must appear on every invoice.',
+            ],
+            'article_61_liva' => [
+                'name' => 'Article 61 LIVA',
+                'alternate' => 'Mandatory sequential invoice numbering',
+                'description' => 'Provision requiring every Luxembourg invoice to bear a unique, sequential and continuous number, assigned chronologically per fiscal year. A gap or duplicate in the numbering can trigger a tax adjustment under the presumption of undeclared turnover.',
+            ],
+            'ccss' => [
+                'name' => 'CCSS',
+                'alternate' => 'Joint Social Security Centre — Luxembourg',
+                'description' => 'Luxembourg body managing social security affiliations for employees and self-employed workers. Every sole trader must register with the CCSS at incorporation and declare income for social contribution calculation.',
+            ],
+            'factur_x' => [
+                'name' => 'Factur-X',
+                'alternate' => 'Hybrid PDF/A-3 + XML CII format',
+                'description' => 'European electronic invoice standard combining a human-readable PDF/A-3 and an embedded XML file (UN/CEFACT Cross Industry Invoice) readable by accounting software. Lets you send a single invoice readable by both sides.',
+            ],
+            'faia' => [
+                'name' => 'FAIA',
+                'alternate' => 'Standard Audit File of the Luxembourg tax authority',
+                'description' => 'Structured XML file based on the OECD SAF-T standard and published by the AED in version 2.01, which gathers all of a company\'s accounting data over a given period. The AED may require its production during a tax audit; it has been the pivot of every VAT review since 2020.',
+            ],
+            'liva' => [
+                'name' => 'LIVA',
+                'alternate' => 'Luxembourg VAT law',
+                'description' => 'Law of 12 February 1979 as amended, governing VAT in Luxembourg: tax liability, rates, mandatory mentions on invoices, reverse charge, exemption regimes. The most cited articles are 21 (reverse charge), 56 ter (exemption) and 61 (numbering).',
+            ],
+            'oss' => [
+                'name' => 'OSS',
+                'alternate' => 'One Stop Shop — EU VAT single window',
+                'description' => 'EU scheme effective since 1 July 2021 allowing a business to declare and pay VAT due in several member states via a single window, when its cross-border B2C sales exceed the EUR 10,000 annual threshold.',
+            ],
+            'pdf_a' => [
+                'name' => 'PDF/A',
+                'alternate' => 'Long-term archive format — ISO 19005',
+                'description' => 'Normalised PDF variant dedicated to long-term archiving: embedded fonts, no scripts, no broken external links. It is the format required by Article 16 of the Luxembourg Code of Commerce for the 10-year retention of invoices.',
+            ],
+            'peppol' => [
+                'name' => 'Peppol',
+                'alternate' => 'Pan-European Public Procurement OnLine',
+                'description' => 'International standardised electronic invoicing network for exchanging structured invoices (UBL or CII) between businesses and public administrations. Mandatory in Luxembourg for B2G invoicing since 2023. The ViDA directive plans its extension to intra-EU B2B from 2030.',
+            ],
+            'rcs' => [
+                'name' => 'RCS',
+                'alternate' => 'Luxembourg Trade and Companies Register',
+                'description' => 'Public Luxembourg register where commercial businesses and companies are incorporated. The RCS number (prefix B followed by digits) is a mandatory mention on Luxembourg invoices for registered entities.',
+            ],
+            'vida' => [
+                'name' => 'ViDA',
+                'alternate' => 'VAT in the Digital Age — EU VAT reform',
+                'description' => 'EU legislative package adopted in March 2025, modernising VAT in the EU by progressively imposing structured e-invoicing for intra-EU B2B transactions, a real-time digital reporting system and the harmonisation of platform-economy rules. Phased rollout until 2030.',
+            ],
+            'vies' => [
+                'name' => 'VIES',
+                'alternate' => 'VAT Information Exchange System',
+                'description' => 'EU service managed by the Commission allowing real-time verification of the validity of an intra-EU VAT number. Before issuing any reverse-charge intra-EU B2B invoice (art. 21 LIVA), the customer\'s VAT number must be validated via VIES, otherwise the transaction may be requalified as taxable in Luxembourg.',
+            ],
+        ],
+    ],
+
     'partners' => [
         'page_title' => 'Partner Program for Accountants | faktur.lu',
         'meta_description' => 'Free accountant portal for Luxembourg fiduciaries. Sage BOB 50, Sage 100, generic CSV, FAIA 2.01 and invoice PDF exports. Client data in read-only mode.',

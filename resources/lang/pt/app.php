@@ -2725,6 +2725,92 @@ return [
         'cta_final_subtitle' => '14 dias de acesso Pro completo, sem cartão de crédito. Migração de dados acompanhada gratuitamente.',
     ],
 
+    'glossary' => [
+        'slug' => 'glossario',
+        'page_title' => 'Glossário de faturação e fiscalidade do Luxemburgo | faktur.lu',
+        'meta_description' => 'FAIA, LIVA, AED, Peppol, ViDA, Artigo 56 ter, VIES… Definições claras de todos os termos de faturação e IVA no Luxemburgo para freelancers, PME e fiduciárias.',
+        'breadcrumb' => 'Glossário',
+        'hero_title' => 'Glossário da faturação luxemburguesa',
+        'hero_subtitle' => 'Todos os termos técnicos, legais e regulamentares da faturação e da fiscalidade no Luxemburgo, explicados claramente. FAIA, LIVA, AED, Peppol, ViDA e os outros acrónimos que encontra nas suas declarações.',
+        'set_name' => 'Glossário faktur.lu — Faturação e fiscalidade no Luxemburgo',
+        'set_description' => 'Conjunto de definições de referência para faturação, IVA e conformidade fiscal no Luxemburgo: termos oficiais da LIVA, abreviaturas administrativas (AED, CCSS, RCS), formatos normalizados (FAIA, PDF/A, Factur-X, Peppol) e acrónimos europeus (VIES, OSS, ViDA).',
+        'cta_title' => 'Faturação conforme sem memorizar tudo',
+        'cta_subtitle' => 'O faktur.lu aplica automaticamente as menções obrigatórias corretas, valida via VIES, gera o FAIA e aplica as taxas de IVA adequadas. Já não precisa de saber cada artigo de cor.',
+        'cta_button' => 'Começar gratuitamente',
+        'terms' => [
+            'aed' => [
+                'name' => 'AED',
+                'alternate' => 'Administração do Registo, dos Domínios e do IVA',
+                'description' => 'Administração fiscal luxemburguesa competente para o IVA, o registo de atos e os direitos de sucessão. Realiza auditorias fiscais e é a destinatária do ficheiro de auditoria FAIA.',
+            ],
+            'article_21_liva' => [
+                'name' => 'Artigo 21 LIVA',
+                'alternate' => 'Autoliquidação de IVA B2B intra-UE',
+                'description' => 'Artigo da lei luxemburguesa do IVA que transpõe o princípio europeu do reverse charge: as prestações de serviços entre sujeitos passivos em dois Estados-Membros são faturadas sem IVA, sendo o cliente a autoliquidar o imposto no seu país. A menção "Autoliquidation, article 21 LIVA" é obrigatória na fatura.',
+            ],
+            'article_56_ter_liva' => [
+                'name' => 'Artigo 56 ter LIVA',
+                'alternate' => 'Isenção de IVA para pequenas empresas',
+                'description' => 'Regime de isenção de IVA para sujeitos passivos cujo volume de negócios anual não exceda 50 000 € no Luxemburgo (limite 2026). Sob este regime, a empresa não fatura IVA nem pode deduzi-lo nas suas compras. A menção "TVA non applicable, art. 56 ter LIVA" deve constar em cada fatura.',
+            ],
+            'article_61_liva' => [
+                'name' => 'Artigo 61 LIVA',
+                'alternate' => 'Numeração sequencial obrigatória das faturas',
+                'description' => 'Disposição que impõe a toda a fatura luxemburguesa um número único, sequencial e contínuo, atribuído cronologicamente por exercício fiscal. Uma falha ou duplicação na numeração pode desencadear um ajustamento fiscal por presunção de dissimulação de receitas.',
+            ],
+            'ccss' => [
+                'name' => 'CCSS',
+                'alternate' => 'Centro Comum de Segurança Social',
+                'description' => 'Organismo luxemburguês de gestão das filiações à segurança social para assalariados e independentes. Todo empresário em nome individual filia-se ao CCSS no momento da criação e declara os seus rendimentos para o cálculo das contribuições.',
+            ],
+            'factur_x' => [
+                'name' => 'Factur-X',
+                'alternate' => 'Formato híbrido PDF/A-3 + XML CII',
+                'description' => 'Norma europeia de fatura eletrónica que combina um PDF/A-3 legível por humanos e um ficheiro XML (UN/CEFACT Cross Industry Invoice) integrado, legível por software de contabilidade. Permite enviar uma única fatura legível por ambos os lados.',
+            ],
+            'faia' => [
+                'name' => 'FAIA',
+                'alternate' => 'Ficheiro de auditoria informatizado da AED',
+                'description' => 'Ficheiro XML estruturado, baseado na norma SAF-T da OCDE e publicado pela AED na versão 2.01, que reúne todos os dados contabilísticos de uma empresa num determinado período. A AED pode exigir a sua produção em caso de auditoria fiscal; é o pivô de qualquer verificação de IVA desde 2020.',
+            ],
+            'liva' => [
+                'name' => 'LIVA',
+                'alternate' => 'Lei luxemburguesa do IVA',
+                'description' => 'Lei de 12 de fevereiro de 1979, conforme alterada, que rege o IVA no Luxemburgo: sujeição, taxas, menções obrigatórias nas faturas, autoliquidação, isenção. Os artigos mais citados são 21 (autoliquidação), 56 ter (isenção) e 61 (numeração).',
+            ],
+            'oss' => [
+                'name' => 'OSS',
+                'alternate' => 'One Stop Shop — guiché único de IVA UE',
+                'description' => 'Regime europeu em vigor desde 1 de julho de 2021 que permite a uma empresa declarar e pagar o IVA devido em vários Estados-Membros através de um guiché único, quando as vendas B2C transfronteiriças ultrapassam o limite de 10 000 € por ano.',
+            ],
+            'pdf_a' => [
+                'name' => 'PDF/A',
+                'alternate' => 'Formato de arquivo a longo prazo — ISO 19005',
+                'description' => 'Variante normalizada do PDF dedicada ao arquivo a longo prazo: tipos de letra incorporados, sem scripts, sem ligações externas. É o formato exigido pelo artigo 16 do Código de Comércio luxemburguês para a conservação de faturas durante 10 anos.',
+            ],
+            'peppol' => [
+                'name' => 'Peppol',
+                'alternate' => 'Pan-European Public Procurement OnLine',
+                'description' => 'Rede internacional de faturação eletrónica normalizada que permite enviar faturas estruturadas (UBL ou CII) entre empresas e administrações públicas. Obrigatória no Luxemburgo para o setor público (B2G) desde 2023. A diretiva ViDA prevê a sua extensão ao B2B intra-UE a partir de 2030.',
+            ],
+            'rcs' => [
+                'name' => 'RCS',
+                'alternate' => 'Registo Comercial e das Sociedades luxemburguês',
+                'description' => 'Registo público luxemburguês onde estão registadas as empresas comerciais e as sociedades. O número RCS (prefixo B seguido de dígitos) é uma menção obrigatória nas faturas luxemburguesas para as entidades registadas.',
+            ],
+            'vida' => [
+                'name' => 'ViDA',
+                'alternate' => 'VAT in the Digital Age — reforma do IVA europeu',
+                'description' => 'Pacote legislativo europeu adotado em março de 2025, que moderniza o IVA na UE impondo progressivamente a faturação eletrónica estruturada para operações B2B intracomunitárias, um sistema de declaração em tempo real (Digital Reporting) e a harmonização das regras da economia de plataforma. Implementação faseada até 2030.',
+            ],
+            'vies' => [
+                'name' => 'VIES',
+                'alternate' => 'VAT Information Exchange System',
+                'description' => 'Sistema europeu gerido pela Comissão que permite verificar em tempo real a validade de um número de IVA intracomunitário. Antes de qualquer faturação B2B intra-UE em autoliquidação (art. 21 LIVA), o número de IVA do cliente deve ser validado via VIES, caso contrário a operação pode ser requalificada como tributável no Luxemburgo.',
+            ],
+        ],
+    ],
+
     'partners' => [
         'page_title' => 'Programa de Parceiros Fiduciárias | faktur.lu',
         'meta_description' => 'Portal do contabilista gratuito para fiduciárias luxemburguesas. Exportações Sage BOB 50, Sage 100, CSV genérico, FAIA 2.01 e PDF de faturas. Dados dos clientes em modo de leitura.',

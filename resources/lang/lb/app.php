@@ -2421,6 +2421,92 @@ return [
         'cta_final_subtitle' => '14 Deeg voller Pro-Zougang, keng Kreditkaart. Donnéeën-Migratioun gratis begleet.',
     ],
 
+    'glossary' => [
+        'slug' => 'glossaire-lu',
+        'page_title' => 'Glossaire vun der lëtzebuerger Rechnungsstellung an Steier | faktur.lu',
+        'meta_description' => 'FAIA, LIVA, AED, Peppol, ViDA, Artikel 56 ter, VIES… Kloer Definitiounen vun all den Term vun der Rechnungsstellung an der TVA zu Lëtzebuerg fir Freelancer, KMU a Fiduciairen.',
+        'breadcrumb' => 'Glossaire',
+        'hero_title' => 'Glossaire vun der lëtzebuerger Rechnungsstellung',
+        'hero_subtitle' => 'All déi technesch, juristesch a reglementaresch Term vun der Rechnungsstellung an der Besteierung zu Lëtzebuerg, kloer erkläert. FAIA, LIVA, AED, Peppol, ViDA an déi aner Ofkierzungen, déi Dir an Ären Deklaratiounen trefft.',
+        'set_name' => 'faktur.lu-Glossaire — Rechnungsstellung an Besteierung zu Lëtzebuerg',
+        'set_description' => 'Referenz-Definitiounen fir Rechnungsstellung, TVA a Steier-Konformitéit zu Lëtzebuerg: offiziell LIVA-Begrëffer, administrativ Ofkierzungen (AED, CCSS, RCS), normaliséiert Formater (FAIA, PDF/A, Factur-X, Peppol) an europäesch Akronymer (VIES, OSS, ViDA).',
+        'cta_title' => 'Konform Rechnungsstellung, ouni alles auswenneg ze léieren',
+        'cta_subtitle' => 'faktur.lu setzt automatesch déi richteg Pflichtugaben, valéiert VIES, generéiert FAIA a wennt déi richteg TVA-Sätz un. Dir braucht net all Artikel ze kennen.',
+        'cta_button' => 'Gratis starten',
+        'terms' => [
+            'aed' => [
+                'name' => 'AED',
+                'alternate' => 'Verwaltung fir Eintragung, Domänen an TVA',
+                'description' => 'Lëtzebuerger Steierverwaltung, zoustänneg fir d\'TVA, d\'Eintragung vun Akten an d\'Ierfschaftssteier. Si féiert Steierkontrollen duerch an ass den Empfänger vun der FAIA-Prüfdatei.',
+            ],
+            'article_21_liva' => [
+                'name' => 'Artikel 21 LIVA',
+                'alternate' => 'Autoliquidatioun TVA B2B innergemeinschaftlech',
+                'description' => 'Artikel vum lëtzebuerger TVA-Gesetz, dat de EU-Prinzip vum Reverse-Charge ëmsetzt: Servicer tëschent Steierflichtegen an zwee EU-Memberstaaten ginn ouni TVA fakturéiert, de Client schëllt d\'Steier a sengem Land. De Vermierk "Autoliquidation, article 21 LIVA" ass op der Rechnung obligatoresch.',
+            ],
+            'article_56_ter_liva' => [
+                'name' => 'Artikel 56 ter LIVA',
+                'alternate' => 'TVA-Franchise fir kleng Entreprisen',
+                'description' => 'TVA-Franchise-Regime fir Steierflichteg, deenen hire jäerleche Chiffre d\'Affaires 50 000 EUR zu Lëtzebuerg net iwwerschreit (Schwell 2026). Ënner dësem Regime gëtt keng TVA verlaangt a keng Virsteier kann ofgezunn ginn. De Vermierk "TVA non applicable, art. 56 ter LIVA" muss op all Rechnung stoen.',
+            ],
+            'article_61_liva' => [
+                'name' => 'Artikel 61 LIVA',
+                'alternate' => 'Obligatoresch sequentiell Rechnungsnummeréierung',
+                'description' => 'Bestëmmung, déi all lëtzebuerger Rechnung verflicht, eng eenzegaarteg, sequentiell a kontinuéierlech Nummer ze droen, chronologesch pro Geschäftsjoer vergiewen. Eng Lück oder Duebel an der Nummeréierung kann zu enger Steier-Nopassung wéinst vermuter Geheime vum Chiffre d\'Affaires féieren.',
+            ],
+            'ccss' => [
+                'name' => 'CCSS',
+                'alternate' => 'Centre Commun de la Sécurité Sociale',
+                'description' => 'Lëtzebuerger Organismus, dee fir d\'Verwaltung vun de Sozialversécherungs-Affiliatiounen vu Salariéen a Selbststänneg responsabel ass. All Eenzelunternehmer mellt sech bei der Grënnung beim CCSS un an deklaréiert seng Akommes fir d\'Berechnung vun de Cotisatiounen.',
+            ],
+            'factur_x' => [
+                'name' => 'Factur-X',
+                'alternate' => 'Hybridformat PDF/A-3 + XML CII',
+                'description' => 'Europäesch Norm fir elektronesch Rechnungen, déi e fir Mënschen liesbart PDF/A-3 mat enger embedded XML-Datei (UN/CEFACT Cross Industry Invoice) kombinéiert, déi vun der Buchhaltungssoftware gelies ka ginn. Eng eenzeg Rechnung, liesbar fir béid Säiten.',
+            ],
+            'faia' => [
+                'name' => 'FAIA',
+                'alternate' => 'Standardiséiert Auditdatei vun der AED',
+                'description' => 'Strukturéiert XML-Datei, baséiert op der OECD-SAF-T-Norm an an der Versioun 2.01 vun der AED publizéiert, déi all d\'Buchhaltungsdaten vun engem Entreprise iwwer eng bestëmmte Period zesummen bréngt. D\'AED kann hir Produktioun bei enger Steierkontroll verlaangen; si ass zënter 2020 zentral fir all TVA-Iwwerpréiwung.',
+            ],
+            'liva' => [
+                'name' => 'LIVA',
+                'alternate' => 'Lëtzebuergescht TVA-Gesetz',
+                'description' => 'Gesetz vum 12. Februar 1979 a senger geännerter Form, dat d\'TVA zu Lëtzebuerg reegelt: Steierflicht, Sätz, Pflichtugaben op Rechnungen, Autoliquidatioun, Franchise. Déi meescht zitéiert Artikelen sinn 21 (Autoliquidatioun), 56 ter (Franchise) an 61 (Nummeréierung).',
+            ],
+            'oss' => [
+                'name' => 'OSS',
+                'alternate' => 'One Stop Shop — EU-TVA-Eenheetsschalter',
+                'description' => 'EU-Regime zënter dem 1. Juli 2021, dat engem Entreprise erlaabt, déi an méi Memberstaaten geschëllte TVA iwwer e Schalter unzemellen an ze bezuelen, wann seng grenziwwerschreidend B2C-Verkeef d\'Schwell vun 10 000 EUR pro Joer iwwerschreiden.',
+            ],
+            'pdf_a' => [
+                'name' => 'PDF/A',
+                'alternate' => 'Langzäit-Archivformat — ISO 19005',
+                'description' => 'Standardiséiert PDF-Variante fir d\'Langzäit-Archivéierung: embedded Schrëften, keng Skripten, keng extern Linken. Et ass d\'Format, dat duerch Artikel 16 vum lëtzebuerger Code de commerce fir d\'10-järeg Konservatioun vu Rechnungen verlaangt ass.',
+            ],
+            'peppol' => [
+                'name' => 'Peppol',
+                'alternate' => 'Pan-European Public Procurement OnLine',
+                'description' => 'Internationalt standardiséiert Reseau fir elektronesch Rechnungsstellung (UBL oder CII) tëschent Entreprisen an ëffentlechen Verwaltungen. Zu Lëtzebuerg zënter 2023 obligatoresch fir B2G-Rechnungen. D\'ViDA-Direktiv plangt seng Ausweitung op innergemeinschaftleche B2B ab 2030.',
+            ],
+            'rcs' => [
+                'name' => 'RCS',
+                'alternate' => 'Lëtzebuerger Handels- a Gesellschaftsregister',
+                'description' => 'Ëffentlecht Lëtzebuerger Register, an deem kommerziell Entreprisen a Gesellschaften ageschriwwe sinn. D\'RCS-Nummer (Préfix B gefollegt vun Ziffern) ass eng Pflichtugab op lëtzebuerger Rechnungen fir agedroe Entreprisen.',
+            ],
+            'vida' => [
+                'name' => 'ViDA',
+                'alternate' => 'VAT in the Digital Age — europäesch TVA-Reform',
+                'description' => 'EU-Gesetzespak vum Mäerz 2025, dat d\'TVA an der EU moderniséiert: graduell Verpflichtung zur strukturéierter elektronescher Rechnungsstellung fir innergemeinschaftlech B2B-Operatiounen, Echtzäit-Meldsystem (Digital Reporting) an Harmoniséierung vun de Reegelen vun der Plattform-Ekonomie. Schrëttweis Ëmsetzung bis 2030.',
+            ],
+            'vies' => [
+                'name' => 'VIES',
+                'alternate' => 'VAT Information Exchange System',
+                'description' => 'EU-Service, dee vun der Kommissioun verwalt gëtt an deen et erlaabt, an Echtzäit d\'Gëltegkeet vun enger innergemeinschaftlecher TVA-Nummer ze iwwerpréiwen. Virun all B2B-Rechnung mat Autoliquidatioun (Art. 21 LIVA) muss d\'TVA-Nummer vum Client iwwer VIES validéiert ginn, soss kann d\'Operatioun als zu Lëtzebuerg steierflichteg requalifizéiert ginn.',
+            ],
+        ],
+    ],
+
     'partners' => [
         'page_title' => 'Partnerprogramm fir Treihandgesellschaften | faktur.lu',
         'meta_description' => 'Gratis Comptablesportal fir lëtzebuerger Treihandgesellschaften. Exporter Sage BOB 50, Sage 100, generescht CSV, FAIA 2.01 a Rechnungs-PDF. Clientendaten am Nur-Lies-Modus.',

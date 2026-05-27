@@ -67,6 +67,14 @@ return [
         'pt' => 'para-pme',
     ],
 
+    'glossary' => [
+        'fr' => 'glossaire',
+        'de' => 'glossar',
+        'en' => 'glossary',
+        'lb' => 'glossaire-lu',
+        'pt' => 'glossario',
+    ],
+
     'contact' => [
         'fr' => 'contact',
         'de' => 'contact',

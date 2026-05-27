@@ -13,6 +13,7 @@ const localizedRoutes = [
     'partners.contact',
     'for_freelances',
     'for_smes',
+    'glossary',
     'tools',
     'tools.vat_calculator',
     'tools.vat_exemption',
@@ -137,6 +138,13 @@ const localizedSlugs = {
         en: 'for-smes',
         lb: 'fir-kmu',
         pt: 'para-pme',
+    },
+    'glossary': {
+        fr: 'glossaire',
+        de: 'glossar',
+        en: 'glossary',
+        lb: 'glossaire-lu',
+        pt: 'glossario',
     },
     'contact': {
         fr: 'contact',
