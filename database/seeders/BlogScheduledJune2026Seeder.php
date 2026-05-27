@@ -190,6 +190,13 @@ class BlogScheduledJune2026Seeder extends Seeder
 <h3>Que faire si je ne suis pas d'accord avec les conclusions ?</h3>
 <p>Vous avez 30 jours pour adresser une réclamation écrite au directeur de l'AED, en exposant vos arguments et joignant les pièces justificatives. En cas de rejet, recours possible devant le Tribunal administratif dans les 3 mois.</p>
 
+<h2>Pour aller plus loin</h2>
+<ul>
+    <li><a href="/fr/blog/faia-luxembourg-fichier-audit-informatise-guide">FAIA Luxembourg : tout savoir sur le fichier d'audit informatisé</a></li>
+    <li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg">Mentions obligatoires sur une facture au Luxembourg</a></li>
+    <li><a href="/fr/blog/archivage-factures-luxembourg-duree-legale-format">Archivage des factures au Luxembourg : durée légale et format</a></li>
+</ul>
+
 <div class="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-200">
     <h3 class="text-lg font-bold text-primary-900 mb-2">Préparez votre prochain contrôle dès aujourd'hui</h3>
     <p class="text-primary-800 mb-4">Numérotation automatique, FAIA 2.01 en un clic, mentions LIVA conformes, archivage PDF/A 10 ans. Le contrôle AED devient une formalité.</p>
@@ -321,6 +328,13 @@ HTML,
 
 <h3>Mon comptable peut-il générer le FAIA pour moi ?</h3>
 <p>Oui, votre fiduciaire peut générer le FAIA depuis son propre outil ou récupérer le vôtre via un portail comptable. Avec faktur.lu, vous invitez votre fiduciaire en lecture seule et elle accède au FAIA en un clic.</p>
+
+<h2>Pour aller plus loin</h2>
+<ul>
+    <li><a href="/fr/blog/controle-fiscal-aed-luxembourg-2026-preparation">Contrôle fiscal AED Luxembourg : comment s'y préparer en 2026</a></li>
+    <li><a href="/fr/blog/article-61-liva-numerotation-sequentielle-factures-luxembourg-obligatoire">Article 61 LIVA : la numérotation séquentielle obligatoire</a></li>
+    <li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg">Mentions obligatoires sur une facture au Luxembourg</a></li>
+</ul>
 
 <div class="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-200">
     <h3 class="text-lg font-bold text-primary-900 mb-2">FAIA 2.01 en un clic, conforme AED</h3>
@@ -463,6 +477,13 @@ HTML,
 
 <h3>Que se passe-t-il en cas de contrôle AED ?</h3>
 <p>L'AED vérifie la <strong>preuve de validation VIES</strong> à la date de la facture (un screenshot ou un log automatique fait foi). Sans cette preuve, l'opération est requalifiée en opération imposable et vous devez la TVA + pénalités.</p>
+
+<h2>Pour aller plus loin</h2>
+<ul>
+    <li><a href="/fr/blog/tva-luxembourg-taux-calcul-obligations">TVA au Luxembourg : taux, calcul et obligations</a></li>
+    <li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg">Mentions obligatoires sur une facture au Luxembourg</a></li>
+    <li><a href="/fr/blog/freelance-luxembourg-facturer-conformite">Freelance au Luxembourg : comment facturer en toute conformité</a></li>
+</ul>
 
 <div class="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-200">
     <h3 class="text-lg font-bold text-primary-900 mb-2">L'autoliquidation, sans risque d'erreur</h3>
@@ -634,6 +655,13 @@ HTML,
 <h3>Comment justifier l'application d'un taux particulier en cas de contrôle ?</h3>
 <p>Conservez les <strong>justificatifs de la nature de la prestation</strong> : bons de livraison, contrats, fiches techniques. L'AED peut demander à voir la nomenclature ou la composition d'un produit pour valider le taux appliqué.</p>
 
+<h2>Pour aller plus loin</h2>
+<ul>
+    <li><a href="/fr/blog/franchise-tva-luxembourg-seuil-obligations-regime-normal">Franchise TVA Luxembourg : seuil, obligations et passage au régime normal</a></li>
+    <li><a href="/fr/blog/article-21-liva-autoliquidation-tva-b2b-intra-ue-freelance-luxembourg">Article 21 LIVA : autoliquidation B2B intra-UE pour freelances</a></li>
+    <li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg">Mentions obligatoires sur une facture au Luxembourg</a></li>
+</ul>
+
 <div class="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-200">
     <h3 class="text-lg font-bold text-primary-900 mb-2">Calculer la TVA luxembourgeoise en 5 secondes</h3>
     <p class="text-primary-800 mb-4">Notre calculateur TVA gratuit supporte les 4 taux luxembourgeois (17 %, 14 %, 8 %, 3 %). Sans inscription, sans carte.</p>
@@ -777,6 +805,13 @@ HTML,
 
 <h3>Que faire si je migre vers un nouveau logiciel en cours d'année ?</h3>
 <p>Vous devez <strong>continuer la séquence</strong> dans le nouveau logiciel. Si vous étiez à F-2026-148 dans l'ancien, votre première facture dans le nouveau doit être F-2026-149. faktur.lu permet de configurer le compteur de départ à l'inscription pour éviter le trou.</p>
+
+<h2>Pour aller plus loin</h2>
+<ul>
+    <li><a href="/fr/blog/controle-fiscal-aed-luxembourg-2026-preparation">Contrôle fiscal AED Luxembourg : guide 2026</a></li>
+    <li><a href="/fr/blog/faia-luxembourg-guide-fichier-audit-informatise-2026">FAIA Luxembourg : guide complet du fichier d'audit</a></li>
+    <li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg">Mentions obligatoires sur une facture au Luxembourg</a></li>
+</ul>
 
 <div class="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-200">
     <h3 class="text-lg font-bold text-primary-900 mb-2">Une numérotation conforme, sans y penser</h3>
