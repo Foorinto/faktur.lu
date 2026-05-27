@@ -4027,6 +4027,11 @@ return [
     'legal_terms_s10_4_link' => 'Privacy policy',
     'legal_terms_s10_4_p_after' => '.',
 
+    'legal_terms_s10_5_title' => '10.5 GDPR data processing (DPA)',
+    'legal_terms_s10_5_p_before' => 'When the User acts as data controller under Regulation (EU) 2016/679 (GDPR) and faktur.lu processes personal data on their behalf, the parties agree that the ',
+    'legal_terms_s10_5_link' => 'Data Processing Agreement (DPA)',
+    'legal_terms_s10_5_p_after' => ', available at any time on the website, forms an integral part of these Terms. By accepting the Terms, the User also accepts the DPA in its current version. A separate handwritten signature can be provided on request for Users who need it for their own compliance (notably fiduciaries and clients subject to audit).',
+
     'legal_terms_s11_title' => '11. Intellectual property',
     'legal_terms_s11_p1' => 'The Service, including its source code, interface, features, design, trademarks and logos, is the exclusive property of the Provider or its partners.',
     'legal_terms_s11_p2' => 'The subscription grants only a personal, non-exclusive and non-transferable right to use the Service for the duration of the subscription.',

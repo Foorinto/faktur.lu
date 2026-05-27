@@ -213,6 +213,11 @@ const { localizedRoute } = useLocalizedRoute();
                             {{ t('legal_terms_s10_4_p_before') }}
                             <Link :href="localizedRoute('legal.privacy')" class="text-primary-500 hover:underline">{{ t('legal_terms_s10_4_link') }}</Link>{{ t('legal_terms_s10_4_p_after') }}
                         </p>
+
+                        <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_terms_s10_5_title') }}</h3>
+                        <p class="text-slate-600">
+                            {{ t('legal_terms_s10_5_p_before') }}<Link :href="localizedRoute('legal.dpa')" class="text-primary-500 hover:underline">{{ t('legal_terms_s10_5_link') }}</Link>{{ t('legal_terms_s10_5_p_after') }}
+                        </p>
                     </section>
 
                     <!-- 11. Propriété intellectuelle -->

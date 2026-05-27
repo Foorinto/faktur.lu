@@ -3985,6 +3985,11 @@ return [
     'legal_terms_s10_4_link' => 'Dateschutzpolitik',
     'legal_terms_s10_4_p_after' => ' geregelt.',
 
+    'legal_terms_s10_5_title' => '10.5 RGPD Subtraitement (DPA)',
+    'legal_terms_s10_5_p_before' => 'Wann den Notzer Verantwortlechen am Sënn vum Reglement (EU) 2016/679 (RGPD) ass an faktur.lu perséinlech Donnéeën a sengem Numm veraarbecht, sinn d\'Parteien d\'accord, datt den ',
+    'legal_terms_s10_5_link' => 'Donnéeëveraarbechtungsofkommen (DPA)',
+    'legal_terms_s10_5_p_after' => ', zu all Moment op der Säit konsultéierbar, en integralen Deel vun dësen AGB ass. Andeems hien d\'AGB akzeptéiert, akzeptéiert den Notzer och d\'DPA an senger aktueller Versioun. Eng separat handschrëftlech Ënnerschrëft kann op Ufro fir Notzer gemaach ginn, déi se fir hir eege Konformitéit brauchen (notamment Treihandgesellschaften an audéiert Cliente).',
+
     'legal_terms_s11_title' => '11. Geeschtegt Eegentum',
     'legal_terms_s11_p1' => 'De Service, abegraff säi Quellcode, säin Interface, seng Funktiounen, säin Design, seng Markenzeechen a Logoen, ass exklusiv Eegentum vum Ubidder oder senge Partner.',
     'legal_terms_s11_p2' => 'Den Abonnement gëtt nëmmen e perséinlecht, net-exklusiivt an net-iwwerdrobart Notzungsrecht um Service fir d\'Dauer vum Abonnement.',

@@ -4258,6 +4258,11 @@ return [
     'legal_terms_s10_4_link' => 'Politique de confidentialité',
     'legal_terms_s10_4_p_after' => '.',
 
+    'legal_terms_s10_5_title' => '10.5 Sous-traitance RGPD (DPA)',
+    'legal_terms_s10_5_p_before' => 'Lorsque l\'Utilisateur est responsable de traitement au sens du Règlement (UE) 2016/679 (RGPD) et que faktur.lu traite des données à caractère personnel pour son compte, les parties conviennent que l\'',
+    'legal_terms_s10_5_link' => 'Accord de traitement des données (DPA)',
+    'legal_terms_s10_5_p_after' => ', accessible à tout moment sur le site, fait partie intégrante des présentes CGU. En acceptant les CGU, l\'Utilisateur accepte également le DPA dans sa version en vigueur. Une signature manuscrite séparée peut être effectuée sur demande pour les Utilisateurs en ayant besoin pour leur propre conformité (notamment fiduciaires et clients soumis à audit).',
+
     'legal_terms_s11_title' => '11. Propriété intellectuelle',
     'legal_terms_s11_p1' => 'Le Service, incluant son code source, son interface, ses fonctionnalités, son design, ses marques et logos, est la propriété exclusive du Prestataire ou de ses partenaires.',
     'legal_terms_s11_p2' => 'L\'abonnement confère uniquement un droit d\'utilisation personnel, non exclusif et non transférable du Service pour la durée de l\'abonnement.',

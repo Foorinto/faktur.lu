@@ -4232,6 +4232,11 @@ return [
     'legal_terms_s10_4_link' => 'Política de privacidade',
     'legal_terms_s10_4_p_after' => '.',
 
+    'legal_terms_s10_5_title' => '10.5 Subcontratação RGPD (DPA)',
+    'legal_terms_s10_5_p_before' => 'Quando o Utilizador atua como responsável pelo tratamento ao abrigo do Regulamento (UE) 2016/679 (RGPD) e o faktur.lu trata dados pessoais por sua conta, as partes acordam que o ',
+    'legal_terms_s10_5_link' => 'Acordo de tratamento de dados (DPA)',
+    'legal_terms_s10_5_p_after' => ', consultável a qualquer momento no site, faz parte integrante dos presentes Termos. Ao aceitar os Termos, o Utilizador aceita igualmente o DPA na sua versão em vigor. Pode ser efetuada uma assinatura manuscrita separada a pedido para Utilizadores que dela necessitem para a sua própria conformidade (nomeadamente fiduciárias e clientes sujeitos a auditoria).',
+
     'legal_terms_s11_title' => '11. Propriedade intelectual',
     'legal_terms_s11_p1' => 'O Serviço, incluindo o seu código-fonte, a sua interface, as suas funcionalidades, o seu design, as suas marcas e logótipos, é propriedade exclusiva do Prestador ou dos seus parceiros.',
     'legal_terms_s11_p2' => 'A subscrição confere apenas um direito de utilização pessoal, não exclusivo e não transferível do Serviço pela duração da subscrição.',

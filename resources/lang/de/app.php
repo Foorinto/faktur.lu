@@ -3985,6 +3985,11 @@ return [
     'legal_terms_s10_4_link' => 'Datenschutzrichtlinie',
     'legal_terms_s10_4_p_after' => '.',
 
+    'legal_terms_s10_5_title' => '10.5 DSGVO-Auftragsverarbeitung (AVV)',
+    'legal_terms_s10_5_p_before' => 'Wenn der Nutzer Verantwortlicher im Sinne der Verordnung (EU) 2016/679 (DSGVO) ist und faktur.lu personenbezogene Daten in seinem Auftrag verarbeitet, vereinbaren die Parteien, dass die ',
+    'legal_terms_s10_5_link' => 'Auftragsverarbeitungsvereinbarung (AVV/DPA)',
+    'legal_terms_s10_5_p_after' => ', jederzeit auf der Website abrufbar, integraler Bestandteil dieser AGB ist. Mit der Annahme der AGB akzeptiert der Nutzer auch die AVV in ihrer aktuellen Fassung. Eine separate handschriftliche Unterzeichnung kann auf Anfrage für Nutzer erfolgen, die sie für ihre eigene Compliance benötigen (insbesondere Treuhandgesellschaften und auditierten Kunden).',
+
     'legal_terms_s11_title' => '11. Geistiges Eigentum',
     'legal_terms_s11_p1' => 'Der Dienst, einschließlich seines Quellcodes, seiner Benutzeroberfläche, seiner Funktionen, seines Designs, seiner Marken und Logos, ist ausschließliches Eigentum des Anbieters oder seiner Partner.',
     'legal_terms_s11_p2' => 'Das Abonnement gewährt nur ein persönliches, nicht ausschließliches und nicht übertragbares Nutzungsrecht am Dienst für die Dauer des Abonnements.',
