@@ -1,7 +1,9 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
 
@@ -12,6 +14,103 @@ const props = defineProps({
     post: Object,
     relatedPosts: Array,
 });
+
+const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
+const postUrl = computed(() => `${appUrl.value}/${currentLocale()}/blog/${props.post.slug}`);
+
+const stripHtml = (html) => (html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const wordCount = computed(() => stripHtml(props.post.content).split(' ').filter(Boolean).length);
+
+const breadcrumbSchema = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+        { '@type': 'ListItem', 'position': 1, 'name': 'faktur.lu', 'item': appUrl.value },
+        { '@type': 'ListItem', 'position': 2, 'name': 'Blog', 'item': `${appUrl.value}/${currentLocale()}/blog` },
+        ...(props.post.category ? [{
+            '@type': 'ListItem',
+            'position': 3,
+            'name': props.post.category.name,
+            'item': `${appUrl.value}/${currentLocale()}/blog/category/${props.post.category.slug}`,
+        }] : []),
+        {
+            '@type': 'ListItem',
+            'position': props.post.category ? 4 : 3,
+            'name': props.post.title,
+            'item': postUrl.value,
+        },
+    ],
+}));
+
+// E-E-A-T author: Alexandre Beaudier — founder of faktur.lu, cross-border worker (frontalier)
+// settled in Luxembourg, sole trader. Topics he writes about are reflected in knowsAbout.
+const authorSchema = computed(() => ({
+    '@type': 'Person',
+    '@id': `${appUrl.value}/#person-alexandre-beaudier`,
+    'name': 'Alexandre Beaudier',
+    'jobTitle': 'Fondateur de faktur.lu',
+    'description': "Fondateur de faktur.lu, frontalier installé au Grand-Duché de Luxembourg, entrepreneur individuel spécialisé dans la conformité fiscale luxembourgeoise (FAIA, LIVA, mentions obligatoires, e-facturation Peppol).",
+    'worksFor': { '@id': `${appUrl.value}/#organization` },
+    'url': `${appUrl.value}/${currentLocale()}/${currentLocale() === 'fr' ? 'a-propos' : (currentLocale() === 'de' ? 'ueber-uns' : (currentLocale() === 'lb' ? 'iwwer-eis' : (currentLocale() === 'pt' ? 'sobre' : 'about')))}`,
+    'knowsAbout': [
+        'Facturation au Luxembourg',
+        'Loi luxembourgeoise sur la TVA (LIVA)',
+        'Fichier d\'Audit Informatisé de l\'AED (FAIA 2.01)',
+        'E-facturation Peppol BIS Billing 3.0',
+        'Article 21 LIVA — autoliquidation B2B intra-UE',
+        'Article 56 ter LIVA — franchise TVA',
+        'Article 61 LIVA — numérotation séquentielle',
+        'VAT in the Digital Age (ViDA)',
+        'Conformité RGPD et hébergement européen',
+    ],
+    'knowsLanguage': ['fr', 'en', 'de'],
+}));
+
+const publisherSchema = computed(() => ({
+    '@type': 'Organization',
+    '@id': `${appUrl.value}/#organization`,
+    'name': 'faktur.lu',
+    'url': appUrl.value,
+    'logo': {
+        '@type': 'ImageObject',
+        'url': `${appUrl.value}/images/logo.png`,
+        'width': 512,
+        'height': 512,
+    },
+    'sameAs': ['https://www.wikidata.org/wiki/Q139674760'],
+}));
+
+const blogPostingSchema = computed(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${postUrl.value}#article`,
+    'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': postUrl.value,
+    },
+    'headline': props.post.title,
+    'description': props.post.meta_description || props.post.excerpt,
+    'image': props.post.cover_image_url
+        ? [{
+            '@type': 'ImageObject',
+            'url': props.post.cover_image_url,
+            'width': 1200,
+            'height': 630,
+        }]
+        : undefined,
+    'datePublished': props.post.published_at,
+    'dateModified': props.post.updated_at || props.post.published_at,
+    'author': authorSchema.value,
+    'publisher': publisherSchema.value,
+    'inLanguage': currentLocale(),
+    'url': postUrl.value,
+    'wordCount': wordCount.value,
+    'timeRequired': `PT${props.post.reading_time || 5}M`,
+    ...(props.post.category ? { 'articleSection': props.post.category.name } : {}),
+    ...(props.post.tags && props.post.tags.length > 0
+        ? { 'keywords': props.post.tags.map((t) => t.name).join(', ') }
+        : {}),
+}));
 
 const formatDate = (date) => {
     const localeMap = { 'fr': 'fr-FR', 'de': 'de-DE', 'en': 'en-GB', 'lb': 'lb-LU' };
@@ -46,6 +145,7 @@ const shareOnFacebook = () => {
         :image="post.cover_image_url"
         type="article"
     />
+    <SchemaJsonLd :schemas="[breadcrumbSchema, blogPostingSchema]" />
 
     <MarketingLayout>
         <article class="bg-white">
