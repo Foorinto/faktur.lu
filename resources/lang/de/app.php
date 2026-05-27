@@ -1119,6 +1119,13 @@ return [
         'schema_feature_languages' => '5 Sprachen: FR, DE, EN, LB, PT',
         'nav' => [
             'features' => 'Funktionen',
+            'solutions' => 'Lösungen',
+            'solutions_freelances' => 'Für Freelancer',
+            'solutions_freelances_desc' => 'Einfache, konforme Rechnungsstellung ab 0 €',
+            'solutions_smes' => 'Für KMU',
+            'solutions_smes_desc' => 'CRM, HR, Mehrbenutzer, unbegrenzt',
+            'solutions_fiduciaries' => 'Für Treuhänder',
+            'solutions_fiduciaries_desc' => 'Kostenloses Buchhalterportal, BOB/Sage Exporte',
             'how_it_works' => 'So funktioniert\'s',
             'pricing' => 'Preise',
             'faq' => 'FAQ',

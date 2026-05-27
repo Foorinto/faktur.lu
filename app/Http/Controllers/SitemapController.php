@@ -113,6 +113,8 @@ class SitemapController extends Controller
             ['route' => 'why_faktur', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'about', 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['route' => 'partners', 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['route' => 'for_freelances', 'priority' => '0.9', 'changefreq' => 'monthly'],
+            ['route' => 'for_smes', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'contact', 'priority' => '0.7', 'changefreq' => 'monthly'],
             // Outils gratuits (pages SEO + lead-gen)
             ['route' => 'tools', 'priority' => '0.8', 'changefreq' => 'monthly'],

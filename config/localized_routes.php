@@ -51,6 +51,22 @@ return [
         'pt' => 'parceiros',
     ],
 
+    'for_freelances' => [
+        'fr' => 'pour-freelances',
+        'de' => 'fuer-freelancer',
+        'en' => 'for-freelancers',
+        'lb' => 'fir-freelancer',
+        'pt' => 'para-freelancers',
+    ],
+
+    'for_smes' => [
+        'fr' => 'pour-pme',
+        'de' => 'fuer-kmu',
+        'en' => 'for-smes',
+        'lb' => 'fir-kmu',
+        'pt' => 'para-pme',
+    ],
+
     'contact' => [
         'fr' => 'contact',
         'de' => 'contact',

@@ -1216,6 +1216,13 @@ return [
         'schema_feature_languages' => '5 languages: FR, DE, EN, LB, PT',
         'nav' => [
             'features' => 'Features',
+            'solutions' => 'Solutions',
+            'solutions_freelances' => 'For freelancers',
+            'solutions_freelances_desc' => 'Simple, compliant invoicing from €0',
+            'solutions_smes' => 'For SMEs',
+            'solutions_smes_desc' => 'CRM, HR, multi-user, unlimited',
+            'solutions_fiduciaries' => 'For fiduciaries',
+            'solutions_fiduciaries_desc' => 'Free accountant portal, BOB/Sage exports',
             'how_it_works' => 'How it works',
             'pricing' => 'Pricing',
             'faq' => 'FAQ',

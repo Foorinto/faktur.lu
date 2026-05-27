@@ -1119,6 +1119,13 @@ return [
         'schema_feature_languages' => '5 Sproochen: FR, DE, EN, LB, PT',
         'nav' => [
             'features' => 'Funktiounen',
+            'solutions' => 'Léisungen',
+            'solutions_freelances' => 'Fir Freelancer',
+            'solutions_freelances_desc' => 'Einfach, konform Fakturatioun vun 0 €',
+            'solutions_smes' => 'Fir KMU',
+            'solutions_smes_desc' => 'CRM, HR, Multi-Notzer, onlimitéiert',
+            'solutions_fiduciaries' => 'Fir Treihandgesellschaften',
+            'solutions_fiduciaries_desc' => 'Gratis Comptablesportal, BOB/Sage Exporter',
             'how_it_works' => 'Wéi et funktionéiert',
             'pricing' => 'Präisser',
             'faq' => 'FAQ',

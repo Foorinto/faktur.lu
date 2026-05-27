@@ -1216,6 +1216,13 @@ return [
 
         'nav' => [
             'features' => 'Funcionalidades',
+            'solutions' => 'Soluções',
+            'solutions_freelances' => 'Para freelancers',
+            'solutions_freelances_desc' => 'Faturação simples, conforme, desde 0 €',
+            'solutions_smes' => 'Para PMEs',
+            'solutions_smes_desc' => 'CRM, RH, multi-utilizador, ilimitado',
+            'solutions_fiduciaries' => 'Para fiduciárias',
+            'solutions_fiduciaries_desc' => 'Portal contabilista gratuito, exportações BOB/Sage',
             'how_it_works' => 'Como funciona',
             'pricing' => 'Preços',
             'faq' => 'FAQ',

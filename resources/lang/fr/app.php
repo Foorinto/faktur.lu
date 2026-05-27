@@ -1217,6 +1217,13 @@ return [
 
         'nav' => [
             'features' => 'Fonctionnalités',
+            'solutions' => 'Solutions',
+            'solutions_freelances' => 'Pour les freelances',
+            'solutions_freelances_desc' => 'Facturation simple, conforme, dès 0€',
+            'solutions_smes' => 'Pour les PME',
+            'solutions_smes_desc' => 'CRM, RH, multi-utilisateurs, illimité',
+            'solutions_fiduciaries' => 'Pour les fiduciaires',
+            'solutions_fiduciaries_desc' => 'Portail comptable gratuit, exports BOB/Sage',
             'how_it_works' => 'Comment ça marche',
             'pricing' => 'Tarifs',
             'faq' => 'FAQ',

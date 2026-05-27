@@ -12,6 +12,7 @@ const { t } = useTranslations();
 
 const mobileMenuOpen = ref(false);
 const featuresDropdownOpen = ref(false);
+const solutionsDropdownOpen = ref(false);
 const toolsDropdownOpen = ref(false);
 const langMenuOpen = ref(false);
 const langMenuRef = ref(null);
@@ -391,6 +392,81 @@ onUnmounted(() => {
                                                 </p>
                                             </Link>
                                         </div>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                        <!-- Solutions dropdown -->
+                        <div
+                            class="relative"
+                            @mouseenter="solutionsDropdownOpen = true"
+                            @mouseleave="solutionsDropdownOpen = false"
+                        >
+                            <button
+                                type="button"
+                                class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1"
+                            >
+                                {{ t("landing.nav.solutions") }}
+                                <svg
+                                    class="w-3.5 h-3.5 transition-transform"
+                                    :class="solutionsDropdownOpen ? 'rotate-180' : ''"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <Transition
+                                enter-active-class="transition duration-150 ease-out"
+                                enter-from-class="opacity-0 translate-y-1"
+                                enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition duration-100 ease-in"
+                                leave-from-class="opacity-100 translate-y-0"
+                                leave-to-class="opacity-0 translate-y-1"
+                            >
+                                <div
+                                    v-if="solutionsDropdownOpen"
+                                    class="absolute left-1/2 -translate-x-1/2 top-full pt-2 z-50"
+                                >
+                                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 py-2 w-72">
+                                        <Link
+                                            :href="localizedRoute('for_freelances')"
+                                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
+                                        >
+                                            <div class="w-8 h-8 rounded-lg bg-[#00f5d4]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#00a896]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_freelances') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_freelances_desc') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link
+                                            :href="localizedRoute('for_smes')"
+                                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
+                                        >
+                                            <div class="w-8 h-8 rounded-lg bg-[#00bbf9]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#00bbf9]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_smes') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_smes_desc') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link
+                                            :href="localizedRoute('partners')"
+                                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
+                                        >
+                                            <div class="w-8 h-8 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_fiduciaries') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_fiduciaries_desc') }}</p>
+                                            </div>
+                                        </Link>
                                     </div>
                                 </div>
                             </Transition>
@@ -966,6 +1042,27 @@ onUnmounted(() => {
                                 >{{ t("features.time-tracking.title") }}</Link
                             >
                         </div>
+                        <div class="text-sm font-medium text-slate-600 py-2">{{ t("landing.nav.solutions") }}</div>
+                        <div class="pl-4 flex flex-col space-y-1">
+                            <Link
+                                :href="localizedRoute('for_freelances')"
+                                @click="mobileMenuOpen = false"
+                                class="text-sm text-slate-500 hover:text-slate-900 py-1"
+                                >{{ t("landing.nav.solutions_freelances") }}</Link
+                            >
+                            <Link
+                                :href="localizedRoute('for_smes')"
+                                @click="mobileMenuOpen = false"
+                                class="text-sm text-slate-500 hover:text-slate-900 py-1"
+                                >{{ t("landing.nav.solutions_smes") }}</Link
+                            >
+                            <Link
+                                :href="localizedRoute('partners')"
+                                @click="mobileMenuOpen = false"
+                                class="text-sm text-slate-500 hover:text-slate-900 py-1"
+                                >{{ t("landing.nav.solutions_fiduciaries") }}</Link
+                            >
+                        </div>
                         <Link
                             :href="localizedRoute('pricing')"
                             @click="mobileMenuOpen = false"
@@ -1177,6 +1274,20 @@ onUnmounted(() => {
                                     :href="localizedRoute('pricing')"
                                     class="text-slate-600 hover:text-slate-900"
                                     >{{ t("landing.nav.pricing") }}</Link
+                                >
+                            </li>
+                            <li>
+                                <Link
+                                    :href="localizedRoute('for_freelances')"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t("landing.nav.solutions_freelances") }}</Link
+                                >
+                            </li>
+                            <li>
+                                <Link
+                                    :href="localizedRoute('for_smes')"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t("landing.nav.solutions_smes") }}</Link
                                 >
                             </li>
                             <li>
