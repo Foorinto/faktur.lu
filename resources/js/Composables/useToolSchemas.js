@@ -5,12 +5,39 @@ import { useTranslations } from '@/Composables/useTranslations';
 /**
  * Helpers to generate JSON-LD schemas for /outils/* pages.
  * All helpers return plain objects ready to feed into <SchemaJsonLd>.
+ *
+ * LLM/AI authority signals included:
+ * - provider.sameAs → Wikidata Q139674760 (faktur.lu)
+ * - about → Wikidata entities (Luxembourg Q32, VAT Q210601, IBAN Q193739)
+ * - dateModified → current page render time (freshness signal for ChatGPT/Perplexity/Gemini)
  */
 export function useToolSchemas() {
     const page = usePage();
     const { t } = useTranslations();
     const { localizedRoute, currentLocale } = useLocalizedRoute();
     const appUrl = () => page.props.appUrl || 'https://faktur.lu';
+
+    // Today (YYYY-MM-DD) — used as dateModified on schemas for freshness signal.
+    const today = () => new Date().toISOString().slice(0, 10);
+
+    // The canonical Organization payload (with Wikidata sameAs) reused across schemas.
+    const organization = () => ({
+        '@type': 'Organization',
+        '@id': appUrl() + '/#organization',
+        name: 'faktur.lu',
+        url: appUrl() + '/',
+        sameAs: [
+            'https://www.wikidata.org/wiki/Q139674760',
+        ],
+    });
+
+    // Wikidata entities most-likely to be referenced from /outils/* pages.
+    const wikidata = {
+        luxembourg: { '@type': 'Country', name: 'Luxembourg', sameAs: 'https://www.wikidata.org/wiki/Q32' },
+        vat: { '@type': 'Thing', name: 'Value-added tax', sameAs: 'https://www.wikidata.org/wiki/Q210601' },
+        iban: { '@type': 'Thing', name: 'International Bank Account Number', sameAs: 'https://www.wikidata.org/wiki/Q193739' },
+        invoice: { '@type': 'Thing', name: 'Invoice', sameAs: 'https://www.wikidata.org/wiki/Q330362' },
+    };
 
     /**
      * BreadcrumbList: faktur.lu > Outils > {currentTool}.
@@ -57,8 +84,9 @@ export function useToolSchemas() {
 
     /**
      * WebApplication for interactive tools (calculators, validators, generators).
+     * Includes LLM authority signals: provider.sameAs (Wikidata), about, dateModified.
      */
-    const webApplication = ({ name, description, url, category = 'BusinessApplication' }) => ({
+    const webApplication = ({ name, description, url, category = 'BusinessApplication', about = [] }) => ({
         '@context': 'https://schema.org',
         '@type': 'WebApplication',
         name,
@@ -71,13 +99,11 @@ export function useToolSchemas() {
             price: '0',
             priceCurrency: 'EUR',
         },
-        provider: {
-            '@type': 'Organization',
-            name: 'faktur.lu',
-            url: appUrl() + '/',
-        },
+        provider: organization(),
         inLanguage: currentLocale(),
         isAccessibleForFree: true,
+        dateModified: today(),
+        ...(about.length > 0 ? { about } : {}),
     });
 
     /**
@@ -98,5 +124,5 @@ export function useToolSchemas() {
         })),
     });
 
-    return { breadcrumb, faqPage, webApplication, howTo };
+    return { breadcrumb, faqPage, webApplication, howTo, organization, wikidata };
 }

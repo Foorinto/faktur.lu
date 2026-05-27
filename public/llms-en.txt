@@ -44,7 +44,15 @@
 
 ## Free tools without signup
 
+All tools are accessible without account creation and without credit card.
+
+- [Luxembourg VAT calculator](https://faktur.lu/en/tools/vat-calculator) : Net ⇄ Gross calculation with the 4 LU rates (17%, 14%, 8%, 3%), LIVA-compliant
+- [VAT exemption simulator](https://faktur.lu/en/tools/vat-exemption) : eligibility check for the franchise regime (35,000 EUR Net/year threshold, Article 56 ter LIVA)
+- [Luxembourg IBAN validator](https://faktur.lu/en/tools/iban-validator) : MOD-97 check (ISO 13616), identifies the LU bank and returns the BIC code
+- [Invoice PDF generator](https://faktur.lu/en/tools/invoice-generator) : LIVA-compliant invoice with mandatory mentions, B2B intra-EU reverse charge, in 5 languages
+- [Downloadable templates](https://faktur.lu/en/tools/templates) : blank invoice, AED audit checklist, payment reminder letters, 2026 VAT calendar
 - [Free FAIA validator](https://faktur.lu/en/faia-validator) : drop a FAIA XML file, validation against the official AED 2.01 schema
+- [Free tools hub](https://faktur.lu/en/tools)
 
 ## Documentation
 
@@ -75,7 +83,7 @@ The interface, issued invoices and support are available in the 5 languages spok
 
 ## Pricing
 
-- **Free Plan**: 0 EUR/month — 5 clients, 3 invoices per month, basic features
+- **Free Plan**: 0 EUR/month — 10 clients, 10 invoices per month, 5 quotes per month, FAIA export included, Luxembourg-compliant
 - **Essential Plan**: 5 EUR/month — 100 clients, 50 invoices per month, projects, simplified accounting
 - **Pro Plan**: 15 EUR/month — unlimited with FAIA, Peppol, CRM, HR, accountant portal
 - **Free trial**: 14 days full access to Pro features, no credit card required

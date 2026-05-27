@@ -44,7 +44,15 @@
 
 ## Outils gratuits sans inscription
 
-- [Validateur FAIA gratuit](https://faktur.lu/fr/validateur-faia) : déposez un fichier XML FAIA, validation contre le schéma officiel AED 2.01
+Tous les outils sont accessibles sans création de compte et sans carte bancaire.
+
+- [Calculateur TVA Luxembourg](https://faktur.lu/fr/outils/calculateur-tva) : calcul HT ⇄ TTC avec les 4 taux luxembourgeois (17%, 14%, 8%, 3%), conforme LIVA
+- [Simulateur franchise TVA](https://faktur.lu/fr/outils/franchise-tva) : vérification d'éligibilité au régime de franchise (seuil 35 000 EUR HT/an, Article 56 ter LIVA)
+- [Validateur IBAN Luxembourg](https://faktur.lu/fr/outils/validateur-iban) : vérification MOD-97 (ISO 13616), identification de la banque LU et code BIC associé
+- [Générateur de facture PDF](https://faktur.lu/fr/outils/generateur-facture) : facture conforme LIVA avec mentions obligatoires, autoliquidation B2B intra-EU, en 5 langues
+- [Modèles téléchargeables](https://faktur.lu/fr/outils/modeles-facture) : facture vierge, checklist contrôle AED, lettres de relance impayés, calendrier TVA 2026
+- [Validateur FAIA](https://faktur.lu/fr/validateur-faia) : déposez un fichier XML FAIA, validation contre le schéma officiel AED 2.01
+- [Hub de tous les outils](https://faktur.lu/fr/outils)
 
 ## Documentation
 
@@ -75,7 +83,7 @@ L'interface, les factures émises et le support sont disponibles dans les 5 lang
 
 ## Tarifs
 
-- **Plan Gratuit** : 0 EUR/mois — 5 clients, 3 factures par mois, fonctionnalités de base
+- **Plan Gratuit** : 0 EUR/mois — 10 clients, 10 factures par mois, 5 devis par mois, export FAIA inclus, conforme Luxembourg
 - **Plan Essentiel** : 5 EUR/mois — 100 clients, 50 factures par mois, projets, comptabilité simplifiée
 - **Plan Pro** : 15 EUR/mois — illimité avec FAIA, Peppol, CRM, RH, portail comptable
 - **Essai gratuit** : 14 jours d'accès complet aux fonctionnalités Pro, sans carte bancaire

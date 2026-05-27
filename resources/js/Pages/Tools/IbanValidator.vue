@@ -10,7 +10,7 @@ import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-const { breadcrumb, faqPage, webApplication } = useToolSchemas();
+const { breadcrumb, faqPage, webApplication, wikidata } = useToolSchemas();
 
 const ibanInput = ref('');
 
@@ -125,6 +125,7 @@ const schemas = computed(() => [
         description: t('tools.iban_validator.meta_description'),
         url: localizedRoute('tools.iban_validator'),
         category: 'FinanceApplication',
+        about: [wikidata.luxembourg, wikidata.iban],
     }),
 ]);
 

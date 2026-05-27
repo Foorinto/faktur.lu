@@ -11,7 +11,7 @@ import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
-const { breadcrumb, faqPage, webApplication, howTo } = useToolSchemas();
+const { breadcrumb, faqPage, webApplication, howTo, wikidata } = useToolSchemas();
 
 const today = new Date().toISOString().slice(0, 10);
 const dueDateDefault = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString().slice(0, 10);
@@ -115,6 +115,7 @@ const schemas = computed(() => [
         description: t('tools.invoice_generator.meta_description'),
         url: localizedRoute('tools.invoice_generator'),
         category: 'BusinessApplication',
+        about: [wikidata.luxembourg, wikidata.invoice, wikidata.vat],
     }),
     howTo({
         name: t('tools.invoice_generator.title'),

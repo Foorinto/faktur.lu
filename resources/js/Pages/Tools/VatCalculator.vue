@@ -10,7 +10,7 @@ import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-const { breadcrumb, faqPage, webApplication } = useToolSchemas();
+const { breadcrumb, faqPage, webApplication, wikidata } = useToolSchemas();
 
 const amount = ref(1000);
 const mode = ref('ht'); // 'ht' (montant HT vers TTC) ou 'ttc' (montant TTC vers HT)
@@ -58,6 +58,7 @@ const schemas = computed(() => [
         description: t('tools.vat_calculator.meta_description'),
         url: localizedRoute('tools.vat_calculator'),
         category: 'FinanceApplication',
+        about: [wikidata.luxembourg, wikidata.vat],
     }),
 ]);
 

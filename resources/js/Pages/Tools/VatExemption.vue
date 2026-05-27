@@ -10,7 +10,7 @@ import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-const { breadcrumb, faqPage, webApplication } = useToolSchemas();
+const { breadcrumb, faqPage, webApplication, wikidata } = useToolSchemas();
 
 // Seuil franchise TVA Luxembourg = 35 000 EUR HT/an depuis 2020
 const FRANCHISE_THRESHOLD = 35000;
@@ -61,6 +61,7 @@ const schemas = computed(() => [
         description: t('tools.vat_exemption.meta_description'),
         url: localizedRoute('tools.vat_exemption'),
         category: 'FinanceApplication',
+        about: [wikidata.luxembourg, wikidata.vat],
     }),
 ]);
 
