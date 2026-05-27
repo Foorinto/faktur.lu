@@ -1574,7 +1574,7 @@ return [
                 // Cluster D - Sicherheit & Vertrauen
                 'hosting' => [
                     'question' => 'Werden meine Rechnungsdaten in Luxemburg gehostet?',
-                    'answer' => 'Ihre Daten werden bei o2switch (Frankreich, Tier III+ ISO 27001 zertifizierte Datacenter) gehostet, 100% Europäische Union. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten via Laravel-App-Key (AES-256-CBC) verschlüsselt. Tägliche automatische Sicherungen mit 30 Tagen Aufbewahrung. Faktur.lu ist DSGVO-konform mit einer auf Anfrage verfügbaren AVV. Keine Datenübertragung außerhalb der EU, kein Cloud-Act-Zugriff. Sie können Ihre Daten jederzeit exportieren oder löschen.',
+                    'answer' => 'Ihre Daten werden bei o2switch (französischer Hoster mit Sitz in Clermont-Ferrand) gehostet, 100% Europäische Union. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten via Laravel-App-Key (AES-256-CBC) verschlüsselt. Tägliche automatische Sicherungen mit 30 Tagen Aufbewahrung. Faktur.lu ist DSGVO-konform mit einer auf Anfrage verfügbaren AVV. Keine Datenübertragung außerhalb der EU, kein Cloud-Act-Zugriff. Sie können Ihre Daten jederzeit exportieren oder löschen.',
                 ],
                 'controle_aed' => [
                     'question' => 'Was passiert bei einer AED-Steuerprüfung?',
@@ -2373,7 +2373,7 @@ return [
             'q5' => 'Müssen meine Kunden ihre aktuelle Software verlassen?',
             'a5' => 'Nicht unbedingt. Viele nutzen faktur.lu nur für Rechnungen/Angebote und behalten ihr internes Buchhaltungstool. Ziel ist, dass die Daten Sie sauber und exportierbar erreichen.',
             'q6' => 'Wo werden die Kundendaten gehostet?',
-            'a6' => 'Gehostet bei o2switch (Frankreich, Tier III+ ISO 27001 zertifizierte Datacenter), 100% Europäische Union, vollständige DSGVO-Konformität. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten über Laravel-App-Key (AES-256-CBC) verschlüsselt. AVV wird auf Anfrage für Ihre Kunden erstellt.',
+            'a6' => 'Gehostet bei o2switch (französischer Hoster mit Sitz in Clermont-Ferrand), 100% Europäische Union, vollständige DSGVO-Konformität. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten über Laravel-App-Key (AES-256-CBC) verschlüsselt. AVV wird auf Anfrage für Ihre Kunden erstellt.',
         ],
 
         'form' => [

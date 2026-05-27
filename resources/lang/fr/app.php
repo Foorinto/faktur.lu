@@ -1732,7 +1732,7 @@ return [
                 // Cluster D - Sécurité & confiance
                 'hosting' => [
                     'question' => 'Mes données de facturation sont-elles hébergées au Luxembourg ?',
-                    'answer' => 'Vos données sont hébergées chez o2switch (France, datacenters Tier III+ certifiés ISO 27001), 100% Union européenne. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). Sauvegardes automatiques quotidiennes avec rétention de 30 jours. Faktur.lu est conforme RGPD avec un DPA disponible sur demande. Aucune donnée n\'est transférée hors UE, aucun accès Cloud Act. Vous pouvez exporter ou supprimer vos données à tout moment.',
+                    'answer' => 'Vos données sont hébergées chez o2switch (hébergeur français basé à Clermont-Ferrand), 100% Union européenne. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). Sauvegardes automatiques quotidiennes avec rétention de 30 jours. Faktur.lu est conforme RGPD avec un DPA disponible sur demande. Aucune donnée n\'est transférée hors UE, aucun accès Cloud Act. Vous pouvez exporter ou supprimer vos données à tout moment.',
                 ],
                 'controle_aed' => [
                     'question' => 'Que se passe-t-il en cas de contrôle fiscal AED ?',
@@ -2702,7 +2702,7 @@ return [
             'q5' => 'Mes clients doivent-ils quitter leur logiciel actuel ?',
             'a5' => 'Pas forcément. Beaucoup utilisent faktur.lu uniquement pour la facturation/devis et gardent leur outil comptable interne. L\'objectif est que la donnée vous arrive propre et exportable, peu importe d\'où elle vient.',
             'q6' => 'Mes données client sont-elles hébergées où ?',
-            'a6' => 'Hébergement chez o2switch (France, datacenters Tier III+ certifiés ISO 27001), 100% Union européenne, conformité RGPD. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). DPA établi sur demande pour vos clients.',
+            'a6' => 'Hébergement chez o2switch (hébergeur français basé à Clermont-Ferrand), 100% Union européenne, conformité RGPD. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). Un Accord de traitement des données (DPA) est consultable à /dpa et signé sur demande pour vos clients.',
         ],
 
         'form' => [

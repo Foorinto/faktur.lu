@@ -1574,7 +1574,7 @@ return [
                 // Cluster D - Sécherheet & Vertrauen
                 'hosting' => [
                     'question' => 'Sinn meng Fakturatiounsdaten zu Lëtzebuerg gehost?',
-                    'answer' => 'Är Daten ginn bei o2switch (Frankräich, Tier III+ ISO 27001 zertifizéiert Datazentren) gehost, 100% Europäesch Unioun. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. Automatesch deeglech Backups mat 30 Deeg Retentioun. Faktur.lu ass RGPD-konform mat engem DPA op Ufro verfügbar. Keng Donnée gi bausserhalb der EU iwwerdroen, kee Cloud-Act-Zougang. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
+                    'answer' => 'Är Daten ginn bei o2switch (franséischen Hoster zu Clermont-Ferrand) gehost, 100% Europäesch Unioun. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. Automatesch deeglech Backups mat 30 Deeg Retentioun. Faktur.lu ass RGPD-konform mat engem DPA op Ufro verfügbar. Keng Donnée gi bausserhalb der EU iwwerdroen, kee Cloud-Act-Zougang. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
                 ],
                 'controle_aed' => [
                     'question' => 'Wat geschitt bei enger AED-Steierkontroll?',
@@ -2373,7 +2373,7 @@ return [
             'q5' => 'Mussen meng Cliente hir aktuell Software verloossen?',
             'a5' => 'Net onbedéngt. Vill benotzen faktur.lu nëmme fir Rechnungen/Devis a behalen hire interne Comptabilitéitstool. D\'Zil ass datt d\'Donnéeën Iech propper an exportéierbar erreechen.',
             'q6' => 'Wou sinn d\'Clientendaten gehost?',
-            'a6' => 'Gehost bei o2switch (Frankräich, Tier III+ ISO 27001 zertifizéiert Datazentren), 100% Europäesch Unioun, voll RGPD-Konformitéit. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. DPA gëtt op Ufro fir Är Cliente erstallt.',
+            'a6' => 'Gehost bei o2switch (franséischen Hoster zu Clermont-Ferrand), 100% Europäesch Unioun, voll RGPD-Konformitéit. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. DPA gëtt op Ufro fir Är Cliente erstallt.',
         ],
 
         'form' => [

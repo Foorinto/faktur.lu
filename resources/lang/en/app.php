@@ -1673,7 +1673,7 @@ return [
                 // Cluster D - Security & trust
                 'hosting' => [
                     'question' => 'Is my invoicing data hosted in Luxembourg?',
-                    'answer' => 'Your data is hosted at o2switch (France, Tier III+ ISO 27001 certified datacenters), 100% European Union. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). Automatic daily backups with 30-day retention. Faktur.lu is GDPR-compliant with a DPA available on request. No data transferred outside the EU, no Cloud Act access. You can export or delete your data at any time.',
+                    'answer' => 'Your data is hosted at o2switch (French hosting provider based in Clermont-Ferrand), 100% European Union. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). Automatic daily backups with 30-day retention. Faktur.lu is GDPR-compliant with a DPA available on request. No data transferred outside the EU, no Cloud Act access. You can export or delete your data at any time.',
                 ],
                 'controle_aed' => [
                     'question' => 'What happens during an AED tax audit?',
@@ -2472,7 +2472,7 @@ return [
             'q5' => 'Do my clients have to leave their current software?',
             'a5' => 'Not necessarily. Many use faktur.lu only for invoicing/quotes and keep their internal accounting tool. The goal is for the data to reach you clean and exportable, regardless of where it comes from.',
             'q6' => 'Where is my client data hosted?',
-            'a6' => 'Hosted at o2switch (France, Tier III+ ISO 27001 certified datacenters), 100% European Union, full GDPR compliance. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). DPA prepared on request for your clients.',
+            'a6' => 'Hosted at o2switch (French hosting provider based in Clermont-Ferrand), 100% European Union, full GDPR compliance. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). DPA prepared on request for your clients.',
         ],
 
         'form' => [

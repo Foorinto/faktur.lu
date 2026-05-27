@@ -277,6 +277,7 @@ Route::prefix('{locale}')
         Route::get('/termos', [LegalController::class, 'terms'])->name('legal.terms.pt');
 
         Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
+        Route::get('/dpa', [LegalController::class, 'dpa'])->name('legal.dpa');
 
         // Blog (localized slugs)
         Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');

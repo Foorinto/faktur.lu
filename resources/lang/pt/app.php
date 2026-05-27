@@ -1731,7 +1731,7 @@ return [
                 // Cluster D - Segurança & confiança
                 'hosting' => [
                     'question' => 'Os meus dados de faturação estão alojados no Luxemburgo?',
-                    'answer' => 'Os seus dados estão alojados no o2switch (França, datacenters Tier III+ certificados ISO 27001), 100% União Europeia. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). Cópias de segurança automáticas diárias com retenção de 30 dias. O Faktur.lu é conforme ao RGPD com um DPA disponível mediante pedido. Nenhum dado é transferido para fora da UE, nenhum acesso Cloud Act. Pode exportar ou eliminar os seus dados a qualquer momento.',
+                    'answer' => 'Os seus dados estão alojados no o2switch (alojador francês com sede em Clermont-Ferrand), 100% União Europeia. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). Cópias de segurança automáticas diárias com retenção de 30 dias. O Faktur.lu é conforme ao RGPD com um DPA disponível mediante pedido. Nenhum dado é transferido para fora da UE, nenhum acesso Cloud Act. Pode exportar ou eliminar os seus dados a qualquer momento.',
                 ],
                 'controle_aed' => [
                     'question' => 'O que acontece em caso de auditoria fiscal AED?',
@@ -2677,7 +2677,7 @@ return [
             'q5' => 'Os meus clientes têm de deixar o software atual?',
             'a5' => 'Não necessariamente. Muitos usam o faktur.lu apenas para faturação/orçamentos e mantêm a sua ferramenta contabilística interna. O objetivo é que os dados cheguem até si limpos e exportáveis.',
             'q6' => 'Onde estão alojados os dados dos meus clientes?',
-            'a6' => 'Alojado no o2switch (França, datacenters Tier III+ certificados ISO 27001), 100% União Europeia, conformidade RGPD total. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). DPA elaborado mediante pedido para os seus clientes.',
+            'a6' => 'Alojado no o2switch (alojador francês com sede em Clermont-Ferrand), 100% União Europeia, conformidade RGPD total. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). DPA elaborado mediante pedido para os seus clientes.',
         ],
 
         'form' => [

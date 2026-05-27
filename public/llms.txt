@@ -67,7 +67,7 @@ Tous les outils sont accessibles sans création de compte et sans carte bancaire
 - **Peppol** : Access Point certifié, format UBL 2.1 / BIS 3.0, conforme au mandat B2G luxembourgeois et préparation B2B ViDA 2030
 - **Article 21 LIVA** : autoliquidation B2B intra-communautaire (avec validation VIES en temps réel)
 - **Article 61 LIVA** : numérotation séquentielle continue obligatoire
-- **Hébergement** : o2switch (France, datacenters Tier III+ ISO 27001), 100% Union européenne, TLS 1.3 en transit, mots de passe bcrypt + données sensibles chiffrées via clé d'application Laravel (AES-256-CBC), sauvegardes quotidiennes 30 jours
+- **Hébergement** : o2switch (hébergeur français basé à Clermont-Ferrand), 100% Union européenne, TLS 1.3 en transit, mots de passe bcrypt + données sensibles chiffrées via clé d'application Laravel (AES-256-CBC), sauvegardes quotidiennes 30 jours
 - **RGPD** : DPA disponible sur demande
 - **Conservation légale** : 10 ans pour les factures et documents comptables
 
