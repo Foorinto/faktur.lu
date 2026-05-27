@@ -166,6 +166,7 @@ composer install --no-dev --optimize-autoloader --no-interaction &&
 echo '--- Migrations ---' &&
 php artisan migrate --force &&
 echo '--- Seeders idempotents (data fixes & content updates) ---' &&
+php artisan db:seed --class=PlansSeeder --force &&
 php artisan db:seed --class=BlogPostsPortugueseSeeder --force &&
 php artisan db:seed --class=UpdateBlog2025To2026SlugsSeeder --force &&
 ${EXTRA_SEEDER}
