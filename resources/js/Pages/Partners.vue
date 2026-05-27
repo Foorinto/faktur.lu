@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import HoneypotFields from '@/Components/HoneypotFields.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
@@ -93,6 +94,57 @@ const faqs = computed(() => [
     { q: t('partners.faq.q2'), a: t('partners.faq.a2') },
     { q: t('partners.faq.q3'), a: t('partners.faq.a3') },
     { q: t('partners.faq.q4'), a: t('partners.faq.a4') },
+    { q: t('partners.faq.q5'), a: t('partners.faq.a5') },
+    { q: t('partners.faq.q6'), a: t('partners.faq.a6') },
+]);
+
+// Schema.org for SEO + LLM authority signals
+const appUrl = computed(() => page.props.appUrl || 'https://faktur.lu');
+const schemas = computed(() => [
+    {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: t('partners.title'),
+        description: t('partners.meta_description'),
+        serviceType: 'Accounting partner program',
+        areaServed: { '@type': 'Country', name: 'Luxembourg', sameAs: 'https://www.wikidata.org/wiki/Q32' },
+        provider: {
+            '@type': 'Organization',
+            '@id': appUrl.value + '/#organization',
+            name: 'faktur.lu',
+            url: appUrl.value + '/',
+            sameAs: ['https://www.wikidata.org/wiki/Q139674760'],
+        },
+        audience: {
+            '@type': 'BusinessAudience',
+            audienceType: 'Fiduciaries, accounting firms, chartered accountants',
+            geographicArea: { '@type': 'Country', name: 'Luxembourg' },
+        },
+        offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'EUR',
+            description: 'Free for accounting firms; clients pay their own faktur.lu plan (Free, Essentiel or Pro)',
+        },
+        dateModified: new Date().toISOString().slice(0, 10),
+    },
+    {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'faktur.lu', item: appUrl.value + '/' + currentLocale() + '/' },
+            { '@type': 'ListItem', position: 2, name: t('partners.breadcrumb') },
+        ],
+    },
+    {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.value.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+    },
 ]);
 </script>
 
@@ -103,6 +155,7 @@ const faqs = computed(() => [
         canonical-path="/partenaires"
         route-name="partners"
     />
+    <SchemaJsonLd :schemas="schemas" />
 
     <MarketingLayout>
         <div class="py-12 sm:py-16">

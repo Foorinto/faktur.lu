@@ -2369,8 +2369,12 @@ return [
             'a2' => 'Nee, d\'Portal ass nëmmen zum Liesen, fir d\'Integritéit vun den Donneeën ze garantéieren. Dir kënnt kucken, eroflueden an exportéieren, awer net änneren.',
             'q3' => 'Wéi eng Exportformater si verfügbar?',
             'a3' => 'Mir bidden Exporter kompatibel mat Sage BOB, FID-Manager, souwéi CSV-Exporter an de FAIA 2.01 Fichier konform mat der AED.',
-            'q4' => 'Wéi vill Cliente kann ech verwalten?',
-            'a4' => 'Et gëtt kee Limit. All Client deen Iech invitéiert, erschéngt an Ärem Comptables-Dashboard.',
+            'q4' => 'Wéi vill Cliente kann ech vum Portal aus verwalten?',
+            'a4' => 'Kee Limit. All Client deen Iech invitéiert, erschéngt an Ärem Dashboard mat Numm, Plang an enger Verknëppung zu sengen Donnéeën. Egal ob 5 oder 500 faktur.lu Cliente, et ass datselwecht Portal.',
+            'q5' => 'Mussen meng Cliente hir aktuell Software verloossen?',
+            'a5' => 'Net onbedéngt. Vill benotzen faktur.lu nëmme fir Rechnungen/Devis a behalen hire interne Comptabilitéitstool. D\'Zil ass datt d\'Donnéeën Iech propper an exportéierbar erreechen.',
+            'q6' => 'Wou sinn d\'Clientendaten gehost?',
+            'a6' => '100% Europäesch Unioun (o2switch, Frankräich), voll RGPD-Konformitéit, AES-256-Verschlësselung am Rou an TLS 1.3 am Transit. DPA op Ufro fir Är Cliente.',
         ],
 
         'form' => [

@@ -2369,8 +2369,12 @@ return [
             'a2' => 'Nein, das Portal ist schreibgeschuetzt, um die Datenintegritaet zu gewaehrleisten. Sie koennen einsehen, herunterladen und exportieren, aber nicht aendern.',
             'q3' => 'Welche Exportformate sind verfuegbar?',
             'a3' => 'Wir bieten Exporte kompatibel mit Sage BOB, FID-Manager sowie CSV-Exporte und die AED-konforme FAIA 2.01 Datei.',
-            'q4' => 'Wie viele Kunden kann ich verwalten?',
-            'a4' => 'Es gibt kein Limit. Jeder Kunde, der Sie einlaedt, erscheint in Ihrem Buchhalter-Dashboard.',
+            'q4' => 'Wie viele Kunden kann ich über das Portal verwalten?',
+            'a4' => 'Keine Begrenzung. Jeder Kunde, der Sie einlädt, erscheint in Ihrem Dashboard mit Name, Plan und einer Verknüpfung zu seinen Daten. Ob 5 oder 500 faktur.lu-Kunden, es ist dasselbe Portal.',
+            'q5' => 'Müssen meine Kunden ihre aktuelle Software verlassen?',
+            'a5' => 'Nicht unbedingt. Viele nutzen faktur.lu nur für Rechnungen/Angebote und behalten ihr internes Buchhaltungstool. Ziel ist, dass die Daten Sie sauber und exportierbar erreichen.',
+            'q6' => 'Wo werden die Kundendaten gehostet?',
+            'a6' => '100% Europäische Union (o2switch, Frankreich), vollständige DSGVO-Konformität, AES-256-Verschlüsselung im Ruhezustand und TLS 1.3 in Übertragung. AVV auf Anfrage für Ihre Kunden verfügbar.',
         ],
 
         'form' => [

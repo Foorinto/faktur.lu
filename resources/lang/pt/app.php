@@ -2673,8 +2673,12 @@ return [
             'a2' => 'Não, o portal é só de leitura para garantir a integridade dos dados. Pode consultar, transferir e exportar, mas não modificar.',
             'q3' => 'Que formatos de exportação estão disponíveis?',
             'a3' => 'Propomos exportações compatíveis com Sage BOB, FID-Manager, bem como exportações CSV e o ficheiro FAIA 2.01 conforme à AED.',
-            'q4' => 'Quantos clientes posso gerir?',
-            'a4' => 'Não há limite. Cada cliente que o convide aparece no seu painel de controlo de contabilista.',
+            'q4' => 'Quantos clientes posso gerir a partir do portal?',
+            'a4' => 'Sem limite. Cada cliente que o convide aparece no seu painel com o nome, o plano e um atalho para os seus dados. Quer tenha 5 ou 500 clientes faktur.lu, é o mesmo portal.',
+            'q5' => 'Os meus clientes têm de deixar o software atual?',
+            'a5' => 'Não necessariamente. Muitos usam o faktur.lu apenas para faturação/orçamentos e mantêm a sua ferramenta contabilística interna. O objetivo é que os dados cheguem até si limpos e exportáveis.',
+            'q6' => 'Onde estão alojados os dados dos meus clientes?',
+            'a6' => '100% União Europeia (o2switch, França), conformidade RGPD total, criptografia AES-256 em repouso e TLS 1.3 em trânsito. DPA disponível mediante pedido para os seus clientes.',
         ],
 
         'form' => [

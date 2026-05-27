@@ -2468,8 +2468,12 @@ return [
             'a2' => 'No, the portal is read-only to guarantee data integrity. You can view, download and export, but not modify.',
             'q3' => 'What export formats are available?',
             'a3' => 'We offer exports compatible with Sage BOB, FID-Manager, as well as CSV exports and the AED-compliant FAIA 2.01 file.',
-            'q4' => 'How many clients can I manage?',
-            'a4' => 'There is no limit. Each client who invites you appears in your accountant dashboard.',
+            'q4' => 'How many clients can I manage from the portal?',
+            'a4' => 'No limit. Each client who invites you appears in your dashboard with their name, plan, and a shortcut to their data. Whether you have 5 or 500 faktur.lu clients, it\'s the same portal.',
+            'q5' => 'Do my clients have to leave their current software?',
+            'a5' => 'Not necessarily. Many use faktur.lu only for invoicing/quotes and keep their internal accounting tool. The goal is for the data to reach you clean and exportable, regardless of where it comes from.',
+            'q6' => 'Where is my client data hosted?',
+            'a6' => '100% European Union (o2switch, France), full GDPR compliance, AES-256 encryption at rest and TLS 1.3 in transit. DPA available on request for your clients.',
         ],
 
         'form' => [
