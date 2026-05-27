@@ -2374,6 +2374,7 @@ return [
 
     // Tools (free SEO/lead-gen tools)
     'tools' => [
+        'related_title' => 'Ferramentas complementares',
         'index' => [
             'page_title' => 'Ferramentas gratuitas para faturação luxemburguesa | faktur.lu',
             'meta_description' => 'Calculadora IVA, simulador de isenção, validador IBAN, validador FAIA: todas as ferramentas gratuitas para empresas luxemburguesas. Sem inscrição.',
@@ -2413,7 +2414,7 @@ return [
         ],
         'vat_calculator' => [
             'page_title' => 'Calculadora IVA Luxemburgo gratuita | faktur.lu',
-            'meta_description' => 'Calculadora IVA Luxemburgo gratuita com as 4 taxas. Sem inscrição.',
+            'meta_description' => 'Calculadora IVA Luxemburgo gratuita (LIVA). Cálculo instantâneo S/IVA ⇄ C/IVA com as 4 taxas LU (17%, 14%, 8%, 3%). Sem inscrição.',
             'breadcrumb' => 'Calculadora IVA',
             'title' => 'Calculadora IVA Luxemburgo',
             'subtitle' => 'Calcule o IVA luxemburguês (17%, 14%, 8%, 3%) em segundos.',
@@ -2447,7 +2448,7 @@ return [
         ],
         'vat_exemption' => [
             'page_title' => 'Simulador isenção IVA Luxemburgo | faktur.lu',
-            'meta_description' => 'Simulador gratuito de isenção IVA Luxemburgo. Limite 35.000 EUR sem IVA/ano.',
+            'meta_description' => 'Simulador gratuito de isenção IVA Luxemburgo. Verifique a sua elegibilidade (limite 35.000 EUR S/IVA/ano, Artigo 56 ter LIVA) em 30 segundos.',
             'breadcrumb' => 'Isenção IVA',
             'title' => 'Sou elegível para a isenção de IVA no Luxemburgo?',
             'subtitle' => 'O regime de isenção luxemburguês está aberto a empresas com volume de negócios anual sem IVA inferior a 35.000 €.',
@@ -2553,7 +2554,7 @@ return [
         ],
         'iban_validator' => [
             'page_title' => 'Validador IBAN Luxemburgo gratuito | faktur.lu',
-            'meta_description' => 'Validador IBAN luxemburguês gratuito. Verifica formato, chave MOD-97, identifica o banco.',
+            'meta_description' => 'Validador IBAN luxemburguês gratuito (formato LUxx). Verifica estrutura, chave MOD-97, identifica o banco e devolve o código BIC. Sem inscrição.',
             'breadcrumb' => 'Validador IBAN',
             'title' => 'Validador IBAN luxemburguês',
             'subtitle' => 'Verifique instantaneamente a validade de um IBAN e identifique o banco emissor.',
@@ -2585,7 +2586,7 @@ return [
             ],
         ],
         'templates' => [
-            'page_title' => 'Modelos fatura, cobrança, checklist AED, calendário IVA Luxemburgo | faktur.lu',
+            'page_title' => 'Modelos de fatura Luxemburgo (PDF gratuitos) | faktur.lu',
             'meta_description' => 'Descarregue gratuitamente os nossos modelos PDF Luxemburgo: fatura em branco, checklist auditoria AED, cartas de cobrança, calendário IVA 2026. Conformes LIVA.',
             'breadcrumb' => 'Modelos',
             'badge' => 'Modelos gratuitos',

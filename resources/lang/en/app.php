@@ -2169,6 +2169,7 @@ return [
 
     // Tools (free SEO/lead-gen tools)
     'tools' => [
+        'related_title' => 'Related free tools',
         'index' => [
             'page_title' => 'Free tools for Luxembourg invoicing | faktur.lu',
             'meta_description' => 'VAT calculator, exemption simulator, IBAN validator, FAIA validator: all free tools for Luxembourg businesses. No signup.',
@@ -2208,7 +2209,7 @@ return [
         ],
         'vat_calculator' => [
             'page_title' => 'Free Luxembourg VAT calculator (17%, 14%, 8%, 3%) | faktur.lu',
-            'meta_description' => 'Free Luxembourg VAT calculator. Instant Net to Gross or Gross to Net calculation with the 4 rates. No signup.',
+            'meta_description' => 'Free Luxembourg VAT calculator. Instant Net ⇄ Gross with the 4 LU rates (17%, 14%, 8%, 3%). LIVA-compliant. No signup, no card.',
             'breadcrumb' => 'VAT calculator',
             'title' => 'Luxembourg VAT calculator',
             'subtitle' => 'Calculate Luxembourg VAT (17%, 14%, 8%, 3%) in seconds. No signup.',
@@ -2242,7 +2243,7 @@ return [
         ],
         'vat_exemption' => [
             'page_title' => 'Luxembourg VAT exemption simulator | Am I eligible? | faktur.lu',
-            'meta_description' => 'Free Luxembourg VAT exemption simulator. Check your eligibility (35,000 EUR net/year threshold) in 30 seconds.',
+            'meta_description' => 'Free Luxembourg VAT exemption simulator. Check your eligibility (35,000 EUR net/year threshold, Article 56 ter LIVA) in 30 seconds.',
             'breadcrumb' => 'VAT exemption',
             'title' => 'Am I eligible for the VAT exemption in Luxembourg?',
             'subtitle' => 'The Luxembourg VAT exemption regime is open to businesses below 35,000 € net annual revenue. Check your situation.',
@@ -2348,7 +2349,7 @@ return [
         ],
         'iban_validator' => [
             'page_title' => 'Free Luxembourg IBAN validator + bank/BIC detection | faktur.lu',
-            'meta_description' => 'Free Luxembourg IBAN validator. Checks format, MOD-97 key, identifies the bank and returns the BIC. No signup.',
+            'meta_description' => 'Free Luxembourg IBAN validator (LUxx format). Checks structure, MOD-97 key, identifies the bank and returns the BIC code. No signup.',
             'breadcrumb' => 'IBAN validator',
             'title' => 'Luxembourg IBAN validator',
             'subtitle' => 'Instantly check the validity of an IBAN, identify the issuing bank and retrieve the BIC code.',
@@ -2380,7 +2381,7 @@ return [
             ],
         ],
         'templates' => [
-            'page_title' => 'Invoice, reminder, AED checklist, VAT calendar templates Luxembourg | faktur.lu',
+            'page_title' => 'Luxembourg invoice templates (free PDF) | faktur.lu',
             'meta_description' => 'Download our free Luxembourg PDF templates: blank invoice, AED audit checklist, reminder letters, VAT calendar 2026. LIVA-compliant.',
             'breadcrumb' => 'Templates',
             'badge' => 'Free templates',

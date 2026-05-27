@@ -2398,6 +2398,7 @@ return [
 
     // Tools (free SEO/lead-gen tools)
     'tools' => [
+        'related_title' => 'Outils complémentaires',
         'index' => [
             'page_title' => 'Outils gratuits pour la facturation luxembourgeoise | faktur.lu',
             'meta_description' => 'Calculateur TVA, simulateur franchise, validateur IBAN, validateur FAIA : tous les outils gratuits pour les entreprises luxembourgeoises. Sans inscription.',
@@ -2609,7 +2610,7 @@ return [
             ],
         ],
         'templates' => [
-            'page_title' => 'Modèles facture, relance, checklist AED, calendrier TVA Luxembourg | faktur.lu',
+            'page_title' => 'Modèles facture Luxembourg (PDF gratuits) | faktur.lu',
             'meta_description' => 'Téléchargez gratuitement nos modèles PDF Luxembourg : facture vierge, checklist contrôle AED, lettres de relance, calendrier TVA 2026. Mentions légales LIVA.',
             'breadcrumb' => 'Modèles',
             'badge' => 'Modèles gratuits',

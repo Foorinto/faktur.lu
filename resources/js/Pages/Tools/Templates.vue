@@ -1,14 +1,17 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import axios from 'axios';
 import { Link, usePage } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
+const { breadcrumb } = useToolSchemas();
 const page = usePage();
 
 const email = ref('');
@@ -79,9 +82,33 @@ async function downloadTemplate(template) {
         downloading.value = null;
     }
 }
+
+// JSON-LD: BreadcrumbList + ItemList of downloadable templates
+const schemas = computed(() => [
+    breadcrumb(t('tools.templates.breadcrumb')),
+    {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: t('tools.templates.title'),
+        description: t('tools.templates.meta_description'),
+        itemListElement: templates.map((tpl, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            name: t('tools.templates.items.' + tpl.key + '.title'),
+            description: t('tools.templates.items.' + tpl.key + '.description'),
+        })),
+    },
+]);
+
+const relatedTools = computed(() => [
+    { key: 'vat_calculator', route: localizedRoute('tools.vat_calculator') },
+    { key: 'invoice_generator', route: localizedRoute('tools.invoice_generator') },
+    { key: 'iban_validator', route: localizedRoute('tools.iban_validator') },
+]);
 </script>
 
 <template>
+    <SchemaJsonLd :schemas="schemas" />
     <SeoHead
         :title="t('tools.templates.page_title')"
         :description="t('tools.templates.meta_description')"
@@ -185,6 +212,22 @@ async function downloadTemplate(template) {
                     <Link :href="route('register')" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-colors">
                         {{ t('tools.templates.cta_button') }}
                     </Link>
+                </div>
+
+                <!-- Related tools (internal linking) -->
+                <div class="mt-12">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{{ t('tools.related_title') }}</h2>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <Link
+                            v-for="tool in relatedTools"
+                            :key="tool.key"
+                            :href="tool.route"
+                            class="block p-4 rounded-xl border border-gray-200 hover:border-primary-500 hover:shadow-sm transition-all bg-white"
+                        >
+                            <p class="font-semibold text-slate-900 mb-1">{{ t('tools.index.' + tool.key + '.title') }}</p>
+                            <p class="text-sm text-slate-600">{{ t('tools.index.' + tool.key + '.description') }}</p>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,11 +3,15 @@ import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { usePage } from '@inertiajs/vue3';
 
 const { t } = useTranslations();
-const { localizedRoute } = useLocalizedRoute();
+const { localizedRoute, currentLocale } = useLocalizedRoute();
+const page = usePage();
+const appUrl = page.props.appUrl || 'https://faktur.lu';
 
 const tools = computed(() => [
     {
@@ -59,9 +63,40 @@ const tools = computed(() => [
         badge: t('tools.index.badge_free'),
     },
 ]);
+
+// JSON-LD: BreadcrumbList + CollectionPage (ItemList of all tools)
+const schemas = computed(() => [
+    {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'faktur.lu', item: appUrl + '/' + currentLocale() + '/' },
+            { '@type': 'ListItem', position: 2, name: t('tools.index.breadcrumb') },
+        ],
+    },
+    {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: t('tools.index.page_title'),
+        description: t('tools.index.meta_description'),
+        url: appUrl + localizedRoute('tools'),
+        mainEntity: {
+            '@type': 'ItemList',
+            numberOfItems: tools.value.length,
+            itemListElement: tools.value.map((tool, i) => ({
+                '@type': 'ListItem',
+                position: i + 1,
+                url: appUrl + tool.href,
+                name: tool.title,
+                description: tool.description,
+            })),
+        },
+    },
+]);
 </script>
 
 <template>
+    <SchemaJsonLd :schemas="schemas" />
     <SeoHead
         :title="t('tools.index.page_title')"
         :description="t('tools.index.meta_description')"

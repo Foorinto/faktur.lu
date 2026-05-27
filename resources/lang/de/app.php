@@ -2070,9 +2070,10 @@ return [
 
     // Tools (free SEO/lead-gen tools)
     'tools' => [
+        'related_title' => 'Ergänzende Tools',
         'index' => [
             'page_title' => 'Kostenlose Tools für die luxemburgische Rechnungsstellung | faktur.lu',
-            'meta_description' => 'MwSt-Rechner, Befreiungssimulator, IBAN-Prüfer, FAIA-Validator: alle kostenlosen Tools für luxemburgische Unternehmen.',
+            'meta_description' => 'MwSt-Rechner mit den 4 LU-Sätzen, Befreiungssimulator (35k EUR), IBAN-Prüfer, FAIA-Validator, Rechnungsgenerator: alle kostenlosen Tools für Luxemburg.',
             'breadcrumb' => 'Werkzeuge',
             'badge' => 'Kostenlose Tools',
             'hero_title' => 'Kostenlose Tools für luxemburgische Unternehmer',
@@ -2109,7 +2110,7 @@ return [
         ],
         'vat_calculator' => [
             'page_title' => 'Kostenloser MwSt-Rechner Luxemburg | faktur.lu',
-            'meta_description' => 'Kostenloser MwSt-Rechner Luxemburg. Sofortige Berechnung mit den 4 luxemburgischen Sätzen.',
+            'meta_description' => 'Kostenloser MwSt-Rechner Luxemburg (LIVA-konform). Sofortige Berechnung Netto ⇄ Brutto mit den 4 LU-Sätzen (17%, 14%, 8%, 3%). Ohne Anmeldung.',
             'breadcrumb' => 'MwSt-Rechner',
             'title' => 'MwSt-Rechner Luxemburg',
             'subtitle' => 'Berechnen Sie die luxemburgische MwSt (17%, 14%, 8%, 3%) in Sekunden.',
@@ -2143,7 +2144,7 @@ return [
         ],
         'vat_exemption' => [
             'page_title' => 'MwSt-Befreiungssimulator Luxemburg | faktur.lu',
-            'meta_description' => 'Kostenloser Simulator MwSt-Befreiung Luxemburg. Schwelle 35.000 EUR netto/Jahr.',
+            'meta_description' => 'Kostenloser Simulator MwSt-Befreiung Luxemburg. Prüfen Sie Ihre Berechtigung (Schwelle 35.000 EUR netto/Jahr, Artikel 56 ter LIVA) in 30 Sekunden.',
             'breadcrumb' => 'MwSt-Befreiung',
             'title' => 'Bin ich für die MwSt-Befreiung in Luxemburg berechtigt?',
             'subtitle' => 'Die luxemburgische Befreiungsregelung steht Unternehmen unter 35.000 € netto Jahresumsatz offen.',
@@ -2249,7 +2250,7 @@ return [
         ],
         'iban_validator' => [
             'page_title' => 'Kostenloser IBAN-Prüfer Luxemburg | faktur.lu',
-            'meta_description' => 'Kostenloser luxemburgischer IBAN-Prüfer. Prüft Format, MOD-97-Schlüssel, identifiziert die Bank.',
+            'meta_description' => 'Kostenloser luxemburgischer IBAN-Prüfer (LUxx-Format). Prüft Struktur, MOD-97-Schlüssel, identifiziert die Bank und gibt den BIC-Code zurück. Ohne Anmeldung.',
             'breadcrumb' => 'IBAN-Prüfer',
             'title' => 'Luxemburgischer IBAN-Prüfer',
             'subtitle' => 'Prüfen Sie sofort die Gültigkeit eines IBAN und identifizieren Sie die Bank.',
@@ -2281,7 +2282,7 @@ return [
             ],
         ],
         'templates' => [
-            'page_title' => 'Vorlagen Rechnung, Mahnung, AED-Checkliste, MwSt-Kalender Luxemburg | faktur.lu',
+            'page_title' => 'Luxemburg Rechnungsvorlagen (kostenlose PDFs) | faktur.lu',
             'meta_description' => 'Laden Sie unsere Luxemburg-PDF-Vorlagen kostenlos herunter: leere Rechnung, AED-Prüfungs-Checkliste, Mahnschreiben, MwSt-Kalender 2026. LIVA-konform.',
             'breadcrumb' => 'Vorlagen',
             'badge' => 'Kostenlose Vorlagen',

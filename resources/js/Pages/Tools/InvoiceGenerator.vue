@@ -4,11 +4,14 @@ import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
+const { breadcrumb, faqPage, webApplication, howTo } = useToolSchemas();
 
 const today = new Date().toISOString().slice(0, 10);
 const dueDateDefault = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString().slice(0, 10);
@@ -103,9 +106,38 @@ const faqs = computed(() => [
     { q: t('tools.invoice_generator.faq.q2'), a: t('tools.invoice_generator.faq.a2') },
     { q: t('tools.invoice_generator.faq.q3'), a: t('tools.invoice_generator.faq.a3') },
 ]);
+
+const schemas = computed(() => [
+    breadcrumb(t('tools.invoice_generator.breadcrumb')),
+    faqPage(faqs.value),
+    webApplication({
+        name: t('tools.invoice_generator.title'),
+        description: t('tools.invoice_generator.meta_description'),
+        url: localizedRoute('tools.invoice_generator'),
+        category: 'BusinessApplication',
+    }),
+    howTo({
+        name: t('tools.invoice_generator.title'),
+        description: t('tools.invoice_generator.meta_description'),
+        totalTimeMin: 5,
+        steps: [
+            { name: t('tools.invoice_generator.sender_title'), text: t('tools.invoice_generator.sender_title') },
+            { name: t('tools.invoice_generator.client_title'), text: t('tools.invoice_generator.client_title') },
+            { name: t('tools.invoice_generator.items_title'), text: t('tools.invoice_generator.items_title') },
+            { name: t('tools.invoice_generator.download_button'), text: t('tools.invoice_generator.download_button') },
+        ],
+    }),
+]);
+
+const relatedTools = computed(() => [
+    { key: 'vat_calculator', route: localizedRoute('tools.vat_calculator') },
+    { key: 'iban_validator', route: localizedRoute('tools.iban_validator') },
+    { key: 'templates', route: localizedRoute('tools.templates') },
+]);
 </script>
 
 <template>
+    <SchemaJsonLd :schemas="schemas" />
     <SeoHead
         :title="t('tools.invoice_generator.page_title')"
         :description="t('tools.invoice_generator.meta_description')"
@@ -272,6 +304,22 @@ const faqs = computed(() => [
                                 {{ faq.a }}
                             </div>
                         </details>
+                    </div>
+                </div>
+
+                <!-- Related tools (internal linking) -->
+                <div class="mb-12">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{{ t('tools.related_title') }}</h2>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <Link
+                            v-for="tool in relatedTools"
+                            :key="tool.key"
+                            :href="tool.route"
+                            class="block p-4 rounded-xl border border-gray-200 hover:border-primary-500 hover:shadow-sm transition-all bg-white"
+                        >
+                            <p class="font-semibold text-slate-900 mb-1">{{ t('tools.index.' + tool.key + '.title') }}</p>
+                            <p class="text-sm text-slate-600">{{ t('tools.index.' + tool.key + '.description') }}</p>
+                        </Link>
                     </div>
                 </div>
             </div>

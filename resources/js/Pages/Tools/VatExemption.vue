@@ -3,11 +3,14 @@ import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
+const { breadcrumb, faqPage, webApplication } = useToolSchemas();
 
 // Seuil franchise TVA Luxembourg = 35 000 EUR HT/an depuis 2020
 const FRANCHISE_THRESHOLD = 35000;
@@ -49,9 +52,27 @@ const faqs = computed(() => [
     { q: t('tools.vat_exemption.faq.q3'), a: t('tools.vat_exemption.faq.a3') },
     { q: t('tools.vat_exemption.faq.q4'), a: t('tools.vat_exemption.faq.a4') },
 ]);
+
+const schemas = computed(() => [
+    breadcrumb(t('tools.vat_exemption.breadcrumb')),
+    faqPage(faqs.value),
+    webApplication({
+        name: t('tools.vat_exemption.title'),
+        description: t('tools.vat_exemption.meta_description'),
+        url: localizedRoute('tools.vat_exemption'),
+        category: 'FinanceApplication',
+    }),
+]);
+
+const relatedTools = computed(() => [
+    { key: 'vat_calculator', route: localizedRoute('tools.vat_calculator') },
+    { key: 'invoice_generator', route: localizedRoute('tools.invoice_generator') },
+    { key: 'templates', route: localizedRoute('tools.templates') },
+]);
 </script>
 
 <template>
+    <SchemaJsonLd :schemas="schemas" />
     <SeoHead
         :title="t('tools.vat_exemption.page_title')"
         :description="t('tools.vat_exemption.meta_description')"
@@ -197,6 +218,22 @@ const faqs = computed(() => [
                                 {{ faq.a }}
                             </div>
                         </details>
+                    </div>
+                </div>
+
+                <!-- Related tools (internal linking) -->
+                <div class="mb-12">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{{ t('tools.related_title') }}</h2>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <Link
+                            v-for="tool in relatedTools"
+                            :key="tool.key"
+                            :href="tool.route"
+                            class="block p-4 rounded-xl border border-gray-200 hover:border-primary-500 hover:shadow-sm transition-all bg-white"
+                        >
+                            <p class="font-semibold text-slate-900 mb-1">{{ t('tools.index.' + tool.key + '.title') }}</p>
+                            <p class="text-sm text-slate-600">{{ t('tools.index.' + tool.key + '.description') }}</p>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -2070,9 +2070,10 @@ return [
 
     // Tools (free SEO/lead-gen tools)
     'tools' => [
+        'related_title' => 'Komplementär Tools',
         'index' => [
             'page_title' => 'Gratis Tools fir d\'Lëtzebuerger Fakturatioun | faktur.lu',
-            'meta_description' => 'TVA-Rechner, Befreiungssimulator, IBAN-Validateur, FAIA-Validateur: all gratis Tools fir Lëtzebuerger Entreprisen.',
+            'meta_description' => 'TVA-Rechner mat de 4 LU-Sätz, Befreiung-Simulator (35k EUR), IBAN-Validateur, FAIA-Validateur, Rechnungsgenerator: all gratis fir Lëtzebuerger Entreprisen.',
             'breadcrumb' => 'Handgeschir',
             'badge' => 'Gratis Tools',
             'hero_title' => 'Gratis Tools fir Lëtzebuerger Entrepreneuren',
@@ -2109,7 +2110,7 @@ return [
         ],
         'vat_calculator' => [
             'page_title' => 'Gratis TVA-Rechner Lëtzebuerg | faktur.lu',
-            'meta_description' => 'Gratis TVA-Rechner Lëtzebuerg mat de 4 Sätz. Ouni Aschreiwung.',
+            'meta_description' => 'Gratis TVA-Rechner Lëtzebuerg (LIVA-konform). Direkt Berechnong Netto ⇄ Brutto mat de 4 LU-Sätz (17%, 14%, 8%, 3%). Ouni Aschreiwung, ouni Kaart.',
             'breadcrumb' => 'TVA-Rechner',
             'title' => 'TVA-Rechner Lëtzebuerg',
             'subtitle' => 'Berechent d\'Lëtzebuerger TVA (17%, 14%, 8%, 3%) an Sekonnen.',
@@ -2143,7 +2144,7 @@ return [
         ],
         'vat_exemption' => [
             'page_title' => 'TVA-Befreiungssimulator Lëtzebuerg | faktur.lu',
-            'meta_description' => 'Gratis Simulator TVA-Befreiung Lëtzebuerg. Schwell 35.000 EUR HT/Joer.',
+            'meta_description' => 'Gratis Simulator TVA-Befreiung Lëtzebuerg. Iwwerpréift Är Berechtegung (Schwell 35.000 EUR HT/Joer, Artikel 56 ter LIVA) an 30 Sekonnen.',
             'breadcrumb' => 'TVA-Befreiung',
             'title' => 'Sinn ech berechtegt fir d\'TVA-Befreiung zu Lëtzebuerg?',
             'subtitle' => 'D\'Lëtzebuerger Befreiungsregelung steet Entreprisen ënner 35.000 € HT Joresëmsaz op.',
@@ -2202,7 +2203,7 @@ return [
         ],
         'invoice_generator' => [
             'page_title' => 'Gratis Lëtzebuerger Rechnungsgenerator (PDF) | faktur.lu',
-            'meta_description' => 'Erstellt gratis eng Lëtzebuerg-konform Rechnung als PDF, ouni Aschreiwung. LIVA-Mentiounen + B2B Reverse-Charge.',
+            'meta_description' => 'Erstellt gratis eng Lëtzebuerg-konform Rechnung als PDF, ouni Aschreiwung. LIVA-Mentiounen, TVA 17%, B2B Reverse-Charge intra-EU. 5 Sproochen.',
             'breadcrumb' => 'Rechnungsgenerator',
             'title' => 'Gratis Lëtzebuerger Rechnungsgenerator',
             'subtitle' => 'Erstellt eng Lëtzebuerg-konform Rechnung als PDF. Ouni Aschreiwung, gratis.',
@@ -2249,7 +2250,7 @@ return [
         ],
         'iban_validator' => [
             'page_title' => 'Gratis IBAN-Validateur Lëtzebuerg | faktur.lu',
-            'meta_description' => 'Gratis Lëtzebuerger IBAN-Validateur. Iwwerpréift Format, MOD-97-Schlëssel, identifizéiert d\'Bank.',
+            'meta_description' => 'Gratis Lëtzebuerger IBAN-Validateur (LUxx-Format). Iwwerpréift Struktur, MOD-97-Schlëssel, identifizéiert d\'Bank a gëtt de BIC-Code. Ouni Aschreiwung.',
             'breadcrumb' => 'IBAN-Validateur',
             'title' => 'Lëtzebuerger IBAN-Validateur',
             'subtitle' => 'Iwwerpréift direkt d\'Gëltegkeet vun engem IBAN an identifizéiert d\'Bank.',
@@ -2281,7 +2282,7 @@ return [
             ],
         ],
         'templates' => [
-            'page_title' => 'Modeller Rechnung, Rappel, AED-Checkliste, TVA-Kalenner Lëtzebuerg | faktur.lu',
+            'page_title' => 'Lëtzebuerger Rechnungsmodeller (gratis PDF) | faktur.lu',
             'meta_description' => 'Lued eis gratis Lëtzebuerger PDF-Modeller erof: eidel Rechnung, AED-Checkliste, Rappel-Bréiwer, TVA-Kalenner 2026. LIVA-konform.',
             'breadcrumb' => 'Modeller',
             'badge' => 'Gratis Modeller',

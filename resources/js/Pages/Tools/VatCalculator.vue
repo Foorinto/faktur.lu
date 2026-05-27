@@ -3,11 +3,14 @@ import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useToolSchemas } from '@/Composables/useToolSchemas';
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
+const { breadcrumb, faqPage, webApplication } = useToolSchemas();
 
 const amount = ref(1000);
 const mode = ref('ht'); // 'ht' (montant HT vers TTC) ou 'ttc' (montant TTC vers HT)
@@ -45,6 +48,25 @@ const faqs = computed(() => [
     { q: t('tools.vat_calculator.faq.q3'), a: t('tools.vat_calculator.faq.a3') },
     { q: t('tools.vat_calculator.faq.q4'), a: t('tools.vat_calculator.faq.a4') },
 ]);
+
+// JSON-LD: BreadcrumbList + FAQPage + WebApplication (instant calculator)
+const schemas = computed(() => [
+    breadcrumb(t('tools.vat_calculator.breadcrumb')),
+    faqPage(faqs.value),
+    webApplication({
+        name: t('tools.vat_calculator.title'),
+        description: t('tools.vat_calculator.meta_description'),
+        url: localizedRoute('tools.vat_calculator'),
+        category: 'FinanceApplication',
+    }),
+]);
+
+// Related tools for internal linking
+const relatedTools = computed(() => [
+    { key: 'vat_exemption', route: localizedRoute('tools.vat_exemption') },
+    { key: 'invoice_generator', route: localizedRoute('tools.invoice_generator') },
+    { key: 'iban_validator', route: localizedRoute('tools.iban_validator') },
+]);
 </script>
 
 <template>
@@ -54,6 +76,7 @@ const faqs = computed(() => [
         canonical-path="/outils/calculateur-tva"
         route-name="tools.vat_calculator"
     />
+    <SchemaJsonLd :schemas="schemas" />
 
     <MarketingLayout>
         <div class="py-12 sm:py-16">
@@ -164,6 +187,22 @@ const faqs = computed(() => [
                                 {{ faq.a }}
                             </div>
                         </details>
+                    </div>
+                </div>
+
+                <!-- Related tools (internal linking) -->
+                <div class="mb-12">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">{{ t('tools.related_title') }}</h2>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <Link
+                            v-for="tool in relatedTools"
+                            :key="tool.key"
+                            :href="tool.route"
+                            class="block p-4 rounded-xl border border-gray-200 hover:border-primary-500 hover:shadow-sm transition-all bg-white"
+                        >
+                            <p class="font-semibold text-slate-900 mb-1">{{ t('tools.index.' + tool.key + '.title') }}</p>
+                            <p class="text-sm text-slate-600">{{ t('tools.index.' + tool.key + '.description') }}</p>
+                        </Link>
                     </div>
                 </div>
             </div>
