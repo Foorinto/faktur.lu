@@ -196,6 +196,19 @@ Route::prefix('{locale}')
         Route::post('/partenaires/contact', [ContactController::class, 'partnerContact'])->middleware(['honeypot', 'throttle:6,1'])->name('partners.contact.fr');
         Route::post('/partners/contact', [ContactController::class, 'partnerContact'])->middleware(['honeypot', 'throttle:6,1'])->name('partners.contact.other');
 
+        // Segmented landing pages (localized)
+        Route::get('/pour-freelances', [ContactController::class, 'forFreelances'])->name('for_freelances.fr');
+        Route::get('/fuer-freelancer', [ContactController::class, 'forFreelances'])->name('for_freelances.de');
+        Route::get('/for-freelancers', [ContactController::class, 'forFreelances'])->name('for_freelances.en');
+        Route::get('/fir-freelancer', [ContactController::class, 'forFreelances'])->name('for_freelances.lb');
+        Route::get('/para-freelancers', [ContactController::class, 'forFreelances'])->name('for_freelances.pt');
+
+        Route::get('/pour-pme', [ContactController::class, 'forSmes'])->name('for_smes.fr');
+        Route::get('/fuer-kmu', [ContactController::class, 'forSmes'])->name('for_smes.de');
+        Route::get('/for-smes', [ContactController::class, 'forSmes'])->name('for_smes.en');
+        Route::get('/fir-kmu', [ContactController::class, 'forSmes'])->name('for_smes.lb');
+        Route::get('/para-pme', [ContactController::class, 'forSmes'])->name('for_smes.pt');
+
         // Contact page (explicit localized routes)
         Route::get('/contact', [ContactController::class, 'index'])->name('contact');
         Route::post('/contact', [ContactController::class, 'send'])->middleware(['honeypot', 'throttle:6,1'])->name('contact.send');

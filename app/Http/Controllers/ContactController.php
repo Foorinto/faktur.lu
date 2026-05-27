@@ -42,6 +42,22 @@ class ContactController extends Controller
     }
 
     /**
+     * Display the "For freelances" segmented landing page.
+     */
+    public function forFreelances(): Response
+    {
+        return Inertia::render('Segments/Freelances');
+    }
+
+    /**
+     * Display the "For SMEs" segmented landing page.
+     */
+    public function forSmes(): Response
+    {
+        return Inertia::render('Segments/Smes');
+    }
+
+    /**
      * Handle partner contact form submission.
      */
     public function partnerContact(Request $request)
