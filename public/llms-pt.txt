@@ -67,7 +67,7 @@ Todas as ferramentas são acessíveis sem criação de conta e sem cartão de cr
 - **Peppol**: Access Point certificado, formato UBL 2.1 / BIS 3.0, conforme ao mandato B2G luxemburguês e preparação B2B ViDA 2030
 - **Artigo 21 LIVA**: autoliquidação B2B intra-comunitária (com validação VIES em tempo real)
 - **Artigo 61 LIVA**: numeração sequencial contínua obrigatória
-- **Alojamento**: apenas União Europeia, ISO 27001, AES-256 em repouso, TLS 1.3 em trânsito, backups diários 30 dias
+- **Alojamento**: o2switch (França, datacenters Tier III+ ISO 27001), 100% União Europeia, TLS 1.3 em trânsito, palavras-passe em bcrypt + dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC), backups diários 30 dias
 - **RGPD**: DPA disponível mediante pedido
 - **Conservação legal**: 10 anos para faturas e documentos contabilísticos
 

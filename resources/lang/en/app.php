@@ -1673,7 +1673,7 @@ return [
                 // Cluster D - Security & trust
                 'hosting' => [
                     'question' => 'Is my invoicing data hosted in Luxembourg?',
-                    'answer' => 'Your data is hosted exclusively in the European Union on ISO 27001 servers, encrypted at rest (AES-256) and in transit (TLS 1.3). Automatic daily backups with 30-day retention. Faktur.lu is GDPR-compliant with a DPA available on request. No data is transferred outside the EU, no Cloud Act access. You can export or delete your data at any time.',
+                    'answer' => 'Your data is hosted at o2switch (France, Tier III+ ISO 27001 certified datacenters), 100% European Union. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). Automatic daily backups with 30-day retention. Faktur.lu is GDPR-compliant with a DPA available on request. No data transferred outside the EU, no Cloud Act access. You can export or delete your data at any time.',
                 ],
                 'controle_aed' => [
                     'question' => 'What happens during an AED tax audit?',
@@ -2446,14 +2446,14 @@ return [
             'multi_title' => 'Multi-client view',
             'multi_desc' => 'Manage multiple clients from a single dashboard. Switch between files in one click.',
             'free_title' => '100% free access',
-            'free_desc' => 'The accountant portal is included free for fiduciaries. No additional subscription.',
+            'free_desc' => 'The accountant portal is free for fiduciaries, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription (Essentiel €5/month or Pro €15/month — the accountant portal is not included in the Free plan).',
         ],
 
         'steps' => [
             'title' => 'How does it work?',
             'subtitle' => 'Three simple steps to start collaborating with your clients on faktur.lu.',
             'step1_title' => 'Your client signs up',
-            'step1_desc' => 'Your client creates their faktur.lu account and starts invoicing. They choose their plan (Essentiel or Pro).',
+            'step1_desc' => 'Your client subscribes to Essentiel (€5/month) or Pro (€15/month) — the accountant portal is included from Essentiel onwards. They start invoicing in a few clicks, in line with Luxembourg legislation.',
             'step2_title' => 'They invite you as accountant',
             'step2_desc' => 'From their settings, your client sends you an invitation. You receive an email with a secure access link.',
             'step3_title' => 'You access their data',
@@ -2463,7 +2463,7 @@ return [
         'faq' => [
             'title' => 'Frequently asked questions',
             'q1' => 'Is the accountant portal really free?',
-            'a1' => 'Yes, access to the accountant portal is 100% free for fiduciaries. Only your client pays their faktur.lu subscription (from 5 EUR/month).',
+            'a1' => 'Yes, 100% free for you, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription — from Essentiel (€5/month) which includes the accountant portal. The Free plan (€0/month) does not allow inviting an accountant.',
             'q2' => 'Can I edit my clients\' invoices?',
             'a2' => 'No, the portal is read-only to guarantee data integrity. You can view, download and export, but not modify.',
             'q3' => 'What export formats are available?',
@@ -2473,7 +2473,7 @@ return [
             'q5' => 'Do my clients have to leave their current software?',
             'a5' => 'Not necessarily. Many use faktur.lu only for invoicing/quotes and keep their internal accounting tool. The goal is for the data to reach you clean and exportable, regardless of where it comes from.',
             'q6' => 'Where is my client data hosted?',
-            'a6' => '100% European Union (o2switch, France), full GDPR compliance, AES-256 encryption at rest and TLS 1.3 in transit. DPA available on request for your clients.',
+            'a6' => 'Hosted at o2switch (France, Tier III+ ISO 27001 datacenters), 100% European Union, full GDPR compliance. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). DPA available on request for your clients.',
         ],
 
         'form' => [

@@ -1574,7 +1574,7 @@ return [
                 // Cluster D - Sicherheit & Vertrauen
                 'hosting' => [
                     'question' => 'Werden meine Rechnungsdaten in Luxemburg gehostet?',
-                    'answer' => 'Ihre Daten werden ausschließlich in der Europäischen Union auf ISO-27001-Servern gehostet, ruhend (AES-256) und während der Übertragung (TLS 1.3) verschlüsselt. Tägliche automatische Sicherungen mit 30 Tagen Aufbewahrung. Faktur.lu ist DSGVO-konform mit einer auf Anfrage verfügbaren AVV. Keine Datenübertragung außerhalb der EU, kein Cloud-Act-Zugriff. Sie können Ihre Daten jederzeit exportieren oder löschen.',
+                    'answer' => 'Ihre Daten werden bei o2switch (Frankreich, Tier III+ ISO 27001 zertifizierte Datacenter) gehostet, 100% Europäische Union. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten via Laravel-App-Key (AES-256-CBC) verschlüsselt. Tägliche automatische Sicherungen mit 30 Tagen Aufbewahrung. Faktur.lu ist DSGVO-konform mit einer auf Anfrage verfügbaren AVV. Keine Datenübertragung außerhalb der EU, kein Cloud-Act-Zugriff. Sie können Ihre Daten jederzeit exportieren oder löschen.',
                 ],
                 'controle_aed' => [
                     'question' => 'Was passiert bei einer AED-Steuerprüfung?',
@@ -2347,14 +2347,14 @@ return [
             'multi_title' => 'Multi-Kunden-Ansicht',
             'multi_desc' => 'Verwalten Sie mehrere Kunden ueber ein einziges Dashboard. Wechseln Sie mit einem Klick zwischen Mandanten.',
             'free_title' => '100% kostenloser Zugang',
-            'free_desc' => 'Das Buchhalterportal ist fuer Treuhandgesellschaften kostenlos. Kein zusaetzliches Abonnement.',
+            'free_desc' => 'Das Buchhalterportal ist für Treuhandgesellschaften kostenlos, ohne Bindung, ohne Aufpreis pro Kunde. Ihr Kunde zahlt sein faktur.lu-Abonnement (Essentiel 5 €/Monat oder Pro 15 €/Monat — das Buchhalterportal ist im Kostenlosen Plan nicht enthalten).',
         ],
 
         'steps' => [
             'title' => 'Wie funktioniert es?',
             'subtitle' => 'Drei einfache Schritte, um mit Ihren Kunden auf faktur.lu zusammenzuarbeiten.',
             'step1_title' => 'Ihr Kunde registriert sich',
-            'step1_desc' => 'Ihr Kunde erstellt sein faktur.lu-Konto und beginnt mit der Rechnungsstellung. Er waehlt seinen Plan (Essentiel oder Pro).',
+            'step1_desc' => 'Ihr Kunde abonniert Essentiel (5 €/Monat) oder Pro (15 €/Monat) — das Buchhalterportal ist ab Essentiel enthalten. Er stellt Rechnungen in wenigen Klicks aus, konform mit dem luxemburgischen Recht.',
             'step2_title' => 'Er laedt Sie als Buchhalter ein',
             'step2_desc' => 'In seinen Einstellungen sendet Ihr Kunde Ihnen eine Einladung. Sie erhalten eine E-Mail mit einem sicheren Zugangslink.',
             'step3_title' => 'Sie greifen auf seine Daten zu',
@@ -2364,7 +2364,7 @@ return [
         'faq' => [
             'title' => 'Haeufig gestellte Fragen',
             'q1' => 'Ist das Buchhalterportal wirklich kostenlos?',
-            'a1' => 'Ja, der Zugang zum Buchhalterportal ist fuer Treuhandgesellschaften 100% kostenlos. Nur Ihr Kunde zahlt sein faktur.lu-Abonnement (ab 5 EUR/Monat).',
+            'a1' => 'Ja, 100% kostenlos für Sie, ohne Bindung, ohne Aufpreis pro eingeladenem Kunden. Nur Ihr Kunde zahlt sein faktur.lu-Abonnement — ab Essentiel (5 €/Monat), das das Buchhalterportal enthält. Der Kostenlose Plan (0 €/Monat) erlaubt keine Einladung eines Buchhalters.',
             'q2' => 'Kann ich die Rechnungen meiner Kunden bearbeiten?',
             'a2' => 'Nein, das Portal ist schreibgeschuetzt, um die Datenintegritaet zu gewaehrleisten. Sie koennen einsehen, herunterladen und exportieren, aber nicht aendern.',
             'q3' => 'Welche Exportformate sind verfuegbar?',
@@ -2374,7 +2374,7 @@ return [
             'q5' => 'Müssen meine Kunden ihre aktuelle Software verlassen?',
             'a5' => 'Nicht unbedingt. Viele nutzen faktur.lu nur für Rechnungen/Angebote und behalten ihr internes Buchhaltungstool. Ziel ist, dass die Daten Sie sauber und exportierbar erreichen.',
             'q6' => 'Wo werden die Kundendaten gehostet?',
-            'a6' => '100% Europäische Union (o2switch, Frankreich), vollständige DSGVO-Konformität, AES-256-Verschlüsselung im Ruhezustand und TLS 1.3 in Übertragung. AVV auf Anfrage für Ihre Kunden verfügbar.',
+            'a6' => 'Gehostet bei o2switch (Frankreich, Tier III+ ISO 27001 Datacenter), 100% Europäische Union, vollständige DSGVO-Konformität. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten über Laravel-App-Key verschlüsselt (AES-256-CBC). AVV auf Anfrage für Ihre Kunden verfügbar.',
         ],
 
         'form' => [

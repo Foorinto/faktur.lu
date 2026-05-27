@@ -1574,7 +1574,7 @@ return [
                 // Cluster D - Sécherheet & Vertrauen
                 'hosting' => [
                     'question' => 'Sinn meng Fakturatiounsdaten zu Lëtzebuerg gehost?',
-                    'answer' => 'Är Daten ginn exklusiv an der Europäescher Unioun op ISO-27001-Servere gehost, am Rou (AES-256) an am Transit (TLS 1.3) verschlësselt. Automatesch deeglech Backups mat 30 Deeg Retentioun. Faktur.lu ass RGPD-konform mat engem DPA op Ufro verfügbar. Keng Donnée gi bausserhalb der EU iwwerdroen, kee Cloud-Act-Zougang. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
+                    'answer' => 'Är Daten ginn bei o2switch (Frankräich, Tier III+ ISO 27001 zertifizéiert Datazentren) gehost, 100% Europäesch Unioun. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. Automatesch deeglech Backups mat 30 Deeg Retentioun. Faktur.lu ass RGPD-konform mat engem DPA op Ufro verfügbar. Keng Donnée gi bausserhalb der EU iwwerdroen, kee Cloud-Act-Zougang. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
                 ],
                 'controle_aed' => [
                     'question' => 'Wat geschitt bei enger AED-Steierkontroll?',
@@ -2347,14 +2347,14 @@ return [
             'multi_title' => 'Multi-Client-Ansicht',
             'multi_desc' => 'Verwaltt méi Clienten vun engem eenzegen Dashboard aus. Wiesselt mat engem Klick tëschent Mandanten.',
             'free_title' => '100% gratis Zougang',
-            'free_desc' => 'D\'Comptablesportal ass gratis fir Treihandgesellschaften. Keen zousätzlecht Abonnement.',
+            'free_desc' => 'D\'Comptablesportal ass gratis fir Treihandgesellschaften, ouni Verbindlechkeet, ouni Zousazkäschten pro Client. Äre Client bezilt säin faktur.lu-Abonnement (Essentiel 5 €/Mount oder Pro 15 €/Mount — d\'Comptablesportal ass net am Gratis Plang enthalen).',
         ],
 
         'steps' => [
             'title' => 'Wéi funktionéiert et?',
             'subtitle' => 'Dräi einfach Schrëtt, fir mat Äre Clienten op faktur.lu zesummenzeschaffen.',
             'step1_title' => 'Äre Client mellt sech un',
-            'step1_desc' => 'Äre Client erstellt säi faktur.lu-Kont a fänkt un ze fakturéieren. Hie wielt säi Plang (Essentiel oder Pro).',
+            'step1_desc' => 'Äre Client abonnéiert Essentiel (5 €/Mount) oder Pro (15 €/Mount) — d\'Comptablesportal ass vun Essentiel un enthalen. Hie fakturéiert a wéinegen Klicks, konform mat der Lëtzebuerger Gesetzgebung.',
             'step2_title' => 'Hie invitéiert Iech als Comptable',
             'step2_desc' => 'An sengen Astellungen schéckt Äre Client Iech eng Invitatioun. Dir kritt eng E-Mail mat engem sécheren Zougangslink.',
             'step3_title' => 'Dir greift op seng Donneeën zou',
@@ -2364,7 +2364,7 @@ return [
         'faq' => [
             'title' => 'Heefeg gestallt Froen',
             'q1' => 'Ass d\'Comptablesportal wierklech gratis?',
-            'a1' => 'Jo, den Zougang zum Comptablesportal ass 100% gratis fir Treihandgesellschaften. Nëmmen Äre Client bezilt säin faktur.lu-Abonnement (vun 5 EUR/Mount un).',
+            'a1' => 'Jo, 100% gratis fir Iech, ouni Verbindlechkeet, ouni Zousazkäschten pro invitéierte Client. Nëmmen Äre Client bezilt säin faktur.lu-Abonnement — vun Essentiel un (5 €/Mount), dat d\'Comptablesportal enthält. De Gratis Plang (0 €/Mount) erlaabt keen Comptable z\'invitéieren.',
             'q2' => 'Kann ech d\'Rechnunge vu menge Clienten änneren?',
             'a2' => 'Nee, d\'Portal ass nëmmen zum Liesen, fir d\'Integritéit vun den Donneeën ze garantéieren. Dir kënnt kucken, eroflueden an exportéieren, awer net änneren.',
             'q3' => 'Wéi eng Exportformater si verfügbar?',
@@ -2374,7 +2374,7 @@ return [
             'q5' => 'Mussen meng Cliente hir aktuell Software verloossen?',
             'a5' => 'Net onbedéngt. Vill benotzen faktur.lu nëmme fir Rechnungen/Devis a behalen hire interne Comptabilitéitstool. D\'Zil ass datt d\'Donnéeën Iech propper an exportéierbar erreechen.',
             'q6' => 'Wou sinn d\'Clientendaten gehost?',
-            'a6' => '100% Europäesch Unioun (o2switch, Frankräich), voll RGPD-Konformitéit, AES-256-Verschlësselung am Rou an TLS 1.3 am Transit. DPA op Ufro fir Är Cliente.',
+            'a6' => 'Gehost bei o2switch (Frankräich, Tier III+ ISO 27001 Datazentren), 100% Europäesch Unioun, voll RGPD-Konformitéit. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key verschlësselt (AES-256-CBC). DPA op Ufro fir Är Cliente.',
         ],
 
         'form' => [

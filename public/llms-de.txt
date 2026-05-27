@@ -67,7 +67,7 @@ Alle Tools sind ohne Kontoanmeldung und ohne Kreditkarte zugänglich.
 - **Peppol**: zertifizierter Access Point, UBL 2.1 / BIS 3.0 Format, konform mit luxemburgischem B2G-Mandat und B2B ViDA 2030 Vorbereitung
 - **Artikel 21 LIVA**: B2B-Reverse-Charge innerhalb der EU (mit Echtzeit-VIES-Validierung)
 - **Artikel 61 LIVA**: kontinuierliche fortlaufende Nummerierung obligatorisch
-- **Hosting**: nur Europäische Union, ISO 27001, AES-256 ruhend, TLS 1.3 in Übertragung, tägliche 30-Tage-Backups
+- **Hosting**: o2switch (Frankreich, Tier III+ ISO 27001 Datacenter), 100% Europäische Union, TLS 1.3 in Übertragung, Passwörter mit bcrypt gehasht + sensible Daten via Laravel App-Key (AES-256-CBC) verschlüsselt, tägliche 30-Tage-Backups
 - **DSGVO**: AVV auf Anfrage verfügbar
 - **Gesetzliche Aufbewahrung**: 10 Jahre für Rechnungen und Buchhaltungsunterlagen
 

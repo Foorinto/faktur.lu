@@ -1732,7 +1732,7 @@ return [
                 // Cluster D - Sécurité & confiance
                 'hosting' => [
                     'question' => 'Mes données de facturation sont-elles hébergées au Luxembourg ?',
-                    'answer' => 'Vos données sont hébergées exclusivement dans l\'Union européenne sur des serveurs ISO 27001, chiffrées au repos (AES-256) et en transit (TLS 1.3). Sauvegardes automatiques quotidiennes avec rétention de 30 jours. Faktur.lu est conforme RGPD avec un DPA disponible sur demande. Aucune donnée n\'est transférée hors UE, aucun accès Cloud Act. Vous pouvez exporter ou supprimer vos données à tout moment.',
+                    'answer' => 'Vos données sont hébergées chez o2switch (France, datacenters Tier III+ certifiés ISO 27001), 100% Union européenne. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). Sauvegardes automatiques quotidiennes avec rétention de 30 jours. Faktur.lu est conforme RGPD avec un DPA disponible sur demande. Aucune donnée n\'est transférée hors UE, aucun accès Cloud Act. Vous pouvez exporter ou supprimer vos données à tout moment.',
                 ],
                 'controle_aed' => [
                     'question' => 'Que se passe-t-il en cas de contrôle fiscal AED ?',
@@ -2675,14 +2675,14 @@ return [
             'multi_title' => 'Vue multi-clients unifiée',
             'multi_desc' => 'Gérez tous vos clients faktur.lu depuis un seul tableau de bord. Filtres par échéance TVA, alertes nouveaux clients, état des déclarations.',
             'free_title' => 'Accès 100% gratuit, à vie',
-            'free_desc' => 'Le portail comptable est gratuit pour les fiduciaires luxembourgeoises, sans engagement, sans surcoût par client. Seul votre client paie son abonnement faktur.lu (dès 0€).',
+            'free_desc' => 'Le portail comptable est gratuit pour les fiduciaires luxembourgeoises, sans engagement, sans surcoût par client. Votre client paie son abonnement faktur.lu (Essentiel 5 €/mois ou Pro 15 €/mois — le portail comptable n\'est pas inclus dans le plan Gratuit).',
         ],
 
         'steps' => [
             'title' => 'Comment ça marche ?',
             'subtitle' => 'Trois étapes simples pour commencer à collaborer avec vos clients sur faktur.lu.',
             'step1_title' => 'Votre client utilise faktur.lu',
-            'step1_desc' => 'Votre client crée son compte (plan Gratuit dès 0€, Essentiel à 5€/mois, Pro à 15€/mois). Il facture en quelques clics, en conformité avec la législation luxembourgeoise.',
+            'step1_desc' => 'Votre client souscrit au plan Essentiel (5 €/mois) ou Pro (15 €/mois) — le portail comptable est inclus à partir d\'Essentiel. Il facture en quelques clics, en conformité avec la législation luxembourgeoise.',
             'step2_title' => 'Il vous invite depuis ses paramètres',
             'step2_desc' => 'Depuis l\'écran "Portail comptable", votre client saisit votre email. Vous recevez un lien d\'invitation sécurisé, valable 14 jours.',
             'step3_title' => 'Vous accédez à ses données',
@@ -2692,7 +2692,7 @@ return [
         'faq' => [
             'title' => 'Questions fréquentes des fiduciaires',
             'q1' => 'Le portail comptable est-il vraiment gratuit pour moi ?',
-            'a1' => 'Oui, 100% gratuit, sans engagement, sans surcoût par client invité. Seul votre client paie son abonnement faktur.lu (plan Gratuit possible dès 0€, Essentiel 5€/mois, Pro 15€/mois). Vous ne nous payez rien.',
+            'a1' => 'Oui, 100% gratuit pour vous, sans engagement, sans surcoût par client invité. Seul votre client paie son abonnement faktur.lu — à partir d\'Essentiel (5 €/mois) qui inclut le portail comptable. Le plan Gratuit (0 €/mois) ne permet pas d\'inviter un comptable.',
             'q2' => 'Puis-je modifier les factures de mes clients ?',
             'a2' => 'Non, le portail est en lecture seule pour garantir l\'intégrité de la séquence de numérotation (Article 61 LIVA). Vous pouvez consulter, télécharger, exporter — mais pas modifier ni supprimer. Si une correction est nécessaire, votre client émet un avoir.',
             'q3' => 'Quels formats d\'export sont disponibles ?',
@@ -2702,7 +2702,7 @@ return [
             'q5' => 'Mes clients doivent-ils quitter leur logiciel actuel ?',
             'a5' => 'Pas forcément. Beaucoup utilisent faktur.lu uniquement pour la facturation/devis et gardent leur outil comptable interne. L\'objectif est que la donnée vous arrive propre et exportable, peu importe d\'où elle vient.',
             'q6' => 'Mes données client sont-elles hébergées où ?',
-            'a6' => 'Hébergement 100% Union européenne (o2switch, France), conformité RGPD complète, chiffrement AES-256 au repos et TLS 1.3 en transit. DPA disponible sur demande pour vos clients.',
+            'a6' => 'Hébergement chez o2switch (France, datacenters Tier III+ ISO 27001), 100% Union européenne, conformité RGPD complète. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). DPA disponible sur demande pour vos clients.',
         ],
 
         'form' => [

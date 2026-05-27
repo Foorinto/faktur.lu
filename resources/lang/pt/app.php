@@ -1731,7 +1731,7 @@ return [
                 // Cluster D - Segurança & confiança
                 'hosting' => [
                     'question' => 'Os meus dados de faturação estão alojados no Luxemburgo?',
-                    'answer' => 'Os seus dados estão alojados exclusivamente na União Europeia em servidores ISO 27001, encriptados em repouso (AES-256) e em trânsito (TLS 1.3). Cópias de segurança automáticas diárias com retenção de 30 dias. O Faktur.lu é conforme ao RGPD com um DPA disponível mediante pedido. Nenhum dado é transferido para fora da UE, nenhum acesso Cloud Act. Pode exportar ou eliminar os seus dados a qualquer momento.',
+                    'answer' => 'Os seus dados estão alojados no o2switch (França, datacenters Tier III+ certificados ISO 27001), 100% União Europeia. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). Cópias de segurança automáticas diárias com retenção de 30 dias. O Faktur.lu é conforme ao RGPD com um DPA disponível mediante pedido. Nenhum dado é transferido para fora da UE, nenhum acesso Cloud Act. Pode exportar ou eliminar os seus dados a qualquer momento.',
                 ],
                 'controle_aed' => [
                     'question' => 'O que acontece em caso de auditoria fiscal AED?',
@@ -2651,14 +2651,14 @@ return [
             'multi_title' => 'Vista multiclientes',
             'multi_desc' => 'Faça a gestão de vários clientes a partir de um único painel de controlo. Mude de um processo para outro com um clique.',
             'free_title' => 'Acesso 100% gratuito',
-            'free_desc' => 'O portal do contabilista está incluído gratuitamente para as fiduciárias. Sem subscrição adicional.',
+            'free_desc' => 'O portal do contabilista é gratuito para as fiduciárias, sem compromisso, sem custo adicional por cliente. O seu cliente paga a subscrição faktur.lu (Essencial 5 €/mês ou Pro 15 €/mês — o portal do contabilista não está incluído no plano Gratuito).',
         ],
 
         'steps' => [
             'title' => 'Como funciona?',
             'subtitle' => 'Três passos simples para começar a colaborar com os seus clientes no faktur.lu.',
             'step1_title' => 'O seu cliente regista-se',
-            'step1_desc' => 'O seu cliente cria a sua conta faktur.lu e começa a faturar. Escolhe o seu plano (Essencial ou Pro).',
+            'step1_desc' => 'O seu cliente subscreve o plano Essencial (5 €/mês) ou Pro (15 €/mês) — o portal do contabilista está incluído a partir do Essencial. Começa a faturar em poucos cliques, em conformidade com a legislação luxemburguesa.',
             'step2_title' => 'Convida-o como contabilista',
             'step2_desc' => 'A partir das suas definições, o seu cliente envia-lhe um convite. Recebe um email com uma ligação de acesso seguro.',
             'step3_title' => 'Acede aos seus dados',
@@ -2668,7 +2668,7 @@ return [
         'faq' => [
             'title' => 'Perguntas frequentes',
             'q1' => 'O portal do contabilista é realmente gratuito?',
-            'a1' => 'Sim, o acesso ao portal do contabilista é 100% gratuito para as fiduciárias. Apenas o seu cliente paga a sua subscrição faktur.lu (a partir de 5 EUR/mês).',
+            'a1' => 'Sim, 100% gratuito para si, sem compromisso, sem custo adicional por cliente convidado. Apenas o seu cliente paga a subscrição faktur.lu — a partir do Essencial (5 €/mês), que inclui o portal do contabilista. O plano Gratuito (0 €/mês) não permite convidar um contabilista.',
             'q2' => 'Posso modificar as faturas dos meus clientes?',
             'a2' => 'Não, o portal é só de leitura para garantir a integridade dos dados. Pode consultar, transferir e exportar, mas não modificar.',
             'q3' => 'Que formatos de exportação estão disponíveis?',
@@ -2678,7 +2678,7 @@ return [
             'q5' => 'Os meus clientes têm de deixar o software atual?',
             'a5' => 'Não necessariamente. Muitos usam o faktur.lu apenas para faturação/orçamentos e mantêm a sua ferramenta contabilística interna. O objetivo é que os dados cheguem até si limpos e exportáveis.',
             'q6' => 'Onde estão alojados os dados dos meus clientes?',
-            'a6' => '100% União Europeia (o2switch, França), conformidade RGPD total, criptografia AES-256 em repouso e TLS 1.3 em trânsito. DPA disponível mediante pedido para os seus clientes.',
+            'a6' => 'Alojado no o2switch (França, datacenters Tier III+ ISO 27001), 100% União Europeia, conformidade RGPD total. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). DPA disponível mediante pedido para os seus clientes.',
         ],
 
         'form' => [
