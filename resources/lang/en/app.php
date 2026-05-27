@@ -1551,7 +1551,7 @@ return [
                         'Peppol export (10/month)',
                         'Custom numbering',
                     ],
-                    'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal (1 expert)', 'Sage BOB / FID-Manager exports', 'Peppol B2G (10/month)', 'Custom numbering'],
+                    'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal (1 expert)', 'Sage BOB 50, Sage 100, CSV exports', 'Peppol B2G (10/month)', 'Custom numbering'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1930,14 +1930,13 @@ return [
 
         'accounting-exports' => [
             'title' => 'Accounting Exports',
-            'short_description' => 'Export your data to Sage BOB, FID-Manager and other accounting software.',
-            'page_title' => 'Accounting Exports Luxembourg | Sage BOB, FID-Manager | faktur.lu',
-            'meta_description' => 'Export your accounting entries to Sage BOB, FID-Manager and other software used by Luxembourg fiduciaries. Integrated accountant portal.',
-            'hero_description' => 'Transmit your accounting data to your fiduciary in one click. faktur.lu generates export files compatible with Sage BOB, FID-Manager and the main accounting software used in Luxembourg.',
+            'short_description' => 'Export your data to Sage BOB 50, Sage 100, CSV and other accounting software.',
+            'page_title' => 'Accounting Exports Luxembourg | Sage BOB 50, Sage 100, CSV | faktur.lu',
+            'meta_description' => 'Export your accounting entries to Sage BOB 50, Sage 100, CSV and other software used by Luxembourg fiduciaries. Integrated accountant portal.',
+            'hero_description' => 'Transmit your accounting data to your fiduciary in one click. faktur.lu generates export files compatible with Sage BOB, Sage 100 and the main accounting software used in Luxembourg.',
             'details_title' => 'Exports tailored for Luxembourg',
             'items' => [
                 'sage' => ['title' => 'Sage BOB export', 'description' => 'Generate journal entry files compatible with Sage BOB, the most widely used software by Luxembourg fiduciaries.'],
-                'fid' => ['title' => 'FID-Manager export', 'description' => 'Native export in FID-Manager format for direct integration with your fiduciary.'],
                 'portal' => ['title' => 'Accountant portal', 'description' => 'Give your accountant read-only access to consult your data in real time.'],
                 'revenue' => ['title' => 'Revenue book', 'description' => 'Automatically generate your revenue book compliant with Luxembourg requirements.'],
                 'csv' => ['title' => 'CSV/Excel export', 'description' => 'Export your data in CSV or Excel format for any custom processing.'],
@@ -1945,7 +1944,7 @@ return [
             ],
             'faqs' => [
                 'accountant' => ['question' => 'Can my accountant access directly?', 'answer' => 'Yes, the accountant portal gives read-only access to your fiduciary. They can view invoices, expenses and exports without modifying your data.'],
-                'format' => ['question' => 'What export formats are available?', 'answer' => 'Sage BOB, FID-Manager, CSV, Excel and PDF. Formats are adapted to Luxembourg fiduciary standards.'],
+                'format' => ['question' => 'What export formats are available?', 'answer' => 'Sage BOB 50, Sage 100, CSV, Excel and PDF. Formats are adapted to Luxembourg fiduciary standards.'],
                 'plan' => ['question' => 'Are accounting exports available on all plans?', 'answer' => 'Accounting exports and the accountant portal are available from the Essentiel plan.'],
             ],
         ],
@@ -2426,25 +2425,25 @@ return [
     // Partners page
     'partners' => [
         'page_title' => 'Partner Program for Accountants | faktur.lu',
-        'meta_description' => 'Join the faktur.lu partner program. Free accountant portal, Sage BOB and FID-Manager exports, automatic FAIA for your clients.',
+        'meta_description' => 'Free accountant portal for Luxembourg fiduciaries. Sage BOB 50, Sage 100, generic CSV, FAIA 2.01 and invoice PDF exports. Client data in read-only mode.',
         'breadcrumb' => 'Partners',
         'badge' => 'Partner Program',
         'title' => 'Accountants, simplify your clients\' bookkeeping',
-        'subtitle' => 'Your clients use faktur.lu for invoicing. You access their data in read-only mode, with clean exports and always-compliant FAIA. Result: less data entry, more advisory.',
+        'subtitle' => 'faktur.lu is used by your freelance and SME clients for invoicing. You access their accounting data in read-only mode, export to Sage BOB 50, Sage 100 or CSV, and retrieve FAIA 2.01 in one click. Less data entry, more time for advisory.',
 
         'advantages' => [
             'title' => 'What faktur.lu brings to your firm',
             'subtitle' => 'A free accountant portal and tools designed for Luxembourg fiduciaries.',
             'portal_title' => 'Dedicated accountant portal',
-            'portal_desc' => 'Access your clients\' invoices, quotes and journal entries via a secure read-only portal with 2FA authentication.',
-            'exports_title' => 'Sage BOB & FID-Manager exports',
-            'exports_desc' => 'Retrieve accounting entries in your software\'s format. No more manual re-entry.',
-            'faia_title' => 'Automatic compliant FAIA',
-            'faia_desc' => 'Your clients\' FAIA file is automatically generated with every invoice. Always compliant with AED requirements.',
-            'time_title' => 'Save 3 hours per client per month',
-            'time_desc' => 'Fewer back-and-forth exchanges, fewer entry errors. Focus on high-value advisory.',
-            'multi_title' => 'Multi-client view',
-            'multi_desc' => 'Manage multiple clients from a single dashboard. Switch between files in one click.',
+            'portal_desc' => 'Access your clients\' invoices and exports via a portal separate from the client account, in read-only mode. Dedicated URL /comptable with distinct authentication.',
+            'exports_title' => 'Sage BOB 50, Sage 100 & CSV exports',
+            'exports_desc' => 'Retrieve accounting entries in Sage BOB 50 (ASCII), Sage 100 (CSV) or generic CSV. No more manual re-entry, no transcription errors.',
+            'faia_title' => 'FAIA 2.01 on demand',
+            'faia_desc' => 'Your clients\' FAIA file is generated in AED 2.01 format for a chosen period. Direct download from the accountant portal.',
+            'time_title' => 'Less re-entry, fewer back-and-forth',
+            'time_desc' => 'No more Excel files to recount, data importable directly. Focus on high-value advisory and tax filings.',
+            'multi_title' => 'Unified multi-client view',
+            'multi_desc' => 'Manage all your faktur.lu clients from a single dashboard. Search by client name or VAT number, one-click access to the file.',
             'free_title' => '100% free access',
             'free_desc' => 'The accountant portal is free for fiduciaries, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription (Essentiel €5/month or Pro €15/month — the accountant portal is not included in the Free plan).',
         ],
@@ -2455,7 +2454,7 @@ return [
             'step1_title' => 'Your client signs up',
             'step1_desc' => 'Your client subscribes to Essentiel (€5/month) or Pro (€15/month) — the accountant portal is included from Essentiel onwards. They start invoicing in a few clicks, in line with Luxembourg legislation.',
             'step2_title' => 'They invite you as accountant',
-            'step2_desc' => 'From their settings, your client sends you an invitation. You receive an email with a secure access link.',
+            'step2_desc' => 'From the "Accountant portal" screen, your client enters your email. You receive an invitation link valid for 7 days.',
             'step3_title' => 'You access their data',
             'step3_desc' => 'Log in to the accountant portal. View invoices, download exports and FAIA in one click.',
         ],
@@ -2467,13 +2466,13 @@ return [
             'q2' => 'Can I edit my clients\' invoices?',
             'a2' => 'No, the portal is read-only to guarantee data integrity. You can view, download and export, but not modify.',
             'q3' => 'What export formats are available?',
-            'a3' => 'We offer exports compatible with Sage BOB, FID-Manager, as well as CSV exports and the AED-compliant FAIA 2.01 file.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) and generic CSV for accounting entries. FAIA 2.01 (XML) for AED audits. Individual invoice PDFs and a full PDF archive. Excel export of invoices over a period. The list grows regularly — let us know what you need.',
             'q4' => 'How many clients can I manage from the portal?',
             'a4' => 'No limit. Each client who invites you appears in your dashboard with their name, plan, and a shortcut to their data. Whether you have 5 or 500 faktur.lu clients, it\'s the same portal.',
             'q5' => 'Do my clients have to leave their current software?',
             'a5' => 'Not necessarily. Many use faktur.lu only for invoicing/quotes and keep their internal accounting tool. The goal is for the data to reach you clean and exportable, regardless of where it comes from.',
             'q6' => 'Where is my client data hosted?',
-            'a6' => 'Hosted at o2switch (France, Tier III+ ISO 27001 datacenters), 100% European Union, full GDPR compliance. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). DPA available on request for your clients.',
+            'a6' => 'Hosted at o2switch (France, Tier III+ ISO 27001 certified datacenters), 100% European Union, full GDPR compliance. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). DPA prepared on request for your clients.',
         ],
 
         'form' => [
@@ -3184,7 +3183,7 @@ return [
             ],
             'accounting' => [
                 'title' => '💼 Accounting',
-                'description' => 'Export your data to Sage BOB, FID-Manager, and generate your FAIA file for tax audits.',
+                'description' => 'Export your data to Sage BOB 50, Sage 100, CSV, and generate your FAIA file for tax audits.',
             ],
             'settings' => [
                 'title' => '⚙️ Settings',
@@ -3274,7 +3273,7 @@ return [
         'accountingExport' => [
             'intro' => [
                 'title' => '💼 Exports for your accountant',
-                'description' => 'Export your data directly in the formats used by Luxembourg accounting firms: Sage BOB, FID-Manager, CSV, Excel.',
+                'description' => 'Export your data directly in the formats used by Luxembourg accounting firms: Sage BOB 50, Sage 100, CSV, Excel.',
             ],
             'format' => [
                 'title' => '📋 Choose the format',

@@ -1569,7 +1569,7 @@ return [
                         '10 projetos ativos',
                         'Registo de tempo',
                         'Portal do contabilista (1 perito)',
-                        'Exportações Sage BOB / FID-Manager',
+                        'Exportações Sage BOB 50, Sage 100, CSV',
                         'Peppol B2G (10/mês)',
                         'Numeração personalizável',
                     ],
@@ -2135,14 +2135,13 @@ return [
 
         'accounting-exports' => [
             'title' => 'Exportações contabilísticas',
-            'short_description' => 'Exporte os seus dados para o Sage BOB, FID-Manager e outros softwares de contabilidade.',
-            'page_title' => 'Exportações contabilísticas Luxemburgo | Sage BOB, FID-Manager | faktur.lu',
-            'meta_description' => 'Exporte os seus lançamentos contabilísticos para o Sage BOB, FID-Manager e outros softwares utilizados pelas fiduciárias luxemburguesas. Portal do contabilista integrado.',
-            'hero_description' => 'Transmita os seus dados contabilísticos à sua fiduciária com um clique. O faktur.lu gera ficheiros de exportação compatíveis com o Sage BOB, FID-Manager e os principais softwares de contabilidade utilizados no Luxemburgo.',
+            'short_description' => 'Exporte os seus dados para o Sage BOB 50, Sage 100, CSV e outros softwares de contabilidade.',
+            'page_title' => 'Exportações contabilísticas Luxemburgo | Sage BOB 50, Sage 100, CSV | faktur.lu',
+            'meta_description' => 'Exporte os seus lançamentos contabilísticos para o Sage BOB 50, Sage 100, CSV e outros softwares utilizados pelas fiduciárias luxemburguesas. Portal do contabilista integrado.',
+            'hero_description' => 'Transmita os seus dados contabilísticos à sua fiduciária com um clique. O faktur.lu gera ficheiros de exportação compatíveis com o Sage BOB, Sage 100 e os principais softwares de contabilidade utilizados no Luxemburgo.',
             'details_title' => 'Exportações adaptadas ao Luxemburgo',
             'items' => [
                 'sage' => ['title' => 'Exportação Sage BOB', 'description' => 'Gere ficheiros de lançamentos compatíveis com o Sage BOB, o software mais utilizado pelas fiduciárias no Luxemburgo.'],
-                'fid' => ['title' => 'Exportação FID-Manager', 'description' => 'Exportação nativa no formato FID-Manager para uma integração direta com a sua fiduciária.'],
                 'portal' => ['title' => 'Portal do contabilista', 'description' => 'Conceda um acesso só de leitura ao seu contabilista para que possa consultar os seus dados em tempo real.'],
                 'revenue' => ['title' => 'Livro de receitas', 'description' => 'Gere automaticamente o seu livro de receitas conforme às exigências luxemburguesas.'],
                 'csv' => ['title' => 'Exportação CSV/Excel', 'description' => 'Exporte os seus dados em formato CSV ou Excel para qualquer tratamento personalizado.'],
@@ -2150,7 +2149,7 @@ return [
             ],
             'faqs' => [
                 'accountant' => ['question' => 'O meu contabilista pode aceder diretamente?', 'answer' => 'Sim, o portal do contabilista concede um acesso só de leitura à sua fiduciária. Pode consultar faturas, despesas e exportações sem modificar os seus dados.'],
-                'format' => ['question' => 'Que formatos de exportação estão disponíveis?', 'answer' => 'Sage BOB, FID-Manager, CSV, Excel e PDF. Os formatos são adaptados às normas das fiduciárias luxemburguesas.'],
+                'format' => ['question' => 'Que formatos de exportação estão disponíveis?', 'answer' => 'Sage BOB 50, Sage 100, CSV, Excel e PDF. Os formatos são adaptados às normas das fiduciárias luxemburguesas.'],
                 'plan' => ['question' => 'As exportações contabilísticas estão disponíveis em todos os planos?', 'answer' => 'As exportações contabilísticas e o portal do contabilista estão disponíveis a partir do plano Essencial.'],
             ],
         ],
@@ -2631,25 +2630,25 @@ return [
     // Partners page
     'partners' => [
         'page_title' => 'Programa de Parceiros Fiduciárias | faktur.lu',
-        'meta_description' => 'Junte-se ao programa de parceiros faktur.lu. Portal do contabilista gratuito, exportações Sage BOB e FID-Manager, FAIA automático para os seus clientes.',
+        'meta_description' => 'Portal do contabilista gratuito para fiduciárias luxemburguesas. Exportações Sage BOB 50, Sage 100, CSV genérico, FAIA 2.01 e PDF de faturas. Dados dos clientes em modo de leitura.',
         'breadcrumb' => 'Parceiros',
         'badge' => 'Programa de Parceiros',
         'title' => 'Fiduciárias, simplifiquem a gestão contabilística dos vossos clientes',
-        'subtitle' => 'Os seus clientes utilizam o faktur.lu para a sua faturação. Acede aos seus dados em modo de leitura, com exportações limpas e um FAIA sempre conforme. Resultado: menos lançamentos, mais consultoria.',
+        'subtitle' => 'O faktur.lu é utilizado pelos seus clientes freelancers e PMEs para faturar. Acede aos seus dados contabilísticos em modo de leitura, exporta em Sage BOB 50, Sage 100 ou CSV, e obtém o FAIA 2.01 com um clique. Menos lançamentos, mais tempo para consultoria.',
 
         'advantages' => [
             'title' => 'O que o faktur.lu traz ao seu gabinete',
             'subtitle' => 'Um portal do contabilista gratuito e ferramentas pensadas para as fiduciárias luxemburguesas.',
             'portal_title' => 'Portal do contabilista dedicado',
-            'portal_desc' => 'Aceda às faturas, orçamentos e lançamentos dos seus clientes através de um portal seguro só de leitura. Início de sessão separado com 2FA.',
-            'exports_title' => 'Exportações Sage BOB e FID-Manager',
-            'exports_desc' => 'Recupere os lançamentos contabilísticos no formato do seu software. Já não é preciso reintroduzir manualmente.',
-            'faia_title' => 'FAIA automático e conforme',
-            'faia_desc' => 'O ficheiro FAIA dos seus clientes é gerado automaticamente em cada fatura. Sempre conforme às exigências da AED.',
-            'time_title' => 'Ganhe 3h por cliente e por mês',
-            'time_desc' => 'Menos idas e vindas, menos erros de introdução. Concentre-se na consultoria de valor acrescentado.',
-            'multi_title' => 'Vista multiclientes',
-            'multi_desc' => 'Faça a gestão de vários clientes a partir de um único painel de controlo. Mude de um processo para outro com um clique.',
+            'portal_desc' => 'Aceda às faturas e exportações dos seus clientes através de um portal separado da conta cliente, em modo de leitura. URL dedicado /comptable com autenticação distinta.',
+            'exports_title' => 'Exportações Sage BOB 50, Sage 100 e CSV',
+            'exports_desc' => 'Obtenha os lançamentos contabilísticos em Sage BOB 50 (ASCII), Sage 100 (CSV) ou CSV genérico. Já não é preciso reintroduzir manualmente, sem erros de transcrição.',
+            'faia_title' => 'FAIA 2.01 a pedido',
+            'faia_desc' => 'O ficheiro FAIA dos seus clientes é gerado em formato AED 2.01 para um período escolhido. Download direto a partir do portal do contabilista.',
+            'time_title' => 'Menos lançamentos, menos idas e vindas',
+            'time_desc' => 'Sem ficheiros Excel para recontar, dados importáveis diretamente. Concentre-se na consultoria de valor acrescentado e nas declarações.',
+            'multi_title' => 'Vista multiclientes unificada',
+            'multi_desc' => 'Faça a gestão de todos os seus clientes faktur.lu a partir de um único painel. Pesquisa por nome de cliente ou número de IVA, acesso ao processo num clique.',
             'free_title' => 'Acesso 100% gratuito',
             'free_desc' => 'O portal do contabilista é gratuito para as fiduciárias, sem compromisso, sem custo adicional por cliente. O seu cliente paga a subscrição faktur.lu (Essencial 5 €/mês ou Pro 15 €/mês — o portal do contabilista não está incluído no plano Gratuito).',
         ],
@@ -2660,7 +2659,7 @@ return [
             'step1_title' => 'O seu cliente regista-se',
             'step1_desc' => 'O seu cliente subscreve o plano Essencial (5 €/mês) ou Pro (15 €/mês) — o portal do contabilista está incluído a partir do Essencial. Começa a faturar em poucos cliques, em conformidade com a legislação luxemburguesa.',
             'step2_title' => 'Convida-o como contabilista',
-            'step2_desc' => 'A partir das suas definições, o seu cliente envia-lhe um convite. Recebe um email com uma ligação de acesso seguro.',
+            'step2_desc' => 'A partir do ecrã "Portal do contabilista", o seu cliente introduz o seu email. Recebe uma ligação de convite, válida 7 dias.',
             'step3_title' => 'Acede aos seus dados',
             'step3_desc' => 'Inicie sessão no portal do contabilista. Consulte as faturas, transfira as exportações e o FAIA com um clique.',
         ],
@@ -2672,13 +2671,13 @@ return [
             'q2' => 'Posso modificar as faturas dos meus clientes?',
             'a2' => 'Não, o portal é só de leitura para garantir a integridade dos dados. Pode consultar, transferir e exportar, mas não modificar.',
             'q3' => 'Que formatos de exportação estão disponíveis?',
-            'a3' => 'Propomos exportações compatíveis com Sage BOB, FID-Manager, bem como exportações CSV e o ficheiro FAIA 2.01 conforme à AED.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) e CSV genérico para os lançamentos contabilísticos. FAIA 2.01 (XML) para os controlos AED. PDFs individuais das faturas e um arquivo PDF completo. Exportação Excel das faturas por período. A lista cresce regularmente — diga-nos o que lhe falta.',
             'q4' => 'Quantos clientes posso gerir a partir do portal?',
             'a4' => 'Sem limite. Cada cliente que o convide aparece no seu painel com o nome, o plano e um atalho para os seus dados. Quer tenha 5 ou 500 clientes faktur.lu, é o mesmo portal.',
             'q5' => 'Os meus clientes têm de deixar o software atual?',
             'a5' => 'Não necessariamente. Muitos usam o faktur.lu apenas para faturação/orçamentos e mantêm a sua ferramenta contabilística interna. O objetivo é que os dados cheguem até si limpos e exportáveis.',
             'q6' => 'Onde estão alojados os dados dos meus clientes?',
-            'a6' => 'Alojado no o2switch (França, datacenters Tier III+ ISO 27001), 100% União Europeia, conformidade RGPD total. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). DPA disponível mediante pedido para os seus clientes.',
+            'a6' => 'Alojado no o2switch (França, datacenters Tier III+ certificados ISO 27001), 100% União Europeia, conformidade RGPD total. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). DPA elaborado mediante pedido para os seus clientes.',
         ],
 
         'form' => [
@@ -3389,7 +3388,7 @@ return [
             ],
             'accounting' => [
                 'title' => '💼 Contabilidade',
-                'description' => 'Exporte os seus dados para o Sage BOB, FID-Manager e gere o seu ficheiro FAIA para os controlos fiscais.',
+                'description' => 'Exporte os seus dados para o Sage BOB 50, Sage 100, CSV e gere o seu ficheiro FAIA para os controlos fiscais.',
             ],
             'settings' => [
                 'title' => '⚙️ Definições',
@@ -3479,7 +3478,7 @@ return [
         'accountingExport' => [
             'intro' => [
                 'title' => '💼 Exportações para o seu contabilista',
-                'description' => 'Exporte os seus dados diretamente nos formatos utilizados pelas fiduciárias luxemburguesas: Sage BOB, FID-Manager, CSV, Excel.',
+                'description' => 'Exporte os seus dados diretamente nos formatos utilizados pelas fiduciárias luxemburguesas: Sage BOB 50, Sage 100, CSV, Excel.',
             ],
             'format' => [
                 'title' => '📋 Escolher o formato',

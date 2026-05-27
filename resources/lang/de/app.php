@@ -1452,7 +1452,7 @@ return [
                         'Peppol-Export (10/Monat)',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal (1 Experte)', 'Sage BOB / FID-Manager Exporte', 'Peppol B2G (10/Monat)', 'Anpassbare Nummerierung'],
+                    'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal (1 Experte)', 'Sage BOB 50, Sage 100, CSV Exporte', 'Peppol B2G (10/Monat)', 'Anpassbare Nummerierung'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1831,14 +1831,13 @@ return [
 
         'accounting-exports' => [
             'title' => 'Buchhaltungsexporte',
-            'short_description' => 'Exportieren Sie Ihre Daten nach Sage BOB, FID-Manager und andere Buchhaltungssoftware.',
-            'page_title' => 'Buchhaltungsexporte Luxemburg | Sage BOB, FID-Manager | faktur.lu',
-            'meta_description' => 'Exportieren Sie Ihre Buchungseinträge nach Sage BOB, FID-Manager und andere Software luxemburgischer Treuhandgesellschaften.',
-            'hero_description' => 'Übermitteln Sie Ihre Buchhaltungsdaten mit einem Klick an Ihre Treuhandgesellschaft. faktur.lu generiert Exportdateien kompatibel mit Sage BOB, FID-Manager und den wichtigsten in Luxemburg verwendeten Buchhaltungsprogrammen.',
+            'short_description' => 'Exportieren Sie Ihre Daten nach Sage BOB 50, Sage 100, CSV und andere Buchhaltungssoftware.',
+            'page_title' => 'Buchhaltungsexporte Luxemburg | Sage BOB 50, Sage 100, CSV | faktur.lu',
+            'meta_description' => 'Exportieren Sie Ihre Buchungseinträge nach Sage BOB 50, Sage 100, CSV und andere Software luxemburgischer Treuhandgesellschaften.',
+            'hero_description' => 'Übermitteln Sie Ihre Buchhaltungsdaten mit einem Klick an Ihre Treuhandgesellschaft. faktur.lu generiert Exportdateien kompatibel mit Sage BOB, Sage 100 und den wichtigsten in Luxemburg verwendeten Buchhaltungsprogrammen.',
             'details_title' => 'Exporte angepasst an Luxemburg',
             'items' => [
                 'sage' => ['title' => 'Sage BOB Export', 'description' => 'Generieren Sie Buchungsdateien kompatibel mit Sage BOB, der am häufigsten von luxemburgischen Treuhandgesellschaften verwendeten Software.'],
-                'fid' => ['title' => 'FID-Manager Export', 'description' => 'Nativer Export im FID-Manager-Format für direkte Integration mit Ihrer Treuhandgesellschaft.'],
                 'portal' => ['title' => 'Buchhalterportal', 'description' => 'Geben Sie Ihrem Buchhalter Lesezugriff, um Ihre Daten in Echtzeit einzusehen.'],
                 'revenue' => ['title' => 'Einnahmenbuch', 'description' => 'Erstellen Sie automatisch Ihr Einnahmenbuch gemäß den luxemburgischen Anforderungen.'],
                 'csv' => ['title' => 'CSV/Excel Export', 'description' => 'Exportieren Sie Ihre Daten im CSV- oder Excel-Format für individuelle Verarbeitung.'],
@@ -1846,7 +1845,7 @@ return [
             ],
             'faqs' => [
                 'accountant' => ['question' => 'Kann mein Buchhalter direkt zugreifen?', 'answer' => 'Ja, das Buchhalterportal bietet Ihrer Treuhandgesellschaft Lesezugriff. Sie kann Rechnungen, Ausgaben und Exporte einsehen, ohne Ihre Daten zu ändern.'],
-                'format' => ['question' => 'Welche Exportformate sind verfügbar?', 'answer' => 'Sage BOB, FID-Manager, CSV, Excel und PDF. Die Formate sind an die Standards luxemburgischer Treuhandgesellschaften angepasst.'],
+                'format' => ['question' => 'Welche Exportformate sind verfügbar?', 'answer' => 'Sage BOB 50, Sage 100, CSV, Excel und PDF. Die Formate sind an die Standards luxemburgischer Treuhandgesellschaften angepasst.'],
                 'plan' => ['question' => 'Sind Buchhaltungsexporte bei allen Plänen verfügbar?', 'answer' => 'Buchhaltungsexporte und das Buchhalterportal sind ab dem Essentiel-Plan verfügbar.'],
             ],
         ],
@@ -2327,25 +2326,25 @@ return [
     // Partners page
     'partners' => [
         'page_title' => 'Partnerprogramm fuer Treuhandgesellschaften | faktur.lu',
-        'meta_description' => 'Treten Sie dem faktur.lu-Partnerprogramm bei. Kostenloses Buchhalterportal, Sage BOB und FID-Manager Exporte, automatisches FAIA.',
+        'meta_description' => 'Kostenloses Buchhalterportal für luxemburgische Treuhandgesellschaften. Exporte Sage BOB 50, Sage 100, generisches CSV, FAIA 2.01 und Rechnungs-PDF. Kundendaten im Nur-Lese-Modus.',
         'breadcrumb' => 'Partner',
         'badge' => 'Partnerprogramm',
         'title' => 'Treuhandgesellschaften, vereinfachen Sie die Buchhaltung Ihrer Kunden',
-        'subtitle' => 'Ihre Kunden nutzen faktur.lu fuer die Rechnungsstellung. Sie greifen im Lesemodus auf deren Daten zu, mit sauberen Exporten und stets konformem FAIA. Ergebnis: weniger Erfassung, mehr Beratung.',
+        'subtitle' => 'faktur.lu wird von Ihren Freiberufler- und KMU-Kunden für die Rechnungsstellung genutzt. Sie greifen im Lesemodus auf deren Buchhaltungsdaten zu, exportieren in Sage BOB 50, Sage 100 oder CSV und rufen das FAIA 2.01 in einem Klick ab. Weniger Erfassung, mehr Zeit für Beratung.',
 
         'advantages' => [
             'title' => 'Was faktur.lu Ihrer Kanzlei bringt',
             'subtitle' => 'Ein kostenloses Buchhalterportal und Tools fuer luxemburgische Treuhandgesellschaften.',
             'portal_title' => 'Dediziertes Buchhalterportal',
-            'portal_desc' => 'Greifen Sie ueber ein sicheres Nur-Lese-Portal mit 2FA auf Rechnungen, Angebote und Buchungen Ihrer Kunden zu.',
-            'exports_title' => 'Sage BOB & FID-Manager Exporte',
-            'exports_desc' => 'Rufen Sie Buchungssaetze im Format Ihrer Software ab. Keine manuelle Neuerfassung mehr.',
-            'faia_title' => 'Automatisches konformes FAIA',
-            'faia_desc' => 'Die FAIA-Datei Ihrer Kunden wird bei jeder Rechnung automatisch generiert. Immer konform mit den AED-Anforderungen.',
-            'time_title' => '3 Stunden pro Kunde pro Monat sparen',
-            'time_desc' => 'Weniger Rueckfragen, weniger Erfassungsfehler. Konzentrieren Sie sich auf wertschoepfende Beratung.',
-            'multi_title' => 'Multi-Kunden-Ansicht',
-            'multi_desc' => 'Verwalten Sie mehrere Kunden ueber ein einziges Dashboard. Wechseln Sie mit einem Klick zwischen Mandanten.',
+            'portal_desc' => 'Greifen Sie auf Rechnungen und Exporte Ihrer Kunden über ein vom Kundenkonto getrenntes Portal zu, im Nur-Lese-Modus. Dedizierte URL /comptable mit separater Authentifizierung.',
+            'exports_title' => 'Sage BOB 50, Sage 100 & CSV Exporte',
+            'exports_desc' => 'Rufen Sie Buchungssätze in Sage BOB 50 (ASCII), Sage 100 (CSV) oder generischem CSV ab. Keine manuelle Neuerfassung mehr, keine Übertragungsfehler.',
+            'faia_title' => 'FAIA 2.01 auf Abruf',
+            'faia_desc' => 'Die FAIA-Datei Ihrer Kunden wird im AED 2.01-Format für einen gewählten Zeitraum generiert. Direkter Download vom Buchhalterportal.',
+            'time_title' => 'Weniger Neuerfassung, weniger Rückfragen',
+            'time_desc' => 'Keine Excel-Dateien zum Nachzählen mehr, Daten direkt importierbar. Konzentrieren Sie sich auf wertschöpfende Beratung und Steuererklärungen.',
+            'multi_title' => 'Vereinheitlichte Multi-Kunden-Ansicht',
+            'multi_desc' => 'Verwalten Sie alle Ihre faktur.lu-Kunden über ein einziges Dashboard. Suche nach Kundenname oder USt-IdNr., Ein-Klick-Zugriff auf den Mandanten.',
             'free_title' => '100% kostenloser Zugang',
             'free_desc' => 'Das Buchhalterportal ist für Treuhandgesellschaften kostenlos, ohne Bindung, ohne Aufpreis pro Kunde. Ihr Kunde zahlt sein faktur.lu-Abonnement (Essentiel 5 €/Monat oder Pro 15 €/Monat — das Buchhalterportal ist im Kostenlosen Plan nicht enthalten).',
         ],
@@ -2356,7 +2355,7 @@ return [
             'step1_title' => 'Ihr Kunde registriert sich',
             'step1_desc' => 'Ihr Kunde abonniert Essentiel (5 €/Monat) oder Pro (15 €/Monat) — das Buchhalterportal ist ab Essentiel enthalten. Er stellt Rechnungen in wenigen Klicks aus, konform mit dem luxemburgischen Recht.',
             'step2_title' => 'Er laedt Sie als Buchhalter ein',
-            'step2_desc' => 'In seinen Einstellungen sendet Ihr Kunde Ihnen eine Einladung. Sie erhalten eine E-Mail mit einem sicheren Zugangslink.',
+            'step2_desc' => 'Im "Buchhalterportal"-Bildschirm gibt Ihr Kunde Ihre E-Mail ein. Sie erhalten einen Einladungslink, der 7 Tage gültig ist.',
             'step3_title' => 'Sie greifen auf seine Daten zu',
             'step3_desc' => 'Melden Sie sich im Buchhalterportal an. Sehen Sie Rechnungen ein, laden Sie Exporte und FAIA mit einem Klick herunter.',
         ],
@@ -2368,13 +2367,13 @@ return [
             'q2' => 'Kann ich die Rechnungen meiner Kunden bearbeiten?',
             'a2' => 'Nein, das Portal ist schreibgeschuetzt, um die Datenintegritaet zu gewaehrleisten. Sie koennen einsehen, herunterladen und exportieren, aber nicht aendern.',
             'q3' => 'Welche Exportformate sind verfuegbar?',
-            'a3' => 'Wir bieten Exporte kompatibel mit Sage BOB, FID-Manager sowie CSV-Exporte und die AED-konforme FAIA 2.01 Datei.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) und generisches CSV für Buchungssätze. FAIA 2.01 (XML) für AED-Prüfungen. Einzelne Rechnungs-PDFs und ein vollständiges PDF-Archiv. Excel-Export der Rechnungen über einen Zeitraum. Die Liste wächst — sagen Sie uns, was Ihnen fehlt.',
             'q4' => 'Wie viele Kunden kann ich über das Portal verwalten?',
             'a4' => 'Keine Begrenzung. Jeder Kunde, der Sie einlädt, erscheint in Ihrem Dashboard mit Name, Plan und einer Verknüpfung zu seinen Daten. Ob 5 oder 500 faktur.lu-Kunden, es ist dasselbe Portal.',
             'q5' => 'Müssen meine Kunden ihre aktuelle Software verlassen?',
             'a5' => 'Nicht unbedingt. Viele nutzen faktur.lu nur für Rechnungen/Angebote und behalten ihr internes Buchhaltungstool. Ziel ist, dass die Daten Sie sauber und exportierbar erreichen.',
             'q6' => 'Wo werden die Kundendaten gehostet?',
-            'a6' => 'Gehostet bei o2switch (Frankreich, Tier III+ ISO 27001 Datacenter), 100% Europäische Union, vollständige DSGVO-Konformität. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten über Laravel-App-Key verschlüsselt (AES-256-CBC). AVV auf Anfrage für Ihre Kunden verfügbar.',
+            'a6' => 'Gehostet bei o2switch (Frankreich, Tier III+ ISO 27001 zertifizierte Datacenter), 100% Europäische Union, vollständige DSGVO-Konformität. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten über Laravel-App-Key (AES-256-CBC) verschlüsselt. AVV wird auf Anfrage für Ihre Kunden erstellt.',
         ],
 
         'form' => [
@@ -3142,7 +3141,7 @@ return [
             ],
             'accounting' => [
                 'title' => '💼 Buchhaltung',
-                'description' => 'Exportieren Sie Ihre Daten nach Sage BOB, FID-Manager und erstellen Sie Ihre FAIA-Datei für Steuerprüfungen.',
+                'description' => 'Exportieren Sie Ihre Daten nach Sage BOB 50, Sage 100, CSV und erstellen Sie Ihre FAIA-Datei für Steuerprüfungen.',
             ],
             'settings' => [
                 'title' => '⚙️ Einstellungen',
@@ -3232,7 +3231,7 @@ return [
         'accountingExport' => [
             'intro' => [
                 'title' => '💼 Exporte für Ihren Buchhalter',
-                'description' => 'Exportieren Sie Ihre Daten direkt in den Formaten, die von luxemburgischen Treuhandgesellschaften verwendet werden: Sage BOB, FID-Manager, CSV, Excel.',
+                'description' => 'Exportieren Sie Ihre Daten direkt in den Formaten, die von luxemburgischen Treuhandgesellschaften verwendet werden: Sage BOB 50, Sage 100, CSV, Excel.',
             ],
             'format' => [
                 'title' => '📋 Format wählen',

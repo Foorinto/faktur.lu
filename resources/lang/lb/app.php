@@ -1452,7 +1452,7 @@ return [
                         'Peppol-Export (10/Mount)',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal (1 Expert)', 'Sage BOB / FID-Manager Exporter', 'Peppol B2G (10/Mount)', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal (1 Expert)', 'Sage BOB 50, Sage 100, CSV Exporter', 'Peppol B2G (10/Mount)', 'Personaliséierbar Nummeréierung'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1831,14 +1831,13 @@ return [
 
         'accounting-exports' => [
             'title' => 'Buchhaltungsexporter',
-            'short_description' => 'Exportéiert Är Donnéeën no Sage BOB, FID-Manager an aner Buchhaltungssoftware.',
-            'page_title' => 'Buchhaltungsexporter Lëtzebuerg | Sage BOB, FID-Manager | faktur.lu',
-            'meta_description' => 'Exportéiert Är Buchungsträger no Sage BOB, FID-Manager an aner Software vu lëtzebuergeschen Treuhandgesellschaften.',
-            'hero_description' => 'Iwwermëttelt Är Buchhaltungsdonnéeën mat engem Klick un Är Treuhandgesellschaft. faktur.lu generéiert Exportdateien kompatibel mat Sage BOB, FID-Manager an den Haaptbuchhaltungsprogrammer déi zu Lëtzebuerg benotzt ginn.',
+            'short_description' => 'Exportéiert Är Donnéeën no Sage BOB 50, Sage 100, CSV an aner Buchhaltungssoftware.',
+            'page_title' => 'Buchhaltungsexporter Lëtzebuerg | Sage BOB 50, Sage 100, CSV | faktur.lu',
+            'meta_description' => 'Exportéiert Är Buchungsträger no Sage BOB 50, Sage 100, CSV an aner Software vu lëtzebuergeschen Treuhandgesellschaften.',
+            'hero_description' => 'Iwwermëttelt Är Buchhaltungsdonnéeën mat engem Klick un Är Treuhandgesellschaft. faktur.lu generéiert Exportdateien kompatibel mat Sage BOB, Sage 100 an den Haaptbuchhaltungsprogrammer déi zu Lëtzebuerg benotzt ginn.',
             'details_title' => 'Exporter ugepasst un Lëtzebuerg',
             'items' => [
                 'sage' => ['title' => 'Sage BOB Export', 'description' => 'Generéiert Buchungsdateien kompatibel mat Sage BOB, der meeschtbenotzter Software vu lëtzebuergeschen Treuhandgesellschaften.'],
-                'fid' => ['title' => 'FID-Manager Export', 'description' => 'Nativen Export am FID-Manager Format fir direkt Integratioun mat Ärer Treuhandgesellschaft.'],
                 'portal' => ['title' => 'Comptablesportal', 'description' => 'Gitt Ärem Comptable Liesezougang fir Är Donnéeën an Echtzäit anzegesinn.'],
                 'revenue' => ['title' => 'Akommessbuch', 'description' => 'Generéiert automatesch Äert Akommessbuch konform mat de lëtzebuergeschen Ufuerderungen.'],
                 'csv' => ['title' => 'CSV/Excel Export', 'description' => 'Exportéiert Är Donnéeën am CSV oder Excel Format fir individuell Veraarbechtung.'],
@@ -1846,7 +1845,7 @@ return [
             ],
             'faqs' => [
                 'accountant' => ['question' => 'Kann mäi Comptable direkt zougräifen?', 'answer' => 'Jo, de Comptablesportal bitt Ärer Treuhandgesellschaft Liesezougang. Si kann Rechnungen, Ausgaben an Exporter kucken ouni Är Donnéeën z\'änneren.'],
-                'format' => ['question' => 'Wéi eng Exportformater si verfügbar?', 'answer' => 'Sage BOB, FID-Manager, CSV, Excel a PDF. D\'Formater si un d\'Standarden vu lëtzebuergeschen Treuhandgesellschaften ugepasst.'],
+                'format' => ['question' => 'Wéi eng Exportformater si verfügbar?', 'answer' => 'Sage BOB 50, Sage 100, CSV, Excel a PDF. D\'Formater si un d\'Standarden vu lëtzebuergeschen Treuhandgesellschaften ugepasst.'],
                 'plan' => ['question' => 'Sinn d\'Buchhaltungsexporter bei alle Pläng verfügbar?', 'answer' => 'Buchhaltungsexporter an de Comptablesportal si vum Essentiel Plang un verfügbar.'],
             ],
         ],
@@ -2327,25 +2326,25 @@ return [
     // Partners page
     'partners' => [
         'page_title' => 'Partnerprogramm fir Treihandgesellschaften | faktur.lu',
-        'meta_description' => 'Gitt dem faktur.lu-Partnerprogramm bai. Gratis Comptablesportal, Sage BOB an FID-Manager Exporter, automatescht FAIA.',
+        'meta_description' => 'Gratis Comptablesportal fir lëtzebuerger Treihandgesellschaften. Exporter Sage BOB 50, Sage 100, generescht CSV, FAIA 2.01 a Rechnungs-PDF. Clientendaten am Nur-Lies-Modus.',
         'breadcrumb' => 'Partneren',
         'badge' => 'Partnerprogramm',
         'title' => 'Treihandgesellschaften, vereinfacht d\'Buchhaltung vun Äre Clienten',
-        'subtitle' => 'Är Clienten benotzen faktur.lu fir d\'Fakturatioun. Dir greift am Liesmodus op hir Donneeën zou, mat propperen Exporter an ëmmer konformem FAIA. Resultat: manner Erfaassung, méi Berodung.',
+        'subtitle' => 'faktur.lu gëtt vun Äre Freelance- a KMU-Clienten fir d\'Fakturatioun benotzt. Dir greift am Liesmodus op hir Comptabilitéits-Donneeën zou, exportéiert a Sage BOB 50, Sage 100 oder CSV, a kritt de FAIA 2.01 mat engem Klick. Manner Neierfaassung, méi Zäit fir Berodung.',
 
         'advantages' => [
             'title' => 'Wat faktur.lu Ärem Cabinet bréngt',
             'subtitle' => 'E gratis Comptablesportal an Tools fir lëtzebuerger Treihandgesellschaften.',
             'portal_title' => 'Dedizéiert Comptablesportal',
-            'portal_desc' => 'Greift op Rechnungen, Devis a Buchungen vun Äre Clienten iwwer e séchert Nur-Lies-Portal mat 2FA zou.',
-            'exports_title' => 'Sage BOB & FID-Manager Exporter',
-            'exports_desc' => 'Kritt d\'Buchungssätz am Format vun Ärer Software. Keng manuell Neierfaassung méi.',
-            'faia_title' => 'Automatescht konformt FAIA',
-            'faia_desc' => 'De FAIA-Fichier vun Äre Clienten gëtt bei all Rechnung automatesch generéiert. Ëmmer konform mat den AED-Ufuerderungen.',
-            'time_title' => '3 Stonnen pro Client pro Mount spueren',
-            'time_desc' => 'Manner Réckfroen, manner Erfaassungsfeeler. Konzentréiert Iech op wäertschaafend Berodung.',
-            'multi_title' => 'Multi-Client-Ansicht',
-            'multi_desc' => 'Verwaltt méi Clienten vun engem eenzegen Dashboard aus. Wiesselt mat engem Klick tëschent Mandanten.',
+            'portal_desc' => 'Greift op Rechnungen an Exporter vun Äre Clienten iwwer e Portal getrennt vum Clientskont zou, am Nur-Lies-Modus. Dedizéiert URL /comptable mat separater Authentifikatioun.',
+            'exports_title' => 'Sage BOB 50, Sage 100 & CSV Exporter',
+            'exports_desc' => 'Kritt d\'Buchungssätz a Sage BOB 50 (ASCII), Sage 100 (CSV) oder generescht CSV. Keng manuell Neierfaassung méi, keng Iwwerdroungsfehler.',
+            'faia_title' => 'FAIA 2.01 op Ufro',
+            'faia_desc' => 'De FAIA-Fichier vun Äre Clienten gëtt am AED 2.01-Format fir eng gewielten Period generéiert. Direkten Download vum Comptablesportal.',
+            'time_title' => 'Manner Neierfaassung, manner Réckfroen',
+            'time_desc' => 'Keng Excel-Fichieren méi ze recount, Donnéeën direkt importéierbar. Konzentréiert Iech op wäertschaafend Berodung an Deklaratiounen.',
+            'multi_title' => 'Vereenegt Multi-Client-Vue',
+            'multi_desc' => 'Verwaltt all Är faktur.lu-Clienten vun engem eenzegen Dashboard aus. Sich no Clientsnumm oder TVA-Nummer, Een-Klick-Zougang zum Mandant.',
             'free_title' => '100% gratis Zougang',
             'free_desc' => 'D\'Comptablesportal ass gratis fir Treihandgesellschaften, ouni Verbindlechkeet, ouni Zousazkäschten pro Client. Äre Client bezilt säin faktur.lu-Abonnement (Essentiel 5 €/Mount oder Pro 15 €/Mount — d\'Comptablesportal ass net am Gratis Plang enthalen).',
         ],
@@ -2356,7 +2355,7 @@ return [
             'step1_title' => 'Äre Client mellt sech un',
             'step1_desc' => 'Äre Client abonnéiert Essentiel (5 €/Mount) oder Pro (15 €/Mount) — d\'Comptablesportal ass vun Essentiel un enthalen. Hie fakturéiert a wéinegen Klicks, konform mat der Lëtzebuerger Gesetzgebung.',
             'step2_title' => 'Hie invitéiert Iech als Comptable',
-            'step2_desc' => 'An sengen Astellungen schéckt Äre Client Iech eng Invitatioun. Dir kritt eng E-Mail mat engem sécheren Zougangslink.',
+            'step2_desc' => 'Am "Comptablesportal"-Bildschierm gëtt Äre Client Är E-Mail an. Dir kritt en Invitatiounslink, valabel 7 Deeg.',
             'step3_title' => 'Dir greift op seng Donneeën zou',
             'step3_desc' => 'Mellt Iech am Comptablesportal un. Kuckt Rechnungen, luet Exporter an de FAIA mat engem Klick erof.',
         ],
@@ -2368,13 +2367,13 @@ return [
             'q2' => 'Kann ech d\'Rechnunge vu menge Clienten änneren?',
             'a2' => 'Nee, d\'Portal ass nëmmen zum Liesen, fir d\'Integritéit vun den Donneeën ze garantéieren. Dir kënnt kucken, eroflueden an exportéieren, awer net änneren.',
             'q3' => 'Wéi eng Exportformater si verfügbar?',
-            'a3' => 'Mir bidden Exporter kompatibel mat Sage BOB, FID-Manager, souwéi CSV-Exporter an de FAIA 2.01 Fichier konform mat der AED.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) a generescht CSV fir d\'Buchungssätz. FAIA 2.01 (XML) fir AED-Kontrollen. Eenzel Rechnungs-PDFen an en komplett PDF-Archiv. Excel-Export vun de Rechnunge fir eng Period. D\'Lëscht wiisst regelméisseg — sot eis wat Iech feelt.',
             'q4' => 'Wéi vill Cliente kann ech vum Portal aus verwalten?',
             'a4' => 'Kee Limit. All Client deen Iech invitéiert, erschéngt an Ärem Dashboard mat Numm, Plang an enger Verknëppung zu sengen Donnéeën. Egal ob 5 oder 500 faktur.lu Cliente, et ass datselwecht Portal.',
             'q5' => 'Mussen meng Cliente hir aktuell Software verloossen?',
             'a5' => 'Net onbedéngt. Vill benotzen faktur.lu nëmme fir Rechnungen/Devis a behalen hire interne Comptabilitéitstool. D\'Zil ass datt d\'Donnéeën Iech propper an exportéierbar erreechen.',
             'q6' => 'Wou sinn d\'Clientendaten gehost?',
-            'a6' => 'Gehost bei o2switch (Frankräich, Tier III+ ISO 27001 Datazentren), 100% Europäesch Unioun, voll RGPD-Konformitéit. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key verschlësselt (AES-256-CBC). DPA op Ufro fir Är Cliente.',
+            'a6' => 'Gehost bei o2switch (Frankräich, Tier III+ ISO 27001 zertifizéiert Datazentren), 100% Europäesch Unioun, voll RGPD-Konformitéit. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. DPA gëtt op Ufro fir Är Cliente erstallt.',
         ],
 
         'form' => [
@@ -3142,7 +3141,7 @@ return [
             ],
             'accounting' => [
                 'title' => '💼 Comptabilitéit',
-                'description' => 'Exportéiert Är Donnéeën op Sage BOB, FID-Manager an erstellt Är FAIA-Datei fir d\'Steierkontrollen.',
+                'description' => 'Exportéiert Är Donnéeën op Sage BOB 50, Sage 100, CSV an erstellt Är FAIA-Datei fir d\'Steierkontrollen.',
             ],
             'settings' => [
                 'title' => '⚙️ Astellungen',
@@ -3232,7 +3231,7 @@ return [
         'accountingExport' => [
             'intro' => [
                 'title' => '💼 Exporter fir Äre Comptabel',
-                'description' => 'Exportéiert Är Donnéeën direkt an de Formater, déi vun de Lëtzebuerger Fiduciairë benotzt ginn: Sage BOB, FID-Manager, CSV, Excel.',
+                'description' => 'Exportéiert Är Donnéeën direkt an de Formater, déi vun de Lëtzebuerger Fiduciairë benotzt ginn: Sage BOB 50, Sage 100, CSV, Excel.',
             ],
             'format' => [
                 'title' => '📋 Format wielen',
