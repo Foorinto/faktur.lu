@@ -142,13 +142,13 @@ const close = () => { selected.value = null; };
 
         <!-- Detail modal -->
         <Modal :show="selected !== null" max-width="2xl" @close="close">
-            <div v-if="selected" class="p-6 text-slate-200">
+            <div v-if="selected" class="p-6 text-white bg-surface-dark rounded-2xl">
                 <div class="flex items-start justify-between gap-4 mb-6">
                     <div>
                         <h2 class="text-lg font-bold text-white">{{ selected.user?.name ?? '—' }}</h2>
-                        <p class="text-sm text-slate-400">{{ selected.user?.email ?? '—' }}</p>
+                        <p class="text-sm text-white/70">{{ selected.user?.email ?? '—' }}</p>
                     </div>
-                    <button @click="close" class="text-slate-400 hover:text-white" aria-label="Fermer">
+                    <button @click="close" class="text-white/70 hover:text-white" aria-label="Fermer">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
@@ -157,19 +157,19 @@ const close = () => { selected.value = null; };
                     <span :class="['inline-block w-10 h-10 leading-10 rounded-full text-center font-bold text-lg', scoreClass(selected.nps_score)]">{{ selected.nps_score }}</span>
                     <div>
                         <p class="text-sm font-semibold text-white">{{ scoreCategory(selected.nps_score) }}</p>
-                        <p class="text-xs text-slate-400">Score NPS : {{ selected.nps_score }}/10</p>
+                        <p class="text-xs text-white/70">Score NPS : {{ selected.nps_score }}/10</p>
                     </div>
-                    <span class="ml-auto text-sm text-slate-400">{{ formatDate(selected.completed_at) }}</span>
+                    <span class="ml-auto text-sm text-white/70">{{ formatDate(selected.completed_at) }}</span>
                 </div>
 
                 <div>
-                    <p class="text-xs uppercase tracking-wide text-slate-500 mb-2">Commentaire</p>
+                    <p class="text-xs uppercase tracking-wide text-white/60 mb-2">Commentaire</p>
                     <p v-if="selected.comment" class="text-slate-900 whitespace-pre-wrap leading-relaxed bg-white border border-slate-200 rounded-xl p-4">{{ selected.comment }}</p>
-                    <p v-else class="text-slate-500 italic">Aucun commentaire.</p>
+                    <p v-else class="text-white/60 italic">Aucun commentaire.</p>
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <button @click="close" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold rounded-lg transition-colors">Fermer</button>
+                    <button @click="close" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold rounded-lg transition-colors">Fermer</button>
                 </div>
             </div>
         </Modal>
