@@ -172,6 +172,10 @@ const schemaSoftware = computed(() => JSON.stringify({
 const schemaFAQ = computed(() => JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["#faq"]
+    },
     "mainEntity": faqs.value.map(faq => ({
         "@type": "Question",
         "name": faq.question,

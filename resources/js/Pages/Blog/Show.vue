@@ -106,6 +106,10 @@ const blogPostingSchema = computed(() => ({
     'url': postUrl.value,
     'wordCount': wordCount.value,
     'timeRequired': `PT${props.post.reading_time || 5}M`,
+    'speakable': {
+        '@type': 'SpeakableSpecification',
+        'cssSelector': ['h1', '.prose .lead'],
+    },
     ...(props.post.category ? { 'articleSection': props.post.category.name } : {}),
     ...(props.post.tags && props.post.tags.length > 0
         ? { 'keywords': props.post.tags.map((t) => t.name).join(', ') }

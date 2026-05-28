@@ -99,6 +99,10 @@ const webPageSchema = computed(() => ({
     },
     'mainEntity': { '@id': `${glossaryUrl.value}#set` },
     'dateModified': new Date().toISOString().slice(0, 10),
+    'speakable': {
+        '@type': 'SpeakableSpecification',
+        'cssSelector': ['h1', '#glossary-intro'],
+    },
 }));
 </script>
 
@@ -125,7 +129,7 @@ const webPageSchema = computed(() => ({
             <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
                 {{ t('glossary.hero_title') }}
             </h1>
-            <p class="mt-4 text-lg text-slate-600 max-w-3xl">{{ t('glossary.hero_subtitle') }}</p>
+            <p id="glossary-intro" class="mt-4 text-lg text-slate-600 max-w-3xl">{{ t('glossary.hero_subtitle') }}</p>
         </section>
 
         <!-- Quick nav: jump to term -->
