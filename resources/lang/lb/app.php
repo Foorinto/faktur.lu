@@ -1052,6 +1052,7 @@ return [
     'custom_vat_mention_placeholder' => 'Gitt Är personaliséiert TVA Mentioun an...',
     'footer_message_optional' => 'Fousszeil Message (optional)',
     'empty_default_message' => 'Wann eidel, gëtt de Standard Message benotzt:',
+    'add_footer_suggestion' => 'Wann eidel, gëtt kee Message ugewisen. Klickt fir derbäizesetzen:',
     'service_title' => 'Leeschtungstitel',
     'detailed_description' => 'Detailléiert Beschreiwung',
     'detailed_description_optional' => 'Detailléiert Beschreiwung (optional)',

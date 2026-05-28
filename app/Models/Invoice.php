@@ -367,23 +367,18 @@ class Invoice extends Model
      */
     public function getEffectiveFooterMessageAttribute(): ?string
     {
-        // If invoice has a specific footer message, use it
+        // If the invoice has a specific footer message, use it.
         if ($this->footer_message !== null && $this->footer_message !== '') {
             return $this->footer_message;
         }
 
-        // Otherwise, use the global default if set ; fallback to the localized
-        // "thank_you" translation (rendered in the current locale, which is set
-        // by the PDF service before rendering). An empty/null default explicitly
-        // means "use the localized fallback".
+        // Otherwise, fall back to the global default only if the user explicitly
+        // set one. No hardcoded "thank you" fallback: an empty footer means the
+        // PDF shows no footer message at all.
         $settings = BusinessSettings::getInstance();
         $default = $settings?->default_invoice_footer;
 
-        if ($default === null || $default === '') {
-            return __('invoice.thank_you');
-        }
-
-        return $default;
+        return ($default !== null && $default !== '') ? $default : null;
     }
 
     /**

@@ -457,10 +457,14 @@ const openPreview = () => {
                                 v-model="form.footer_message"
                                 rows="2"
                                 class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                :placeholder="defaultInvoiceFooter"
                             ></textarea>
-                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                {{ t('empty_default_message') }} "{{ defaultInvoiceFooter }}"
+                            <p v-if="defaultInvoiceFooter && !form.footer_message" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('add_footer_suggestion') }}
+                                <button
+                                    type="button"
+                                    @click="form.footer_message = defaultInvoiceFooter"
+                                    class="text-primary-500 hover:underline font-medium"
+                                >« {{ defaultInvoiceFooter }} »</button>
                             </p>
                         </div>
 

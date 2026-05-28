@@ -1149,6 +1149,7 @@ return [
     'custom_vat_mention_placeholder' => 'Saisissez votre mention TVA personnalisée...',
     'footer_message_optional' => 'Message de pied de page (optionnel)',
     'empty_default_message' => 'Si vide, le message par défaut sera utilisé :',
+    'add_footer_suggestion' => 'Si vide, aucun message ne sera affiché. Cliquez pour ajouter :',
     'service_title' => 'Titre du service',
     'detailed_description' => 'Description détaillée',
     'detailed_description_optional' => 'Description détaillée (optionnel)',

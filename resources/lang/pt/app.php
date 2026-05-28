@@ -1148,6 +1148,7 @@ return [
     'custom_vat_mention_placeholder' => 'Introduza a sua menção de IVA personalizada...',
     'footer_message_optional' => 'Mensagem de rodapé (opcional)',
     'empty_default_message' => 'Se vazio, será utilizada a mensagem predefinida:',
+    'add_footer_suggestion' => 'Se vazio, nenhuma mensagem será apresentada. Clique para adicionar:',
     'service_title' => 'Título do serviço',
     'detailed_description' => 'Descrição detalhada',
     'detailed_description_optional' => 'Descrição detalhada (opcional)',

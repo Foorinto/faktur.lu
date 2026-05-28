@@ -1149,6 +1149,7 @@ return [
     'custom_vat_mention_placeholder' => 'Enter your custom VAT mention...',
     'footer_message_optional' => 'Footer message (optional)',
     'empty_default_message' => 'If empty, the default message will be used:',
+    'add_footer_suggestion' => 'If empty, no message will be shown. Click to add:',
     'service_title' => 'Service title',
     'detailed_description' => 'Detailed description',
     'detailed_description_optional' => 'Detailed description (optional)',

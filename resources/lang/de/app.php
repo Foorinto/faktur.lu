@@ -1052,6 +1052,7 @@ return [
     'custom_vat_mention_placeholder' => 'Geben Sie Ihren benutzerdefinierten MwSt.-Hinweis ein...',
     'footer_message_optional' => 'Fußzeilennachricht (optional)',
     'empty_default_message' => 'Falls leer, wird die Standardnachricht verwendet:',
+    'add_footer_suggestion' => 'Falls leer, wird keine Nachricht angezeigt. Zum Hinzufügen klicken:',
     'service_title' => 'Leistungstitel',
     'detailed_description' => 'Detaillierte Beschreibung',
     'detailed_description_optional' => 'Detaillierte Beschreibung (optional)',
