@@ -34,6 +34,12 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Send satisfaction surveys (NPS) ~14 days after signup, daily at 10:00 AM
+        $schedule->command('survey:send')
+            ->dailyAt('10:00')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Cleanup old monitoring metrics daily at 3:00 AM
         $schedule->command('monitoring:cleanup')
             ->dailyAt('03:00')

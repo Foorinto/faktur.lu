@@ -6,6 +6,7 @@ use App\Http\Controllers\AccountingExportController;
 use App\Http\Controllers\AccountingSettingsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\FeaturePageController;
 use App\Http\Controllers\ToolsController;
 use App\Models\BlogPost;
@@ -215,6 +216,11 @@ Route::prefix('{locale}')
         Route::get('/glossary', [ContactController::class, 'glossary'])->name('glossary.en');
         Route::get('/glossaire-lu', [ContactController::class, 'glossary'])->name('glossary.lb');
         Route::get('/glossario', [ContactController::class, 'glossary'])->name('glossary.pt');
+
+        // Satisfaction survey (public, tokenized — locale prefix drives page language)
+        Route::get('/sondage/{token}', [SurveyController::class, 'show'])->name('survey.show');
+        Route::post('/sondage/{token}', [SurveyController::class, 'submit'])
+            ->middleware(['honeypot', 'throttle:10,1'])->name('survey.submit');
 
         // Contact page (explicit localized routes)
         Route::get('/contact', [ContactController::class, 'index'])->name('contact');

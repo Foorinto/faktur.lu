@@ -2422,6 +2422,30 @@ return [
         'cta_final_subtitle' => '14 Tage voller Pro-Zugriff, keine Kreditkarte. Datenmigration kostenfrei begleitet.',
     ],
 
+    'survey_email_subject' => 'Ihre Meinung zu faktur.lu?',
+    'survey_email_greeting' => 'Hallo :name,',
+    'survey_email_intro' => 'Sie nutzen faktur.lu seit zwei Wochen. Ihre Meinung ist uns wichtig — nehmen Sie sich 30 Sekunden für eine kurze Frage?',
+    'survey_email_cta' => 'Meine Meinung geben',
+
+    'survey' => [
+        'page_title' => 'Ihre Meinung — faktur.lu',
+        'heading' => 'Ihre Meinung zählt',
+        'subtitle' => 'Eine kurze Frage, um faktur.lu zu verbessern.',
+        'nps_question' => 'Wie wahrscheinlich ist es, dass Sie faktur.lu einem Kollegen oder Freund empfehlen?',
+        'nps_low' => 'Überhaupt nicht wahrscheinlich',
+        'nps_high' => 'Äußerst wahrscheinlich',
+        'comment_label' => 'Ein Kommentar? (optional)',
+        'comment_placeholder' => 'Was Ihnen gefällt, was fehlt, Ihre Vorschläge…',
+        'submit' => 'Meine Meinung senden',
+        'sending' => 'Senden…',
+        'thank_you_title' => 'Danke für Ihr Feedback!',
+        'thank_you_text' => 'Ihre Rückmeldung hilft uns, ein besseres Tool für Unternehmer in Luxemburg zu bauen.',
+        'completed_title' => 'Sie haben bereits geantwortet',
+        'completed_text' => 'Danke, Ihre Antwort wurde gespeichert. Bis bald auf faktur.lu!',
+        'expired_title' => 'Link abgelaufen',
+        'expired_text' => 'Dieser Umfrage-Link ist nicht mehr gültig. Danke für Ihr Interesse!',
+    ],
+
     'glossary' => [
         'slug' => 'glossar',
         'page_title' => 'Glossar der luxemburgischen Rechnungsstellung und Steuer | faktur.lu',

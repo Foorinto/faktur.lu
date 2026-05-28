@@ -2422,6 +2422,30 @@ return [
         'cta_final_subtitle' => '14 Deeg voller Pro-Zougang, keng Kreditkaart. Donnéeën-Migratioun gratis begleet.',
     ],
 
+    'survey_email_subject' => 'Är Meenung iwwer faktur.lu?',
+    'survey_email_greeting' => 'Moien :name,',
+    'survey_email_intro' => 'Dir benotzt faktur.lu zënter zwou Wochen. Är Meenung ass eis wichteg — huelt Dir Iech 30 Sekonnen fir eng kuerz Fro?',
+    'survey_email_cta' => 'Meng Meenung ginn',
+
+    'survey' => [
+        'page_title' => 'Är Meenung — faktur.lu',
+        'heading' => 'Är Meenung zielt',
+        'subtitle' => 'Eng kuerz Fro fir faktur.lu ze verbesseren.',
+        'nps_question' => 'Wéi wahrscheinlech ass et, datt Dir faktur.lu engem Kolleg oder Frënd recommandéiert?',
+        'nps_low' => 'Guer net wahrscheinlech',
+        'nps_high' => 'Ganz wahrscheinlech',
+        'comment_label' => 'E Kommentar? (fakultativ)',
+        'comment_placeholder' => 'Wat Iech gefält, wat feelt, Är Virschléi…',
+        'submit' => 'Meng Meenung schécken',
+        'sending' => 'Gëtt geschéckt…',
+        'thank_you_title' => 'Merci fir Äre Retour!',
+        'thank_you_text' => 'Är Meenung hëlleft eis, e bessert Tool fir Entrepreneuren zu Lëtzebuerg ze bauen.',
+        'completed_title' => 'Dir hutt schonn geäntwert',
+        'completed_text' => 'Merci, Är Äntwert gouf gespäichert. Bis geschwënn op faktur.lu!',
+        'expired_title' => 'Link ofgelaf',
+        'expired_text' => 'Dëse Sondage-Link ass net méi gülteg. Merci fir Ären Interessi!',
+    ],
+
     'glossary' => [
         'slug' => 'glossaire-lu',
         'page_title' => 'Glossaire vun der lëtzebuerger Rechnungsstellung an Steier | faktur.lu',

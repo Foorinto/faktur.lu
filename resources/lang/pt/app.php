@@ -2727,6 +2727,30 @@ return [
         'cta_final_subtitle' => '14 dias de acesso Pro completo, sem cartão de crédito. Migração de dados acompanhada gratuitamente.',
     ],
 
+    'survey_email_subject' => 'A sua opinião sobre o faktur.lu?',
+    'survey_email_greeting' => 'Olá :name,',
+    'survey_email_intro' => 'Utiliza o faktur.lu há duas semanas. A sua opinião é muito importante para nós — pode dedicar 30 segundos a uma pergunta rápida?',
+    'survey_email_cta' => 'Dar a minha opinião',
+
+    'survey' => [
+        'page_title' => 'A sua opinião — faktur.lu',
+        'heading' => 'A sua opinião conta',
+        'subtitle' => 'Uma pergunta rápida para nos ajudar a melhorar o faktur.lu.',
+        'nps_question' => 'Qual a probabilidade de recomendar o faktur.lu a um colega ou amigo?',
+        'nps_low' => 'Nada provável',
+        'nps_high' => 'Extremamente provável',
+        'comment_label' => 'Um comentário? (opcional)',
+        'comment_placeholder' => 'O que gosta, o que falta, as suas sugestões…',
+        'submit' => 'Enviar a minha opinião',
+        'sending' => 'A enviar…',
+        'thank_you_title' => 'Obrigado pela sua opinião!',
+        'thank_you_text' => 'O seu contributo ajuda-nos a construir uma melhor ferramenta para os empreendedores no Luxemburgo.',
+        'completed_title' => 'Já respondeu',
+        'completed_text' => 'Obrigado, a sua resposta foi guardada. Até breve no faktur.lu!',
+        'expired_title' => 'Ligação expirada',
+        'expired_text' => 'Esta ligação de inquérito já não é válida. Obrigado pelo seu interesse!',
+    ],
+
     'glossary' => [
         'slug' => 'glossario',
         'page_title' => 'Glossário de faturação e fiscalidade do Luxemburgo | faktur.lu',

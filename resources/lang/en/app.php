@@ -2521,6 +2521,30 @@ return [
         'cta_final_subtitle' => '14 days full Pro access, no credit card. Data migration assisted free of charge.',
     ],
 
+    'survey_email_subject' => 'How are we doing? Your feedback on faktur.lu',
+    'survey_email_greeting' => 'Hi :name,',
+    'survey_email_intro' => 'You have been using faktur.lu for two weeks. Your feedback really matters to us — would you take 30 seconds to answer one quick question?',
+    'survey_email_cta' => 'Share my feedback',
+
+    'survey' => [
+        'page_title' => 'Your feedback — faktur.lu',
+        'heading' => 'Your feedback matters',
+        'subtitle' => 'One quick question to help us improve faktur.lu.',
+        'nps_question' => 'How likely are you to recommend faktur.lu to a colleague or friend?',
+        'nps_low' => 'Not at all likely',
+        'nps_high' => 'Extremely likely',
+        'comment_label' => 'Any comment? (optional)',
+        'comment_placeholder' => 'What you like, what is missing, your suggestions…',
+        'submit' => 'Send my feedback',
+        'sending' => 'Sending…',
+        'thank_you_title' => 'Thank you for your feedback!',
+        'thank_you_text' => 'Your input helps us build a better tool for entrepreneurs in Luxembourg.',
+        'completed_title' => 'You have already answered',
+        'completed_text' => 'Thanks, your response was saved. See you on faktur.lu!',
+        'expired_title' => 'Link expired',
+        'expired_text' => 'This survey link is no longer valid. Thanks for your interest!',
+    ],
+
     'glossary' => [
         'slug' => 'glossary',
         'page_title' => 'Glossary of Luxembourg invoicing and tax terms | faktur.lu',

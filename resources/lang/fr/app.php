@@ -2752,6 +2752,30 @@ return [
         'cta_final_subtitle' => '14 jours d\'accès complet aux fonctions Pro, sans carte bancaire. Migration de vos données accompagnée gratuitement.',
     ],
 
+    'survey_email_subject' => 'Votre avis sur faktur.lu ?',
+    'survey_email_greeting' => 'Bonjour :name,',
+    'survey_email_intro' => 'Vous utilisez faktur.lu depuis deux semaines. Votre ressenti compte beaucoup pour nous : prendriez-vous 30 secondes pour répondre à une courte question ?',
+    'survey_email_cta' => 'Donner mon avis',
+
+    'survey' => [
+        'page_title' => 'Votre avis — faktur.lu',
+        'heading' => 'Votre avis compte',
+        'subtitle' => 'Une question rapide pour nous aider à améliorer faktur.lu.',
+        'nps_question' => 'Quelle est la probabilité que vous recommandiez faktur.lu à un collègue ou à un ami ?',
+        'nps_low' => 'Pas du tout probable',
+        'nps_high' => 'Très probable',
+        'comment_label' => 'Un commentaire ? (facultatif)',
+        'comment_placeholder' => 'Ce qui vous plaît, ce qui manque, vos suggestions…',
+        'submit' => 'Envoyer mon avis',
+        'sending' => 'Envoi…',
+        'thank_you_title' => 'Merci pour votre retour !',
+        'thank_you_text' => 'Votre avis nous aide à construire un meilleur outil pour les entrepreneurs au Luxembourg.',
+        'completed_title' => 'Vous avez déjà répondu',
+        'completed_text' => 'Merci, votre réponse a bien été enregistrée. À bientôt sur faktur.lu !',
+        'expired_title' => 'Lien expiré',
+        'expired_text' => 'Ce lien de sondage n\'est plus valide. Merci de votre intérêt !',
+    ],
+
     'glossary' => [
         'slug' => 'glossaire',
         'page_title' => 'Glossaire de la facturation et de la fiscalité luxembourgeoise | faktur.lu',

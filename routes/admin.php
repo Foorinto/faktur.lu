@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminMaintenanceController;
 use App\Http\Controllers\Admin\AdminMonitoringController;
 use App\Http\Controllers\Admin\AdminNewsletterController;
 use App\Http\Controllers\Admin\AdminSupportController;
+use App\Http\Controllers\Admin\AdminSurveyController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,10 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         Route::post('users/{user}/restore', [AdminUserController::class, 'restore'])->name('users.restore');
         Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
         Route::delete('users/{user}/force', [AdminUserController::class, 'forceDelete'])->name('users.force-delete');
+
+        // Satisfaction surveys (NPS)
+        Route::get('surveys', [AdminSurveyController::class, 'index'])->name('surveys.index');
+        Route::get('surveys/export', [AdminSurveyController::class, 'export'])->name('surveys.export');
 
         // Support tickets
         Route::get('support', [AdminSupportController::class, 'index'])->name('support.index');
