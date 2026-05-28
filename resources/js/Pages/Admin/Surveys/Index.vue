@@ -1,6 +1,8 @@
 <script setup>
+import { ref } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import Modal from '@/Components/Modal.vue';
 
 const props = defineProps({
     responses: Object,
@@ -20,7 +22,18 @@ const scoreClass = (score) => {
     return 'bg-amber-100 text-amber-700';
 };
 
+const scoreCategory = (score) => {
+    if (score >= 9) return 'Promoteur';
+    if (score <= 6) return 'Détracteur';
+    return 'Passif';
+};
+
 const exportUrl = route('admin.surveys.export');
+
+// Modal: full response detail
+const selected = ref(null);
+const open = (response) => { selected.value = response; };
+const close = () => { selected.value = null; };
 </script>
 
 <template>
@@ -79,7 +92,12 @@ const exportUrl = route('admin.surveys.export');
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-700">
-                        <tr v-for="r in responses.data" :key="r.id" class="text-slate-200">
+                        <tr
+                            v-for="r in responses.data"
+                            :key="r.id"
+                            @click="open(r)"
+                            class="text-slate-200 hover:bg-slate-800/60 cursor-pointer transition-colors"
+                        >
                             <td class="px-4 py-3">
                                 <div class="font-medium text-white">{{ r.user?.name ?? '—' }}</div>
                                 <div class="text-xs text-slate-400">{{ r.user?.email ?? '—' }}</div>
@@ -88,10 +106,15 @@ const exportUrl = route('admin.surveys.export');
                                 <span :class="['inline-block w-8 h-8 leading-8 rounded-full text-center font-semibold', scoreClass(r.nps_score)]">{{ r.nps_score }}</span>
                             </td>
                             <td class="px-4 py-3 max-w-md">
-                                <span v-if="r.comment" class="text-slate-300">{{ r.comment }}</span>
+                                <p v-if="r.comment" class="text-slate-300 line-clamp-2">{{ r.comment }}</p>
                                 <span v-else class="text-slate-600 italic">—</span>
                             </td>
-                            <td class="px-4 py-3 text-slate-400 whitespace-nowrap">{{ formatDate(r.completed_at) }}</td>
+                            <td class="px-4 py-3 text-slate-400 whitespace-nowrap">
+                                <div class="flex items-center justify-between gap-3">
+                                    <span>{{ formatDate(r.completed_at) }}</span>
+                                    <span class="text-primary-400 text-xs">Voir →</span>
+                                </div>
+                            </td>
                         </tr>
                         <tr v-if="responses.data.length === 0">
                             <td colspan="4" class="px-4 py-12 text-center text-slate-500">Aucune réponse pour le moment.</td>
@@ -116,5 +139,39 @@ const exportUrl = route('admin.surveys.export');
                 </template>
             </div>
         </div>
+
+        <!-- Detail modal -->
+        <Modal :show="selected !== null" max-width="2xl" @close="close">
+            <div v-if="selected" class="p-6 text-slate-200">
+                <div class="flex items-start justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">{{ selected.user?.name ?? '—' }}</h2>
+                        <p class="text-sm text-slate-400">{{ selected.user?.email ?? '—' }}</p>
+                    </div>
+                    <button @click="close" class="text-slate-400 hover:text-white" aria-label="Fermer">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3 mb-6">
+                    <span :class="['inline-block w-10 h-10 leading-10 rounded-full text-center font-bold text-lg', scoreClass(selected.nps_score)]">{{ selected.nps_score }}</span>
+                    <div>
+                        <p class="text-sm font-semibold text-white">{{ scoreCategory(selected.nps_score) }}</p>
+                        <p class="text-xs text-slate-400">Score NPS : {{ selected.nps_score }}/10</p>
+                    </div>
+                    <span class="ml-auto text-sm text-slate-400">{{ formatDate(selected.completed_at) }}</span>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-slate-500 mb-2">Commentaire</p>
+                    <p v-if="selected.comment" class="text-slate-200 whitespace-pre-wrap leading-relaxed bg-slate-800/60 rounded-xl p-4">{{ selected.comment }}</p>
+                    <p v-else class="text-slate-500 italic">Aucun commentaire.</p>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <button @click="close" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold rounded-lg transition-colors">Fermer</button>
+                </div>
+            </div>
+        </Modal>
     </AdminLayout>
 </template>

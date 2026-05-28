@@ -14,7 +14,7 @@
 
 **Commentaire :**
 
-{{ $survey->comment }}
+{!! nl2br(e($survey->comment)) !!}
 @endif
 
 <x-mail::button :url="$adminUrl">
