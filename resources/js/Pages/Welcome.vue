@@ -1273,7 +1273,7 @@ const toggleFaq = (index) => {
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700"><Link :href="localizedRoute('features.show', { slug: 'exports-comptables' })" class="text-slate-700 hover:text-primary-500 underline decoration-dotted underline-offset-2">{{ t('landing.pricing.comparison.rows.accountant_portal') }}</Link></td>
                                     <td class="py-3 px-4 text-center">
-                                        <svg class="w-5 h-5 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                        <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                                     </td>
                                     <td class="py-3 px-4 text-center">
                                         <svg class="w-5 h-5 text-[#00f5d4] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>

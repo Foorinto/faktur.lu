@@ -1541,6 +1541,7 @@ return [
                         '5 faturas / mês',
                         '5 orçamentos / mês',
                         'Exportação FAIA incluída',
+                        'Portal do contabilista',
                         'Conforme Luxemburgo',
                     ],
                     'features' => [
@@ -1550,6 +1551,7 @@ return [
                         'Gestão de despesas (10/mês)',
                         'Autenticação 2FA',
                         'Exportação FAIA incluída',
+                        'Portal do contabilista (convide o seu contabilista)',
                         'Numeração personalizável',
                     ],
                     'limitations' => [

@@ -1542,6 +1542,7 @@ return [
                         '5 factures / mois',
                         '5 devis / mois',
                         'Export FAIA inclus',
+                        'Portail comptable',
                         'Conforme Luxembourg',
                     ],
                     'features' => [
@@ -1551,6 +1552,7 @@ return [
                         'Gestion des dépenses (10/mois)',
                         'Authentification 2FA',
                         'Export FAIA inclus',
+                        'Portail comptable (inviter votre fiduciaire)',
                         'Numérotation personnalisable',
                     ],
                     'limitations' => [

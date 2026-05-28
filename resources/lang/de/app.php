@@ -1444,9 +1444,10 @@ return [
                         '5 Rechnungen / Monat',
                         '5 Angebote / Monat',
                         'FAIA-Export inklusive',
+                        'Buchhalterportal',
                         'Luxemburg-konform',
                     ],
-                    'features' => ['5 Rechnungen/Monat', 'Maximal 10 Kunden', '5 Angebote/Monat', 'Ausgabenverfolgung (10/Monat)', '2FA-Authentifizierung', 'FAIA-Export inklusive', 'Anpassbare Nummerierung'],
+                    'features' => ['5 Rechnungen/Monat', 'Maximal 10 Kunden', '5 Angebote/Monat', 'Ausgabenverfolgung (10/Monat)', '2FA-Authentifizierung', 'FAIA-Export inklusive', 'Buchhalterportal (Treuhänder einladen)', 'Anpassbare Nummerierung'],
                     'limitations' => ['Keine Projekte oder Zeiterfassung', 'Kein CRM oder HR-Modul', 'Kein erweiterter Buchhaltungsexport'],
                 ],
                 'essentiel' => [

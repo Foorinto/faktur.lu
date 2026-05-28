@@ -1444,9 +1444,10 @@ return [
                         '5 Rechnungen / Mount',
                         '5 Devis / Mount',
                         'FAIA-Export inklusiv',
+                        'Comptablesportal',
                         'Lëtzebuerg-konform',
                     ],
-                    'features' => ['5 Rechnungen/Mount', 'Maximal 10 Clienten', '5 Devis/Mount', 'Ausgabenverfolgung (10/Mount)', '2FA Authentifikatioun', 'FAIA-Export inklusiv', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['5 Rechnungen/Mount', 'Maximal 10 Clienten', '5 Devis/Mount', 'Ausgabenverfolgung (10/Mount)', '2FA Authentifikatioun', 'FAIA-Export inklusiv', 'Comptablesportal (Är Fiduciaire invitéieren)', 'Personaliséierbar Nummeréierung'],
                     'limitations' => ['Keng Projeten oder Zäiterfassung', 'Keen CRM oder RH-Modul', 'Keen erweiderten Buchhaltungsexport'],
                 ],
                 'essentiel' => [

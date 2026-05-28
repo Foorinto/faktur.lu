@@ -40,6 +40,7 @@ class PlansSeeder extends Seeder
                     'expenses',
                     '2fa',
                     'faia_export',
+                    'accounting_portal',
                 ],
                 'is_active' => true,
                 'sort_order' => 0,

@@ -12,11 +12,11 @@ const FEATURE_TO_MIN_PLAN = {
     expenses: 'free',
     '2fa': 'free',
     faia_export: 'free',
+    accounting_portal: 'free',
 
     // Essentiel
     projects: 'essentiel',
     time_tracking: 'essentiel',
-    accounting_portal: 'essentiel',
     accounting_exports: 'essentiel',
     peppol_export: 'essentiel',
 

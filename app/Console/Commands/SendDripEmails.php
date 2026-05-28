@@ -245,7 +245,7 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Which faktur.lu plan is right for you?',
-                    'body' => "Your trial ends in **:days days**. Here are our plans to keep invoicing smoothly:\n\n**Free** — 0€/month\n- 10 clients, 10 invoices/month\n- Ideal for testing\n\n**Essentiel** — 5€/month\n- 100 clients, 50 invoices/month\n- Projects, time tracking, accountant portal\n- FAIA export included\n\n**Pro** — 15€/month\n- Everything unlimited\n- CRM, HR module, Peppol, PDF/A archiving\n\n**Save 20%** with annual billing.\n\nAll plans include FAIA export and Luxembourg compliance.",
+                    'body' => "Your trial ends in **:days days**. Here are our plans to keep invoicing smoothly:\n\n**Free** — 0€/month\n- 10 clients, 5 invoices/month\n- FAIA export + accountant portal\n- Ideal for testing\n\n**Essentiel** — 5€/month\n- 100 clients, 50 invoices/month\n- Projects, time tracking, Peppol\n- Sage BOB 50 / Sage 100 / CSV exports\n\n**Pro** — 15€/month\n- Everything unlimited\n- CRM, HR module, Peppol, PDF/A archiving\n\n**Save 20%** with annual billing.\n\nAll plans include FAIA export and Luxembourg compliance.",
                 ],
                 'urgency' => [
                     'subject' => 'Only 2 days left on your faktur.lu trial',

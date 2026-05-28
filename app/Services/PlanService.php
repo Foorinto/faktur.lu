@@ -312,7 +312,7 @@ class PlanService
             'max_emails_per_month' => 10,
             'max_expenses_per_month' => 10,
         ];
-        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];
+        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export', 'accounting_portal'];
 
         return $plan;
     }

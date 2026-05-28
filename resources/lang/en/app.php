@@ -1543,9 +1543,10 @@ return [
                         '5 invoices / month',
                         '5 quotes / month',
                         'FAIA export included',
+                        'Accountant portal',
                         'Luxembourg-compliant',
                     ],
-                    'features' => ['5 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Custom numbering'],
+                    'features' => ['5 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Accountant portal (invite your accountant)', 'Custom numbering'],
                     'limitations' => ['No projects or time tracking', 'No CRM or HR module', 'No advanced accounting export'],
                 ],
                 'essentiel' => [
