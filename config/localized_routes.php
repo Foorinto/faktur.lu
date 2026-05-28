@@ -179,6 +179,14 @@ return [
         'pt' => 'cookies',
     ],
 
+    'legal.dpa' => [
+        'fr' => 'dpa',
+        'de' => 'dpa',
+        'en' => 'dpa',
+        'lb' => 'dpa',
+        'pt' => 'dpa',
+    ],
+
     'blog.index' => [
         'fr' => 'blog',
         'de' => 'blog',

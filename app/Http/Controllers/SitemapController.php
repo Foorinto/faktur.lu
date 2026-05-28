@@ -130,6 +130,7 @@ class SitemapController extends Controller
             ['route' => 'legal.privacy', 'priority' => '0.3', 'changefreq' => 'yearly'],
             ['route' => 'legal.terms', 'priority' => '0.3', 'changefreq' => 'yearly'],
             ['route' => 'legal.cookies', 'priority' => '0.3', 'changefreq' => 'yearly'],
+            ['route' => 'legal.dpa', 'priority' => '0.3', 'changefreq' => 'yearly'],
         ];
 
         // Feature detail pages
