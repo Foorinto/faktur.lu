@@ -43,27 +43,12 @@ const breadcrumbSchema = computed(() => ({
 }));
 
 // E-E-A-T author: Alexandre Beaudier — founder of faktur.lu, cross-border worker (frontalier)
-// settled in Luxembourg, sole trader. Topics he writes about are reflected in knowsAbout.
+// Author is the organization (faktur.lu): no personal byline on the articles.
 const authorSchema = computed(() => ({
-    '@type': 'Person',
-    '@id': `${appUrl.value}/#person-alexandre-beaudier`,
-    'name': 'Alexandre Beaudier',
-    'jobTitle': 'Fondateur de faktur.lu',
-    'description': "Fondateur de faktur.lu, frontalier installé au Grand-Duché de Luxembourg, entrepreneur individuel spécialisé dans la conformité fiscale luxembourgeoise (FAIA, LIVA, mentions obligatoires, e-facturation Peppol).",
-    'worksFor': { '@id': `${appUrl.value}/#organization` },
-    'url': `${appUrl.value}/${currentLocale()}/${currentLocale() === 'fr' ? 'a-propos' : (currentLocale() === 'de' ? 'ueber-uns' : (currentLocale() === 'lb' ? 'iwwer-eis' : (currentLocale() === 'pt' ? 'sobre' : 'about')))}`,
-    'knowsAbout': [
-        'Facturation au Luxembourg',
-        'Loi luxembourgeoise sur la TVA (LIVA)',
-        'Fichier d\'Audit Informatisé de l\'AED (FAIA 2.01)',
-        'E-facturation Peppol BIS Billing 3.0',
-        'Article 21 LIVA — autoliquidation B2B intra-UE',
-        'Article 56 ter LIVA — franchise TVA',
-        'Article 61 LIVA — numérotation séquentielle',
-        'VAT in the Digital Age (ViDA)',
-        'Conformité RGPD et hébergement européen',
-    ],
-    'knowsLanguage': ['fr', 'en', 'de'],
+    '@type': 'Organization',
+    '@id': `${appUrl.value}/#organization`,
+    'name': 'faktur.lu',
+    'url': appUrl.value,
 }));
 
 const publisherSchema = computed(() => ({
@@ -192,12 +177,6 @@ const shareOnFacebook = () => {
                         </h1>
 
                         <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-white/90 text-sm">
-                            <span v-if="post.author" class="flex items-center gap-1.5">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                                {{ post.author.name }}
-                            </span>
                             <span class="flex items-center gap-1.5">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
