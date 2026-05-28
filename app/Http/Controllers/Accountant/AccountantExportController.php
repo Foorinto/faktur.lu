@@ -295,6 +295,13 @@ class AccountantExportController extends Controller
             abort(400, 'Format d\'export invalide.');
         }
 
+        // Sage/CSV exports require the CLIENT to be on a paid plan. The accountant
+        // portal is otherwise free (view + FAIA), which keeps the conversion lever:
+        // a fiduciary who needs to import into Sage will ask the client to upgrade.
+        if (!app(\App\Services\PlanService::class)->hasFeature($user, 'accounting_exports')) {
+            abort(403, __('app.accountant_auth_flash.error_sage_requires_upgrade'));
+        }
+
         $accountant = auth('accountant')->user();
         $year = $request->integer('year');
         $quarter = $request->integer('quarter');

@@ -5111,6 +5111,7 @@ return [
         'error_no_invoices_period' => 'Keng Rechnunge fir dës Period.',
         'error_no_data_export' => 'Keng Donnéeën zum Export fir déi ausgewielte Clienten.',
         'error_unauthorized_clients' => 'Zougang fir verschidde Clienten refuséiert.',
+        'error_sage_requires_upgrade' => 'D\'Sage/CSV-Exporter erfuerderen, datt dëse Client am Essentiel- oder Pro-Plang ass. De Client kann a sengem Kont upgraden (den FAIA-Export bleift gratis).',
     ],
 
     'accountant_settings_flash' => [

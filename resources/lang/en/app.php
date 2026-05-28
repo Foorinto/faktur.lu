@@ -5153,6 +5153,7 @@ return [
         'error_no_invoices_period' => 'No invoices for this period.',
         'error_no_data_export' => 'No data to export for the selected clients.',
         'error_unauthorized_clients' => 'Access denied for some clients.',
+        'error_sage_requires_upgrade' => 'Sage/CSV exports require this client to be on the Essentiel or Pro plan. The client can upgrade from their account (FAIA export remains free).',
     ],
 
     'accountant_settings_flash' => [

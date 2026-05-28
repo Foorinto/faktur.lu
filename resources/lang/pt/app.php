@@ -5359,6 +5359,7 @@ return [
         'error_no_invoices_period' => 'Sem faturas para este período.',
         'error_no_data_export' => 'Sem dados a exportar para os clientes selecionados.',
         'error_unauthorized_clients' => 'Acesso recusado para alguns clientes.',
+        'error_sage_requires_upgrade' => 'As exportações Sage/CSV exigem que este cliente esteja no plano Essencial ou Pro. O cliente pode atualizar a partir da sua conta (a exportação FAIA permanece gratuita).',
     ],
 
     'accountant_settings_flash' => [

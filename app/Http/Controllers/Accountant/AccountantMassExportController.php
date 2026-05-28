@@ -73,7 +73,17 @@ class AccountantMassExportController extends Controller
         $pdfService = app(InvoicePdfService::class);
         $filesAdded = 0;
 
+        $sageFormats = ['accounting_sage_bob', 'accounting_sage_100', 'accounting_generic'];
+        $planService = app(\App\Services\PlanService::class);
+
         foreach ($clients as $client) {
+            // Sage/CSV exports require the client on a paid plan; free clients
+            // are skipped (their FAIA stays available). Preserves the upgrade lever.
+            if (in_array($format, $sageFormats, true)
+                && !$planService->hasFeature($client, 'accounting_exports')) {
+                continue;
+            }
+
             $companyName = $this->sanitizeFilename(
                 $client->businessSettings?->company_name ?? $client->name
             );
