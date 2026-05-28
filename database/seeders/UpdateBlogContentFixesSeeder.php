@@ -30,26 +30,43 @@ class UpdateBlogContentFixesSeeder extends Seeder
      */
     protected function fixOldPlanLimits(): void
     {
+        // Free plan invoice limit converges to 5/month (was bumped to 10, then
+        // reduced to 5). Any legacy "3" or interim "10" value lands on 5.
+        // Client count stays at 10.
         $replacements = [
             // FR
-            '3 factures/mois' => '10 factures/mois',
-            '3 factures / mois' => '10 factures / mois',
-            '5 clients, 3 factures' => '10 clients, 10 factures',
+            '3 factures/mois' => '5 factures/mois',
+            '3 factures / mois' => '5 factures / mois',
+            '10 factures/mois' => '5 factures/mois',
+            '10 factures / mois' => '5 factures / mois',
+            '5 clients, 3 factures' => '10 clients, 5 factures',
+            '10 clients, 10 factures' => '10 clients, 5 factures',
             // EN
-            '3 invoices/month' => '10 invoices/month',
-            '3 invoices / month' => '10 invoices / month',
-            '5 clients, 3 invoices' => '10 clients, 10 invoices',
+            '3 invoices/month' => '5 invoices/month',
+            '3 invoices / month' => '5 invoices / month',
+            '10 invoices/month' => '5 invoices/month',
+            '10 invoices / month' => '5 invoices / month',
+            '5 clients, 3 invoices' => '10 clients, 5 invoices',
+            '10 clients, 10 invoices' => '10 clients, 5 invoices',
             // DE
-            '3 Rechnungen/Monat' => '10 Rechnungen/Monat',
-            '3 Rechnungen / Monat' => '10 Rechnungen / Monat',
-            '5 Kunden, 3 Rechnungen' => '10 Kunden, 10 Rechnungen',
+            '3 Rechnungen/Monat' => '5 Rechnungen/Monat',
+            '3 Rechnungen / Monat' => '5 Rechnungen / Monat',
+            '10 Rechnungen/Monat' => '5 Rechnungen/Monat',
+            '10 Rechnungen / Monat' => '5 Rechnungen / Monat',
+            '5 Kunden, 3 Rechnungen' => '10 Kunden, 5 Rechnungen',
+            '10 Kunden, 10 Rechnungen' => '10 Kunden, 5 Rechnungen',
             // LB
-            '3 Rechnungen/Mount' => '10 Rechnungen/Mount',
-            '5 Clienten, 3 Rechnungen' => '10 Clienten, 10 Rechnungen',
+            '3 Rechnungen/Mount' => '5 Rechnungen/Mount',
+            '10 Rechnungen/Mount' => '5 Rechnungen/Mount',
+            '5 Clienten, 3 Rechnungen' => '10 Clienten, 5 Rechnungen',
+            '10 Clienten, 10 Rechnungen' => '10 Clienten, 5 Rechnungen',
             // PT
-            '3 faturas/mês' => '10 faturas/mês',
-            '3 faturas / mês' => '10 faturas / mês',
-            '5 clientes, 3 faturas' => '10 clientes, 10 faturas',
+            '3 faturas/mês' => '5 faturas/mês',
+            '3 faturas / mês' => '5 faturas / mês',
+            '10 faturas/mês' => '5 faturas/mês',
+            '10 faturas / mês' => '5 faturas / mês',
+            '5 clientes, 3 faturas' => '10 clientes, 5 faturas',
+            '10 clientes, 10 faturas' => '10 clientes, 5 faturas',
         ];
 
         $updatedTotal = 0;
@@ -181,6 +198,17 @@ class UpdateBlogContentFixesSeeder extends Seeder
      */
     protected function applyAccentFixes(string $text, array $map): string
     {
+        // CRITICAL: never accent-fold inside href URLs. Slugs are unaccented;
+        // adding accents here (e.g. "controle" → "contrôle") would break the
+        // internal links. Mask href values, fix prose, then restore.
+        $hrefs = [];
+        $text = preg_replace_callback('/href="[^"]*"/i', function ($m) use (&$hrefs) {
+            $token = "\x00HREF" . count($hrefs) . "\x00";
+            $hrefs[$token] = $m[0];
+
+            return $token;
+        }, $text);
+
         foreach ($map as $bad => $good) {
             // Word-boundary case-insensitive match preserving the first-letter case of the original.
             $text = preg_replace_callback(
@@ -196,6 +224,12 @@ class UpdateBlogContentFixesSeeder extends Seeder
                 $text
             );
         }
+
+        // Restore the protected href URLs untouched.
+        if ($hrefs !== []) {
+            $text = strtr($text, $hrefs);
+        }
+
         return $text;
     }
 }

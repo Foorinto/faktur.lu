@@ -270,7 +270,7 @@ class BlogPostsPortugueseSeeder extends Seeder
 
 <p>A faturação no Luxemburgo exige rigor e conformidade. Ao utilizar um <strong>software de faturação adaptado</strong> como o faktur.lu, garante o cumprimento de todas as obrigações legais ganhando ao mesmo tempo um tempo precioso.</p>
 
-<p>A nossa solução gera automaticamente faturas conformes com todas as menções obrigatórias, uma numeração correta e uma exportação FAIA integrada.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/tva-luxembourg-taux-calcul-obligations" class="text-primary-500 hover:text-primary-600 text-sm">taxas de IVA →</a></li><li><a href="/pt/blog/mentions-obligatoires-facture-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li></ul></div>
+<p>A nossa solução gera automaticamente faturas conformes com todas as menções obrigatórias, uma numeração correta e uma exportação FAIA integrada.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/iva-no-luxemburgo-taxas-calculo-e-obrigacoes-para-as-empresas" class="text-primary-500 hover:text-primary-600 text-sm">taxas de IVA →</a></li><li><a href="/pt/blog/mencoes-obrigatorias-numa-fatura-no-luxemburgo-checklist-completa" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li></ul></div>
 HTML;
         return $this->base(
             'guide-complet-facturation-luxembourg-2026',
@@ -290,7 +290,7 @@ HTML;
     {
         $title = 'FAIA Luxemburgo: Tudo sobre o ficheiro de auditoria informatizado';
         $excerpt = 'O FAIA (Ficheiro de Auditoria Informatizado) é obrigatório no Luxemburgo. Descubra o que contém, quem o deve produzir e como gerar um ficheiro FAIA conforme.';
-        $metaTitle = 'FAIA Luxemburgo: Guia Completo do Ficheiro de Auditoria Informatizado';
+        $metaTitle = 'FAIA Luxemburgo: guia do ficheiro de auditoria | faktur.lu';
         $metaDescription = 'Tudo sobre o FAIA no Luxemburgo: definição, obrigações, conteúdo do ficheiro, como o gerar. Guia prático para estar em conformidade com a AED.';
         $content = <<<'HTML'
 <p class="lead">O FAIA (Ficheiro de Auditoria Informatizado) é uma obrigação legal no Luxemburgo para todas as empresas que utilizam um software de contabilidade ou de faturação. Descubra o que precisa de saber para estar em conformidade.</p>
@@ -449,7 +449,7 @@ HTML;
 
 <p>O ficheiro FAIA é uma obrigação incontornável para as empresas luxemburguesas que utilizam ferramentas informáticas. Ao escolher um software de faturação compatível como o faktur.lu, garante poder produzir um ficheiro conforme em qualquer momento.</p>
 
-<p>A nossa solução integra nativamente a exportação FAIA, validada segundo as últimas especificações da AED, para lhe permitir responder serenamente a qualquer pedido da administração fiscal.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/controle-fiscal-luxembourg-comment-preparer" class="text-primary-500 hover:text-primary-600 text-sm">controlo fiscal →</a></li><li><a href="/pt/blog/archivage-factures-luxembourg-duree-legale-format" class="text-primary-500 hover:text-primary-600 text-sm">arquivo das faturas →</a></li></ul></div>
+<p>A nossa solução integra nativamente a exportação FAIA, validada segundo as últimas especificações da AED, para lhe permitir responder serenamente a qualquer pedido da administração fiscal.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/controlo-fiscal-no-luxemburgo-como-se-preparar" class="text-primary-500 hover:text-primary-600 text-sm">controlo fiscal →</a></li><li><a href="/pt/blog/arquivo-das-faturas-no-luxemburgo-prazo-legal-e-formato" class="text-primary-500 hover:text-primary-600 text-sm">arquivo das faturas →</a></li></ul></div>
 HTML;
         return $this->base(
             'faia-luxembourg-fichier-audit-informatise-guide',
@@ -678,7 +678,7 @@ HTML;
 
 <h2>Conclusão</h2>
 
-<p>A gestão do IVA no Luxemburgo exige um bom conhecimento das taxas aplicáveis e das obrigações declarativas. Ao utilizar um software de faturação como o faktur.lu, beneficia de uma aplicação automática das taxas corretas e de faturas conformes às exigências legais.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/tva-intracommunautaire-guide-entreprises-luxembourgeoises" class="text-primary-500 hover:text-primary-600 text-sm">IVA intracomunitário →</a></li><li><a href="/pt/blog/franchise-tva-luxembourg-seuil-obligations-regime-normal" class="text-primary-500 hover:text-primary-600 text-sm">isenção de IVA →</a></li><li><a href="/pt/blog/facturer-etranger-depuis-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">faturar para o estrangeiro →</a></li></ul></div>
+<p>A gestão do IVA no Luxemburgo exige um bom conhecimento das taxas aplicáveis e das obrigações declarativas. Ao utilizar um software de faturação como o faktur.lu, beneficia de uma aplicação automática das taxas corretas e de faturas conformes às exigências legais.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/iva-intracomunitario-guia-para-empresas-luxemburguesas" class="text-primary-500 hover:text-primary-600 text-sm">IVA intracomunitário →</a></li><li><a href="/pt/blog/isencao-de-iva-no-luxemburgo-limiar-obrigacoes-e-passagem-ao-regime-normal" class="text-primary-500 hover:text-primary-600 text-sm">isenção de IVA →</a></li><li><a href="/pt/blog/como-faturar-para-o-estrangeiro-a-partir-do-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">faturar para o estrangeiro →</a></li></ul></div>
 HTML;
         return $this->base(
             'tva-luxembourg-taux-calcul-obligations',
@@ -882,7 +882,7 @@ HTML;
 
 <p>A faturação como freelancer no Luxemburgo não é complicada se seguir as regras. A utilização de um software de faturação adaptado como o faktur.lu permite-lhe criar faturas conformes em alguns cliques, com todas as menções obrigatórias e as taxas de IVA corretas aplicadas automaticamente.</p>
 
-<p>Concentre-se no seu trabalho, nós tratamos da sua conformidade!</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/5-erreurs-frequentes-facture-freelance-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">erros frequentes →</a></li><li><a href="/pt/blog/mentions-obligatoires-facture-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li><li><a href="/pt/blog/automatiser-facturation-7-conseils-gagner-temps" class="text-primary-500 hover:text-primary-600 text-sm">automatizar a sua faturação →</a></li></ul></div>
+<p>Concentre-se no seu trabalho, nós tratamos da sua conformidade!</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/5-erros-frequentes-numa-fatura-de-freelancer-no-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">erros frequentes →</a></li><li><a href="/pt/blog/mencoes-obrigatorias-numa-fatura-no-luxemburgo-checklist-completa" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li><li><a href="/pt/blog/7-conselhos-para-automatizar-a-sua-faturacao-e-ganhar-tempo" class="text-primary-500 hover:text-primary-600 text-sm">automatizar a sua faturação →</a></li></ul></div>
 HTML;
         return $this->base(
             'freelance-luxembourg-facturer-conformite',
@@ -1145,7 +1145,7 @@ HTML;
 
 <h2>Conclusão</h2>
 
-<p>Respeitar as menções obrigatórias nas suas faturas é essencial para estar em conformidade com a legislação luxemburguesa. Utilize esta checklist como referência e adote um software de faturação que automatize estas obrigações para se concentrar na sua atividade.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/note-de-credit-luxembourg-comment-etablir" class="text-primary-500 hover:text-primary-600 text-sm">nota de crédito →</a></li><li><a href="/pt/blog/freelance-luxembourg-facturer-conformite" class="text-primary-500 hover:text-primary-600 text-sm">freelancer →</a></li></ul></div>
+<p>Respeitar as menções obrigatórias nas suas faturas é essencial para estar em conformidade com a legislação luxemburguesa. Utilize esta checklist como referência e adote um software de faturação que automatize estas obrigações para se concentrar na sua atividade.</p><div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/nota-de-credito-no-luxemburgo-como-a-estabelecer-corretamente" class="text-primary-500 hover:text-primary-600 text-sm">nota de crédito →</a></li><li><a href="/pt/blog/freelancer-no-luxemburgo-como-faturar-em-total-conformidade" class="text-primary-500 hover:text-primary-600 text-sm">freelancer →</a></li></ul></div>
 HTML;
         return $this->base(
             'mentions-obligatoires-facture-luxembourg',
@@ -2202,7 +2202,7 @@ HTML;
 
 <p>Os Peppol ID das administrações luxemburguesas estão disponíveis no <a href="https://directory.peppol.eu" target="_blank" rel="noopener">Peppol Directory</a>. Pode também procurá-los diretamente no faktur.lu durante a criação do cliente.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/factur-x-zugferd-facturation-electronique-europeenne" class="text-primary-500 hover:text-primary-600 text-sm">Factur-X / ZUGFeRD →</a></li><li><a href="/pt/blog/choisir-logiciel-facturation-luxembourg-comparatif" class="text-primary-500 hover:text-primary-600 text-sm">software de faturação →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/factur-x-zugferd-a-faturacao-eletronica-europeia-explicada" class="text-primary-500 hover:text-primary-600 text-sm">Factur-X / ZUGFeRD →</a></li><li><a href="/pt/blog/como-escolher-o-seu-software-de-faturacao-no-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">software de faturação →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Pronto a faturar via Peppol?</h3>
@@ -2298,7 +2298,7 @@ HTML;
 
 <p>Ambos são gerados automaticamente pelo faktur.lu.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/archivage-factures-luxembourg-duree-legale-format" class="text-primary-500 hover:text-primary-600 text-sm">arquivo →</a></li><li><a href="/pt/blog/controle-fiscal-luxembourg-comment-preparer" class="text-primary-500 hover:text-primary-600 text-sm">controlo fiscal →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/arquivo-das-faturas-no-luxemburgo-prazo-legal-e-formato" class="text-primary-500 hover:text-primary-600 text-sm">arquivo →</a></li><li><a href="/pt/blog/controlo-fiscal-no-luxemburgo-como-se-preparar" class="text-primary-500 hover:text-primary-600 text-sm">controlo fiscal →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Gere o seu livro de receitas com 1 clique</h3>
@@ -2391,7 +2391,7 @@ HTML;
     <li>Uma <strong>estimativa oficiosa</strong> do volume de negócios pela administração</li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">ficheiro FAIA →</a></li><li><a href="/pt/blog/controle-fiscal-luxembourg-comment-preparer" class="text-primary-500 hover:text-primary-600 text-sm">controlo fiscal →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado" class="text-primary-500 hover:text-primary-600 text-sm">ficheiro FAIA →</a></li><li><a href="/pt/blog/controlo-fiscal-no-luxemburgo-como-se-preparar" class="text-primary-500 hover:text-primary-600 text-sm">controlo fiscal →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Arquivo automático com o faktur.lu</h3>
@@ -2489,7 +2489,7 @@ HTML;
     <li><strong>Verifique a solvabilidade</strong>: para os novos clientes, consulte o RCS Luxemburgo</li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/delais-paiement-luxembourg-cadre-legal-2026" class="text-primary-500 hover:text-primary-600 text-sm">prazos de pagamento legais →</a></li><li><a href="/pt/blog/automatiser-facturation-7-conseils-gagner-temps" class="text-primary-500 hover:text-primary-600 text-sm">automatizar →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/prazos-de-pagamento-no-luxemburgo-quadro-legal-2026" class="text-primary-500 hover:text-primary-600 text-sm">prazos de pagamento legais →</a></li><li><a href="/pt/blog/7-conselhos-para-automatizar-a-sua-faturacao-e-ganhar-tempo" class="text-primary-500 hover:text-primary-600 text-sm">automatizar →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Automatize as suas cobranças com o faktur.lu</h3>
@@ -2581,7 +2581,7 @@ HTML;
     <li>A menção da <strong>indemnização fixa de 40 EUR</strong></li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/relancer-client-impaye-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">cobrar a um cliente →</a></li><li><a href="/pt/blog/mentions-obligatoires-facture-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/como-cobrar-a-um-cliente-que-nao-paga-no-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">cobrar a um cliente →</a></li><li><a href="/pt/blog/mencoes-obrigatorias-numa-fatura-no-luxemburgo-checklist-completa" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Faça a gestão dos seus prazos de pagamento com o faktur.lu</h3>
@@ -2669,7 +2669,7 @@ HTML;
 
 <p>Na prática, no Luxemburgo, o termo oficial utilizado pela administração é "nota de crédito" (Gutschrift em alemão, "avoir" em francês). Em português europeu, fala-se geralmente de <strong>"nota de crédito"</strong>.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/mentions-obligatoires-facture-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li><li><a href="/pt/blog/guide-complet-facturation-luxembourg-2026" class="text-primary-500 hover:text-primary-600 text-sm">guia de faturação →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/mencoes-obrigatorias-numa-fatura-no-luxemburgo-checklist-completa" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li><li><a href="/pt/blog/guia-completo-da-faturacao-no-luxemburgo-em-2026" class="text-primary-500 hover:text-primary-600 text-sm">guia de faturação →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Crie as suas notas de crédito com 1 clique</h3>
@@ -2796,7 +2796,7 @@ HTML;
 
 <p>O faktur.lu deteta automaticamente o cenário de IVA consoante o país e o tipo de cliente, e aplica as menções legais apropriadas.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/tva-luxembourg-taux-calcul-obligations" class="text-primary-500 hover:text-primary-600 text-sm">IVA no Luxemburgo →</a></li><li><a href="/pt/blog/facturer-etranger-depuis-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">faturar para o estrangeiro →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/iva-no-luxemburgo-taxas-calculo-e-obrigacoes-para-as-empresas" class="text-primary-500 hover:text-primary-600 text-sm">IVA no Luxemburgo →</a></li><li><a href="/pt/blog/como-faturar-para-o-estrangeiro-a-partir-do-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">faturar para o estrangeiro →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Fature em toda a UE em conformidade</h3>
@@ -2917,9 +2917,9 @@ HTML;
     <li>Ter a mente tranquila</li>
 </ul>
 
-<p>O faktur.lu propõe um <strong>plano gratuito</strong> para começar (10 faturas/mês) e um plano Essencial a 5 EUR/mês para os freelancers.</p>
+<p>O faktur.lu propõe um <strong>plano gratuito</strong> para começar (5 faturas/mês) e um plano Essencial a 5 EUR/mês para os freelancers.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/choisir-logiciel-facturation-luxembourg-comparatif" class="text-primary-500 hover:text-primary-600 text-sm">escolher o seu software →</a></li><li><a href="/pt/blog/automatiser-facturation-7-conseils-gagner-temps" class="text-primary-500 hover:text-primary-600 text-sm">automatizar a sua faturação →</a></li><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/como-escolher-o-seu-software-de-faturacao-no-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">escolher o seu software →</a></li><li><a href="/pt/blog/7-conselhos-para-automatizar-a-sua-faturacao-e-ganhar-tempo" class="text-primary-500 hover:text-primary-600 text-sm">automatizar a sua faturação →</a></li><li><a href="/pt/blog/faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Passe do Excel ao faktur.lu em 5 minutos</h3>
@@ -3028,7 +3028,7 @@ HTML;
 
 <p>Nenhuma ação suplementar da sua parte: é 100% automático.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/peppol-b2g-luxembourg-guide-complet-2026" class="text-primary-500 hover:text-primary-600 text-sm">Peppol →</a></li><li><a href="/pt/blog/choisir-logiciel-facturation-luxembourg-comparatif" class="text-primary-500 hover:text-primary-600 text-sm">software de faturação →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/peppol-b2g-no-luxemburgo-guia-completo-2026" class="text-primary-500 hover:text-primary-600 text-sm">Peppol →</a></li><li><a href="/pt/blog/como-escolher-o-seu-software-de-faturacao-no-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">software de faturação →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Gere faturas Factur-X automaticamente</h3>
@@ -3054,7 +3054,7 @@ HTML;
     {
         $title = 'Como escolher o seu software de faturação no Luxemburgo';
         $excerpt = 'Como escolher o software de faturação certo para a sua empresa luxemburguesa? Eis os critérios essenciais e o nosso comparativo.';
-        $metaTitle = 'Software de Faturação Luxemburgo: Como Escolher | Comparativo 2026';
+        $metaTitle = 'Software de faturação Luxemburgo: como escolher | faktur.lu';
         $metaDescription = 'Como escolher o software de faturação certo no Luxemburgo? Critérios essenciais, conformidade FAIA, preço. Guia comparativo 2026.';
         $content = <<<'HTML'
 <p class="lead">Procura um software de faturação adaptado ao Luxemburgo? O mercado propõe inúmeras soluções, mas nem todas estão em conformidade com a legislação luxemburguesa. Eis os <strong>critérios essenciais</strong> para fazer a escolha certa.</p>
@@ -3155,7 +3155,7 @@ HTML;
     <li>Plano gratuito para começar</li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/excel-vs-logiciel-facturation-pourquoi-switch" class="text-primary-500 hover:text-primary-600 text-sm">Excel vs software →</a></li><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/peppol-b2g-luxembourg-guide-complet-2026" class="text-primary-500 hover:text-primary-600 text-sm">Peppol →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/excel-vs-software-de-faturacao-porque-fazer-a-mudanca" class="text-primary-500 hover:text-primary-600 text-sm">Excel vs software →</a></li><li><a href="/pt/blog/faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/peppol-b2g-no-luxemburgo-guia-completo-2026" class="text-primary-500 hover:text-primary-600 text-sm">Peppol →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">O software de faturação feito para o Luxemburgo</h3>
@@ -3283,7 +3283,7 @@ HTML;
     <li>&#9745; Descrição clara da prestação</li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/mentions-obligatoires-facture-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li><li><a href="/pt/blog/note-de-credit-luxembourg-comment-etablir" class="text-primary-500 hover:text-primary-600 text-sm">nota de crédito →</a></li><li><a href="/pt/blog/guide-complet-facturation-luxembourg-2026" class="text-primary-500 hover:text-primary-600 text-sm">guia completo →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/mencoes-obrigatorias-numa-fatura-no-luxemburgo-checklist-completa" class="text-primary-500 hover:text-primary-600 text-sm">menções obrigatórias →</a></li><li><a href="/pt/blog/nota-de-credito-no-luxemburgo-como-a-estabelecer-corretamente" class="text-primary-500 hover:text-primary-600 text-sm">nota de crédito →</a></li><li><a href="/pt/blog/guia-completo-da-faturacao-no-luxemburgo-em-2026" class="text-primary-500 hover:text-primary-600 text-sm">guia completo →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Fature sem erro com o faktur.lu</h3>
@@ -3309,7 +3309,7 @@ HTML;
     {
         $title = 'Como faturar para o estrangeiro a partir do Luxemburgo';
         $excerpt = 'Faturar um cliente em França, na Alemanha ou fora da UE a partir do Luxemburgo? Descubra as regras de IVA e as menções a aplicar segundo cada caso.';
-        $metaTitle = 'Faturar para o Estrangeiro a partir do Luxemburgo: Guia IVA e Regras';
+        $metaTitle = 'Faturar para o estrangeiro: guia IVA Luxemburgo | faktur.lu';
         $metaDescription = 'Como faturar um cliente estrangeiro a partir do Luxemburgo? Regras de IVA por zona (UE, fora da UE), menções obrigatórias e armadilhas a evitar.';
         $content = <<<'HTML'
 <p class="lead">Está sediado no Luxemburgo e fatura clientes no estrangeiro? As regras de IVA variam consideravelmente segundo a zona geográfica e o tipo de cliente. Eis um guia claro para cada situação.</p>
@@ -3404,7 +3404,7 @@ HTML;
 
 <p>O faktur.lu suporta a faturação <strong>multi-divisas</strong> e conserva a taxa de câmbio utilizada para cada fatura.</p>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/tva-intracommunautaire-guide-entreprises-luxembourgeoises" class="text-primary-500 hover:text-primary-600 text-sm">IVA intracomunitário →</a></li><li><a href="/pt/blog/tva-luxembourg-taux-calcul-obligations" class="text-primary-500 hover:text-primary-600 text-sm">IVA no Luxemburgo →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/iva-intracomunitario-guia-para-empresas-luxemburguesas" class="text-primary-500 hover:text-primary-600 text-sm">IVA intracomunitário →</a></li><li><a href="/pt/blog/iva-no-luxemburgo-taxas-calculo-e-obrigacoes-para-as-empresas" class="text-primary-500 hover:text-primary-600 text-sm">IVA no Luxemburgo →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Fature internacionalmente em conformidade</h3>
@@ -3519,7 +3519,7 @@ HTML;
     <li><strong>Alerta de limiar</strong>: o faktur.lu avisa-o quando se aproxima dos 35 000 EUR para antecipar a passagem</li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/tva-luxembourg-taux-calcul-obligations" class="text-primary-500 hover:text-primary-600 text-sm">taxas de IVA →</a></li><li><a href="/pt/blog/freelance-luxembourg-facturer-conformite" class="text-primary-500 hover:text-primary-600 text-sm">freelancer →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/iva-no-luxemburgo-taxas-calculo-e-obrigacoes-para-as-empresas" class="text-primary-500 hover:text-primary-600 text-sm">taxas de IVA →</a></li><li><a href="/pt/blog/freelancer-no-luxemburgo-como-faturar-em-total-conformidade" class="text-primary-500 hover:text-primary-600 text-sm">freelancer →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Faça a gestão da sua isenção de IVA com toda a tranquilidade</h3>
@@ -3656,7 +3656,7 @@ HTML;
     </tbody>
 </table>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/choisir-logiciel-facturation-luxembourg-comparatif" class="text-primary-500 hover:text-primary-600 text-sm">software de faturação →</a></li><li><a href="/pt/blog/excel-vs-logiciel-facturation-pourquoi-switch" class="text-primary-500 hover:text-primary-600 text-sm">deixar o Excel →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/como-escolher-o-seu-software-de-faturacao-no-luxemburgo" class="text-primary-500 hover:text-primary-600 text-sm">software de faturação →</a></li><li><a href="/pt/blog/excel-vs-software-de-faturacao-porque-fazer-a-mudanca" class="text-primary-500 hover:text-primary-600 text-sm">deixar o Excel →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Automatize a sua faturação com o faktur.lu</h3>
@@ -3774,7 +3774,7 @@ HTML;
     <li><strong>Corrija os seus erros</strong>: um erro corrigido espontaneamente antes do controlo é visto mais favoravelmente</li>
 </ul>
 
-<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxembourg-fichier-audit-informatise-guide" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/archivage-factures-luxembourg-duree-legale-format" class="text-primary-500 hover:text-primary-600 text-sm">arquivo →</a></li><li><a href="/pt/blog/livre-des-recettes-luxembourg-obligations-modele" class="text-primary-500 hover:text-primary-600 text-sm">livro de receitas →</a></li></ul></div>
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Artigos relacionados</h3><ul class="space-y-1"><li><a href="/pt/blog/faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado" class="text-primary-500 hover:text-primary-600 text-sm">exportação FAIA →</a></li><li><a href="/pt/blog/arquivo-das-faturas-no-luxemburgo-prazo-legal-e-formato" class="text-primary-500 hover:text-primary-600 text-sm">arquivo →</a></li><li><a href="/pt/blog/livro-de-receitas-no-luxemburgo-obrigacoes-e-modelo" class="text-primary-500 hover:text-primary-600 text-sm">livro de receitas →</a></li></ul></div>
 
 <div class="bg-primary-50 rounded-xl p-6 mt-8">
     <h3 class="text-lg font-semibold text-primary-900 mb-2">Esteja pronto para o controlo fiscal</h3>
