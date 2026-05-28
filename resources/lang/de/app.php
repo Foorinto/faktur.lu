@@ -1101,7 +1101,7 @@ return [
         'schema_software_description' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg und gewährleistet die steuerliche Konformität (MwSt., FAIA, B2B-E-Rechnungsstellung).',
         'schema_slogan' => 'Die luxemburgische Rechnungslösung',
         'schema_offer_free_name' => 'Kostenloser Plan',
-        'schema_offer_free_description' => 'Kostenloser Plan - 10 Kunden, 10 Rechnungen pro Monat',
+        'schema_offer_free_description' => 'Kostenloser Plan - 10 Kunden, 5 Rechnungen pro Monat',
         'schema_offer_essential_name' => 'Essential-Plan',
         'schema_offer_essential_description' => 'Essential-Plan - 100 Kunden, 50 Rechnungen pro Monat, Projekte, Buchhaltung',
         'schema_offer_pro_name' => 'Pro-Plan',
@@ -1430,7 +1430,7 @@ return [
             'faq_heading' => 'Häufig gestellte Fragen',
             'faq' => [
                 'trial' => ['question' => 'Wie funktioniert die kostenlose Testphase?', 'answer' => 'Genießen Sie 14 Tage vollen Zugang zu allen Pro-Funktionen, ohne Kreditkarte. Am Ende der Testphase wählen Sie den passenden Plan.'],
-                'after_trial' => ['question' => 'Was passiert nach der Testphase, wenn ich nicht abonniere?', 'answer' => 'Ihr Konto wechselt automatisch zum kostenlosen Plan: Sie können weiterhin Rechnungen erstellen (10/Monat) und bis zu 10 Kunden verwalten.'],
+                'after_trial' => ['question' => 'Was passiert nach der Testphase, wenn ich nicht abonniere?', 'answer' => 'Ihr Konto wechselt automatisch zum kostenlosen Plan: Sie können weiterhin Rechnungen erstellen (5/Monat) und bis zu 10 Kunden verwalten.'],
                 'change_plan' => ['question' => 'Kann ich den Plan jederzeit wechseln?', 'answer' => 'Ja, Sie können jederzeit von Essentiel auf Pro wechseln. Die Änderung ist sofort wirksam und die anteilige Berechnung erfolgt automatisch.'],
                 'faia' => ['question' => 'Ist der FAIA-Export wirklich wichtig?', 'answer' => 'Ja. Bei einer Steuerprüfung in Luxemburg kann die Steuerverwaltung Ihre Daten im FAIA-Format verlangen. Dies ist für MwSt-pflichtige Unternehmen obligatorisch.'],
                 'billing' => ['question' => 'Wie funktioniert die Abrechnung?', 'answer' => 'Wir verwenden Stripe für sichere Zahlungen. Sie können per Kreditkarte bezahlen. Die Rechnung ist in Ihrem Kundenbereich verfügbar.'],
@@ -1441,12 +1441,12 @@ return [
                     'description' => 'Für einen einfachen Start',
                     'card_features' => [
                         '10 Kunden',
-                        '10 Rechnungen / Monat',
+                        '5 Rechnungen / Monat',
                         '5 Angebote / Monat',
                         'FAIA-Export inklusive',
                         'Luxemburg-konform',
                     ],
-                    'features' => ['10 Rechnungen/Monat', 'Maximal 10 Kunden', '5 Angebote/Monat', 'Ausgabenverfolgung (10/Monat)', '2FA-Authentifizierung', 'FAIA-Export inklusive', 'Anpassbare Nummerierung'],
+                    'features' => ['5 Rechnungen/Monat', 'Maximal 10 Kunden', '5 Angebote/Monat', 'Ausgabenverfolgung (10/Monat)', '2FA-Authentifizierung', 'FAIA-Export inklusive', 'Anpassbare Nummerierung'],
                     'limitations' => ['Keine Projekte oder Zeiterfassung', 'Kein CRM oder HR-Modul', 'Kein erweiterter Buchhaltungsexport'],
                 ],
                 'essentiel' => [
@@ -1560,7 +1560,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wie viel kostet eine Rechnungssoftware in Luxemburg?',
-                    'answer' => 'Faktur.lu bietet 3 transparente Pläne ohne versteckte Kosten: den kostenlosen Plan (10 Kunden, 10 Rechnungen/Monat) zum Einstieg, den Essential-Plan zu 5 EUR/Monat (100 Kunden, 50 Rechnungen/Monat, Projekte, Buchhaltung) und den Pro-Plan zu 15 EUR/Monat (unbegrenzt mit FAIA, Peppol, CRM und HR-Modul). Keine Bindung, monatliche oder jährliche Zahlung mit Rabatt. Keine Mehrkosten für zusätzliche Nutzer in den Plänen Essential und Pro.',
+                    'answer' => 'Faktur.lu bietet 3 transparente Pläne ohne versteckte Kosten: den kostenlosen Plan (10 Kunden, 5 Rechnungen/Monat) zum Einstieg, den Essential-Plan zu 5 EUR/Monat (100 Kunden, 50 Rechnungen/Monat, Projekte, Buchhaltung) und den Pro-Plan zu 15 EUR/Monat (unbegrenzt mit FAIA, Peppol, CRM und HR-Modul). Keine Bindung, monatliche oder jährliche Zahlung mit Rabatt. Keine Mehrkosten für zusätzliche Nutzer in den Plänen Essential und Pro.',
                 ],
                 'compliant' => [
                     'question' => 'Sind meine faktur.lu-Rechnungen wirklich konform in Luxemburg?',
@@ -2334,20 +2334,20 @@ return [
     // Partners page
     'for_freelances' => [
         'page_title' => 'Freelancer-Rechnungsstellung Luxemburg: konform, einfach, ab 0 € | faktur.lu',
-        'meta_description' => 'Rechnungssoftware für Freelancer in Luxemburg: LIVA-konforme Rechnungen, FAIA für Ihren Buchhalter, automatische 17% MwSt, Zahlungsverfolgung. Kostenloser Plan (10 Rechnungen/Monat) oder Essentiel ab 5 €/Monat.',
+        'meta_description' => 'Rechnungssoftware für Freelancer in Luxemburg: LIVA-konforme Rechnungen, FAIA für Ihren Buchhalter, automatische 17% MwSt, Zahlungsverfolgung. Kostenloser Plan (5 Rechnungen/Monat) oder Essentiel ab 5 €/Monat.',
         'breadcrumb' => 'Für Freelancer',
         'badge' => 'Für Freelancer',
         'hero_title' => 'Rechnungsstellung für Freelancer in Luxemburg, ohne Verwaltungschaos',
         'hero_subtitle' => 'Stellen Sie Ihren Kunden in wenigen Minuten Rechnungen aus — alle LIVA-Pflichtangaben enthalten, 17% MwSt automatisch berechnet, FAIA-Export bereit für Ihren Buchhalter. Kein Steuerberater erforderlich.',
         'cta_primary' => 'Kostenlos starten',
         'cta_secondary' => 'Preise ansehen',
-        'cta_reassurance' => 'Keine Kreditkarte · Kostenloser Plan bis 10 Rechnungen/Monat · 5 Min für die erste Rechnung',
+        'cta_reassurance' => 'Keine Kreditkarte · Kostenloser Plan bis 5 Rechnungen/Monat · 5 Min für die erste Rechnung',
         'pains_title' => 'Ihre echten Probleme als Freelancer',
         'pains' => [
             'admin' => ['title' => '„Ich wollte kein Buchhalter werden"', 'desc' => 'Sie stellen Rechnungen für Ihre Leistungen — Sie wollten sich nicht um Papierkram, Nummerierung, MwSt-Sätze und Pflichtangaben kümmern. faktur.lu erledigt das für Sie.'],
             'compliant' => ['title' => '„Ist meine Rechnung rechtens?"', 'desc' => 'Fortlaufende Nummerierung (Artikel 61 LIVA), Pflichtangaben, 17% MwSt (oder Reverse-Charge Artikel 21 für B2B innerhalb der EU): alles automatisch und konform.'],
             'audit' => ['title' => '„Was, wenn die AED prüft?"', 'desc' => 'Die FAIA-Datei nach AED 2.01 wird auf Abruf generiert. Ihr Buchhalter holt sie sich mit einem Klick über das Buchhalterportal. Kein Prüfungsstress mehr.'],
-            'cost' => ['title' => '„30 €/Monat für Rechnungssoftware? Nein."', 'desc' => 'Kostenloser Plan bis 10 Rechnungen/Monat. Essentiel-Plan ab 5 €/Monat für 50 Rechnungen. Ohne Bindung.'],
+            'cost' => ['title' => '„30 €/Monat für Rechnungssoftware? Nein."', 'desc' => 'Kostenloser Plan bis 5 Rechnungen/Monat. Essentiel-Plan ab 5 €/Monat für 50 Rechnungen. Ohne Bindung.'],
         ],
         'features_title' => 'Alles, was Sie für entspanntes Rechnen brauchen',
         'features' => [
@@ -2362,13 +2362,13 @@ return [
         'plan_recommend_name' => 'Essentiel — 5 €/Monat',
         'plan_recommend_desc' => '50 Rechnungen/Monat, 100 Kunden, Buchhalterportal, Sage BOB 50 / Sage 100 / CSV-Exporte, Zeiterfassung. Ideal für aktive Freelancer.',
         'plan_recommend_cta' => '14 Tage kostenlos testen',
-        'plan_free_note' => 'Zum Testen? Der kostenlose Plan (10 Rechnungen/Monat, 10 Kunden) ist ideal, um ohne Bindung zu starten. Jederzeit auf Essentiel wechseln.',
+        'plan_free_note' => 'Zum Testen? Der kostenlose Plan (5 Rechnungen/Monat, 10 Kunden) ist ideal, um ohne Bindung zu starten. Jederzeit auf Essentiel wechseln.',
         'faq_title' => 'Häufige Fragen von Freelancern',
         'faq' => [
             'q1' => ['q' => 'Ich bin von der MwSt befreit (unter 35.000 €/Jahr), kompatibel?', 'a' => 'Ja. Aktivieren Sie die Befreiung in Ihren Einstellungen: „MwSt nicht anwendbar, Art. 56 ter LIVA" wird automatisch auf allen Rechnungen hinzugefügt. Bei Annäherung an die Schwelle werden Sie gewarnt.'],
             'q2' => ['q' => 'Ich stelle ausländischen Kunden (intra-EU, außerhalb EU) Rechnungen, wird das verwaltet?', 'a' => 'Ja. Für B2B intra-EU mit gültiger MwSt-Nummer (Echtzeit-VIES-Validierung) wird „Reverse-Charge, Artikel 21 LIVA" automatisch hinzugefügt. Außerhalb EU: angepasste Befreiungsangabe je Land.'],
             'q3' => ['q' => 'Wie läuft das mit meinem Buchhalter/Treuhänder?', 'a' => 'Laden Sie ihn per E-Mail aus Ihren Einstellungen ein. Er erhält einen Link und greift auf ein separates Lesemodus-Portal zu, wo er Rechnungen, FAIA und Sage BOB/Sage 100/CSV-Exporte abruft. Keine Installation, kostenlos für ihn.'],
-            'q4' => ['q' => 'Was, wenn ich nur wenige Rechnungen pro Monat ausstelle?', 'a' => 'Der kostenlose Plan deckt 10 Rechnungen/Monat und 10 Kunden ab. Für Teilzeit-Freelancer oder Nebentätigkeit mehr als ausreichend.'],
+            'q4' => ['q' => 'Was, wenn ich nur wenige Rechnungen pro Monat ausstelle?', 'a' => 'Der kostenlose Plan deckt 5 Rechnungen/Monat und 10 Kunden ab. Für Teilzeit-Freelancer oder Nebentätigkeit mehr als ausreichend.'],
             'q5' => ['q' => 'Sind meine Daten sicher?', 'a' => 'Gehostet bei o2switch in Frankreich (100% EU, DSGVO), TLS 1.3 verschlüsselter Transport, bcrypt-Passwörter, AES-256-CBC für sensible Daten. Tägliche 30-Tage-Backups.'],
         ],
         'cta_final_title' => 'Bereit, in 5 Minuten Rechnungen zu stellen?',

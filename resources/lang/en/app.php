@@ -1198,7 +1198,7 @@ return [
         'schema_software_description' => 'Faktur.lu is the leading invoicing platform for sole traders and SMEs in Luxembourg, guaranteeing tax compliance (VAT, FAIA, B2B e-invoicing).',
         'schema_slogan' => 'The Luxembourg invoicing solution',
         'schema_offer_free_name' => 'Free Plan',
-        'schema_offer_free_description' => 'Free Plan - 10 clients, 10 invoices per month',
+        'schema_offer_free_description' => 'Free Plan - 10 clients, 5 invoices per month',
         'schema_offer_essential_name' => 'Essential Plan',
         'schema_offer_essential_description' => 'Essential Plan - 100 clients, 50 invoices per month, projects, accounting',
         'schema_offer_pro_name' => 'Pro Plan',
@@ -1529,7 +1529,7 @@ return [
             'faq_heading' => 'Frequently asked questions',
             'faq' => [
                 'trial' => ['question' => 'How does the free trial work?', 'answer' => 'Enjoy 14 days of full access to all Pro features, no credit card required. At the end of the trial, choose the plan that suits you.'],
-                'after_trial' => ['question' => 'What happens after the trial if I don\'t subscribe?', 'answer' => 'Your account automatically switches to the Free plan: you can still create invoices (10/month) and manage up to 10 clients. Subscribe at any time to unlock more features.'],
+                'after_trial' => ['question' => 'What happens after the trial if I don\'t subscribe?', 'answer' => 'Your account automatically switches to the Free plan: you can still create invoices (5/month) and manage up to 10 clients. Subscribe at any time to unlock more features.'],
                 'change_plan' => ['question' => 'Can I change plans at any time?', 'answer' => 'Yes, you can upgrade from Essentiel to Pro at any time. The change is immediate and proration is calculated automatically.'],
                 'faia' => ['question' => 'Is FAIA export really important?', 'answer' => 'Yes. In case of a tax audit in Luxembourg, the Administration des contributions directes may require your data in FAIA format. It is mandatory for VAT-registered businesses.'],
                 'billing' => ['question' => 'How does billing work?', 'answer' => 'We use Stripe for secure payments. You can pay by credit card. The invoice is available in your client area.'],
@@ -1540,12 +1540,12 @@ return [
                     'description' => 'To get started smoothly',
                     'card_features' => [
                         '10 clients',
-                        '10 invoices / month',
+                        '5 invoices / month',
                         '5 quotes / month',
                         'FAIA export included',
                         'Luxembourg-compliant',
                     ],
-                    'features' => ['10 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Custom numbering'],
+                    'features' => ['5 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Custom numbering'],
                     'limitations' => ['No projects or time tracking', 'No CRM or HR module', 'No advanced accounting export'],
                 ],
                 'essentiel' => [
@@ -1659,7 +1659,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'How much does invoicing software cost in Luxembourg?',
-                    'answer' => 'Faktur.lu offers 3 transparent plans with no hidden fees: the Free plan (10 clients, 10 invoices/month) to get started, the Essential plan at 5 EUR/month (100 clients, 50 invoices/month, projects, accounting), and the Pro plan at 15 EUR/month (unlimited with FAIA, Peppol, CRM and HR module). No commitment, monthly or annual payment with discount. No additional fees for extra users on Essential and Pro plans.',
+                    'answer' => 'Faktur.lu offers 3 transparent plans with no hidden fees: the Free plan (10 clients, 5 invoices/month) to get started, the Essential plan at 5 EUR/month (100 clients, 50 invoices/month, projects, accounting), and the Pro plan at 15 EUR/month (unlimited with FAIA, Peppol, CRM and HR module). No commitment, monthly or annual payment with discount. No additional fees for extra users on Essential and Pro plans.',
                 ],
                 'compliant' => [
                     'question' => 'Are my faktur.lu invoices truly compliant in Luxembourg?',
@@ -2433,20 +2433,20 @@ return [
     // Partners page
     'for_freelances' => [
         'page_title' => 'Freelance invoicing Luxembourg: compliant, simple, from €0 | faktur.lu',
-        'meta_description' => 'Invoicing software built for Luxembourg freelancers: LIVA-compliant invoices, FAIA for your accountant, automatic 17% VAT, payment tracking. Free plan (10 invoices/month) or Essentiel at €5/month.',
+        'meta_description' => 'Invoicing software built for Luxembourg freelancers: LIVA-compliant invoices, FAIA for your accountant, automatic 17% VAT, payment tracking. Free plan (5 invoices/month) or Essentiel at €5/month.',
         'breadcrumb' => 'For freelancers',
         'badge' => 'For freelancers',
         'hero_title' => 'Invoicing for Luxembourg freelancers, without the admin headache',
         'hero_subtitle' => 'Invoice your clients in minutes — all LIVA mentions included, 17% VAT calculated automatically, FAIA export ready for your accountant. No accountant required.',
         'cta_primary' => 'Start for free',
         'cta_secondary' => 'See pricing',
-        'cta_reassurance' => 'No credit card · Free plan up to 10 invoices/month · 5 min for your first invoice',
+        'cta_reassurance' => 'No credit card · Free plan up to 5 invoices/month · 5 min for your first invoice',
         'pains_title' => 'Your real problems as a freelancer',
         'pains' => [
             'admin' => ['title' => '"I didn\'t sign up to become an accountant"', 'desc' => 'You invoice for your services — you didn\'t sign up to handle paperwork, sequence numbers, VAT rates and legal mentions. faktur.lu handles all of that for you.'],
             'compliant' => ['title' => '"Is my invoice legal?"', 'desc' => 'Sequential numbering (Article 61 LIVA), mandatory mentions, 17% VAT (or Article 21 reverse charge for B2B intra-EU): all generated automatically and compliant.'],
             'audit' => ['title' => '"What if the AED audits me?"', 'desc' => 'FAIA file compliant with AED 2.01 is generated on demand. Your accountant retrieves it in one click via the accountant portal. No more audit stress.'],
-            'cost' => ['title' => '"€30/month for invoicing software? No way."', 'desc' => 'Free plan up to 10 invoices/month. Essentiel plan at €5/month for 50 invoices. No commitment.'],
+            'cost' => ['title' => '"€30/month for invoicing software? No way."', 'desc' => 'Free plan up to 5 invoices/month. Essentiel plan at €5/month for 50 invoices. No commitment.'],
         ],
         'features_title' => 'Everything you need to invoice with peace of mind',
         'features' => [
@@ -2461,13 +2461,13 @@ return [
         'plan_recommend_name' => 'Essentiel — €5/month',
         'plan_recommend_desc' => 'Includes 50 invoices/month, 100 clients, accountant portal, Sage BOB 50 / Sage 100 / CSV exports, and time tracking. Ideal for an active freelancer.',
         'plan_recommend_cta' => 'Try 14 days free',
-        'plan_free_note' => 'Just testing? The Free plan (10 invoices/month, 10 clients) is perfect to start without committing. Switch to Essentiel anytime.',
+        'plan_free_note' => 'Just testing? The Free plan (5 invoices/month, 10 clients) is perfect to start without committing. Switch to Essentiel anytime.',
         'faq_title' => 'Frequently asked questions from freelancers',
         'faq' => [
             'q1' => ['q' => 'I\'m under VAT exemption (below €35,000/year), is it compatible?', 'a' => 'Yes. Activate exemption in your company settings: the mention "VAT not applicable, art. 56 ter LIVA" is added automatically on all your invoices. When you approach the threshold, faktur.lu alerts you.'],
             'q2' => ['q' => 'I invoice foreign clients (intra-EU, non-EU), is it handled?', 'a' => 'Yes. For B2B intra-EU with valid VAT number (validated via VIES in real-time), "Reverse charge, article 21 LIVA" is added automatically. Non-EU: exemption with appropriate mention by country.'],
             'q3' => ['q' => 'How does it work with my accountant/fiduciary?', 'a' => 'Invite them by email from your settings. They receive a link and access a separate read-only portal where they retrieve your invoices, FAIA and Sage BOB/Sage 100/CSV exports. No installation, free for them.'],
-            'q4' => ['q' => 'What if I only do a few invoices per month?', 'a' => 'The Free plan covers 10 invoices/month and 10 clients. For a part-time freelancer or side activity, that\'s more than enough.'],
+            'q4' => ['q' => 'What if I only do a few invoices per month?', 'a' => 'The Free plan covers 5 invoices/month and 10 clients. For a part-time freelancer or side activity, that\'s more than enough.'],
             'q5' => ['q' => 'Is my data safe?', 'a' => 'Hosted at o2switch in France (100% European Union, GDPR), TLS 1.3 encrypted transport, bcrypt password hashes, AES-256-CBC for sensitive data. Daily 30-day backups.'],
         ],
         'cta_final_title' => 'Ready to invoice in 5 minutes?',

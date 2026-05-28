@@ -1197,7 +1197,7 @@ return [
         'schema_software_description' => 'Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo, garantindo a conformidade fiscal (IVA, FAIA, faturação eletrónica B2B).',
         'schema_slogan' => 'A solução de faturação luxemburguesa',
         'schema_offer_free_name' => 'Plano Gratuito',
-        'schema_offer_free_description' => 'Plano Gratuito - 10 clientes, 10 faturas por mês',
+        'schema_offer_free_description' => 'Plano Gratuito - 10 clientes, 5 faturas por mês',
         'schema_offer_essential_name' => 'Plano Essencial',
         'schema_offer_essential_description' => 'Plano Essencial - 100 clientes, 50 faturas por mês, projetos, contabilidade',
         'schema_offer_pro_name' => 'Plano Pro',
@@ -1538,13 +1538,13 @@ return [
                     'description' => 'Para começar sem complicações',
                     'card_features' => [
                         '10 clientes',
-                        '10 faturas / mês',
+                        '5 faturas / mês',
                         '5 orçamentos / mês',
                         'Exportação FAIA incluída',
                         'Conforme Luxemburgo',
                     ],
                     'features' => [
-                        '10 faturas/mês',
+                        '5 faturas/mês',
                         '10 clientes no máximo',
                         '5 orçamentos/mês',
                         'Gestão de despesas (10/mês)',
@@ -1667,7 +1667,7 @@ return [
                 ],
                 'after_trial' => [
                     'question' => 'O que acontece após a avaliação se eu não subscrever?',
-                    'answer' => 'A sua conta passa automaticamente ao plano Gratuito: pode continuar a criar faturas (10/mês) e a gerir até 10 clientes. Subscreva a qualquer momento para desbloquear mais funcionalidades.',
+                    'answer' => 'A sua conta passa automaticamente ao plano Gratuito: pode continuar a criar faturas (5/mês) e a gerir até 10 clientes. Subscreva a qualquer momento para desbloquear mais funcionalidades.',
                 ],
                 'change_plan' => [
                     'question' => 'Posso mudar de plano a qualquer momento?',
@@ -1717,7 +1717,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Quanto custa um software de faturação no Luxemburgo?',
-                    'answer' => 'O Faktur.lu propõe 3 planos transparentes sem custos ocultos: o plano Gratuito (10 clientes, 10 faturas/mês) para começar, o plano Essencial a 5 EUR/mês (100 clientes, 50 faturas/mês, projetos, contabilidade), e o plano Pro a 15 EUR/mês (ilimitado com FAIA, Peppol, CRM e módulo RH). Sem compromisso, pagamento mensal ou anual com desconto. Sem custos adicionais para utilizadores extra nos planos Essencial e Pro.',
+                    'answer' => 'O Faktur.lu propõe 3 planos transparentes sem custos ocultos: o plano Gratuito (10 clientes, 5 faturas/mês) para começar, o plano Essencial a 5 EUR/mês (100 clientes, 50 faturas/mês, projetos, contabilidade), e o plano Pro a 15 EUR/mês (ilimitado com FAIA, Peppol, CRM e módulo RH). Sem compromisso, pagamento mensal ou anual com desconto. Sem custos adicionais para utilizadores extra nos planos Essencial e Pro.',
                 ],
                 'compliant' => [
                     'question' => 'As minhas faturas faktur.lu são realmente conformes no Luxemburgo?',
@@ -2638,20 +2638,20 @@ return [
     // Partners page
     'for_freelances' => [
         'page_title' => 'Faturação freelance Luxemburgo: conforme, simples, desde 0 € | faktur.lu',
-        'meta_description' => 'Software de faturação para freelancers no Luxemburgo: faturas conformes LIVA, FAIA para o seu contabilista, IVA 17% automático. Plano gratuito (10 faturas/mês) ou Essencial a 5 €/mês.',
+        'meta_description' => 'Software de faturação para freelancers no Luxemburgo: faturas conformes LIVA, FAIA para o seu contabilista, IVA 17% automático. Plano gratuito (5 faturas/mês) ou Essencial a 5 €/mês.',
         'breadcrumb' => 'Para freelancers',
         'badge' => 'Para freelancers',
         'hero_title' => 'Faturação para freelancers no Luxemburgo, sem a chatice administrativa',
         'hero_subtitle' => 'Faça faturas aos seus clientes em minutos — todas as menções LIVA, IVA 17% calculado automaticamente, exportação FAIA pronta para o seu contabilista. Sem contabilista obrigatório.',
         'cta_primary' => 'Começar gratuitamente',
         'cta_secondary' => 'Ver preços',
-        'cta_reassurance' => 'Sem cartão · Plano gratuito até 10 faturas/mês · 5 min para a 1.ª fatura',
+        'cta_reassurance' => 'Sem cartão · Plano gratuito até 5 faturas/mês · 5 min para a 1.ª fatura',
         'pains_title' => 'Os seus problemas reais como freelancer',
         'pains' => [
             'admin' => ['title' => '"Não me inscrevi para ser contabilista"', 'desc' => 'Você fatura os seus serviços — não se inscreveu para gerir papelada, números sequenciais, taxas de IVA e menções legais. O faktur.lu trata de tudo.'],
             'compliant' => ['title' => '"A minha fatura é legal?"', 'desc' => 'Numeração sequencial (Artigo 61 LIVA), menções obrigatórias, IVA 17% (ou autoliquidação Artigo 21 para B2B intra-UE): tudo gerado automaticamente e conforme.'],
             'audit' => ['title' => '"E se a AED inspeccionar?"', 'desc' => 'O ficheiro FAIA conforme AED 2.01 é gerado a pedido. O seu contabilista recupera-o num clique através do portal. Sem stress de inspecção.'],
-            'cost' => ['title' => '"30 €/mês por software de faturação? Não."', 'desc' => 'Plano gratuito até 10 faturas/mês. Plano Essencial a 5 €/mês para 50 faturas. Sem compromisso.'],
+            'cost' => ['title' => '"30 €/mês por software de faturação? Não."', 'desc' => 'Plano gratuito até 5 faturas/mês. Plano Essencial a 5 €/mês para 50 faturas. Sem compromisso.'],
         ],
         'features_title' => 'Tudo o que precisa para faturar sem stress',
         'features' => [
@@ -2666,13 +2666,13 @@ return [
         'plan_recommend_name' => 'Essencial — 5 €/mês',
         'plan_recommend_desc' => 'Inclui 50 faturas/mês, 100 clientes, portal contabilista, exportações Sage BOB 50 / Sage 100 / CSV, registo de tempo. Ideal para um freelancer ativo.',
         'plan_recommend_cta' => 'Experimentar 14 dias grátis',
-        'plan_free_note' => 'Está apenas a testar? O plano Gratuito (10 faturas/mês, 10 clientes) é perfeito para começar sem compromisso. Mude para o Essencial a qualquer momento.',
+        'plan_free_note' => 'Está apenas a testar? O plano Gratuito (5 faturas/mês, 10 clientes) é perfeito para começar sem compromisso. Mude para o Essencial a qualquer momento.',
         'faq_title' => 'Perguntas frequentes de freelancers',
         'faq' => [
             'q1' => ['q' => 'Estou em isenção de IVA (abaixo de 35.000 €/ano), é compatível?', 'a' => 'Sim. Ative a isenção nas suas definições da empresa: "IVA não aplicável, art. 56 ter LIVA" é adicionado automaticamente em todas as suas faturas. Quando se aproxima do limite, o faktur.lu avisa-o.'],
             'q2' => ['q' => 'Faturo clientes estrangeiros (intra-UE, fora UE), é gerido?', 'a' => 'Sim. Para B2B intra-UE com NIF válido (validação VIES em tempo real), "Autoliquidação, artigo 21 LIVA" é adicionado automaticamente. Fora UE: isenção com menção adaptada conforme o país.'],
             'q3' => ['q' => 'Como funciona com o meu contabilista/fiduciária?', 'a' => 'Convida-o por email a partir das suas definições. Recebe um link e acede a um portal separado em modo de leitura onde recupera as suas faturas, FAIA e exportações Sage BOB/Sage 100/CSV. Sem instalação, gratuito para ele.'],
-            'q4' => ['q' => 'E se apenas faço algumas faturas por mês?', 'a' => 'O plano Gratuito cobre 10 faturas/mês e 10 clientes. Para um freelancer a tempo parcial ou atividade complementar, é mais que suficiente.'],
+            'q4' => ['q' => 'E se apenas faço algumas faturas por mês?', 'a' => 'O plano Gratuito cobre 5 faturas/mês e 10 clientes. Para um freelancer a tempo parcial ou atividade complementar, é mais que suficiente.'],
             'q5' => ['q' => 'Os meus dados estão seguros?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), transporte cifrado TLS 1.3, palavras-passe bcrypt, dados sensíveis cifrados AES-256-CBC. Backups diários 30 dias.'],
         ],
         'cta_final_title' => 'Pronto a faturar em 5 minutos?',

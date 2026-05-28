@@ -1116,7 +1116,7 @@ const toggleFaq = (index) => {
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-6 text-sm text-slate-700">{{ t('landing.pricing.comparison.rows.invoices_per_month') }}</td>
-                                    <td class="py-3 px-4 text-center text-sm text-slate-600">10</td>
+                                    <td class="py-3 px-4 text-center text-sm text-slate-600">5</td>
                                     <td class="py-3 px-4 text-center text-sm text-slate-600">50</td>
                                     <td class="py-3 px-4 text-center text-sm font-medium text-primary-500">{{ t('landing.pricing.unlimited') }}</td>
                                 </tr>

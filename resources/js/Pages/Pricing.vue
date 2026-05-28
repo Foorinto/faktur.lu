@@ -527,7 +527,7 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"
                                     >
-                                        10
+                                        5
                                     </td>
                                     <td
                                         class="py-3 px-4 text-center text-sm text-slate-600"

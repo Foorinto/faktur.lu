@@ -1101,7 +1101,7 @@ return [
         'schema_software_description' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg, déi steierlech Konformitéit (TVA, FAIA, B2B-E-Fakturatioun) garantéiert.',
         'schema_slogan' => 'Déi Lëtzebuerger Fakturatiounsléisung',
         'schema_offer_free_name' => 'Gratis Plang',
-        'schema_offer_free_description' => 'Gratis Plang - 10 Clienten, 10 Rechnungen pro Mount',
+        'schema_offer_free_description' => 'Gratis Plang - 10 Clienten, 5 Rechnungen pro Mount',
         'schema_offer_essential_name' => 'Essential Plang',
         'schema_offer_essential_description' => 'Essential Plang - 100 Clienten, 50 Rechnungen pro Mount, Projeten, Comptabilitéit',
         'schema_offer_pro_name' => 'Pro Plang',
@@ -1430,7 +1430,7 @@ return [
             'faq_heading' => 'Heefeg gestallte Froen',
             'faq' => [
                 'trial' => ['question' => 'Wéi funktionéiert d\'gratis Testphas?', 'answer' => 'Genéisst 14 Deeg vollen Zougang zu allen Pro-Funktiounen, ouni Kreditkaart. Um Enn vun der Testphas wielt Dir de passenden Plang.'],
-                'after_trial' => ['question' => 'Wat geschitt no der Testphas wann ech net abonnéieren?', 'answer' => 'Äre Kont wiesselt automatesch op de gratis Plang: Dir kënnt weiderhi Rechnungen erstellen (10/Mount) a bis zu 10 Clienten verwalten.'],
+                'after_trial' => ['question' => 'Wat geschitt no der Testphas wann ech net abonnéieren?', 'answer' => 'Äre Kont wiesselt automatesch op de gratis Plang: Dir kënnt weiderhi Rechnungen erstellen (5/Mount) a bis zu 10 Clienten verwalten.'],
                 'change_plan' => ['question' => 'Kann ech de Plang jidderzäit wiesselen?', 'answer' => 'Jo, Dir kënnt jidderzäit vun Essentiel op Pro wiesselen. D\'Ännerung ass direkt a d\'anteileg Berechnung gëtt automatesch gemaach.'],
                 'faia' => ['question' => 'Ass den FAIA-Export wierklech wichteg?', 'answer' => 'Jo. Bei enger Steierprüfung zu Lëtzebuerg kann d\'Steierverwaltung Är Donnéeën am FAIA-Format verlaangen. Dëst ass obligatoresch fir TVA-pflichteg Entreprisen.'],
                 'billing' => ['question' => 'Wéi funktionéiert d\'Ofrechnung?', 'answer' => 'Mir benotze Stripe fir sécher Bezuelungen. Dir kënnt mat Kreditkaart bezuelen. D\'Rechnung ass an Ärem Clientsberäich verfügbar.'],
@@ -1441,12 +1441,12 @@ return [
                     'description' => 'Fir einfach unzefänken',
                     'card_features' => [
                         '10 Clienten',
-                        '10 Rechnungen / Mount',
+                        '5 Rechnungen / Mount',
                         '5 Devis / Mount',
                         'FAIA-Export inklusiv',
                         'Lëtzebuerg-konform',
                     ],
-                    'features' => ['10 Rechnungen/Mount', 'Maximal 10 Clienten', '5 Devis/Mount', 'Ausgabenverfolgung (10/Mount)', '2FA Authentifikatioun', 'FAIA-Export inklusiv', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['5 Rechnungen/Mount', 'Maximal 10 Clienten', '5 Devis/Mount', 'Ausgabenverfolgung (10/Mount)', '2FA Authentifikatioun', 'FAIA-Export inklusiv', 'Personaliséierbar Nummeréierung'],
                     'limitations' => ['Keng Projeten oder Zäiterfassung', 'Keen CRM oder RH-Modul', 'Keen erweiderten Buchhaltungsexport'],
                 ],
                 'essentiel' => [
@@ -1560,7 +1560,7 @@ return [
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wat kascht e Fakturatiounsprogramm zu Lëtzebuerg?',
-                    'answer' => 'Faktur.lu bitt 3 transparent Pläng ouni verstoppte Käschten: de gratis Plang (10 Cliente, 10 Rechnungen/Mount) fir unzefänken, den Essential-Plang fir 5 EUR/Mount (100 Cliente, 50 Rechnungen/Mount, Projeten, Comptabilitéit), an de Pro-Plang fir 15 EUR/Mount (onbegrenzt mat FAIA, Peppol, CRM a RH-Modul). Keng Verbindlechkeet, monatlech oder jährlech Bezuelung mat Remise. Keng Zousazkäschten fir zousätzlech Benotzer op den Essential- a Pro-Pläng.',
+                    'answer' => 'Faktur.lu bitt 3 transparent Pläng ouni verstoppte Käschten: de gratis Plang (10 Cliente, 5 Rechnungen/Mount) fir unzefänken, den Essential-Plang fir 5 EUR/Mount (100 Cliente, 50 Rechnungen/Mount, Projeten, Comptabilitéit), an de Pro-Plang fir 15 EUR/Mount (onbegrenzt mat FAIA, Peppol, CRM a RH-Modul). Keng Verbindlechkeet, monatlech oder jährlech Bezuelung mat Remise. Keng Zousazkäschten fir zousätzlech Benotzer op den Essential- a Pro-Pläng.',
                 ],
                 'compliant' => [
                     'question' => 'Sinn meng faktur.lu-Rechnungen wierklech konform zu Lëtzebuerg?',
@@ -2334,20 +2334,20 @@ return [
     // Partners page
     'for_freelances' => [
         'page_title' => 'Freelance Fakturatioun Lëtzebuerg: konform, einfach, vun 0 € | faktur.lu',
-        'meta_description' => 'Fakturatiounssoftware fir Freelancer zu Lëtzebuerg: LIVA-konform Rechnungen, FAIA fir äre Comptable, automatesch 17% TVA. Gratis Plang (10 Rechnungen/Mount) oder Essentiel ab 5 €/Mount.',
+        'meta_description' => 'Fakturatiounssoftware fir Freelancer zu Lëtzebuerg: LIVA-konform Rechnungen, FAIA fir äre Comptable, automatesch 17% TVA. Gratis Plang (5 Rechnungen/Mount) oder Essentiel ab 5 €/Mount.',
         'breadcrumb' => 'Fir Freelancer',
         'badge' => 'Fir Freelancer',
         'hero_title' => 'Fakturatioun fir Lëtzebuerger Freelancer, ouni administrativen Stress',
         'hero_subtitle' => 'Rechnungen un Är Cliente a wéinegen Minutten — all LIVA-Mentiounen inklusiv, 17% TVA automatesch berechent, FAIA-Export prett fir äre Comptable. Kee Steierberoder gebraucht.',
         'cta_primary' => 'Gratis starten',
         'cta_secondary' => 'Präisser kucken',
-        'cta_reassurance' => 'Keng Kreditkaart · Gratis Plang bis 10 Rechnungen/Mount · 5 Min fir déi 1. Rechnung',
+        'cta_reassurance' => 'Keng Kreditkaart · Gratis Plang bis 5 Rechnungen/Mount · 5 Min fir déi 1. Rechnung',
         'pains_title' => 'Är richteg Problemer als Freelancer',
         'pains' => [
             'admin' => ['title' => '"Ech wollt kee Comptable ginn"', 'desc' => 'Dir fakturéiert är Servicer — Dir wollt Iech net mat Pabeier, Numere, TVA-Sätz an Pflichtmentiounen beschäftegen. faktur.lu mécht dat fir Iech.'],
             'compliant' => ['title' => '"Ass meng Rechnung legal?"', 'desc' => 'Sequentiell Nummeréierung (Artikel 61 LIVA), Pflichtmentiounen, 17% TVA (oder Reverse-Charge Artikel 21 fir B2B intra-EU): alles automatesch a konform.'],
             'audit' => ['title' => '"Wat wann d\'AED kontrolléiert?"', 'desc' => 'D\'FAIA-Datei konform AED 2.01 gëtt op Ufro generéiert. Äre Comptable kritt et mat engem Klick iwwer d\'Comptablesportal. Kee Stress méi.'],
-            'cost' => ['title' => '"30 €/Mount fir Fakturatiounssoftware? Nee."', 'desc' => 'Gratis Plang bis 10 Rechnungen/Mount. Essentiel ab 5 €/Mount fir 50 Rechnungen. Ouni Verbindlechkeet.'],
+            'cost' => ['title' => '"30 €/Mount fir Fakturatiounssoftware? Nee."', 'desc' => 'Gratis Plang bis 5 Rechnungen/Mount. Essentiel ab 5 €/Mount fir 50 Rechnungen. Ouni Verbindlechkeet.'],
         ],
         'features_title' => 'Alles wat Dir braucht fir entspaant ze fakturéieren',
         'features' => [
@@ -2362,13 +2362,13 @@ return [
         'plan_recommend_name' => 'Essentiel — 5 €/Mount',
         'plan_recommend_desc' => '50 Rechnungen/Mount, 100 Cliente, Comptablesportal, Sage BOB 50 / Sage 100 / CSV Exporter, Zäiterfassung. Ideal fir aktiv Freelancer.',
         'plan_recommend_cta' => '14 Deeg gratis testen',
-        'plan_free_note' => 'Just testen? De gratis Plang (10 Rechnungen/Mount, 10 Cliente) ass ideal fir ouni Verbindlechkeet ze starten. Wiesselt jiddesriicht op Essentiel.',
+        'plan_free_note' => 'Just testen? De gratis Plang (5 Rechnungen/Mount, 10 Cliente) ass ideal fir ouni Verbindlechkeet ze starten. Wiesselt jiddesriicht op Essentiel.',
         'faq_title' => 'Heefeg Froen vu Freelancer',
         'faq' => [
             'q1' => ['q' => 'Ech sinn an der TVA-Befreiung (ënner 35.000 €/Joer), kompatibel?', 'a' => 'Jo. Aktivéiert d\'Befreiung an Äre Firmenastellungen: "TVA net uwendbar, art. 56 ter LIVA" gëtt automatesch op all Rechnungen derbäigesat. Wann Dir Iech der Schwell nähert, warnt faktur.lu Iech.'],
             'q2' => ['q' => 'Ech fakturéiere auslännesch Cliente (intra-EU, ausserhalb EU), gëtt et verwalt?', 'a' => 'Jo. Fir B2B intra-EU mat gülteger TVA-Nummer (VIES-Echtzäit-Validatioun) gëtt "Reverse-Charge, Artikel 21 LIVA" automatesch derbäigesat. Ausserhalb EU: ugepasst Befreiungsmention pro Land.'],
             'q3' => ['q' => 'Wéi geet et mat mengem Comptable/Treuhänner?', 'a' => 'Invitéiert hien per E-Mail aus Äre Astellungen. Hie kritt e Link a greift op e separat Liesmodus-Portal zou, wou hien är Rechnungen, FAIA an Sage BOB/Sage 100/CSV Exporter ofruft. Keng Installatioun, gratis fir hien.'],
-            'q4' => ['q' => 'Wat wann ech nëmme wéineg Rechnungen pro Mount maachen?', 'a' => 'De gratis Plang deckt 10 Rechnungen/Mount an 10 Cliente. Fir Deelzäit-Freelancer oder Niewenaktivitéit méi wéi genuch.'],
+            'q4' => ['q' => 'Wat wann ech nëmme wéineg Rechnungen pro Mount maachen?', 'a' => 'De gratis Plang deckt 5 Rechnungen/Mount an 10 Cliente. Fir Deelzäit-Freelancer oder Niewenaktivitéit méi wéi genuch.'],
             'q5' => ['q' => 'Sinn meng Donnéeën sécher?', 'a' => 'Gehost bei o2switch a Frankräich (100% EU, RGPD), TLS 1.3 verschlësselten Transport, bcrypt-Passwierder, AES-256-CBC fir sensibel Donnéeën. Deeglech 30-Deeg-Backupen.'],
         ],
         'cta_final_title' => 'Prett fir an 5 Minutten ze fakturéieren?',

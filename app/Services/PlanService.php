@@ -307,7 +307,7 @@ class PlanService
         $plan->display_name = 'Gratuit';
         $plan->limits = [
             'max_clients' => 10,
-            'max_invoices_per_month' => 10,
+            'max_invoices_per_month' => 5,
             'max_quotes_per_month' => 5,
             'max_emails_per_month' => 10,
             'max_expenses_per_month' => 10,
