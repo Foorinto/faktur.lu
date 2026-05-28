@@ -164,7 +164,7 @@ const close = () => { selected.value = null; };
 
                 <div>
                     <p class="text-xs uppercase tracking-wide text-slate-500 mb-2">Commentaire</p>
-                    <p v-if="selected.comment" class="text-slate-200 whitespace-pre-wrap leading-relaxed bg-slate-800/60 rounded-xl p-4">{{ selected.comment }}</p>
+                    <p v-if="selected.comment" class="text-slate-900 whitespace-pre-wrap leading-relaxed bg-white border border-slate-200 rounded-xl p-4">{{ selected.comment }}</p>
                     <p v-else class="text-slate-500 italic">Aucun commentaire.</p>
                 </div>
 
