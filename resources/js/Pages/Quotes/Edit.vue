@@ -110,10 +110,26 @@ const formatCurrency = (amount) => {
     }).format(amount);
 };
 
-const updateQuote = () => {
+const doUpdateQuote = () => {
     form.put(route('quotes.update', props.quote.id), {
         preserveScroll: true,
     });
+};
+
+const updateQuote = () => {
+    if (editingItemId.value !== null) {
+        const itemId = editingItemId.value;
+        editItemForm.put(route('quotes.items.update', [props.quote.id, itemId]), {
+            preserveScroll: true,
+            onSuccess: () => {
+                editingItemId.value = null;
+                editItemForm.reset();
+                doUpdateQuote();
+            },
+        });
+        return;
+    }
+    doUpdateQuote();
 };
 
 const addItem = () => {

@@ -180,6 +180,7 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::create([
             'client_id' => $client->id,
+            'title' => $request->validated('title'),
             'currency' => $request->validated('currency') ?? $client->currency,
             'issued_at' => $request->validated('issued_at'),
             'due_at' => $request->validated('due_at'),

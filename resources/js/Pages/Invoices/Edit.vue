@@ -156,7 +156,7 @@ watch(() => form.client_id, (newClientId) => {
     }
 });
 
-const updateInvoice = () => {
+const doUpdateInvoice = () => {
     form.put(route('invoices.update', props.invoice.id), {
         preserveScroll: true,
         onSuccess: () => {
@@ -167,6 +167,22 @@ const updateInvoice = () => {
             }, 2000);
         },
     });
+};
+
+const updateInvoice = () => {
+    if (editingItemId.value !== null) {
+        const itemId = editingItemId.value;
+        editItemForm.put(route('invoices.items.update', [props.invoice.id, itemId]), {
+            preserveScroll: true,
+            onSuccess: () => {
+                editingItemId.value = null;
+                editItemForm.reset();
+                doUpdateInvoice();
+            },
+        });
+        return;
+    }
+    doUpdateInvoice();
 };
 
 const addItem = () => {
@@ -258,7 +274,7 @@ const deleteInvoice = () => {
     }
 };
 
-const finalizeInvoice = () => {
+const doFinalizeInvoice = () => {
     form.put(route('invoices.update', props.invoice.id), {
         preserveScroll: true,
         onSuccess: () => {
@@ -269,6 +285,22 @@ const finalizeInvoice = () => {
             });
         },
     });
+};
+
+const finalizeInvoice = () => {
+    if (editingItemId.value !== null) {
+        const itemId = editingItemId.value;
+        editItemForm.put(route('invoices.items.update', [props.invoice.id, itemId]), {
+            preserveScroll: true,
+            onSuccess: () => {
+                editingItemId.value = null;
+                editItemForm.reset();
+                doFinalizeInvoice();
+            },
+        });
+        return;
+    }
+    doFinalizeInvoice();
 };
 
 // Load preview with locale
