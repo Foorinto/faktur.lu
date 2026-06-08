@@ -109,6 +109,33 @@ Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitem
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| 301 redirects: anciens slugs blog → nouveaux slugs
+| DOIT être déclaré AVANT le groupe localisé (sinon blog.show capture en premier).
+|--------------------------------------------------------------------------
+*/
+foreach (\Database\Seeders\UpdateBlog2025To2026SlugsSeeder::SLUG_MAP as $oldSlug => $newSlug) {
+    Route::get('/{locale}/blog/' . $oldSlug, fn (string $locale) => redirect()->route('blog.show', ['locale' => $locale, 'post' => $newSlug], 301))
+        ->where('locale', 'fr|de|en|lb|pt');
+}
+
+// Redirects 301 locale-scopés : refonte d'articles dont la base légale citée était fausse.
+// FR seulement (DE/EN/LB/PT seront refondus dans un batch ultérieur).
+Route::get('/fr/blog/article-21-liva-autoliquidation-tva-b2b-intra-ue-freelance-luxembourg',
+    fn () => redirect()->route('blog.show', [
+        'locale' => 'fr',
+        'post' => 'article-17-liva-autoliquidation-tva-b2b-intra-ue-freelance-luxembourg',
+    ], 301)
+);
+
+Route::get('/fr/blog/article-61-liva-numerotation-sequentielle-factures-luxembourg-obligatoire',
+    fn () => redirect()->route('blog.show', [
+        'locale' => 'fr',
+        'post' => 'article-63-liva-numerotation-sequentielle-factures-luxembourg-obligatoire',
+    ], 301)
+);
+
 Route::prefix('{locale}')
     ->where(['locale' => 'fr|de|en|lb|pt'])
     ->group(function () {
@@ -337,10 +364,8 @@ Route::get('/validateur-faia', fn () => redirect()->route('faia-validator', ['lo
 | Le mapping est centralisé dans UpdateBlog2025To2026SlugsSeeder::SLUG_MAP.
 |--------------------------------------------------------------------------
 */
-foreach (\Database\Seeders\UpdateBlog2025To2026SlugsSeeder::SLUG_MAP as $oldSlug => $newSlug) {
-    Route::get('/{locale}/blog/' . $oldSlug, fn (string $locale) => redirect()->route('blog.show', ['locale' => $locale, 'post' => $newSlug], 301))
-        ->where('locale', 'fr|de|en|lb|pt');
-}
+// Note : les redirects 301 ont été déplacés AVANT le groupe localisé (ligne 112)
+// pour qu'ils matchent avant la route blog.show (qui capture sinon /{locale}/blog/{post:slug}).
 
 /*
 |--------------------------------------------------------------------------
