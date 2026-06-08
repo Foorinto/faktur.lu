@@ -1365,7 +1365,7 @@ HTML;
 <h2>Fontes oficiais</h2>
 
 <ul>
-    <li><a href="https://guichet.public.lu/fr/entreprises/creation-developpement/forme-juridique/entreprise-individuelle_societe-personnes/entreprise-individuelle.html" target="_blank" rel="noopener">Guichet.lu - Empresa individual</a></li>
+    <li><a href="https://guichet.public.lu/fr/entreprises/creation-developpement/forme-juridique/entreprise-individuelle-societe-personnes.html" target="_blank" rel="noopener">Guichet.lu - Empresa individual</a></li>
     <li><a href="https://guichet.public.lu/fr/entreprises/creation-developpement/autorisation-etablissement/autorisation-honorabilite/autorisation-etablissement.html" target="_blank" rel="noopener">Guichet.lu - Autorização de estabelecimento</a></li>
     <li><a href="https://lbr.lu/" target="_blank" rel="noopener">Luxembourg Business Registers (LBR)</a></li>
     <li><a href="https://ccss.public.lu/fr/independants.html" target="_blank" rel="noopener">CCSS - Trabalhadores independentes</a></li>
