@@ -1,0 +1,150 @@
+<p class="lead">Depuis 2022-2023, la facturation électronique via <strong>Peppol</strong> est obligatoire pour les fournisseurs du secteur public au Luxembourg, <strong>quel que soit le montant de la facture</strong>. Ce guide vous explique tout ce que vous devez savoir pour vous mettre en conformité en 2026.</p>
+
+<h2>Qu'est-ce que Peppol ?</h2>
+
+<p><strong>Peppol (Pan-European Public Procurement OnLine)</strong> est un réseau international de facturation électronique qui permet d'envoyer des documents commerciaux (factures, bons de commande) de manière standardisée entre entreprises et administrations publiques. Géré par <a href="https://peppol.org" target="_blank" rel="noopener">OpenPeppol</a>, il s'étend désormais à plus de 100 pays et compte plusieurs millions de participants enregistrés.</p>
+
+<p>Au Luxembourg, Peppol est le canal officiel pour la facturation électronique B2G (Business-to-Government). Cela signifie que toute entreprise qui facture l'État, les communes ou les établissements publics doit utiliser ce format.</p>
+
+<h2>Qui est concerné ?</h2>
+
+<p>Si vous êtes fournisseur de l'une des entités suivantes, vous devez facturer via Peppol :</p>
+
+<ul>
+    <li><strong>L'État luxembourgeois</strong> et ses ministères</li>
+    <li><strong>Les communes</strong> luxembourgeoises</li>
+    <li><strong>Les établissements publics</strong> (hôpitaux, écoles, etc.)</li>
+    <li><strong>Tous les marchés publics et contrats de concession</strong>, indépendamment du montant</li>
+</ul>
+
+<div class="bg-amber-50 border-l-4 border-amber-500 p-4 my-6">
+    <p class="font-semibold">⚠ Pas de seuil de montant</p>
+    <p>Contrairement à une idée répandue, il <strong>n'y a aucun seuil minimum</strong> (du type "30 000 €") pour l'obligation. La <a href="https://legilux.public.lu/eli/etat/leg/loi/2021/12/13/a869/jo" target="_blank" rel="noopener">loi du 13 décembre 2021</a> impose la facturation électronique pour <strong>toutes</strong> les factures émises dans le cadre d'un marché public ou d'un contrat de concession, du plus petit au plus grand montant.</p>
+</div>
+
+<h3>Calendrier d'application</h3>
+
+<p>L'obligation est entrée en vigueur de façon échelonnée, selon la taille de l'opérateur :</p>
+
+<ul>
+    <li><strong>18 mai 2022</strong> : grands opérateurs économiques</li>
+    <li><strong>18 octobre 2022</strong> : opérateurs économiques de taille moyenne</li>
+    <li><strong>18 mars 2023</strong> : petits opérateurs et entreprises nouvellement créées</li>
+</ul>
+
+<p>Depuis le 18 mars 2023, <strong>tous</strong> les fournisseurs du secteur public luxembourgeois sont donc concernés.</p>
+
+<h2>Comment fonctionne Peppol ?</h2>
+
+<p>Le réseau Peppol fonctionne sur un modèle de « quatre coins » (4-corner model) :</p>
+
+<ol>
+    <li><strong>L'expéditeur</strong> (votre entreprise) crée la facture</li>
+    <li><strong>Le point d'accès expéditeur</strong> (votre logiciel de facturation ou son Access Point) envoie la facture sur le réseau Peppol</li>
+    <li><strong>Le point d'accès destinataire</strong> (côté administration) reçoit la facture</li>
+    <li><strong>Le destinataire</strong> (l'administration publique) traite la facture</li>
+</ol>
+
+<p>Chaque participant au réseau est identifié par un <strong>Peppol Participant ID</strong> unique. Au Luxembourg, le schéma standard est <strong>9938</strong> (LU:VAT), basé sur le numéro de TVA. Format : <code>9938:LU########</code>.</p>
+
+<div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+    <p class="font-semibold">⚠ Erreur classique : schéma 0184</p>
+    <p>Beaucoup de sources francophones confondent. Le schéma <strong>0184</strong> correspond au registre des entreprises <strong>danois</strong> (DIGSTORG/CVR), pas au Luxembourg. Le bon schéma LU est <strong>9938</strong>. Vérifiez dans le <a href="https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/" target="_blank" rel="noopener">code list EAS officiel de Peppol</a>.</p>
+</div>
+
+<h2>Le format UBL et Peppol BIS Billing 3.0</h2>
+
+<p>Les factures Peppol au Luxembourg utilisent le format <strong>Peppol BIS Billing 3.0</strong>, basé sur le standard XML <strong>UBL (Universal Business Language)</strong> et conforme à la norme européenne <strong>EN 16931</strong>. Votre facture doit contenir :</p>
+
+<ul>
+    <li>Les informations de l'expéditeur (nom, adresse, n° TVA)</li>
+    <li>Les informations du destinataire (nom, Peppol Participant ID)</li>
+    <li>Les lignes de facturation (description, quantité, prix unitaire)</li>
+    <li>Les montants TVA ventilés par taux</li>
+    <li>Les totaux (HT, TVA, TTC)</li>
+    <li>Les références de commande ou de contrat</li>
+</ul>
+
+<p>Le format <strong>XRechnung 3.0.1</strong> (norme allemande conforme EN 16931) est également accepté par les administrations luxembourgeoises.</p>
+
+<h2>Alternatives si vous n'êtes pas connecté à Peppol</h2>
+
+<p>Si vous n'avez pas encore de logiciel raccordé à Peppol, vous pouvez utiliser le canal alternatif officiel :</p>
+
+<ul>
+    <li><strong>MyGuichet.lu</strong> : formulaires en ligne permettant de soumettre manuellement une facture électronique conforme aux administrations destinataires</li>
+</ul>
+
+<p>Voir la procédure complète sur <a href="https://guichet.public.lu/fr/entreprises/gestion-juridique-comptabilite/marche-public-concession/facturation/transmission-facture-electronique-marche-public-contrat-concession.html" target="_blank" rel="noopener">Guichet.lu — Transmission d'une facture électronique pour un marché public</a>.</p>
+
+<h2>Comment envoyer une facture Peppol depuis faktur.lu ?</h2>
+
+<p>Avec <strong>faktur.lu</strong>, l'envoi de factures Peppol est intégré directement dans le logiciel :</p>
+
+<ol>
+    <li>Créez votre facture normalement</li>
+    <li>Assurez-vous que le Peppol Participant ID du client est renseigné (format 9938:LU…)</li>
+    <li>Cliquez sur <strong>« Envoyer via Peppol »</strong></li>
+    <li>La facture est convertie en Peppol BIS 3.0 (UBL) et transmise via notre Access Point</li>
+    <li>Vous recevez une confirmation de réception</li>
+</ol>
+
+<p>Le plan Essentiel inclut un quota mensuel d'envois Peppol, et le plan Pro offre des envois illimités.</p>
+
+<h2>Avantages de la facturation Peppol</h2>
+
+<ul>
+    <li><strong>Traitement accéléré</strong> : les factures Peppol sont traitées automatiquement, réduisant les délais de paiement</li>
+    <li><strong>Réduction des erreurs</strong> : le format structuré élimine les erreurs de saisie manuelle</li>
+    <li><strong>Traçabilité</strong> : chaque facture est tracée de bout en bout sur le réseau</li>
+    <li><strong>Conformité</strong> : vous respectez les obligations légales luxembourgeoises (loi du 13 décembre 2021)</li>
+    <li><strong>Portée internationale</strong> : Peppol est désormais déployé dans plus de <strong>100 pays</strong>, avec des dizaines de Peppol Authorities nationales</li>
+</ul>
+
+<h2>Questions fréquentes</h2>
+
+<h3>La facturation Peppol est-elle obligatoire pour le B2B ?</h3>
+
+<p>Pas encore au Luxembourg pour le B2B domestique. La directive européenne <strong>ViDA (VAT in the Digital Age)</strong>, adoptée en mars 2025, prévoit l'obligation de facturation électronique pour les transactions <strong>B2B intracommunautaires</strong> à partir du <strong>1<sup>er</sup> juillet 2030</strong>. Pour le B2B domestique, l'harmonisation complète est prévue d'ici 2035. Voir <a href="https://taxation-customs.ec.europa.eu/taxation/vat/vat-digital-age-vida_en" target="_blank" rel="noopener">Commission européenne — ViDA</a>.</p>
+
+<h3>Combien coûte l'envoi via Peppol ?</h3>
+
+<p>Avec faktur.lu, l'envoi Peppol est inclus dans votre abonnement (quota selon le plan).</p>
+
+<h3>Comment trouver le Peppol ID d'une administration ?</h3>
+
+<p>Les Peppol Participant IDs des administrations luxembourgeoises sont disponibles sur le <a href="https://directory.peppol.eu" target="_blank" rel="noopener">Peppol Directory</a>. Vous pouvez aussi les rechercher directement dans faktur.lu lors de la création du client.</p>
+
+<h3>Quel est le schéma Peppol au Luxembourg ?</h3>
+
+<p>Le schéma standard est <strong>9938</strong> (LU:VAT, basé sur le numéro de TVA). Format complet : <code>9938:LU########</code>. Ne pas confondre avec 0184 (schéma danois).</p>
+
+<h3>Quelles sont les sanctions en cas de non-conformité ?</h3>
+
+<p>L'administration peut refuser le traitement d'une facture papier ou PDF non conforme et exiger sa retransmission via Peppol, ce qui retarde le paiement. Pour le détail des sanctions formelles, consultez la loi du 13 décembre 2021 ou votre fiduciaire.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-500 p-4 my-6">
+    <p class="font-semibold">À vérifier chaque année</p>
+    <p>Le calendrier ViDA, les seuils et les Peppol Authorities évoluent. Cette page est mise à jour régulièrement, mais pour votre situation, consultez <a href="https://guichet.public.lu/" target="_blank" rel="noopener">Guichet.lu</a> et la documentation officielle Peppol.</p>
+</div>
+
+<h2>Sources officielles</h2>
+
+<ul>
+    <li><a href="https://legilux.public.lu/eli/etat/leg/loi/2021/12/13/a869/jo" target="_blank" rel="noopener">Loi du 13 décembre 2021 sur la facturation électronique B2G</a></li>
+    <li><a href="https://guichet.public.lu/fr/entreprises/gestion-juridique-comptabilite/marche-public-concession/facturation/transmission-facture-electronique-marche-public-contrat-concession.html" target="_blank" rel="noopener">Guichet.lu — Transmission facture électronique</a></li>
+    <li><a href="https://mindigital.gouvernement.lu/fr/dossiers/2021/facturation-electronique.html" target="_blank" rel="noopener">Ministère de la Digitalisation — Facturation électronique</a></li>
+    <li><a href="https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/" target="_blank" rel="noopener">Peppol — Code list EAS (schémas d'identifiants)</a></li>
+    <li><a href="https://taxation-customs.ec.europa.eu/taxation/vat/vat-digital-age-vida_en" target="_blank" rel="noopener">Commission européenne — VAT in the Digital Age (ViDA)</a></li>
+    <li><a href="https://directory.peppol.eu" target="_blank" rel="noopener">Peppol Directory</a></li>
+</ul>
+
+<p class="text-sm text-slate-500 mt-6"><em>Article mis à jour le 4 juin 2026.</em></p>
+
+<div class="mt-8 p-4 bg-slate-50 rounded-xl"><h3 class="text-base font-semibold text-slate-900 mb-3">Articles connexes</h3><ul class="space-y-1"><li><a href="/fr/blog/factur-x-zugferd-facturation-electronique-europeenne" class="text-primary-500 hover:text-primary-600 text-sm">Factur-X / ZUGFeRD →</a></li><li><a href="/fr/blog/choisir-logiciel-facturation-luxembourg-comparatif" class="text-primary-500 hover:text-primary-600 text-sm">Choisir son logiciel de facturation →</a></li><li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg" class="text-primary-500 hover:text-primary-600 text-sm">Mentions obligatoires sur une facture LU →</a></li></ul></div>
+
+<div class="bg-primary-50 rounded-xl p-6 mt-8">
+    <h3 class="text-lg font-semibold text-primary-900 mb-2">Prêt à facturer via Peppol ?</h3>
+    <p class="text-primary-800 mb-4">faktur.lu intègre nativement la transmission Peppol BIS 3.0. Créez votre compte gratuit et envoyez votre première facture électronique en quelques minutes.</p>
+    <a href="/register" class="inline-block bg-primary-500 text-white font-semibold px-6 py-3 rounded-xl hover:bg-primary-600">Essayer gratuitement 14 jours</a>
+</div>
