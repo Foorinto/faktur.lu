@@ -1,0 +1,146 @@
+<p class="lead">Le <strong>FAIA</strong> (Fichier d'Audit Informatisé de l'AED) est le standard exigé par l'administration fiscale luxembourgeoise lors d'un contrôle de TVA pour les entreprises qui doivent le produire. Pourtant, peu de freelances et de PME savent vraiment ce qu'il contient — ni s'ils sont concernés. Ce guide vous explique tout en 2026.</p>
+
+<h2>Qu'est-ce que le FAIA ?</h2>
+
+<p>Le <strong>FAIA</strong> est un fichier XML structuré, adapté par l'AED à partir du standard <strong>SAF-T</strong> (Standard Audit File for Tax) recommandé par l'OCDE. Il regroupe l'ensemble des données comptables d'une entreprise sur une période donnée, dans un format lisible automatiquement par les outils de l'AED.</p>
+
+<p>Le format actuellement en vigueur est la <strong>version 2.01</strong>, publiée par l'AED en 2020. Le schéma XSD officiel est disponible sur le site de l'administration. Notez qu'il existe en réalité <strong>3 schémas</strong> : un schéma complet (full) et deux schémas réduits (reduced A et reduced B), selon le type de comptabilité tenue.</p>
+
+<h2>Qui doit fournir un FAIA ?</h2>
+
+<p>Contrairement à une idée répandue, <strong>tous les assujettis TVA ne sont pas tenus de produire un FAIA</strong>. La FAQ officielle de l'AED précise les exclusions :</p>
+
+<ul>
+    <li>Les assujettis <strong>non soumis au Plan Comptable Normalisé (PCN)</strong></li>
+    <li>Les assujettis <strong>en régime simplifié</strong></li>
+    <li>Les assujettis dont le <strong>chiffre d'affaires annuel reste inférieur à 112 000 €</strong></li>
+</ul>
+
+<p>En pratique, cela signifie que <strong>les très petites structures</strong> — notamment les freelances en <strong>franchise TVA (article 57bis LIVA, CA ≤ 50 000 €)</strong> — sont <em>généralement hors du périmètre FAIA</em>. Ce sont les entreprises au PCN avec un volume transactionnel significatif qui doivent pouvoir le produire.</p>
+
+<div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+    <p class="font-semibold">À vérifier auprès de votre fiduciaire</p>
+    <p>Le périmètre exact d'application du FAIA dépend de votre régime comptable et de votre CA. En cas de doute, demandez à votre comptable ou contactez directement l'AED — l'erreur classique est de croire que tout le monde est concerné (faux) ou que personne ne l'est (faux aussi).</p>
+</div>
+
+<p>L'obligation, pour ceux qui sont concernés, n'est pas de générer le FAIA chaque mois — il suffit de pouvoir le produire <strong>à la demande de l'AED</strong> dans un délai fixé par le contrôleur (aucun délai légal fixe n'est publié par l'AED ; il est défini au cas par cas).</p>
+
+<h2>Que contient un FAIA ?</h2>
+
+<p>Un FAIA 2.01 est structuré en plusieurs sections obligatoires :</p>
+
+<h3>1. En-tête (Header)</h3>
+
+<ul>
+    <li>Raison sociale, numéro TVA, RCS, matricule</li>
+    <li>Adresse de l'entreprise</li>
+    <li>Période couverte (date de début et date de fin)</li>
+    <li>Date de création du fichier</li>
+    <li>Devise (EUR)</li>
+</ul>
+
+<h3>2. Plan comptable (MasterFiles)</h3>
+
+<p>La liste des comptes utilisés (clients, fournisseurs, comptes généraux). Pour une petite structure, cette section peut être minimale.</p>
+
+<h3>3. Factures de vente (SalesInvoices)</h3>
+
+<ul>
+    <li>Numéro de facture (séquentiel, conforme <strong>article 63 LIVA</strong> point 3°)</li>
+    <li>Date de finalisation</li>
+    <li>Client : nom, n° TVA, adresse</li>
+    <li>Lignes de facture : description, quantité, prix unitaire, TVA</li>
+    <li>Totaux HT, TVA, TTC</li>
+</ul>
+
+<h3>4. Mouvements (GeneralLedgerEntries)</h3>
+
+<p>Les écritures comptables correspondantes (débit/crédit par compte).</p>
+
+<h3>5. Pied de fichier (Footer)</h3>
+
+<p>Totaux de contrôle : montant total débité, montant total crédité, nombre de transactions.</p>
+
+<h2>Les 4 erreurs FAIA les plus fréquentes</h2>
+
+<ol>
+    <li><strong>Numérotation des factures non conforme</strong> à l'article 63 LIVA point 3° (trous dans la séquence ou doublons). Le fichier peut être rejeté lors de la validation.</li>
+    <li><strong>Champs obligatoires manquants</strong> : n° TVA client, adresse complète, mention d'autoliquidation pour le B2B intra-UE.</li>
+    <li><strong>Totaux incohérents</strong> entre les sections (par exemple, somme des factures ≠ Total Sales Invoices déclaré).</li>
+    <li><strong>Format de date incorrect</strong> : le FAIA exige le format ISO 8601 (YYYY-MM-DD), pas DD/MM/YYYY.</li>
+</ol>
+
+<h2>Comment générer un FAIA conforme</h2>
+
+<p>Trois options selon votre situation :</p>
+
+<h3>Option 1 — Logiciel de facturation natif FAIA</h3>
+
+<p>La méthode la plus simple et la plus sûre. Un logiciel comme <a href="/fr" class="text-primary-500 hover:underline font-medium">faktur.lu</a> génère le FAIA 2.01 à la demande, sur n'importe quelle période, avec un seul clic. Le fichier est automatiquement conforme au schéma XSD officiel.</p>
+
+<h3>Option 2 — Export depuis un logiciel comptable</h3>
+
+<p>Plusieurs logiciels comptables professionnels (Sage BOB 50, Sage 100, etc.) permettent l'export FAIA. Vérifiez auprès de votre éditeur que la version supportée est bien la 2.01 et que le schéma utilisé (full / reduced) correspond à votre situation.</p>
+
+<h3>Option 3 — Construction manuelle (déconseillée)</h3>
+
+<p>Théoriquement possible avec un développeur XML, mais source d'erreurs fréquentes. À réserver aux cas extrêmes (legacy data, migration).</p>
+
+<h2>Valider votre FAIA gratuitement</h2>
+
+<p>Avant d'envoyer votre FAIA à l'AED, validez-le contre le schéma officiel pour détecter les erreurs avant le contrôleur. <strong>L'AED ne met pas à disposition d'outil de validation en ligne</strong> — seul le schéma XSD publié sur leur site fait foi.</p>
+
+<p>faktur.lu propose un <a href="/fr/validateur-faia" class="text-primary-500 hover:underline font-medium">validateur FAIA gratuit</a> qui :</p>
+
+<ul>
+    <li>Vérifie la conformité XML au schéma XSD AED 2.01</li>
+    <li>Détecte les champs obligatoires manquants</li>
+    <li>Contrôle la cohérence des totaux</li>
+    <li>Vérifie la séquentialité des numéros de facture</li>
+    <li>Ne stocke aucune donnée (le fichier reste sur votre machine)</li>
+</ul>
+
+<h2>FAQ — FAIA</h2>
+
+<h3>Faut-il envoyer un FAIA chaque année ?</h3>
+<p>Non. Le FAIA est produit uniquement <strong>sur demande de l'AED</strong> en cas de contrôle, pour les entreprises qui y sont soumises.</p>
+
+<h3>Que se passe-t-il si je ne peux pas fournir de FAIA alors que j'y suis tenu ?</h3>
+<p>Le contrôleur considère que votre comptabilité n'est pas tenue selon les standards et peut appliquer une <strong>amende administrative</strong> (250 € à 10 000 € par infraction, art. 77 LIVA) ou procéder à une <strong>taxation d'office</strong> (estimation forfaitaire en votre défaveur). Dans le pire cas, redressement TVA majoré.</p>
+
+<h3>Le FAIA est-il obligatoire pour la franchise TVA ?</h3>
+<p><strong>Non, en général.</strong> Le régime de franchise TVA (article 57bis LIVA, CA ≤ 50 000 €) place l'assujetti en-dessous du seuil de 112 000 € à partir duquel le FAIA devient pertinent. Les franchisés ne sont donc <strong>habituellement pas concernés par le FAIA</strong>, selon la FAQ officielle de l'AED. À vérifier toutefois si votre régime comptable est particulier.</p>
+
+<h3>Comment savoir si mon FAIA est conforme avant un contrôle ?</h3>
+<p>Utilisez un <a href="/fr/validateur-faia" class="text-primary-500 hover:underline font-medium">validateur FAIA</a> qui le compare au schéma XSD officiel AED 2.01. C'est gratuit, sans inscription, et ça prend 5 secondes.</p>
+
+<h3>Mon comptable peut-il générer le FAIA pour moi ?</h3>
+<p>Oui, votre fiduciaire peut générer le FAIA depuis son propre outil ou récupérer le vôtre via un portail comptable. Avec faktur.lu, vous invitez votre fiduciaire en lecture seule et elle accède au FAIA en un clic.</p>
+
+<div class="bg-amber-50 border-l-4 border-amber-500 p-4 my-6">
+    <p class="font-semibold">À vérifier chaque année</p>
+    <p>Le format FAIA, les seuils d'application et les exigences AED peuvent évoluer. Cette page est mise à jour régulièrement, mais pour votre situation personnelle, consultez votre fiduciaire ou directement l'<a href="https://pfi.public.lu/" target="_blank" rel="noopener">AED</a>.</p>
+</div>
+
+<h2>Sources officielles</h2>
+
+<ul>
+    <li><a href="https://pfi.public.lu/fr/professionnel/tva/faia.html" target="_blank" rel="noopener">AED – Présentation du FAIA</a></li>
+    <li><a href="https://pfi.public.lu/fr/professionnel/tva/faia/faia-201.html" target="_blank" rel="noopener">AED – FAIA version 2.01</a></li>
+    <li><a href="https://legilux.public.lu/eli/etat/leg/loi/1979/02/12/n1/jo" target="_blank" rel="noopener">Loi modifiée du 12 février 1979 (LIVA) — article 70 (base légale du FAIA)</a></li>
+</ul>
+
+<p class="text-sm text-slate-500 mt-6"><em>Article mis à jour le 4 juin 2026.</em></p>
+
+<h2>Pour aller plus loin</h2>
+<ul>
+    <li><a href="/fr/blog/controle-fiscal-aed-luxembourg-2026-preparation">Contrôle fiscal AED Luxembourg : comment s'y préparer en 2026</a></li>
+    <li><a href="/fr/blog/article-63-liva-numerotation-sequentielle-factures-luxembourg-obligatoire">Article 63 LIVA : la numérotation séquentielle obligatoire</a></li>
+    <li><a href="/fr/blog/mentions-obligatoires-facture-luxembourg">Mentions obligatoires sur une facture au Luxembourg</a></li>
+</ul>
+
+<div class="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-200">
+    <h3 class="text-lg font-bold text-primary-900 mb-2">FAIA 2.01 en un clic, conforme AED</h3>
+    <p class="text-primary-800 mb-4">faktur.lu génère votre FAIA sur n'importe quelle période, valide automatiquement contre le schéma XSD officiel. Inclus dès le plan Gratuit.</p>
+    <a href="/fr/register" class="inline-block bg-primary-500 hover:bg-primary-600 text-white font-semibold px-6 py-3 rounded-xl">Tester gratuitement</a>
+</div>
