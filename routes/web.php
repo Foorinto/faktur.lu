@@ -136,6 +136,43 @@ Route::get('/fr/blog/article-61-liva-numerotation-sequentielle-factures-luxembou
     ], 301)
 );
 
+// Redirects 301 pour les renames de slugs LIVA 21→17 et 61→63
+// dans les 4 autres langues (DE, EN, LB, PT)
+$articleLivaSlugRedirects = [
+    'de' => [
+        'artikel-21-liva-reverse-charge-innergemeinschaftlich-b2b-freiberufler-luxemburg'
+            => 'artikel-17-liva-reverse-charge-innergemeinschaftlich-b2b-freiberufler-luxemburg',
+        'artikel-61-liva-sequenzielle-rechnungsnummerierung-luxemburg-pflicht'
+            => 'artikel-63-liva-sequenzielle-rechnungsnummerierung-luxemburg-pflicht',
+    ],
+    'en' => [
+        'article-21-liva-intra-eu-b2b-vat-reverse-charge-luxembourg-freelancers'
+            => 'article-17-liva-intra-eu-b2b-vat-reverse-charge-luxembourg-freelancers',
+        'article-61-liva-sequential-invoice-numbering-luxembourg-mandatory'
+            => 'article-63-liva-sequential-invoice-numbering-luxembourg-mandatory',
+    ],
+    'lb' => [
+        'artikel-21-liva-autoliquidatioun-b2b-intra-eu-freelancer-letzebuerg'
+            => 'artikel-17-liva-autoliquidatioun-b2b-intra-eu-freelancer-letzebuerg',
+        'artikel-61-liva-sequentiell-rechnungs-nummerung-letzebuerg-obligatoresch'
+            => 'artikel-63-liva-sequentiell-rechnungs-nummerung-letzebuerg-obligatoresch',
+    ],
+    'pt' => [
+        'artigo-21-liva-autoliquidacao-iva-b2b-intra-ue-freelancers-luxemburgo'
+            => 'artigo-17-liva-autoliquidacao-iva-b2b-intra-ue-freelancers-luxemburgo',
+        'artigo-61-liva-numeracao-sequencial-faturas-luxemburgo-obrigatoria'
+            => 'artigo-63-liva-numeracao-sequencial-faturas-luxemburgo-obrigatoria',
+    ],
+];
+foreach ($articleLivaSlugRedirects as $loc => $map) {
+    foreach ($map as $oldSlug => $newSlug) {
+        Route::get("/{$loc}/blog/{$oldSlug}", fn () => redirect()->route('blog.show', [
+            'locale' => $loc,
+            'post' => $newSlug,
+        ], 301));
+    }
+}
+
 Route::prefix('{locale}')
     ->where(['locale' => 'fr|de|en|lb|pt'])
     ->group(function () {
