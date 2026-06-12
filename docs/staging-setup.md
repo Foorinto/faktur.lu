@@ -157,36 +157,20 @@ scp -r public/build sc1beal9117@saut.o2switch.net:/home2/sc1beal9117/faktur.lu-s
 
 ## Étape 8 — Protéger la staging (5 min)
 
-Pour éviter que Google indexe la staging et que le grand public la découvre :
+Pour éviter que Google indexe la staging et que le grand public la découvre.
 
-### 8a — Basic auth via `.htaccess`
+### Méthode RECOMMANDÉE — cPanel « Directory Privacy » (ne touche pas au code versionné)
 
-Dans `public/.htaccess` (ajoute en haut, avant les autres règles) :
+⚠️ **N'édite PAS `public/.htaccess` à la main** : ce fichier est versionné dans git. Toute modification entrerait en conflit au prochain `git pull` du staging, et risquerait de se retrouver sur la prod. Utilise plutôt l'outil natif o2switch :
 
-```apache
-AuthType Basic
-AuthName "Staging - Accès restreint"
-AuthUserFile /home2/sc1beal9117/faktur.lu-staging/.htpasswd
-Require valid-user
-```
+1. cPanel → **Confidentialité du répertoire** (*Directory Privacy*).
+2. Navigue jusqu'au dossier `faktur.lu-staging/public`.
+3. Coche **« Protéger ce répertoire par mot de passe »**, donne un nom (ex. « Staging »), enregistre.
+4. Crée un utilisateur (ex. `alex`) + mot de passe → c'est ce couple que tu donneras à ton ami.
 
-Crée le fichier de mot de passe :
+cPanel génère le `.htpasswd` et l'`.htaccess` **hors du dépôt git** (dans la config Apache du répertoire), donc aucun risque de conflit ni de contamination de la prod.
 
-```bash
-htpasswd -c /home2/sc1beal9117/faktur.lu-staging/.htpasswd alex
-# Tape le mot de passe que tu donneras à ton ami
-```
-
-### 8b — Bloquer l'indexation Google
-
-Dans `public/robots.txt` (sur staging uniquement) :
-
-```
-User-agent: *
-Disallow: /
-```
-
-Ou via une variable d'env qu'on lit dans la vue robots — mais le `.htaccess` basic auth couvre déjà ça.
+Le basic auth suffit à bloquer l'indexation Google (un site protégé par mot de passe n'est pas crawlable) — **pas besoin de toucher au `robots.txt`** (lui aussi versionné).
 
 ---
 
