@@ -158,7 +158,7 @@ class DemoDataSeeder extends Seeder
             'iban' => 'LU280019400644750000',
             'bic' => 'BCEELULL',
             'bank_name' => 'BCEE Luxembourg',
-            'vat_regime' => 'normal',
+            'vat_regime' => 'assujetti',
             'phone' => '+352 661 123 456',
             'email' => 'contact@demo-studio.lu',
             'default_hourly_rate' => 65,
@@ -182,14 +182,14 @@ class DemoDataSeeder extends Seeder
     private function createClients(): array
     {
         $defs = [
-            ['name' => 'Café Lëtzebuerg Sàrl', 'type' => 'company', 'country' => 'LU', 'vat' => 'LU98765432', 'city' => 'Luxembourg', 'rate' => 70],
-            ['name' => 'Banque Privée Européenne SA', 'type' => 'company', 'country' => 'LU', 'vat' => 'LU11223344', 'city' => 'Luxembourg', 'rate' => 95],
-            ['name' => 'Atelier Müller GmbH', 'type' => 'company', 'country' => 'DE', 'vat' => 'DE123456789', 'city' => 'Trier', 'rate' => 75],
-            ['name' => 'Studio Créatif SARL', 'type' => 'company', 'country' => 'FR', 'vat' => 'FR45123456789', 'city' => 'Metz', 'rate' => 65],
-            ['name' => 'Belgium Tech BV', 'type' => 'company', 'country' => 'BE', 'vat' => 'BE0123456789', 'city' => 'Bruxelles', 'rate' => 70],
-            ['name' => 'Marie Dupont', 'type' => 'individual', 'country' => 'LU', 'vat' => null, 'city' => 'Esch-sur-Alzette', 'rate' => 50],
-            ['name' => 'Acme USA Inc.', 'type' => 'company', 'country' => 'US', 'vat' => null, 'city' => 'New York', 'rate' => 85],
-            ['name' => 'Boulangerie du Coin Sàrl', 'type' => 'company', 'country' => 'LU', 'vat' => 'LU55667788', 'city' => 'Differdange', 'rate' => 55],
+            ['name' => 'Café Lëtzebuerg Sàrl', 'type' => 'b2b', 'country' => 'LU', 'vat' => 'LU98765432', 'city' => 'Luxembourg', 'rate' => 70],
+            ['name' => 'Banque Privée Européenne SA', 'type' => 'b2b', 'country' => 'LU', 'vat' => 'LU11223344', 'city' => 'Luxembourg', 'rate' => 95],
+            ['name' => 'Atelier Müller GmbH', 'type' => 'b2b', 'country' => 'DE', 'vat' => 'DE123456789', 'city' => 'Trier', 'rate' => 75],
+            ['name' => 'Studio Créatif SARL', 'type' => 'b2b', 'country' => 'FR', 'vat' => 'FR45123456789', 'city' => 'Metz', 'rate' => 65],
+            ['name' => 'Belgium Tech BV', 'type' => 'b2b', 'country' => 'BE', 'vat' => 'BE0123456789', 'city' => 'Bruxelles', 'rate' => 70],
+            ['name' => 'Marie Dupont', 'type' => 'b2c', 'country' => 'LU', 'vat' => null, 'city' => 'Esch-sur-Alzette', 'rate' => 50],
+            ['name' => 'Acme USA Inc.', 'type' => 'b2b', 'country' => 'US', 'vat' => null, 'city' => 'New York', 'rate' => 85],
+            ['name' => 'Boulangerie du Coin Sàrl', 'type' => 'b2b', 'country' => 'LU', 'vat' => 'LU55667788', 'city' => 'Differdange', 'rate' => 55],
         ];
 
         $clients = [];
