@@ -40,6 +40,13 @@ class SecurityHeaders
             );
         }
 
+        // Block search engine indexing on any non-production environment (staging, etc.)
+        // Garantit que le staging n'est jamais indexé par Google, même si la
+        // protection par mot de passe venait à sauter. Aucun effet en production.
+        if (config('app.env') !== 'production') {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        }
+
         // Content Security Policy - désactivé en local pour Vite
         if (config('app.env') !== 'local') {
             $csp = $this->buildContentSecurityPolicy();
