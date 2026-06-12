@@ -142,7 +142,7 @@
 
     <div class="section-title">{{ __('app.pdf_evaluation_content') }}</div>
     <div class="content">
-        {!! $evaluation->description !!}
+        {!! nl2br(e($evaluation->description)) !!}
     </div>
 </div>
 

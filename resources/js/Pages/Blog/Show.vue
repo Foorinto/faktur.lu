@@ -1,6 +1,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import DOMPurify from 'dompurify';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
@@ -20,6 +21,14 @@ const postUrl = computed(() => `${appUrl.value}/${currentLocale()}/blog/${props.
 
 const stripHtml = (html) => (html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const wordCount = computed(() => stripHtml(props.post.content).split(' ').filter(Boolean).length);
+
+// Defense-in-depth : sanitise le HTML de l'article avant rendu v-html.
+// Profil HTML = preserve toute la mise en forme (tables, blockquotes, divs,
+// classes Tailwind, liens target/rel) tout en supprimant script, iframe,
+// gestionnaires on* et SVG/MathML. Le contenu legitime reste inchange.
+const sanitizedContent = computed(() =>
+    DOMPurify.sanitize(props.post.content || '', { USE_PROFILES: { html: true } })
+);
 
 const breadcrumbSchema = computed(() => ({
     '@context': 'https://schema.org',
@@ -227,7 +236,7 @@ const shareOnFacebook = () => {
                         prose-td:border-gray-200
                         prose-code:text-primary-500 prose-code:bg-primary-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
                         prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:shadow-lg"
-                    v-html="post.content"
+                    v-html="sanitizedContent"
                 />
 
                 <!-- Share -->

@@ -56,7 +56,8 @@ class NewsletterController extends Controller
 
     public function unsubscribe(string $email, string $hash)
     {
-        if (hash('sha256', $email . config('app.key')) !== $hash) {
+        $expected = hash('sha256', $email . config('app.key'));
+        if (! hash_equals($expected, $hash)) {
             abort(403);
         }
 

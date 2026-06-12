@@ -70,7 +70,8 @@ Route::get('/switch-locale/{locale}', [LocaleController::class, 'switchLocale'])
 
 // Drip email unsubscribe (no auth required)
 Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, string $hash) {
-    if (hash('sha256', $user->email . config('app.key')) !== $hash) {
+    $expected = hash('sha256', $user->email . config('app.key'));
+    if (! hash_equals($expected, $hash)) {
         abort(403);
     }
     $user->update(['drip_unsubscribed' => true]);

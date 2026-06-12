@@ -83,7 +83,7 @@ class InvoicePdfService
             ->setPaper('a4')
             ->setOptions([
                 'isHtml5ParserEnabled' => true,
-                'isRemoteEnabled' => true,
+                'isRemoteEnabled' => false,
                 'defaultFont' => 'sans-serif',
             ]);
     }
@@ -135,7 +135,7 @@ class InvoicePdfService
             ->setPaper('a4')
             ->setOptions([
                 'isHtml5ParserEnabled' => true,
-                'isRemoteEnabled' => true,
+                'isRemoteEnabled' => false,
                 'defaultFont' => 'sans-serif',
             ]);
     }
