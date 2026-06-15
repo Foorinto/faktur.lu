@@ -520,7 +520,7 @@
 |---|---|---|
 | **Gratuit** | 0 € | 10 clients · 5 factures/mois · 5 devis/mois |
 | **Essentiel** | 5 € | 100 clients · 50 factures/mois · time tracking 10 h/mois · projets · exports comptables · emails |
-| **Pro** | 24 € | Tout illimité · HR · CRM · Peppol · PDF/A archivage · Factur-X · organisation · reporting avancé · zéro branding |
+| **Pro** | 15 € | Tout illimité · HR · CRM · Peppol · PDF/A archivage · Factur-X · organisation · reporting avancé · zéro branding |
 
 ### Côté utilisateur
 
