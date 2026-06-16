@@ -35,9 +35,10 @@ const CALENDLY_URL = 'https://calendly.com/foorintodev/decouverte-faktur-lu-port
 // Nombre de places restantes — mets-le à jour à la main quand une place est prise.
 const SPOTS_LEFT = 5;
 
+// Note : le portail comptable est gratuit pour TOUTES les fiduciaires (clarifié
+// dans le sous-titre). La liste ci-dessous = les avantages exclusifs du programme
+// — aucun abonnement faktur offert (accompagnement + visibilité uniquement).
 const founderGet = computed(() => [
-    t('partners.founder.get_1'),
-    t('partners.founder.get_2'),
     t('partners.founder.get_3'),
     t('partners.founder.get_4'),
     t('partners.founder.get_5'),

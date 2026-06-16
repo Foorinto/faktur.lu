@@ -40,7 +40,8 @@ class PlansSeeder extends Seeder
                     'expenses',
                     '2fa',
                     'faia_export',
-                    'accounting_portal',
+                    // 'accounting_portal' réservé à Essentiel+ (les comptes existants
+                    // gardent l'accès via le flag accounting_portal_grandfathered).
                 ],
                 'is_active' => true,
                 'sort_order' => 0,

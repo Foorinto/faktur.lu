@@ -101,6 +101,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'onboarding_completed_at' => 'datetime',
             'onboarding_skipped' => 'boolean',
             'onboarding_checklist_dismissed' => 'boolean',
+            'accounting_portal_grandfathered' => 'boolean',
         ];
     }
 

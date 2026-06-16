@@ -1543,7 +1543,6 @@ return [
                         '5 factures / mois',
                         '5 devis / mois',
                         'Export FAIA inclus',
-                        'Portail comptable',
                         'Conforme Luxembourg',
                     ],
                     'features' => [
@@ -1553,7 +1552,6 @@ return [
                         'Gestion des dépenses (10/mois)',
                         'Authentification 2FA',
                         'Export FAIA inclus',
-                        'Portail comptable (inviter votre fiduciaire)',
                         'Numérotation personnalisable',
                     ],
                     'limitations' => [
@@ -1738,7 +1736,7 @@ return [
                 ],
                 'fiduciaire' => [
                     'question' => 'Existe-t-il un logiciel de facturation pour fiduciaire au Luxembourg ?',
-                    'answer' => 'Oui, faktur.lu inclut un portail comptable dédié aux fiduciaires : vos clients vous invitent en lecture seule, vous accédez à toutes leurs factures, exports comptables (CSV, FAIA), bilans TVA, et relevés. Vous gagnez en moyenne 3 heures par mois et par client en évitant les allers-retours par e-mail. L\'accès fiduciaire est gratuit pour vos clients sur le plan Pro. Plus de 10 fiduciaires luxembourgeoises utilisent déjà le portail.',
+                    'answer' => 'Oui, faktur.lu inclut un portail comptable dédié aux fiduciaires : vos clients vous invitent en lecture seule, vous accédez à toutes leurs factures, exports comptables (CSV, FAIA), bilans TVA, et relevés. Vous gagnez du temps en évitant les allers-retours par e-mail. Le portail est gratuit pour la fiduciaire ; vos clients doivent disposer d\'un plan Essentiel ou Pro pour vous y inviter.',
                 ],
                 // Cluster D - Sécurité & confiance
                 'hosting' => [
@@ -2875,12 +2873,10 @@ return [
             'badge' => 'Programme limité',
             'spots' => 'Plus que :count places',
             'title' => 'Devenez Partenaire Fondateur de faktur.lu',
-            'subtitle' => 'Je cherche 5 cabinets pionniers au Luxembourg pour façonner ensemble le portail comptable. C\'est gratuit et sans engagement financier : vous gagnez du temps, vos clients facturent proprement, et vous bénéficiez d\'une visibilité dédiée.',
+            'subtitle' => 'Le portail comptable est gratuit pour toutes les fiduciaires. Le programme Partenaire Fondateur, lui, est réservé à 5 cabinets pionniers : en échange de vos retours, vous bénéficiez d\'un accompagnement personnel et d\'une visibilité dédiée pour attirer de nouveaux clients.',
             'cta' => 'Réserver un échange de 20 min',
             'cta_note' => 'Sans engagement — vous échangez directement avec le fondateur.',
             'get_title' => 'Ce que vous recevez',
-            'get_1' => 'Le portail comptable, gratuit à vie',
-            'get_2' => 'Un compte Pro offert pour votre cabinet',
             'get_3' => 'J\'installe votre premier client moi-même',
             'get_4' => 'Vos demandes d\'export traitées en priorité',
             'get_5' => 'Une visibilité dédiée : page Partenaires, lien et article commun',

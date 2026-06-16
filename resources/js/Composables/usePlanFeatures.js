@@ -12,9 +12,9 @@ const FEATURE_TO_MIN_PLAN = {
     expenses: 'free',
     '2fa': 'free',
     faia_export: 'free',
-    accounting_portal: 'free',
 
     // Essentiel
+    accounting_portal: 'essentiel',
     projects: 'essentiel',
     time_tracking: 'essentiel',
     accounting_exports: 'essentiel',
@@ -57,6 +57,10 @@ export function usePlanFeatures() {
         // Trial actif = acces Pro
         if (auth.is_on_trial) return true;
         if (auth.is_pro) return true;
+
+        // Grandfathering : comptes existants avant la fermeture du portail
+        // comptable sur le plan Gratuit.
+        if (feature === 'accounting_portal' && auth.accounting_portal_grandfathered) return true;
 
         const minPlan = FEATURE_TO_MIN_PLAN[feature] ?? 'pro';
         const userPlan = auth.is_essentiel ? 'essentiel' : auth.is_free ? 'free' : 'free';

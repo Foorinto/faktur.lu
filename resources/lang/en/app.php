@@ -1544,10 +1544,9 @@ return [
                         '5 invoices / month',
                         '5 quotes / month',
                         'FAIA export included',
-                        'Accountant portal',
                         'Luxembourg-compliant',
                     ],
-                    'features' => ['5 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Accountant portal (invite your accountant)', 'Custom numbering'],
+                    'features' => ['5 invoices/month', '10 clients maximum', '5 quotes/month', 'Expense tracking (10/month)', '2FA authentication', 'FAIA export included', 'Custom numbering'],
                     'limitations' => ['No projects or time tracking', 'No CRM or HR module', 'No advanced accounting export'],
                 ],
                 'essentiel' => [
@@ -1678,7 +1677,7 @@ return [
                 ],
                 'fiduciaire' => [
                     'question' => 'Is there invoicing software for accountants and fiduciaries in Luxembourg?',
-                    'answer' => 'Yes, faktur.lu includes a dedicated portal for accountants: your clients invite you with read-only access, you reach all their invoices, accounting exports (CSV, FAIA), VAT statements and ledgers. You save on average 3 hours per month per client by avoiding email back-and-forth. Accountant access is free for your clients on the Pro plan. More than 10 Luxembourg fiduciaries already use the portal.',
+                    'answer' => 'Yes, faktur.lu includes a dedicated portal for accountants: your clients invite you with read-only access, you reach all their invoices, accounting exports (CSV, FAIA), VAT statements and ledgers. You save time by avoiding email back-and-forth. The portal is free for the accountant; your clients need an Essentiel or Pro plan to invite you.',
                 ],
                 // Cluster D - Security & trust
                 'hosting' => [
@@ -2644,12 +2643,10 @@ return [
             'badge' => 'Limited program',
             'spots' => 'Only :count spots left',
             'title' => 'Become a faktur.lu Founding Partner',
-            'subtitle' => 'I\'m looking for 5 pioneering firms in Luxembourg to shape the accountant portal together. It\'s free, with no financial commitment: you save time, your clients invoice cleanly, and you get dedicated visibility.',
+            'subtitle' => 'The accountant portal is free for every firm. The Founding Partner program, however, is reserved for 5 pioneering firms: in exchange for your feedback, you get personal onboarding support and dedicated visibility to attract new clients.',
             'cta' => 'Book a 20-min call',
             'cta_note' => 'No commitment — you talk directly with the founder.',
             'get_title' => 'What you get',
-            'get_1' => 'The accountant portal, free for life',
-            'get_2' => 'A Pro account offered to your firm',
             'get_3' => 'I onboard your first client myself',
             'get_4' => 'Your export requests handled as a priority',
             'get_5' => 'Dedicated visibility: Partners page, backlink and joint article',

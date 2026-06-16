@@ -218,7 +218,17 @@ class PlanService
     {
         $plan = $this->getUserPlan($user);
 
-        return $plan->hasFeature($feature);
+        if ($plan->hasFeature($feature)) {
+            return true;
+        }
+
+        // Grandfathering : le portail comptable a été retiré du plan Gratuit, mais
+        // les comptes créés avant cette bascule conservent l'accès.
+        if ($feature === 'accounting_portal' && $user->accounting_portal_grandfathered) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -312,7 +322,8 @@ class PlanService
             'max_emails_per_month' => 10,
             'max_expenses_per_month' => 10,
         ];
-        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export', 'accounting_portal'];
+        // 'accounting_portal' réservé à Essentiel+ (grandfathering pour l'existant).
+        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];
 
         return $plan;
     }
