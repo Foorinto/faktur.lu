@@ -57,10 +57,16 @@ class AccountingExportController extends Controller
 
         $settings = AccountingSetting::getForUser($user);
 
+        // Le FEC est un export spécifiquement français → ne le proposer qu'aux vendeurs FR.
+        $formats = AccountingExport::FORMATS;
+        if ((\App\Models\BusinessSettings::getInstance()?->country_code ?? 'LU') !== 'FR') {
+            unset($formats[AccountingExport::FORMAT_FEC]);
+        }
+
         return Inertia::render('Exports/Accounting', [
             'exports' => $exports,
             'years' => $years,
-            'formats' => AccountingExport::FORMATS,
+            'formats' => $formats,
             'defaultYear' => now()->year,
             'accountingSettings' => $settings,
         ]);
@@ -95,7 +101,7 @@ class AccountingExportController extends Controller
         $validated = $request->validate([
             'period_start' => 'required|date',
             'period_end' => 'required|date|after_or_equal:period_start',
-            'format' => 'required|in:sage_bob,sage_100,generic',
+            'format' => 'required|in:sage_bob,sage_100,generic,fec',
             'include_credit_notes' => 'boolean',
         ]);
 
@@ -142,6 +148,7 @@ class AccountingExportController extends Controller
 
         $mimeType = match ($export->format) {
             AccountingExport::FORMAT_SAGE_BOB => 'text/plain',
+            AccountingExport::FORMAT_FEC => 'text/plain',
             default => 'text/csv',
         };
 

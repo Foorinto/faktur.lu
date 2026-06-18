@@ -131,16 +131,27 @@ class AccountingExportService
             $date = $invoice->issued_at;
             $dueDate = $invoice->due_at;
 
+            // Montant client = somme EXACTE des lignes HT + TVA (chacune arrondie) afin de
+            // garantir l'équilibre Débit = Crédit de chaque écriture (obligatoire pour le FEC,
+            // et plus fiable pour les exports Sage).
+            $balancedTtc = round(abs($invoice->total_ht), 2);
+            foreach ($invoice->vat_breakdown as $vatLine) {
+                $balancedTtc += round(abs($vatLine['amount']), 2);
+            }
+            $balancedTtc = round($balancedTtc, 2);
+
             // 1. Client line (TTC) — Debit for invoices, Credit for credit notes
             $entries[] = [
                 'date' => $date,
                 'journal' => $settings->sales_journal,
                 'account' => $settings->clients_account,
+                'account_label' => 'Clients',
                 'third_party' => $clientId,
+                'third_party_label' => $clientName,
                 'piece' => $invoice->number,
                 'label' => $label,
-                'debit' => $isCreditNote ? 0 : round($invoice->total_ttc, 2),
-                'credit' => $isCreditNote ? round(abs($invoice->total_ttc), 2) : 0,
+                'debit' => $isCreditNote ? 0 : $balancedTtc,
+                'credit' => $isCreditNote ? $balancedTtc : 0,
                 'due_date' => $dueDate,
             ];
 
@@ -157,7 +168,9 @@ class AccountingExportService
                     'date' => $date,
                     'journal' => $settings->sales_journal,
                     'account' => $vatAccount,
+                    'account_label' => $vatLabel,
                     'third_party' => '',
+                    'third_party_label' => '',
                     'piece' => $invoice->number,
                     'label' => $vatLabel,
                     'debit' => $isCreditNote ? round(abs($vat['amount']), 2) : 0,
@@ -171,7 +184,9 @@ class AccountingExportService
                 'date' => $date,
                 'journal' => $settings->sales_journal,
                 'account' => $settings->sales_account,
+                'account_label' => 'Ventes',
                 'third_party' => '',
+                'third_party_label' => '',
                 'piece' => $invoice->number,
                 'label' => $label,
                 'debit' => $isCreditNote ? round(abs($invoice->total_ht), 2) : 0,
@@ -191,6 +206,7 @@ class AccountingExportService
         return match ($format) {
             AccountingExport::FORMAT_SAGE_BOB => (new SageBobFormatter())->format($entries, $settings),
             AccountingExport::FORMAT_SAGE_100 => (new Sage100Formatter())->format($entries, $settings),
+            AccountingExport::FORMAT_FEC => (new FecFormatter())->format($entries, $settings),
             AccountingExport::FORMAT_GENERIC => (new GenericCsvFormatter())->format($invoices, $settings),
             default => throw new \InvalidArgumentException("Format non supporté: {$format}"),
         };
@@ -208,6 +224,7 @@ class AccountingExportService
             AccountingExport::FORMAT_SAGE_BOB => 'txt',
             AccountingExport::FORMAT_SAGE_100 => 'csv',
             AccountingExport::FORMAT_GENERIC => 'csv',
+            AccountingExport::FORMAT_FEC => 'txt',
             default => 'txt',
         };
 
@@ -215,6 +232,7 @@ class AccountingExportService
             AccountingExport::FORMAT_SAGE_BOB => 'sage_bob',
             AccountingExport::FORMAT_SAGE_100 => 'sage_100',
             AccountingExport::FORMAT_GENERIC => 'export_comptable',
+            AccountingExport::FORMAT_FEC => 'fec',
             default => 'export',
         };
 

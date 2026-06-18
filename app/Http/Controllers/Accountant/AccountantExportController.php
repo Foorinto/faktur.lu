@@ -291,7 +291,7 @@ class AccountantExportController extends Controller
             'quarter' => 'nullable|integer|min:1|max:4',
         ]);
 
-        if (!in_array($format, [AccountingExport::FORMAT_SAGE_BOB, AccountingExport::FORMAT_SAGE_100, AccountingExport::FORMAT_GENERIC])) {
+        if (!in_array($format, [AccountingExport::FORMAT_SAGE_BOB, AccountingExport::FORMAT_SAGE_100, AccountingExport::FORMAT_GENERIC, AccountingExport::FORMAT_FEC])) {
             abort(400, 'Format d\'export invalide.');
         }
 
@@ -338,11 +338,13 @@ class AccountantExportController extends Controller
 
         $extension = match ($format) {
             AccountingExport::FORMAT_SAGE_BOB => 'txt',
+            AccountingExport::FORMAT_FEC => 'txt',
             default => 'csv',
         };
 
         $mimeType = match ($format) {
             AccountingExport::FORMAT_SAGE_BOB => 'text/plain',
+            AccountingExport::FORMAT_FEC => 'text/plain',
             default => 'text/csv',
         };
 

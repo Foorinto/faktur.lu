@@ -13,6 +13,7 @@ class AccountingExport extends Model
     public const FORMAT_SAGE_BOB = 'sage_bob';
     public const FORMAT_SAGE_100 = 'sage_100';
     public const FORMAT_GENERIC = 'generic';
+    public const FORMAT_FEC = 'fec';
 
     public const STATUS_PENDING = 'pending';
     public const STATUS_PROCESSING = 'processing';
@@ -23,6 +24,7 @@ class AccountingExport extends Model
         self::FORMAT_GENERIC => 'CSV Générique',
         self::FORMAT_SAGE_BOB => 'Sage BOB 50 (ASCII)',
         self::FORMAT_SAGE_100 => 'Sage 100 (CSV)',
+        self::FORMAT_FEC => 'FEC (France)',
     ];
 
     protected $fillable = [
