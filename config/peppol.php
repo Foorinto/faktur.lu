@@ -44,8 +44,9 @@ return [
     */
 
     'superpdp' => [
-        'api_key' => env('SUPERPDP_API_KEY'),
-        'api_url' => env('SUPERPDP_API_URL', 'https://api.superpdp.tech'),
+        'client_id' => env('SUPERPDP_CLIENT_ID'),
+        'client_secret' => env('SUPERPDP_CLIENT_SECRET'),
+        'endpoint' => env('SUPERPDP_ENDPOINT', 'https://api.superpdp.tech'),
         'sandbox' => env('SUPERPDP_SANDBOX', true),
     ],
 

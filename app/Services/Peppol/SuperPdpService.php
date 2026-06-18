@@ -9,30 +9,37 @@ use Illuminate\Support\Facades\Log;
 /**
  * Super PDP — Plateforme Agréée (France) + Access Point Peppol.
  *
- * Super PDP est immatriculée par la DGFiP (facturation électronique française)
- * et certifiée Peppol. API REST / OpenAPI. https://www.superpdp.tech
+ * Immatriculée DGFiP (facturation électronique FR) + certifiée Peppol.
+ * API REST documentée : https://www.superpdp.tech/documentation
  *
- * ⚠️ Les éléments marqués "TODO (API Super PDP)" — chemins d'endpoint, champs du
- *    payload et de la réponse, statuts — doivent être confirmés contre la
- *    documentation OpenAPI / le compte sandbox AVANT la mise en production.
- *    Le reste de l'application ne dépend que de PeppolAccessPointInterface, donc
- *    aucune autre modification n'est nécessaire pour activer ce fournisseur.
+ * Authentification : OAuth 2.0 client_credentials. Chaque entreprise dispose
+ * d'une « application » (client_id + client_secret) créée dans la console Super PDP.
+ * Le couple sandbox/production est déterminé par les identifiants de l'application.
+ *
+ * ⚠️ Limite connue (multi-tenant) : ces identifiants sont aujourd'hui pris dans la
+ *    config (un seul émetteur). Pour le SaaS multi-clients, il faudra stocker un
+ *    client_id/secret Super PDP par utilisateur faktur.lu (chantier de suivi).
  */
 class SuperPdpService implements PeppolAccessPointInterface
 {
-    protected string $apiKey;
-    protected string $apiUrl;
+    protected string $clientId;
+    protected string $clientSecret;
+    protected string $endpoint;
     protected bool $sandbox;
+    protected ?string $token = null;
 
     public function __construct()
     {
-        $this->apiKey = (string) config('peppol.superpdp.api_key', '');
-        $this->apiUrl = rtrim((string) config('peppol.superpdp.api_url', 'https://api.superpdp.tech'), '/');
+        $this->clientId = (string) config('peppol.superpdp.client_id', '');
+        $this->clientSecret = (string) config('peppol.superpdp.client_secret', '');
+        $this->endpoint = rtrim((string) config('peppol.superpdp.endpoint', 'https://api.superpdp.tech'), '/');
         $this->sandbox = (bool) config('peppol.superpdp.sandbox', true);
     }
 
     /**
      * Send an invoice via Super PDP.
+     * Le XML Peppol BIS 3.0 (UBL) est envoyé en corps brut ; le destinataire est
+     * déterminé par le XML lui-même (pas de routage séparé).
      */
     public function sendInvoice(Invoice $invoice, string $peppolXml): PeppolTransmissionResult
     {
@@ -41,47 +48,25 @@ class SuperPdpService implements PeppolAccessPointInterface
         }
 
         try {
-            $buyer = $invoice->buyer;
-            $recipientId = $buyer['peppol_endpoint_id'] ?? null;
-            $recipientScheme = $buyer['peppol_endpoint_scheme'] ?? null;
-
-            if (!$recipientId || !$recipientScheme) {
-                return PeppolTransmissionResult::failure('Le destinataire n\'a pas d\'identifiant Peppol configuré.');
+            $token = $this->getAccessToken();
+            if (!$token) {
+                return PeppolTransmissionResult::failure('Échec de l\'authentification OAuth2 auprès de Super PDP.');
             }
-
-            // TODO (API Super PDP) : adapter la structure du payload au contrat réel
-            // (OpenAPI / sandbox). Hypothèse : XML Peppol BIS 3.0 (UBL) en base64
-            // + routage par identifiant destinataire (scheme 0009=FR:SIRET, 9938=LU:VAT…).
-            $payload = [
-                'document' => [
-                    'format' => 'ubl',
-                    'type' => $invoice->isCreditNote() ? 'creditnote' : 'invoice',
-                    'content' => base64_encode($peppolXml),
-                ],
-                'recipient' => [
-                    'scheme' => $recipientScheme,
-                    'identifier' => $recipientId,
-                ],
-            ];
 
             Log::info('Sending invoice to Super PDP', [
                 'invoice_id' => $invoice->id,
                 'invoice_number' => $invoice->number,
-                'recipient_id' => $recipientId,
                 'sandbox' => $this->sandbox,
             ]);
 
-            // TODO (API Super PDP) : confirmer le chemin de l'endpoint d'émission.
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-            ])->post($this->apiUrl . '/v1/invoices', $payload);
+            // POST /v1.beta/invoices — corps = XML UBL brut.
+            $response = Http::withToken($token)
+                ->withBody($peppolXml, 'application/xml')
+                ->post($this->endpoint . '/v1.beta/invoices');
 
             if ($response->successful()) {
                 $data = $response->json() ?? [];
-                // TODO (API Super PDP) : confirmer le champ d'identifiant de document.
-                $documentId = (string) ($data['id'] ?? $data['documentId'] ?? $data['guid'] ?? '');
+                $documentId = (string) ($data['id'] ?? '');
 
                 Log::info('Invoice sent successfully via Super PDP', [
                     'invoice_id' => $invoice->id,
@@ -128,15 +113,25 @@ class SuperPdpService implements PeppolAccessPointInterface
         }
 
         try {
-            // TODO (API Super PDP) : confirmer le chemin de consultation de statut.
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Accept' => 'application/json',
-            ])->get($this->apiUrl . '/v1/invoices/' . $documentId);
+            $token = $this->getAccessToken();
+            if (!$token) {
+                return 'unknown';
+            }
+
+            $response = Http::withToken($token)
+                ->acceptJson()
+                ->get($this->endpoint . '/v1.beta/invoices/' . $documentId);
 
             if ($response->successful()) {
                 $data = $response->json() ?? [];
-                return $this->mapStatus((string) ($data['status'] ?? 'unknown'));
+
+                // TODO (API Super PDP) : confirmer le champ de statut exact (lifecycle).
+                // Heuristique : présence de 'en_invoice' = facture traitée/transmise.
+                if (isset($data['status'])) {
+                    return $this->mapStatus((string) $data['status']);
+                }
+
+                return !empty($data['en_invoice']) ? 'delivered' : 'sent';
             }
 
             return 'unknown';
@@ -155,7 +150,7 @@ class SuperPdpService implements PeppolAccessPointInterface
      */
     public function isConfigured(): bool
     {
-        return !empty($this->apiKey);
+        return !empty($this->clientId) && !empty($this->clientSecret);
     }
 
     /**
@@ -167,8 +162,35 @@ class SuperPdpService implements PeppolAccessPointInterface
     }
 
     /**
+     * Obtain an OAuth2 access token (client_credentials grant), cached for the instance.
+     */
+    protected function getAccessToken(): ?string
+    {
+        if ($this->token) {
+            return $this->token;
+        }
+
+        $response = Http::asForm()->post($this->endpoint . '/oauth2/token', [
+            'grant_type' => 'client_credentials',
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+        ]);
+
+        if (!$response->successful()) {
+            Log::error('Super PDP OAuth2 token error', [
+                'status' => $response->status(),
+                'response' => $response->json(),
+            ]);
+
+            return null;
+        }
+
+        return $this->token = $response->json('access_token');
+    }
+
+    /**
      * Map a Super PDP status to our internal status (sent, delivered, failed).
-     * TODO (API Super PDP) : aligner sur les statuts réels renvoyés par l'API.
+     * TODO (API Super PDP) : aligner sur les statuts réels du cycle de vie.
      */
     protected function mapStatus(string $status): string
     {
