@@ -11,6 +11,7 @@ use App\Policies\ImportSessionPolicy;
 use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\Peppol\SimulationService;
 use App\Services\Peppol\StorecoveService;
+use App\Services\Peppol\SuperPdpService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PeppolAccessPointInterface::class, function ($app) {
             return match (config('peppol.provider')) {
                 'storecove' => new StorecoveService(),
+                'superpdp' => new SuperPdpService(),
                 default => new SimulationService(),
             };
         });

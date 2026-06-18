@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Configuration for sending invoices via the Peppol network.
-    | Supported providers: simulation, storecove
+    | Supported providers: simulation, storecove, superpdp
     |
     */
 
@@ -31,6 +31,22 @@ return [
         'api_url' => env('STORECOVE_API_URL', 'https://api.storecove.com/api/v2'),
         'legal_entity_id' => env('STORECOVE_LEGAL_ENTITY_ID'),
         'sandbox' => env('STORECOVE_SANDBOX', true),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Super PDP Configuration (France)
+    |--------------------------------------------------------------------------
+    |
+    | Super PDP : Plateforme Agréée DGFiP (facturation électronique FR) +
+    | Access Point Peppol. https://www.superpdp.tech
+    |
+    */
+
+    'superpdp' => [
+        'api_key' => env('SUPERPDP_API_KEY'),
+        'api_url' => env('SUPERPDP_API_URL', 'https://api.superpdp.tech'),
+        'sandbox' => env('SUPERPDP_SANDBOX', true),
     ],
 
     /*
