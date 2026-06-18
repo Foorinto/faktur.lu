@@ -425,6 +425,9 @@
                     {{ $seller['address'] ?? '' }}<br>
                     {{ $seller['postal_code'] ?? '' }} {{ $seller['city'] ?? '' }} {{ $seller['country'] ?? '' }}
                 </div>
+                @if(!empty($seller['matricule']) && ($seller['country_code'] ?? 'LU') !== 'LU')
+                    <div class="company-details">{{ config('countries.'.($seller['country_code'] ?? 'LU').'.fiscal_identifiers.primary.label', '') }} {{ $seller['matricule'] }}</div>
+                @endif
                 @if(!empty($seller['rcs_number']))
                     <div class="company-details">{{ __('invoice.rcs_number') }} {{ $seller['rcs_number'] }}</div>
                 @endif

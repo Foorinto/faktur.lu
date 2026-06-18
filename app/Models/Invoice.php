@@ -425,6 +425,16 @@ class Invoice extends Model
                 ?? BusinessSettings::getInstance()?->default_custom_vat_mention;
         }
 
+        // Country-specific legal reference takes priority (e.g. FR art. 293 B vs LU art. 57).
+        // Le Luxembourg conserve le texte traduit existant (comportement inchangé).
+        $sellerCountry = $this->seller['country_code'] ?? null;
+        if ($sellerCountry && $sellerCountry !== 'LU') {
+            $countryMention = config("countries.{$sellerCountry}.vat_mentions.{$mentionType}");
+            if ($countryMention) {
+                return $countryMention;
+            }
+        }
+
         // Predefined mention — translated in the current locale
         $translationKey = "invoice.vat_mentions.{$mentionType}";
         $translated = __($translationKey);

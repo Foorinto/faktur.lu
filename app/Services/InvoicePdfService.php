@@ -245,6 +245,7 @@ class InvoicePdfService
             'postal_code' => $settings->postal_code,
             'city' => $settings->city,
             'country' => $settings->country_code ?? 'Luxembourg',
+            'country_code' => $settings->country_code ?? 'LU',
             'matricule' => $settings->matricule,
             'rcs_number' => $settings->rcs_number,
             'establishment_authorization' => $settings->establishment_authorization,
