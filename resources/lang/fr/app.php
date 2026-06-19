@@ -1268,9 +1268,9 @@ return [
 
         'hero' => [
             'badge' => 'Conçu pour le Luxembourg',
-            'title_1' => 'La facturation ',
-            'title_2' => 'conforme',
-            'title_3' => ' pour les freelances & PME au Luxembourg',
+            'title_1' => 'Le logiciel de ',
+            'title_2' => 'facturation',
+            'title_3' => ' conforme pour les freelances & PME au Luxembourg',
             'subtitle' => 'Factures, devis, suivi du temps et export FAIA — pensé pour la législation luxembourgeoise (LIVA, AED, TVA 17%). Sans expert-comptable obligatoire.',
             'cta_start' => 'Démarrer gratuitement',
             'cta_login' => 'Déjà inscrit ?',

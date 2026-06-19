@@ -1267,9 +1267,9 @@ return [
 
         'hero' => [
             'badge' => 'Concebido para o Luxemburgo',
-            'title_1' => 'Faturação conforme ',
-            'title_2' => 'simplificada',
-            'title_3' => ' para freelancers e PMEs do Luxemburgo',
+            'title_1' => 'O software de ',
+            'title_2' => 'faturação',
+            'title_3' => ' conforme para freelancers e PMEs do Luxemburgo',
             'subtitle' => 'Faturas, orçamentos, controlo de tempo e exportação FAIA — pensado para a legislação luxemburguesa (LIVA, AED, IVA 17%). Sem necessidade de contabilista.',
             'cta_start' => 'Começar gratuitamente',
             'cta_login' => 'Já está registado?',

@@ -1267,8 +1267,8 @@ return [
 
         'hero' => [
             'badge' => 'Built for Luxembourg',
-            'title_1' => 'Compliant invoicing',
-            'title_2' => 'made simple',
+            'title_1' => 'The compliant',
+            'title_2' => 'invoicing software',
             'title_3' => 'for Luxembourg freelancers & SMEs',
             'subtitle' => 'Invoices, quotes, time tracking and FAIA export — built around Luxembourg tax law (LIVA, AED, 17% VAT). No accountant required.',
             'cta_start' => 'Start for free',

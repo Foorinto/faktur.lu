@@ -1170,8 +1170,8 @@ return [
 
         'hero' => [
             'badge' => 'Fir Lëtzebuerg konzipéiert',
-            'title_1' => 'Konform Rechnungen',
-            'title_2' => 'einfach gemaach',
+            'title_1' => 'Déi konform',
+            'title_2' => 'Rechnungssoftware',
             'title_3' => 'fir Freelance & KMU zu Lëtzebuerg',
             'subtitle' => 'Rechnungen, Devis, Zäiterfassung an FAIA-Export — geduecht fir d\'Lëtzebuerger Steiergesetz (LIVA, AED, 17% TVA). Kee Steierberoder gebraucht.',
             'cta_start' => 'Gratis starten',

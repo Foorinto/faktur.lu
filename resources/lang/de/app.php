@@ -1170,8 +1170,8 @@ return [
 
         'hero' => [
             'badge' => 'Für Luxemburg konzipiert',
-            'title_1' => 'Rechtskonforme Rechnungen',
-            'title_2' => 'einfach gemacht',
+            'title_1' => 'Die rechtskonforme',
+            'title_2' => 'Rechnungssoftware',
             'title_3' => 'für Freelancer & KMU in Luxemburg',
             'subtitle' => 'Rechnungen, Angebote, Zeiterfassung und FAIA-Export — entwickelt für luxemburgisches Steuerrecht (LIVA, AED, 17% MwSt.). Kein Steuerberater erforderlich.',
             'cta_start' => 'Kostenlos starten',
