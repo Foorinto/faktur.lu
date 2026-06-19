@@ -107,7 +107,9 @@ class SitemapController extends Controller
 
         // Static pages with their route names (for localized slugs)
         $pages = [
-            ['route' => null, 'path' => '/', 'priority' => '1.0', 'changefreq' => 'weekly'],
+            // Homepage: no trailing slash, so the URL matches the canonical (/fr) exactly.
+            // With '/' the loc was /fr/ which 301-redirects to /fr → "page avec redirection" in GSC.
+            ['route' => null, 'path' => '', 'priority' => '1.0', 'changefreq' => 'weekly'],
             ['route' => 'features.index', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'pricing', 'priority' => '0.9', 'changefreq' => 'monthly'],
             ['route' => 'why_faktur', 'priority' => '0.9', 'changefreq' => 'monthly'],
