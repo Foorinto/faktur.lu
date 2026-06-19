@@ -71,6 +71,15 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
 
+        {{-- Server-side JSON-LD (structured data). Rendered here so Googlebot sees it in
+             the initial HTML without executing JS. Only present on pages that pass a
+             `structuredData` prop (currently the homepage). --}}
+        @if(!empty($page['props']['structuredData']))
+            @foreach($page['props']['structuredData'] as $schema)
+                <script type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+            @endforeach
+        @endif
+
         {{-- Matomo Analytics - Self-hosted, GDPR compliant, cookieless --}}
         @if(config('analytics.enabled') && config('analytics.matomo.url'))
         <script>

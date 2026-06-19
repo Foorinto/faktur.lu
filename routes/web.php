@@ -216,6 +216,8 @@ Route::prefix('{locale}')
                 'appUrl' => config('app.url'),
                 'latestPosts' => $latestPosts,
                 'currentLocale' => $locale,
+                // JSON-LD rendered server-side in app.blade.php (Googlebot sees it without JS).
+                'structuredData' => \App\Support\HomepageStructuredData::build(config('app.url'), $locale),
             ]);
         })->name('home');
 
