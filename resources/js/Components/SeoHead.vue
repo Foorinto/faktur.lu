@@ -139,8 +139,10 @@ const ogImage = computed(() => {
         <meta v-if="keywords" name="keywords" :content="keywords" />
         <meta v-if="noindex" name="robots" content="noindex, nofollow" />
 
-        <!-- Canonical URL -->
-        <link rel="canonical" :href="canonicalUrl" />
+        <!-- Canonical URL is emitted server-side in app.blade.php (single source of truth,
+             visible to Googlebot without JS). Emitting it here too produced TWO canonical
+             tags after hydration → Google ignored both and de-indexed pages. -->
+
 
         <!-- Hreflang tags for language alternatives -->
         <link

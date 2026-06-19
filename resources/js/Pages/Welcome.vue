@@ -44,7 +44,11 @@ const formatDate = (date) => {
 // SEO Meta data
 const pageTitle = computed(() => t('landing.page_title'));
 const metaDescription = computed(() => t('landing.meta_description'));
-const canonicalUrl = computed(() => props.appUrl);
+// Canonical is owned server-side (app.blade.php) so Googlebot sees it without JS.
+// Here we only build the localized homepage URL for og:url / twitter:url — it MUST
+// include the locale (e.g. /fr), otherwise it points to the bare domain and conflicts
+// with the server canonical, which de-indexes the page.
+const canonicalUrl = computed(() => `${props.appUrl}/${currentLocale()}`);
 
 // Schema.org structured data
 const schemaOrganization = computed(() => JSON.stringify({
@@ -396,7 +400,8 @@ const toggleFaq = (index) => {
         <!-- Primary Meta Tags -->
         <meta name="description" :content="metaDescription" />
         <meta name="keywords" :content="t('landing.meta_keywords')" />
-        <link rel="canonical" :href="canonicalUrl" />
+        <!-- Canonical is emitted server-side in app.blade.php (single source of truth). -->
+        <!-- Do NOT emit a second canonical here: two conflicting tags = Google ignores both. -->
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
