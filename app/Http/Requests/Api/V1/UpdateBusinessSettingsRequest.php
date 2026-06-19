@@ -37,8 +37,24 @@ class UpdateBusinessSettingsRequest extends FormRequest
                     }
                 },
             ],
-            // Luxembourg matricule is 13 digits (11 digits + 2 check digits)
-            'matricule' => ['required', 'string', 'regex:/^\d{11,13}$/'],
+            // Identifiant fiscal national — format selon le pays du vendeur.
+            'matricule' => ['required', 'string', function ($attribute, $value, $fail) {
+                $country = $this->input('country_code', 'LU');
+                $pattern = match ($country) {
+                    'FR' => '/^\d{9}$|^\d{14}$/',  // SIREN (9 chiffres) ou SIRET (14)
+                    'BE' => '/^\d{10}$/',          // n° d'entreprise BCE
+                    'LU' => '/^\d{11,13}$/',       // matricule luxembourgeois
+                    default => '/^.{1,20}$/',      // Allemagne & autres : souple
+                };
+                if (!preg_match($pattern, $value)) {
+                    $fail(match ($country) {
+                        'FR' => 'Le SIREN doit contenir 9 chiffres, ou le SIRET 14 chiffres.',
+                        'BE' => 'Le numéro d\'entreprise doit contenir 10 chiffres.',
+                        'LU' => 'Le matricule doit contenir entre 11 et 13 chiffres.',
+                        default => 'Identifiant fiscal invalide.',
+                    });
+                }
+            }],
             // RCS number: Letter + digits (ex: A12345, B98765)
             'rcs_number' => ['nullable', 'string', 'max:20', 'regex:/^[A-Z]\d+$/'],
             // Establishment authorization from Ministry of Economy

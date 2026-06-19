@@ -91,6 +91,7 @@ class BusinessSettings extends Model
     public const PEPPOL_SCHEMES = [
         '0184' => 'Luxembourg VAT (LU)',
         '0009' => 'France SIRET',
+        '0225' => 'France SIREN (facturation électronique)',
         '0088' => 'EAN/GLN (international)',
         '0208' => 'Belgium enterprise number',
         '0007' => 'Sweden Org Number',

@@ -121,7 +121,7 @@ const canExportPeppol = computed(() => {
 const canSendPeppol = computed(() => {
     return props.peppolEnabled
         && canExportPeppol.value
-        && !props.invoice.peppol_transmission;
+        && (!props.invoice.peppol_transmission || props.invoice.peppol_transmission.status === 'failed');
 });
 
 const peppolTransmission = computed(() => props.invoice.peppol_transmission);

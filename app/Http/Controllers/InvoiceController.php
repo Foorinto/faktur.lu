@@ -472,6 +472,11 @@ class InvoiceController extends Controller
             return back()->with('error', __('app.invoices_flash.peppol_transmission_exists', ['status' => $status]));
         }
 
+        // Autoriser un nouvel essai après un échec : purger les transmissions échouées.
+        PeppolTransmission::where('invoice_id', $invoice->id)
+            ->where('status', PeppolTransmission::STATUS_FAILED)
+            ->delete();
+
         // Create transmission record
         $transmission = PeppolTransmission::create([
             'user_id' => auth()->id(),
