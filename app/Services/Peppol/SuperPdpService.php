@@ -125,13 +125,15 @@ class SuperPdpService implements PeppolAccessPointInterface
             if ($response->successful()) {
                 $data = $response->json() ?? [];
 
-                // TODO (API Super PDP) : confirmer le champ de statut exact (lifecycle).
-                // Heuristique : présence de 'en_invoice' = facture traitée/transmise.
-                if (isset($data['status'])) {
-                    return $this->mapStatus((string) $data['status']);
+                // Le statut est porté par le DERNIER événement du cycle de vie
+                // (data.events[].status_code, ex. "api:uploaded", "fr:204"…).
+                $events = $data['events'] ?? [];
+                if (!empty($events)) {
+                    $last = end($events);
+                    return $this->mapStatus((string) ($last['status_code'] ?? ''));
                 }
 
-                return !empty($data['en_invoice']) ? 'delivered' : 'sent';
+                return 'sent';
             }
 
             return 'unknown';
@@ -189,17 +191,27 @@ class SuperPdpService implements PeppolAccessPointInterface
     }
 
     /**
-     * Map a Super PDP status to our internal status (sent, delivered, failed).
-     * TODO (API Super PDP) : aligner sur les statuts réels du cycle de vie.
+     * Map a Super PDP lifecycle status_code (ex. "api:uploaded", "fr:204") to
+     * our internal status (sent, delivered, failed).
+     * Codes AFNOR/PPF : 202 mise à disposition, 203 prise en charge, 204 approuvée,
+     * 208 refusée… + codes "api:" propres à Super PDP.
      */
-    protected function mapStatus(string $status): string
+    protected function mapStatus(string $statusCode): string
     {
-        return match (strtolower($status)) {
-            'pending', 'queued', 'received', 'processing' => 'sent',
-            'sent', 'delivered', 'accepted', 'completed' => 'delivered',
-            'failed', 'rejected', 'error' => 'failed',
-            default => 'sent',
-        };
+        $code = strtolower($statusCode);
+
+        if (str_contains($code, 'reject') || str_contains($code, 'refus') || str_contains($code, 'error')
+            || str_contains($code, ':208') || str_contains($code, ':206')) {
+            return 'failed';
+        }
+
+        if (str_contains($code, 'deliver') || str_contains($code, 'accept') || str_contains($code, 'received')
+            || str_contains($code, ':202') || str_contains($code, ':203') || str_contains($code, ':204')) {
+            return 'delivered';
+        }
+
+        // Par défaut : envoyée (uploaded, déposée, en cours de traitement…).
+        return 'sent';
     }
 
     /**
