@@ -78,6 +78,16 @@ class FeaturePageController extends Controller
     ];
 
     /**
+     * Canonical (French) slugs of every feature page. Single source of truth
+     * shared with SitemapController so the sitemap can never drift from the
+     * actual pages (a missing slug = a linked, indexable page absent du sitemap).
+     */
+    public static function featureSlugs(): array
+    {
+        return array_keys((new self())->features);
+    }
+
+    /**
      * Map localized slugs to canonical (French) slugs.
      */
     protected function resolveSlug(string $slug): ?string
