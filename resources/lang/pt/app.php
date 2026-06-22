@@ -1265,6 +1265,18 @@ return [
             'copyright' => '© 2026 faktur.lu. Todos os direitos reservados.',
         ],
 
+        'seo_context' => [
+            'title' => 'Porquê um software de faturação concebido para o Luxemburgo?',
+            'p1' => 'Faturar no Luxemburgo é mais do que exportar um PDF. A lei do IVA (LIVA) exige uma numeração sequencial contínua, menções obrigatórias precisas e a capacidade de fornecer um ficheiro de auditoria FAIA em caso de inspeção da AED. O faktur.lu aplica automaticamente as taxas de IVA luxemburguesas (17%, 14%, 8% e 3%) e gera a sua exportação FAIA 2.01 com um clique.',
+            'p2' => 'Para além da conformidade, o faktur.lu liga a sua faturação à rede Peppol para a fatura eletrónica B2G, suporta o Factur-X para os seus clientes em França e na Alemanha e funciona em cinco línguas. Um software de faturação pensado para freelancers, PMEs e fiduciárias da Grande Região.',
+            'links_title' => 'Saber mais',
+            'link_vat' => 'Calculadora de IVA luxemburguês',
+            'link_faia' => 'Validador de ficheiro FAIA',
+            'link_tools' => 'Ferramentas de faturação gratuitas',
+            'link_glossary' => 'Glossário de faturação',
+            'link_freelances' => 'Faturar como freelancer no Luxemburgo',
+            'link_smes' => 'Software de faturação para PMEs',
+        ],
         'hero' => [
             'badge' => 'Concebido para o Luxemburgo',
             'title_1' => 'O software de ',

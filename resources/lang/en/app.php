@@ -1265,6 +1265,18 @@ return [
             'copyright' => '© 2026 faktur.lu. All rights reserved.',
         ],
 
+        'seo_context' => [
+            'title' => 'Why use invoicing software built for Luxembourg?',
+            'p1' => 'Invoicing in Luxembourg is more than exporting a PDF. VAT law (LIVA) requires continuous sequential numbering, precise mandatory mentions and the ability to produce a FAIA audit file during an AED tax inspection. faktur.lu automatically applies Luxembourg VAT rates (17%, 14%, 8% and 3%) and generates your FAIA 2.01 export in one click.',
+            'p2' => 'Beyond compliance, faktur.lu connects your invoicing to the Peppol network for B2G e-invoicing, supports Factur-X for your customers in France and Germany, and works in five languages. Invoicing software designed for freelancers, SMEs and accounting firms across the Greater Region.',
+            'links_title' => 'Learn more',
+            'link_vat' => 'Luxembourg VAT calculator',
+            'link_faia' => 'FAIA file validator',
+            'link_tools' => 'Free invoicing tools',
+            'link_glossary' => 'Invoicing glossary',
+            'link_freelances' => 'Invoicing as a freelancer in Luxembourg',
+            'link_smes' => 'Invoicing software for SMEs',
+        ],
         'hero' => [
             'badge' => 'Built for Luxembourg',
             'title_1' => 'The compliant',

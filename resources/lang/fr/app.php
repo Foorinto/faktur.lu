@@ -1266,6 +1266,18 @@ return [
             'copyright' => '© 2026 faktur.lu. Tous droits réservés.',
         ],
 
+        'seo_context' => [
+            'title' => 'Pourquoi un logiciel de facturation conçu pour le Luxembourg ?',
+            'p1' => 'Facturer au Luxembourg ne se limite pas à éditer un PDF. La loi TVA (LIVA) impose une numérotation séquentielle continue, des mentions obligatoires précises et la capacité de fournir un fichier d\'audit FAIA en cas de contrôle de l\'AED. faktur.lu applique automatiquement les taux de TVA luxembourgeois (17 %, 14 %, 8 % et 3 %) et génère votre export FAIA 2.01 en un clic.',
+            'p2' => 'Au-delà de la conformité, faktur.lu relie votre facturation au réseau Peppol pour la facturation électronique B2G, prend en charge le Factur-X pour vos clients en France et en Allemagne, et fonctionne en cinq langues. Un logiciel de facturation pensé pour les indépendants, les PME et les fiduciaires de la Grande Région.',
+            'links_title' => 'Pour aller plus loin',
+            'link_vat' => 'Calculateur de TVA luxembourgeoise',
+            'link_faia' => 'Validateur de fichier FAIA',
+            'link_tools' => 'Outils de facturation gratuits',
+            'link_glossary' => 'Glossaire de la facturation',
+            'link_freelances' => 'Facturer en freelance au Luxembourg',
+            'link_smes' => 'Logiciel de facturation pour PME',
+        ],
         'hero' => [
             'badge' => 'Conçu pour le Luxembourg',
             'title_1' => 'Le logiciel de ',

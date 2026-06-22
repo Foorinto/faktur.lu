@@ -1253,6 +1253,32 @@ const toggleFaq = (index) => {
             </div>
         </section>
 
+        <!-- SEO context / pillar section: keyword-rich prose + internal links.
+             Crawlable text that reinforces topical relevance ("logiciel de facturation
+             Luxembourg" + FAIA/Peppol/TVA/LIVA) and distributes internal link equity. -->
+        <section class="py-20 bg-white">
+            <div class="mx-auto max-w-4xl px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+                    {{ t('landing.seo_context.title') }}
+                </h2>
+                <div class="space-y-4 text-lg text-slate-600 leading-relaxed">
+                    <p>{{ t('landing.seo_context.p1') }}</p>
+                    <p>{{ t('landing.seo_context.p2') }}</p>
+                </div>
+                <div class="mt-8">
+                    <p class="text-sm font-semibold text-slate-900 mb-3">{{ t('landing.seo_context.links_title') }}</p>
+                    <ul class="flex flex-wrap gap-x-6 gap-y-2 text-primary-500">
+                        <li><Link :href="localizedRoute('tools.vat_calculator')" class="hover:text-primary-600 underline decoration-dotted underline-offset-2">{{ t('landing.seo_context.link_vat') }}</Link></li>
+                        <li><Link :href="localizedRoute('faia-validator')" class="hover:text-primary-600 underline decoration-dotted underline-offset-2">{{ t('landing.seo_context.link_faia') }}</Link></li>
+                        <li><Link :href="localizedRoute('tools')" class="hover:text-primary-600 underline decoration-dotted underline-offset-2">{{ t('landing.seo_context.link_tools') }}</Link></li>
+                        <li><Link :href="localizedRoute('glossary')" class="hover:text-primary-600 underline decoration-dotted underline-offset-2">{{ t('landing.seo_context.link_glossary') }}</Link></li>
+                        <li><Link :href="localizedRoute('for_freelances')" class="hover:text-primary-600 underline decoration-dotted underline-offset-2">{{ t('landing.seo_context.link_freelances') }}</Link></li>
+                        <li><Link :href="localizedRoute('for_smes')" class="hover:text-primary-600 underline decoration-dotted underline-offset-2">{{ t('landing.seo_context.link_smes') }}</Link></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ Section -->
         <section id="faq" class="py-20">
             <div class="mx-auto max-w-3xl px-6 lg:px-8">

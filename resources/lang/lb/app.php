@@ -1168,6 +1168,18 @@ return [
             'copyright' => '© 2026 faktur.lu. All Rechter reservéiert.',
         ],
 
+        'seo_context' => [
+            'title' => 'Firwat eng Rechnungssoftware déi fir Lëtzebuerg gemaach ass?',
+            'p1' => 'Rechnungen zu Lëtzebuerg ze schreiwen ass méi wéi e PDF z\'exportéieren. D\'TVA-Gesetz (LIVA) verlaangt eng fortlafend Nummeréierung, präzis obligatoresch Mentiounen an d\'Méiglechkeet, bei enger Kontroll vun der AED eng FAIA-Prüfdatei ze liwweren. faktur.lu applizéiert automatesch déi Lëtzebuerger TVA-Sätz (17 %, 14 %, 8 % an 3 %) an erstellt Ären FAIA-2.01-Export mat engem Klick.',
+            'p2' => 'Iwwer d\'Konformitéit eraus verbënnt faktur.lu Är Rechnungsstellung mam Peppol-Netzwierk fir d\'elektronesch B2G-Rechnung, ënnerstëtzt Factur-X fir Är Clienten a Frankräich an an Däitschland, a funktionéiert a fënnef Sproochen. Eng Rechnungssoftware fir Freelancer, KMU a Fiduciairen aus der Groussregioun.',
+            'links_title' => 'Méi gewuer ginn',
+            'link_vat' => 'Lëtzebuerger TVA-Rechner',
+            'link_faia' => 'FAIA-Fichier-Validator',
+            'link_tools' => 'Gratis Rechnungstools',
+            'link_glossary' => 'Rechnungs-Glossar',
+            'link_freelances' => 'Als Freelancer zu Lëtzebuerg Rechnunge schreiwen',
+            'link_smes' => 'Rechnungssoftware fir KMU',
+        ],
         'hero' => [
             'badge' => 'Fir Lëtzebuerg konzipéiert',
             'title_1' => 'Déi konform',

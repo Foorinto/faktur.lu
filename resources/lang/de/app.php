@@ -1168,6 +1168,18 @@ return [
             'copyright' => '© 2026 faktur.lu. Alle Rechte vorbehalten.',
         ],
 
+        'seo_context' => [
+            'title' => 'Warum eine Rechnungssoftware, die für Luxemburg entwickelt wurde?',
+            'p1' => 'Rechnungen in Luxemburg zu stellen bedeutet mehr als ein PDF zu exportieren. Das MwSt.-Gesetz (LIVA) verlangt eine fortlaufende Nummerierung, präzise Pflichtangaben und die Fähigkeit, bei einer Prüfung der AED eine FAIA-Prüfdatei bereitzustellen. faktur.lu wendet die luxemburgischen MwSt.-Sätze (17 %, 14 %, 8 % und 3 %) automatisch an und erstellt Ihren FAIA-2.01-Export mit einem Klick.',
+            'p2' => 'Über die Konformität hinaus verbindet faktur.lu Ihre Rechnungsstellung mit dem Peppol-Netzwerk für die elektronische B2G-Rechnung, unterstützt Factur-X für Ihre Kunden in Frankreich und Deutschland und funktioniert in fünf Sprachen. Eine Rechnungssoftware für Freelancer, KMU und Treuhänder der Großregion.',
+            'links_title' => 'Mehr erfahren',
+            'link_vat' => 'Luxemburgischer MwSt.-Rechner',
+            'link_faia' => 'FAIA-Datei-Validator',
+            'link_tools' => 'Kostenlose Rechnungstools',
+            'link_glossary' => 'Rechnungs-Glossar',
+            'link_freelances' => 'Als Freelancer in Luxemburg Rechnungen stellen',
+            'link_smes' => 'Rechnungssoftware für KMU',
+        ],
         'hero' => [
             'badge' => 'Für Luxemburg konzipiert',
             'title_1' => 'Die rechtskonforme',
