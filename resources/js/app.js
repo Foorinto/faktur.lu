@@ -154,7 +154,13 @@ window.addEventListener('focus', () => {
 });
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    // N'appende le nom de l'app que si le titre ne le contient pas déjà, pour éviter
+    // les redondances type "Mentions légales | faktur.lu - faktur.lu" (beaucoup de
+    // page_title incluent déjà "faktur.lu").
+    title: (title) => {
+        if (!title) return appName;
+        return title.toLowerCase().includes(appName.toLowerCase()) ? title : `${title} - ${appName}`;
+    },
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
