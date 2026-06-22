@@ -92,14 +92,17 @@ async function renderOne(browser, url) {
     const page = await browser.newPage();
     try {
         await page.setViewport({ width: 1280, height: 900 });
-        await page.goto(url, { waitUntil: 'networkidle0', timeout: 45000 });
+        // domcontentloaded (not networkidle0): the latter is flaky on remote servers
+        // with analytics beacons / keep-alive. We don't need network idle — we wait
+        // explicitly for the Inertia/Vue render below.
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
         // Wait until Inertia/Vue has mounted real content (an <h1> with text).
         await page.waitForFunction(
             () => {
                 const h1 = document.querySelector('h1');
                 return h1 && h1.innerText.trim().length > 0;
             },
-            { timeout: 15000 },
+            { timeout: 30000, polling: 250 },
         );
         const html = stripForBots(await page.content());
         const file = fileForPath(new URL(url).pathname);
@@ -118,6 +121,10 @@ async function run() {
     const urls = await collectUrls();
     console.log(`Prerendering ${urls.length} URL(s) depuis ${BASE_URL} → ${OUT_DIR}\n`);
 
+    // Generate against a LOCAL instance (BASE_URL). Generating against the live
+    // o2switch site fails: LiteSpeed rate-limits the headless asset burst (HTTP 429),
+    // so the SPA never mounts. Locally there is no rate limit. Run the local server
+    // with APP_URL set to the target domain so canonical/hreflang/og are correct.
     const browser = await puppeteer.launch({
         executablePath: CHROME_PATH,
         headless: 'new',

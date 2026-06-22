@@ -42,8 +42,23 @@ prerender_and_sync() {
     echo ""
     echo -e "${YELLOW}[Prerendering] Génération des snapshots publics (robots)...${NC}"
     set +e
-    BASE_URL="$SITE_URL" PRERENDER_CONCURRENCY=3 npm run prerender
-    if [ $? -ne 0 ]; then
+    local PORT=8129
+    # Génère contre une instance LOCALE : o2switch/LiteSpeed rate-limite la rafale
+    # d'assets du headless (HTTP 429) → le SPA ne se monte pas. En local, pas de
+    # rate-limit. APP_URL=$SITE_URL → canonical/hreflang/og corrects ; les liens
+    # internes sont relatifs et les scripts sont strippés. Pages marketing identiques
+    # à la prod (contenu statique).
+    rm -f public/hot
+    APP_URL="$SITE_URL" php artisan serve --port=$PORT > /tmp/faktur-prerender-serve.log 2>&1 &
+    local SERVE_PID=$!
+    local tries=0
+    until curl -s -o /dev/null "http://127.0.0.1:$PORT/fr" || [ $tries -ge 30 ]; do
+        sleep 0.5; tries=$((tries + 1))
+    done
+    BASE_URL="http://127.0.0.1:$PORT" PRERENDER_CONCURRENCY=4 npm run prerender
+    local gen_rc=$?
+    kill $SERVE_PID 2>/dev/null
+    if [ $gen_rc -ne 0 ]; then
         echo -e "${YELLOW}⚠️  Génération incomplète. Le site reste OK ; snapshots non mis à jour.${NC}"
         set -e
         return 0
