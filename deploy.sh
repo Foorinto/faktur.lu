@@ -28,6 +28,47 @@ echo -e "${GREEN}  Déploiement faktur.lu${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo ""
 
+# ---------------------------------------------------------------------------
+# Prerendering (SEO / robots) : génère les snapshots HTML des pages publiques
+# en pilotant Chrome local CONTRE LA PROD déjà déployée (données réelles), puis
+# les transfère par rsync vers le serveur. Servis aux robots uniquement par le
+# middleware ServePrerendered ; transparent pour les humains.
+#
+# Ne fait JAMAIS échouer le déploiement : le site fonctionne sans snapshots
+# (le middleware fait un pass-through si un fichier manque). Toute erreur ici
+# est un simple avertissement.
+# ---------------------------------------------------------------------------
+prerender_and_sync() {
+    echo ""
+    echo -e "${YELLOW}[Prerendering] Génération des snapshots publics (robots)...${NC}"
+    set +e
+    BASE_URL="$SITE_URL" PRERENDER_CONCURRENCY=3 npm run prerender
+    if [ $? -ne 0 ]; then
+        echo -e "${YELLOW}⚠️  Génération incomplète. Le site reste OK ; snapshots non mis à jour.${NC}"
+        set -e
+        return 0
+    fi
+    echo -e "${YELLOW}[Prerendering] Transfert rsync vers le serveur...${NC}"
+    rsync -az --delete -e "ssh -p $SSH_PORT" \
+        public/prerendered/ "$SSH_USER@$SSH_HOST:$REMOTE_PATH/public/prerendered/"
+    if [ $? -ne 0 ]; then
+        echo -e "${YELLOW}⚠️  rsync échoué. Le site reste OK ; snapshots non synchronisés.${NC}"
+    else
+        echo -e "${GREEN}✓ Snapshots synchronisés vers le serveur${NC}"
+    fi
+    set -e
+    return 0
+}
+
+# Mode dédié : régénère + synchronise les snapshots SANS redéployer le code.
+# Utile quand seul le contenu a changé (nouvel article de blog publié, etc.).
+if [ "$1" == "prerender-only" ]; then
+    echo -e "${BLUE}Mode prerender-only : régénération + sync des snapshots (sans déploiement)${NC}"
+    prerender_and_sync
+    echo -e "${GREEN}Terminé.${NC}"
+    exit 0
+fi
+
 # Vérifier la branche
 CURRENT_BRANCH=$(git branch --show-current)
 if [ "$CURRENT_BRANCH" != "$BRANCH" ]; then
@@ -203,6 +244,12 @@ if [ "$HTTP_STATUS" == "200" ]; then
     echo -e "${GREEN}✓ Site accessible (HTTP $HTTP_STATUS)${NC}"
 else
     echo -e "${RED}⚠️  Site retourne HTTP $HTTP_STATUS — vérifiez manuellement: $SITE_URL${NC}"
+fi
+
+# Prerendering post-déploiement : régénère les snapshots contre la prod fraîchement
+# déployée (sauf en mode rapide). N'impacte pas le statut du déploiement.
+if [ "$1" != "quick" ] && [ "$HTTP_STATUS" == "200" ]; then
+    prerender_and_sync
 fi
 
 echo ""

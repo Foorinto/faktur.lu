@@ -36,3 +36,6 @@ database/*.sqlite
 
 # Snapshots de prerendering (générés au déploiement, transférés par rsync — pas versionnés)
 /public/prerendered
+
+# Sauvegarde locale du script de déploiement
+deploy.sh.bak
