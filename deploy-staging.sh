@@ -52,15 +52,27 @@ prerender_and_sync() {
     rm -f public/hot
     APP_URL="$SITE_URL" php artisan serve --port=$PORT > /tmp/faktur-prerender-serve.log 2>&1 &
     local SERVE_PID=$!
+    # Attendre que le serveur local réponde (jusqu'à 60s : sur une machine chargée en
+    # fin de déploiement, le 1er boot Laravel peut être lent).
     local tries=0
-    until curl -s -o /dev/null "http://127.0.0.1:$PORT/fr" || [ $tries -ge 30 ]; do
-        sleep 0.5; tries=$((tries + 1))
+    until curl -s -o /dev/null "http://127.0.0.1:$PORT/fr"; do
+        tries=$((tries + 1))
+        if [ $tries -ge 120 ]; then
+            echo -e "${RED}⚠️  Serveur local de prerendering non démarré (port $PORT). Snapshots NON régénérés.${NC}"
+            echo -e "${YELLOW}   Voir /tmp/faktur-prerender-serve.log. Le site reste OK.${NC}"
+            kill $SERVE_PID 2>/dev/null
+            set -e
+            return 0
+        fi
+        sleep 0.5
     done
+    echo -e "${BLUE}   Serveur local prêt, génération...${NC}"
     BASE_URL="http://127.0.0.1:$PORT" PRERENDER_CONCURRENCY=4 npm run prerender
     local gen_rc=$?
     kill $SERVE_PID 2>/dev/null
     if [ $gen_rc -ne 0 ]; then
-        echo -e "${YELLOW}⚠️  Génération incomplète. Le site reste OK ; snapshots non mis à jour.${NC}"
+        echo -e "${RED}⚠️  Génération des snapshots INCOMPLÈTE (code $gen_rc). Snapshots NON synchronisés.${NC}"
+        echo -e "${YELLOW}   Le site reste OK. Relance: ./deploy-staging.sh prerender-only${NC}"
         set -e
         return 0
     fi
