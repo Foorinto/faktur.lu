@@ -33,3 +33,6 @@ database/*.sqlite
 
 # Local artifacts (smoke test reports, screenshots, Lighthouse reports, etc.)
 /tmp/
+
+# Snapshots de prerendering (générés au déploiement, transférés par rsync — pas versionnés)
+/public/prerendered

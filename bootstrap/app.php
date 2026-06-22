@@ -99,6 +99,13 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\PreventRequestsDuringMaintenance::class
         );
 
+        // Dynamic rendering: serve prerendered HTML to crawlers only. Prepended so a
+        // bot request with an existing snapshot short-circuits before the Inertia stack.
+        // Pure pass-through for real users — no effect on the app's behaviour.
+        $middleware->web(prepend: [
+            \App\Http\Middleware\ServePrerendered::class,
+        ]);
+
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
