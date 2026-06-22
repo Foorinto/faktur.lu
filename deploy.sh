@@ -265,7 +265,9 @@ fi
 # Vérification post-déploiement
 echo ""
 echo -e "${YELLOW}Vérification du site...${NC}"
-HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL" 2>/dev/null || echo "000")
+# -L : suit la redirection racine (/ → /fr) sinon HTTP_STATUS vaut 302 et la condition
+# "== 200" plus bas est toujours fausse (ce qui sautait silencieusement le prerender).
+HTTP_STATUS=$(curl -sL -o /dev/null -w "%{http_code}" "$SITE_URL" 2>/dev/null || echo "000")
 
 if [ "$HTTP_STATUS" == "200" ]; then
     echo -e "${GREEN}✓ Site accessible (HTTP $HTTP_STATUS)${NC}"
