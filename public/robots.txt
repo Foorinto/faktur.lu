@@ -21,6 +21,9 @@ Disallow: /faia
 Disallow: /archive
 Disallow: /revenue-book
 Disallow: /support
+# Stockage des snapshots de prerendering (servis aux robots sur les vraies URLs
+# par le middleware ; ces chemins directs ne doivent pas être explorés/indexés).
+Disallow: /prerendered/
 
 # Allow public pages
 Allow: /
