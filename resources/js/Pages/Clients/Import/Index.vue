@@ -226,7 +226,7 @@ const restart = () => {
                                 <input type="file" accept=".xlsx,.xls,.csv,.ods" @change="handleFileSelect" class="hidden" />
                             </label>
                         </p>
-                        <p class="text-xs text-slate-500">Formats supportés : Excel (.xlsx, .xls), CSV, ODS — Maximum 10 MB</p>
+                        <p class="text-xs text-slate-500">Formats supportés : Excel (.xlsx, .xls), CSV, ODS - Maximum 10 MB</p>
 
                         <div v-if="uploading" class="mt-6">
                             <div class="inline-flex items-center text-primary-500">
@@ -343,7 +343,7 @@ const restart = () => {
                                 <strong>Ligne {{ err.row }}</strong> : {{ err.error }}
                                 <div class="text-red-500 dark:text-red-400 text-[10px] mt-0.5">
                                     {{ err.data?.name || '(sans nom)' }}
-                                    <span v-if="err.data?.email"> — {{ err.data.email }}</span>
+                                    <span v-if="err.data?.email"> - {{ err.data.email }}</span>
                                 </div>
                             </div>
                             <div v-if="previewResult.errors.length > 20" class="text-red-500 italic pt-1">

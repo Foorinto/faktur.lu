@@ -172,8 +172,8 @@ const deleteRoom = (room) => {
                         <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                             <tr v-for="room in rooms.data" :key="room.id" class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                                 <td class="px-6 py-3 text-sm font-medium text-slate-900 dark:text-white">{{ room.name }}</td>
-                                <td class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400">{{ room.capacity || '—' }}</td>
-                                <td class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400">{{ room.location || '—' }}</td>
+                                <td class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400">{{ room.capacity || '-' }}</td>
+                                <td class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400">{{ room.location || '-' }}</td>
                                 <td class="px-6 py-3 text-sm">
                                     <span :class="room.active ? 'text-emerald-600' : 'text-slate-400'">
                                         {{ room.active ? t('hr_room_active') : t('hr_room_inactive') }}

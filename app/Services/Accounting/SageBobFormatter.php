@@ -10,7 +10,7 @@ class SageBobFormatter
      * Format entries as Sage BOB 50 ASCII fixed-position file.
      *
      * Positions:
-     *  1-2:   Type (2 chars) — "01" = écriture
+     *  1-2:   Type (2 chars) - "01" = écriture
      *  3-10:  Journal (8 chars, right-padded)
      * 11-18:  Date (8 chars, YYYYMMDD)
      * 19-26:  N° pièce (8 chars, right-padded)

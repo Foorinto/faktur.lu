@@ -52,7 +52,7 @@ class InviteCollaboratorToProjectAction
                 $user = User::create([
                     'name' => Str::before($email, '@'),
                     'email' => $email,
-                    'password' => bcrypt(Str::random(40)), // placeholder — user will reset
+                    'password' => bcrypt(Str::random(40)), // placeholder - user will reset
                 ]);
                 $isNewUser = true;
             }

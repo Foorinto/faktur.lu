@@ -91,7 +91,7 @@ class OnboardingController extends Controller
         }
 
         // Only persist fields the user actually touched. "keep_defaults" tells us
-        // they explicitly skipped customisation — we still mark the step as
+        // they explicitly skipped customisation - we still mark the step as
         // acknowledged so the checklist task is considered done.
         $persistable = collect($data)
             ->except('keep_defaults')

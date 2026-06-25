@@ -51,7 +51,7 @@ const breadcrumbSchema = computed(() => ({
     ],
 }));
 
-// E-E-A-T author: Alexandre Beaudier — founder of faktur.lu, cross-border worker (frontalier)
+// E-E-A-T author: Alexandre Beaudier - founder of faktur.lu, cross-border worker (frontalier)
 // Author is the organization (faktur.lu): no personal byline on the articles.
 const authorSchema = computed(() => ({
     '@type': 'Organization',

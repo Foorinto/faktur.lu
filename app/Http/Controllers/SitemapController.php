@@ -135,7 +135,7 @@ class SitemapController extends Controller
             ['route' => 'legal.dpa', 'priority' => '0.3', 'changefreq' => 'yearly'],
         ];
 
-        // Feature detail pages — slugs come from FeaturePageController (single source
+        // Feature detail pages - slugs come from FeaturePageController (single source
         // of truth) so the sitemap stays in sync with the actual pages automatically.
         foreach (FeaturePageController::featureSlugs() as $slug) {
             $pages[] = ['route' => 'features.show', 'path' => null, 'priority' => '0.8', 'changefreq' => 'monthly', 'suffix' => '/' . $slug];

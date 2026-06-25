@@ -65,7 +65,7 @@ return [
     'view_all' => 'Alle anzeigen',
     'breadcrumb_home' => 'Startseite',
 
-    // FEAT-079 — Shared calendar (HR module)
+    // FEAT-079 - Shared calendar (HR module)
     'hr_calendar_title' => 'Geteilter Kalender',
     'hr_calendar_today' => 'Heute',
     'hr_calendar_view_month' => 'Monat',
@@ -81,7 +81,7 @@ return [
     'hr_calendar_disabled_description' => 'Der HR-Administrator hat den geteilten Kalender für diese Organisation deaktiviert.',
     'hr_calendar_my_leave_label' => 'Ich',
 
-    // FEAT-081 — Project members
+    // FEAT-081 - Project members
     'project_members_employees' => 'Mitarbeiter',
     'project_members_collaborators' => 'Externe Mitarbeiter',
     'project_members_active' => 'Aktiv',
@@ -104,9 +104,9 @@ return [
     'project_employee_activated' => 'Mitarbeiter in diesem Projekt aktiviert.',
     'project_employee_deactivated' => 'Mitarbeiter in diesem Projekt deaktiviert.',
 
-    // Employee portal — projects (FEAT-081 nested below)
+    // Employee portal - projects (FEAT-081 nested below)
 
-    // FEAT-081 — Emails
+    // FEAT-081 - Emails
     'mail_subject_project_member_added' => 'Sie wurden dem Projekt hinzugefügt: :project',
     'mail_subject_project_member_removed' => 'Sie wurden vom Projekt entfernt: :project',
     'mail_subject_project_collaborator_invitation' => 'Einladung zum Projekt: :project',
@@ -778,13 +778,13 @@ return [
     'fiscal_vat_deductible' => 'Abzugsfähige MwSt.',
     'fiscal_vat_balance' => 'MwSt.-Saldo',
     'fiscal_filing_guide' => 'Steuererklärung Leitfaden',
-    'fiscal_guide_taxx' => 'taxx.lu — Geführte Erklärung (kostenpflichtig)',
-    'fiscal_guide_myguichet' => 'MyGuichet.lu — Offizielle Erklärung (kostenlos)',
+    'fiscal_guide_taxx' => 'taxx.lu - Geführte Erklärung (kostenpflichtig)',
+    'fiscal_guide_myguichet' => 'MyGuichet.lu - Offizielle Erklärung (kostenlos)',
     'fiscal_key_dates' => 'Wichtige Termine',
     'fiscal_useful_links' => 'Nützliche Links',
     'fiscal_disclaimer' => 'Dieses Dokument ersetzt keine professionelle Beratung. Konsultieren Sie einen Steuerberater vor der Abgabe Ihrer Erklärung.',
     'fiscal_export_purpose_title' => 'Wozu dienen die PDF- und CSV-Exporte?',
-    'fiscal_export_purpose_desc' => 'Diese Exporte sind Zusammenfassungen zur Unterstützung Ihrer Steuererklärung. Sie können nicht direkt in taxx.lu oder MyGuichet.lu importiert werden — Sie müssen die Beträge manuell eingeben.',
+    'fiscal_export_purpose_desc' => 'Diese Exporte sind Zusammenfassungen zur Unterstützung Ihrer Steuererklärung. Sie können nicht direkt in taxx.lu oder MyGuichet.lu importiert werden - Sie müssen die Beträge manuell eingeben.',
     'fiscal_export_use_1' => 'Referenz beim Ausfüllen Ihrer Erklärung auf taxx.lu oder MyGuichet.lu',
     'fiscal_export_use_2' => 'Arbeitsunterlage für Ihren Steuerberater oder Treuhänder',
     'fiscal_export_use_3' => 'Jahresübersicht für Ihre persönliche Archivierung',
@@ -1185,7 +1185,7 @@ return [
             'title_1' => 'Die rechtskonforme',
             'title_2' => 'Rechnungssoftware',
             'title_3' => 'für Freelancer & KMU in Luxemburg',
-            'subtitle' => 'Rechnungen, Angebote, Zeiterfassung und FAIA-Export — entwickelt für luxemburgisches Steuerrecht (LIVA, AED, 17% MwSt.). Kein Steuerberater erforderlich.',
+            'subtitle' => 'Rechnungen, Angebote, Zeiterfassung und FAIA-Export - entwickelt für luxemburgisches Steuerrecht (LIVA, AED, 17% MwSt.). Kein Steuerberater erforderlich.',
             'cta_start' => 'Kostenlos starten',
             'cta_login' => 'Schon Mitglied?',
             'cta_reassurance' => 'Keine Kreditkarte · Jederzeit kündbar · Erste Rechnung in 5 Min.',
@@ -1213,7 +1213,7 @@ return [
         'free_tools_section' => [
             'eyebrow' => 'Kostenlose Tools',
             'title' => 'Bevor Sie sich registrieren',
-            'subtitle' => 'Berechnen, prüfen, erstellen. Ohne Anmeldung, ohne Kreditkarte — nutzen Sie unsere kostenlosen Tools für den luxemburgischen Kontext.',
+            'subtitle' => 'Berechnen, prüfen, erstellen. Ohne Anmeldung, ohne Kreditkarte - nutzen Sie unsere kostenlosen Tools für den luxemburgischen Kontext.',
             'cta_all' => 'Alle kostenlosen Tools',
             'tool_vat' => [
                 'title' => 'Luxemburg MwSt.-Rechner',
@@ -1564,7 +1564,7 @@ return [
                 ],
                 'e_facturation' => [
                     'question' => 'Wie stellt man auf elektronische Rechnungsstellung in Luxemburg um?',
-                    'answer' => 'Der Übergang erfolgt mit faktur.lu in 3 Schritten: 1) Konfigurieren Sie Ihre Peppol-Kennung in den Unternehmenseinstellungen, 2) Erfassen Sie die Peppol-Kennung Ihrer Kunden (öffentliche Verwaltungen, Großunternehmen), 3) Stellen Sie Ihre Rechnungen wie gewohnt aus — der Peppol-Versand erfolgt mit einem Klick. Faktur.lu unterstützt zudem Factur-X und ZUGFeRD für Ihre Kunden in Frankreich und Deutschland.',
+                    'answer' => 'Der Übergang erfolgt mit faktur.lu in 3 Schritten: 1) Konfigurieren Sie Ihre Peppol-Kennung in den Unternehmenseinstellungen, 2) Erfassen Sie die Peppol-Kennung Ihrer Kunden (öffentliche Verwaltungen, Großunternehmen), 3) Stellen Sie Ihre Rechnungen wie gewohnt aus - der Peppol-Versand erfolgt mit einem Klick. Faktur.lu unterstützt zudem Factur-X und ZUGFeRD für Ihre Kunden in Frankreich und Deutschland.',
                 ],
                 // Cluster B - Vergleiche & Preise
                 'meilleure_solution' => [
@@ -1582,7 +1582,7 @@ return [
                 // Cluster C - Anwendungsfälle
                 'client_belge' => [
                     'question' => 'Wie stellt man einem belgischen Kunden aus Luxemburg eine Rechnung?',
-                    'answer' => 'Faktur.lu erkennt automatisch innergemeinschaftliche Umsätze: Bei einem belgischen B2B-Kunden mit gültiger MwSt-Nummer wird die Rechnung netto mit Reverse-Charge-Hinweis (Artikel 21 LIVA) ausgestellt. Die MwSt-Nummer des Kunden wird in Echtzeit über VIES validiert. Die innergemeinschaftliche Meldung wird durch dedizierte Exporte erleichtert. Bei einem belgischen B2C-Kunden gilt die luxemburgische MwSt, sofern Sie nicht die OSS-Schwelle überschreiten — in diesem Fall wendet faktur.lu den belgischen Satz an.',
+                    'answer' => 'Faktur.lu erkennt automatisch innergemeinschaftliche Umsätze: Bei einem belgischen B2B-Kunden mit gültiger MwSt-Nummer wird die Rechnung netto mit Reverse-Charge-Hinweis (Artikel 21 LIVA) ausgestellt. Die MwSt-Nummer des Kunden wird in Echtzeit über VIES validiert. Die innergemeinschaftliche Meldung wird durch dedizierte Exporte erleichtert. Bei einem belgischen B2C-Kunden gilt die luxemburgische MwSt, sofern Sie nicht die OSS-Schwelle überschreiten - in diesem Fall wendet faktur.lu den belgischen Satz an.',
                 ],
                 'credit_notes' => [
                     'question' => 'Wie erstellt man eine konforme Gutschrift in Luxemburg?',
@@ -1811,7 +1811,7 @@ return [
             'short_description' => 'Verwalten Sie Ihre Mitarbeiter, Verträge, Urlaub und Gehaltsabrechnungen.',
             'page_title' => 'HR-Modul Luxemburg | Mitarbeiter- und Urlaubsverwaltung | faktur.lu',
             'meta_description' => 'Vollständiges HR-Modul für luxemburgische KMU: Mitarbeiterverwaltung, Verträge, Urlaub, Abteilungen und integriertes Mitarbeiterportal.',
-            'hero_description' => 'Verwalten Sie Ihre gesamten Personalressourcen über faktur.lu. Mitarbeiter, Verträge, Urlaub, Abteilungen — alles ist in einer einfachen und intuitiven Oberfläche zentralisiert.',
+            'hero_description' => 'Verwalten Sie Ihre gesamten Personalressourcen über faktur.lu. Mitarbeiter, Verträge, Urlaub, Abteilungen - alles ist in einer einfachen und intuitiven Oberfläche zentralisiert.',
             'details_title' => 'Ein vollständiges HR-Modul',
             'items' => [
                 'employees' => ['title' => 'Mitarbeiterprofile', 'description' => 'Zentralisieren Sie Mitarbeiterinformationen: Kontaktdaten, Matrikelnummer, Vertrag, Gehalt.'],
@@ -1903,7 +1903,7 @@ return [
         'title' => 'Vereinfachte Rechnungsstellung fuer Luxemburg',
         'subtitle' => 'faktur.lu entstand aus einer einfachen Erkenntnis: Luxemburger KMU und Freiberufler verdienen ein modernes, konformes Rechnungstool, das an ihre mehrsprachige Realitaet angepasst ist.',
         'mission_title' => 'Unsere Mission',
-        'mission_text' => 'Wir glauben, dass Rechnungsstellung keine laestige Aufgabe sein sollte. Unser Ziel ist es, luxemburgischen Unternehmern eine intuitive Software zu bieten, die alle gesetzlichen Pflichten erfuellt — FAIA-Export, fortlaufende Nummerierung, luxemburgische MwSt — und dabei einfach im Alltag zu bedienen bleibt.',
+        'mission_text' => 'Wir glauben, dass Rechnungsstellung keine laestige Aufgabe sein sollte. Unser Ziel ist es, luxemburgischen Unternehmern eine intuitive Software zu bieten, die alle gesetzlichen Pflichten erfuellt - FAIA-Export, fortlaufende Nummerierung, luxemburgische MwSt - und dabei einfach im Alltag zu bedienen bleibt.',
         'values_title' => 'Unsere Werte',
         'values' => [
             'compliance' => [
@@ -2042,7 +2042,7 @@ return [
             ],
             'languages' => [
                 'title' => '5 Sprachen, um Luxemburg wirklich zu bedienen',
-                'description' => 'Oberfläche, Rechnungen und Support auf Französisch, Deutsch, Englisch, Luxemburgisch und Portugiesisch — um die multikulturelle Realität Ihrer Kundschaft widerzuspiegeln. Keine andere Lösung deckt alle 5 Landessprachen ab.',
+                'description' => 'Oberfläche, Rechnungen und Support auf Französisch, Deutsch, Englisch, Luxemburgisch und Portugiesisch - um die multikulturelle Realität Ihrer Kundschaft widerzuspiegeln. Keine andere Lösung deckt alle 5 Landessprachen ab.',
             ],
             'local' => [
                 'title' => 'Lokaler Support und Felderfahrung',
@@ -2078,7 +2078,7 @@ return [
             'title' => 'Die Geschichte von faktur.lu',
             'paragraph_1' => 'Faktur.lu entstand aus einer einfachen Feststellung: Keine in Luxemburg verfügbare Rechnungslösung kombinierte gleichzeitig native FAIA-Konformität, Unterstützung der 5 Landessprachen und einen für Selbstständige erschwinglichen Preis. Die internationalen Tools waren teuer, schlecht übersetzt und ignorierten die luxemburgischen Steuerbesonderheiten.',
             'paragraph_2' => '2026 haben wir faktur.lu eingeführt, um diese Lücke zu schließen. Eine Plattform, die aus Luxemburg für Luxemburg konzipiert wurde: MwSt-Engine vorkonfiguriert mit den Sätzen 17/14/8/3%, FAIA-Export validiert gegen die AED-Spezifikation, Peppol-Integration über lokalen Access Point und ein Buchhalterportal, das für die Treuhänder des Platzes konzipiert wurde.',
-            'paragraph_3' => 'Heute nutzen Hunderte luxemburgischer Unternehmen — Selbstständige, KMU, Treuhänder — faktur.lu täglich. Unser Engagement bleibt das gleiche: die Referenz-Rechnungslösung in Luxemburg zu sein, dabei zugänglich, konform und nahe an den lokalen Unternehmern.',
+            'paragraph_3' => 'Heute nutzen Hunderte luxemburgischer Unternehmen - Selbstständige, KMU, Treuhänder - faktur.lu täglich. Unser Engagement bleibt das gleiche: die Referenz-Rechnungslösung in Luxemburg zu sein, dabei zugänglich, konform und nahe an den lokalen Unternehmern.',
         ],
         'cta' => [
             'title' => 'Schließen Sie sich der führenden Lösung in Luxemburg an',
@@ -2339,7 +2339,7 @@ return [
                 ],
             ],
             'cta_title' => 'Automatisieren Sie das alles mit faktur.lu',
-            'cta_subtitle' => 'Ausstellung, Nummerierung, Archivierung, automatische Mahnungen, FAIA mit 1 Klick und MwSt-Erinnerungskalender — 14 Tage kostenlos testen.',
+            'cta_subtitle' => 'Ausstellung, Nummerierung, Archivierung, automatische Mahnungen, FAIA mit 1 Klick und MwSt-Erinnerungskalender - 14 Tage kostenlos testen.',
             'cta_button' => 'Kostenlos starten',
         ],
     ],
@@ -2351,13 +2351,13 @@ return [
         'breadcrumb' => 'Für Freelancer',
         'badge' => 'Für Freelancer',
         'hero_title' => 'Rechnungsstellung für Freelancer in Luxemburg, ohne Verwaltungschaos',
-        'hero_subtitle' => 'Stellen Sie Ihren Kunden in wenigen Minuten Rechnungen aus — alle LIVA-Pflichtangaben enthalten, 17% MwSt automatisch berechnet, FAIA-Export bereit für Ihren Buchhalter. Kein Steuerberater erforderlich.',
+        'hero_subtitle' => 'Stellen Sie Ihren Kunden in wenigen Minuten Rechnungen aus - alle LIVA-Pflichtangaben enthalten, 17% MwSt automatisch berechnet, FAIA-Export bereit für Ihren Buchhalter. Kein Steuerberater erforderlich.',
         'cta_primary' => 'Kostenlos starten',
         'cta_secondary' => 'Preise ansehen',
         'cta_reassurance' => 'Keine Kreditkarte · Kostenloser Plan bis 5 Rechnungen/Monat · 5 Min für die erste Rechnung',
         'pains_title' => 'Ihre echten Probleme als Freelancer',
         'pains' => [
-            'admin' => ['title' => '„Ich wollte kein Buchhalter werden"', 'desc' => 'Sie stellen Rechnungen für Ihre Leistungen — Sie wollten sich nicht um Papierkram, Nummerierung, MwSt-Sätze und Pflichtangaben kümmern. faktur.lu erledigt das für Sie.'],
+            'admin' => ['title' => '„Ich wollte kein Buchhalter werden"', 'desc' => 'Sie stellen Rechnungen für Ihre Leistungen - Sie wollten sich nicht um Papierkram, Nummerierung, MwSt-Sätze und Pflichtangaben kümmern. faktur.lu erledigt das für Sie.'],
             'compliant' => ['title' => '„Ist meine Rechnung rechtens?"', 'desc' => 'Fortlaufende Nummerierung (Artikel 61 LIVA), Pflichtangaben, 17% MwSt (oder Reverse-Charge Artikel 21 für B2B innerhalb der EU): alles automatisch und konform.'],
             'audit' => ['title' => '„Was, wenn die AED prüft?"', 'desc' => 'Die FAIA-Datei nach AED 2.01 wird auf Abruf generiert. Ihr Buchhalter holt sie sich mit einem Klick über das Buchhalterportal. Kein Prüfungsstress mehr.'],
             'cost' => ['title' => '„30 €/Monat für Rechnungssoftware? Nein."', 'desc' => 'Kostenloser Plan bis 5 Rechnungen/Monat. Essentiel-Plan ab 5 €/Monat für 50 Rechnungen. Ohne Bindung.'],
@@ -2372,7 +2372,7 @@ return [
             'accountant' => ['title' => 'Buchhalterportal inklusive (Essentiel)', 'desc' => 'Laden Sie Ihren Buchhalter im Lesemodus ein. Zugriff auf Rechnungen, Buchhaltungsexporte und FAIA über sein eigenes Dashboard.'],
         ],
         'plan_recommend_title' => 'Empfohlener Plan für Sie',
-        'plan_recommend_name' => 'Essentiel — 5 €/Monat',
+        'plan_recommend_name' => 'Essentiel - 5 €/Monat',
         'plan_recommend_desc' => '50 Rechnungen/Monat, 100 Kunden, Buchhalterportal, Sage BOB 50 / Sage 100 / CSV-Exporte, Zeiterfassung. Ideal für aktive Freelancer.',
         'plan_recommend_cta' => '14 Tage kostenlos testen',
         'plan_free_note' => 'Zum Testen? Der kostenlose Plan (5 Rechnungen/Monat, 10 Kunden) ist ideal, um ohne Bindung zu starten. Jederzeit auf Essentiel wechseln.',
@@ -2417,7 +2417,7 @@ return [
             'branding' => ['title' => 'Ohne „faktur.lu"-Branding', 'desc' => 'Ihre Rechnungen tragen nur Ihre Identität. Kein Logo oder „Made with..."-Hinweis am unteren PDF-Rand.'],
         ],
         'plan_recommend_title' => 'Empfohlener Plan für Sie',
-        'plan_recommend_name' => 'Pro — 15 €/Monat',
+        'plan_recommend_name' => 'Pro - 15 €/Monat',
         'plan_recommend_desc' => 'Alles unbegrenzt, CRM, HR-Modul (15 Mitarbeiter), 3 externe Buchhalter, unbegrenztes Peppol, 10-Jahre PDF/A-Archiv, automatische Mahnungen, ohne Branding. Kein Aufpreis pro Nutzer.',
         'plan_recommend_cta' => '14 Tage kostenlos testen',
         'plan_note' => 'Mit Pro erhalten Sie alle Funktionen ohne Aufpreis pro Mitarbeiter oder Kunde. Der Preis bleibt fest, egal wie Sie wachsen.',
@@ -2436,11 +2436,11 @@ return [
 
     'survey_email_subject' => 'Ihre Meinung zu faktur.lu?',
     'survey_email_greeting' => 'Hallo :name,',
-    'survey_email_intro' => 'Sie nutzen faktur.lu seit zwei Wochen. Ihre Meinung ist uns wichtig — nehmen Sie sich 30 Sekunden für eine kurze Frage?',
+    'survey_email_intro' => 'Sie nutzen faktur.lu seit zwei Wochen. Ihre Meinung ist uns wichtig - nehmen Sie sich 30 Sekunden für eine kurze Frage?',
     'survey_email_cta' => 'Meine Meinung geben',
 
     'survey' => [
-        'page_title' => 'Ihre Meinung — faktur.lu',
+        'page_title' => 'Ihre Meinung - faktur.lu',
         'heading' => 'Ihre Meinung zählt',
         'subtitle' => 'Eine kurze Frage, um faktur.lu zu verbessern.',
         'nps_question' => 'Wie wahrscheinlich ist es, dass Sie faktur.lu einem Kollegen oder Freund empfehlen?',
@@ -2465,7 +2465,7 @@ return [
         'breadcrumb' => 'Glossar',
         'hero_title' => 'Glossar der luxemburgischen Rechnungsstellung',
         'hero_subtitle' => 'Alle technischen, rechtlichen und regulatorischen Begriffe der Rechnungsstellung und Besteuerung in Luxemburg, klar erklaert. FAIA, LIVA, AED, Peppol, ViDA und die anderen Abkuerzungen, die Ihnen in Ihren Erklaerungen begegnen.',
-        'set_name' => 'faktur.lu-Glossar — Rechnungsstellung und Besteuerung in Luxemburg',
+        'set_name' => 'faktur.lu-Glossar - Rechnungsstellung und Besteuerung in Luxemburg',
         'set_description' => 'Referenzdefinitionen fuer Rechnungsstellung, Mehrwertsteuer und steuerliche Compliance in Luxemburg: offizielle LIVA-Begriffe, behoerdliche Abkuerzungen (AED, CCSS, RCS), normierte Formate (FAIA, PDF/A, Factur-X, Peppol) und europaeische Akronyme (VIES, OSS, ViDA).',
         'cta_title' => 'Konforme Rechnungsstellung ohne alles auswendig zu lernen',
         'cta_subtitle' => 'faktur.lu fuegt die richtigen Pflichtangaben automatisch hinzu, validiert ueber VIES, erzeugt FAIA und wendet die richtigen Mehrwertsteuersaetze an. Sie muessen nicht jeden Artikel kennen.',
@@ -2513,12 +2513,12 @@ return [
             ],
             'oss' => [
                 'name' => 'OSS',
-                'alternate' => 'One Stop Shop — EU-MwSt-Einheitsschalter',
+                'alternate' => 'One Stop Shop - EU-MwSt-Einheitsschalter',
                 'description' => 'EU-Regime seit 1. Juli 2021, das Unternehmen erlaubt, die in mehreren Mitgliedstaaten geschuldete MwSt ueber einen einzigen Schalter anzumelden und zu zahlen, sobald die grenzueberschreitenden B2C-Verkaeufe 10 000 EUR pro Jahr ueberschreiten.',
             ],
             'pdf_a' => [
                 'name' => 'PDF/A',
-                'alternate' => 'Langzeitarchivformat — ISO 19005',
+                'alternate' => 'Langzeitarchivformat - ISO 19005',
                 'description' => 'Standardisierte PDF-Variante fuer die langfristige Archivierung: eingebettete Schriftarten, keine Skripte, keine externen Links. Es ist das von Artikel 16 des luxemburgischen Handelsgesetzbuchs vorgeschriebene Format fuer die 10-jaehrige Aufbewahrung von Rechnungen.',
             ],
             'peppol' => [
@@ -2533,7 +2533,7 @@ return [
             ],
             'vida' => [
                 'name' => 'ViDA',
-                'alternate' => 'VAT in the Digital Age — europaeische MwSt-Reform',
+                'alternate' => 'VAT in the Digital Age - europaeische MwSt-Reform',
                 'description' => 'EU-Gesetzespaket vom Maerz 2025, das die MwSt in der EU modernisiert: schrittweise Pflicht zur strukturierten elektronischen Rechnungsstellung fuer innergemeinschaftliche B2B-Geschaefte, Echtzeit-Meldesystem (Digital Reporting) und Harmonisierung der Plattformwirtschaft. Schrittweise Umsetzung bis 2030.',
             ],
             'vies' => [
@@ -2553,12 +2553,12 @@ return [
         'subtitle' => 'faktur.lu wird von Ihren Freiberufler- und KMU-Kunden für die Rechnungsstellung genutzt. Sie greifen im Lesemodus auf deren Buchhaltungsdaten zu, exportieren in Sage BOB 50, Sage 100 oder CSV und rufen das FAIA 2.01 in einem Klick ab. Weniger Erfassung, mehr Zeit für Beratung.',
 
         'founder' => [
-            'badge' => 'Begrenztes Programm',
+            'badge' => 'Gründungspartner-Programm',
             'spots' => 'Nur noch :count Plätze',
             'title' => 'Werden Sie Gründungspartner von faktur.lu',
-            'subtitle' => 'Das Buchhalterportal ist für jede Kanzlei kostenlos. Das Gründungspartner-Programm ist jedoch 5 Pionierkanzleien vorbehalten: Im Austausch für Ihr Feedback erhalten Sie persönliche Unterstützung und eine eigene Sichtbarkeit, um neue Mandanten zu gewinnen.',
+            'subtitle' => 'Das Buchhalterportal ist für jede Kanzlei kostenlos. Das Gründungspartner-Programm begleitet zusätzlich einige Pionierkanzleien: Im Austausch für Ihr Feedback erhalten Sie persönliche Unterstützung und eine eigene Sichtbarkeit, um neue Mandanten zu gewinnen.',
             'cta' => '20-minütiges Gespräch buchen',
-            'cta_note' => 'Unverbindlich — Sie sprechen direkt mit dem Gründer.',
+            'cta_note' => 'Unverbindlich - Sie sprechen direkt mit dem Gründer.',
             'get_title' => 'Was Sie erhalten',
             'get_3' => 'Ich richte Ihren ersten Mandanten selbst ein',
             'get_4' => 'Ihre Export-Anfragen werden vorrangig bearbeitet',
@@ -2568,7 +2568,7 @@ return [
             'give_1' => 'Das Portal mit 2 oder 3 Ihrer Mandanten testen',
             'give_2' => 'Bei Zufriedenheit als Referenz genannt werden',
             'give_note' => 'Keine finanzielle Verpflichtung. Nur-Lese-Zugriff. Ihre Daten bleiben jederzeit exportierbar.',
-            'directory_title' => 'Verzeichnis „Buchhalter finden" — in Kürze',
+            'directory_title' => 'Verzeichnis „Buchhalter finden" - in Kürze',
             'directory_desc' => 'Selbstständige, die faktur.lu nutzen und eine Kanzlei suchen, werden an unsere Gründungspartner verwiesen. Sie sparen heute Zeit und gewinnen morgen Mandanten.',
             'reassurance' => 'Nur Lesezugriff · 100 % EU-Hosting · DSGVO-konform · AVV verfügbar',
         ],
@@ -2587,14 +2587,14 @@ return [
             'multi_title' => 'Vereinheitlichte Multi-Kunden-Ansicht',
             'multi_desc' => 'Verwalten Sie alle Ihre faktur.lu-Kunden über ein einziges Dashboard. Suche nach Kundenname oder USt-IdNr., Ein-Klick-Zugriff auf den Mandanten.',
             'free_title' => '100% kostenloser Zugang',
-            'free_desc' => 'Das Buchhalterportal ist für Treuhandgesellschaften kostenlos, ohne Bindung, ohne Aufpreis pro Kunde. Ihr Kunde zahlt sein faktur.lu-Abonnement (Essentiel 5 €/Monat oder Pro 15 €/Monat — das Buchhalterportal ist im Kostenlosen Plan nicht enthalten).',
+            'free_desc' => 'Das Buchhalterportal ist für Treuhandgesellschaften kostenlos, ohne Bindung, ohne Aufpreis pro Kunde. Ihr Kunde zahlt sein faktur.lu-Abonnement (Essentiel 5 €/Monat oder Pro 15 €/Monat - das Buchhalterportal ist im Kostenlosen Plan nicht enthalten).',
         ],
 
         'steps' => [
             'title' => 'Wie funktioniert es?',
             'subtitle' => 'Drei einfache Schritte, um mit Ihren Kunden auf faktur.lu zusammenzuarbeiten.',
             'step1_title' => 'Ihr Kunde registriert sich',
-            'step1_desc' => 'Ihr Kunde abonniert Essentiel (5 €/Monat) oder Pro (15 €/Monat) — das Buchhalterportal ist ab Essentiel enthalten. Er stellt Rechnungen in wenigen Klicks aus, konform mit dem luxemburgischen Recht.',
+            'step1_desc' => 'Ihr Kunde abonniert Essentiel (5 €/Monat) oder Pro (15 €/Monat) - das Buchhalterportal ist ab Essentiel enthalten. Er stellt Rechnungen in wenigen Klicks aus, konform mit dem luxemburgischen Recht.',
             'step2_title' => 'Er laedt Sie als Buchhalter ein',
             'step2_desc' => 'Im "Buchhalterportal"-Bildschirm gibt Ihr Kunde Ihre E-Mail ein. Sie erhalten einen Einladungslink, der 7 Tage gültig ist.',
             'step3_title' => 'Sie greifen auf seine Daten zu',
@@ -2604,11 +2604,11 @@ return [
         'faq' => [
             'title' => 'Haeufig gestellte Fragen',
             'q1' => 'Ist das Buchhalterportal wirklich kostenlos?',
-            'a1' => 'Ja, 100% kostenlos für Sie, ohne Bindung, ohne Aufpreis pro eingeladenem Kunden. Nur Ihr Kunde zahlt sein faktur.lu-Abonnement — ab Essentiel (5 €/Monat), das das Buchhalterportal enthält. Der Kostenlose Plan (0 €/Monat) erlaubt keine Einladung eines Buchhalters.',
+            'a1' => 'Ja, 100% kostenlos für Sie, ohne Bindung, ohne Aufpreis pro eingeladenem Kunden. Nur Ihr Kunde zahlt sein faktur.lu-Abonnement - ab Essentiel (5 €/Monat), das das Buchhalterportal enthält. Der Kostenlose Plan (0 €/Monat) erlaubt keine Einladung eines Buchhalters.',
             'q2' => 'Kann ich die Rechnungen meiner Kunden bearbeiten?',
             'a2' => 'Nein, das Portal ist schreibgeschuetzt, um die Datenintegritaet zu gewaehrleisten. Sie koennen einsehen, herunterladen und exportieren, aber nicht aendern.',
             'q3' => 'Welche Exportformate sind verfuegbar?',
-            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) und generisches CSV für Buchungssätze. FAIA 2.01 (XML) für AED-Prüfungen. Einzelne Rechnungs-PDFs und ein vollständiges PDF-Archiv. Excel-Export der Rechnungen über einen Zeitraum. Die Liste wächst — sagen Sie uns, was Ihnen fehlt.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) und generisches CSV für Buchungssätze. FAIA 2.01 (XML) für AED-Prüfungen. Einzelne Rechnungs-PDFs und ein vollständiges PDF-Archiv. Excel-Export der Rechnungen über einen Zeitraum. Die Liste wächst - sagen Sie uns, was Ihnen fehlt.',
             'q4' => 'Wie viele Kunden kann ich über das Portal verwalten?',
             'a4' => 'Keine Begrenzung. Jeder Kunde, der Sie einlädt, erscheint in Ihrem Dashboard mit Name, Plan und einer Verknüpfung zu seinen Daten. Ob 5 oder 500 faktur.lu-Kunden, es ist dasselbe Portal.',
             'q5' => 'Müssen meine Kunden ihre aktuelle Software verlassen?',
@@ -2842,7 +2842,7 @@ return [
     'project_invitation_already_accepted' => 'Diese Einladung wurde bereits akzeptiert. Bitte melden Sie sich an.',
     'project_invitation_accepted' => 'Einladung angenommen. Willkommen!',
     'upgrade_title' => 'Mein eigenes faktur.lu-Konto erstellen',
-    'upgrade_intro' => 'Sie sind derzeit Mitarbeiter in einer oder mehreren Organisationen. Erstellen Sie Ihr eigenes Konto — Ihre Mitarbeiterzugänge bleiben erhalten.',
+    'upgrade_intro' => 'Sie sind derzeit Mitarbeiter in einer oder mehreren Organisationen. Erstellen Sie Ihr eigenes Konto - Ihre Mitarbeiterzugänge bleiben erhalten.',
     'upgrade_keep_title' => 'Alle aktuellen Zugänge bleiben erhalten',
     'upgrade_keep_orgs' => 'Sie bleiben Mitarbeiter in :count Organisation(en).',
     'upgrade_keep_projects' => 'Sie behalten den Zugriff auf :count Projekt(e), zu denen Sie eingeladen wurden.',
@@ -3773,7 +3773,7 @@ return [
         'created' => 'Rechnungsentwurf erstellt.',
         'updated' => 'Rechnung aktualisiert.',
         'deleted' => 'Entwurf gelöscht.',
-        'duplicated' => 'Entwurf dupliziert — bearbeiten und finalisieren Sie ihn, um eine neue Nummer zu erhalten.',
+        'duplicated' => 'Entwurf dupliziert - bearbeiten und finalisieren Sie ihn, um eine neue Nummer zu erhalten.',
         'finalized' => 'Rechnung Nr. :number erfolgreich finalisiert.',
         'marked_sent' => 'Rechnung als versendet markiert.',
         'marked_paid' => 'Rechnung als bezahlt markiert.',
@@ -3799,7 +3799,7 @@ return [
         'created' => 'Angebotsentwurf erstellt.',
         'updated' => 'Angebot aktualisiert.',
         'deleted' => 'Angebot gelöscht.',
-        'duplicated' => 'Angebotsentwurf dupliziert — bearbeiten und versenden Sie es.',
+        'duplicated' => 'Angebotsentwurf dupliziert - bearbeiten und versenden Sie es.',
         'marked_sent' => 'Angebot als versendet markiert.',
         'marked_accepted' => 'Angebot als angenommen markiert. Sie können es jetzt in eine Rechnung umwandeln.',
         'marked_declined' => 'Angebot als abgelehnt markiert.',
@@ -3895,7 +3895,7 @@ return [
         'created' => 'Wiederkehrende Rechnung erstellt.',
         'updated' => 'Wiederkehrende Rechnung aktualisiert.',
         'deleted' => 'Wiederkehrende Rechnung gelöscht.',
-        'duplicated' => 'Wiederkehrende Rechnung dupliziert (inaktiv) — überprüfen Sie die Einstellungen und aktivieren Sie sie dann.',
+        'duplicated' => 'Wiederkehrende Rechnung dupliziert (inaktiv) - überprüfen Sie die Einstellungen und aktivieren Sie sie dann.',
         'activated' => 'Aktiviert.',
         'deactivated' => 'Deaktiviert.',
     ],
@@ -4099,7 +4099,7 @@ return [
     'legal_privacy_link_terms' => 'Allgemeine Geschäftsbedingungen',
     'legal_privacy_link_cookies' => 'Cookie-Richtlinie',
 
-    // Legal — Terms of Service (Terms.vue)
+    // Legal - Terms of Service (Terms.vue)
     'legal_terms_seo_title' => 'AGB | faktur.lu',
     'legal_terms_seo_description' => 'Allgemeine Geschäftsbedingungen von faktur.lu. Regeln für den Zugang und die Nutzung des Rechnungsdienstes.',
     'legal_terms_h1' => 'Allgemeine Geschäftsbedingungen',
@@ -4281,7 +4281,7 @@ return [
     'legal_terms_link_privacy' => 'Datenschutzrichtlinie',
     'legal_terms_link_cookies' => 'Cookie-Richtlinie',
 
-    // Legal — Impressum
+    // Legal - Impressum
     'legal_mentions_seo_title' => 'Impressum | faktur.lu',
     'legal_mentions_seo_description' => 'Impressum von faktur.lu: Informationen zum Herausgeber, Hoster und geistigen Eigentum der Rechnungssoftware.',
     'legal_mentions_title' => 'Impressum',
@@ -4421,7 +4421,7 @@ return [
     'recurring_invoice_how_li2_html' => '<strong>Automatische Finalisierung</strong> → die Rechnung wird automatisch <strong>finalisiert</strong> (Nummer vergeben); es muss nur noch versendet werden.',
     'recurring_invoice_how_li3_html' => '<strong>Auto-Finalisierung + Auto-Versand</strong> → die Rechnung wird ohne weiteres Zutun <strong>per E-Mail</strong> an den Kunden gesendet.',
     'recurring_invoice_how_p3_html' => 'Das Datum der nächsten Rechnung wird nach jeder Erzeugung automatisch erhöht. Wenn Sie ein Enddatum festlegen, deaktiviert sich die Wiederholung von selbst, sobald dieses überschritten ist.',
-    'recurring_invoice_how_tip_html' => '💡 Tipp: Änderungen an der Vorlage betreffen nur die <em>nächsten</em> Rechnungen — bereits erstellte bleiben unverändert. Sie können eine Wiederholung jederzeit über das Status-Badge deaktivieren/aktivieren.',
+    'recurring_invoice_how_tip_html' => '💡 Tipp: Änderungen an der Vorlage betreffen nur die <em>nächsten</em> Rechnungen - bereits erstellte bleiben unverändert. Sie können eine Wiederholung jederzeit über das Status-Badge deaktivieren/aktivieren.',
     'recurring_invoice_empty_title' => 'Keine wiederkehrenden Rechnungen',
     'recurring_invoice_empty_desc' => 'Legen Sie Ihre erste Wiederholung an, um Ihre Rechnungen zu automatisieren.',
     'recurring_invoice_create_cta' => 'Wiederholung erstellen',
@@ -4438,7 +4438,7 @@ return [
     'recurring_invoice_action_duplicate' => 'Duplizieren (erstellt eine inaktive Kopie)',
     'recurring_invoice_action_delete' => 'Löschen',
     'recurring_invoice_confirm_delete' => 'Diese wiederkehrende Rechnung löschen?',
-    'recurring_invoice_confirm_duplicate' => 'Diese Wiederholung duplizieren? Die Kopie wird inaktiv erstellt — Sie müssen sie nach Prüfung manuell aktivieren.',
+    'recurring_invoice_confirm_duplicate' => 'Diese Wiederholung duplizieren? Die Kopie wird inaktiv erstellt - Sie müssen sie nach Prüfung manuell aktivieren.',
     'recurring_invoice_freq_weekly' => 'Wöchentlich',
     'recurring_invoice_freq_monthly' => 'Monatlich',
     'recurring_invoice_freq_quarterly' => 'Vierteljährlich',
@@ -4486,31 +4486,31 @@ return [
     // Fiscal Summary page (Reports/FiscalSummary.vue)
     'fiscal_summary_month' => 'Monat',
     'fiscal_summary_total_invoices' => 'Gesamt (:count Rechnung(en))',
-    'fiscal_summary_form152_indep_suffix' => '— Formular 152 (Selbstständige)',
+    'fiscal_summary_form152_indep_suffix' => '- Formular 152 (Selbstständige)',
     'fiscal_summary_ht' => 'Netto',
     'fiscal_summary_total' => 'Gesamt',
     'fiscal_summary_vat' => 'MwSt.',
     'fiscal_summary_rate' => 'Satz',
     'fiscal_summary_base_ht' => 'Bemessungsgrundlage Netto',
-    'fiscal_summary_taxx_subtitle' => 'Kostenpflichtiger Online-Service (~69-199 €) — ohne LuxTrust, nur per E-Mail.',
+    'fiscal_summary_taxx_subtitle' => 'Kostenpflichtiger Online-Service (~69-199 €) - ohne LuxTrust, nur per E-Mail.',
     'fiscal_summary_taxx_step1' => 'Erstellen Sie ein kostenloses Konto auf taxx.lu (nur per E-Mail, ohne LuxTrust oder eID).',
-    'fiscal_summary_taxx_step2' => 'Importieren Sie Ihre Belege über AutoScan (Mobile-App oder PDF-Upload) — Gehaltsbescheinigungen, Kontoauszüge usw.',
-    'fiscal_summary_taxx_step3' => 'Füllen Sie Ihre Erklärung Schritt für Schritt aus — das System übersetzt steuerliche Begriffe in einfache Sprache.',
+    'fiscal_summary_taxx_step2' => 'Importieren Sie Ihre Belege über AutoScan (Mobile-App oder PDF-Upload) - Gehaltsbescheinigungen, Kontoauszüge usw.',
+    'fiscal_summary_taxx_step3' => 'Füllen Sie Ihre Erklärung Schritt für Schritt aus - das System übersetzt steuerliche Begriffe in einfache Sprache.',
     'fiscal_summary_taxx_step4' => 'Für Selbstständige: Geben Sie im Abschnitt „Gewinn aus freiem Beruf“ Ihre Einnahmen- und Ausgabenbeträge manuell ein. Halten Sie diese Übersicht als Gedächtnisstütze bereit.',
     'fiscal_summary_taxx_step5' => 'Fügen Sie das Formular 152 bei, wenn Sie die Einnahmen-Ausgaben-Rechnung verwenden (häufigster Fall für Freelancer).',
     'fiscal_summary_taxx_step6' => 'Prüfen Sie die Steuerschätzung über den Opti Score, laden Sie sie herunter und reichen Sie sie bei der ACD ein.',
     'fiscal_summary_taxx_link' => 'taxx.lu Leitfaden für Selbstständige',
-    'fiscal_summary_myguichet_subtitle' => 'Kostenlose offizielle Plattform der luxemburgischen Regierung — erfordert LuxTrust oder eID.',
+    'fiscal_summary_myguichet_subtitle' => 'Kostenlose offizielle Plattform der luxemburgischen Regierung - erfordert LuxTrust oder eID.',
     'fiscal_summary_myguichet_step1' => 'Melden Sie sich auf myguichet.lu mit Ihrem LuxTrust-Produkt oder Ihrem elektronischen Personalausweis an.',
     'fiscal_summary_myguichet_step2' => 'Greifen Sie auf den elektronischen Assistenten über Ihren privaten eSpace zu (oder den beruflichen für Treuhänder).',
-    'fiscal_summary_myguichet_step3' => 'Beantworten Sie die geführten Fragen — der Assistent passt sich an Ihre Steuersituation an.',
+    'fiscal_summary_myguichet_step3' => 'Beantworten Sie die geführten Fragen - der Assistent passt sich an Ihre Steuersituation an.',
     'fiscal_summary_myguichet_step4' => 'Geben Sie Ihre beruflichen Einnahmen und Ausgaben manuell in die entsprechenden Felder ein. Diese Übersicht dient Ihnen als Referenz, um die richtigen Beträge zu finden.',
     'fiscal_summary_myguichet_step5' => 'Fügen Sie die geforderten Belege bei (Formular 152 ggf., Rechnungen usw.).',
-    'fiscal_summary_myguichet_step6' => 'Reichen Sie elektronisch ein — die Erklärung wird automatisch von der ACD bearbeitet.',
+    'fiscal_summary_myguichet_step6' => 'Reichen Sie elektronisch ein - die Erklärung wird automatisch von der ACD bearbeitet.',
     'fiscal_summary_myguichet_link' => 'Elektronischer Assistent MyGuichet.lu',
     'fiscal_summary_link_acd_forms' => 'ACD-Formulare (natürliche Personen)',
-    'fiscal_summary_link_guide_impots' => 'Steuerleitfaden — Alle Formulare',
-    'fiscal_summary_link_taxxlu_forms' => 'taxx.lu — Leitfaden für Steuerformulare',
+    'fiscal_summary_link_guide_impots' => 'Steuerleitfaden - Alle Formulare',
+    'fiscal_summary_link_taxxlu_forms' => 'taxx.lu - Leitfaden für Steuerformulare',
 
     // ========== Admin pages ==========
     // Common
@@ -4723,8 +4723,8 @@ return [
     'admin_users_delete_soft_warning' => 'Das Konto wird deaktiviert, kann aber wiederhergestellt werden.',
 
     // Admin Newsletter
-    'admin_newsletter_head_title' => 'Newsletter — Abonnenten',
-    'admin_newsletter_title' => 'Newsletter & Tools — Abonnenten',
+    'admin_newsletter_head_title' => 'Newsletter - Abonnenten',
+    'admin_newsletter_title' => 'Newsletter & Tools - Abonnenten',
     'admin_newsletter_stat_total' => 'Gesamt',
     'admin_newsletter_stat_tools' => 'Über Tools',
     'admin_newsletter_stat_footer' => 'Über Footer',
@@ -4887,7 +4887,7 @@ return [
     'pdf_base_ht' => 'Bemessungsgrundlage',
     'pdf_vat_amount' => 'MwSt-Betrag',
     'pdf_vat_rate' => 'MwSt-Satz',
-    'pdf_disclaimer' => '⚠ Interne Übersicht — nicht direkt in taxx.lu oder MyGuichet.lu importierbar. Verwenden Sie die obigen Beträge, um Ihre Steuererklärung manuell auszufüllen, oder übermitteln Sie dieses Dokument an Ihren Buchhalter. Diese Zusammenfassung ersetzt keine professionelle Beratung.',
+    'pdf_disclaimer' => '⚠ Interne Übersicht - nicht direkt in taxx.lu oder MyGuichet.lu importierbar. Verwenden Sie die obigen Beträge, um Ihre Steuererklärung manuell auszufüllen, oder übermitteln Sie dieses Dokument an Ihren Buchhalter. Diese Zusammenfassung ersetzt keine professionelle Beratung.',
     'pdf_generated_on' => 'Dokument erstellt am :date',
     'pdf_generated_at_simple' => 'Erstellt am :date',
     'pdf_page' => 'Seite',
@@ -4909,7 +4909,7 @@ return [
     'pdf_date' => 'Datum',
     'pdf_evaluation_content' => 'Inhalt der Bewertung',
     'pdf_trombinoscope_title' => 'Mitarbeiterverzeichnis',
-    'pdf_branding_text' => 'Erstellt mit :app — Vereinfachte Rechnungsstellung für Luxemburg',
+    'pdf_branding_text' => 'Erstellt mit :app - Vereinfachte Rechnungsstellung für Luxemburg',
 
     // Mailable subjects
     'mail_subject_invoice' => 'Rechnung :number',

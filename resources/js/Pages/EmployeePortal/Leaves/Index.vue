@@ -44,7 +44,7 @@ const deleteLeave = (id) => {
 };
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('fr-FR');
 };
 
@@ -121,7 +121,7 @@ const getAvailableDays = (balance) => {
                             </div>
                         </td>
                         <td class="px-4 py-3 text-sm text-slate-700 dark:text-slate-300">
-                            {{ formatDate(leave.start_date) }} — {{ formatDate(leave.end_date) }}
+                            {{ formatDate(leave.start_date) }} - {{ formatDate(leave.end_date) }}
                         </td>
                         <td class="px-4 py-3 text-sm text-slate-700 dark:text-slate-300">{{ leave.days_count }}</td>
                         <td class="px-4 py-3">
@@ -164,7 +164,7 @@ const getAvailableDays = (balance) => {
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.leave_type') }}</label>
                         <select v-model="form.leave_type_id" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                            <option value="">—</option>
+                            <option value="">-</option>
                             <option v-for="lt in leaveTypes" :key="lt.id" :value="lt.id">{{ lt.name }}</option>
                         </select>
                         <p v-if="form.errors.leave_type_id" class="mt-1 text-xs text-rose-600">{{ form.errors.leave_type_id }}</p>

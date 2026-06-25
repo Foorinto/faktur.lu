@@ -116,7 +116,7 @@ class BlogScheduledJune2026EnSeeder extends Seeder
     <li>Debit/credit totals for each movement</li>
 </ul>
 
-<p>If you invoice with Excel or a system that does not generate FAIA, you will have to reconstitute it manually — which can take <strong>several days of work</strong> and exposes you to errors.</p>
+<p>If you invoice with Excel or a system that does not generate FAIA, you will have to reconstitute it manually - which can take <strong>several days of work</strong> and exposes you to errors.</p>
 
 <h2>How an on-site audit unfolds</h2>
 
@@ -146,7 +146,7 @@ class BlogScheduledJune2026EnSeeder extends Seeder
 <p>Whether you are a freelancer or SME, here is the checklist to execute from the notification:</p>
 
 <ol>
-    <li><strong>Prepare the FAIA</strong> for the requested period — ideally in one click from your invoicing software</li>
+    <li><strong>Prepare the FAIA</strong> for the requested period - ideally in one click from your invoicing software</li>
     <li><strong>Print or export</strong> all issued invoices (PDF/A for legal archiving)</li>
     <li><strong>Check consistency</strong> with your filed VAT returns</li>
     <li><strong>Build a file</strong> per month: invoices + bank statements + corresponding VAT return</li>
@@ -168,7 +168,7 @@ class BlogScheduledJune2026EnSeeder extends Seeder
 
 <p><a href="/en/register" class="text-primary-500 hover:underline font-medium">Get started for free with faktur.lu</a> and prepare your next audit without stress.</p>
 
-<h2>FAQ — AED tax audit</h2>
+<h2>FAQ - AED tax audit</h2>
 
 <h3>How long does an AED audit last?</h3>
 <p>Desk audit: 2 to 4 weeks (depending on document submission). On-site audit: typically 1 to 3 days at the business + 30 to 60 days of analysis by the AED.</p>
@@ -223,7 +223,7 @@ HTML,
     <li><strong>Associations</strong> conducting VAT-taxable economic activity</li>
 </ul>
 
-<p>The obligation is not to generate FAIA every month — it is sufficient to be able to produce it <strong>on AED request</strong> within a reasonable time (typically 15 days after notification).</p>
+<p>The obligation is not to generate FAIA every month - it is sufficient to be able to produce it <strong>on AED request</strong> within a reasonable time (typically 15 days after notification).</p>
 
 <h2>What does a FAIA contain?</h2>
 
@@ -274,15 +274,15 @@ HTML,
 
 <p>Three options depending on your situation:</p>
 
-<h3>Option 1 — Native FAIA invoicing software</h3>
+<h3>Option 1 - Native FAIA invoicing software</h3>
 
 <p>The simplest and safest method. A software like <a href="/en" class="text-primary-500 hover:underline font-medium">faktur.lu</a> generates FAIA 2.01 on demand, on any period, with a single click. The file is automatically compliant with the official XSD schema.</p>
 
-<h3>Option 2 — Export from accounting software</h3>
+<h3>Option 2 - Export from accounting software</h3>
 
 <p>Sage BOB 50, Sage 100 and most professional accounting software allow FAIA export. Check with your publisher that version 2.01 is supported.</p>
 
-<h3>Option 3 — Manual construction (discouraged)</h3>
+<h3>Option 3 - Manual construction (discouraged)</h3>
 
 <p>Theoretically possible with an XML developer, but error-prone. Reserved for extreme cases (legacy data, migration).</p>
 
@@ -300,7 +300,7 @@ HTML,
     <li>Stores no data (the file stays on your machine)</li>
 </ul>
 
-<h2>FAQ — FAIA</h2>
+<h2>FAQ - FAIA</h2>
 
 <h3>Do I have to send a FAIA every year?</h3>
 <p>No. FAIA is produced only <strong>at AED request</strong> in case of audit. You must however be able to generate it quickly (within 15 days).</p>
@@ -355,7 +355,7 @@ HTML,
 <p>Three cumulative conditions must be met:</p>
 
 <ol>
-    <li><strong>Service supply</strong> (not goods — different rules)</li>
+    <li><strong>Service supply</strong> (not goods - different rules)</li>
     <li><strong>Business customer (B2B)</strong> in another EU member state</li>
     <li><strong>Valid intra-EU VAT number</strong> of the customer (mandatory VIES validation)</li>
 </ol>
@@ -408,10 +408,10 @@ HTML,
 <ul>
     <li><strong>Issuer</strong>: Marie Dupont, LU12345678</li>
     <li><strong>Recipient</strong>: Acme SA, 10 rue de Rivoli 75001 Paris, FR12345678901</li>
-    <li><strong>Service</strong>: UX design website — 2,500.00 €</li>
+    <li><strong>Service</strong>: UX design website - 2,500.00 €</li>
     <li><strong>VAT (0%)</strong>: 0.00 €</li>
     <li><strong>Total incl. VAT</strong>: 2,500.00 €</li>
-    <li><strong>Mention</strong>: <em>"Autoliquidation, article 21 LIVA — VAT due by the recipient in their country."</em></li>
+    <li><strong>Mention</strong>: <em>"Autoliquidation, article 21 LIVA - VAT due by the recipient in their country."</em></li>
 </ul>
 
 <p>Acme SA declares French VAT (20%) in its own VAT return, both as collected VAT and deductible VAT (neutral operation for them).</p>
@@ -438,7 +438,7 @@ HTML,
 
 <p>You avoid errors and invoice foreign customers fully compliant.</p>
 
-<h2>FAQ — Article 21 LIVA</h2>
+<h2>FAQ - Article 21 LIVA</h2>
 
 <h3>What if my client has no VAT number?</h3>
 <p>Without a VAT number validated via VIES, reverse charge does not apply. You must invoice Luxembourg VAT (17% standard). Same for consumers (B2C).</p>
@@ -612,7 +612,7 @@ HTML,
     <li>Mandatory LIVA mentions generated on each invoice</li>
 </ul>
 
-<h2>FAQ — Luxembourg VAT</h2>
+<h2>FAQ - Luxembourg VAT</h2>
 
 <h3>Is the standard rate really 17% in 2026?</h3>
 <p>Yes, since 1 January 2024. The rate was temporarily 16% in 2023 to support purchasing power, then returned to the historical 17%.</p>
@@ -701,7 +701,7 @@ HTML,
 
 <h2>What happens on error?</h2>
 
-<h3>Case 1 — You issued a duplicate</h3>
+<h3>Case 1 - You issued a duplicate</h3>
 
 <p>The AED considers one of the two invoices as <strong>fictional or fraudulent</strong>. You must:</p>
 
@@ -711,7 +711,7 @@ HTML,
     <li>Keep the 3 documents (the 2 original invoices + the credit note)</li>
 </ol>
 
-<h3>Case 2 — You have a gap in the sequence</h3>
+<h3>Case 2 - You have a gap in the sequence</h3>
 
 <p>More serious case. You must be able to <strong>explain the gap</strong> to the AED. Three acceptable explanations:</p>
 
@@ -723,7 +723,7 @@ HTML,
 
 <p>Without a credible explanation, the AED presumes concealment and may <strong>estimate</strong> missing turnover on a lump-sum basis.</p>
 
-<h3>Case 3 — You want to delete a finalised invoice</h3>
+<h3>Case 3 - You want to delete a finalised invoice</h3>
 
 <p>Legally impossible. A finalised invoice must be archived 10 years (Article 16 Code of Commerce). To cancel:</p>
 
@@ -756,13 +756,13 @@ HTML,
 
 <p>With this, Article 61 LIVA is no longer a concern: your numbering is compliant by construction.</p>
 
-<h2>FAQ — Article 61 LIVA</h2>
+<h2>FAQ - Article 61 LIVA</h2>
 
 <h3>What if I invoice under VAT exemption (Article 56 ter)?</h3>
 <p>Article 61 LIVA applies <strong>anyway</strong>. Every issued invoice, even without collected VAT, must bear a sequential and continuous number.</p>
 
 <h3>Can I have numbering per client (ACME-001, ACME-002...)?</h3>
-<p>Technically yes — but strongly discouraged. In audit, the AED requires <strong>global</strong> sequentiality. You will then need to prove no gap across all client series, which is complex and risky.</p>
+<p>Technically yes - but strongly discouraged. In audit, the AED requires <strong>global</strong> sequentiality. You will then need to prove no gap across all client series, which is complex and risky.</p>
 
 <h3>Are quotes concerned?</h3>
 <p>No, Article 61 LIVA only concerns <strong>invoices and credit notes</strong>. You can number quotes as you like (sequential numbering still recommended for your own tracking).</p>

@@ -493,7 +493,7 @@ const submit = () => {
                             <span v-if="vatValidationStatus === 'loading'" class="text-slate-400">{{ t('vat_validating') }}</span>
                             <span v-else-if="vatValidationStatus === 'valid'" class="text-green-600 dark:text-green-400">
                                 &#10003; {{ t('vat_valid') }}
-                                <span v-if="vatValidationName" class="text-slate-500 dark:text-slate-400 ml-1">— {{ vatValidationName }}</span>
+                                <span v-if="vatValidationName" class="text-slate-500 dark:text-slate-400 ml-1">- {{ vatValidationName }}</span>
                             </span>
                             <span v-else-if="vatValidationStatus === 'invalid'" class="text-red-600 dark:text-red-400">
                                 &#10007; {{ t('vat_invalid') }}

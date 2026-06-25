@@ -98,7 +98,7 @@ class SetUserPlan extends Command
             : ($targetPlan->stripe_price_id_monthly ?? $targetPlan->stripe_price_id_yearly);
 
         if (! $stripePrice) {
-            // Fallback identifier; doesn't hit Stripe — only used to satisfy the local Cashier schema
+            // Fallback identifier; doesn't hit Stripe - only used to satisfy the local Cashier schema
             $stripePrice = "manual_{$plan}_" . ($yearly ? 'yearly' : 'monthly');
         }
 

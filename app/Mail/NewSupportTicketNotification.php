@@ -27,7 +27,7 @@ class NewSupportTicketNotification extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
-        // Admin notification — keep app default locale (admins typically read in fr)
+        // Admin notification - keep app default locale (admins typically read in fr)
         return new Envelope(
             subject: __('app.mail_subject_new_support_ticket', [
                 'reference' => $this->ticket->reference,

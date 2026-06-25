@@ -106,7 +106,7 @@ const deleteDepartment = (department) => {
                                     </div>
                                 </td>
                                 <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 sm:table-cell">
-                                    {{ dept.parent?.name || '—' }}
+                                    {{ dept.parent?.name || '-' }}
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-slate-500 dark:text-slate-400">
                                     {{ dept.employees_count }}
@@ -156,7 +156,7 @@ const deleteDepartment = (department) => {
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.parent_department') }}</label>
                             <select v-model="form.parent_id" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option v-for="dept in departments.filter(d => d.id !== editing?.id)" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
                             </select>
                         </div>

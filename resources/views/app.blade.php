@@ -11,7 +11,7 @@
         {{-- Canonical for public multilingual pages.
              Hreflang alternates are only emitted for routes whose URL slug is identical across
              all 5 locales (homepage and selected slug-stable routes). Pricing, features, blog
-             posts etc. have language-specific slugs (/fr/tarifs vs /de/preise) — emitting
+             posts etc. have language-specific slugs (/fr/tarifs vs /de/preise) - emitting
              naive hreflang on those would point to non-existent URLs. Those routes get a
              canonical only; their hreflang relations are owned by the per-page SeoHead component. --}}
         @php
@@ -21,7 +21,7 @@
             $isLocalizedPublicRoute = in_array($firstSegment, $supportedLocales, true);
 
             // Routes whose slug after the locale is identical across all 5 languages.
-            // Keep this list in sync with routes/web.php — only add a slug here if it exists
+            // Keep this list in sync with routes/web.php - only add a slug here if it exists
             // verbatim in every supported locale. Most marketing slugs (a-propos/ueber-uns,
             // partenaires/partner, etc.) DIFFER per locale, so they must NOT be added here.
             $slugStableRoutes = [

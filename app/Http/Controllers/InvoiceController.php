@@ -145,7 +145,7 @@ class InvoiceController extends Controller
     /**
      * Build the numbering hint shown on the create page for users who have not
      * customised their numbering yet. Returns null when the user already changed
-     * any numbering field — the assumption being they don't need the reminder.
+     * any numbering field - the assumption being they don't need the reminder.
      */
     private function buildNumberingHint(?BusinessSettings $settings): ?array
     {

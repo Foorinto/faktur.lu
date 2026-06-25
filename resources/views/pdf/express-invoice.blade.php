@@ -300,7 +300,7 @@
                 <td>{{ $line['description'] }}</td>
                 <td class="text-right-col">{{ rtrim(rtrim(number_format($line['quantity'], 2, ',', ' '), '0'), ',') }}</td>
                 <td class="text-right-col">{{ $fmt($line['unit_price']) }}</td>
-                <td class="text-right-col">{{ $reverseCharge ? '—' : $line['vat_rate'].'%' }}</td>
+                <td class="text-right-col">{{ $reverseCharge ? '-' : $line['vat_rate'].'%' }}</td>
                 <td class="text-right-col">{{ $fmt($lineHt) }}</td>
             </tr>
         @endforeach
@@ -349,7 +349,7 @@
 @endif
 
 <div class="footer">
-    {{ $L['powered_by'] }} <a href="https://faktur.lu" class="powered-by">faktur.lu</a> — {{ $L['invoice'] }} {{ \Carbon\Carbon::now()->format('Y') }}
+    {{ $L['powered_by'] }} <a href="https://faktur.lu" class="powered-by">faktur.lu</a> - {{ $L['invoice'] }} {{ \Carbon\Carbon::now()->format('Y') }}
 </div>
 
 </body>

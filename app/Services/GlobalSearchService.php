@@ -68,7 +68,7 @@ class GlobalSearchService
             ];
         }
 
-        // All categories — collect all results merged, paginated manually
+        // All categories - collect all results merged, paginated manually
         $allResults = collect();
 
         foreach ($entities as $key => $config) {
@@ -142,7 +142,7 @@ class GlobalSearchService
                 'format' => fn (Invoice $inv) => [
                     'id' => $inv->id,
                     'type' => 'invoices',
-                    'title' => $inv->number . ($inv->title ? " — {$inv->title}" : ''),
+                    'title' => $inv->number . ($inv->title ? " - {$inv->title}" : ''),
                     'subtitle' => collect([
                         $inv->client?->name,
                         number_format($inv->total_ttc ?? 0, 2, ',', ' ') . ' €',

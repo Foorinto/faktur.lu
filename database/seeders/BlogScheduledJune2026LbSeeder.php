@@ -114,7 +114,7 @@ class BlogScheduledJune2026LbSeeder extends Seeder
     <li>Soll/Avoir-Totaler pro Bewegung</li>
 </ul>
 
-<p>Wann Dir mat Excel oder engem System fakturéiert, dee keng FAIA generéiert, musst Dir se manuell rekonstruéieren — wat <strong>e puer Aarbechtsdeeg</strong> daueren kann a Feeler ausstellt.</p>
+<p>Wann Dir mat Excel oder engem System fakturéiert, dee keng FAIA generéiert, musst Dir se manuell rekonstruéieren - wat <strong>e puer Aarbechtsdeeg</strong> daueren kann a Feeler ausstellt.</p>
 
 <h2>Wéi eng Vu-Plaz-Kontroll oflaaft</h2>
 
@@ -144,7 +144,7 @@ class BlogScheduledJune2026LbSeeder extends Seeder
 <p>Egal ob Freelancer oder KMU, hei d'Checkleeschten ab Notifikatioun:</p>
 
 <ol>
-    <li><strong>FAIA virbereeden</strong> fir déi gefrote Period — idealerweis mat engem Klick aus Ärer Rechnungs-Software</li>
+    <li><strong>FAIA virbereeden</strong> fir déi gefrote Period - idealerweis mat engem Klick aus Ärer Rechnungs-Software</li>
     <li><strong>Dréckt oder exportéiert</strong> all ausgestallte Rechnungen (PDF/A fir legal Archivéierung)</li>
     <li><strong>Konsistenz iwwerpréiwen</strong> mat Äre gedeposéierten TVA-Deklaratiounen</li>
     <li><strong>E Dossier pro Mount</strong>: Rechnungen + Bankrelevéë + zougehéireg TVA-Deklaratioun</li>
@@ -166,7 +166,7 @@ class BlogScheduledJune2026LbSeeder extends Seeder
 
 <p><a href="/lb/register" class="text-primary-500 hover:underline font-medium">Gratis mat faktur.lu starten</a> an Är nächst Kontroll ouni Stress virbereeden.</p>
 
-<h2>FAQ — AED-Steierkontroll</h2>
+<h2>FAQ - AED-Steierkontroll</h2>
 
 <h3>Wéi laang dauert eng AED-Kontroll?</h3>
 <p>Schrëftlech Kontroll: 2 bis 4 Wochen (no Sendezäit). Vu-Plaz-Kontroll: typesch 1 bis 3 Deeg an der Entreprise + 30 bis 60 Deeg AED-intern Analyse.</p>
@@ -221,7 +221,7 @@ HTML,
     <li><strong>Veräiner</strong>, déi TVA-flichteg wirtschaftlech Aktivitéit ausüben</li>
 </ul>
 
-<p>D'Flicht ass net monatlech Erstellen — et duergeet, se <strong>op AED-Ufro</strong> bannent enger reasonabler Frist (typesch 15 Deeg no Notifikatioun) produzéieren ze kënnen.</p>
+<p>D'Flicht ass net monatlech Erstellen - et duergeet, se <strong>op AED-Ufro</strong> bannent enger reasonabler Frist (typesch 15 Deeg no Notifikatioun) produzéieren ze kënnen.</p>
 
 <h2>Wat enthält eng FAIA?</h2>
 
@@ -272,15 +272,15 @@ HTML,
 
 <p>Dräi Optiounen no Ärer Situatioun:</p>
 
-<h3>Optioun 1 — FAIA-native Rechnungs-Software</h3>
+<h3>Optioun 1 - FAIA-native Rechnungs-Software</h3>
 
 <p>Déi einfachst a sécherst Method. Eng Software wéi <a href="/lb" class="text-primary-500 hover:underline font-medium">faktur.lu</a> generéiert FAIA 2.01 op Ufro, fir all Period, mat engem Klick. D'Datei ass automatesch XSD-konform.</p>
 
-<h3>Optioun 2 — Export aus Buchhaltungs-Software</h3>
+<h3>Optioun 2 - Export aus Buchhaltungs-Software</h3>
 
 <p>Sage BOB 50, Sage 100 an déi meescht professionell Buchhaltungs-Software erlaben FAIA-Export. Iwwerpréift mat Ärem Editeur, datt d'Versioun 2.01 ënnerstëtzt gëtt.</p>
 
-<h3>Optioun 3 — Manuell Konstruktioun (ofgerot)</h3>
+<h3>Optioun 3 - Manuell Konstruktioun (ofgerot)</h3>
 
 <p>Theoretesch mat XML-Entwéckler méiglech, awer Feeler-anfälleg. Reservéiert fir extrem Fäll (Legacy-Daten, Migratioun).</p>
 
@@ -298,7 +298,7 @@ HTML,
     <li>Keng Donnéeën späichert (d'Datei bleift op Ärer Maschin)</li>
 </ul>
 
-<h2>FAQ — FAIA</h2>
+<h2>FAQ - FAIA</h2>
 
 <h3>Muss ech all Joer eng FAIA schécken?</h3>
 <p>Nee. FAIA gëtt nëmme <strong>op AED-Ufro</strong> bei enger Kontroll erstallt. Dir musst se awer séier (bannent 15 Deeg) generéiere kënnen.</p>
@@ -353,7 +353,7 @@ HTML,
 <p>Dräi kumulativ Konditiounen mussen erfëllt sinn:</p>
 
 <ol>
-    <li><strong>Dienstleeschtung</strong> (net Waren — aner Regelen)</li>
+    <li><strong>Dienstleeschtung</strong> (net Waren - aner Regelen)</li>
     <li><strong>Profi-Client (B2B)</strong> an engem aneren EU-Memberstaat</li>
     <li><strong>Gülteg innergemeinschaftlech TVA-Nummer</strong> vum Client (obligatoresch VIES-Validéierung)</li>
 </ol>
@@ -406,10 +406,10 @@ HTML,
 <ul>
     <li><strong>Aussteller</strong>: Marie Dupont, LU12345678</li>
     <li><strong>Empfänger</strong>: Acme SA, 10 rue de Rivoli 75001 Paris, FR12345678901</li>
-    <li><strong>Leeschtung</strong>: UX-Design Websäit — 2.500,00 EUR</li>
+    <li><strong>Leeschtung</strong>: UX-Design Websäit - 2.500,00 EUR</li>
     <li><strong>TVA (0%)</strong>: 0,00 EUR</li>
     <li><strong>Total TVA-c</strong>: 2.500,00 EUR</li>
-    <li><strong>Vermierk</strong>: <em>"Autoliquidation, article 21 LIVA — TVA geschëllt vum Empfänger a sengem Land."</em></li>
+    <li><strong>Vermierk</strong>: <em>"Autoliquidation, article 21 LIVA - TVA geschëllt vum Empfänger a sengem Land."</em></li>
 </ul>
 
 <p>Acme SA deklaréiert d'franséisch TVA (20%) a senger eegener TVA-Deklaratioun, souwuel als erhuewen TVA wéi och als ofziehbar TVA (neutral Operatioun fir si).</p>
@@ -436,7 +436,7 @@ HTML,
 
 <p>Dir vermeit Feeler a fakturéiert auslännesch Clienten voll konform.</p>
 
-<h2>FAQ — Artikel 21 LIVA</h2>
+<h2>FAQ - Artikel 21 LIVA</h2>
 
 <h3>An wann mäi Client keng TVA-Nummer huet?</h3>
 <p>Ouni iwwer VIES validéiert TVA-Nummer applizéiert sech keng Autoliquidatioun. Dir musst lëtzebuerger TVA (17% Standard) fakturéieren. Datselwecht fir Privatpersounen (B2C).</p>
@@ -610,7 +610,7 @@ HTML,
     <li>Obligatoresch LIVA-Vermierker op all Rechnung generéiert</li>
 </ul>
 
-<h2>FAQ — TVA Lëtzebuerg</h2>
+<h2>FAQ - TVA Lëtzebuerg</h2>
 
 <h3>Ass de Standardsaaz 2026 wierklech 17%?</h3>
 <p>Jo, zënter dem 1. Januar 2024. De Saaz war 2023 temporär bei 16% fir d'Kafkraaft-Ënnerstëtzung, dann zréck zum historeschen 17%.</p>
@@ -699,7 +699,7 @@ HTML,
 
 <h2>Wat bei Feeler?</h2>
 
-<h3>Fall 1 — En Doubel ausgestallt</h3>
+<h3>Fall 1 - En Doubel ausgestallt</h3>
 
 <p>D'AED betruecht eng vun den zwou Rechnungen als <strong>fiktiv oder bedréigelech</strong>. Dir musst:</p>
 
@@ -709,7 +709,7 @@ HTML,
     <li>Déi 3 Dokumenter behalen (déi 2 originell Rechnungen + den Avoir)</li>
 </ol>
 
-<h3>Fall 2 — Eng Lück an der Sequenz</h3>
+<h3>Fall 2 - Eng Lück an der Sequenz</h3>
 
 <p>Méi schwéiere Fall. Dir musst d'<strong>Lück erklären</strong> kënnen. Dräi akzeptéiert Erklärungen:</p>
 
@@ -721,7 +721,7 @@ HTML,
 
 <p>Ouni glabhafte Erklärung vermutet d'AED Verstoppung a kann de feelende Chiffre d'Affaires <strong>pauschal schätzen</strong>.</p>
 
-<h3>Fall 3 — Eng ofgeschlossen Rechnung läschen</h3>
+<h3>Fall 3 - Eng ofgeschlossen Rechnung läschen</h3>
 
 <p>Rechtlech onméiglech. Eng ofgeschlossen Rechnung muss 10 Joer archivéiert ginn (Art. 16 Code de commerce). Fir z'annuléieren:</p>
 
@@ -754,13 +754,13 @@ HTML,
 
 <p>Domat ass Artikel 61 LIVA keng Suerg méi: Är Nummeréierung ass per Konstruktioun konform.</p>
 
-<h2>FAQ — Artikel 61 LIVA</h2>
+<h2>FAQ - Artikel 61 LIVA</h2>
 
 <h3>An wann ech ënner TVA-Franchise (Artikel 56 ter) fakturéieren?</h3>
 <p>Artikel 61 LIVA applizéiert sech <strong>trotzdem</strong>. All ausgestellte Rechnung, och ouni erhuewen TVA, muss eng sequentiell a fortlafend Nummer droen.</p>
 
 <h3>Kann ech eng Nummeréierung pro Client hunn (ACME-001, ACME-002...)?</h3>
-<p>Technesch jo — awer staark ofgerot. Bei enger Kontroll verlaangt d'AED <strong>global</strong> Sequentialitéit. Dir musst dann beweisen, dass et iwwer all Client-Serien keng Lück gëtt, wat komplex a riskant ass.</p>
+<p>Technesch jo - awer staark ofgerot. Bei enger Kontroll verlaangt d'AED <strong>global</strong> Sequentialitéit. Dir musst dann beweisen, dass et iwwer all Client-Serien keng Lück gëtt, wat komplex a riskant ass.</p>
 
 <h3>Sinn d'Devisen betraff?</h3>
 <p>Nee, Artikel 61 LIVA betrëfft nëmmen <strong>Rechnungen an Avoiren</strong>. Dir kënnt Är Devisen nummeréieren wéi Dir wëllt (sequentiell Nummeréierung trotzdem recommandéiert fir Äert eegent Tracking).</p>

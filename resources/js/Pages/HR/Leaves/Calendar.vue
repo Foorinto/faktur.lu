@@ -63,7 +63,7 @@ const calendarOptions = computed(() => ({
     eventDidMount: (info) => {
         const { leaveType, status, daysCount } = info.event.extendedProps;
         const statusLabel = status === 'pending' ? ` (${t('hr.leave_status_pending')})` : '';
-        info.el.title = `${info.event.title}\n${leaveType} — ${daysCount} ${t('hr.days')}${statusLabel}`;
+        info.el.title = `${info.event.title}\n${leaveType} - ${daysCount} ${t('hr.days')}${statusLabel}`;
     },
     dayMaxEvents: 4,
     moreLinkText: (n) => `+${n}`,
@@ -96,7 +96,7 @@ const monthNames = computed(() => [
 </script>
 
 <template>
-    <Head :title="`${t('hr.calendar')} — ${monthNames[month - 1]} ${year}`" />
+    <Head :title="`${t('hr.calendar')} - ${monthNames[month - 1]} ${year}`" />
 
     <AppLayout>
         <template #header>

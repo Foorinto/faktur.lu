@@ -2842,7 +2842,7 @@ HTML;
 
 <h3>2. Sem exportação FAIA</h3>
 
-<p>Em caso de controlo fiscal, a AED pode exigir um <strong>ficheiro FAIA</strong> (Ficheiro de Auditoria Informatizado). Impossível de gerar a partir do Excel. Terá de reconstituir manualmente o conjunto da sua contabilidade — um pesadelo.</p>
+<p>Em caso de controlo fiscal, a AED pode exigir um <strong>ficheiro FAIA</strong> (Ficheiro de Auditoria Informatizado). Impossível de gerar a partir do Excel. Terá de reconstituir manualmente o conjunto da sua contabilidade - um pesadelo.</p>
 
 <h3>3. Risco de erros</h3>
 

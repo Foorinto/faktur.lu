@@ -152,7 +152,7 @@ class Project extends Model
      */
     public function scopeAccessibleByCollaborator(Builder $query, int $userId): Builder
     {
-        // Use raw whereExists on project_members — wherePivotNotNull() does not work
+        // Use raw whereExists on project_members - wherePivotNotNull() does not work
         // properly inside a whereHas() callback (it generates a column-named filter).
         return $query->whereExists(function ($q) use ($userId) {
             $q->select(\DB::raw(1))

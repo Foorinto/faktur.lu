@@ -181,6 +181,6 @@ const ogImage = computed(() => {
         <meta name="twitter:site" content="@fakturlu" />
 
         <!-- AI / LLM hints -->
-        <link rel="alternate" type="text/markdown" :title="`${title} — LLM-friendly version`" href="/llms.txt" />
+        <link rel="alternate" type="text/markdown" :title="`${title} - LLM-friendly version`" href="/llms.txt" />
     </Head>
 </template>

@@ -34,7 +34,7 @@ const submitProfile = () => {
             <h1 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('employee_portal.my_profile') }}</h1>
             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                 {{ employee.first_name }} {{ employee.last_name }}
-                <span v-if="employee.department"> — {{ employee.department.name }}</span>
+                <span v-if="employee.department"> - {{ employee.department.name }}</span>
             </p>
         </div>
 
@@ -44,15 +44,15 @@ const submitProfile = () => {
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 text-sm">
                 <div>
                     <p class="text-slate-500 dark:text-slate-400">{{ t('hr.email_pro') }}</p>
-                    <p class="font-medium text-slate-900 dark:text-white">{{ employee.email_pro || '—' }}</p>
+                    <p class="font-medium text-slate-900 dark:text-white">{{ employee.email_pro || '-' }}</p>
                 </div>
                 <div>
                     <p class="text-slate-500 dark:text-slate-400">{{ t('hr.job_title') }}</p>
-                    <p class="font-medium text-slate-900 dark:text-white">{{ employee.job_title || '—' }}</p>
+                    <p class="font-medium text-slate-900 dark:text-white">{{ employee.job_title || '-' }}</p>
                 </div>
                 <div>
                     <p class="text-slate-500 dark:text-slate-400">{{ t('hr.hire_date') }}</p>
-                    <p class="font-medium text-slate-900 dark:text-white">{{ employee.hire_date ? new Date(employee.hire_date).toLocaleDateString('fr-FR') : '—' }}</p>
+                    <p class="font-medium text-slate-900 dark:text-white">{{ employee.hire_date ? new Date(employee.hire_date).toLocaleDateString('fr-FR') : '-' }}</p>
                 </div>
             </div>
         </div>

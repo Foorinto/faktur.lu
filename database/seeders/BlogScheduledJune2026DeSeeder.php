@@ -115,7 +115,7 @@ class BlogScheduledJune2026DeSeeder extends Seeder
     <li>Soll-/Habensummen pro Bewegung</li>
 </ul>
 
-<p>Wenn Sie mit Excel oder einem System rechnen, das keine FAIA generiert, muessen Sie sie manuell rekonstruieren — was <strong>mehrere Arbeitstage</strong> dauern kann und Fehlerquellen birgt.</p>
+<p>Wenn Sie mit Excel oder einem System rechnen, das keine FAIA generiert, muessen Sie sie manuell rekonstruieren - was <strong>mehrere Arbeitstage</strong> dauern kann und Fehlerquellen birgt.</p>
 
 <h2>Ablauf einer Vor-Ort-Pruefung</h2>
 
@@ -145,7 +145,7 @@ class BlogScheduledJune2026DeSeeder extends Seeder
 <p>Ob Freiberufler oder KMU, hier die Checkliste ab Mitteilungserhalt:</p>
 
 <ol>
-    <li><strong>FAIA vorbereiten</strong> fuer die angeforderte Periode — idealerweise per Klick aus Ihrer Rechnungssoftware</li>
+    <li><strong>FAIA vorbereiten</strong> fuer die angeforderte Periode - idealerweise per Klick aus Ihrer Rechnungssoftware</li>
     <li><strong>Alle ausgestellten Rechnungen drucken oder exportieren</strong> (PDF/A fuer Rechtsarchivierung)</li>
     <li><strong>Konsistenz pruefen</strong> mit Ihren eingereichten MwSt-Erklaerungen</li>
     <li><strong>Pro Monat ein Dossier</strong>: Rechnungen + Kontoauszuege + zugehoerige MwSt-Erklaerung</li>
@@ -167,7 +167,7 @@ class BlogScheduledJune2026DeSeeder extends Seeder
 
 <p><a href="/de/register" class="text-primary-500 hover:underline font-medium">Kostenlos mit faktur.lu starten</a> und Ihre naechste Pruefung stressfrei vorbereiten.</p>
 
-<h2>FAQ — AED-Steuerpruefung</h2>
+<h2>FAQ - AED-Steuerpruefung</h2>
 
 <h3>Wie lange dauert eine AED-Pruefung?</h3>
 <p>Schriftliche Pruefung: 2 bis 4 Wochen (je nach Einreichungszeit). Vor-Ort-Pruefung: typischerweise 1 bis 3 Tage im Unternehmen + 30 bis 60 Tage AED-interne Analyse.</p>
@@ -222,7 +222,7 @@ HTML,
     <li><strong>Vereine</strong>, die MwSt-pflichtige wirtschaftliche Taetigkeit ausueben</li>
 </ul>
 
-<p>Die Pflicht ist nicht monatliche Erstellung — es genuegt, sie <strong>auf AED-Anfrage</strong> innerhalb angemessener Frist (typisch 15 Tage nach Mitteilung) produzieren zu koennen.</p>
+<p>Die Pflicht ist nicht monatliche Erstellung - es genuegt, sie <strong>auf AED-Anfrage</strong> innerhalb angemessener Frist (typisch 15 Tage nach Mitteilung) produzieren zu koennen.</p>
 
 <h2>Was enthaelt eine FAIA?</h2>
 
@@ -273,15 +273,15 @@ HTML,
 
 <p>Drei Optionen je nach Situation:</p>
 
-<h3>Option 1 — FAIA-native Rechnungssoftware</h3>
+<h3>Option 1 - FAIA-native Rechnungssoftware</h3>
 
 <p>Die einfachste und sicherste Methode. Eine Software wie <a href="/de" class="text-primary-500 hover:underline font-medium">faktur.lu</a> erstellt FAIA 2.01 auf Abruf, fuer jede Periode, per Klick. Die Datei ist automatisch XSD-konform.</p>
 
-<h3>Option 2 — Export aus Buchhaltungssoftware</h3>
+<h3>Option 2 - Export aus Buchhaltungssoftware</h3>
 
 <p>Sage BOB 50, Sage 100 und die meisten professionellen Buchhaltungssoftwares ermoeglichen FAIA-Export. Pruefen Sie mit Ihrem Anbieter, dass Version 2.01 unterstuetzt wird.</p>
 
-<h3>Option 3 — Manuelle Erstellung (abgeraten)</h3>
+<h3>Option 3 - Manuelle Erstellung (abgeraten)</h3>
 
 <p>Theoretisch mit XML-Entwickler moeglich, aber fehleranfaellig. Nur fuer Extremfaelle (Legacy-Daten, Migration).</p>
 
@@ -299,7 +299,7 @@ HTML,
     <li>Keine Daten speichert (Datei bleibt auf Ihrem Rechner)</li>
 </ul>
 
-<h2>FAQ — FAIA</h2>
+<h2>FAQ - FAIA</h2>
 
 <h3>Muss ich jaehrlich eine FAIA senden?</h3>
 <p>Nein. FAIA wird nur <strong>auf AED-Anfrage</strong> bei einer Pruefung erstellt. Sie muessen sie aber rasch (binnen 15 Tagen) erzeugen koennen.</p>
@@ -354,7 +354,7 @@ HTML,
 <p>Drei kumulative Bedingungen muessen erfuellt sein:</p>
 
 <ol>
-    <li><strong>Dienstleistung</strong> (nicht Warenverkauf — andere Regeln)</li>
+    <li><strong>Dienstleistung</strong> (nicht Warenverkauf - andere Regeln)</li>
     <li><strong>Geschaeftskunde (B2B)</strong> in einem anderen EU-Mitgliedstaat</li>
     <li><strong>Gueltige innergemeinschaftliche MwSt-Nummer</strong> des Kunden (VIES-Validierung Pflicht)</li>
 </ol>
@@ -407,10 +407,10 @@ HTML,
 <ul>
     <li><strong>Aussteller</strong>: Marie Dupont, LU12345678</li>
     <li><strong>Empfaenger</strong>: Acme SA, 10 rue de Rivoli 75001 Paris, FR12345678901</li>
-    <li><strong>Leistung</strong>: UX-Design Website — 2.500,00 EUR</li>
+    <li><strong>Leistung</strong>: UX-Design Website - 2.500,00 EUR</li>
     <li><strong>MwSt (0%)</strong>: 0,00 EUR</li>
     <li><strong>Bruttosumme</strong>: 2.500,00 EUR</li>
-    <li><strong>Hinweis</strong>: <em>"Autoliquidation, article 21 LIVA — MwSt vom Empfaenger in seinem Land geschuldet."</em></li>
+    <li><strong>Hinweis</strong>: <em>"Autoliquidation, article 21 LIVA - MwSt vom Empfaenger in seinem Land geschuldet."</em></li>
 </ul>
 
 <p>Acme SA erklaert franzoesische MwSt (20%) in ihrer eigenen MwSt-Erklaerung, als erhobene und abziehbare MwSt zugleich (neutraler Vorgang).</p>
@@ -437,7 +437,7 @@ HTML,
 
 <p>Sie vermeiden Fehler und rechnen auslaendische Kunden voll konform ab.</p>
 
-<h2>FAQ — Artikel 21 LIVA</h2>
+<h2>FAQ - Artikel 21 LIVA</h2>
 
 <h3>Und wenn mein Kunde keine MwSt-Nummer hat?</h3>
 <p>Ohne ueber VIES validierte MwSt-Nummer gilt kein Reverse-Charge. Sie muessen luxemburgische MwSt (17% Standard) fakturieren. Gleiches gilt fuer Privatkunden (B2C).</p>
@@ -611,7 +611,7 @@ HTML,
     <li>Obligatorische LIVA-Angaben auf jeder Rechnung</li>
 </ul>
 
-<h2>FAQ — MwSt Luxemburg</h2>
+<h2>FAQ - MwSt Luxemburg</h2>
 
 <h3>Ist der Standardsatz 2026 wirklich 17%?</h3>
 <p>Ja, seit 1. Januar 2024. Der Satz war 2023 voruebergehend bei 16% zur Kaufkraftstuetzung, dann zurueck zum historischen 17%.</p>
@@ -700,7 +700,7 @@ HTML,
 
 <h2>Was bei Fehlern?</h2>
 
-<h3>Fall 1 — Duplikat ausgestellt</h3>
+<h3>Fall 1 - Duplikat ausgestellt</h3>
 
 <p>Die AED betrachtet eine der beiden Rechnungen als <strong>fiktiv oder betruegerisch</strong>. Sie muessen:</p>
 
@@ -710,7 +710,7 @@ HTML,
     <li>Die 3 Dokumente aufbewahren (die 2 Originalrechnungen + Gutschrift)</li>
 </ol>
 
-<h3>Fall 2 — Luecke in der Sequenz</h3>
+<h3>Fall 2 - Luecke in der Sequenz</h3>
 
 <p>Schwerwiegender Fall. Sie muessen die <strong>Luecke erklaeren</strong> koennen. Drei akzeptierte Erklaerungen:</p>
 
@@ -722,7 +722,7 @@ HTML,
 
 <p>Ohne glaubwuerdige Erklaerung vermutet die AED Verdeckung und kann den fehlenden Umsatz <strong>pauschal schaetzen</strong>.</p>
 
-<h3>Fall 3 — Abgeschlossene Rechnung loeschen</h3>
+<h3>Fall 3 - Abgeschlossene Rechnung loeschen</h3>
 
 <p>Rechtlich unmoeglich. Eine abgeschlossene Rechnung muss 10 Jahre archiviert werden (Art. 16 Handelsgesetzbuch). Zur Annulation:</p>
 
@@ -755,13 +755,13 @@ HTML,
 
 <p>Damit ist Artikel 61 LIVA kein Problem mehr: Ihre Nummerierung ist per Konstruktion konform.</p>
 
-<h2>FAQ — Artikel 61 LIVA</h2>
+<h2>FAQ - Artikel 61 LIVA</h2>
 
 <h3>Und wenn ich unter MwSt-Befreiung (Art. 56 ter) fakturiere?</h3>
 <p>Artikel 61 LIVA gilt <strong>trotzdem</strong>. Jede ausgestellte Rechnung, auch ohne erhobene MwSt, muss eine sequenzielle und fortlaufende Nummer tragen.</p>
 
 <h3>Kann ich pro Kunde nummerieren (ACME-001, ACME-002...)?</h3>
-<p>Technisch ja — aber sehr abgeraten. Bei einer Pruefung verlangt die AED <strong>globale</strong> Sequenzialitaet. Sie muessten dann beweisen, dass es ueber alle Kundenserien hinweg keine Luecke gibt, was komplex und riskant ist.</p>
+<p>Technisch ja - aber sehr abgeraten. Bei einer Pruefung verlangt die AED <strong>globale</strong> Sequenzialitaet. Sie muessten dann beweisen, dass es ueber alle Kundenserien hinweg keine Luecke gibt, was komplex und riskant ist.</p>
 
 <h3>Betrifft das auch Angebote?</h3>
 <p>Nein, Artikel 61 LIVA betrifft nur <strong>Rechnungen und Gutschriften</strong>. Sie koennen Angebote nummerieren wie Sie wollen (sequenzielle Nummerierung empfohlen fuer Eigentracking).</p>

@@ -43,7 +43,7 @@ class SatisfactionSurvey extends Model
     }
 
     /**
-     * Create a survey invitation for a user (one per user — see unique index).
+     * Create a survey invitation for a user (one per user - see unique index).
      */
     public static function createForUser(User $user): self
     {

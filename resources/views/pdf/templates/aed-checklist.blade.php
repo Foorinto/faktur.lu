@@ -23,7 +23,7 @@
     $T = [
         'fr' => [
             'title' => 'Checklist préparation contrôle fiscal AED',
-            'subtitle' => 'Luxembourg — 2026',
+            'subtitle' => 'Luxembourg - 2026',
             'deadline_box' => '⚠ <strong>Délai :</strong> l\'AED accorde généralement <strong>1 à 2 semaines</strong> pour fournir les documents demandés. Préparez-vous en amont.',
             's1' => '1. Fichier FAIA',
             's1_1' => 'Générer le fichier FAIA en version 2.01 (obligatoire depuis 2017)',
@@ -57,7 +57,7 @@
         ],
         'de' => [
             'title' => 'Checkliste AED-Steuerprüfung Vorbereitung',
-            'subtitle' => 'Luxemburg — 2026',
+            'subtitle' => 'Luxemburg - 2026',
             'deadline_box' => '⚠ <strong>Frist:</strong> Die AED gewährt in der Regel <strong>1 bis 2 Wochen</strong> zur Bereitstellung der angeforderten Unterlagen. Bereiten Sie sich rechtzeitig vor.',
             's1' => '1. FAIA-Datei',
             's1_1' => 'FAIA-Datei in Version 2.01 erstellen (seit 2017 verpflichtend)',
@@ -91,7 +91,7 @@
         ],
         'en' => [
             'title' => 'AED Tax Audit Preparation Checklist',
-            'subtitle' => 'Luxembourg — 2026',
+            'subtitle' => 'Luxembourg - 2026',
             'deadline_box' => '⚠ <strong>Deadline:</strong> the AED typically gives <strong>1-2 weeks</strong> to provide the requested documents. Prepare in advance to avoid panic.',
             's1' => '1. FAIA file',
             's1_1' => 'Generate FAIA file in version 2.01 (mandatory since 2017)',
@@ -125,7 +125,7 @@
         ],
         'lb' => [
             'title' => 'Checklist Virbereedung AED Steierprüfung',
-            'subtitle' => 'Lëtzebuerg — 2026',
+            'subtitle' => 'Lëtzebuerg - 2026',
             'deadline_box' => '⚠ <strong>Delai:</strong> d\'AED gëtt typesch <strong>1 bis 2 Wochen</strong> fir déi gefuerdert Dokumenter ze liwweren. Bereet Iech am Viraus vir.',
             's1' => '1. FAIA-Datei',
             's1_1' => 'FAIA-Datei a Versioun 2.01 generéieren (obligatoresch zanter 2017)',
@@ -159,7 +159,7 @@
         ],
         'pt' => [
             'title' => 'Lista de verificação preparação inspeção fiscal AED',
-            'subtitle' => 'Luxemburgo — 2026',
+            'subtitle' => 'Luxemburgo - 2026',
             'deadline_box' => '⚠ <strong>Prazo:</strong> a AED concede normalmente <strong>1 a 2 semanas</strong> para fornecer os documentos solicitados. Prepare-se antecipadamente.',
             's1' => '1. Ficheiro FAIA',
             's1_1' => 'Gerar o ficheiro FAIA na versão 2.01 (obrigatório desde 2017)',
@@ -251,7 +251,7 @@
 </div>
 
 <div class="footer">
-    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> — {{ $tr['footer'] }}
+    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> - {{ $tr['footer'] }}
 </div>
 </body>
 </html>

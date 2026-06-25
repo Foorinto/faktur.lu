@@ -80,7 +80,7 @@ return [
     'project_invitation_already_accepted' => 'This invitation was already accepted. Please log in to access the project.',
     'project_invitation_accepted' => 'Invitation accepted. Welcome!',
     'upgrade_title' => 'Create my own faktur.lu account',
-    'upgrade_intro' => 'You are currently a collaborator on one or more organizations. Create your own account to issue your invoices and quotes — your collaborator accesses are preserved.',
+    'upgrade_intro' => 'You are currently a collaborator on one or more organizations. Create your own account to issue your invoices and quotes - your collaborator accesses are preserved.',
     'upgrade_keep_title' => 'You keep all your current accesses',
     'upgrade_keep_orgs' => 'You will remain a collaborator on :count organization(s).',
     'upgrade_keep_projects' => 'You keep access to :count project(s) you were invited to.',
@@ -162,7 +162,7 @@ return [
     'view_all' => 'View all',
     'breadcrumb_home' => 'Home',
 
-    // FEAT-079 — Shared calendar (HR module)
+    // FEAT-079 - Shared calendar (HR module)
     'hr_calendar_title' => 'Shared calendar',
     'hr_calendar_today' => 'Today',
     'hr_calendar_view_month' => 'Month',
@@ -178,7 +178,7 @@ return [
     'hr_calendar_disabled_description' => 'The HR admin has disabled the shared calendar for this organisation.',
     'hr_calendar_my_leave_label' => 'Me',
 
-    // FEAT-081 — Project members
+    // FEAT-081 - Project members
     'project_members_employees' => 'Employees',
     'project_members_collaborators' => 'External collaborators',
     'project_members_active' => 'Active',
@@ -201,9 +201,9 @@ return [
     'project_employee_activated' => 'Employee activated on this project.',
     'project_employee_deactivated' => 'Employee deactivated on this project.',
 
-    // Employee portal — projects (FEAT-081 nested below)
+    // Employee portal - projects (FEAT-081 nested below)
 
-    // FEAT-081 — Emails
+    // FEAT-081 - Emails
     'mail_subject_project_member_added' => 'You\'ve been added to project: :project',
     'mail_subject_project_member_removed' => 'You\'ve been removed from project: :project',
     'mail_subject_project_collaborator_invitation' => 'Invitation to project: :project',
@@ -875,13 +875,13 @@ return [
     'fiscal_vat_deductible' => 'VAT Deductible',
     'fiscal_vat_balance' => 'VAT Balance',
     'fiscal_filing_guide' => 'Tax Filing Guide',
-    'fiscal_guide_taxx' => 'taxx.lu — Guided Filing (paid)',
-    'fiscal_guide_myguichet' => 'MyGuichet.lu — Official Filing (free)',
+    'fiscal_guide_taxx' => 'taxx.lu - Guided Filing (paid)',
+    'fiscal_guide_myguichet' => 'MyGuichet.lu - Official Filing (free)',
     'fiscal_key_dates' => 'Key Dates',
     'fiscal_useful_links' => 'Useful Links',
     'fiscal_disclaimer' => 'This document does not replace professional advice. Consult an accountant or tax advisor before filing your return.',
     'fiscal_export_purpose_title' => 'What are the PDF and CSV exports for?',
-    'fiscal_export_purpose_desc' => 'These exports are summary documents to help you with your tax return. They cannot be directly imported into taxx.lu or MyGuichet.lu — you will need to enter the amounts manually on these platforms.',
+    'fiscal_export_purpose_desc' => 'These exports are summary documents to help you with your tax return. They cannot be directly imported into taxx.lu or MyGuichet.lu - you will need to enter the amounts manually on these platforms.',
     'fiscal_export_use_1' => 'Reference sheet when filling in your return on taxx.lu or MyGuichet.lu',
     'fiscal_export_use_2' => 'Working document to share with your accountant or fiduciary',
     'fiscal_export_use_3' => 'Annual summary for your personal records',
@@ -1282,7 +1282,7 @@ return [
             'title_1' => 'The compliant',
             'title_2' => 'invoicing software',
             'title_3' => 'for Luxembourg freelancers & SMEs',
-            'subtitle' => 'Invoices, quotes, time tracking and FAIA export — built around Luxembourg tax law (LIVA, AED, 17% VAT). No accountant required.',
+            'subtitle' => 'Invoices, quotes, time tracking and FAIA export - built around Luxembourg tax law (LIVA, AED, 17% VAT). No accountant required.',
             'cta_start' => 'Start for free',
             'cta_login' => 'Already a member?',
             'cta_reassurance' => 'No credit card · Cancel anytime · First invoice in 5 min',
@@ -1310,7 +1310,7 @@ return [
         'free_tools_section' => [
             'eyebrow' => 'Free tools',
             'title' => 'Before you even sign up',
-            'subtitle' => 'Calculate, validate, generate. No signup, no credit card — use our free tools built around the Luxembourg context.',
+            'subtitle' => 'Calculate, validate, generate. No signup, no credit card - use our free tools built around the Luxembourg context.',
             'cta_all' => 'See all free tools',
             'tool_vat' => [
                 'title' => 'Luxembourg VAT calculator',
@@ -1663,7 +1663,7 @@ return [
                 ],
                 'e_facturation' => [
                     'question' => 'How do I switch to electronic invoicing in Luxembourg?',
-                    'answer' => 'The transition takes 3 steps with faktur.lu: 1) Configure your Peppol identifier in your business settings, 2) Enter your clients\' Peppol identifiers (public administrations, large companies), 3) Issue your invoices as usual — Peppol sending happens in one click. Faktur.lu also supports Factur-X and ZUGFeRD for your clients in France and Germany.',
+                    'answer' => 'The transition takes 3 steps with faktur.lu: 1) Configure your Peppol identifier in your business settings, 2) Enter your clients\' Peppol identifiers (public administrations, large companies), 3) Issue your invoices as usual - Peppol sending happens in one click. Faktur.lu also supports Factur-X and ZUGFeRD for your clients in France and Germany.',
                 ],
                 // Cluster B - Comparisons & pricing
                 'meilleure_solution' => [
@@ -1910,7 +1910,7 @@ return [
             'short_description' => 'Manage your employees, contracts, leave and payslips from a unified interface.',
             'page_title' => 'HR Module Luxembourg | Employee and Leave Management | faktur.lu',
             'meta_description' => 'Complete HR module for Luxembourg SMEs: employee management, contracts, leave, departments and integrated employee portal.',
-            'hero_description' => 'Manage all your human resources from faktur.lu. Employees, contracts, leave, departments — everything is centralised in a simple, intuitive interface designed for Luxembourg SMEs.',
+            'hero_description' => 'Manage all your human resources from faktur.lu. Employees, contracts, leave, departments - everything is centralised in a simple, intuitive interface designed for Luxembourg SMEs.',
             'details_title' => 'A complete HR module',
             'items' => [
                 'employees' => ['title' => 'Employee profiles', 'description' => 'Centralise employee information: contact details, ID number, contract, salary.'],
@@ -1932,7 +1932,7 @@ return [
             'short_description' => 'Track your client interactions with reminders, tags and complete history.',
             'page_title' => 'CRM for Luxembourg SMEs | Client Interaction Tracking | faktur.lu',
             'meta_description' => 'CRM integrated with your invoicing: client interactions, automatic reminders, custom tags, complete history so you never miss an opportunity.',
-            'hero_description' => 'Never miss an opportunity again. Track every interaction with your clients, schedule reminders and organise your contacts with custom tags — all integrated with your invoicing.',
+            'hero_description' => 'Never miss an opportunity again. Track every interaction with your clients, schedule reminders and organise your contacts with custom tags - all integrated with your invoicing.',
             'details_title' => 'A CRM integrated with your invoicing',
             'items' => [
                 'interactions' => ['title' => 'Interaction history', 'description' => 'Record every call, email, meeting or note related to a client.'],
@@ -2002,7 +2002,7 @@ return [
         'title' => 'Simplified invoicing for Luxembourg',
         'subtitle' => 'faktur.lu was born from a simple observation: Luxembourg SMEs and freelancers deserve a modern, compliant invoicing tool adapted to their multilingual reality.',
         'mission_title' => 'Our mission',
-        'mission_text' => 'We believe invoicing should not be a chore. Our goal is to provide Luxembourg entrepreneurs with an intuitive software that respects all legal obligations — FAIA export, sequential numbering, Luxembourg VAT — while remaining simple to use every day.',
+        'mission_text' => 'We believe invoicing should not be a chore. Our goal is to provide Luxembourg entrepreneurs with an intuitive software that respects all legal obligations - FAIA export, sequential numbering, Luxembourg VAT - while remaining simple to use every day.',
         'values_title' => 'Our values',
         'values' => [
             'compliance' => [
@@ -2141,7 +2141,7 @@ return [
             ],
             'languages' => [
                 'title' => '5 languages to truly serve Luxembourg',
-                'description' => 'Interface, invoices and support in French, German, English, Luxembourgish and Portuguese — to reflect the multicultural reality of your clientele. No other solution covers all 5 of the country\'s languages.',
+                'description' => 'Interface, invoices and support in French, German, English, Luxembourgish and Portuguese - to reflect the multicultural reality of your clientele. No other solution covers all 5 of the country\'s languages.',
             ],
             'local' => [
                 'title' => 'Local support and field expertise',
@@ -2177,7 +2177,7 @@ return [
             'title' => 'The story of faktur.lu',
             'paragraph_1' => 'Faktur.lu was born from a simple observation: no invoicing solution available in Luxembourg combined native FAIA compliance, support for the country\'s 5 languages, and a price accessible to freelancers. International tools were expensive, poorly translated, and ignored Luxembourg tax specifics.',
             'paragraph_2' => 'In 2026, we launched faktur.lu to fill this gap. A platform designed from Luxembourg, for Luxembourg: VAT engine pre-configured with the 17/14/8/3% rates, FAIA export validated against the AED spec, Peppol integration via local Access Point, and an accountant portal designed for local fiduciaries.',
-            'paragraph_3' => 'Today, hundreds of Luxembourg businesses — freelancers, SMEs, fiduciaries — use faktur.lu daily. Our commitment remains the same: to be the reference invoicing solution in Luxembourg, while staying accessible, compliant and close to local entrepreneurs.',
+            'paragraph_3' => 'Today, hundreds of Luxembourg businesses - freelancers, SMEs, fiduciaries - use faktur.lu daily. Our commitment remains the same: to be the reference invoicing solution in Luxembourg, while staying accessible, compliant and close to local entrepreneurs.',
         ],
         'cta' => [
             'title' => 'Join the leading solution in Luxembourg',
@@ -2438,7 +2438,7 @@ return [
                 ],
             ],
             'cta_title' => 'Automate all this with faktur.lu',
-            'cta_subtitle' => 'Issuing, numbering, archiving, automatic reminders, FAIA in 1 click and VAT reminder calendar — 14-day free trial.',
+            'cta_subtitle' => 'Issuing, numbering, archiving, automatic reminders, FAIA in 1 click and VAT reminder calendar - 14-day free trial.',
             'cta_button' => 'Start free',
         ],
     ],
@@ -2450,13 +2450,13 @@ return [
         'breadcrumb' => 'For freelancers',
         'badge' => 'For freelancers',
         'hero_title' => 'Invoicing for Luxembourg freelancers, without the admin headache',
-        'hero_subtitle' => 'Invoice your clients in minutes — all LIVA mentions included, 17% VAT calculated automatically, FAIA export ready for your accountant. No accountant required.',
+        'hero_subtitle' => 'Invoice your clients in minutes - all LIVA mentions included, 17% VAT calculated automatically, FAIA export ready for your accountant. No accountant required.',
         'cta_primary' => 'Start for free',
         'cta_secondary' => 'See pricing',
         'cta_reassurance' => 'No credit card · Free plan up to 5 invoices/month · 5 min for your first invoice',
         'pains_title' => 'Your real problems as a freelancer',
         'pains' => [
-            'admin' => ['title' => '"I didn\'t sign up to become an accountant"', 'desc' => 'You invoice for your services — you didn\'t sign up to handle paperwork, sequence numbers, VAT rates and legal mentions. faktur.lu handles all of that for you.'],
+            'admin' => ['title' => '"I didn\'t sign up to become an accountant"', 'desc' => 'You invoice for your services - you didn\'t sign up to handle paperwork, sequence numbers, VAT rates and legal mentions. faktur.lu handles all of that for you.'],
             'compliant' => ['title' => '"Is my invoice legal?"', 'desc' => 'Sequential numbering (Article 61 LIVA), mandatory mentions, 17% VAT (or Article 21 reverse charge for B2B intra-EU): all generated automatically and compliant.'],
             'audit' => ['title' => '"What if the AED audits me?"', 'desc' => 'FAIA file compliant with AED 2.01 is generated on demand. Your accountant retrieves it in one click via the accountant portal. No more audit stress.'],
             'cost' => ['title' => '"€30/month for invoicing software? No way."', 'desc' => 'Free plan up to 5 invoices/month. Essentiel plan at €5/month for 50 invoices. No commitment.'],
@@ -2471,7 +2471,7 @@ return [
             'accountant' => ['title' => 'Accountant portal included (Essentiel)', 'desc' => 'Invite your accountant in read-only mode. They access your invoices, accounting exports and FAIA from their own dashboard.'],
         ],
         'plan_recommend_title' => 'Recommended plan for you',
-        'plan_recommend_name' => 'Essentiel — €5/month',
+        'plan_recommend_name' => 'Essentiel - €5/month',
         'plan_recommend_desc' => 'Includes 50 invoices/month, 100 clients, accountant portal, Sage BOB 50 / Sage 100 / CSV exports, and time tracking. Ideal for an active freelancer.',
         'plan_recommend_cta' => 'Try 14 days free',
         'plan_free_note' => 'Just testing? The Free plan (5 invoices/month, 10 clients) is perfect to start without committing. Switch to Essentiel anytime.',
@@ -2516,7 +2516,7 @@ return [
             'branding' => ['title' => 'No "faktur.lu" branding', 'desc' => 'Your invoices carry your identity only. No logo or "Made with..." mention at the bottom of PDFs.'],
         ],
         'plan_recommend_title' => 'Recommended plan for you',
-        'plan_recommend_name' => 'Pro — €15/month',
+        'plan_recommend_name' => 'Pro - €15/month',
         'plan_recommend_desc' => 'Unlimited everything, CRM, HR module (15 employees), 3 external accountants, unlimited Peppol, 10-year PDF/A archive, automatic reminders, no branding. No per-user surcharge.',
         'plan_recommend_cta' => 'Try 14 days free',
         'plan_note' => 'On Pro, you get all features with no per-employee or per-client surcharge. The price stays fixed regardless of your growth.',
@@ -2535,11 +2535,11 @@ return [
 
     'survey_email_subject' => 'How are we doing? Your feedback on faktur.lu',
     'survey_email_greeting' => 'Hi :name,',
-    'survey_email_intro' => 'You have been using faktur.lu for two weeks. Your feedback really matters to us — would you take 30 seconds to answer one quick question?',
+    'survey_email_intro' => 'You have been using faktur.lu for two weeks. Your feedback really matters to us - would you take 30 seconds to answer one quick question?',
     'survey_email_cta' => 'Share my feedback',
 
     'survey' => [
-        'page_title' => 'Your feedback — faktur.lu',
+        'page_title' => 'Your feedback - faktur.lu',
         'heading' => 'Your feedback matters',
         'subtitle' => 'One quick question to help us improve faktur.lu.',
         'nps_question' => 'How likely are you to recommend faktur.lu to a colleague or friend?',
@@ -2564,7 +2564,7 @@ return [
         'breadcrumb' => 'Glossary',
         'hero_title' => 'Luxembourg invoicing & tax glossary',
         'hero_subtitle' => 'Every technical, legal and regulatory term used in Luxembourg invoicing and taxation, explained clearly. FAIA, LIVA, AED, Peppol, ViDA and the other acronyms you keep meeting in your filings.',
-        'set_name' => 'faktur.lu glossary — Luxembourg invoicing & taxation',
+        'set_name' => 'faktur.lu glossary - Luxembourg invoicing & taxation',
         'set_description' => 'Reference set of definitions for invoicing, VAT and tax compliance in Luxembourg: official LIVA terms, administrative abbreviations (AED, CCSS, RCS), standardised formats (FAIA, PDF/A, Factur-X, Peppol) and EU acronyms (VIES, OSS, ViDA).',
         'cta_title' => 'Compliant invoicing without memorising the rules',
         'cta_subtitle' => 'faktur.lu adds the right mandatory mentions automatically, validates VIES, generates FAIA and applies the right VAT rates. You no longer need to know every article by heart.',
@@ -2592,7 +2592,7 @@ return [
             ],
             'ccss' => [
                 'name' => 'CCSS',
-                'alternate' => 'Joint Social Security Centre — Luxembourg',
+                'alternate' => 'Joint Social Security Centre - Luxembourg',
                 'description' => 'Luxembourg body managing social security affiliations for employees and self-employed workers. Every sole trader must register with the CCSS at incorporation and declare income for social contribution calculation.',
             ],
             'factur_x' => [
@@ -2612,12 +2612,12 @@ return [
             ],
             'oss' => [
                 'name' => 'OSS',
-                'alternate' => 'One Stop Shop — EU VAT single window',
+                'alternate' => 'One Stop Shop - EU VAT single window',
                 'description' => 'EU scheme effective since 1 July 2021 allowing a business to declare and pay VAT due in several member states via a single window, when its cross-border B2C sales exceed the EUR 10,000 annual threshold.',
             ],
             'pdf_a' => [
                 'name' => 'PDF/A',
-                'alternate' => 'Long-term archive format — ISO 19005',
+                'alternate' => 'Long-term archive format - ISO 19005',
                 'description' => 'Normalised PDF variant dedicated to long-term archiving: embedded fonts, no scripts, no broken external links. It is the format required by Article 16 of the Luxembourg Code of Commerce for the 10-year retention of invoices.',
             ],
             'peppol' => [
@@ -2632,7 +2632,7 @@ return [
             ],
             'vida' => [
                 'name' => 'ViDA',
-                'alternate' => 'VAT in the Digital Age — EU VAT reform',
+                'alternate' => 'VAT in the Digital Age - EU VAT reform',
                 'description' => 'EU legislative package adopted in March 2025, modernising VAT in the EU by progressively imposing structured e-invoicing for intra-EU B2B transactions, a real-time digital reporting system and the harmonisation of platform-economy rules. Phased rollout until 2030.',
             ],
             'vies' => [
@@ -2652,12 +2652,12 @@ return [
         'subtitle' => 'faktur.lu is used by your freelance and SME clients for invoicing. You access their accounting data in read-only mode, export to Sage BOB 50, Sage 100 or CSV, and retrieve FAIA 2.01 in one click. Less data entry, more time for advisory.',
 
         'founder' => [
-            'badge' => 'Limited program',
+            'badge' => 'Founding partner program',
             'spots' => 'Only :count spots left',
             'title' => 'Become a faktur.lu Founding Partner',
-            'subtitle' => 'The accountant portal is free for every firm. The Founding Partner program, however, is reserved for 5 pioneering firms: in exchange for your feedback, you get personal onboarding support and dedicated visibility to attract new clients.',
+            'subtitle' => 'The accountant portal is free for every firm. The Founding Partner program also supports a few pioneering firms: in exchange for your feedback, you get personal onboarding support and dedicated visibility to attract new clients.',
             'cta' => 'Book a 20-min call',
-            'cta_note' => 'No commitment — you talk directly with the founder.',
+            'cta_note' => 'No commitment - you talk directly with the founder.',
             'get_title' => 'What you get',
             'get_3' => 'I onboard your first client myself',
             'get_4' => 'Your export requests handled as a priority',
@@ -2667,7 +2667,7 @@ return [
             'give_1' => 'Test the portal with 2 or 3 of your clients',
             'give_2' => 'If you\'re satisfied, agree to be cited as a reference',
             'give_note' => 'No financial commitment. Read-only access. Your data stays exportable at any time.',
-            'directory_title' => '"Find an accountant" directory — coming soon',
+            'directory_title' => '"Find an accountant" directory - coming soon',
             'directory_desc' => 'Freelancers using faktur.lu who are looking for a firm will be directed to our founding partners. You save time today, gain clients tomorrow.',
             'reassurance' => 'Read-only · 100% EU hosting · GDPR compliant · DPA available',
         ],
@@ -2686,14 +2686,14 @@ return [
             'multi_title' => 'Unified multi-client view',
             'multi_desc' => 'Manage all your faktur.lu clients from a single dashboard. Search by client name or VAT number, one-click access to the file.',
             'free_title' => '100% free access',
-            'free_desc' => 'The accountant portal is free for fiduciaries, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription (Essentiel €5/month or Pro €15/month — the accountant portal is not included in the Free plan).',
+            'free_desc' => 'The accountant portal is free for fiduciaries, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription (Essentiel €5/month or Pro €15/month - the accountant portal is not included in the Free plan).',
         ],
 
         'steps' => [
             'title' => 'How does it work?',
             'subtitle' => 'Three simple steps to start collaborating with your clients on faktur.lu.',
             'step1_title' => 'Your client signs up',
-            'step1_desc' => 'Your client subscribes to Essentiel (€5/month) or Pro (€15/month) — the accountant portal is included from Essentiel onwards. They start invoicing in a few clicks, in line with Luxembourg legislation.',
+            'step1_desc' => 'Your client subscribes to Essentiel (€5/month) or Pro (€15/month) - the accountant portal is included from Essentiel onwards. They start invoicing in a few clicks, in line with Luxembourg legislation.',
             'step2_title' => 'They invite you as accountant',
             'step2_desc' => 'From the "Accountant portal" screen, your client enters your email. You receive an invitation link valid for 7 days.',
             'step3_title' => 'You access their data',
@@ -2703,11 +2703,11 @@ return [
         'faq' => [
             'title' => 'Frequently asked questions',
             'q1' => 'Is the accountant portal really free?',
-            'a1' => 'Yes, 100% free for you, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription — from Essentiel (€5/month) which includes the accountant portal. The Free plan (€0/month) does not allow inviting an accountant.',
+            'a1' => 'Yes, 100% free for you, no commitment, no per-client surcharge. Your client pays their faktur.lu subscription - from Essentiel (€5/month) which includes the accountant portal. The Free plan (€0/month) does not allow inviting an accountant.',
             'q2' => 'Can I edit my clients\' invoices?',
             'a2' => 'No, the portal is read-only to guarantee data integrity. You can view, download and export, but not modify.',
             'q3' => 'What export formats are available?',
-            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) and generic CSV for accounting entries. FAIA 2.01 (XML) for AED audits. Individual invoice PDFs and a full PDF archive. Excel export of invoices over a period. The list grows regularly — let us know what you need.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) and generic CSV for accounting entries. FAIA 2.01 (XML) for AED audits. Individual invoice PDFs and a full PDF archive. Excel export of invoices over a period. The list grows regularly - let us know what you need.',
             'q4' => 'How many clients can I manage from the portal?',
             'a4' => 'No limit. Each client who invites you appears in your dashboard with their name, plan, and a shortcut to their data. Whether you have 5 or 500 faktur.lu clients, it\'s the same portal.',
             'q5' => 'Do my clients have to leave their current software?',
@@ -3815,7 +3815,7 @@ return [
         'created' => 'Invoice draft created.',
         'updated' => 'Invoice updated.',
         'deleted' => 'Draft deleted.',
-        'duplicated' => 'Draft duplicated — edit and finalise to obtain a new number.',
+        'duplicated' => 'Draft duplicated - edit and finalise to obtain a new number.',
         'finalized' => 'Invoice no. :number successfully finalised.',
         'marked_sent' => 'Invoice marked as sent.',
         'marked_paid' => 'Invoice marked as paid.',
@@ -3841,7 +3841,7 @@ return [
         'created' => 'Quote draft created.',
         'updated' => 'Quote updated.',
         'deleted' => 'Quote deleted.',
-        'duplicated' => 'Quote draft duplicated — edit and send.',
+        'duplicated' => 'Quote draft duplicated - edit and send.',
         'marked_sent' => 'Quote marked as sent.',
         'marked_accepted' => 'Quote marked as accepted. You can now convert it into an invoice.',
         'marked_declined' => 'Quote marked as declined.',
@@ -3937,7 +3937,7 @@ return [
         'created' => 'Recurring billing created.',
         'updated' => 'Recurring billing updated.',
         'deleted' => 'Recurring billing deleted.',
-        'duplicated' => 'Recurring billing duplicated (inactive) — review the settings then activate it.',
+        'duplicated' => 'Recurring billing duplicated (inactive) - review the settings then activate it.',
         'activated' => 'Activated.',
         'deactivated' => 'Deactivated.',
     ],
@@ -4141,7 +4141,7 @@ return [
     'legal_privacy_link_terms' => 'Terms and conditions',
     'legal_privacy_link_cookies' => 'Cookie policy',
 
-    // Legal — Terms of Service (Terms.vue)
+    // Legal - Terms of Service (Terms.vue)
     'legal_terms_seo_title' => 'Terms and Conditions | faktur.lu',
     'legal_terms_seo_description' => 'Terms and conditions of use and sale for faktur.lu. Rules for accessing and using the invoicing service.',
     'legal_terms_h1' => 'Terms and Conditions of Use and Sale',
@@ -4323,7 +4323,7 @@ return [
     'legal_terms_link_privacy' => 'Privacy policy',
     'legal_terms_link_cookies' => 'Cookie policy',
 
-    // Legal — Legal Notice
+    // Legal - Legal Notice
     'legal_mentions_seo_title' => 'Legal Notice | faktur.lu',
     'legal_mentions_seo_description' => 'Legal notice of faktur.lu: information about the publisher, host and intellectual property of the invoicing software.',
     'legal_mentions_title' => 'Legal Notice',
@@ -4463,7 +4463,7 @@ return [
     'recurring_invoice_how_li2_html' => '<strong>Auto-finalize</strong> → the invoice is <strong>finalized</strong> automatically (number assigned); only sending remains.',
     'recurring_invoice_how_li3_html' => '<strong>Auto-finalize + auto-send</strong> → the invoice is <strong>sent by email</strong> to the client with no intervention.',
     'recurring_invoice_how_p3_html' => 'The date of the next invoice is incremented automatically after each generation. If you set an end date, the recurrence deactivates itself once it is past.',
-    'recurring_invoice_how_tip_html' => '💡 Tip: editing the template only affects the <em>next</em> invoices — those already issued remain unchanged. You can deactivate/reactivate a recurrence at any time by clicking its status badge.',
+    'recurring_invoice_how_tip_html' => '💡 Tip: editing the template only affects the <em>next</em> invoices - those already issued remain unchanged. You can deactivate/reactivate a recurrence at any time by clicking its status badge.',
     'recurring_invoice_empty_title' => 'No recurring invoices',
     'recurring_invoice_empty_desc' => 'Create your first recurrence to automate your invoicing.',
     'recurring_invoice_create_cta' => 'Create a recurrence',
@@ -4480,7 +4480,7 @@ return [
     'recurring_invoice_action_duplicate' => 'Duplicate (will create an inactive copy)',
     'recurring_invoice_action_delete' => 'Delete',
     'recurring_invoice_confirm_delete' => 'Delete this recurring invoice?',
-    'recurring_invoice_confirm_duplicate' => 'Duplicate this recurrence? The copy will be created inactive — you will have to enable it manually after review.',
+    'recurring_invoice_confirm_duplicate' => 'Duplicate this recurrence? The copy will be created inactive - you will have to enable it manually after review.',
     'recurring_invoice_freq_weekly' => 'Weekly',
     'recurring_invoice_freq_monthly' => 'Monthly',
     'recurring_invoice_freq_quarterly' => 'Quarterly',
@@ -4528,31 +4528,31 @@ return [
     // Fiscal Summary page (Reports/FiscalSummary.vue)
     'fiscal_summary_month' => 'Month',
     'fiscal_summary_total_invoices' => 'Total (:count invoice(s))',
-    'fiscal_summary_form152_indep_suffix' => '— Form 152 (self-employed)',
+    'fiscal_summary_form152_indep_suffix' => '- Form 152 (self-employed)',
     'fiscal_summary_ht' => 'Net',
     'fiscal_summary_total' => 'Total',
     'fiscal_summary_vat' => 'VAT',
     'fiscal_summary_rate' => 'Rate',
     'fiscal_summary_base_ht' => 'Net base',
-    'fiscal_summary_taxx_subtitle' => 'Paid online service (~€69-199) — no LuxTrust needed, email only.',
+    'fiscal_summary_taxx_subtitle' => 'Paid online service (~€69-199) - no LuxTrust needed, email only.',
     'fiscal_summary_taxx_step1' => 'Create a free account on taxx.lu (email only, no LuxTrust or eID required).',
-    'fiscal_summary_taxx_step2' => 'Import your supporting documents via AutoScan (mobile app or PDF upload) — salary certificates, bank statements, etc.',
-    'fiscal_summary_taxx_step3' => 'Complete your tax return step by step — the system translates tax terms into plain language.',
+    'fiscal_summary_taxx_step2' => 'Import your supporting documents via AutoScan (mobile app or PDF upload) - salary certificates, bank statements, etc.',
+    'fiscal_summary_taxx_step3' => 'Complete your tax return step by step - the system translates tax terms into plain language.',
     'fiscal_summary_taxx_step4' => 'For self-employed: in the "Profit from a liberal profession" section, manually enter your income and expense amounts. Keep this summary at hand as a reminder.',
     'fiscal_summary_taxx_step5' => 'Attach Form 152 if you use cash basis accounting (most common case for freelancers).',
     'fiscal_summary_taxx_step6' => 'Check the tax estimate via the Opti Score, then download and submit to the ACD.',
     'fiscal_summary_taxx_link' => 'taxx.lu self-employed guide',
-    'fiscal_summary_myguichet_subtitle' => 'Free official platform of the Luxembourg government — requires LuxTrust or eID.',
+    'fiscal_summary_myguichet_subtitle' => 'Free official platform of the Luxembourg government - requires LuxTrust or eID.',
     'fiscal_summary_myguichet_step1' => 'Log in to myguichet.lu with your LuxTrust product or electronic ID card.',
     'fiscal_summary_myguichet_step2' => 'Access the electronic assistant from your private eSpace (or professional for trustees).',
-    'fiscal_summary_myguichet_step3' => 'Answer the guided questions — the assistant adapts to your tax situation.',
+    'fiscal_summary_myguichet_step3' => 'Answer the guided questions - the assistant adapts to your tax situation.',
     'fiscal_summary_myguichet_step4' => 'Manually enter your professional income and expenses in the corresponding fields. This summary serves as a reference to find the correct amounts.',
     'fiscal_summary_myguichet_step5' => 'Attach the required supporting documents (Form 152 if applicable, invoices, etc.).',
-    'fiscal_summary_myguichet_step6' => 'Submit electronically — the return is processed automatically by the ACD.',
+    'fiscal_summary_myguichet_step6' => 'Submit electronically - the return is processed automatically by the ACD.',
     'fiscal_summary_myguichet_link' => 'MyGuichet.lu electronic assistant',
     'fiscal_summary_link_acd_forms' => 'ACD forms (individuals)',
-    'fiscal_summary_link_guide_impots' => 'Tax Guide — All forms',
-    'fiscal_summary_link_taxxlu_forms' => 'taxx.lu — Tax forms guide',
+    'fiscal_summary_link_guide_impots' => 'Tax Guide - All forms',
+    'fiscal_summary_link_taxxlu_forms' => 'taxx.lu - Tax forms guide',
 
     // ========== Admin pages ==========
     // Common
@@ -4765,8 +4765,8 @@ return [
     'admin_users_delete_soft_warning' => 'The account will be deactivated but recoverable.',
 
     // Admin Newsletter
-    'admin_newsletter_head_title' => 'Newsletter — Subscribers',
-    'admin_newsletter_title' => 'Newsletter & Tools — Subscribers',
+    'admin_newsletter_head_title' => 'Newsletter - Subscribers',
+    'admin_newsletter_title' => 'Newsletter & Tools - Subscribers',
     'admin_newsletter_stat_total' => 'Total',
     'admin_newsletter_stat_tools' => 'Via tools',
     'admin_newsletter_stat_footer' => 'Via footer',
@@ -4929,7 +4929,7 @@ return [
     'pdf_base_ht' => 'Net base',
     'pdf_vat_amount' => 'VAT amount',
     'pdf_vat_rate' => 'VAT rate',
-    'pdf_disclaimer' => '⚠ Internal summary document — not directly importable into taxx.lu or MyGuichet.lu. Use the amounts above to fill in your declaration manually or forward this document to your accountant. This summary does not replace professional advice.',
+    'pdf_disclaimer' => '⚠ Internal summary document - not directly importable into taxx.lu or MyGuichet.lu. Use the amounts above to fill in your declaration manually or forward this document to your accountant. This summary does not replace professional advice.',
     'pdf_generated_on' => 'Document generated on :date',
     'pdf_generated_at_simple' => 'Generated on :date',
     'pdf_page' => 'Page',
@@ -4951,7 +4951,7 @@ return [
     'pdf_date' => 'Date',
     'pdf_evaluation_content' => 'Evaluation content',
     'pdf_trombinoscope_title' => 'Staff directory',
-    'pdf_branding_text' => 'Created with :app — Simplified invoicing for Luxembourg',
+    'pdf_branding_text' => 'Created with :app - Simplified invoicing for Luxembourg',
 
     // Mailable subjects
     'mail_subject_invoice' => 'Invoice :number',

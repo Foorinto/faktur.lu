@@ -97,7 +97,7 @@ const getStatusClass = (status) => {
 };
 
 const formatDate = (date) => {
-    if (!date) return "—";
+    if (!date) return "-";
     return new Date(date).toLocaleDateString("fr-FR");
 };
 
@@ -494,7 +494,7 @@ const submitNew = () => {
                         <td
                             class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 sm:table-cell"
                         >
-                            {{ formatDate(lr.start_date) }} —
+                            {{ formatDate(lr.start_date) }} -
                             {{ formatDate(lr.end_date) }}
                         </td>
                         <td

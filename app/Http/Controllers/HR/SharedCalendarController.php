@@ -113,7 +113,7 @@ class SharedCalendarController extends Controller
                     'id' => 'lv-'.$lr->id,
                     'kind' => 'leave',
                     'leave_id' => $lr->id,
-                    'title' => trim($name.' — '.$typeName.' ('.$statusLabel.')'),
+                    'title' => trim($name.' - '.$typeName.' ('.$statusLabel.')'),
                     'color' => $lr->leaveType?->color ?? '#94a3b8',
                     'classNames' => $isPending ? ['fc-event-pending'] : [],
                     'start' => $lr->start_date,

@@ -59,7 +59,7 @@ watch(upgrade, (val) => {
                             </span>
                         </div>
                         <h3 class="text-lg sm:text-xl font-bold leading-tight">
-                            {{ upgrade.feature_label }} — réservé au plan {{ upgrade.min_plan }}
+                            {{ upgrade.feature_label }} - réservé au plan {{ upgrade.min_plan }}
                         </h3>
                         <p class="text-sm sm:text-base opacity-95 mt-1">
                             {{ upgrade.message }}

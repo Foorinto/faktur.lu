@@ -193,7 +193,7 @@ HTML,
 
 <h3>2. Pas d'export FAIA</h3>
 
-<p>En cas de controle fiscal, l'AED peut exiger un <strong>fichier FAIA</strong> (Fichier d'Audit Informatise). Impossible a generer depuis Excel. Vous devrez reconstituer manuellement l'ensemble de votre comptabilite — un cauchemar.</p>
+<p>En cas de controle fiscal, l'AED peut exiger un <strong>fichier FAIA</strong> (Fichier d'Audit Informatise). Impossible a generer depuis Excel. Vous devrez reconstituer manuellement l'ensemble de votre comptabilite - un cauchemar.</p>
 
 <h3>3. Risque d'erreurs</h3>
 

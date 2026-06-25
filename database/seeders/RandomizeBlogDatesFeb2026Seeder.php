@@ -10,7 +10,7 @@ use Illuminate\Database\Seeder;
  * Attribue à chaque blog post une date de publication (et création) aléatoire
  * entre le 1er février 2026 et le 1er mai 2026, avec une heure aléatoire.
  *
- * IMPORTANT — Cohérence multilingue :
+ * IMPORTANT - Cohérence multilingue :
  * Les articles qui partagent une même `translation_key` (= traductions du même
  * article original) reçoivent TOUS la MÊME date. Sinon, on aurait par ex la
  * version FR datée du 12 mars et la version PT du même article datée du 27 avril,

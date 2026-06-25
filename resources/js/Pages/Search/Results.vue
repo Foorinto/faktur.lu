@@ -105,7 +105,7 @@ watch(search, updateFilters);
             <div class="flex items-center justify-between">
                 <p class="text-sm text-slate-500 dark:text-slate-400">
                     {{ t('search_results_for', { query: filters.q }) }}
-                    <span class="font-medium text-slate-700 dark:text-slate-300">— {{ totalResults }} {{ totalResults > 1 ? t('search_category_all').toLowerCase() : '' }}</span>
+                    <span class="font-medium text-slate-700 dark:text-slate-300">- {{ totalResults }} {{ totalResults > 1 ? t('search_category_all').toLowerCase() : '' }}</span>
                 </p>
             </div>
 

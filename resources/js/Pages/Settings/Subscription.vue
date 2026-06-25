@@ -277,7 +277,7 @@ const getUsagePercentage = (used, limit) => {
                                         }}/mois
                                     </template>
                                     <template v-else>
-                                        0€ — fonctionnalités limitées
+                                        0€ - fonctionnalités limitées
                                     </template>
                                 </p>
                             </div>

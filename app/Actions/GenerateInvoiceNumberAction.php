@@ -96,7 +96,7 @@ class GenerateInvoiceNumberAction
             return $maxSequence + 1;
         }
 
-        // No documents yet for this (user, type, year) — honour the configured
+        // No documents yet for this (user, type, year) - honour the configured
         // starting_number when migrating from another tool.
         return $this->startingNumberForType($type, $settings) ?? 1;
     }

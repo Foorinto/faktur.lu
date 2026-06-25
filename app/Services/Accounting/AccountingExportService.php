@@ -140,7 +140,7 @@ class AccountingExportService
             }
             $balancedTtc = round($balancedTtc, 2);
 
-            // 1. Client line (TTC) — Debit for invoices, Credit for credit notes
+            // 1. Client line (TTC) - Debit for invoices, Credit for credit notes
             $entries[] = [
                 'date' => $date,
                 'journal' => $settings->sales_journal,
@@ -155,7 +155,7 @@ class AccountingExportService
                 'due_date' => $dueDate,
             ];
 
-            // 2. VAT lines — one per rate
+            // 2. VAT lines - one per rate
             $vatBreakdown = $invoice->vat_breakdown;
             foreach ($vatBreakdown as $vat) {
                 if (round($vat['amount'], 2) == 0) {
@@ -179,7 +179,7 @@ class AccountingExportService
                 ];
             }
 
-            // 3. Sales line (HT) — Credit for invoices, Debit for credit notes
+            // 3. Sales line (HT) - Credit for invoices, Debit for credit notes
             $entries[] = [
                 'date' => $date,
                 'journal' => $settings->sales_journal,

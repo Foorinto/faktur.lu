@@ -143,7 +143,7 @@ class PortalSharedCalendarController extends Controller
                 return [
                     'id' => 'lv-'.$lr->id,
                     'kind' => 'leave',
-                    'title' => trim($name.' — '.$typeName.' ('.$statusLabel.')'),
+                    'title' => trim($name.' - '.$typeName.' ('.$statusLabel.')'),
                     'color' => $lr->leaveType?->color ?? '#94a3b8',
                     'classNames' => $classNames,
                     'start' => $lr->start_date,

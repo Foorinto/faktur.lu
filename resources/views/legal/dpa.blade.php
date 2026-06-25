@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Accord de traitement des données (DPA) — faktur.lu</title>
+    <title>Accord de traitement des données (DPA) - faktur.lu</title>
     <meta name="robots" content="noindex, nofollow">
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 880px; margin: 2rem auto; padding: 1.5rem; line-height: 1.6; color: #0f172a; }
@@ -95,7 +95,7 @@
 
 <hr>
 
-<h2>Annexe 1 — Mesures techniques et organisationnelles</h2>
+<h2>Annexe 1 - Mesures techniques et organisationnelles</h2>
 
 <h3>Sécurité du transport</h3>
 <ul>
@@ -107,7 +107,7 @@
 <ul>
     <li>Mots de passe hashés avec bcrypt (algorithme adaptatif, cost factor par défaut Laravel)</li>
     <li>Données sensibles chiffrées au niveau application via clé Laravel (AES-256-CBC) : tokens, sessions, secrets API</li>
-    <li>Hébergement sur infrastructure mutualisée o2switch (France, Clermont-Ferrand) — pas de full-disk encryption garanti par l'hébergeur</li>
+    <li>Hébergement sur infrastructure mutualisée o2switch (France, Clermont-Ferrand) - pas de full-disk encryption garanti par l'hébergeur</li>
 </ul>
 
 <h3>Contrôle d'accès</h3>
@@ -136,7 +136,7 @@
     <li>Contact dédié : <a href="mailto:contact@faktur.lu">contact@faktur.lu</a></li>
 </ul>
 
-<h2>Annexe 2 — Sous-traitants ultérieurs autorisés</h2>
+<h2>Annexe 2 - Sous-traitants ultérieurs autorisés</h2>
 <table>
     <tr><th>Sous-traitant</th><th>Finalité</th><th>Localisation</th></tr>
     <tr><td>o2switch SAS</td><td>Hébergement infrastructure (serveurs, base de données, fichiers)</td><td>France (UE)</td></tr>

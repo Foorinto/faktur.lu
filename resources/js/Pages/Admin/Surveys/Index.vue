@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleString('fr-LU', {
         day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
     });
@@ -58,7 +58,7 @@ const close = () => { selected.value = null; };
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div class="bg-surface-card rounded-xl p-5 border border-slate-700">
                     <p class="text-slate-400 text-sm">Score NPS</p>
-                    <p class="text-3xl font-bold text-white mt-1">{{ stats.nps !== null ? stats.nps : '—' }}</p>
+                    <p class="text-3xl font-bold text-white mt-1">{{ stats.nps !== null ? stats.nps : '-' }}</p>
                     <p class="text-xs text-slate-500 mt-1">(-100 à +100)</p>
                 </div>
                 <div class="bg-surface-card rounded-xl p-5 border border-slate-700">
@@ -99,15 +99,15 @@ const close = () => { selected.value = null; };
                             class="text-slate-200 hover:bg-slate-800/60 cursor-pointer transition-colors"
                         >
                             <td class="px-4 py-3">
-                                <div class="font-medium text-white">{{ r.user?.name ?? '—' }}</div>
-                                <div class="text-xs text-slate-400">{{ r.user?.email ?? '—' }}</div>
+                                <div class="font-medium text-white">{{ r.user?.name ?? '-' }}</div>
+                                <div class="text-xs text-slate-400">{{ r.user?.email ?? '-' }}</div>
                             </td>
                             <td class="px-4 py-3 text-center">
                                 <span :class="['inline-block w-8 h-8 leading-8 rounded-full text-center font-semibold', scoreClass(r.nps_score)]">{{ r.nps_score }}</span>
                             </td>
                             <td class="px-4 py-3 max-w-md">
                                 <p v-if="r.comment" class="text-slate-300 line-clamp-2">{{ r.comment }}</p>
-                                <span v-else class="text-slate-600 italic">—</span>
+                                <span v-else class="text-slate-600 italic">-</span>
                             </td>
                             <td class="px-4 py-3 text-slate-400 whitespace-nowrap">
                                 <div class="flex items-center justify-between gap-3">
@@ -145,8 +145,8 @@ const close = () => { selected.value = null; };
             <div v-if="selected" class="p-6 text-white bg-surface-dark rounded-2xl">
                 <div class="flex items-start justify-between gap-4 mb-6">
                     <div>
-                        <h2 class="text-lg font-bold text-white">{{ selected.user?.name ?? '—' }}</h2>
-                        <p class="text-sm text-white/70">{{ selected.user?.email ?? '—' }}</p>
+                        <h2 class="text-lg font-bold text-white">{{ selected.user?.name ?? '-' }}</h2>
+                        <p class="text-sm text-white/70">{{ selected.user?.email ?? '-' }}</p>
                     </div>
                     <button @click="close" class="text-white/70 hover:text-white" aria-label="Fermer">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>

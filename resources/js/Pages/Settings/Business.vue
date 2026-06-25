@@ -894,7 +894,7 @@ const cancelPaymentQrcodeUpload = () => {
 
                                     <div v-else class="space-y-2">
                                         <p class="text-xs text-slate-500 dark:text-slate-400">
-                                            PNG, JPG, WebP — max 1 Mo
+                                            PNG, JPG, WebP - max 1 Mo
                                         </p>
                                         <div class="flex flex-wrap gap-2">
                                             <button

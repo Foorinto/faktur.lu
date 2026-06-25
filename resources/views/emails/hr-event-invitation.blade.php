@@ -10,7 +10,7 @@
 **{{ __('app.hr_event_ends_at') }}** : {{ $event->ends_at->isoFormat('LLLL') }}
 
 @if ($event->location_type === 'room' && $event->room)
-**{{ __('app.hr_event_location') }}** : {{ $event->room->name }}@if ($event->room->location) — {{ $event->room->location }}@endif
+**{{ __('app.hr_event_location') }}** : {{ $event->room->name }}@if ($event->room->location) - {{ $event->room->location }}@endif
 @elseif ($event->location_type === 'address' && $event->address)
 **{{ __('app.hr_event_location') }}** : {{ $event->address }}
 @elseif ($event->location_type === 'video' && $event->video_url)

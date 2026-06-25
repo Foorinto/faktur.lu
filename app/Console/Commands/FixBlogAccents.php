@@ -73,7 +73,7 @@ class FixBlogAccents extends Command
 
                 if ($dryRun) {
                     $this->line(sprintf(
-                        '  [DRY] #%d (%s) — %d replacement(s) in %s',
+                        '  [DRY] #%d (%s) - %d replacement(s) in %s',
                         $post->id,
                         $post->slug ?? '?',
                         $perFieldReplacements,
@@ -86,7 +86,7 @@ class FixBlogAccents extends Command
                     DB::table('blog_posts')->where('id', $post->id)->update($changes);
                     $totalUpdated++;
                     $this->line(sprintf(
-                        '  ✓ #%d (%s) — %d replacement(s)',
+                        '  ✓ #%d (%s) - %d replacement(s)',
                         $post->id,
                         $post->slug ?? '?',
                         $perFieldReplacements,
@@ -112,7 +112,7 @@ class FixBlogAccents extends Command
     {
         $count = 0;
         foreach ($dict as $needle => $replacement) {
-            // Word-boundary regex (Unicode-aware) — avoids replacing inside larger words
+            // Word-boundary regex (Unicode-aware) - avoids replacing inside larger words
             $pattern = '/(?<![\p{L}\p{N}])' . preg_quote($needle, '/') . '(?![\p{L}\p{N}])/u';
             $text = preg_replace($pattern, $replacement, $text, -1, $c);
             $count += $c;
@@ -121,7 +121,7 @@ class FixBlogAccents extends Command
     }
 
     /**
-     * French dictionary — words and short phrases that are spelled with accents
+     * French dictionary - words and short phrases that are spelled with accents
      * in standard French. Keep entries unambiguous: don't add words whose
      * accent-less form is legitimate in another context.
      */
@@ -359,7 +359,7 @@ class FixBlogAccents extends Command
     }
 
     /**
-     * German dictionary — convert "ae/oe/ue" digraphs back to umlauts ONLY on
+     * German dictionary - convert "ae/oe/ue" digraphs back to umlauts ONLY on
      * known words. We never apply a blind regex (would break "Goethe", "Boer",
      * URLs, etc.).
      */

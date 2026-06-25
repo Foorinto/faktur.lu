@@ -107,7 +107,7 @@ const submit = () => form.put(route('employee-portal.shared-calendar.events.upda
                     </div>
                     <div v-if="form.location_type === 'room'">
                         <select v-model="form.room_id" class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                            <option :value="null">— {{ t('hr_room_select') }} —</option>
+                            <option :value="null">- {{ t('hr_room_select') }} -</option>
                             <option v-for="room in rooms" :key="room.id" :value="room.id">{{ room.name }}</option>
                         </select>
                         <InputError :message="form.errors.room_id" class="mt-2" />

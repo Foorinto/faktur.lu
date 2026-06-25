@@ -52,7 +52,7 @@ class InteractionController extends Controller
                     senderEmail: $user?->email,
                 ));
 
-                Log::info("CRM email sent to {$client->email} — subject: {$validated['subject']}");
+                Log::info("CRM email sent to {$client->email} - subject: {$validated['subject']}");
 
                 return back()->with('success', __('app.interactions_flash.email_sent', ['email' => $client->email]));
             } catch (\Exception $e) {

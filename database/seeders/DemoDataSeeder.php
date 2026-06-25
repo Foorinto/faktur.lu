@@ -48,11 +48,11 @@ class DemoDataSeeder extends Seeder
         $this->cleanup();
 
         DB::transaction(function () {
-            $this->command->info('1/8 — Création du propriétaire...');
+            $this->command->info('1/8 - Création du propriétaire...');
             $owner = $this->createOwner();
             Auth::login($owner);
 
-            $this->command->info('2/8 — Settings entreprise + Organization...');
+            $this->command->info('2/8 - Settings entreprise + Organization...');
             $this->createBusinessSettings($owner);
             $org = Organization::create([
                 'user_id' => $owner->id,
@@ -61,23 +61,23 @@ class DemoDataSeeder extends Seeder
                 'settings' => json_encode(['theme' => 'default']),
             ]);
 
-            $this->command->info('3/8 — Clients (8)...');
+            $this->command->info('3/8 - Clients (8)...');
             $clients = $this->createClients();
 
-            $this->command->info('4/8 — Projets et time entries...');
+            $this->command->info('4/8 - Projets et time entries...');
             $projects = $this->createProjects($clients);
             $this->createTimeEntries($clients, $projects);
 
-            $this->command->info('5/8 — Factures (drafts + finalisées + payées + avoir)...');
+            $this->command->info('5/8 - Factures (drafts + finalisées + payées + avoir)...');
             $this->createInvoices($clients);
 
-            $this->command->info('6/8 — Devis...');
+            $this->command->info('6/8 - Devis...');
             $this->createQuotes($clients);
 
-            $this->command->info('7/8 — Dépenses...');
+            $this->command->info('7/8 - Dépenses...');
             $this->createExpenses();
 
-            $this->command->info('8/8 — Accès comptable, employé et collaborateur...');
+            $this->command->info('8/8 - Accès comptable, employé et collaborateur...');
             $this->createAccountantAccess($owner);
             Auth::logout();
 
@@ -311,7 +311,7 @@ class DemoDataSeeder extends Seeder
                 'vat_mention' => $vatMention,
             ]);
 
-            // 1 à 3 lignes — les hooks calculent les totaux pendant que la facture est encore draft
+            // 1 à 3 lignes - les hooks calculent les totaux pendant que la facture est encore draft
             $lineCount = rand(1, 3);
             for ($l = 0; $l < $lineCount; $l++) {
                 $qty = rand(2, 20);
@@ -352,7 +352,7 @@ class DemoDataSeeder extends Seeder
             }
         }
 
-        // Avoir sur une facture payée — même pattern : draft → items → transition
+        // Avoir sur une facture payée - même pattern : draft → items → transition
         if ($paidInvoiceForCredit) {
             $credit = Invoice::create([
                 'user_id' => Auth::id(),
@@ -531,7 +531,7 @@ class DemoDataSeeder extends Seeder
         ])->save();
 
         // Record HR Employee lié au compte owner
-        // BelongsToUser auto-assigne user_id sur create — on bypasse via forceCreate + login owner
+        // BelongsToUser auto-assigne user_id sur create - on bypasse via forceCreate + login owner
         Auth::login($owner);
         Employee::create([
             'first_name' => 'Julie',
@@ -621,7 +621,7 @@ class DemoDataSeeder extends Seeder
     {
         $this->command->info('');
         $this->command->info('╔═══════════════════════════════════════════════════════════╗');
-        $this->command->info('║  DONNÉES DÉMO CRÉÉES — CREDENTIALS                        ║');
+        $this->command->info('║  DONNÉES DÉMO CRÉÉES - CREDENTIALS                        ║');
         $this->command->info('╚═══════════════════════════════════════════════════════════╝');
         $this->command->info('');
         $this->command->info('Mot de passe commun à tous les comptes : ' . self::PASSWORD);
@@ -645,7 +645,7 @@ class DemoDataSeeder extends Seeder
         $this->command->info('   (sera redirigé automatiquement vers le portail collaborateur)');
         $this->command->info('');
         $this->command->info('Volume de données généré pour le propriétaire :');
-        $this->command->info('  - 8 clients (LU, DE, FR, BE, US — mix B2B/B2C)');
+        $this->command->info('  - 8 clients (LU, DE, FR, BE, US - mix B2B/B2C)');
         $this->command->info('  - 3 projets (2 actifs + 1 archivé)');
         $this->command->info('  - 15 time entries');
         $this->command->info('  - 14 factures + 1 avoir (drafts + finalisées + envoyées + payées)');

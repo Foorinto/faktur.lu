@@ -19,7 +19,7 @@ const source = ref(props.filters.source);
 const locale = ref(props.filters.locale);
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleString('fr-LU', {
         day: '2-digit',
         month: '2-digit',

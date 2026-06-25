@@ -53,7 +53,7 @@ class BlogScheduledJune2026Seeder extends Seeder
     protected function articles(): array
     {
         return [
-            // ===== 1 — 2026-06-01 — Contrôle AED =====
+            // ===== 1 - 2026-06-01 - Contrôle AED =====
             [
                 'category_id' => 2, // reglementation
                 'title' => "Contrôle fiscal AED Luxembourg : comment s'y préparer en 2026",
@@ -121,7 +121,7 @@ class BlogScheduledJune2026Seeder extends Seeder
     <li>Les totaux débit/crédit pour chaque mouvement</li>
 </ul>
 
-<p>Si vous facturez avec un tableur Excel ou un système qui ne génère pas de FAIA, vous devrez le reconstituer manuellement — ce qui peut prendre <strong>plusieurs jours de travail</strong> et expose à des erreurs.</p>
+<p>Si vous facturez avec un tableur Excel ou un système qui ne génère pas de FAIA, vous devrez le reconstituer manuellement - ce qui peut prendre <strong>plusieurs jours de travail</strong> et expose à des erreurs.</p>
 
 <h2>Comment se déroule un contrôle sur place</h2>
 
@@ -151,7 +151,7 @@ class BlogScheduledJune2026Seeder extends Seeder
 <p>Que vous soyez freelance ou PME, voici la checklist à exécuter dès la notification :</p>
 
 <ol>
-    <li><strong>Préparer le FAIA</strong> sur la période demandée — idéalement en un clic depuis votre logiciel de facturation</li>
+    <li><strong>Préparer le FAIA</strong> sur la période demandée - idéalement en un clic depuis votre logiciel de facturation</li>
     <li><strong>Imprimer ou exporter</strong> toutes les factures émises (PDF/A pour l'archivage légal)</li>
     <li><strong>Vérifier la cohérence</strong> avec vos déclarations TVA déposées</li>
     <li><strong>Constituer un dossier</strong> par mois : factures + relevés bancaires + déclaration TVA correspondante</li>
@@ -173,7 +173,7 @@ class BlogScheduledJune2026Seeder extends Seeder
 
 <p><a href="/fr/register" class="text-primary-500 hover:underline font-medium">Démarrer gratuitement avec faktur.lu</a> et préparer votre prochain contrôle sans stress.</p>
 
-<h2>FAQ — Contrôle fiscal AED</h2>
+<h2>FAQ - Contrôle fiscal AED</h2>
 
 <h3>Combien de temps dure un contrôle AED ?</h3>
 <p>Un contrôle sur pièces : 2 à 4 semaines (le temps que vous envoyiez les documents). Un contrôle sur place : généralement 1 à 3 jours en entreprise + 30 à 60 jours d'analyse côté AED.</p>
@@ -205,7 +205,7 @@ class BlogScheduledJune2026Seeder extends Seeder
 HTML,
             ],
 
-            // ===== 2 — 2026-06-08 — FAIA =====
+            // ===== 2 - 2026-06-08 - FAIA =====
             [
                 'category_id' => 2,
                 'title' => "FAIA Luxembourg : guide complet du fichier d'audit informatisé en 2026",
@@ -235,7 +235,7 @@ HTML,
     <li><strong>Les associations</strong> exerçant une activité économique soumise à la TVA</li>
 </ul>
 
-<p>L'obligation n'est pas de générer le FAIA chaque mois — il suffit de pouvoir le produire <strong>à la demande de l'AED</strong> dans un délai raisonnable (généralement 15 jours après notification).</p>
+<p>L'obligation n'est pas de générer le FAIA chaque mois - il suffit de pouvoir le produire <strong>à la demande de l'AED</strong> dans un délai raisonnable (généralement 15 jours après notification).</p>
 
 <h2>Que contient un FAIA ?</h2>
 
@@ -286,15 +286,15 @@ HTML,
 
 <p>Trois options selon votre situation :</p>
 
-<h3>Option 1 — Logiciel de facturation natif FAIA</h3>
+<h3>Option 1 - Logiciel de facturation natif FAIA</h3>
 
 <p>La méthode la plus simple et la plus sûre. Un logiciel comme <a href="/fr" class="text-primary-500 hover:underline font-medium">faktur.lu</a> génère le FAIA 2.01 à la demande, sur n'importe quelle période, avec un seul clic. Le fichier est automatiquement conforme au schéma XSD officiel.</p>
 
-<h3>Option 2 — Export depuis un logiciel comptable</h3>
+<h3>Option 2 - Export depuis un logiciel comptable</h3>
 
 <p>Sage BOB 50, Sage 100 et la plupart des logiciels comptables professionnels permettent l'export FAIA. Vérifiez auprès de votre éditeur que la version supportée est bien la 2.01.</p>
 
-<h3>Option 3 — Construction manuelle (déconseillée)</h3>
+<h3>Option 3 - Construction manuelle (déconseillée)</h3>
 
 <p>Théoriquement possible avec un développeur XML, mais source d'erreurs fréquentes. À réserver aux cas extrêmes (legacy data, migration).</p>
 
@@ -312,7 +312,7 @@ HTML,
     <li>Ne stocke aucune donnée (le fichier reste sur votre machine)</li>
 </ul>
 
-<h2>FAQ — FAIA</h2>
+<h2>FAQ - FAIA</h2>
 
 <h3>Faut-il envoyer un FAIA chaque année ?</h3>
 <p>Non. Le FAIA est produit uniquement <strong>sur demande de l'AED</strong> en cas de contrôle. Vous devez cependant pouvoir le générer rapidement (sous 15 jours).</p>
@@ -344,7 +344,7 @@ HTML,
 HTML,
             ],
 
-            // ===== 3 — 2026-06-15 — Article 21 LIVA =====
+            // ===== 3 - 2026-06-15 - Article 21 LIVA =====
             [
                 'category_id' => 3, // freelances
                 'title' => "Article 21 LIVA : autoliquidation TVA B2B intra-UE pour les freelances luxembourgeois",
@@ -374,7 +374,7 @@ HTML,
 <p>Trois conditions cumulatives doivent être remplies :</p>
 
 <ol>
-    <li><strong>Prestation de services</strong> (pas ventes de biens — règles différentes)</li>
+    <li><strong>Prestation de services</strong> (pas ventes de biens - règles différentes)</li>
     <li><strong>Client professionnel (B2B)</strong> dans un autre État membre de l'Union européenne</li>
     <li><strong>Numéro de TVA intracommunautaire valide</strong> du client (validation obligatoire via VIES)</li>
 </ol>
@@ -427,10 +427,10 @@ HTML,
 <ul>
     <li><strong>Émetteur</strong> : Marie Dupont, LU12345678</li>
     <li><strong>Destinataire</strong> : Acme SA, 10 rue de Rivoli 75001 Paris, FR12345678901</li>
-    <li><strong>Prestation</strong> : Design UX site web — 2 500,00 €</li>
+    <li><strong>Prestation</strong> : Design UX site web - 2 500,00 €</li>
     <li><strong>TVA (0 %)</strong> : 0,00 €</li>
     <li><strong>Total TTC</strong> : 2 500,00 €</li>
-    <li><strong>Mention</strong> : <em>"Autoliquidation, article 21 LIVA — TVA due par le preneur dans son pays."</em></li>
+    <li><strong>Mention</strong> : <em>"Autoliquidation, article 21 LIVA - TVA due par le preneur dans son pays."</em></li>
 </ul>
 
 <p>Acme SA déclare la TVA française (20 %) dans sa propre déclaration TVA, à la fois en TVA collectée et en TVA déductible (opération neutre pour eux).</p>
@@ -457,7 +457,7 @@ HTML,
 
 <p>Vous évitez les erreurs et facturez vos clients étrangers en toute conformité.</p>
 
-<h2>FAQ — Article 21 LIVA</h2>
+<h2>FAQ - Article 21 LIVA</h2>
 
 <h3>Et si mon client n'a pas de n° TVA ?</h3>
 <p>Sans n° TVA validé via VIES, l'autoliquidation ne s'applique pas. Vous devez facturer la TVA luxembourgeoise (17 % standard). C'est aussi le cas pour les particuliers (B2C).</p>
@@ -493,7 +493,7 @@ HTML,
 HTML,
             ],
 
-            // ===== 4 — 2026-06-22 — TVA 4 taux =====
+            // ===== 4 - 2026-06-22 - TVA 4 taux =====
             [
                 'category_id' => 1, // guides
                 'title' => "TVA Luxembourg 2026 : les 4 taux (17 %, 14 %, 8 %, 3 %) expliqués",
@@ -638,7 +638,7 @@ HTML,
     <li>Mentions LIVA obligatoires générées sur chaque facture</li>
 </ul>
 
-<h2>FAQ — TVA Luxembourg</h2>
+<h2>FAQ - TVA Luxembourg</h2>
 
 <h3>Le taux standard est-il vraiment à 17 % en 2026 ?</h3>
 <p>Oui, depuis le 1er janvier 2024. Le taux était temporairement à 16 % en 2023 pour soutenir le pouvoir d'achat, puis est revenu à 17 % qui est le taux historique.</p>
@@ -670,7 +670,7 @@ HTML,
 HTML,
             ],
 
-            // ===== 5 — 2026-06-29 — Article 61 LIVA =====
+            // ===== 5 - 2026-06-29 - Article 61 LIVA =====
             [
                 'category_id' => 3, // freelances
                 'title' => "Article 61 LIVA : pourquoi la numérotation séquentielle de vos factures est obligatoire",
@@ -734,7 +734,7 @@ HTML,
 
 <h2>Que se passe-t-il en cas d'erreur ?</h2>
 
-<h3>Cas 1 — Vous avez émis un doublon (deux factures avec le même numéro)</h3>
+<h3>Cas 1 - Vous avez émis un doublon (deux factures avec le même numéro)</h3>
 
 <p>L'AED considère que l'une des deux factures est <strong>fictive ou frauduleuse</strong>. Vous devez :</p>
 
@@ -744,7 +744,7 @@ HTML,
     <li>Conserver les 3 documents (les 2 factures initiales + l'avoir)</li>
 </ol>
 
-<h3>Cas 2 — Vous avez un trou dans la séquence (manque le numéro 5 entre 4 et 6)</h3>
+<h3>Cas 2 - Vous avez un trou dans la séquence (manque le numéro 5 entre 4 et 6)</h3>
 
 <p>Cas plus grave. Vous devez pouvoir <strong>expliquer le trou</strong> à l'AED. Trois explications recevables :</p>
 
@@ -756,7 +756,7 @@ HTML,
 
 <p>Sans explication crédible, l'AED suppose une dissimulation et peut <strong>estimer forfaitairement</strong> le chiffre d'affaires manquant.</p>
 
-<h3>Cas 3 — Vous voulez supprimer une facture déjà finalisée</h3>
+<h3>Cas 3 - Vous voulez supprimer une facture déjà finalisée</h3>
 
 <p>Impossible légalement. Une facture finalisée doit rester archivée 10 ans (article 16 du Code de commerce). Pour annuler :</p>
 
@@ -789,13 +789,13 @@ HTML,
 
 <p>Avec ça, l'article 61 LIVA n'est plus une préoccupation : votre numérotation est conforme par construction.</p>
 
-<h2>FAQ — Article 61 LIVA</h2>
+<h2>FAQ - Article 61 LIVA</h2>
 
 <h3>Et si je facture en franchise TVA (article 56 ter) ?</h3>
 <p>L'article 61 LIVA s'applique <strong>quand même</strong>. Toute facture émise, même sans TVA collectée, doit porter un numéro séquentiel et continu.</p>
 
 <h3>Puis-je avoir une numérotation par client (ACME-001, ACME-002...) ?</h3>
-<p>Techniquement, oui — mais c'est très fortement déconseillé. En cas de contrôle, l'AED demande la séquentialité <strong>globale</strong>. Vous devrez alors prouver qu'il n'y a pas de trou en cumulant toutes les séries clients, ce qui est complexe et risqué.</p>
+<p>Techniquement, oui - mais c'est très fortement déconseillé. En cas de contrôle, l'AED demande la séquentialité <strong>globale</strong>. Vous devrez alors prouver qu'il n'y a pas de trou en cumulant toutes les séries clients, ce qui est complexe et risqué.</p>
 
 <h3>Les devis sont-ils concernés ?</h3>
 <p>Non, l'article 61 LIVA concerne uniquement les <strong>factures et avoirs</strong>. Vous pouvez numéroter vos devis comme vous voulez (mais une numérotation séquentielle reste recommandée pour votre propre suivi).</p>

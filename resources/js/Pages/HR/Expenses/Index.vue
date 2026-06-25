@@ -82,12 +82,12 @@ const getStatusClass = (status) => {
 };
 
 const formatDate = (date) => {
-    if (!date) return "—";
+    if (!date) return "-";
     return new Date(date).toLocaleDateString("fr-FR");
 };
 
 const formatAmount = (amount) => {
-    if (!amount && amount !== 0) return "—";
+    if (!amount && amount !== 0) return "-";
     return new Intl.NumberFormat("fr-FR", {
         style: "currency",
         currency: "EUR",
@@ -100,7 +100,7 @@ const paymentMethodLabel = (method) => {
         cash: t("hr.payment_cash"),
         transfer: t("hr.payment_transfer"),
     };
-    return labels[method] || "—";
+    return labels[method] || "-";
 };
 
 // New expense modal
@@ -864,7 +864,7 @@ const deleteExpense = (id) => {
                                     v-model="newForm.payment_method"
                                     class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"
                                 >
-                                    <option value="">—</option>
+                                    <option value="">-</option>
                                     <option value="card">
                                         {{ t("hr.payment_card") }}
                                     </option>
@@ -1157,7 +1157,7 @@ const deleteExpense = (id) => {
                                     v-model="editForm.payment_method"
                                     class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm"
                                 >
-                                    <option value="">—</option>
+                                    <option value="">-</option>
                                     <option value="card">
                                         {{ t("hr.payment_card") }}
                                     </option>

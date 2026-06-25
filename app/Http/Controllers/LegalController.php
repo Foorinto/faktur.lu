@@ -40,7 +40,7 @@ class LegalController extends Controller
     }
 
     /**
-     * Display the Data Processing Agreement (DPA) — static Blade view, printable.
+     * Display the Data Processing Agreement (DPA) - static Blade view, printable.
      * Not Inertia because it is meant to be printed/saved to PDF as-is.
      */
     public function dpa(): \Illuminate\Contracts\View\View

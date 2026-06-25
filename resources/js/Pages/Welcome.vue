@@ -45,7 +45,7 @@ const formatDate = (date) => {
 const pageTitle = computed(() => t('landing.page_title'));
 const metaDescription = computed(() => t('landing.meta_description'));
 // Canonical is owned server-side (app.blade.php) so Googlebot sees it without JS.
-// Here we only build the localized homepage URL for og:url / twitter:url — it MUST
+// Here we only build the localized homepage URL for og:url / twitter:url - it MUST
 // include the locale (e.g. /fr), otherwise it points to the bare domain and conflicts
 // with the server canonical, which de-indexes the page.
 const canonicalUrl = computed(() => `${props.appUrl}/${currentLocale()}`);

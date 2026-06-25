@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Super PDP — Plateforme Agréée (France) + Access Point Peppol.
+ * Super PDP - Plateforme Agréée (France) + Access Point Peppol.
  *
  * Immatriculée DGFiP (facturation électronique FR) + certifiée Peppol.
  * API REST documentée : https://www.superpdp.tech/documentation
@@ -59,7 +59,7 @@ class SuperPdpService implements PeppolAccessPointInterface
                 'sandbox' => $this->sandbox,
             ]);
 
-            // POST /v1.beta/invoices — corps = XML UBL brut.
+            // POST /v1.beta/invoices - corps = XML UBL brut.
             $response = Http::withToken($token)
                 ->withBody($peppolXml, 'application/xml')
                 ->post($this->endpoint . '/v1.beta/invoices');

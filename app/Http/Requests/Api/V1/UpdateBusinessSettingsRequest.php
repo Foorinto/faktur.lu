@@ -37,7 +37,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
                     }
                 },
             ],
-            // Identifiant fiscal national — format selon le pays du vendeur.
+            // Identifiant fiscal national - format selon le pays du vendeur.
             'matricule' => ['required', 'string', function ($attribute, $value, $fail) {
                 $country = $this->input('country_code', 'LU');
                 $pattern = match ($country) {
@@ -91,7 +91,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'logo_path' => ['nullable', 'string', 'max:255'],
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
-            // Custom numbering — fields are optional in the form, server enforces the lock
+            // Custom numbering - fields are optional in the form, server enforces the lock
             // per type via withValidator() below so finalized years cannot be tampered with.
             'number_format' => ['nullable', 'string', 'max:100', function ($attribute, $value, $fail) {
                 if ($value === null || $value === '') {

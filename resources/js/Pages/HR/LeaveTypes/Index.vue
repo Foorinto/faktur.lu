@@ -122,7 +122,7 @@ const deleteLeaveType = (leaveType) => {
                                 </td>
                                 <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-center sm:table-cell">
                                     <span v-if="lt.requires_justification" class="inline-flex items-center rounded-xl bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">{{ t('hr.required') }}</span>
-                                    <span v-else class="text-slate-400 dark:text-slate-500">—</span>
+                                    <span v-else class="text-slate-400 dark:text-slate-500">-</span>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-slate-500 dark:text-slate-400">
                                     {{ lt.leave_requests_count }}

@@ -404,7 +404,7 @@ const getContractBadgeClass = (type) => {
                             <span
                                 v-else
                                 class="text-slate-400 dark:text-slate-500"
-                                >—</span
+                                >-</span
                             >
                         </td>
                         <td
@@ -424,7 +424,7 @@ const getContractBadgeClass = (type) => {
                         <td
                             class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 xl:table-cell"
                         >
-                            {{ employee.job_title || "—" }}
+                            {{ employee.job_title || "-" }}
                         </td>
                         <td
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"

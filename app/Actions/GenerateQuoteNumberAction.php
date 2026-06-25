@@ -15,7 +15,7 @@ class GenerateQuoteNumberAction
     /**
      * Generate the next quote reference for the given quote (or for a fresh one).
      * Quotes are numbered on creation (not finalisation), so the date used in the
-     * formatter is the quote's intended creation date — defaulting to today.
+     * formatter is the quote's intended creation date - defaulting to today.
      *
      * @return array{reference: string, sequence_number: int}
      */

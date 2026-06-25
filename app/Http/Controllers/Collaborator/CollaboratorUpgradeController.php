@@ -38,7 +38,7 @@ class CollaboratorUpgradeController extends Controller
 
     /**
      * Detach all collaborator memberships + create own organization + redirect to onboarding.
-     * Time entries and other historical data stay in the database — only the access link is removed.
+     * Time entries and other historical data stay in the database - only the access link is removed.
      */
     public function store(Request $request)
     {
@@ -53,7 +53,7 @@ class CollaboratorUpgradeController extends Controller
         DB::transaction(function () use ($user) {
             $organization = Organization::create([
                 'user_id' => $user->id,
-                'name' => $user->name . ' — ' . __('app.upgrade_default_org_suffix'),
+                'name' => $user->name . ' - ' . __('app.upgrade_default_org_suffix'),
             ]);
 
             OrganizationMember::create([

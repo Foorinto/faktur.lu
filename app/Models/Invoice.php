@@ -384,7 +384,7 @@ class Invoice extends Model
     /**
      * Get the effective VAT mention KEY (immutable classification, not user-facing text).
      * Returns one of: 'franchise', 'reverse_charge', 'intra_eu', 'export', 'other', or null.
-     * Use this for any classification logic (Peppol XML, accounting exports, etc.) — NEVER do
+     * Use this for any classification logic (Peppol XML, accounting exports, etc.) - NEVER do
      * string matching on getEffectiveVatMentionAttribute() because that one is locale-translated.
      */
     public function getEffectiveVatMentionTypeAttribute(): ?string
@@ -409,7 +409,7 @@ class Invoice extends Model
 
     /**
      * Get the effective VAT mention text (invoice-specific or global default).
-     * The text is translated in the current locale — set by the PDF/Peppol service before rendering.
+     * The text is translated in the current locale - set by the PDF/Peppol service before rendering.
      */
     public function getEffectiveVatMentionAttribute(): ?string
     {
@@ -435,7 +435,7 @@ class Invoice extends Model
             }
         }
 
-        // Predefined mention — translated in the current locale
+        // Predefined mention - translated in the current locale
         $translationKey = "invoice.vat_mentions.{$mentionType}";
         $translated = __($translationKey);
 

@@ -12,7 +12,7 @@ const { localizedRoute, currentLocale } = useLocalizedRoute();
 const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
 const glossaryUrl = computed(() => `${appUrl.value}/${currentLocale()}/${t('glossary.slug')}`);
 
-// 14 terms — ordered alphabetically. Each translation key returns name + description.
+// 14 terms - ordered alphabetically. Each translation key returns name + description.
 const termIds = [
     'aed',
     'article_21_liva',

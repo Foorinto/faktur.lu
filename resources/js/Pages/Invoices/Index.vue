@@ -430,7 +430,7 @@ const changeStatus = (invoice, newStatus) => {
                             <span v-if="invoice.paid_at" class="text-emerald-600 dark:text-emerald-400">
                                 {{ formatDate(invoice.paid_at) }}
                             </span>
-                            <span v-else class="text-slate-300 dark:text-slate-600">—</span>
+                            <span v-else class="text-slate-300 dark:text-slate-600">-</span>
                         </td>
                         <td
                             class="whitespace-nowrap px-3 py-4 text-right text-sm font-semibold"

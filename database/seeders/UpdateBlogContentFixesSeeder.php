@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
  * One-shot idempotent seeder to fix existing blog_posts content:
  *
  *   1. Update old "3 factures/mois" mentions to match the new Free plan limit (10/mois).
- *      The free plan was bumped to 10 invoices/month — blog content seeded before the
+ *      The free plan was bumped to 10 invoices/month - blog content seeded before the
  *      change still cites the old number.
  *
  *   2. Fix accent-stripped French words in FR blog posts (e.g. "preparer" → "préparer").
@@ -156,7 +156,7 @@ class UpdateBlogContentFixesSeeder extends Seeder
             'integre' => 'intégré',
             'integree' => 'intégrée',
             'integrer' => 'intégrer',
-            // Audit de contenu (formes non ambiguës uniquement — pas de verbes
+            // Audit de contenu (formes non ambiguës uniquement - pas de verbes
             // présent/passé qui pourraient changer de sens).
             'comptabilite' => 'comptabilité',
             'deja' => 'déjà',

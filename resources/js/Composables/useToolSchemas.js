@@ -17,7 +17,7 @@ export function useToolSchemas() {
     const { localizedRoute, currentLocale } = useLocalizedRoute();
     const appUrl = () => page.props.appUrl || 'https://faktur.lu';
 
-    // Today (YYYY-MM-DD) — used as dateModified on schemas for freshness signal.
+    // Today (YYYY-MM-DD) - used as dateModified on schemas for freshness signal.
     const today = () => new Date().toISOString().slice(0, 10);
 
     // The canonical Organization payload (with Wikidata sameAs) reused across schemas.

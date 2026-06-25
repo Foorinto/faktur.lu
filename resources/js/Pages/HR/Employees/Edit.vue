@@ -72,7 +72,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head :title="`${t('edit')} — ${employee.full_name}`" />
+    <Head :title="`${t('edit')} - ${employee.full_name}`" />
 
     <AppLayout>
         <template #header>
@@ -85,7 +85,7 @@ const submit = () => {
                 </svg>
             </Link>
             <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                {{ t('edit') }} — {{ employee.full_name }}
+                {{ t('edit') }} - {{ employee.full_name }}
             </h1>
         </template>
 
@@ -140,7 +140,7 @@ const submit = () => {
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.nationality') }}</label>
                             <select v-model="form.nationality" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option v-for="n in nationalities" :key="n.code" :value="n.code">{{ n.name }}</option>
                             </select>
                         </div>
@@ -185,7 +185,7 @@ const submit = () => {
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.country') }}</label>
                             <select v-model="form.country" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option v-for="c in countries" :key="c.code" :value="c.code">{{ c.name }}</option>
                             </select>
                         </div>
@@ -229,14 +229,14 @@ const submit = () => {
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.department') }}</label>
                             <select v-model="form.department_id" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option v-for="dept in departments" :key="dept.id" :value="dept.id">{{ dept.name }}</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.manager') }}</label>
                             <select v-model="form.manager_id" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option v-for="mgr in managers" :key="mgr.id" :value="mgr.id">{{ mgr.last_name }} {{ mgr.first_name }}</option>
                             </select>
                         </div>

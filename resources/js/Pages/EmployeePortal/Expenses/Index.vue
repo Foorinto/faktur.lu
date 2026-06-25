@@ -40,7 +40,7 @@ const deleteExpense = (id) => {
 };
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('fr-FR');
 };
 
@@ -129,7 +129,7 @@ const handleFileChange = (e) => {
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('hr.category') }}</label>
                             <select v-model="form.expense_category_id" class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                             </select>
                             <p v-if="form.errors.expense_category_id" class="mt-1 text-xs text-rose-600">{{ form.errors.expense_category_id }}</p>

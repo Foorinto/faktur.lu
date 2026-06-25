@@ -1,13 +1,13 @@
 <x-mail::message>
 # Nouvelle réponse au sondage de satisfaction
 
-**Client :** {{ $user?->name ?? '—' }}
+**Client :** {{ $user?->name ?? '-' }}
 
-**Email :** {{ $user?->email ?? '—' }}
+**Email :** {{ $user?->email ?? '-' }}
 
 **Score NPS :** {{ $survey->nps_score }}/10 ({{ $category }})
 
-**Date :** {{ $survey->completed_at?->format('d/m/Y H:i') ?? '—' }}
+**Date :** {{ $survey->completed_at?->format('d/m/Y H:i') ?? '-' }}
 
 @if($survey->comment)
 ---

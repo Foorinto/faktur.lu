@@ -296,7 +296,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Check if user account is in read-only mode.
-     * Free plan replaces read-only mode — users can still create within limits.
+     * Free plan replaces read-only mode - users can still create within limits.
      */
     public function isReadOnly(): bool
     {

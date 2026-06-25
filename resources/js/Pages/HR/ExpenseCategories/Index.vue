@@ -57,7 +57,7 @@ const deleteCategory = (cat) => {
 };
 
 const formatAmount = (amount) => {
-    if (!amount) return '—';
+    if (!amount) return '-';
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount);
 };
 </script>
@@ -173,7 +173,7 @@ const formatAmount = (amount) => {
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('hr.max_amount') }}</label>
-                                <input v-model="form.max_amount" type="number" min="0" step="0.01" placeholder="—" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
+                                <input v-model="form.max_amount" type="number" min="0" step="0.01" placeholder="-" class="mt-1 block w-full rounded-xl border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white dark:ring-slate-600 sm:text-sm" />
                             </div>
                         </div>
                         <label class="flex items-center gap-2 cursor-pointer">

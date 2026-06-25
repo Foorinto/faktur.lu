@@ -23,28 +23,28 @@ class UpdateBlog2025To2026SlugsSeeder extends Seeder
      * Ces slugs doivent matcher EXACTEMENT ceux générés par les autres seeders.
      */
     public const SLUG_MAP = [
-        // Article 1 — Création entreprise Luxembourg
+        // Article 1 - Création entreprise Luxembourg
         'creer-entreprise-individuelle-luxembourg-guide-2025' => 'creer-entreprise-individuelle-luxembourg-guide-2026',
         'einzelunternehmen-luxemburg-gruenden-leitfaden-2025' => 'einzelunternehmen-luxemburg-gruenden-leitfaden-2026',
         'sole-proprietorship-luxembourg-guide-2025' => 'sole-proprietorship-luxembourg-guide-2026',
         'eenzelentreprise-letzebuerg-grenden-guide-2025' => 'eenzelentreprise-letzebuerg-grenden-guide-2026',
         'criar-uma-empresa-individual-no-luxemburgo-guia-completo-2025' => 'criar-uma-empresa-individual-no-luxemburgo-guia-completo-2026',
 
-        // Article 2 — Création entreprise France
+        // Article 2 - Création entreprise France
         'creer-entreprise-individuelle-france-guide-2025' => 'creer-entreprise-individuelle-france-guide-2026',
         'einzelunternehmen-frankreich-gruenden-leitfaden-2025' => 'einzelunternehmen-frankreich-gruenden-leitfaden-2026',
         'sole-proprietorship-france-guide-2025' => 'sole-proprietorship-france-guide-2026',
         'eenzelentreprise-frankreich-grenden-guide-2025' => 'eenzelentreprise-frankreich-grenden-guide-2026',
         'criar-uma-empresa-individual-em-franca-guia-completo-2025' => 'criar-uma-empresa-individual-em-franca-guia-completo-2026',
 
-        // Article 3 — Création entreprise Belgique
+        // Article 3 - Création entreprise Belgique
         'creer-entreprise-individuelle-belgique-guide-2025' => 'creer-entreprise-individuelle-belgique-guide-2026',
         'einzelunternehmen-belgien-gruenden-leitfaden-2025' => 'einzelunternehmen-belgien-gruenden-leitfaden-2026',
         'sole-proprietorship-belgium-guide-2025' => 'sole-proprietorship-belgium-guide-2026',
         'eenzelentreprise-belgien-grenden-guide-2025' => 'eenzelentreprise-belgien-grenden-guide-2026',
         'criar-uma-empresa-individual-na-belgica-guia-completo-2025' => 'criar-uma-empresa-individual-na-belgica-guia-completo-2026',
 
-        // Article 4 — Création entreprise Allemagne
+        // Article 4 - Création entreprise Allemagne
         'creer-entreprise-individuelle-allemagne-guide-2025' => 'creer-entreprise-individuelle-allemagne-guide-2026',
         'einzelunternehmen-deutschland-gruenden-leitfaden-2025' => 'einzelunternehmen-deutschland-gruenden-leitfaden-2026',
         'sole-proprietorship-germany-guide-2025' => 'sole-proprietorship-germany-guide-2026',

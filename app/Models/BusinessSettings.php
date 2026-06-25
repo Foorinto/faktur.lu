@@ -192,7 +192,7 @@ class BusinessSettings extends Model
      * Determine whether numbering settings (format, prefix, starting_number) for a
      * given document type can still be edited for the given year. They become locked
      * as soon as at least one document of that type has been finalised by this user
-     * for that year — this guarantees the Article 61 LIVA continuous numbering rule.
+     * for that year - this guarantees the Article 61 LIVA continuous numbering rule.
      */
     public function canEditNumbering(string $type, ?int $year = null): bool
     {

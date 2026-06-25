@@ -27,13 +27,13 @@ const props = defineProps({
 });
 
 const countryName = (code) => {
-    if (!code) return '—';
+    if (!code) return '-';
     const found = props.countries.find(c => c.code === code);
     return found ? found.name : code;
 };
 
 const nationalityName = (code) => {
-    if (!code) return '—';
+    if (!code) return '-';
     const found = props.nationalities.find(n => n.code === code);
     return found ? found.name : code;
 };
@@ -62,7 +62,7 @@ const formatCurrency = (amount, currency = 'EUR') => {
 };
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('fr-FR');
 };
 
@@ -565,7 +565,7 @@ const applyTemplate = () => {
                                             </span>
                                         </td>
                                         <td class="px-3 py-3 text-sm text-slate-500 dark:text-slate-400">
-                                            {{ formatDate(lr.start_date) }} — {{ formatDate(lr.end_date) }}
+                                            {{ formatDate(lr.start_date) }} - {{ formatDate(lr.end_date) }}
                                         </td>
                                         <td class="px-3 py-3 text-sm text-center text-slate-700 dark:text-slate-300">{{ lr.days_count }}</td>
                                         <td class="px-3 py-3 text-sm text-center">
@@ -864,7 +864,7 @@ const applyTemplate = () => {
                         <div v-for="lr in employee.leave_requests.slice(0, 5)" :key="lr.id" class="px-6 py-3 flex items-center justify-between">
                             <div>
                                 <span class="text-sm text-slate-700 dark:text-slate-300">{{ lr.leave_type?.name }}</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">{{ formatDate(lr.start_date) }} — {{ formatDate(lr.end_date) }}</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">{{ formatDate(lr.start_date) }} - {{ formatDate(lr.end_date) }}</p>
                             </div>
                             <span :class="getLeaveStatusClass(lr.status)" class="inline-flex items-center rounded-xl px-2 py-0.5 text-xs font-medium">
                                 {{ t('hr.leave_status_' + lr.status) }}

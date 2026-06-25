@@ -23,9 +23,9 @@ class SatisfactionSurveyAdminNotification extends Mailable implements ShouldQueu
         $nps = $this->survey->nps_score;
         $name = $this->survey->user?->name ?? '?';
 
-        // Admin notification — kept in FR (the admin reads in French).
+        // Admin notification - kept in FR (the admin reads in French).
         return new Envelope(
-            subject: "[faktur.lu Sondage] NPS {$nps}/10 — {$name}",
+            subject: "[faktur.lu Sondage] NPS {$nps}/10 - {$name}",
         );
     }
 

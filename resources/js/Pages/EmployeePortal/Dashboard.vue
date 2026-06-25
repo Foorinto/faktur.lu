@@ -19,7 +19,7 @@ const getAvailableDays = (balance) => {
 };
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('fr-FR');
 };
 </script>
@@ -34,7 +34,7 @@ const formatDate = (date) => {
                 {{ t('employee_portal.welcome', { name: employee.first_name }) }}
             </h1>
             <p v-if="employee.department" class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                {{ employee.job_title }} — {{ employee.department.name }}
+                {{ employee.job_title }} - {{ employee.department.name }}
             </p>
         </div>
 

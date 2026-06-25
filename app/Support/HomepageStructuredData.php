@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Lang;
  *
  * Rendered server-side in app.blade.php so Googlebot sees the structured data
  * in the initial HTML, without executing JavaScript. The content mirrors what
- * resources/js/Pages/Welcome.vue used to inject client-side via onMounted —
+ * resources/js/Pages/Welcome.vue used to inject client-side via onMounted -
  * both read the SAME translation keys (resources/lang/{locale}/app.php), so
  * there is no content duplication, only the key lists below.
  */

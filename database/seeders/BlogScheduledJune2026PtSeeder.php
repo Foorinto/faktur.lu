@@ -114,7 +114,7 @@ class BlogScheduledJune2026PtSeeder extends Seeder
     <li>Totais débito/crédito por movimento</li>
 </ul>
 
-<p>Se faturar com Excel ou um sistema que não gere FAIA, terá de o reconstituir manualmente — o que pode demorar <strong>vários dias de trabalho</strong> e expor a erros.</p>
+<p>Se faturar com Excel ou um sistema que não gere FAIA, terá de o reconstituir manualmente - o que pode demorar <strong>vários dias de trabalho</strong> e expor a erros.</p>
 
 <h2>Como decorre uma auditoria presencial</h2>
 
@@ -144,7 +144,7 @@ class BlogScheduledJune2026PtSeeder extends Seeder
 <p>Seja freelancer ou PME, eis a checklist a executar a partir da notificação:</p>
 
 <ol>
-    <li><strong>Preparar o FAIA</strong> do período pedido — idealmente com um clique no seu software de faturação</li>
+    <li><strong>Preparar o FAIA</strong> do período pedido - idealmente com um clique no seu software de faturação</li>
     <li><strong>Imprimir ou exportar</strong> todas as faturas emitidas (PDF/A para arquivo legal)</li>
     <li><strong>Verificar a coerência</strong> com as declarações de IVA submetidas</li>
     <li><strong>Constituir um dossiê</strong> por mês: faturas + extratos bancários + declaração de IVA correspondente</li>
@@ -166,7 +166,7 @@ class BlogScheduledJune2026PtSeeder extends Seeder
 
 <p><a href="/pt/register" class="text-primary-500 hover:underline font-medium">Comece gratuitamente com o faktur.lu</a> e prepare a sua próxima auditoria sem stress.</p>
 
-<h2>FAQ — Auditoria fiscal AED</h2>
+<h2>FAQ - Auditoria fiscal AED</h2>
 
 <h3>Quanto tempo dura uma auditoria AED?</h3>
 <p>Auditoria documental: 2 a 4 semanas (consoante tempo de envio dos documentos). Auditoria presencial: tipicamente 1 a 3 dias na empresa + 30 a 60 dias de análise pela AED.</p>
@@ -221,7 +221,7 @@ HTML,
     <li><strong>Associações</strong> com atividade económica sujeita a IVA</li>
 </ul>
 
-<p>A obrigação não é gerar o FAIA mensalmente — basta poder produzi-lo <strong>a pedido da AED</strong> num prazo razoável (tipicamente 15 dias após notificação).</p>
+<p>A obrigação não é gerar o FAIA mensalmente - basta poder produzi-lo <strong>a pedido da AED</strong> num prazo razoável (tipicamente 15 dias após notificação).</p>
 
 <h2>O que contém um FAIA?</h2>
 
@@ -272,15 +272,15 @@ HTML,
 
 <p>Três opções consoante a sua situação:</p>
 
-<h3>Opção 1 — Software de faturação FAIA-nativo</h3>
+<h3>Opção 1 - Software de faturação FAIA-nativo</h3>
 
 <p>O método mais simples e seguro. Um software como o <a href="/pt" class="text-primary-500 hover:underline font-medium">faktur.lu</a> gera o FAIA 2.01 a pedido, em qualquer período, com um clique. O ficheiro é automaticamente conforme ao esquema XSD oficial.</p>
 
-<h3>Opção 2 — Exportação a partir de software de contabilidade</h3>
+<h3>Opção 2 - Exportação a partir de software de contabilidade</h3>
 
 <p>Sage BOB 50, Sage 100 e a maioria dos softwares de contabilidade profissionais permitem exportação FAIA. Verifique com o seu editor que a versão 2.01 é suportada.</p>
 
-<h3>Opção 3 — Construção manual (desaconselhada)</h3>
+<h3>Opção 3 - Construção manual (desaconselhada)</h3>
 
 <p>Teoricamente possível com um programador XML, mas propenso a erros. A reservar para casos extremos (dados legacy, migração).</p>
 
@@ -298,7 +298,7 @@ HTML,
     <li>Não armazena dados (o ficheiro fica na sua máquina)</li>
 </ul>
 
-<h2>FAQ — FAIA</h2>
+<h2>FAQ - FAIA</h2>
 
 <h3>É preciso enviar um FAIA todos os anos?</h3>
 <p>Não. O FAIA é produzido apenas <strong>a pedido da AED</strong> em caso de auditoria. Deve no entanto poder gerá-lo rapidamente (em 15 dias).</p>
@@ -353,7 +353,7 @@ HTML,
 <p>Três condições cumulativas devem estar reunidas:</p>
 
 <ol>
-    <li><strong>Prestação de serviços</strong> (não venda de bens — regras diferentes)</li>
+    <li><strong>Prestação de serviços</strong> (não venda de bens - regras diferentes)</li>
     <li><strong>Cliente profissional (B2B)</strong> noutro Estado-Membro da UE</li>
     <li><strong>Número de IVA intracomunitário válido</strong> do cliente (validação VIES obrigatória)</li>
 </ol>
@@ -406,10 +406,10 @@ HTML,
 <ul>
     <li><strong>Emissor</strong>: Maria Dupont, LU12345678</li>
     <li><strong>Destinatário</strong>: Acme SA, 10 rue de Rivoli 75001 Paris, FR12345678901</li>
-    <li><strong>Serviço</strong>: Design UX site web — 2.500,00 EUR</li>
+    <li><strong>Serviço</strong>: Design UX site web - 2.500,00 EUR</li>
     <li><strong>IVA (0%)</strong>: 0,00 EUR</li>
     <li><strong>Total c/IVA</strong>: 2.500,00 EUR</li>
-    <li><strong>Menção</strong>: <em>"Autoliquidation, article 21 LIVA — IVA devido pelo destinatário no seu país."</em></li>
+    <li><strong>Menção</strong>: <em>"Autoliquidation, article 21 LIVA - IVA devido pelo destinatário no seu país."</em></li>
 </ul>
 
 <p>A Acme SA declara o IVA francês (20%) na sua declaração de IVA, como IVA cobrado e como IVA dedutível (operação neutra para eles).</p>
@@ -436,7 +436,7 @@ HTML,
 
 <p>Evita erros e fatura clientes estrangeiros em total conformidade.</p>
 
-<h2>FAQ — Artigo 21 LIVA</h2>
+<h2>FAQ - Artigo 21 LIVA</h2>
 
 <h3>E se o meu cliente não tiver número de IVA?</h3>
 <p>Sem número de IVA validado via VIES, a autoliquidação não se aplica. Deve faturar o IVA luxemburguês (17% padrão). O mesmo para particulares (B2C).</p>
@@ -610,7 +610,7 @@ HTML,
     <li>Menções LIVA obrigatórias geradas em cada fatura</li>
 </ul>
 
-<h2>FAQ — IVA Luxemburgo</h2>
+<h2>FAQ - IVA Luxemburgo</h2>
 
 <h3>A taxa padrão é realmente 17% em 2026?</h3>
 <p>Sim, desde 1 de janeiro de 2024. A taxa esteve temporariamente em 16% em 2023 para apoio ao poder de compra, depois voltou a 17% que é a taxa histórica.</p>
@@ -699,7 +699,7 @@ HTML,
 
 <h2>O que acontece em caso de erro?</h2>
 
-<h3>Caso 1 — Emitiu uma duplicação</h3>
+<h3>Caso 1 - Emitiu uma duplicação</h3>
 
 <p>A AED considera uma das duas faturas como <strong>fictícia ou fraudulenta</strong>. Deve:</p>
 
@@ -709,7 +709,7 @@ HTML,
     <li>Conservar os 3 documentos (as 2 faturas iniciais + a nota de crédito)</li>
 </ol>
 
-<h3>Caso 2 — Tem uma falha na sequência</h3>
+<h3>Caso 2 - Tem uma falha na sequência</h3>
 
 <p>Caso mais grave. Deve poder <strong>explicar a falha</strong> à AED. Três explicações aceitáveis:</p>
 
@@ -721,7 +721,7 @@ HTML,
 
 <p>Sem explicação credível, a AED presume dissimulação e pode <strong>estimar forfetariamente</strong> o volume de negócios em falta.</p>
 
-<h3>Caso 3 — Quer apagar uma fatura já finalizada</h3>
+<h3>Caso 3 - Quer apagar uma fatura já finalizada</h3>
 
 <p>Legalmente impossível. Uma fatura finalizada deve permanecer arquivada 10 anos (artigo 16 do Código Comercial). Para anular:</p>
 
@@ -754,13 +754,13 @@ HTML,
 
 <p>Com isto, o Artigo 61 LIVA já não é uma preocupação: a sua numeração é conforme por construção.</p>
 
-<h2>FAQ — Artigo 61 LIVA</h2>
+<h2>FAQ - Artigo 61 LIVA</h2>
 
 <h3>E se eu fatura em isenção de IVA (artigo 56 ter)?</h3>
 <p>O Artigo 61 LIVA aplica-se <strong>na mesma</strong>. Toda fatura emitida, mesmo sem IVA cobrado, deve ter um número sequencial e contínuo.</p>
 
 <h3>Posso ter uma numeração por cliente (ACME-001, ACME-002...)?</h3>
-<p>Tecnicamente, sim — mas é fortemente desaconselhado. Em auditoria, a AED pede a sequencialidade <strong>global</strong>. Terá então de provar que não há falhas somando todas as séries de clientes, o que é complexo e arriscado.</p>
+<p>Tecnicamente, sim - mas é fortemente desaconselhado. Em auditoria, a AED pede a sequencialidade <strong>global</strong>. Terá então de provar que não há falhas somando todas as séries de clientes, o que é complexo e arriscado.</p>
 
 <h3>Os orçamentos estão abrangidos?</h3>
 <p>Não, o Artigo 61 LIVA só diz respeito a <strong>faturas e notas de crédito</strong>. Pode numerar os seus orçamentos como quiser (numeração sequencial recomendada para o seu próprio acompanhamento).</p>

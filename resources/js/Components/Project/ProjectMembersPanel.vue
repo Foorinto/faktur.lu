@@ -133,7 +133,7 @@ onMounted(fetchMembers);
                 <h3 class="text-lg font-medium text-slate-900 dark:text-white">
                     {{ t('project_members_collaborators') }}
                     <span class="ml-2 text-sm font-normal text-slate-500">
-                        {{ quota.used }}/{{ quota.max ?? '∞' }} — {{ quota.plan }}
+                        {{ quota.used }}/{{ quota.max ?? '∞' }} - {{ quota.plan }}
                     </span>
                 </h3>
                 <button

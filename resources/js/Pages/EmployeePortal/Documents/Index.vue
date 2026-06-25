@@ -30,7 +30,7 @@ const groupedDocuments = computed(() => {
 });
 
 const formatDate = (date) => {
-    if (!date) return '—';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('fr-FR');
 };
 

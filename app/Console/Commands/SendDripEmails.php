@@ -76,7 +76,7 @@ class SendDripEmails extends Command
                 continue;
             }
 
-            // Don't send multiple emails at once — send only the most recent due one
+            // Don't send multiple emails at once - send only the most recent due one
             // Skip if there's a more recent email that should be sent
             if ($this->hasNewerPendingEmail($user->id, $daysSinceRegistration, $day)) {
                 // Record as skipped (user missed this window)
@@ -183,7 +183,7 @@ class SendDripEmails extends Command
             'fr' => [
                 'welcome' => [
                     'subject' => 'Bienvenue sur faktur.lu ! Voici comment démarrer',
-                    'body' => "Merci d'avoir créé votre compte sur faktur.lu !\n\nVotre essai gratuit de **14 jours** vient de commencer. Pendant cette période, vous avez accès à toutes les fonctionnalités.\n\n**Pour bien démarrer :**\n\n1. **Complétez vos informations** — Ajoutez votre entreprise, logo et coordonnées bancaires\n2. **Créez votre premier client** — Renseignez ses informations et numéro de TVA\n3. **Envoyez votre première facture** — Conforme au Luxembourg, numérotation automatique\n\nVotre fichier FAIA sera généré automatiquement à chaque facture. Prêt pour le contrôle fiscal !",
+                    'body' => "Merci d'avoir créé votre compte sur faktur.lu !\n\nVotre essai gratuit de **14 jours** vient de commencer. Pendant cette période, vous avez accès à toutes les fonctionnalités.\n\n**Pour bien démarrer :**\n\n1. **Complétez vos informations** - Ajoutez votre entreprise, logo et coordonnées bancaires\n2. **Créez votre premier client** - Renseignez ses informations et numéro de TVA\n3. **Envoyez votre première facture** - Conforme au Luxembourg, numérotation automatique\n\nVotre fichier FAIA sera généré automatiquement à chaque facture. Prêt pour le contrôle fiscal !",
                 ],
                 'first_invoice' => [
                     'subject' => 'Avez-vous créé votre première facture ?',
@@ -191,11 +191,11 @@ class SendDripEmails extends Command
                 ],
                 'features' => [
                     'subject' => 'Découvrez ce que faktur.lu peut faire pour vous',
-                    'body' => "Vous utilisez faktur.lu depuis quelques jours. Voici des fonctionnalités que vous n'avez peut-être pas encore découvertes :\n\n**Suivi du temps** — Lancez un chronomètre, puis convertissez vos heures en facture en un clic.\n\n**Gestion de projets** — Organisez vos tâches en Kanban, suivez vos budgets par projet.\n\n**Devis professionnels** — Créez des devis et transformez-les en facture instantanément quand le client accepte.\n\n**Export FAIA** — Généré automatiquement, conforme au format 2.01 de l'AED. Validez-le avec notre validateur gratuit.\n\n**Portail comptable** — Invitez votre fiduciaire pour qu'elle accède à vos données en lecture seule.",
+                    'body' => "Vous utilisez faktur.lu depuis quelques jours. Voici des fonctionnalités que vous n'avez peut-être pas encore découvertes :\n\n**Suivi du temps** - Lancez un chronomètre, puis convertissez vos heures en facture en un clic.\n\n**Gestion de projets** - Organisez vos tâches en Kanban, suivez vos budgets par projet.\n\n**Devis professionnels** - Créez des devis et transformez-les en facture instantanément quand le client accepte.\n\n**Export FAIA** - Généré automatiquement, conforme au format 2.01 de l'AED. Validez-le avec notre validateur gratuit.\n\n**Portail comptable** - Invitez votre fiduciaire pour qu'elle accède à vos données en lecture seule.",
                 ],
                 'social_proof' => [
                     'subject' => 'Pourquoi les indépendants luxembourgeois choisissent faktur.lu',
-                    'body' => "Depuis son lancement, faktur.lu aide des indépendants et PME au Luxembourg à simplifier leur facturation.\n\n**Ce qu'ils apprécient le plus :**\n\n- \"Plus besoin de me soucier du FAIA, c'est automatique\" — *Consultant IT*\n- \"J'ai gagné 2h par semaine sur ma facturation\" — *Architecte indépendant*\n- \"Mon comptable adore le portail, il a tout sous la main\" — *Freelance marketing*\n\n**Pourquoi choisir faktur.lu ?**\n\n- Le seul logiciel conçu spécifiquement pour le Luxembourg\n- FAIA automatique à chaque facture\n- 4 langues (FR, DE, EN, LB)\n- À partir de 5€/mois seulement",
+                    'body' => "Depuis son lancement, faktur.lu aide des indépendants et PME au Luxembourg à simplifier leur facturation.\n\n**Ce qu'ils apprécient le plus :**\n\n- \"Plus besoin de me soucier du FAIA, c'est automatique\" - *Consultant IT*\n- \"J'ai gagné 2h par semaine sur ma facturation\" - *Architecte indépendant*\n- \"Mon comptable adore le portail, il a tout sous la main\" - *Freelance marketing*\n\n**Pourquoi choisir faktur.lu ?**\n\n- Le seul logiciel conçu spécifiquement pour le Luxembourg\n- FAIA automatique à chaque facture\n- 4 langues (FR, DE, EN, LB)\n- À partir de 5€/mois seulement",
                 ],
                 'mid_trial' => [
                     'subject' => 'Mi-parcours : où en êtes-vous avec faktur.lu ?',
@@ -203,29 +203,29 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Quel plan faktur.lu est fait pour vous ?',
-                    'body' => "Votre essai se termine dans **:days jours**. Voici nos plans pour continuer à facturer sereinement :\n\n**Gratuit** — 0€/mois\n- 10 clients, 10 factures/mois\n- Idéal pour tester\n\n**Essentiel** — 5€/mois\n- 100 clients, 50 factures/mois\n- Projets, suivi du temps, portail comptable\n- Export FAIA inclus\n\n**Pro** — 15€/mois\n- Tout illimité\n- CRM, module RH, Peppol, archivage PDF/A\n\n**Économisez 20%** avec la facturation annuelle.\n\nTous les plans incluent l'export FAIA et la conformité luxembourgeoise.",
+                    'body' => "Votre essai se termine dans **:days jours**. Voici nos plans pour continuer à facturer sereinement :\n\n**Gratuit** - 0€/mois\n- 10 clients, 10 factures/mois\n- Idéal pour tester\n\n**Essentiel** - 5€/mois\n- 100 clients, 50 factures/mois\n- Projets, suivi du temps, portail comptable\n- Export FAIA inclus\n\n**Pro** - 15€/mois\n- Tout illimité\n- CRM, module RH, Peppol, archivage PDF/A\n\n**Économisez 20%** avec la facturation annuelle.\n\nTous les plans incluent l'export FAIA et la conformité luxembourgeoise.",
                 ],
                 'urgency' => [
                     'subject' => 'Plus que 2 jours d\'essai faktur.lu',
                     'body' => "Votre essai gratuit se termine dans **2 jours**.\n\nAprès cette date, votre compte passera en mode gratuit limité (10 clients, 10 factures/mois). Vos données seront conservées, mais certaines fonctionnalités ne seront plus accessibles.\n\n**Pour continuer sans interruption**, choisissez votre plan dès maintenant.\n\nÀ partir de **5€/mois** seulement pour le plan Essentiel.",
                 ],
                 'last_chance' => [
-                    'subject' => 'Dernier jour d\'essai — ne perdez pas vos avantages',
+                    'subject' => 'Dernier jour d\'essai - ne perdez pas vos avantages',
                     'body' => "C'est votre **dernier jour** d'essai gratuit sur faktur.lu.\n\nDemain, votre compte passera en mode gratuit limité. Vos données sont en sécurité, mais vous perdrez l'accès aux fonctionnalités avancées.\n\n**Souscrivez aujourd'hui** pour continuer à profiter de :\n- Clients et factures en nombre\n- Export FAIA automatique\n- Suivi du temps et projets\n- Portail comptable\n\nLe plan Essentiel à **5€/mois** est souvent tout ce qu'il faut pour un indépendant.",
                 ],
                 'expired_offer' => [
-                    'subject' => 'Votre essai est terminé — une offre spéciale pour vous',
+                    'subject' => 'Votre essai est terminé - une offre spéciale pour vous',
                     'body' => "Votre essai gratuit est terminé, mais vos données sont toujours là !\n\nVotre compte est actuellement en mode gratuit limité. Vous pouvez reprendre exactement où vous en étiez en souscrivant à un plan.\n\n**Offre de bienvenue :** Profitez de la facturation annuelle et économisez l'équivalent de 2 mois.\n\n- **Essentiel** : 5€/mois → 50€/an (au lieu de 60€)\n- **Pro** : 15€/mois → 150€/an (au lieu de 180€)\n\nVos factures, clients et paramètres sont intacts. Il suffit de choisir votre plan pour reprendre.",
                 ],
                 'review_request' => [
-                    'subject' => 'Votre avis compte — aidez d\'autres entrepreneurs luxembourgeois',
+                    'subject' => 'Votre avis compte - aidez d\'autres entrepreneurs luxembourgeois',
                     'body' => "Cela fait maintenant 30 jours que vous utilisez faktur.lu et nous esperons que l'outil vous simplifie la vie !\n\n**Pourriez-vous nous accorder 2 minutes ?**\n\nVotre avis sur Google aide d'autres independants et PME au Luxembourg a decouvrir faktur.lu. Chaque avis compte enormement pour une petite entreprise comme la notre.\n\n[**Laisser un avis sur Google**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nMerci infiniment pour votre confiance et votre soutien !",
                 ],
             ],
             'en' => [
                 'welcome' => [
                     'subject' => 'Welcome to faktur.lu! Here\'s how to get started',
-                    'body' => "Thank you for creating your account on faktur.lu!\n\nYour **14-day** free trial has just started. During this period, you have access to all features.\n\n**To get started:**\n\n1. **Complete your information** — Add your company, logo and bank details\n2. **Create your first client** — Enter their information and VAT number\n3. **Send your first invoice** — Luxembourg-compliant, automatic numbering\n\nYour FAIA file will be automatically generated with each invoice. Ready for tax audits!",
+                    'body' => "Thank you for creating your account on faktur.lu!\n\nYour **14-day** free trial has just started. During this period, you have access to all features.\n\n**To get started:**\n\n1. **Complete your information** - Add your company, logo and bank details\n2. **Create your first client** - Enter their information and VAT number\n3. **Send your first invoice** - Luxembourg-compliant, automatic numbering\n\nYour FAIA file will be automatically generated with each invoice. Ready for tax audits!",
                 ],
                 'first_invoice' => [
                     'subject' => 'Have you created your first invoice?',
@@ -233,11 +233,11 @@ class SendDripEmails extends Command
                 ],
                 'features' => [
                     'subject' => 'Discover what faktur.lu can do for you',
-                    'body' => "You've been using faktur.lu for a few days. Here are features you might not have discovered yet:\n\n**Time tracking** — Start a timer, then convert your hours into an invoice with one click.\n\n**Project management** — Organize your tasks in Kanban, track your budgets per project.\n\n**Professional quotes** — Create quotes and convert them to invoices instantly when the client accepts.\n\n**FAIA export** — Automatically generated, compliant with AED format 2.01. Validate it with our free validator.\n\n**Accountant portal** — Invite your fiduciary to access your data in read-only mode.",
+                    'body' => "You've been using faktur.lu for a few days. Here are features you might not have discovered yet:\n\n**Time tracking** - Start a timer, then convert your hours into an invoice with one click.\n\n**Project management** - Organize your tasks in Kanban, track your budgets per project.\n\n**Professional quotes** - Create quotes and convert them to invoices instantly when the client accepts.\n\n**FAIA export** - Automatically generated, compliant with AED format 2.01. Validate it with our free validator.\n\n**Accountant portal** - Invite your fiduciary to access your data in read-only mode.",
                 ],
                 'social_proof' => [
                     'subject' => 'Why Luxembourg freelancers choose faktur.lu',
-                    'body' => "Since its launch, faktur.lu helps freelancers and SMEs in Luxembourg simplify their invoicing.\n\n**What they appreciate most:**\n\n- \"No more worrying about FAIA, it's automatic\" — *IT Consultant*\n- \"I saved 2 hours per week on my invoicing\" — *Independent Architect*\n- \"My accountant loves the portal, everything is at hand\" — *Marketing Freelancer*\n\n**Why choose faktur.lu?**\n\n- The only software designed specifically for Luxembourg\n- Automatic FAIA with every invoice\n- 4 languages (FR, DE, EN, LB)\n- From only 5€/month",
+                    'body' => "Since its launch, faktur.lu helps freelancers and SMEs in Luxembourg simplify their invoicing.\n\n**What they appreciate most:**\n\n- \"No more worrying about FAIA, it's automatic\" - *IT Consultant*\n- \"I saved 2 hours per week on my invoicing\" - *Independent Architect*\n- \"My accountant loves the portal, everything is at hand\" - *Marketing Freelancer*\n\n**Why choose faktur.lu?**\n\n- The only software designed specifically for Luxembourg\n- Automatic FAIA with every invoice\n- 4 languages (FR, DE, EN, LB)\n- From only 5€/month",
                 ],
                 'mid_trial' => [
                     'subject' => 'Mid-trial: how are you doing with faktur.lu?',
@@ -245,29 +245,29 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Which faktur.lu plan is right for you?',
-                    'body' => "Your trial ends in **:days days**. Here are our plans to keep invoicing smoothly:\n\n**Free** — 0€/month\n- 10 clients, 5 invoices/month\n- FAIA export + accountant portal\n- Ideal for testing\n\n**Essentiel** — 5€/month\n- 100 clients, 50 invoices/month\n- Projects, time tracking, Peppol\n- Sage BOB 50 / Sage 100 / CSV exports\n\n**Pro** — 15€/month\n- Everything unlimited\n- CRM, HR module, Peppol, PDF/A archiving\n\n**Save 20%** with annual billing.\n\nAll plans include FAIA export and Luxembourg compliance.",
+                    'body' => "Your trial ends in **:days days**. Here are our plans to keep invoicing smoothly:\n\n**Free** - 0€/month\n- 10 clients, 5 invoices/month\n- FAIA export + accountant portal\n- Ideal for testing\n\n**Essentiel** - 5€/month\n- 100 clients, 50 invoices/month\n- Projects, time tracking, Peppol\n- Sage BOB 50 / Sage 100 / CSV exports\n\n**Pro** - 15€/month\n- Everything unlimited\n- CRM, HR module, Peppol, PDF/A archiving\n\n**Save 20%** with annual billing.\n\nAll plans include FAIA export and Luxembourg compliance.",
                 ],
                 'urgency' => [
                     'subject' => 'Only 2 days left on your faktur.lu trial',
                     'body' => "Your free trial ends in **2 days**.\n\nAfter this date, your account will switch to the limited free plan (10 clients, 10 invoices/month). Your data will be preserved, but some features won't be accessible.\n\n**To continue without interruption**, choose your plan now.\n\nFrom only **5€/month** for the Essentiel plan.",
                 ],
                 'last_chance' => [
-                    'subject' => 'Last day of trial — don\'t lose your benefits',
+                    'subject' => 'Last day of trial - don\'t lose your benefits',
                     'body' => "This is your **last day** of free trial on faktur.lu.\n\nTomorrow, your account will switch to the limited free plan. Your data is safe, but you'll lose access to advanced features.\n\n**Subscribe today** to keep enjoying:\n- More clients and invoices\n- Automatic FAIA export\n- Time tracking and projects\n- Accountant portal\n\nThe Essentiel plan at **5€/month** is often all a freelancer needs.",
                 ],
                 'expired_offer' => [
-                    'subject' => 'Your trial has ended — a special offer for you',
+                    'subject' => 'Your trial has ended - a special offer for you',
                     'body' => "Your free trial is over, but your data is still there!\n\nYour account is currently on the limited free plan. You can pick up right where you left off by subscribing to a plan.\n\n**Welcome offer:** Take advantage of annual billing and save the equivalent of 2 months.\n\n- **Essentiel**: 5€/month → 50€/year (instead of 60€)\n- **Pro**: 15€/month → 150€/year (instead of 180€)\n\nYour invoices, clients and settings are intact. Just choose your plan to resume.",
                 ],
                 'review_request' => [
-                    'subject' => 'Your opinion matters — help other Luxembourg entrepreneurs',
+                    'subject' => 'Your opinion matters - help other Luxembourg entrepreneurs',
                     'body' => "You've been using faktur.lu for 30 days now and we hope it's making your life easier!\n\n**Could you spare 2 minutes?**\n\nYour Google review helps other freelancers and SMEs in Luxembourg discover faktur.lu. Every review means a lot to a small company like ours.\n\n[**Leave a Google review**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nThank you so much for your trust and support!",
                 ],
             ],
             'de' => [
                 'welcome' => [
                     'subject' => 'Willkommen bei faktur.lu! So starten Sie',
-                    'body' => "Vielen Dank fuer die Erstellung Ihres Kontos auf faktur.lu!\n\nIhre **14-taegige** kostenlose Testphase hat begonnen. Waehrend dieser Zeit haben Sie Zugang zu allen Funktionen.\n\n**So starten Sie:**\n\n1. **Vervollstaendigen Sie Ihre Angaben** — Fuegen Sie Ihr Unternehmen, Logo und Bankdaten hinzu\n2. **Erstellen Sie Ihren ersten Kunden** — Geben Sie seine Daten und MwSt-Nummer ein\n3. **Senden Sie Ihre erste Rechnung** — Luxemburg-konform, automatische Nummerierung\n\nIhre FAIA-Datei wird bei jeder Rechnung automatisch generiert. Bereit fuer die Steuerpruefung!",
+                    'body' => "Vielen Dank fuer die Erstellung Ihres Kontos auf faktur.lu!\n\nIhre **14-taegige** kostenlose Testphase hat begonnen. Waehrend dieser Zeit haben Sie Zugang zu allen Funktionen.\n\n**So starten Sie:**\n\n1. **Vervollstaendigen Sie Ihre Angaben** - Fuegen Sie Ihr Unternehmen, Logo und Bankdaten hinzu\n2. **Erstellen Sie Ihren ersten Kunden** - Geben Sie seine Daten und MwSt-Nummer ein\n3. **Senden Sie Ihre erste Rechnung** - Luxemburg-konform, automatische Nummerierung\n\nIhre FAIA-Datei wird bei jeder Rechnung automatisch generiert. Bereit fuer die Steuerpruefung!",
                 ],
                 'first_invoice' => [
                     'subject' => 'Haben Sie Ihre erste Rechnung erstellt?',
@@ -275,11 +275,11 @@ class SendDripEmails extends Command
                 ],
                 'features' => [
                     'subject' => 'Entdecken Sie, was faktur.lu fuer Sie tun kann',
-                    'body' => "Sie nutzen faktur.lu seit einigen Tagen. Hier sind Funktionen, die Sie vielleicht noch nicht entdeckt haben:\n\n**Zeiterfassung** — Starten Sie einen Timer und wandeln Sie Ihre Stunden mit einem Klick in eine Rechnung um.\n\n**Projektverwaltung** — Organisieren Sie Ihre Aufgaben in Kanban, verfolgen Sie Budgets pro Projekt.\n\n**Professionelle Angebote** — Erstellen Sie Angebote und wandeln Sie sie sofort in Rechnungen um.\n\n**FAIA-Export** — Automatisch generiert, konform mit AED-Format 2.01.\n\n**Buchhalterportal** — Laden Sie Ihre Treuhandgesellschaft ein.",
+                    'body' => "Sie nutzen faktur.lu seit einigen Tagen. Hier sind Funktionen, die Sie vielleicht noch nicht entdeckt haben:\n\n**Zeiterfassung** - Starten Sie einen Timer und wandeln Sie Ihre Stunden mit einem Klick in eine Rechnung um.\n\n**Projektverwaltung** - Organisieren Sie Ihre Aufgaben in Kanban, verfolgen Sie Budgets pro Projekt.\n\n**Professionelle Angebote** - Erstellen Sie Angebote und wandeln Sie sie sofort in Rechnungen um.\n\n**FAIA-Export** - Automatisch generiert, konform mit AED-Format 2.01.\n\n**Buchhalterportal** - Laden Sie Ihre Treuhandgesellschaft ein.",
                 ],
                 'social_proof' => [
                     'subject' => 'Warum luxemburgische Freiberufler faktur.lu waehlen',
-                    'body' => "faktur.lu hilft Freiberuflern und KMU in Luxemburg, ihre Rechnungsstellung zu vereinfachen.\n\n**Was sie am meisten schaetzen:**\n\n- \"Keine Sorgen mehr wegen FAIA, es ist automatisch\" — *IT-Berater*\n- \"Ich spare 2 Stunden pro Woche bei der Rechnungsstellung\" — *Freier Architekt*\n- \"Mein Buchhalter liebt das Portal\" — *Marketing-Freelancer*\n\n**Warum faktur.lu?**\n\n- Die einzige Software speziell fuer Luxemburg\n- Automatisches FAIA bei jeder Rechnung\n- 4 Sprachen (FR, DE, EN, LB)\n- Ab nur 5 EUR/Monat",
+                    'body' => "faktur.lu hilft Freiberuflern und KMU in Luxemburg, ihre Rechnungsstellung zu vereinfachen.\n\n**Was sie am meisten schaetzen:**\n\n- \"Keine Sorgen mehr wegen FAIA, es ist automatisch\" - *IT-Berater*\n- \"Ich spare 2 Stunden pro Woche bei der Rechnungsstellung\" - *Freier Architekt*\n- \"Mein Buchhalter liebt das Portal\" - *Marketing-Freelancer*\n\n**Warum faktur.lu?**\n\n- Die einzige Software speziell fuer Luxemburg\n- Automatisches FAIA bei jeder Rechnung\n- 4 Sprachen (FR, DE, EN, LB)\n- Ab nur 5 EUR/Monat",
                 ],
                 'mid_trial' => [
                     'subject' => 'Halbzeit: Wie laeuft es mit faktur.lu?',
@@ -287,7 +287,7 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Welcher faktur.lu-Plan passt zu Ihnen?',
-                    'body' => "Ihre Testphase endet in **:days Tagen**. Unsere Plaene:\n\n**Kostenlos** — 0 EUR/Monat\n- 10 Kunden, 10 Rechnungen/Monat\n\n**Essentiel** — 5 EUR/Monat\n- 100 Kunden, 50 Rechnungen/Monat\n- Projekte, Zeiterfassung, Buchhalterportal\n\n**Pro** — 15 EUR/Monat\n- Alles unbegrenzt\n- CRM, HR-Modul, Peppol, PDF/A-Archivierung\n\n**Sparen Sie 20%** mit jaehrlicher Abrechnung.",
+                    'body' => "Ihre Testphase endet in **:days Tagen**. Unsere Plaene:\n\n**Kostenlos** - 0 EUR/Monat\n- 10 Kunden, 10 Rechnungen/Monat\n\n**Essentiel** - 5 EUR/Monat\n- 100 Kunden, 50 Rechnungen/Monat\n- Projekte, Zeiterfassung, Buchhalterportal\n\n**Pro** - 15 EUR/Monat\n- Alles unbegrenzt\n- CRM, HR-Modul, Peppol, PDF/A-Archivierung\n\n**Sparen Sie 20%** mit jaehrlicher Abrechnung.",
                 ],
                 'urgency' => [
                     'subject' => 'Nur noch 2 Tage Testphase bei faktur.lu',
@@ -298,18 +298,18 @@ class SendDripEmails extends Command
                     'body' => "Heute ist Ihr **letzter Tag** der kostenlosen Testphase.\n\nMorgen wechselt Ihr Konto zum limitierten kostenlosen Plan. Ihre Daten sind sicher.\n\n**Abonnieren Sie heute** fuer:\n- Mehr Kunden und Rechnungen\n- Automatischen FAIA-Export\n- Zeiterfassung und Projekte\n- Buchhalterportal\n\nDer Essentiel-Plan ab **5 EUR/Monat**.",
                 ],
                 'expired_offer' => [
-                    'subject' => 'Ihre Testphase ist beendet — ein Sonderangebot fuer Sie',
+                    'subject' => 'Ihre Testphase ist beendet - ein Sonderangebot fuer Sie',
                     'body' => "Ihre Testphase ist vorbei, aber Ihre Daten sind noch da!\n\n**Willkommensangebot:** Jaehrliche Abrechnung und 2 Monate sparen.\n\n- **Essentiel**: 5 EUR/Monat → 50 EUR/Jahr (statt 60 EUR)\n- **Pro**: 15 EUR/Monat → 150 EUR/Jahr (statt 180 EUR)\n\nIhre Rechnungen, Kunden und Einstellungen sind intakt.",
                 ],
                 'review_request' => [
-                    'subject' => 'Ihre Meinung zaehlt — helfen Sie anderen luxemburgischen Unternehmern',
+                    'subject' => 'Ihre Meinung zaehlt - helfen Sie anderen luxemburgischen Unternehmern',
                     'body' => "Sie nutzen faktur.lu seit 30 Tagen und wir hoffen, dass es Ihnen die Arbeit erleichtert!\n\n**Koennten Sie uns 2 Minuten schenken?**\n\nIhre Google-Bewertung hilft anderen Freiberuflern und KMU in Luxemburg, faktur.lu zu entdecken. Jede Bewertung bedeutet uns sehr viel.\n\n[**Google-Bewertung abgeben**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nVielen Dank fuer Ihr Vertrauen und Ihre Unterstuetzung!",
                 ],
             ],
             'lb' => [
                 'welcome' => [
                     'subject' => 'Wëllkomm bei faktur.lu! Esou fänkt Dir un',
-                    'body' => "Merci datt Dir Äre Kont op faktur.lu erstallt hutt!\n\nÄr gratis **14-Deeg** Testphas huet ugefaangen. An dëser Zäit hutt Dir Zougang zu alle Funktiounen.\n\n**Fir unzefänken:**\n\n1. **Vervollstännegt Är Informatiounen** — Firmnumm, Logo a Bankdonnéeën\n2. **Erstellt Ären éischte Client** — Donnéeën an TVA-Nummer\n3. **Schéckt Är éischt Rechnung** — Lëtzebuerg-konform, automatesch Nummeréierung\n\nÄre FAIA-Fichier gëtt automatesch generéiert!",
+                    'body' => "Merci datt Dir Äre Kont op faktur.lu erstallt hutt!\n\nÄr gratis **14-Deeg** Testphas huet ugefaangen. An dëser Zäit hutt Dir Zougang zu alle Funktiounen.\n\n**Fir unzefänken:**\n\n1. **Vervollstännegt Är Informatiounen** - Firmnumm, Logo a Bankdonnéeën\n2. **Erstellt Ären éischte Client** - Donnéeën an TVA-Nummer\n3. **Schéckt Är éischt Rechnung** - Lëtzebuerg-konform, automatesch Nummeréierung\n\nÄre FAIA-Fichier gëtt automatesch generéiert!",
                 ],
                 'first_invoice' => [
                     'subject' => 'Hutt Dir Är éischt Rechnung erstallt?',
@@ -317,7 +317,7 @@ class SendDripEmails extends Command
                 ],
                 'features' => [
                     'subject' => 'Entdeckt wat faktur.lu fir Iech maache kann',
-                    'body' => "Dir benotzt faktur.lu zanter e puer Deeg. Hei sinn Funktiounen déi Dir vläicht nach net entdeckt hutt:\n\n**Zäiterfassung** — Start en Timer, da wandelt Är Stonnen mat engem Klick an eng Rechnung ëm.\n\n**Projektverwaltung** — Organiséiert Är Aufgaben a Kanban.\n\n**Professionell Devis** — Erstellt Devis a wandelt se direkt a Rechnungen ëm.\n\n**FAIA-Export** — Automatesch generéiert, konform mam AED-Format 2.01.\n\n**Comptablesportal** — Invitéiert Är Treihandgesellschaft.",
+                    'body' => "Dir benotzt faktur.lu zanter e puer Deeg. Hei sinn Funktiounen déi Dir vläicht nach net entdeckt hutt:\n\n**Zäiterfassung** - Start en Timer, da wandelt Är Stonnen mat engem Klick an eng Rechnung ëm.\n\n**Projektverwaltung** - Organiséiert Är Aufgaben a Kanban.\n\n**Professionell Devis** - Erstellt Devis a wandelt se direkt a Rechnungen ëm.\n\n**FAIA-Export** - Automatesch generéiert, konform mam AED-Format 2.01.\n\n**Comptablesportal** - Invitéiert Är Treihandgesellschaft.",
                 ],
                 'social_proof' => [
                     'subject' => 'Firwat lëtzebuerger Freelancer faktur.lu wielen',
@@ -329,7 +329,7 @@ class SendDripEmails extends Command
                 ],
                 'pricing' => [
                     'subject' => 'Wéi ee faktur.lu-Plang passt zu Iech?',
-                    'body' => "Är Testphas leeft a **:days Deeg** of.\n\n**Gratis** — 0 EUR/Mount\n- 10 Clienten, 10 Rechnungen/Mount\n\n**Essentiel** — 5 EUR/Mount\n- 100 Clienten, 50 Rechnungen/Mount\n\n**Pro** — 15 EUR/Mount\n- Alles onlimitéiert\n\n**Spart 20%** mat jäerlecher Ofrechnong.",
+                    'body' => "Är Testphas leeft a **:days Deeg** of.\n\n**Gratis** - 0 EUR/Mount\n- 10 Clienten, 10 Rechnungen/Mount\n\n**Essentiel** - 5 EUR/Mount\n- 100 Clienten, 50 Rechnungen/Mount\n\n**Pro** - 15 EUR/Mount\n- Alles onlimitéiert\n\n**Spart 20%** mat jäerlecher Ofrechnong.",
                 ],
                 'urgency' => [
                     'subject' => 'Nëmmen nach 2 Deeg Testphas bei faktur.lu',
@@ -340,11 +340,11 @@ class SendDripEmails extends Command
                     'body' => "Haut ass Ären **leschten Dag** vun der gratis Testphas.\n\nMuer wiesselt Äre Kont. Är Donnéeë sinn sécher.\n\n**Abonnéiert haut** fir:\n- Méi Clienten a Rechnungen\n- Automateschen FAIA-Export\n- Zäiterfassung a Projeten\n- Comptablesportal\n\nDen Essentiel-Plang vun **5 EUR/Mount** un.",
                 ],
                 'expired_offer' => [
-                    'subject' => 'Är Testphas ass eriwwer — e Spezialangebot fir Iech',
+                    'subject' => 'Är Testphas ass eriwwer - e Spezialangebot fir Iech',
                     'body' => "Är Testphas ass eriwwer, mee Är Donnéeë sinn nach do!\n\n**Wëllkommensangebot:** Jäerlech Ofrechnong a 2 Méint spueren.\n\n- **Essentiel**: 5 EUR/Mount → 50 EUR/Joer\n- **Pro**: 15 EUR/Mount → 150 EUR/Joer\n\nÄr Rechnungen, Clienten an Astellunge sinn intakt.",
                 ],
                 'review_request' => [
-                    'subject' => 'Är Meenung zielt — hëlleft aneren lëtzebuerger Entrepreneuren',
+                    'subject' => 'Är Meenung zielt - hëlleft aneren lëtzebuerger Entrepreneuren',
                     'body' => "Dir benotzt faktur.lu zanter 30 Deeg a mir hoffen datt et Iech d'Aarbecht erliichtert!\n\n**Kéint Dir eis 2 Minutten schenken?**\n\nÄr Google-Bewäertung hëlleft anere Freelanceren a KMU zu Lëtzebuerg, faktur.lu z'entdecken. All Bewäertung bedeit eis ganz vill.\n\n[**Google-Bewäertung ofginn**](https://g.page/r/CS8-OQBfNOk1EAE/review)\n\nMerci fir Äert Vertrauen an Är Ënnerstëtzung!",
                 ],
             ],

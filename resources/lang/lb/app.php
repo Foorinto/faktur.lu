@@ -65,7 +65,7 @@ return [
     'view_all' => 'All kucken',
     'breadcrumb_home' => 'Doheem',
 
-    // FEAT-079 — Shared calendar (HR module)
+    // FEAT-079 - Shared calendar (HR module)
     'hr_calendar_title' => 'Gedeelte Kalenner',
     'hr_calendar_today' => 'Haut',
     'hr_calendar_view_month' => 'Mount',
@@ -81,7 +81,7 @@ return [
     'hr_calendar_disabled_description' => 'Den RH-Administrator huet de gedeelte Kalenner fir dës Organisatioun deaktivéiert.',
     'hr_calendar_my_leave_label' => 'Ech',
 
-    // FEAT-081 — Project members
+    // FEAT-081 - Project members
     'project_members_employees' => 'Mataarbechter',
     'project_members_collaborators' => 'Extern Mataarbechter',
     'project_members_active' => 'Aktiv',
@@ -778,13 +778,13 @@ return [
     'fiscal_vat_deductible' => 'Ofzuchsfäeg TVA',
     'fiscal_vat_balance' => 'TVA Saldo',
     'fiscal_filing_guide' => 'Steiererklärung Guide',
-    'fiscal_guide_taxx' => 'taxx.lu — Gefouert Erklärung (kostepflichteg)',
-    'fiscal_guide_myguichet' => 'MyGuichet.lu — Offiziell Erklärung (gratis)',
+    'fiscal_guide_taxx' => 'taxx.lu - Gefouert Erklärung (kostepflichteg)',
+    'fiscal_guide_myguichet' => 'MyGuichet.lu - Offiziell Erklärung (gratis)',
     'fiscal_key_dates' => 'Wichteg Datumer',
     'fiscal_useful_links' => 'Nëtzlech Linken',
     'fiscal_disclaimer' => 'Dëst Dokument ersat keng professionell Berodung. Consultéiert e Steierberoder virum Androe vun Ärer Erklärung.',
     'fiscal_export_purpose_title' => 'Wofir sinn d\'PDF- an CSV-Exporter?',
-    'fiscal_export_purpose_desc' => 'Dës Exporter sinn Zesummefaassungen fir Iech bei Ärer Steiererklärung ze hëllefen. Si kënne net direkt an taxx.lu oder MyGuichet.lu importéiert ginn — Dir musst d\'Beträg manuell aginn.',
+    'fiscal_export_purpose_desc' => 'Dës Exporter sinn Zesummefaassungen fir Iech bei Ärer Steiererklärung ze hëllefen. Si kënne net direkt an taxx.lu oder MyGuichet.lu importéiert ginn - Dir musst d\'Beträg manuell aginn.',
     'fiscal_export_use_1' => 'Referenz beim Ausfëllen vun Ärer Erklärung op taxx.lu oder MyGuichet.lu',
     'fiscal_export_use_2' => 'Aarbechtsënnerlage fir Äre Steierberoder oder Treihänner',
     'fiscal_export_use_3' => 'Joresiwwersiicht fir Är perséinlech Archivéierung',
@@ -1185,7 +1185,7 @@ return [
             'title_1' => 'Déi konform',
             'title_2' => 'Rechnungssoftware',
             'title_3' => 'fir Freelance & KMU zu Lëtzebuerg',
-            'subtitle' => 'Rechnungen, Devis, Zäiterfassung an FAIA-Export — geduecht fir d\'Lëtzebuerger Steiergesetz (LIVA, AED, 17% TVA). Kee Steierberoder gebraucht.',
+            'subtitle' => 'Rechnungen, Devis, Zäiterfassung an FAIA-Export - geduecht fir d\'Lëtzebuerger Steiergesetz (LIVA, AED, 17% TVA). Kee Steierberoder gebraucht.',
             'cta_start' => 'Gratis starten',
             'cta_login' => 'Schonn Member?',
             'cta_reassurance' => 'Keng Kreditkaart · Jiddesriicht kënnegbar · Éischt Rechnung an 5 Min.',
@@ -1213,7 +1213,7 @@ return [
         'free_tools_section' => [
             'eyebrow' => 'Gratis Tools',
             'title' => 'Ier Dir Iech aschreift',
-            'subtitle' => 'Berechent, validéiert, generéiert. Ouni Aschreiwung, ouni Kreditkaart — benotzt eis gratis Tools fir de Lëtzebuerger Kontext.',
+            'subtitle' => 'Berechent, validéiert, generéiert. Ouni Aschreiwung, ouni Kreditkaart - benotzt eis gratis Tools fir de Lëtzebuerger Kontext.',
             'cta_all' => 'All gratis Tools weisen',
             'tool_vat' => [
                 'title' => 'Lëtzebuerger TVA-Rechner',
@@ -1564,7 +1564,7 @@ return [
                 ],
                 'e_facturation' => [
                     'question' => 'Wéi geet een op elektronesch Fakturatioun zu Lëtzebuerg iwwer?',
-                    'answer' => 'Den Iwwergang geschitt mat faktur.lu an 3 Schrëtt: 1) Konfiguréiert Är Peppol-Identifikatioun an de Parameter vun Ärer Entreprise, 2) Erfaast d\'Peppol-Identifikatioun vun Ären Cliente (ëffentlech Verwaltungen, grouss Entreprisen), 3) Stellt Är Rechnungen normal aus — de Peppol-Versand geschitt mat engem Klick. Faktur.lu ënnerstëtzt och Factur-X an ZUGFeRD fir Är Cliente a Frankräich an Däitschland.',
+                    'answer' => 'Den Iwwergang geschitt mat faktur.lu an 3 Schrëtt: 1) Konfiguréiert Är Peppol-Identifikatioun an de Parameter vun Ärer Entreprise, 2) Erfaast d\'Peppol-Identifikatioun vun Ären Cliente (ëffentlech Verwaltungen, grouss Entreprisen), 3) Stellt Är Rechnungen normal aus - de Peppol-Versand geschitt mat engem Klick. Faktur.lu ënnerstëtzt och Factur-X an ZUGFeRD fir Är Cliente a Frankräich an Däitschland.',
                 ],
                 // Cluster B - Verglächer & Präisser
                 'meilleure_solution' => [
@@ -1811,7 +1811,7 @@ return [
             'short_description' => 'Verwalt Är Mataarbechter, Kontrakter, Congéen a Pai vun enger eenheetlecher Interface.',
             'page_title' => 'RH Modul Lëtzebuerg | Mataarbechter- a Congésverwaltung | faktur.lu',
             'meta_description' => 'Komplett RH Modul fir lëtzebuergesch KMU: Mataarbechterverwaltung, Kontrakter, Congéen, Departementer an integréiert Mataarbechterportal.',
-            'hero_description' => 'Verwalt all Är Personalressourcen iwwer faktur.lu. Mataarbechter, Kontrakter, Congéen, Departementer — alles ass an enger einfacher an intuitiver Interface zentraliséiert.',
+            'hero_description' => 'Verwalt all Är Personalressourcen iwwer faktur.lu. Mataarbechter, Kontrakter, Congéen, Departementer - alles ass an enger einfacher an intuitiver Interface zentraliséiert.',
             'details_title' => 'E komplett RH Modul',
             'items' => [
                 'employees' => ['title' => 'Mataarbechterprofiler', 'description' => 'Zentraliséiert Mataarbechterinformatiounen: Kontaktdaten, Matrikelnummer, Kontrakt, Gehalt.'],
@@ -1903,7 +1903,7 @@ return [
         'title' => 'Vereinfacht Rechnungsstellung fir Lëtzebuerg',
         'subtitle' => 'faktur.lu ass aus enger einfacher Feststellung entstanen: Lëtzebuerger KMU a Freelancer verdéngen en modernt, konformt Rechnungstool, dat un hir méisproocheg Realitéit ugepasst ass.',
         'mission_title' => 'Eis Missioun',
-        'mission_text' => 'Mir gleewen, dass Rechnungsstellung keng lästeg Aufgab soll sinn. Eist Zil ass et, lëtzebuerger Entrepreneur en intuitiv Software ze bidden, déi all gesetzlech Pflichten erfëllt — FAIA-Export, fortlafend Nummeréierung, lëtzebuerger TVA — an dobäi einfach am Alldag ze benotze bleift.',
+        'mission_text' => 'Mir gleewen, dass Rechnungsstellung keng lästeg Aufgab soll sinn. Eist Zil ass et, lëtzebuerger Entrepreneur en intuitiv Software ze bidden, déi all gesetzlech Pflichten erfëllt - FAIA-Export, fortlafend Nummeréierung, lëtzebuerger TVA - an dobäi einfach am Alldag ze benotze bleift.',
         'values_title' => 'Eis Wäerter',
         'values' => [
             'compliance' => [
@@ -2042,7 +2042,7 @@ return [
             ],
             'languages' => [
                 'title' => '5 Sproochen, fir Lëtzebuerg wierklech ze déngen',
-                'description' => 'Interface, Rechnungen a Support op Franséisch, Däitsch, Englesch, Lëtzebuergesch a Portugisesch — fir déi multikulturell Realitéit vun Ärer Clientel widderzespigelen. Keng aner Léisung deckt all 5 Landessproochen of.',
+                'description' => 'Interface, Rechnungen a Support op Franséisch, Däitsch, Englesch, Lëtzebuergesch a Portugisesch - fir déi multikulturell Realitéit vun Ärer Clientel widderzespigelen. Keng aner Léisung deckt all 5 Landessproochen of.',
             ],
             'local' => [
                 'title' => 'Lokal Support a Felderfahrung',
@@ -2078,7 +2078,7 @@ return [
             'title' => 'D\'Geschicht vu faktur.lu',
             'paragraph_1' => 'Faktur.lu ass aus enger einfacher Beobachtung entstanen: Keng Fakturatiounsléisung, déi zu Lëtzebuerg verfügbar war, kombinéiert gläichzäiteg native FAIA-Konformitéit, Ënnerstëtzung vun de 5 Landessproochen, an e fir Selbstänneg accessibele Präis. Déi international Tools waren deier, schlecht iwwersat an hunn d\'Lëtzebuerger Steierbesonderheeten ignoréiert.',
             'paragraph_2' => '2026 hu mir faktur.lu agefouert, fir dës Lück ze schléissen. Eng Plattform, konzipéiert vu Lëtzebuerg aus, fir Lëtzebuerg: TVA-Engine virkonfiguréiert mat de Sätz 17/14/8/3%, FAIA-Export validéiert géint d\'AED-Spezifikatioun, Peppol-Integratioun iwwer lokalen Access Point, an e Comptablë-Portal entworf fir d\'Fiduciaire vun der Plaz.',
-            'paragraph_3' => 'Haut benotzen Honnerten Lëtzebuerger Entreprisen — Selbstänneg, PME, Fiduciaire — faktur.lu deeglech. Eis Engagement bleift datselwecht: déi Referenz-Fakturatiounsléisung zu Lëtzebuerg ze sinn, dobäi accessibel, konform an no bei de lokalen Entrepreneuren.',
+            'paragraph_3' => 'Haut benotzen Honnerten Lëtzebuerger Entreprisen - Selbstänneg, PME, Fiduciaire - faktur.lu deeglech. Eis Engagement bleift datselwecht: déi Referenz-Fakturatiounsléisung zu Lëtzebuerg ze sinn, dobäi accessibel, konform an no bei de lokalen Entrepreneuren.',
         ],
         'cta' => [
             'title' => 'Schléisst Iech der féierender Léisung zu Lëtzebuerg un',
@@ -2339,7 +2339,7 @@ return [
                 ],
             ],
             'cta_title' => 'Automatiséiert dat alles mat faktur.lu',
-            'cta_subtitle' => 'Ausstellung, Nummeréierung, Archivéierung, automatesch Rappeller, FAIA mat 1 Klick an TVA-Erënnerungskalenner — 14 Deeg gratis.',
+            'cta_subtitle' => 'Ausstellung, Nummeréierung, Archivéierung, automatesch Rappeller, FAIA mat 1 Klick an TVA-Erënnerungskalenner - 14 Deeg gratis.',
             'cta_button' => 'Gratis ufänken',
         ],
     ],
@@ -2351,13 +2351,13 @@ return [
         'breadcrumb' => 'Fir Freelancer',
         'badge' => 'Fir Freelancer',
         'hero_title' => 'Fakturatioun fir Lëtzebuerger Freelancer, ouni administrativen Stress',
-        'hero_subtitle' => 'Rechnungen un Är Cliente a wéinegen Minutten — all LIVA-Mentiounen inklusiv, 17% TVA automatesch berechent, FAIA-Export prett fir äre Comptable. Kee Steierberoder gebraucht.',
+        'hero_subtitle' => 'Rechnungen un Är Cliente a wéinegen Minutten - all LIVA-Mentiounen inklusiv, 17% TVA automatesch berechent, FAIA-Export prett fir äre Comptable. Kee Steierberoder gebraucht.',
         'cta_primary' => 'Gratis starten',
         'cta_secondary' => 'Präisser kucken',
         'cta_reassurance' => 'Keng Kreditkaart · Gratis Plang bis 5 Rechnungen/Mount · 5 Min fir déi 1. Rechnung',
         'pains_title' => 'Är richteg Problemer als Freelancer',
         'pains' => [
-            'admin' => ['title' => '"Ech wollt kee Comptable ginn"', 'desc' => 'Dir fakturéiert är Servicer — Dir wollt Iech net mat Pabeier, Numere, TVA-Sätz an Pflichtmentiounen beschäftegen. faktur.lu mécht dat fir Iech.'],
+            'admin' => ['title' => '"Ech wollt kee Comptable ginn"', 'desc' => 'Dir fakturéiert är Servicer - Dir wollt Iech net mat Pabeier, Numere, TVA-Sätz an Pflichtmentiounen beschäftegen. faktur.lu mécht dat fir Iech.'],
             'compliant' => ['title' => '"Ass meng Rechnung legal?"', 'desc' => 'Sequentiell Nummeréierung (Artikel 61 LIVA), Pflichtmentiounen, 17% TVA (oder Reverse-Charge Artikel 21 fir B2B intra-EU): alles automatesch a konform.'],
             'audit' => ['title' => '"Wat wann d\'AED kontrolléiert?"', 'desc' => 'D\'FAIA-Datei konform AED 2.01 gëtt op Ufro generéiert. Äre Comptable kritt et mat engem Klick iwwer d\'Comptablesportal. Kee Stress méi.'],
             'cost' => ['title' => '"30 €/Mount fir Fakturatiounssoftware? Nee."', 'desc' => 'Gratis Plang bis 5 Rechnungen/Mount. Essentiel ab 5 €/Mount fir 50 Rechnungen. Ouni Verbindlechkeet.'],
@@ -2372,7 +2372,7 @@ return [
             'accountant' => ['title' => 'Comptablesportal inklusiv (Essentiel)', 'desc' => 'Invitéiert äre Comptable am Liesmodus. Zougang op Rechnungen, Comptabilitéitsexporter a FAIA iwwer säin eegent Dashboard.'],
         ],
         'plan_recommend_title' => 'Empfohlene Plang fir Iech',
-        'plan_recommend_name' => 'Essentiel — 5 €/Mount',
+        'plan_recommend_name' => 'Essentiel - 5 €/Mount',
         'plan_recommend_desc' => '50 Rechnungen/Mount, 100 Cliente, Comptablesportal, Sage BOB 50 / Sage 100 / CSV Exporter, Zäiterfassung. Ideal fir aktiv Freelancer.',
         'plan_recommend_cta' => '14 Deeg gratis testen',
         'plan_free_note' => 'Just testen? De gratis Plang (5 Rechnungen/Mount, 10 Cliente) ass ideal fir ouni Verbindlechkeet ze starten. Wiesselt jiddesriicht op Essentiel.',
@@ -2417,7 +2417,7 @@ return [
             'branding' => ['title' => 'Ouni "faktur.lu"-Branding', 'desc' => 'Är Rechnungen droen nëmmen Är Identitéit. Kee Logo oder "Made with..."-Hinweis um PDF-Buedem.'],
         ],
         'plan_recommend_title' => 'Empfohlene Plang fir Iech',
-        'plan_recommend_name' => 'Pro — 15 €/Mount',
+        'plan_recommend_name' => 'Pro - 15 €/Mount',
         'plan_recommend_desc' => 'Alles onlimitéiert, CRM, HR-Modul (15 Mataarbechter), 3 extern Comptablen, onlimitéiert Peppol, 10-Joer PDF/A-Archiv, automatesch Rappellen, ouni Branding. Keng Zousazkäschten pro Notzer.',
         'plan_recommend_cta' => '14 Deeg gratis testen',
         'plan_note' => 'Op Pro kritt Dir all Funktiounen ouni Zousazkäschten pro Mataarbechter oder Client. De Präis bleift fix, egal wéi Dir wuesst.',
@@ -2436,11 +2436,11 @@ return [
 
     'survey_email_subject' => 'Är Meenung iwwer faktur.lu?',
     'survey_email_greeting' => 'Moien :name,',
-    'survey_email_intro' => 'Dir benotzt faktur.lu zënter zwou Wochen. Är Meenung ass eis wichteg — huelt Dir Iech 30 Sekonnen fir eng kuerz Fro?',
+    'survey_email_intro' => 'Dir benotzt faktur.lu zënter zwou Wochen. Är Meenung ass eis wichteg - huelt Dir Iech 30 Sekonnen fir eng kuerz Fro?',
     'survey_email_cta' => 'Meng Meenung ginn',
 
     'survey' => [
-        'page_title' => 'Är Meenung — faktur.lu',
+        'page_title' => 'Är Meenung - faktur.lu',
         'heading' => 'Är Meenung zielt',
         'subtitle' => 'Eng kuerz Fro fir faktur.lu ze verbesseren.',
         'nps_question' => 'Wéi wahrscheinlech ass et, datt Dir faktur.lu engem Kolleg oder Frënd recommandéiert?',
@@ -2465,7 +2465,7 @@ return [
         'breadcrumb' => 'Glossaire',
         'hero_title' => 'Glossaire vun der lëtzebuerger Rechnungsstellung',
         'hero_subtitle' => 'All déi technesch, juristesch a reglementaresch Term vun der Rechnungsstellung an der Besteierung zu Lëtzebuerg, kloer erkläert. FAIA, LIVA, AED, Peppol, ViDA an déi aner Ofkierzungen, déi Dir an Ären Deklaratiounen trefft.',
-        'set_name' => 'faktur.lu-Glossaire — Rechnungsstellung an Besteierung zu Lëtzebuerg',
+        'set_name' => 'faktur.lu-Glossaire - Rechnungsstellung an Besteierung zu Lëtzebuerg',
         'set_description' => 'Referenz-Definitiounen fir Rechnungsstellung, TVA a Steier-Konformitéit zu Lëtzebuerg: offiziell LIVA-Begrëffer, administrativ Ofkierzungen (AED, CCSS, RCS), normaliséiert Formater (FAIA, PDF/A, Factur-X, Peppol) an europäesch Akronymer (VIES, OSS, ViDA).',
         'cta_title' => 'Konform Rechnungsstellung, ouni alles auswenneg ze léieren',
         'cta_subtitle' => 'faktur.lu setzt automatesch déi richteg Pflichtugaben, valéiert VIES, generéiert FAIA a wennt déi richteg TVA-Sätz un. Dir braucht net all Artikel ze kennen.',
@@ -2513,12 +2513,12 @@ return [
             ],
             'oss' => [
                 'name' => 'OSS',
-                'alternate' => 'One Stop Shop — EU-TVA-Eenheetsschalter',
+                'alternate' => 'One Stop Shop - EU-TVA-Eenheetsschalter',
                 'description' => 'EU-Regime zënter dem 1. Juli 2021, dat engem Entreprise erlaabt, déi an méi Memberstaaten geschëllte TVA iwwer e Schalter unzemellen an ze bezuelen, wann seng grenziwwerschreidend B2C-Verkeef d\'Schwell vun 10 000 EUR pro Joer iwwerschreiden.',
             ],
             'pdf_a' => [
                 'name' => 'PDF/A',
-                'alternate' => 'Langzäit-Archivformat — ISO 19005',
+                'alternate' => 'Langzäit-Archivformat - ISO 19005',
                 'description' => 'Standardiséiert PDF-Variante fir d\'Langzäit-Archivéierung: embedded Schrëften, keng Skripten, keng extern Linken. Et ass d\'Format, dat duerch Artikel 16 vum lëtzebuerger Code de commerce fir d\'10-järeg Konservatioun vu Rechnungen verlaangt ass.',
             ],
             'peppol' => [
@@ -2533,7 +2533,7 @@ return [
             ],
             'vida' => [
                 'name' => 'ViDA',
-                'alternate' => 'VAT in the Digital Age — europäesch TVA-Reform',
+                'alternate' => 'VAT in the Digital Age - europäesch TVA-Reform',
                 'description' => 'EU-Gesetzespak vum Mäerz 2025, dat d\'TVA an der EU moderniséiert: graduell Verpflichtung zur strukturéierter elektronescher Rechnungsstellung fir innergemeinschaftlech B2B-Operatiounen, Echtzäit-Meldsystem (Digital Reporting) an Harmoniséierung vun de Reegelen vun der Plattform-Ekonomie. Schrëttweis Ëmsetzung bis 2030.',
             ],
             'vies' => [
@@ -2553,12 +2553,12 @@ return [
         'subtitle' => 'faktur.lu gëtt vun Äre Freelance- a KMU-Clienten fir d\'Fakturatioun benotzt. Dir greift am Liesmodus op hir Comptabilitéits-Donneeën zou, exportéiert a Sage BOB 50, Sage 100 oder CSV, a kritt de FAIA 2.01 mat engem Klick. Manner Neierfaassung, méi Zäit fir Berodung.',
 
         'founder' => [
-            'badge' => 'Limitéiert Programm',
+            'badge' => 'Grënnungspartner-Programm',
             'spots' => 'Nëmme nach :count Plazen',
             'title' => 'Gitt Grënnungspartner vu faktur.lu',
-            'subtitle' => 'D\'Comptablespportal ass gratis fir all Cabinet. De Grënnungspartner-Programm ass awer fir 5 Pionéier-Cabineten reservéiert: am Austausch fir Är Réckmeldungen kritt Dir eng perséinlech Begleedung an eng eege Sichtbarkeet fir nei Clienten unzezéien.',
+            'subtitle' => 'D\'Comptablespportal ass gratis fir all Cabinet. De Grënnungspartner-Programm begleet zousätzlech e puer Pionéier-Cabineten: am Austausch fir Är Réckmeldungen kritt Dir eng perséinlech Begleedung an eng eege Sichtbarkeet fir nei Clienten unzezéien.',
             'cta' => 'En Echange vu 20 Min reservéieren',
-            'cta_note' => 'Ouni Engagement — Dir schwätzt direkt mam Grënner.',
+            'cta_note' => 'Ouni Engagement - Dir schwätzt direkt mam Grënner.',
             'get_title' => 'Wat Dir kritt',
             'get_3' => 'Ech installéieren Äre éischte Client selwer',
             'get_4' => 'Är Export-Ufroe ginn prioritär behandelt',
@@ -2568,7 +2568,7 @@ return [
             'give_1' => 'D\'Portal mat 2 oder 3 vun Äre Clienten testen',
             'give_2' => 'Wann Dir zefridde sidd, als Referenz genannt ze ginn',
             'give_note' => 'Keng finanziell Verflichtung. Nëmme-Lies-Zougang. Är Donnéeë bleiwen zu all Moment exportéierbar.',
-            'directory_title' => 'Verzeechnes „E Comptabel fannen" — geschwënn',
+            'directory_title' => 'Verzeechnes „E Comptabel fannen" - geschwënn',
             'directory_desc' => 'Onofhängeger déi faktur.lu benotzen an e Cabinet sichen, ginn op eis Grënnungspartner higewisen. Dir spuert haut Zäit a gewënnt muer Clienten.',
             'reassurance' => 'Nëmme liesen · 100 % EU-Hosting · RGPD-konform · DPA verfügbar',
         ],
@@ -2587,14 +2587,14 @@ return [
             'multi_title' => 'Vereenegt Multi-Client-Vue',
             'multi_desc' => 'Verwaltt all Är faktur.lu-Clienten vun engem eenzegen Dashboard aus. Sich no Clientsnumm oder TVA-Nummer, Een-Klick-Zougang zum Mandant.',
             'free_title' => '100% gratis Zougang',
-            'free_desc' => 'D\'Comptablesportal ass gratis fir Treihandgesellschaften, ouni Verbindlechkeet, ouni Zousazkäschten pro Client. Äre Client bezilt säin faktur.lu-Abonnement (Essentiel 5 €/Mount oder Pro 15 €/Mount — d\'Comptablesportal ass net am Gratis Plang enthalen).',
+            'free_desc' => 'D\'Comptablesportal ass gratis fir Treihandgesellschaften, ouni Verbindlechkeet, ouni Zousazkäschten pro Client. Äre Client bezilt säin faktur.lu-Abonnement (Essentiel 5 €/Mount oder Pro 15 €/Mount - d\'Comptablesportal ass net am Gratis Plang enthalen).',
         ],
 
         'steps' => [
             'title' => 'Wéi funktionéiert et?',
             'subtitle' => 'Dräi einfach Schrëtt, fir mat Äre Clienten op faktur.lu zesummenzeschaffen.',
             'step1_title' => 'Äre Client mellt sech un',
-            'step1_desc' => 'Äre Client abonnéiert Essentiel (5 €/Mount) oder Pro (15 €/Mount) — d\'Comptablesportal ass vun Essentiel un enthalen. Hie fakturéiert a wéinegen Klicks, konform mat der Lëtzebuerger Gesetzgebung.',
+            'step1_desc' => 'Äre Client abonnéiert Essentiel (5 €/Mount) oder Pro (15 €/Mount) - d\'Comptablesportal ass vun Essentiel un enthalen. Hie fakturéiert a wéinegen Klicks, konform mat der Lëtzebuerger Gesetzgebung.',
             'step2_title' => 'Hie invitéiert Iech als Comptable',
             'step2_desc' => 'Am "Comptablesportal"-Bildschierm gëtt Äre Client Är E-Mail an. Dir kritt en Invitatiounslink, valabel 7 Deeg.',
             'step3_title' => 'Dir greift op seng Donneeën zou',
@@ -2604,11 +2604,11 @@ return [
         'faq' => [
             'title' => 'Heefeg gestallt Froen',
             'q1' => 'Ass d\'Comptablesportal wierklech gratis?',
-            'a1' => 'Jo, 100% gratis fir Iech, ouni Verbindlechkeet, ouni Zousazkäschten pro invitéierte Client. Nëmmen Äre Client bezilt säin faktur.lu-Abonnement — vun Essentiel un (5 €/Mount), dat d\'Comptablesportal enthält. De Gratis Plang (0 €/Mount) erlaabt keen Comptable z\'invitéieren.',
+            'a1' => 'Jo, 100% gratis fir Iech, ouni Verbindlechkeet, ouni Zousazkäschten pro invitéierte Client. Nëmmen Äre Client bezilt säin faktur.lu-Abonnement - vun Essentiel un (5 €/Mount), dat d\'Comptablesportal enthält. De Gratis Plang (0 €/Mount) erlaabt keen Comptable z\'invitéieren.',
             'q2' => 'Kann ech d\'Rechnunge vu menge Clienten änneren?',
             'a2' => 'Nee, d\'Portal ass nëmmen zum Liesen, fir d\'Integritéit vun den Donneeën ze garantéieren. Dir kënnt kucken, eroflueden an exportéieren, awer net änneren.',
             'q3' => 'Wéi eng Exportformater si verfügbar?',
-            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) a generescht CSV fir d\'Buchungssätz. FAIA 2.01 (XML) fir AED-Kontrollen. Eenzel Rechnungs-PDFen an en komplett PDF-Archiv. Excel-Export vun de Rechnunge fir eng Period. D\'Lëscht wiisst regelméisseg — sot eis wat Iech feelt.',
+            'a3' => 'Sage BOB 50 (ASCII), Sage 100 (CSV) a generescht CSV fir d\'Buchungssätz. FAIA 2.01 (XML) fir AED-Kontrollen. Eenzel Rechnungs-PDFen an en komplett PDF-Archiv. Excel-Export vun de Rechnunge fir eng Period. D\'Lëscht wiisst regelméisseg - sot eis wat Iech feelt.',
             'q4' => 'Wéi vill Cliente kann ech vum Portal aus verwalten?',
             'a4' => 'Kee Limit. All Client deen Iech invitéiert, erschéngt an Ärem Dashboard mat Numm, Plang an enger Verknëppung zu sengen Donnéeën. Egal ob 5 oder 500 faktur.lu Cliente, et ass datselwecht Portal.',
             'q5' => 'Mussen meng Cliente hir aktuell Software verloossen?',
@@ -2842,7 +2842,7 @@ return [
     'project_invitation_already_accepted' => 'Dës Invitatioun gouf scho akzeptéiert. Wgl. aloggen.',
     'project_invitation_accepted' => 'Invitatioun akzeptéiert. Wëllkomm!',
     'upgrade_title' => 'Mäi eegene faktur.lu-Kont erstellen',
-    'upgrade_intro' => 'Dir sidd am Moment Mataarbechter op enger oder méi Organisatiounen. Erstellt äre eegene Kont — är Zougäng bleiwen erhalen.',
+    'upgrade_intro' => 'Dir sidd am Moment Mataarbechter op enger oder méi Organisatiounen. Erstellt äre eegene Kont - är Zougäng bleiwen erhalen.',
     'upgrade_keep_title' => 'All är aktuell Zougäng bleiwen erhalen',
     'upgrade_keep_orgs' => 'Dir bleiwt Mataarbechter op :count Organisatioun(en).',
     'upgrade_keep_projects' => 'Dir behaalt den Zougang zu :count Projet(en) wou Dir invitéiert sidd.',
@@ -3773,7 +3773,7 @@ return [
         'created' => 'Brouillon vun der Rechnung erstallt.',
         'updated' => 'Rechnung aktualiséiert.',
         'deleted' => 'Brouillon geläscht.',
-        'duplicated' => 'Brouillon dupliquéiert — änneren Dir en a finaliséiert en, fir eng nei Nummer ze kréien.',
+        'duplicated' => 'Brouillon dupliquéiert - änneren Dir en a finaliséiert en, fir eng nei Nummer ze kréien.',
         'finalized' => 'Rechnung Nr. :number erfollegräich finaliséiert.',
         'marked_sent' => 'Rechnung als geschéckt markéiert.',
         'marked_paid' => 'Rechnung als bezuelt markéiert.',
@@ -3799,7 +3799,7 @@ return [
         'created' => 'Brouillon vum Devis erstallt.',
         'updated' => 'Devis aktualiséiert.',
         'deleted' => 'Devis geläscht.',
-        'duplicated' => 'Brouillon vum Devis dupliquéiert — änneren a verschécken.',
+        'duplicated' => 'Brouillon vum Devis dupliquéiert - änneren a verschécken.',
         'marked_sent' => 'Devis als geschéckt markéiert.',
         'marked_accepted' => 'Devis als ugeholl markéiert. Dir kënnt en elo an eng Rechnung ëmwandelen.',
         'marked_declined' => 'Devis als refuséiert markéiert.',
@@ -3895,7 +3895,7 @@ return [
         'created' => 'Récurrent Facturatioun erstallt.',
         'updated' => 'Récurrent Facturatioun aktualiséiert.',
         'deleted' => 'Récurrent Facturatioun geläscht.',
-        'duplicated' => 'Récurrence dupliquéiert (inaktiv) — préift d\'Astellungen an aktivéiert se duerno.',
+        'duplicated' => 'Récurrence dupliquéiert (inaktiv) - préift d\'Astellungen an aktivéiert se duerno.',
         'activated' => 'Aktivéiert.',
         'deactivated' => 'Desaktivéiert.',
     ],
@@ -4099,7 +4099,7 @@ return [
     'legal_privacy_link_terms' => 'Allgemeng Geschäftsbedingungen',
     'legal_privacy_link_cookies' => 'Cookie-Politik',
 
-    // Legal — Terms of Service (Terms.vue)
+    // Legal - Terms of Service (Terms.vue)
     'legal_terms_seo_title' => 'Allgemeng Bedingungen | faktur.lu',
     'legal_terms_seo_description' => 'Allgemeng Geschäftsbedingungen vu faktur.lu. Reegele fir den Accès an d\'Notzung vum Rechnungsservice.',
     'legal_terms_h1' => 'Allgemeng Geschäftsbedingungen',
@@ -4281,7 +4281,7 @@ return [
     'legal_terms_link_privacy' => 'Dateschutzpolitik',
     'legal_terms_link_cookies' => 'Cookie-Politik',
 
-    // Legal — Impressum
+    // Legal - Impressum
     'legal_mentions_seo_title' => 'Impressum | faktur.lu',
     'legal_mentions_seo_description' => 'Impressum vu faktur.lu: Informatiounen iwwer den Erausgeber, den Hoster an d\'gëschtegt Eegentum vun der Rechnungssoftware.',
     'legal_mentions_title' => 'Impressum',
@@ -4421,7 +4421,7 @@ return [
     'recurring_invoice_how_li2_html' => '<strong>Automatesch Finaliséierung</strong> → d\'Rechnung gëtt automatesch <strong>finaliséiert</strong> (Nummer attribuéiert); et bleift just nach se ze verschécken.',
     'recurring_invoice_how_li3_html' => '<strong>Auto-Finaliséierung + Auto-Versand</strong> → d\'Rechnung gëtt ouni weider Aktioun <strong>per E-Mail</strong> un de Client verschéckt.',
     'recurring_invoice_how_p3_html' => 'Den Datum vun der nächster Rechnung gëtt no all Generatioun automatesch erhéicht. Wann Dir en Enndatum festleet, deaktivéiert sech d\'Widderhuelung vu selwer, wann dëst iwwerschratt ass.',
-    'recurring_invoice_how_tip_html' => '💡 Tipp: d\'Schabloun änneren betrëfft just déi <em>nächst</em> Rechnungen — déi schonn ausgestallt bleiwen onverännert. Dir kënnt eng Widderhuelung zu all Moment iwwer säi Status-Badge deaktivéieren/aktivéieren.',
+    'recurring_invoice_how_tip_html' => '💡 Tipp: d\'Schabloun änneren betrëfft just déi <em>nächst</em> Rechnungen - déi schonn ausgestallt bleiwen onverännert. Dir kënnt eng Widderhuelung zu all Moment iwwer säi Status-Badge deaktivéieren/aktivéieren.',
     'recurring_invoice_empty_title' => 'Keng wiederkehrend Rechnungen',
     'recurring_invoice_empty_desc' => 'Erstellt Är éischt Widderhuelung fir Är Rechnungen ze automatiséieren.',
     'recurring_invoice_create_cta' => 'Eng Widderhuelung erstellen',
@@ -4438,7 +4438,7 @@ return [
     'recurring_invoice_action_duplicate' => 'Duplizéieren (erstellt eng inaktiv Kopie)',
     'recurring_invoice_action_delete' => 'Läschen',
     'recurring_invoice_confirm_delete' => 'Dës wiederkehrend Rechnung läschen?',
-    'recurring_invoice_confirm_duplicate' => 'Dës Widderhuelung duplizéieren? D\'Kopie gëtt inaktiv erstallt — Dir musst se no Kontroll manuell aktivéieren.',
+    'recurring_invoice_confirm_duplicate' => 'Dës Widderhuelung duplizéieren? D\'Kopie gëtt inaktiv erstallt - Dir musst se no Kontroll manuell aktivéieren.',
     'recurring_invoice_freq_weekly' => 'Wëchentlech',
     'recurring_invoice_freq_monthly' => 'Monatslech',
     'recurring_invoice_freq_quarterly' => 'Véierteljäerlech',
@@ -4486,31 +4486,31 @@ return [
     // Fiscal Summary page (Reports/FiscalSummary.vue)
     'fiscal_summary_month' => 'Mount',
     'fiscal_summary_total_invoices' => 'Total (:count Rechnung(en))',
-    'fiscal_summary_form152_indep_suffix' => '— Formulaire 152 (Onofhängeger)',
+    'fiscal_summary_form152_indep_suffix' => '- Formulaire 152 (Onofhängeger)',
     'fiscal_summary_ht' => 'Netto',
     'fiscal_summary_total' => 'Total',
     'fiscal_summary_vat' => 'MwSt.',
     'fiscal_summary_rate' => 'Taux',
     'fiscal_summary_base_ht' => 'Basis Netto',
-    'fiscal_summary_taxx_subtitle' => 'Bezuelten Online-Service (~69-199 €) — ouni LuxTrust, just per E-Mail.',
+    'fiscal_summary_taxx_subtitle' => 'Bezuelten Online-Service (~69-199 €) - ouni LuxTrust, just per E-Mail.',
     'fiscal_summary_taxx_step1' => 'Maacht e gratis Kont op taxx.lu (just per E-Mail, ouni LuxTrust oder eID).',
-    'fiscal_summary_taxx_step2' => 'Importéiert Är Beleeg iwwer AutoScan (Mobile-App oder PDF-Upload) — Salairesattester, Releveën, asw.',
-    'fiscal_summary_taxx_step3' => 'Maacht Är Steiererklärung Schrëtt fir Schrëtt — d\'System iwwersetzt steierlech Begrëffer a kloer Sprooch.',
+    'fiscal_summary_taxx_step2' => 'Importéiert Är Beleeg iwwer AutoScan (Mobile-App oder PDF-Upload) - Salairesattester, Releveën, asw.',
+    'fiscal_summary_taxx_step3' => 'Maacht Är Steiererklärung Schrëtt fir Schrëtt - d\'System iwwersetzt steierlech Begrëffer a kloer Sprooch.',
     'fiscal_summary_taxx_step4' => 'Fir Onofhängeger: am Sektioun „Profit aus fräie Beruff", gitt manuell Är Einnahmen- an Ausgabenbeträg an. Halt dës Iwwersiicht als Gedächtnisstütze parat.',
     'fiscal_summary_taxx_step5' => 'Fügt de Formulaire 152 bäi, wann Dir d\'Einnahmen-Ausgaben-Method benotzt (heefegsten Fall fir Freelancer).',
     'fiscal_summary_taxx_step6' => 'Kontrolléiert d\'Steierschätzung iwwer den Opti Score, dann eroflueden a bei der ACD aginn.',
     'fiscal_summary_taxx_link' => 'taxx.lu Guide fir Onofhängeger',
-    'fiscal_summary_myguichet_subtitle' => 'Gratis offiziell Plattform vun der lëtzebuergescher Regierung — erfuerdert LuxTrust oder eID.',
+    'fiscal_summary_myguichet_subtitle' => 'Gratis offiziell Plattform vun der lëtzebuergescher Regierung - erfuerdert LuxTrust oder eID.',
     'fiscal_summary_myguichet_step1' => 'Mellt Iech op myguichet.lu mat Ärem LuxTrust-Produkt oder Ärer elektronescher Identitéitskaart un.',
     'fiscal_summary_myguichet_step2' => 'Greift op den elektroneschen Assistent vun Ärem privaten eSpace zou (oder beruflechen fir Treuhänder).',
-    'fiscal_summary_myguichet_step3' => 'Beäntwert déi geféiert Froen — den Assistent passt sech un Är Steiersituatioun un.',
+    'fiscal_summary_myguichet_step3' => 'Beäntwert déi geféiert Froen - den Assistent passt sech un Är Steiersituatioun un.',
     'fiscal_summary_myguichet_step4' => 'Gitt manuell Är beruflech Einnahmen an Ausgaben an déi entspriechend Felder an. Dës Iwwersiicht déngt Iech als Referenz fir déi richteg Beträg ze fannen.',
     'fiscal_summary_myguichet_step5' => 'Fügt déi gefuerdert Beleeg bäi (Formulaire 152 falls néideg, Rechnungen, asw.).',
-    'fiscal_summary_myguichet_step6' => 'Soumetéiert elektronesch — d\'Erklärung gëtt automatesch vun der ACD behandelt.',
+    'fiscal_summary_myguichet_step6' => 'Soumetéiert elektronesch - d\'Erklärung gëtt automatesch vun der ACD behandelt.',
     'fiscal_summary_myguichet_link' => 'Elektroneschen Assistent MyGuichet.lu',
     'fiscal_summary_link_acd_forms' => 'ACD-Formulairen (natierlech Persounen)',
-    'fiscal_summary_link_guide_impots' => 'Steierguide — All Formulairen',
-    'fiscal_summary_link_taxxlu_forms' => 'taxx.lu — Guide vun de Steierformulairen',
+    'fiscal_summary_link_guide_impots' => 'Steierguide - All Formulairen',
+    'fiscal_summary_link_taxxlu_forms' => 'taxx.lu - Guide vun de Steierformulairen',
 
     // ========== Admin pages ==========
     // Common
@@ -4723,8 +4723,8 @@ return [
     'admin_users_delete_soft_warning' => 'De Kont gëtt deaktivéiert, ka mä erëmgewonne ginn.',
 
     // Admin Newsletter
-    'admin_newsletter_head_title' => 'Newsletter — Abonnenten',
-    'admin_newsletter_title' => 'Newsletter & Tools — Abonnenten',
+    'admin_newsletter_head_title' => 'Newsletter - Abonnenten',
+    'admin_newsletter_title' => 'Newsletter & Tools - Abonnenten',
     'admin_newsletter_stat_total' => 'Total',
     'admin_newsletter_stat_tools' => 'Iwwer Tools',
     'admin_newsletter_stat_footer' => 'Iwwer Footer',
@@ -4887,7 +4887,7 @@ return [
     'pdf_base_ht' => 'Basis HT',
     'pdf_vat_amount' => 'TVA-Betrag',
     'pdf_vat_rate' => 'TVA-Tax',
-    'pdf_disclaimer' => '⚠ Intern Iwwersiicht — net direkt an taxx.lu oder MyGuichet.lu importéierbar. Benotzt déi uewe genannte Beträg fir Är Erklärung manuell auszefëllen oder iwwerdroet dëst Dokument un Äre Comptable. Dës Zesummefaassung ersetzt keng professionell Berodung.',
+    'pdf_disclaimer' => '⚠ Intern Iwwersiicht - net direkt an taxx.lu oder MyGuichet.lu importéierbar. Benotzt déi uewe genannte Beträg fir Är Erklärung manuell auszefëllen oder iwwerdroet dëst Dokument un Äre Comptable. Dës Zesummefaassung ersetzt keng professionell Berodung.',
     'pdf_generated_on' => 'Dokument generéiert den :date',
     'pdf_generated_at_simple' => 'Generéiert den :date',
     'pdf_page' => 'Säit',
@@ -4909,7 +4909,7 @@ return [
     'pdf_date' => 'Datum',
     'pdf_evaluation_content' => 'Inhalt vun der Evaluatioun',
     'pdf_trombinoscope_title' => 'Mataarbechterverzeechnes',
-    'pdf_branding_text' => 'Erstallt mat :app — Vereinfacht Rechnungsstellung fir Lëtzebuerg',
+    'pdf_branding_text' => 'Erstallt mat :app - Vereinfacht Rechnungsstellung fir Lëtzebuerg',
 
     // Mailable subjects
     'mail_subject_invoice' => 'Rechnung :number',
