@@ -15,6 +15,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Seeding de contenu (prod/staging) : la base de test est montée à neuf
+        // sans catégories blog, on saute donc en testing pour éviter l'échec FK.
+        if (app()->environment('testing')) {
+            return;
+        }
+
         (new BlogScheduledJune2026Seeder())->run();
     }
 
