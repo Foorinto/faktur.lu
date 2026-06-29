@@ -16,6 +16,13 @@ class BlogScheduledSummer2026EnSeeder extends Seeder
     {
         $authorId = DB::table('users')->orderBy('id')->first()?->id ?? 1;
 
+        // Résout l'ID de catégorie par SLUG (robuste : les IDs peuvent différer
+        // d'une base à l'autre ; fallback sur 'guides' si une catégorie manque).
+        $catMap = [];
+        foreach ([1 => 'guides', 2 => 'reglementation', 3 => 'freelances', 4 => 'actualites', 5 => 'guide-creation-entreprise'] as $oldId => $slug) {
+            $catMap[$oldId] = \App\Models\BlogCategory::where('slug', $slug)->value('id') ?? 1;
+        }
+
         foreach ($this->articles() as $article) {
             if (DB::table('blog_posts')->where('slug', $article['slug'])->exists()) {
                 $this->command?->info("Skip EN: {$article['slug']}");
@@ -24,7 +31,7 @@ class BlogScheduledSummer2026EnSeeder extends Seeder
 
             DB::table('blog_posts')->insert([
                 'author_id' => $authorId,
-                'category_id' => $article['category_id'],
+                'category_id' => $catMap[$article['category_id']] ?? 1,
                 'title' => $article['title'],
                 'slug' => $article['slug'],
                 'excerpt' => $article['excerpt'],
