@@ -12,11 +12,11 @@ class ProjectMemberPolicy
      */
     public function manage(User $user, Project $project): bool
     {
-        return $project->user_id === $user->id && $user->isOrganizationOwner();
+        return (int) $project->user_id === (int) $user->id && $user->isOrganizationOwner();
     }
 
     public function view(User $user, Project $project): bool
     {
-        return $project->user_id === $user->id;
+        return (int) $project->user_id === (int) $user->id;
     }
 }

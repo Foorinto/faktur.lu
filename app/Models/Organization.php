@@ -67,7 +67,7 @@ class Organization extends Model
 
     public function isOwner(User $user): bool
     {
-        return $this->user_id === $user->id;
+        return (int) $this->user_id === (int) $user->id;
     }
 
     public function isFull(): bool

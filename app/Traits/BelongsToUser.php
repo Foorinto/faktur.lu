@@ -85,7 +85,7 @@ trait BelongsToUser
     {
         $userId = $user instanceof User ? $user->id : $user;
 
-        return $this->user_id === $userId;
+        return (int) $this->user_id === (int) $userId;
     }
 
     /**
@@ -93,6 +93,6 @@ trait BelongsToUser
      */
     public function belongsToAuthUser(): bool
     {
-        return auth()->check() && $this->user_id === auth()->id();
+        return auth()->check() && (int) $this->user_id === (int) auth()->id();
     }
 }

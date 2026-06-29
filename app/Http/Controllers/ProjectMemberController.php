@@ -61,7 +61,7 @@ class ProjectMemberController extends Controller
     {
         abort_unless((new ProjectMemberPolicy())->manage(request()->user(), $project), 403);
 
-        abort_unless($employee->user_id === $project->user_id, 403);
+        abort_unless((int) $employee->user_id === (int) $project->user_id, 403);
 
         $pivot = $action->execute($project, $employee);
 

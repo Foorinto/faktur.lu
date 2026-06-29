@@ -14,7 +14,7 @@ class RoomPolicy
 
     public function view(User $user, Room $room): bool
     {
-        return $room->user_id === $user->id;
+        return (int) $room->user_id === (int) $user->id;
     }
 
     /**
@@ -27,7 +27,7 @@ class RoomPolicy
 
     public function update(User $user, Room $room): bool
     {
-        return $room->user_id === $user->id && $user->isOrganizationOwner();
+        return (int) $room->user_id === (int) $user->id && $user->isOrganizationOwner();
     }
 
     public function delete(User $user, Room $room): bool

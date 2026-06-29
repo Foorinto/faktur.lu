@@ -249,7 +249,7 @@ class TaskController extends Controller
             $task = Task::find($item['id']);
 
             // Verify task belongs to this project
-            if ($task && $task->project_id === $project->id) {
+            if ($task && (int) $task->project_id === (int) $project->id) {
                 $wasCompleted = $task->is_completed;
                 $newStatus = $item['status'];
                 $newParentId = $item['parent_id'] ?? null;
@@ -304,7 +304,7 @@ class TaskController extends Controller
             $task = Task::find($item['id']);
 
             // Verify task belongs to this project
-            if ($task && $task->project_id === $project->id) {
+            if ($task && (int) $task->project_id === (int) $project->id) {
                 $newParentId = $item['parent_id'] ?? null;
 
                 // Calculate new depth

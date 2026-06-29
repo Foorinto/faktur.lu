@@ -118,7 +118,7 @@ class PortalLeaveController extends Controller
     {
         $employee = $this->employee();
         $leaveRequest = LeaveRequest::withoutGlobalScope('user')->findOrFail($id);
-        abort_unless($leaveRequest->employee_id === $employee->id, 403);
+        abort_unless((int) $leaveRequest->employee_id === (int) $employee->id, 403);
 
         if (!in_array($leaveRequest->status, ['pending', 'approved'])) {
             return back()->with('error', __('app.employee_portal.cannot_cancel'));
@@ -133,7 +133,7 @@ class PortalLeaveController extends Controller
     {
         $employee = $this->employee();
         $leaveRequest = LeaveRequest::withoutGlobalScope('user')->findOrFail($id);
-        abort_unless($leaveRequest->employee_id === $employee->id, 403);
+        abort_unless((int) $leaveRequest->employee_id === (int) $employee->id, 403);
 
         if ($leaveRequest->status !== 'pending') {
             return back()->with('error', __('app.employee_portal.cannot_delete'));

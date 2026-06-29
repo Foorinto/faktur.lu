@@ -82,7 +82,7 @@ class PortalExpenseController extends Controller
     {
         $employee = $this->employee();
         $expense = ExpenseReport::withoutGlobalScope('user')->findOrFail($expenseId);
-        abort_unless($expense->employee_id === $employee->id, 403);
+        abort_unless((int) $expense->employee_id === (int) $employee->id, 403);
 
         if (!in_array($expense->status, ['pending', 'rejected'])) {
             return back()->with('error', __('app.hr.expense_not_editable'));
@@ -99,7 +99,7 @@ class PortalExpenseController extends Controller
     {
         $employee = $this->employee();
         $expense = ExpenseReport::withoutGlobalScope('user')->findOrFail($id);
-        abort_unless($expense->employee_id === $employee->id, 403);
+        abort_unless((int) $expense->employee_id === (int) $employee->id, 403);
 
         if ($expense->status !== 'pending') {
             return back()->with('error', __('app.hr.expense_not_deletable'));

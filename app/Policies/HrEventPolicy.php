@@ -14,7 +14,7 @@ class HrEventPolicy
 
     public function view(User $user, HrEvent $event): bool
     {
-        return $event->user_id === $user->id;
+        return (int) $event->user_id === (int) $user->id;
     }
 
     public function create(User $user): bool
@@ -34,7 +34,7 @@ class HrEventPolicy
         }
 
         $employee = $user->linkedEmployee;
-        return $employee && $event->created_by_employee_id === $employee->id;
+        return $employee && (int) $event->created_by_employee_id === (int) $employee->id;
     }
 
     public function delete(User $user, HrEvent $event): bool

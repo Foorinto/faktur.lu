@@ -119,13 +119,13 @@ class PortalSharedCalendarController extends Controller
         $leaves = $leavesQuery->get()
             // Always show own leaves; hide others if hide_leaves_from_team
             ->filter(fn (LeaveRequest $lr) =>
-                $lr->employee_id === $employee->id
+                (int) $lr->employee_id === (int) $employee->id
                 || ! ($lr->employee?->hide_leaves_from_team ?? false)
             )
             ->map(function (LeaveRequest $lr) use ($employee) {
                 $endDate = Carbon::parse($lr->end_date)->addDay();
                 $isPending = $lr->status === 'pending';
-                $isOwn = $lr->employee_id === $employee->id;
+                $isOwn = (int) $lr->employee_id === (int) $employee->id;
                 $statusLabel = $isPending ? __('app.hr.leave_status_pending') : __('app.hr.leave_status_approved');
 
                 $name = $isOwn
@@ -218,19 +218,19 @@ class PortalSharedCalendarController extends Controller
     public function showEvent(HrEvent $event): Response
     {
         $employee = $this->employee();
-        abort_unless($event->user_id === $employee->user_id, 403);
+        abort_unless((int) $event->user_id === (int) $employee->user_id, 403);
 
         return Inertia::render('EmployeePortal/Events/Show', [
             'event' => $event->load(['room', 'creator:id,first_name,last_name', 'participants.employee:id,first_name,last_name,photo_path']),
-            'canEdit' => $event->created_by_employee_id === $employee->id,
+            'canEdit' => (int) $event->created_by_employee_id === (int) $employee->id,
         ]);
     }
 
     public function editEvent(HrEvent $event): Response
     {
         $employee = $this->employee();
-        abort_unless($event->user_id === $employee->user_id, 403);
-        abort_unless($event->created_by_employee_id === $employee->id, 403);
+        abort_unless((int) $event->user_id === (int) $employee->user_id, 403);
+        abort_unless((int) $event->created_by_employee_id === (int) $employee->id, 403);
 
         return Inertia::render('EmployeePortal/Events/Edit', [
             'event' => $event->load(['room', 'participants']),
@@ -251,8 +251,8 @@ class PortalSharedCalendarController extends Controller
     public function updateEvent(StoreHrEventRequest $request, HrEvent $event, UpdateHrEventAction $action): RedirectResponse
     {
         $employee = $this->employee();
-        abort_unless($event->user_id === $employee->user_id, 403);
-        abort_unless($event->created_by_employee_id === $employee->id, 403);
+        abort_unless((int) $event->user_id === (int) $employee->user_id, 403);
+        abort_unless((int) $event->created_by_employee_id === (int) $employee->id, 403);
 
         $action->execute($event, $request->validated());
 
@@ -264,8 +264,8 @@ class PortalSharedCalendarController extends Controller
     public function destroyEvent(HrEvent $event): RedirectResponse
     {
         $employee = $this->employee();
-        abort_unless($event->user_id === $employee->user_id, 403);
-        abort_unless($event->created_by_employee_id === $employee->id, 403);
+        abort_unless((int) $event->user_id === (int) $employee->user_id, 403);
+        abort_unless((int) $event->created_by_employee_id === (int) $employee->id, 403);
 
         $event->delete();
 

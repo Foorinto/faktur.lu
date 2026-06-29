@@ -12,7 +12,7 @@ class SupportTicketPolicy
      */
     public function view(User $user, SupportTicket $ticket): bool
     {
-        return $user->id === $ticket->user_id;
+        return (int) $user->id === (int) $ticket->user_id;
     }
 
     /**
@@ -20,6 +20,6 @@ class SupportTicketPolicy
      */
     public function reply(User $user, SupportTicket $ticket): bool
     {
-        return $user->id === $ticket->user_id && $ticket->isOpen();
+        return (int) $user->id === (int) $ticket->user_id && $ticket->isOpen();
     }
 }

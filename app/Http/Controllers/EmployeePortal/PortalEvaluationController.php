@@ -33,7 +33,7 @@ class PortalEvaluationController extends Controller
     {
         $employee = $this->employee();
         $evaluation = Evaluation::withoutGlobalScope('user')->findOrFail($id);
-        abort_unless($evaluation->employee_id === $employee->id, 403);
+        abort_unless((int) $evaluation->employee_id === (int) $employee->id, 403);
 
         $evaluation->load([
             'evaluator' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'first_name', 'last_name'),
@@ -51,7 +51,7 @@ class PortalEvaluationController extends Controller
     {
         $employee = $this->employee();
         $evaluation = Evaluation::withoutGlobalScope('user')->findOrFail($id);
-        abort_unless($evaluation->employee_id === $employee->id, 403);
+        abort_unless((int) $evaluation->employee_id === (int) $employee->id, 403);
 
         $evaluation->load(['evaluator' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'first_name', 'last_name')]);
         $employee->load(['department' => fn ($q) => $q->withoutGlobalScope('user')->select('id', 'name', 'color')]);
