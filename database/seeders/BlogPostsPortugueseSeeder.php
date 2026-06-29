@@ -104,9 +104,14 @@ class BlogPostsPortugueseSeeder extends Seeder
 
     private function base(string $translationKey, int $categoryId, string $publishedAt, ?string $coverImage, ?int $authorId, string $title, string $excerpt, string $metaTitle, string $metaDescription, string $content): array
     {
+        // Résout la catégorie par SLUG (robuste : les IDs de catégorie peuvent différer
+        // d'une base à l'autre, ex. staging sans la catégorie 5 -> fallback 'guides').
+        $catSlug = [1 => 'guides', 2 => 'reglementation', 3 => 'freelances', 4 => 'actualites', 5 => 'guide-creation-entreprise'][$categoryId] ?? 'guides';
+        $resolvedCategoryId = \App\Models\BlogCategory::where('slug', $catSlug)->value('id') ?? 1;
+
         return [
             'translation_key' => $translationKey,
-            'category_id' => $categoryId,
+            'category_id' => $resolvedCategoryId,
             'author_id' => $authorId,
             'status' => 'published',
             'published_at' => $publishedAt,
