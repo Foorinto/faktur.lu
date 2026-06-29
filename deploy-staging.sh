@@ -240,6 +240,7 @@ php artisan db:seed --class=BlogPostsPortugueseSeeder --force &&
 php artisan db:seed --class=UpdateBlog2025To2026SlugsSeeder --force &&
 php artisan db:seed --class=UpdateBlogContentFixesSeeder --force &&
 php artisan db:seed --class=ReplaceEmDashesSeeder --force &&
+php artisan db:seed --class=BlogScheduledSummer2026Seeder --force &&
 ${EXTRA_SEEDER}
 echo '--- Cache ---' &&
 php artisan route:cache &&
