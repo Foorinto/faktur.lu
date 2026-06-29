@@ -47,7 +47,7 @@ class Quote extends Model
     protected $casts = [
         'seller_snapshot' => 'array',
         'buyer_snapshot' => 'array',
-        'valid_until' => 'date',
+        'valid_until' => 'date:Y-m-d',
         'sent_at' => 'datetime',
         'accepted_at' => 'datetime',
         'declined_at' => 'datetime',

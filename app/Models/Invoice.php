@@ -76,8 +76,8 @@ class Invoice extends Model
     protected $casts = [
         'seller_snapshot' => 'array',
         'buyer_snapshot' => 'array',
-        'issued_at' => 'date',
-        'due_at' => 'date',
+        'issued_at' => 'date:Y-m-d',
+        'due_at' => 'date:Y-m-d',
         'finalized_at' => 'datetime',
         'sent_at' => 'datetime',
         'paid_at' => 'datetime',
@@ -89,7 +89,7 @@ class Invoice extends Model
         'exclude_from_reminders' => 'boolean',
         'retention_guarantee_rate' => 'decimal:2',
         'retention_guarantee_amount' => 'decimal:4',
-        'retention_release_date' => 'date',
+        'retention_release_date' => 'date:Y-m-d',
     ];
 
     /**

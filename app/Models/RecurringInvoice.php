@@ -41,8 +41,8 @@ class RecurringInvoice extends Model
     ];
 
     protected $casts = [
-        'next_invoice_date' => 'date',
-        'ends_at' => 'date',
+        'next_invoice_date' => 'date:Y-m-d',
+        'ends_at' => 'date:Y-m-d',
         'is_active' => 'boolean',
         'auto_finalize' => 'boolean',
         'auto_send' => 'boolean',
