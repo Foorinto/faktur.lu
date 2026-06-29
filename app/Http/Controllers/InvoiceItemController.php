@@ -37,7 +37,7 @@ class InvoiceItemController extends Controller
      */
     public function update(UpdateInvoiceItemRequest $request, Invoice $invoice, InvoiceItem $item): RedirectResponse
     {
-        abort_unless($item->invoice_id === $invoice->id, 404);
+        abort_unless((int) $item->invoice_id === (int) $invoice->id, 404);
 
         $item->update($request->validated());
 
@@ -49,7 +49,7 @@ class InvoiceItemController extends Controller
      */
     public function move(Request $request, Invoice $invoice, InvoiceItem $item): RedirectResponse
     {
-        abort_unless($item->invoice_id === $invoice->id, 404);
+        abort_unless((int) $item->invoice_id === (int) $invoice->id, 404);
 
         if ($invoice->isImmutable()) {
             return back()->with('error', __('app.invoice_items_flash.error_finalized'));
@@ -92,7 +92,7 @@ class InvoiceItemController extends Controller
      */
     public function destroy(Invoice $invoice, InvoiceItem $item): RedirectResponse
     {
-        abort_unless($item->invoice_id === $invoice->id, 404);
+        abort_unless((int) $item->invoice_id === (int) $invoice->id, 404);
 
         if ($invoice->isImmutable()) {
             return back()->with('error', __('app.invoice_items_flash.error_finalized'));

@@ -37,7 +37,7 @@ class QuoteItemController extends Controller
      */
     public function update(UpdateQuoteItemRequest $request, Quote $quote, QuoteItem $item): RedirectResponse
     {
-        abort_unless($item->quote_id === $quote->id, 404);
+        abort_unless((int) $item->quote_id === (int) $quote->id, 404);
 
         $item->update($request->validated());
 
@@ -49,7 +49,7 @@ class QuoteItemController extends Controller
      */
     public function move(Request $request, Quote $quote, QuoteItem $item): RedirectResponse
     {
-        abort_unless($item->quote_id === $quote->id, 404);
+        abort_unless((int) $item->quote_id === (int) $quote->id, 404);
 
         if (!$quote->canEdit()) {
             return back()->with('error', __('app.quote_items_flash.error_cannot_edit'));
@@ -92,7 +92,7 @@ class QuoteItemController extends Controller
      */
     public function destroy(Quote $quote, QuoteItem $item): RedirectResponse
     {
-        abort_unless($item->quote_id === $quote->id, 404);
+        abort_unless((int) $item->quote_id === (int) $quote->id, 404);
 
         if (!$quote->canEdit()) {
             return back()->with('error', __('app.quote_items_flash.error_cannot_edit'));
