@@ -243,6 +243,8 @@ php artisan db:seed --class=ReplaceEmDashesSeeder --force &&
 php artisan db:seed --class=BlogScheduledSummer2026Seeder --force &&
 php artisan db:seed --class=BlogScheduledSummer2026DeSeeder --force &&
 php artisan db:seed --class=BlogScheduledSummer2026EnSeeder --force &&
+php artisan db:seed --class=BlogScheduledSummer2026LbSeeder --force &&
+php artisan db:seed --class=BlogScheduledSummer2026PtSeeder --force &&
 ${EXTRA_SEEDER}
 echo '--- Cache ---' &&
 php artisan route:cache &&
