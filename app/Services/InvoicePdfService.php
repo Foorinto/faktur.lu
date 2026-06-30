@@ -181,7 +181,7 @@ class InvoicePdfService
             ->toArray();
 
         // Get PDF color from seller snapshot or default
-        $pdfColor = $seller['pdf_color'] ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR;
+        $pdfColor = \App\Models\BusinessSettings::legibleColor($seller['pdf_color'] ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR);
 
         // Show branding for free plan users
         $showBranding = $invoice->user ? $invoice->user->isFree() : true;
@@ -303,7 +303,7 @@ class InvoicePdfService
             ->toArray();
 
         // Get PDF color from settings
-        $pdfColor = $settings?->getEffectivePdfColor() ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR;
+        $pdfColor = \App\Models\BusinessSettings::legibleColor($settings?->getEffectivePdfColor() ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR);
 
         // Show branding for free plan users
         $showBranding = $invoice->user ? $invoice->user->isFree() : true;

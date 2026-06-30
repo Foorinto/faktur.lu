@@ -493,6 +493,47 @@ class BusinessSettings extends Model
     }
 
     /**
+     * Return a version of the given hex color that stays legible on a white
+     * PDF (text + colored band). Only darkens colors that are too light
+     * (white, pale pastels) using perceived luminance, so vivid brand colors
+     * already legible (e.g. the default purple) are left untouched.
+     *
+     * @param  string  $hex      Color like "#rrggbb" (with or without '#').
+     * @param  float   $tooLight Perceived-luminance threshold above which a color is darkened (0..1).
+     * @param  float   $target   Perceived luminance to darken too-light colors down to (0..1).
+     */
+    public static function legibleColor(string $hex, float $tooLight = 0.6, float $target = 0.4): string
+    {
+        $clean = ltrim(trim($hex), '#');
+
+        // Only handle #rrggbb; anything else is returned unchanged (defensive).
+        if (!preg_match('/^[0-9A-Fa-f]{6}$/', $clean)) {
+            return $hex;
+        }
+
+        $r = hexdec(substr($clean, 0, 2));
+        $g = hexdec(substr($clean, 2, 2));
+        $b = hexdec(substr($clean, 4, 2));
+
+        // Perceived luminance (0..1) — weighted for human eye sensitivity.
+        $lum = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
+
+        if ($lum <= $tooLight) {
+            return '#' . strtolower($clean);
+        }
+
+        // Scale all channels toward black until the perceived luminance hits the
+        // target. Scaling equally preserves the hue (white -> neutral grey).
+        $factor = $target / max($lum, 0.0001);
+
+        $r = (int) round($r * $factor);
+        $g = (int) round($g * $factor);
+        $b = (int) round($b * $factor);
+
+        return sprintf('#%02x%02x%02x', $r, $g, $b);
+    }
+
+    /**
      * Get the country configuration for this business.
      */
     public function getCountryConfig(): array
