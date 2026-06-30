@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'vat_franchise_threshold' => (int) env('VAT_FRANCHISE_THRESHOLD', 35000),
+    'vat_franchise_threshold' => (int) env('VAT_FRANCHISE_THRESHOLD', 50000),
 
     /*
     |--------------------------------------------------------------------------

@@ -12,8 +12,8 @@ const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
 const { breadcrumb, faqPage, webApplication, wikidata } = useToolSchemas();
 
-// Seuil franchise TVA Luxembourg = 35 000 EUR HT/an depuis 2020
-const FRANCHISE_THRESHOLD = 35000;
+// Seuil franchise TVA Luxembourg = 50 000 EUR HT/an depuis le 1er janvier 2025 (avant : 35 000 EUR)
+const FRANCHISE_THRESHOLD = 50000;
 
 const annualRevenue = ref(20000);
 const activityType = ref('services');
@@ -171,7 +171,7 @@ const relatedTools = computed(() => [
                             <div class="grid sm:grid-cols-2 gap-4 mb-4">
                                 <div class="bg-white/60 rounded-lg p-3">
                                     <p class="text-xs text-slate-500 uppercase mb-1">{{ t('tools.vat_exemption.result.threshold') }}</p>
-                                    <p class="text-lg font-bold text-slate-900">{{ fmt(35000) }} HT</p>
+                                    <p class="text-lg font-bold text-slate-900">{{ fmt(50000) }} HT</p>
                                 </div>
                                 <div class="bg-white/60 rounded-lg p-3">
                                     <p class="text-xs text-slate-500 uppercase mb-1">

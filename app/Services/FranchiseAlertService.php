@@ -84,7 +84,7 @@ class FranchiseAlertService
     public function getThreshold(): int
     {
         if (!$this->getSettings()) {
-            return 35000; // Default to Luxembourg threshold
+            return 50000; // Default to Luxembourg threshold
         }
 
         try {
@@ -93,7 +93,7 @@ class FranchiseAlertService
             Log::error('FranchiseAlertService: Error getting franchise threshold', [
                 'error' => $e->getMessage(),
             ]);
-            return 35000;
+            return 50000;
         }
     }
 
@@ -217,8 +217,8 @@ class FranchiseAlertService
                 'show' => false,
                 'status' => null,
                 'yearly_revenue' => 0,
-                'threshold' => 35000,
-                'remaining_amount' => 35000,
+                'threshold' => 50000,
+                'remaining_amount' => 50000,
                 'percentage_used' => 0,
                 'country_code' => 'LU',
                 'tax_authority' => self::TAX_AUTHORITIES['LU'],

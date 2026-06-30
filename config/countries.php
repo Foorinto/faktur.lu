@@ -28,7 +28,7 @@ return [
         'default_vat_rate' => 17,
         'franchise' => [
             'enabled' => true,
-            'threshold' => 35000,
+            'threshold' => 50000,
             'threshold_type' => 'single', // single, services_goods
             'legal_reference' => 'Art. 57 du Code de la TVA luxembourgeois',
             'mention' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',

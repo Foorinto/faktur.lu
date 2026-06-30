@@ -574,7 +574,7 @@ class BusinessSettings extends Model
 
         // For countries with single threshold (LU, BE, DE)
         if (($franchise['threshold_type'] ?? 'single') === 'single' || ($franchise['threshold_type'] ?? 'single') === 'previous_year') {
-            return $franchise['threshold'] ?? 35000;
+            return $franchise['threshold'] ?? 50000;
         }
 
         // For France with services/goods thresholds

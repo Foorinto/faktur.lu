@@ -13,7 +13,7 @@ class DashboardService
     /**
      * Luxembourg VAT franchise threshold (Article 57).
      */
-    public const VAT_FRANCHISE_THRESHOLD = 35000;
+    public const VAT_FRANCHISE_THRESHOLD = 50000;
 
     /**
      * Luxembourg simplified accounting threshold.
@@ -41,6 +41,7 @@ class DashboardService
             'net_profit_change' => $this->calculatePercentageChange($netProfit, $previousNetProfit),
             'vat_franchise_threshold' => self::VAT_FRANCHISE_THRESHOLD,
             'vat_franchise_progress' => $this->getVatFranchiseProgress($annualRevenue),
+            'vat_franchise_article_url' => $this->getVatFranchiseArticleUrl(),
             'simplified_accounting_threshold' => self::SIMPLIFIED_ACCOUNTING_THRESHOLD,
             'simplified_accounting_progress' => $this->getSimplifiedAccountingProgress($annualRevenue),
             'unpaid_invoices' => $this->getUnpaidInvoicesStats(),
@@ -87,6 +88,29 @@ class DashboardService
             'percentage' => round($percentage, 1),
             'remaining' => max(0, self::VAT_FRANCHISE_THRESHOLD - $revenue),
         ];
+    }
+
+    /**
+     * Public blog article explaining the VAT franchise threshold and what to do
+     * once it is exceeded. Returns the URL in the user's locale (fallback FR),
+     * or null if the article is not published.
+     */
+    public function getVatFranchiseArticleUrl(): ?string
+    {
+        $key = 'franchise-tva-luxembourg-seuil-obligations-regime-normal';
+
+        $post = \App\Models\BlogPost::published()
+            ->where('translation_key', $key)
+            ->where('locale', app()->getLocale())
+            ->first()
+            ?? \App\Models\BlogPost::published()
+                ->where('translation_key', $key)
+                ->where('locale', 'fr')
+                ->first();
+
+        return $post
+            ? route('blog.show', ['locale' => $post->locale, 'post' => $post->slug])
+            : null;
     }
 
     /**

@@ -179,7 +179,7 @@ const currentCountryConfig = computed(() => {
 // Get the franchise threshold based on country and activity type
 const franchiseThreshold = computed(() => {
     const config = currentCountryConfig.value;
-    if (!config.franchise) return 35000;
+    if (!config.franchise) return 50000;
 
     // For France, threshold depends on activity type
     if (form.country_code === 'FR') {
@@ -189,7 +189,7 @@ const franchiseThreshold = computed(() => {
         return config.franchise.threshold_services || 37500;
     }
 
-    return config.franchise.threshold || 35000;
+    return config.franchise.threshold || 50000;
 });
 
 // Get formatted franchise threshold

@@ -355,6 +355,16 @@ const getStatusLabel = (status) => {
                         <p v-else class="mt-2 text-sm font-medium text-pink-600 dark:text-pink-400">
                             {{ t('threshold_exceeded_vat') }}
                         </p>
+                        <a
+                            v-if="kpis?.vat_franchise_article_url"
+                            :href="kpis.vat_franchise_article_url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                        >
+                            {{ t('vat_franchise_learn_more') }}
+                            <span aria-hidden="true">↗</span>
+                        </a>
                     </div>
                 </div>
             </div>

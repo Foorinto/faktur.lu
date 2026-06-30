@@ -22,7 +22,7 @@ class BusinessSettingsController extends Controller
         $countryConfig = config("countries.{$countryCode}", config('countries.LU'));
 
         // Build VAT regimes with country-specific threshold
-        $franchiseThreshold = $settings?->getFranchiseThreshold() ?? $countryConfig['franchise']['threshold'] ?? 35000;
+        $franchiseThreshold = $settings?->getFranchiseThreshold() ?? $countryConfig['franchise']['threshold'] ?? 50000;
         $vatRegimes = [
             [
                 'value' => 'franchise',
@@ -59,7 +59,7 @@ class BusinessSettingsController extends Controller
                 'franchise_threshold' => $franchiseThreshold,
             ]) : [
                 'country_code' => 'LU',
-                'franchise_threshold' => 35000,
+                'franchise_threshold' => 50000,
                 'number_format' => \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE,
                 'invoice_prefix' => \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_INVOICE,
                 'credit_note_prefix' => \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_CREDIT_NOTE,
