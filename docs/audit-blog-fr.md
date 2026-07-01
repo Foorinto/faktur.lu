@@ -32,7 +32,7 @@ Corrigé dans fr/de/en/lb/pt (51 remplacements, testés + vérifiés) :
 - **France** : seuils micro **203 100 / 83 600 €**.
 - **Belgique** : guichet **Eunomia** (ex-Zenito) ; conservation **10 ans** ; dates INASTI dernier jour du trimestre (FR).
 
-**RÉSIDUELS à nettoyer (2e passe)** : l'art. 3 (`taux-calcul-obligations`) contient encore « mazout » et « rénovation » à 8 % dans SA liste de taux ; quelques cellules de tableau (art. 124) mentionnent encore la rénovation à 8 % en DE/PT/LB. Même erreur confirmée → à aligner.
+**✅ RÉSIDUELS CORRIGÉS (2e passe — migrations 2026_07_01_130000 + _140000)** : art. 3 (`taux-calcul-obligations`) — mazout 8→14 % (FR), rénovation 8→3 % (FR liste+cellule ; retirée du 8 % en DE/EN/LB/PT). Vérifié : plus aucun mazout/rénovation sous 8 % dans les 2 articles de taux, 5 langues.
 
 **NON corrigé (contesté → fiduciaire)** : mention franchise 57bis, prescription art. 81, base légale FAIA, IHK Allemagne.
 
