@@ -48,7 +48,7 @@
 All Tools sinn ouni Kontoukreatioun an ouni Kreditkaart zougänglech.
 
 - [Lëtzebuerger TVA-Rechner](https://faktur.lu/lb/handgeschir/tva-rechner) : Berechnong Netto ⇄ Brutto mat de 4 LU-Sätz (17%, 14%, 8%, 3%), LIVA-konform
-- [Simulator TVA-Befreiung](https://faktur.lu/lb/handgeschir/tva-befreiung) : Berechtegungspréifung fir d'Befreiungsregelung (Schwell 35.000 EUR HT/Joer, Artikel 56 ter LIVA)
+- [Simulator TVA-Befreiung](https://faktur.lu/lb/handgeschir/tva-befreiung) : Berechtegungspréifung fir d'Befreiungsregelung (Schwell 50.000 EUR HT/Joer zanter 2025, Artikel 57 LIVA)
 - [Lëtzebuerger IBAN-Validateur](https://faktur.lu/lb/handgeschir/iban-validateur) : MOD-97-Préifung (ISO 13616), identifizéiert d'LU-Bank a gëtt de BIC-Code
 - [Rechnungsgenerator (PDF)](https://faktur.lu/lb/handgeschir/rechnungsgenerator) : LIVA-konform Rechnung mat Pflichtangaben, B2B intra-EU Reverse Charge, an 5 Sproochen
 - [Templates zum Eroflueden](https://faktur.lu/lb/handgeschir/modellen) : eidel Rechnung, AED-Préifung-Checklëscht, Rappellbréiwer, TVA-Kalenner 2026
@@ -66,8 +66,8 @@ All Tools sinn ouni Kontoukreatioun an ouni Kreditkaart zougänglech.
 - **FAIA**: Versioun 2.01, Format virgeschriwwen vun der Administration de l'Enregistrement, des Domaines et de la TVA (AED) bei Steierkontrollen
 - **Lëtzebuerger TVA**: Standardsaz 17%, mëttel 14%, reduzéiert 8%, supper-reduzéiert 3%
 - **Peppol**: zertifizéierte Access Point, Format UBL 2.1 / BIS 3.0, konform mam Lëtzebuerger B2G-Mandat a B2B ViDA 2030 Preparatioun
-- **Artikel 21 LIVA**: B2B intra-EU Autoliquidatioun (mat Echtzäit-VIES-Validatioun)
-- **Artikel 61 LIVA**: kontinuéierlech sequentiell Nummeréierung obligatoresch
+- **Artikel 17 LIVA / Art. 196 Richtlinn 2006/112/EG**: B2B intra-EU Autoliquidatioun (mat Echtzäit-VIES-Validatioun)
+- **Artikel 63 LIVA**: kontinuéierlech sequentiell Nummeréierung obligatoresch
 - **Hosting**: o2switch (franséischen Hoster zu Clermont-Ferrand), 100% Europäesch Unioun, TLS 1.3 an Transmissioun, Passwierder mat bcrypt gehasht + sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt, deeglech 30-Deeg-Backupen
 - **RGPD**: DPA op Ufro disponibel
 - **Gesetzlech Opbewahrung**: 10 Joer fir Rechnungen a Buchhaltungsdokumenter

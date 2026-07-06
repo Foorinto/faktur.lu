@@ -48,7 +48,7 @@
 Tous les outils sont accessibles sans création de compte et sans carte bancaire.
 
 - [Calculateur TVA Luxembourg](https://faktur.lu/fr/outils/calculateur-tva) : calcul HT ⇄ TTC avec les 4 taux luxembourgeois (17%, 14%, 8%, 3%), conforme LIVA
-- [Simulateur franchise TVA](https://faktur.lu/fr/outils/franchise-tva) : vérification d'éligibilité au régime de franchise (seuil 35 000 EUR HT/an, Article 56 ter LIVA)
+- [Simulateur franchise TVA](https://faktur.lu/fr/outils/franchise-tva) : vérification d'éligibilité au régime de franchise (seuil 50 000 EUR HT/an depuis 2025, Article 57 LIVA)
 - [Validateur IBAN Luxembourg](https://faktur.lu/fr/outils/validateur-iban) : vérification MOD-97 (ISO 13616), identification de la banque LU et code BIC associé
 - [Générateur de facture PDF](https://faktur.lu/fr/outils/generateur-facture) : facture conforme LIVA avec mentions obligatoires, autoliquidation B2B intra-EU, en 5 langues
 - [Modèles téléchargeables](https://faktur.lu/fr/outils/modeles-facture) : facture vierge, checklist contrôle AED, lettres de relance impayés, calendrier TVA 2026
@@ -66,8 +66,8 @@ Tous les outils sont accessibles sans création de compte et sans carte bancaire
 - **FAIA** : version 2.01, format imposé par l'Administration de l'Enregistrement, des Domaines et de la TVA (AED) lors des contrôles fiscaux
 - **TVA Luxembourg** : taux standard 17%, intermédiaire 14%, réduit 8%, super-réduit 3%
 - **Peppol** : Access Point certifié, format UBL 2.1 / BIS 3.0, conforme au mandat B2G luxembourgeois et préparation B2B ViDA 2030
-- **Article 21 LIVA** : autoliquidation B2B intra-communautaire (avec validation VIES en temps réel)
-- **Article 61 LIVA** : numérotation séquentielle continue obligatoire
+- **Article 17 LIVA / art. 196 directive 2006/112/CE** : autoliquidation B2B intra-communautaire (avec validation VIES en temps réel)
+- **Article 63 LIVA** : numérotation séquentielle continue obligatoire
 - **Hébergement** : o2switch (hébergeur français basé à Clermont-Ferrand), 100% Union européenne, TLS 1.3 en transit, mots de passe bcrypt + données sensibles chiffrées via clé d'application Laravel (AES-256-CBC), sauvegardes quotidiennes 30 jours
 - **RGPD** : DPA disponible sur demande
 - **Conservation légale** : 10 ans pour les factures et documents comptables

@@ -48,7 +48,7 @@
 All tools are accessible without account creation and without credit card.
 
 - [Luxembourg VAT calculator](https://faktur.lu/en/tools/vat-calculator) : Net ⇄ Gross calculation with the 4 LU rates (17%, 14%, 8%, 3%), LIVA-compliant
-- [VAT exemption simulator](https://faktur.lu/en/tools/vat-exemption) : eligibility check for the franchise regime (35,000 EUR Net/year threshold, Article 56 ter LIVA)
+- [VAT exemption simulator](https://faktur.lu/en/tools/vat-exemption) : eligibility check for the franchise regime (50,000 EUR Net/year threshold since 2025, Article 57 LIVA)
 - [Luxembourg IBAN validator](https://faktur.lu/en/tools/iban-validator) : MOD-97 check (ISO 13616), identifies the LU bank and returns the BIC code
 - [Invoice PDF generator](https://faktur.lu/en/tools/invoice-generator) : LIVA-compliant invoice with mandatory mentions, B2B intra-EU reverse charge, in 5 languages
 - [Downloadable templates](https://faktur.lu/en/tools/templates) : blank invoice, AED audit checklist, payment reminder letters, 2026 VAT calendar
@@ -66,8 +66,8 @@ All tools are accessible without account creation and without credit card.
 - **FAIA**: version 2.01, format imposed by the Administration de l'Enregistrement, des Domaines et de la TVA (AED) during fiscal audits
 - **Luxembourg VAT**: standard rate 17%, intermediate 14%, reduced 8%, super-reduced 3%
 - **Peppol**: certified Access Point, UBL 2.1 / BIS 3.0 format, compliant with Luxembourg B2G mandate and B2B ViDA 2030 preparation
-- **Article 21 LIVA**: B2B intra-community reverse charge (with real-time VIES validation)
-- **Article 61 LIVA**: continuous sequential numbering required
+- **Article 17 LIVA / Art. 196 Directive 2006/112/EC**: B2B intra-community reverse charge (with real-time VIES validation)
+- **Article 63 LIVA**: continuous sequential numbering required
 - **Hosting**: o2switch (French hosting provider based in Clermont-Ferrand), 100% European Union, TLS 1.3 in transit, passwords hashed with bcrypt + sensitive data encrypted via Laravel app key (AES-256-CBC), daily 30-day backups
 - **GDPR**: DPA available on request
 - **Legal retention**: 10 years for invoices and accounting documents
