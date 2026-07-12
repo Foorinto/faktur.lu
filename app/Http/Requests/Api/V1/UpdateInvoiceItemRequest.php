@@ -22,6 +22,8 @@ class UpdateInvoiceItemRequest extends FormRequest
             'quantity' => ['sometimes', 'required', 'numeric', 'min:0.0001'],
             'unit' => ['nullable', 'string', Rule::in(array_keys(InvoiceItem::getUnits()))],
             'unit_price' => ['sometimes', 'required', 'numeric', 'min:0'],
+            'discount_type' => ['sometimes', 'nullable', Rule::in(['percent', 'amount'])],
+            'discount_value' => ['sometimes', 'nullable', 'numeric', 'min:0'],
             'vat_rate' => ['sometimes', 'required', 'numeric', Rule::in([0, 3, 8, 14, 17])],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ];

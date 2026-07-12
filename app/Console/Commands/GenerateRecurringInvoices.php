@@ -83,6 +83,8 @@ class GenerateRecurringInvoices extends Command
                 'quantity' => $item->quantity,
                 'unit' => $item->unit,
                 'unit_price' => $item->unit_price,
+                'discount_type' => $item->discount_type,
+                'discount_value' => $item->discount_value,
                 'vat_rate' => $item->vat_rate,
                 'total_ht' => $totalHt,
                 'total_vat' => $totalVat,

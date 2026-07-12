@@ -14,6 +14,8 @@ class RecurringInvoiceItem extends Model
         'quantity',
         'unit',
         'unit_price',
+        'discount_type',
+        'discount_value',
         'vat_rate',
         'sort_order',
     ];
@@ -21,6 +23,7 @@ class RecurringInvoiceItem extends Model
     protected $casts = [
         'quantity' => 'decimal:4',
         'unit_price' => 'decimal:4',
+        'discount_value' => 'decimal:4',
         'vat_rate' => 'decimal:2',
     ];
 
@@ -31,6 +34,8 @@ class RecurringInvoiceItem extends Model
 
     public function getTotalHtAttribute(): float
     {
-        return round($this->quantity * $this->unit_price, 4);
+        $gross = bcmul((string) $this->quantity, (string) $this->unit_price, 4);
+
+        return (float) InvoiceItem::applyLineDiscount($gross, $this->discount_type, $this->discount_value);
     }
 }

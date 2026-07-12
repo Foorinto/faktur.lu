@@ -26,6 +26,8 @@ class QuoteItem extends Model
         'quantity',
         'unit',
         'unit_price',
+        'discount_type',
+        'discount_value',
         'vat_rate',
         'total_ht',
         'total_vat',
@@ -36,6 +38,7 @@ class QuoteItem extends Model
     protected $casts = [
         'quantity' => 'decimal:4',
         'unit_price' => 'decimal:4',
+        'discount_value' => 'decimal:4',
         'vat_rate' => 'decimal:2',
         'total_ht' => 'decimal:4',
         'total_vat' => 'decimal:4',
@@ -80,10 +83,13 @@ class QuoteItem extends Model
      */
     public function calculateAmounts(): void
     {
-        // Calculate total HT
-        $this->total_ht = bcmul((string) $this->quantity, (string) $this->unit_price, 4);
+        // Gross line total (before discount)
+        $gross = bcmul((string) $this->quantity, (string) $this->unit_price, 4);
 
-        // Calculate VAT amount
+        // Apply the line discount (shared logic with InvoiceItem)
+        $this->total_ht = InvoiceItem::applyLineDiscount($gross, $this->discount_type, $this->discount_value);
+
+        // Calculate VAT amount on the discounted base
         $vatMultiplier = bcdiv((string) $this->vat_rate, '100', 4);
         $this->total_vat = bcmul($this->total_ht, $vatMultiplier, 4);
 

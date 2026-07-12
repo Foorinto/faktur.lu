@@ -25,6 +25,8 @@ class QuoteItemController extends Controller
             'quantity' => $request->validated('quantity'),
             'unit' => $request->validated('unit'),
             'unit_price' => $request->validated('unit_price'),
+            'discount_type' => $request->validated('discount_type') ?? 'percent',
+            'discount_value' => $request->validated('discount_value') ?? 0,
             'vat_rate' => $request->validated('vat_rate'),
             'sort_order' => $request->validated('sort_order') ?? ($maxOrder + 1),
         ]);

@@ -26,6 +26,8 @@ class InvoiceItem extends Model
         'quantity',
         'unit',
         'unit_price',
+        'discount_type',
+        'discount_value',
         'vat_rate',
         'total_ht',
         'total_vat',
@@ -36,6 +38,7 @@ class InvoiceItem extends Model
     protected $casts = [
         'quantity' => 'decimal:4',
         'unit_price' => 'decimal:4',
+        'discount_value' => 'decimal:4',
         'vat_rate' => 'decimal:2',
         'total_ht' => 'decimal:4',
         'total_vat' => 'decimal:4',
@@ -80,15 +83,45 @@ class InvoiceItem extends Model
      */
     public function calculateAmounts(): void
     {
-        // Calculate total HT
-        $this->total_ht = bcmul((string) $this->quantity, (string) $this->unit_price, 4);
+        // Gross line total (before discount)
+        $gross = bcmul((string) $this->quantity, (string) $this->unit_price, 4);
 
-        // Calculate VAT amount
+        // Apply the line discount (percent or fixed amount), if any
+        $this->total_ht = self::applyLineDiscount($gross, $this->discount_type, $this->discount_value);
+
+        // Calculate VAT amount on the discounted base
         $vatMultiplier = bcdiv((string) $this->vat_rate, '100', 4);
         $this->total_vat = bcmul($this->total_ht, $vatMultiplier, 4);
 
         // Calculate total TTC
         $this->total_ttc = bcadd($this->total_ht, $this->total_vat, 4);
+    }
+
+    /**
+     * Apply a line-level discount to a gross amount.
+     *
+     * - 'amount' : fixed discount, capped at the gross (never below 0).
+     * - 'percent': percentage discount, capped at 100 %.
+     * A discount only applies when $value > 0. Returns the net HT (string, scale 4).
+     */
+    public static function applyLineDiscount(string $gross, ?string $type, mixed $value): string
+    {
+        $value = (string) ($value ?? '0');
+
+        if (bccomp($value, '0', 4) !== 1) {
+            return $gross; // no discount
+        }
+
+        if ($type === 'amount') {
+            $discount = bccomp($value, $gross, 4) === 1 ? $gross : $value; // cap at gross
+        } else {
+            $pct = bccomp($value, '100', 4) === 1 ? '100' : $value; // cap at 100 %
+            $discount = bcmul($gross, bcdiv($pct, '100', 6), 4);
+        }
+
+        $net = bcsub($gross, $discount, 4);
+
+        return bccomp($net, '0', 4) === -1 ? '0' : $net; // never negative
     }
 
     /**

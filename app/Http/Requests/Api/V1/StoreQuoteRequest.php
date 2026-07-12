@@ -31,6 +31,8 @@ class StoreQuoteRequest extends FormRequest
             'items.*.quantity' => ['required_with:items', 'numeric', 'min:0.0001'],
             'items.*.unit' => ['nullable', 'string', Rule::in(array_keys(QuoteItem::getUnits()))],
             'items.*.unit_price' => ['required_with:items', 'numeric', 'min:0'],
+            'items.*.discount_type' => ['nullable', Rule::in(['percent', 'amount'])],
+            'items.*.discount_value' => ['nullable', 'numeric', 'min:0'],
             // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
             'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
         ];

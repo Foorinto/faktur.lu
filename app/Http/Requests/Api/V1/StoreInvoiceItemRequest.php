@@ -22,6 +22,8 @@ class StoreInvoiceItemRequest extends FormRequest
             'quantity' => ['required', 'numeric', 'min:0.0001'],
             'unit' => ['nullable', 'string', Rule::in(array_keys(InvoiceItem::getUnits()))],
             'unit_price' => ['required', 'numeric', 'min:0'],
+            'discount_type' => ['nullable', Rule::in(['percent', 'amount'])],
+            'discount_value' => ['nullable', 'numeric', 'min:0'],
             'vat_rate' => ['required', 'numeric', Rule::in([0, 3, 8, 14, 17])],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ];

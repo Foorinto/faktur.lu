@@ -165,6 +165,8 @@ class QuoteController extends Controller
                     'quantity' => $itemData['quantity'],
                     'unit' => $itemData['unit'] ?? null,
                     'unit_price' => $itemData['unit_price'],
+                    'discount_type' => $itemData['discount_type'] ?? 'percent',
+                    'discount_value' => $itemData['discount_value'] ?? 0,
                     'vat_rate' => $itemData['vat_rate'],
                     'sort_order' => $index,
                 ]);
@@ -259,6 +261,8 @@ class QuoteController extends Controller
                     'quantity' => $item->quantity,
                     'unit' => $item->unit,
                     'unit_price' => $item->unit_price,
+                    'discount_type' => $item->discount_type,
+                    'discount_value' => $item->discount_value,
                     'vat_rate' => $item->vat_rate,
                     'sort_order' => $item->sort_order,
                 ]);

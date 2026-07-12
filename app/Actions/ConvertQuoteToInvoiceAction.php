@@ -47,6 +47,8 @@ class ConvertQuoteToInvoiceAction
                     'quantity' => $quoteItem->quantity,
                     'unit' => $quoteItem->unit,
                     'unit_price' => $quoteItem->unit_price,
+                    'discount_type' => $quoteItem->discount_type,
+                    'discount_value' => $quoteItem->discount_value,
                     'vat_rate' => $quoteItem->vat_rate,
                     'total_ht' => $quoteItem->total_ht,
                     'total_vat' => $quoteItem->total_vat,
