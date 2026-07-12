@@ -16,15 +16,10 @@ class CalculateInvoiceTotalsAction
             return $invoice;
         }
 
-        $totalHt = '0';
-        $totalVat = '0';
-
-        foreach ($invoice->items as $item) {
-            $totalHt = bcadd($totalHt, (string) $item->total_ht, 4);
-            $totalVat = bcadd($totalVat, (string) $item->total_vat, 4);
-        }
-
-        $totalTtc = bcadd($totalHt, $totalVat, 4);
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
+        $totalHt = $totals['total_ht'];
+        $totalVat = $totals['total_vat'];
+        $totalTtc = $totals['total_ttc'];
 
         // Calculate retention guarantee if applicable
         $retentionAmount = null;
@@ -50,15 +45,10 @@ class CalculateInvoiceTotalsAction
      */
     public function preview(Invoice $invoice): array
     {
-        $totalHt = '0';
-        $totalVat = '0';
-
-        foreach ($invoice->items as $item) {
-            $totalHt = bcadd($totalHt, (string) $item->total_ht, 4);
-            $totalVat = bcadd($totalVat, (string) $item->total_vat, 4);
-        }
-
-        $totalTtc = bcadd($totalHt, $totalVat, 4);
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
+        $totalHt = $totals['total_ht'];
+        $totalVat = $totals['total_vat'];
+        $totalTtc = $totals['total_ttc'];
 
         return [
             'total_ht' => $totalHt,

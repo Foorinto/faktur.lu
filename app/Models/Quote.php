@@ -100,6 +100,11 @@ class Quote extends Model
         return $this->hasMany(QuoteItem::class)->orderBy('sort_order');
     }
 
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(QuoteDiscount::class)->orderBy('sort_order');
+    }
+
     /**
      * Get the invoice created from this quote.
      */

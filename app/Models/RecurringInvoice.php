@@ -63,6 +63,11 @@ class RecurringInvoice extends Model
         return $this->hasMany(RecurringInvoiceItem::class)->orderBy('sort_order');
     }
 
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(RecurringInvoiceDiscount::class)->orderBy('sort_order');
+    }
+
     public function lastInvoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class, 'last_invoice_id');

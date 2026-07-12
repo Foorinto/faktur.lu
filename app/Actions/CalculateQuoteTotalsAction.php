@@ -11,15 +11,10 @@ class CalculateQuoteTotalsAction
      */
     public function execute(Quote $quote): Quote
     {
-        $totalHt = '0';
-        $totalVat = '0';
-
-        foreach ($quote->items as $item) {
-            $totalHt = bcadd($totalHt, (string) $item->total_ht, 4);
-            $totalVat = bcadd($totalVat, (string) $item->total_vat, 4);
-        }
-
-        $totalTtc = bcadd($totalHt, $totalVat, 4);
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($quote->items, $quote->discounts);
+        $totalHt = $totals['total_ht'];
+        $totalVat = $totals['total_vat'];
+        $totalTtc = $totals['total_ttc'];
 
         // Update without triggering model events (to avoid infinite loop)
         Quote::withoutEvents(function () use ($quote, $totalHt, $totalVat, $totalTtc) {
@@ -38,15 +33,10 @@ class CalculateQuoteTotalsAction
      */
     public function preview(Quote $quote): array
     {
-        $totalHt = '0';
-        $totalVat = '0';
-
-        foreach ($quote->items as $item) {
-            $totalHt = bcadd($totalHt, (string) $item->total_ht, 4);
-            $totalVat = bcadd($totalVat, (string) $item->total_vat, 4);
-        }
-
-        $totalTtc = bcadd($totalHt, $totalVat, 4);
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($quote->items, $quote->discounts);
+        $totalHt = $totals['total_ht'];
+        $totalVat = $totals['total_vat'];
+        $totalTtc = $totals['total_ttc'];
 
         return [
             'total_ht' => $totalHt,

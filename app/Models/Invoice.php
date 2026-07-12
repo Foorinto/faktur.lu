@@ -158,6 +158,11 @@ class Invoice extends Model
         return $this->hasMany(InvoiceItem::class)->orderBy('sort_order');
     }
 
+    public function discounts(): HasMany
+    {
+        return $this->hasMany(InvoiceDiscount::class)->orderBy('sort_order');
+    }
+
     /**
      * Get the original invoice if this is a credit note.
      */
