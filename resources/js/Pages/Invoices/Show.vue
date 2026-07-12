@@ -812,6 +812,9 @@ const submitCreditNote = () => {
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ formatCurrency(item.unit_price, invoice.currency) }}
+                                    <span v-if="parseFloat(item.discount_value) > 0" class="block text-xs text-amber-600 dark:text-amber-400">
+                                        −{{ item.discount_type === 'amount' ? formatCurrency(item.discount_value, invoice.currency) : parseFloat(item.discount_value) + ' %' }}
+                                    </span>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ item.vat_rate }}%

@@ -56,6 +56,8 @@ class RecurringInvoiceController extends Controller
             'items.*.quantity' => 'required|numeric|min:0.0001',
             'items.*.unit' => 'required|string',
             'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.discount_type' => 'nullable|in:percent,amount',
+            'items.*.discount_value' => 'nullable|numeric|min:0',
             'items.*.vat_rate' => 'required|numeric|min:0|max:100',
         ]);
 
@@ -87,6 +89,8 @@ class RecurringInvoiceController extends Controller
                 'quantity' => $item['quantity'],
                 'unit' => $item['unit'],
                 'unit_price' => $item['unit_price'],
+                'discount_type' => $item['discount_type'] ?? 'percent',
+                'discount_value' => $item['discount_value'] ?? 0,
                 'vat_rate' => $item['vat_rate'],
                 'sort_order' => $index,
             ]);
@@ -138,6 +142,8 @@ class RecurringInvoiceController extends Controller
             'items.*.quantity' => 'required|numeric|min:0.0001',
             'items.*.unit' => 'required|string',
             'items.*.unit_price' => 'required|numeric|min:0',
+            'items.*.discount_type' => 'nullable|in:percent,amount',
+            'items.*.discount_value' => 'nullable|numeric|min:0',
             'items.*.vat_rate' => 'required|numeric|min:0|max:100',
         ]);
 
@@ -166,6 +172,8 @@ class RecurringInvoiceController extends Controller
                 'quantity' => $item['quantity'],
                 'unit' => $item['unit'],
                 'unit_price' => $item['unit_price'],
+                'discount_type' => $item['discount_type'] ?? 'percent',
+                'discount_value' => $item['discount_value'] ?? 0,
                 'vat_rate' => $item['vat_rate'],
                 'sort_order' => $index,
             ]);
@@ -222,6 +230,8 @@ class RecurringInvoiceController extends Controller
                     'quantity' => $item->quantity,
                     'unit' => $item->unit,
                     'unit_price' => $item->unit_price,
+                    'discount_type' => $item->discount_type,
+                    'discount_value' => $item->discount_value,
                     'vat_rate' => $item->vat_rate,
                     'sort_order' => $item->sort_order,
                 ]);

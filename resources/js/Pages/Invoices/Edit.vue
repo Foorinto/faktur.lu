@@ -84,6 +84,8 @@ const editItemForm = useForm({
     quantity: 1,
     unit: '',
     unit_price: 0,
+    discount_type: 'percent',
+    discount_value: 0,
     vat_rate: 17,
 });
 
@@ -109,6 +111,8 @@ const itemForm = useForm({
     quantity: 1,
     unit: 'hour',
     unit_price: 0,
+    discount_type: 'percent',
+    discount_value: 0,
     vat_rate: defaultVatRate,
 });
 
@@ -248,6 +252,8 @@ const startEditItem = (item) => {
     editItemForm.quantity = parseFloat(item.quantity);
     editItemForm.unit = item.unit || '';
     editItemForm.unit_price = parseFloat(item.unit_price);
+    editItemForm.discount_type = item.discount_type || 'percent';
+    editItemForm.discount_value = parseFloat(item.discount_value) || 0;
     editItemForm.vat_rate = parseFloat(item.vat_rate);
 };
 
@@ -607,6 +613,28 @@ const openPreview = () => {
                                             required
                                         />
                                     </div>
+                                    <div class="w-32">
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('discount') }}</label>
+                                        <div class="flex">
+                                            <input
+                                                v-model.number="editItemForm.discount_value"
+                                                type="number"
+                                                step="0.01"
+                                                min="0"
+                                                :max="editItemForm.discount_type === 'percent' ? 100 : null"
+                                                class="block w-full rounded-l-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                                placeholder="0"
+                                            />
+                                            <select
+                                                v-model="editItemForm.discount_type"
+                                                :aria-label="t('discount_type')"
+                                                class="rounded-r-xl border border-l-0 border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                            >
+                                                <option value="percent">%</option>
+                                                <option value="amount">€</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="w-28">
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('vat') }}</label>
                                         <select
@@ -670,6 +698,9 @@ const openPreview = () => {
                                     </p>
                                     <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">
                                         {{ formatQuantity(item.quantity) }} {{ getUnitLabel(item.unit, item.quantity) }} x {{ formatCurrency(item.unit_price) }} (TVA {{ item.vat_rate }}%)
+                                    </p>
+                                    <p v-if="parseFloat(item.discount_value) > 0" class="text-xs text-amber-600 dark:text-amber-400 mt-0.5">
+                                        {{ t('discount') }} : {{ item.discount_type === 'amount' ? formatCurrency(item.discount_value) + ' €' : parseFloat(item.discount_value) + ' %' }}
                                     </p>
                                 </div>
                                 <div class="flex items-center space-x-2">
@@ -757,6 +788,28 @@ const openPreview = () => {
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             required
                                         />
+                                    </div>
+                                    <div class="w-32">
+                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('discount') }}</label>
+                                        <div class="flex">
+                                            <input
+                                                v-model.number="itemForm.discount_value"
+                                                type="number"
+                                                step="0.01"
+                                                min="0"
+                                                :max="itemForm.discount_type === 'percent' ? 100 : null"
+                                                class="block w-full rounded-l-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                                placeholder="0"
+                                            />
+                                            <select
+                                                v-model="itemForm.discount_type"
+                                                :aria-label="t('discount_type')"
+                                                class="rounded-r-xl border border-l-0 border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                            >
+                                                <option value="percent">%</option>
+                                                <option value="amount">€</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="w-28">
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('vat') }}</label>

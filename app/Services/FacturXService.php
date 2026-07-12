@@ -230,6 +230,23 @@ class FacturXService
         $tradeTax->appendChild($ratePercent);
         $tradeSettlement->appendChild($tradeTax);
 
+        // Line-level discount (EN16931 BG-27) : keep the gross unit price and
+        // subtract the discount as a line allowance so that
+        // (NetPrice × qty) − allowance = LineTotalAmount holds exactly.
+        $grossLine = bcmul((string) $item->unit_price, (string) $item->quantity, 4);
+        $allowanceAmount = bcsub($grossLine, (string) $item->total_ht, 4);
+        if (bccomp($allowanceAmount, '0', 4) === 1) {
+            $allowance = $dom->createElement('ram:SpecifiedTradeAllowanceCharge');
+            $chargeIndicator = $dom->createElement('ram:ChargeIndicator');
+            $chargeIndicator->appendChild($dom->createElement('udt:Indicator', 'false'));
+            $allowance->appendChild($chargeIndicator);
+            $actualAmount = $dom->createElement('ram:ActualAmount', $this->formatAmount($allowanceAmount));
+            $actualAmount->setAttribute('currencyID', $currency);
+            $allowance->appendChild($actualAmount);
+            $allowance->appendChild($dom->createElement('ram:Reason', 'Remise'));
+            $tradeSettlement->appendChild($allowance);
+        }
+
         // SpecifiedTradeSettlementLineMonetarySummation
         $lineSummation = $dom->createElement('ram:SpecifiedTradeSettlementLineMonetarySummation');
         $lineTotalAmount = $dom->createElement('ram:LineTotalAmount', $this->formatAmount($item->total_ht));

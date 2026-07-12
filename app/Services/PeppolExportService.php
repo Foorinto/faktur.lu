@@ -408,6 +408,20 @@ class PeppolExportService
             $lineAmount = $this->addCbcElement($doc, $line, 'LineExtensionAmount', $this->formatAmount($item->total_ht));
             $lineAmount->setAttribute('currencyID', $invoice->currency ?? 'EUR');
 
+            // Line-level discount (BG-27) : keep the gross unit price in Price and
+            // subtract the discount as a line allowance so that
+            // LineExtensionAmount = (PriceAmount × qty) − allowance holds exactly.
+            $grossLine = bcmul((string) $item->unit_price, (string) $item->quantity, 4);
+            $allowanceAmount = bcsub($grossLine, (string) $item->total_ht, 4);
+            if (bccomp($allowanceAmount, '0', 4) === 1) {
+                $allowanceEl = $doc->createElementNS(self::NS_CAC, 'cac:AllowanceCharge');
+                $this->addCbcElement($doc, $allowanceEl, 'ChargeIndicator', 'false');
+                $this->addCbcElement($doc, $allowanceEl, 'AllowanceChargeReason', 'Remise');
+                $amountEl = $this->addCbcElement($doc, $allowanceEl, 'Amount', $this->formatAmount($allowanceAmount));
+                $amountEl->setAttribute('currencyID', $invoice->currency ?? 'EUR');
+                $line->appendChild($allowanceEl);
+            }
+
             // Item
             $itemElement = $doc->createElementNS(self::NS_CAC, 'cac:Item');
 

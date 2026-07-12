@@ -88,11 +88,29 @@ const addItem = () => {
         quantity: 1,
         unit: 'hour',
         unit_price: defaultPrice,
+        discount_type: 'percent',
+        discount_value: 0,
         vat_rate: effectiveDefaultVatRate.value,
         vat_rate_select: effectiveDefaultVatRate.value,
     });
     customVatRates.value[itemIndex] = '';
 };
+
+// Live net line total after discount (mirrors backend InvoiceItem::applyLineDiscount)
+const lineNetHt = (item) => {
+    const gross = (parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0);
+    const dv = parseFloat(item.discount_value) || 0;
+    let discount = 0;
+    if (dv > 0) {
+        discount = item.discount_type === 'amount'
+            ? Math.min(dv, gross)
+            : gross * Math.min(dv, 100) / 100;
+    }
+    return Math.max(0, gross - discount);
+};
+
+const formatCurrency = (value) =>
+    new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value || 0);
 
 // Handle VAT rate selection change
 const handleVatRateChange = (index, value) => {
@@ -336,6 +354,30 @@ if (form.items.length === 0) {
                                 />
                             </div>
 
+                            <div class="w-40">
+                                <InputLabel :for="`item-${index}-discount`" :value="t('discount')" />
+                                <div class="mt-1 flex">
+                                    <input
+                                        :id="`item-${index}-discount`"
+                                        v-model.number="item.discount_value"
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        :max="item.discount_type === 'percent' ? 100 : null"
+                                        class="block w-full rounded-l-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                        placeholder="0"
+                                    />
+                                    <select
+                                        v-model="item.discount_type"
+                                        :aria-label="t('discount_type')"
+                                        class="rounded-r-xl border border-l-0 border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                    >
+                                        <option value="percent">%</option>
+                                        <option value="amount">€</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="w-32">
                                 <InputLabel :for="`item-${index}-vat_rate`" :value="t('vat')" />
                                 <select
@@ -375,6 +417,9 @@ if (form.items.length === 0) {
                             >
                                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 01.78.72l.5 6a.75.75 0 01-1.5.12l-.5-6a.75.75 0 01.72-.78zm3.62.72a.75.75 0 10-1.5-.12l-.5 6a.75.75 0 101.5.12l.5-6z" clip-rule="evenodd" /></svg>
                             </button>
+                        </div>
+                        <div class="flex justify-end text-sm text-slate-600 dark:text-slate-300">
+                            <span>{{ t('line_total_ht') }} : <strong class="ml-1">{{ formatCurrency(lineNetHt(item)) }} €</strong></span>
                         </div>
                         </div>
 

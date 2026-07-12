@@ -493,7 +493,18 @@
                         </td>
                         <td class="text-center">{{ $item->unit_label ?? '-' }}</td>
                         <td class="text-center">{{ $item->quantity == (int)$item->quantity ? (int)$item->quantity : number_format($item->quantity, 2, ',', ' ') }}</td>
-                        <td class="text-right">{{ number_format($item->unit_price, 2, ',', ' ') }} €</td>
+                        <td class="text-right">
+                            {{ number_format($item->unit_price, 2, ',', ' ') }} €
+                            @if((float) $item->discount_value > 0)
+                                <div style="font-size: 0.85em; color: #92400e;">
+                                    @if($item->discount_type === 'amount')
+                                        −{{ number_format($item->discount_value, 2, ',', ' ') }} €
+                                    @else
+                                        −{{ rtrim(rtrim(number_format($item->discount_value, 2, ',', ' '), '0'), ',') }} %
+                                    @endif
+                                </div>
+                            @endif
+                        </td>
                         <td class="text-right">{{ number_format($item->total_ht, 2, ',', ' ') }} €</td>
                     </tr>
                 @empty

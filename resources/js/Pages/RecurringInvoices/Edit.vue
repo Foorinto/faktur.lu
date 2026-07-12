@@ -42,12 +42,14 @@ const form = useForm({
         quantity: item.quantity,
         unit: item.unit,
         unit_price: item.unit_price,
+        discount_type: item.discount_type || 'percent',
+        discount_value: parseFloat(item.discount_value) || 0,
         vat_rate: item.vat_rate,
     })),
 });
 
 const addItem = () => {
-    form.items.push({ title: '', description: '', quantity: 1, unit: 'unit', unit_price: 0, vat_rate: props.defaultVatRate });
+    form.items.push({ title: '', description: '', quantity: 1, unit: 'unit', unit_price: 0, discount_type: 'percent', discount_value: 0, vat_rate: props.defaultVatRate });
 };
 
 const removeItem = (index) => {
@@ -56,13 +58,26 @@ const removeItem = (index) => {
     }
 };
 
+// Net line total after discount (mirrors backend InvoiceItem::applyLineDiscount)
+const lineNetHt = (item) => {
+    const gross = (parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0);
+    const dv = parseFloat(item.discount_value) || 0;
+    let discount = 0;
+    if (dv > 0) {
+        discount = item.discount_type === 'amount'
+            ? Math.min(dv, gross)
+            : gross * Math.min(dv, 100) / 100;
+    }
+    return Math.max(0, gross - discount);
+};
+
 const totalHt = () => {
-    return form.items.reduce((sum, item) => sum + (item.quantity * item.unit_price), 0);
+    return form.items.reduce((sum, item) => sum + lineNetHt(item), 0);
 };
 
 const totalTtc = () => {
     return form.items.reduce((sum, item) => {
-        const ht = item.quantity * item.unit_price;
+        const ht = lineNetHt(item);
         return sum + ht + (ht * item.vat_rate / 100);
     }, 0);
 };
@@ -180,7 +195,7 @@ const submit = () => {
                                 </div>
                             </div>
                             <div class="mt-2 grid sm:grid-cols-6 gap-3">
-                                <div class="sm:col-span-3">
+                                <div class="sm:col-span-2">
                                     <input v-model="item.description" type="text" :placeholder="t('recurring_invoice_field_description_placeholder')" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
                                 </div>
                                 <div>
@@ -188,8 +203,15 @@ const submit = () => {
                                         <option v-for="u in units" :key="u" :value="u">{{ u }}</option>
                                     </select>
                                 </div>
+                                <div class="flex" :title="t('discount')">
+                                    <input v-model.number="item.discount_value" type="number" step="0.01" min="0" :max="item.discount_type === 'percent' ? 100 : null" placeholder="0" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-l-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
+                                    <select v-model="item.discount_type" :aria-label="t('discount_type')" class="border border-l-0 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-r-lg text-sm focus:ring-2 focus:ring-primary-500">
+                                        <option value="percent">%</option>
+                                        <option value="amount">€</option>
+                                    </select>
+                                </div>
                                 <div class="sm:col-span-2 text-right text-sm font-medium text-slate-700 dark:text-slate-300 self-center">
-                                    {{ formatCurrency(item.quantity * item.unit_price) }} {{ t('recurring_invoice_amount_suffix_ht') }}
+                                    {{ formatCurrency(lineNetHt(item)) }} {{ t('recurring_invoice_amount_suffix_ht') }}
                                 </div>
                             </div>
                         </div>
