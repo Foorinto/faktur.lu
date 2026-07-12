@@ -211,6 +211,18 @@ class InvoiceController extends Controller
             }
         }
 
+        // Create global discounts if provided
+        if ($request->has('discounts')) {
+            foreach ($request->validated('discounts') as $index => $discountData) {
+                $invoice->discounts()->create([
+                    'label' => $discountData['label'] ?? null,
+                    'type' => $discountData['type'],
+                    'value' => $discountData['value'],
+                    'sort_order' => $index,
+                ]);
+            }
+        }
+
         return redirect()
             ->route('invoices.edit', $invoice)
             ->with('success', __('app.invoices_flash.created'));
@@ -221,7 +233,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): Response
     {
-        $invoice->load(['client', 'items', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission']);
+        $invoice->load(['client', 'items', 'discounts', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission']);
 
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
@@ -239,7 +251,7 @@ class InvoiceController extends Controller
             return redirect()->route('invoices.show', $invoice);
         }
 
-        $invoice->load(['client', 'items']);
+        $invoice->load(['client', 'items', 'discounts']);
 
         $settings = BusinessSettings::getInstance();
         $vatService = app(VatCalculationService::class);
@@ -347,6 +359,15 @@ class InvoiceController extends Controller
                     'discount_value' => $item->discount_value,
                     'vat_rate' => $item->vat_rate,
                     'sort_order' => $item->sort_order,
+                ]);
+            }
+
+            foreach ($invoice->discounts as $discount) {
+                $newInvoice->discounts()->create([
+                    'label' => $discount->label,
+                    'type' => $discount->type,
+                    'value' => $discount->value,
+                    'sort_order' => $discount->sort_order,
                 ]);
             }
 

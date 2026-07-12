@@ -72,6 +72,22 @@ class InvoiceGlobalDiscountTest extends TestCase
         $this->assertSame('20.0000', (string) $invoice->total_vat); // 100×17% + 100×3%
     }
 
+    public function test_pdf_data_ventilates_vat_and_exposes_discounts(): void
+    {
+        $invoice = $this->draftWithTwoRates(); // 100 @ 17 % + 100 @ 3 %
+        InvoiceDiscount::create(['invoice_id' => $invoice->id, 'label' => 'Promo', 'type' => 'amount', 'value' => 50]);
+
+        $data = app(\App\Services\InvoicePdfService::class)->prepareData($invoice->fresh());
+
+        $this->assertCount(1, $data['discounts']);
+        $this->assertSame('200.0000', (string) $data['subtotalHt']);
+
+        $bases = collect($data['vatSummary'])->keyBy('rate');
+        // Bases nettes ventilées : 75 @ 17 % et 75 @ 3 %
+        $this->assertSame('12.7500', (string) $bases['17.00']['vat']);
+        $this->assertSame('2.2500', (string) $bases['3.00']['vat']);
+    }
+
     public function test_line_and_global_discounts_combine(): void
     {
         $user = User::factory()->create();

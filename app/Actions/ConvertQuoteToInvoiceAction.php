@@ -57,6 +57,16 @@ class ConvertQuoteToInvoiceAction
                 ]);
             }
 
+            // Copy global discounts from the quote to the invoice
+            foreach ($quote->discounts as $quoteDiscount) {
+                $invoice->discounts()->create([
+                    'label' => $quoteDiscount->label,
+                    'type' => $quoteDiscount->type,
+                    'value' => $quoteDiscount->value,
+                    'sort_order' => $quoteDiscount->sort_order,
+                ]);
+            }
+
             // Mark the quote as converted
             Quote::withoutEvents(function () use ($quote, $invoice) {
                 $quote->update([

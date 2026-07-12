@@ -595,6 +595,8 @@ return [
     'discount' => 'Remise',
     'discount_type' => 'Zort Remise',
     'line_total_ht' => 'Zeil-Total HT',
+    'subtotal_ht' => 'Ënnersumme HT',
+    'discount_label_placeholder' => 'Bezeechnung (z. B. éischt Bestellung)',
     'total_vat' => 'Total TVA',
     'related_credit_notes' => 'Zougehéireg Gutschrëften',
     'create_credit_note_for' => 'Gutschrëft fir :number erstellen',

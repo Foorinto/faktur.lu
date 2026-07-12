@@ -32,6 +32,8 @@ return [
 
     // Totals
     'subtotal' => 'Subtotal (excl. VAT)',
+    'subtotal_ht' => 'Subtotal excl. VAT',
+    'discount_line' => 'Discount',
     'vat' => 'VAT',
     'total' => 'Total (incl. VAT)',
     'net_total' => 'Amount Due',

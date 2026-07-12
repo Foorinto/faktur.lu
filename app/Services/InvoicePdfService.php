@@ -149,7 +149,7 @@ class InvoicePdfService
      */
     public function prepareData(Invoice $invoice, ?string $localeOverride = null): array
     {
-        $invoice->load('items');
+        $invoice->load('items', 'discounts');
 
         $seller = $invoice->seller_snapshot ?? [];
         $buyer = $invoice->buyer_snapshot ?? [];
@@ -167,16 +167,14 @@ class InvoicePdfService
             $logoPath = $this->getLogoDataUri($seller['logo_path']);
         }
 
-        // Group items by VAT rate for summary
-        $vatSummary = $invoice->items
-            ->groupBy('vat_rate')
-            ->map(function ($items, $rate) {
-                return [
-                    'rate' => $rate,
-                    'base' => $items->sum('total_ht'),
-                    'vat' => $items->sum('total_vat'),
-                ];
-            })
+        // VAT summary — global discounts ventilated per rate (source unique)
+        $documentTotals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
+        $vatSummary = collect($documentTotals['rates'])
+            ->map(fn ($r) => [
+                'rate' => $r['rate'],
+                'base' => $r['net_base'],
+                'vat' => $r['vat'],
+            ])
             ->values()
             ->toArray();
 
@@ -215,6 +213,8 @@ class InvoicePdfService
             'isVatExempt' => $isVatExempt,
             'isCreditNote' => $isCreditNote,
             'vatSummary' => $vatSummary,
+            'discounts' => $invoice->discounts,
+            'subtotalHt' => $documentTotals['subtotal_ht'],
             'paymentReference' => $this->generatePaymentReference($invoice),
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
@@ -234,7 +234,7 @@ class InvoicePdfService
      */
     public function prepareDraftData(Invoice $invoice, ?string $localeOverride = null): array
     {
-        $invoice->load(['items', 'client']);
+        $invoice->load(['items', 'client', 'discounts']);
 
         // Get current business settings for seller info
         $settings = \App\Models\BusinessSettings::getInstance();
@@ -289,16 +289,14 @@ class InvoicePdfService
         // Determine if VAT exempt (franchise regime)
         $isVatExempt = ($seller['vat_regime'] ?? '') === 'franchise';
 
-        // Group items by VAT rate for summary
-        $vatSummary = $invoice->items
-            ->groupBy('vat_rate')
-            ->map(function ($items, $rate) {
-                return [
-                    'rate' => $rate,
-                    'base' => $items->sum('total_ht'),
-                    'vat' => $items->sum('total_vat'),
-                ];
-            })
+        // VAT summary — global discounts ventilated per rate (source unique)
+        $documentTotals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
+        $vatSummary = collect($documentTotals['rates'])
+            ->map(fn ($r) => [
+                'rate' => $r['rate'],
+                'base' => $r['net_base'],
+                'vat' => $r['vat'],
+            ])
             ->values()
             ->toArray();
 
@@ -335,6 +333,8 @@ class InvoicePdfService
             'isVatExempt' => $isVatExempt,
             'isCreditNote' => $isCreditNote,
             'vatSummary' => $vatSummary,
+            'discounts' => $invoice->discounts,
+            'subtotalHt' => $documentTotals['subtotal_ht'],
             'paymentReference' => 'BROUILLON',
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,

@@ -27,9 +27,11 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\PeppolExportController;
 use App\Http\Controllers\InvoiceEmailController;
+use App\Http\Controllers\InvoiceDiscountController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\QuoteDiscountController;
 use App\Http\Controllers\QuoteItemController;
 use App\Http\Controllers\FiscalSummaryController;
 use App\Http\Controllers\SearchController;
@@ -581,6 +583,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::patch('/invoices/{invoice}/items/{item}/move', [InvoiceItemController::class, 'move'])->name('invoices.items.move');
         Route::delete('/invoices/{invoice}/items/{item}', [InvoiceItemController::class, 'destroy'])->name('invoices.items.destroy');
 
+        // Invoice Discounts (global)
+        Route::post('/invoices/{invoice}/discounts', [InvoiceDiscountController::class, 'store'])->name('invoices.discounts.store');
+        Route::put('/invoices/{invoice}/discounts/{discount}', [InvoiceDiscountController::class, 'update'])->name('invoices.discounts.update');
+        Route::delete('/invoices/{invoice}/discounts/{discount}', [InvoiceDiscountController::class, 'destroy'])->name('invoices.discounts.destroy');
+
         // Quotes
         Route::resource('quotes', QuoteController::class)->except(['store']);
         Route::post('/quotes', [QuoteController::class, 'store'])
@@ -599,6 +606,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::put('/quotes/{quote}/items/{item}', [QuoteItemController::class, 'update'])->name('quotes.items.update');
         Route::patch('/quotes/{quote}/items/{item}/move', [QuoteItemController::class, 'move'])->name('quotes.items.move');
         Route::delete('/quotes/{quote}/items/{item}', [QuoteItemController::class, 'destroy'])->name('quotes.items.destroy');
+
+        // Quote Discounts (global)
+        Route::post('/quotes/{quote}/discounts', [QuoteDiscountController::class, 'store'])->name('quotes.discounts.store');
+        Route::put('/quotes/{quote}/discounts/{discount}', [QuoteDiscountController::class, 'update'])->name('quotes.discounts.update');
+        Route::delete('/quotes/{quote}/discounts/{discount}', [QuoteDiscountController::class, 'destroy'])->name('quotes.discounts.destroy');
 
         // Expenses
         Route::resource('expenses', ExpenseController::class)->except(['store']);

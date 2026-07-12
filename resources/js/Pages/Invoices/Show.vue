@@ -19,6 +19,15 @@ const props = defineProps({
     },
 });
 
+// Global discounts display helpers
+const subtotalHt = computed(() =>
+    (props.invoice.items || []).reduce((sum, i) => sum + (parseFloat(i.total_ht) || 0), 0)
+);
+const discountEuro = (discount) => {
+    const value = parseFloat(discount.value) || 0;
+    return discount.type === 'amount' ? value : subtotalHt.value * value / 100;
+};
+
 const processing = ref(false);
 const showCreditNoteModal = ref(false);
 const creditNoteType = ref('full'); // 'full' or 'partial'
@@ -825,6 +834,22 @@ const submitCreditNote = () => {
                             </tr>
                         </tbody>
                         <tfoot class="bg-slate-50 dark:bg-gray-800">
+                            <tr v-if="(invoice.discounts || []).length > 0">
+                                <td colspan="4" class="py-2 pl-6 pr-3 text-right text-sm text-slate-500 dark:text-slate-400">
+                                    {{ t('subtotal_ht') }}
+                                </td>
+                                <td class="whitespace-nowrap py-2 pl-3 pr-6 text-right text-sm text-slate-700 dark:text-slate-300">
+                                    {{ formatCurrency(subtotalHt, invoice.currency) }}
+                                </td>
+                            </tr>
+                            <tr v-for="discount in invoice.discounts || []" :key="discount.id">
+                                <td colspan="4" class="py-2 pl-6 pr-3 text-right text-sm text-amber-700 dark:text-amber-400">
+                                    {{ discount.label || t('discount') }}<template v-if="discount.type === 'percent'"> ({{ parseFloat(discount.value) }} %)</template>
+                                </td>
+                                <td class="whitespace-nowrap py-2 pl-3 pr-6 text-right text-sm text-amber-700 dark:text-amber-400">
+                                    − {{ formatCurrency(discountEuro(discount), invoice.currency) }}
+                                </td>
+                            </tr>
                             <tr>
                                 <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
                                     {{ t('total_ht') }}

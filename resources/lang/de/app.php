@@ -595,6 +595,8 @@ return [
     'discount' => 'Rabatt',
     'discount_type' => 'Rabattart',
     'line_total_ht' => 'Zeilensumme netto',
+    'subtotal_ht' => 'Zwischensumme netto',
+    'discount_label_placeholder' => 'Bezeichnung (z. B. Erstbestellung)',
     'total_vat' => 'MwSt. gesamt',
     'related_credit_notes' => 'Zugehörige Gutschriften',
     'create_credit_note_for' => 'Gutschrift für :number erstellen',

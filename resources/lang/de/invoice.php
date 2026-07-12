@@ -32,6 +32,8 @@ return [
 
     // Totals
     'subtotal' => 'Zwischensumme netto',
+    'subtotal_ht' => 'Zwischensumme netto',
+    'discount_line' => 'Rabatt',
     'vat' => 'MwSt.',
     'total' => 'Gesamtbetrag brutto',
     'net_total' => 'Zahlbetrag',

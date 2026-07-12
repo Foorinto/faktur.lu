@@ -32,6 +32,8 @@ return [
 
     // Totals
     'subtotal' => 'Total sem IVA',
+    'subtotal_ht' => 'Subtotal sem IVA',
+    'discount_line' => 'Desconto',
     'vat' => 'IVA',
     'total' => 'Total com IVA',
     'net_total' => 'Valor líquido a pagar',

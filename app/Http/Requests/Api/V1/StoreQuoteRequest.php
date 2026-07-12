@@ -35,6 +35,10 @@ class StoreQuoteRequest extends FormRequest
             'items.*.discount_value' => ['nullable', 'numeric', 'min:0'],
             // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
             'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
+            'discounts' => ['nullable', 'array'],
+            'discounts.*.label' => ['nullable', 'string', 'max:255'],
+            'discounts.*.type' => ['required_with:discounts', Rule::in(['percent', 'amount'])],
+            'discounts.*.value' => ['required_with:discounts', 'numeric', 'min:0'],
         ];
     }
 

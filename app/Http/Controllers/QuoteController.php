@@ -173,6 +173,17 @@ class QuoteController extends Controller
             }
         }
 
+        if ($request->has('discounts')) {
+            foreach ($request->validated('discounts') as $index => $discountData) {
+                $quote->discounts()->create([
+                    'label' => $discountData['label'] ?? null,
+                    'type' => $discountData['type'],
+                    'value' => $discountData['value'],
+                    'sort_order' => $index,
+                ]);
+            }
+        }
+
         return redirect()
             ->route('quotes.edit', $quote)
             ->with('success', __('app.quotes_flash.created'));
@@ -265,6 +276,15 @@ class QuoteController extends Controller
                     'discount_value' => $item->discount_value,
                     'vat_rate' => $item->vat_rate,
                     'sort_order' => $item->sort_order,
+                ]);
+            }
+
+            foreach ($quote->discounts as $discount) {
+                $newQuote->discounts()->create([
+                    'label' => $discount->label,
+                    'type' => $discount->type,
+                    'value' => $discount->value,
+                    'sort_order' => $discount->sort_order,
                 ]);
             }
 

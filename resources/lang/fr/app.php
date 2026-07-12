@@ -692,6 +692,8 @@ return [
     'discount' => 'Remise',
     'discount_type' => 'Type de remise',
     'line_total_ht' => 'Total HT ligne',
+    'subtotal_ht' => 'Sous-total HT',
+    'discount_label_placeholder' => 'Libellé (ex : première commande)',
     'total_vat' => 'Total TVA',
     'related_credit_notes' => 'Avoirs liés',
     'create_credit_note_for' => 'Créer un avoir pour :number',

@@ -39,6 +39,10 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
             'retention_guarantee_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'retention_release_date' => ['nullable', 'date'],
+            'discounts' => ['nullable', 'array'],
+            'discounts.*.label' => ['nullable', 'string', 'max:255'],
+            'discounts.*.type' => ['required_with:discounts', Rule::in(['percent', 'amount'])],
+            'discounts.*.value' => ['required_with:discounts', 'numeric', 'min:0'],
         ];
     }
 

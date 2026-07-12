@@ -32,6 +32,8 @@ return [
 
     // Totals
     'subtotal' => 'Total HT',
+    'subtotal_ht' => 'Sous-total HT',
+    'discount_line' => 'Remise',
     'vat' => 'TVA',
     'total' => 'Total TTC',
     'net_total' => 'Net à payer',
