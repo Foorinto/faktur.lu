@@ -90,6 +90,25 @@ const itemForm = useForm({
     vat_rate: defaultVatRate,
 });
 
+// Global discounts (on the total)
+const discountForm = useForm({ label: '', type: 'percent', value: null });
+
+const addDiscount = () => {
+    discountForm.post(route('quotes.discounts.store', props.quote.id), {
+        preserveScroll: true,
+        onSuccess: () => discountForm.reset(),
+    });
+};
+
+const removeDiscount = (discountId) => {
+    router.delete(route('quotes.discounts.destroy', [props.quote.id, discountId]), { preserveScroll: true });
+};
+
+const discountAmount = (discount, subtotal) => {
+    const value = parseFloat(discount.value) || 0;
+    return discount.type === 'amount' ? value : subtotal * value / 100;
+};
+
 // Calculate totals from items
 const totals = computed(() => {
     let totalHt = 0;
@@ -830,18 +849,49 @@ const getStatusLabel = (status) => {
                         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Résumé</h2>
                     </div>
                     <div class="px-6 py-4 space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-slate-500 dark:text-slate-400">Total HT</span>
+                        <div v-if="(quote.discounts || []).length > 0" class="flex justify-between text-sm">
+                            <span class="text-slate-500 dark:text-slate-400">{{ t('subtotal_ht') }}</span>
                             <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(totals.ht) }}</span>
+                        </div>
+
+                        <div
+                            v-for="discount in quote.discounts || []"
+                            :key="discount.id"
+                            class="flex justify-between items-center text-sm text-amber-700 dark:text-amber-400"
+                        >
+                            <span class="flex items-center gap-1 min-w-0">
+                                <button type="button" @click="removeDiscount(discount.id)" class="text-slate-400 hover:text-red-500 shrink-0" :title="t('delete')">
+                                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg>
+                                </button>
+                                <span class="truncate">{{ discount.label || t('discount') }}<template v-if="discount.type === 'percent'"> ({{ parseFloat(discount.value) }} %)</template></span>
+                            </span>
+                            <span class="font-medium whitespace-nowrap">− {{ formatCurrency(discountAmount(discount, totals.ht)) }}</span>
+                        </div>
+
+                        <form @submit.prevent="addDiscount" class="flex items-center gap-1">
+                            <input v-model="discountForm.label" type="text" :placeholder="t('discount_label_placeholder')" class="min-w-0 flex-1 rounded-lg border-gray-300 shadow-sm text-xs focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
+                            <input v-model.number="discountForm.value" type="number" step="0.01" min="0" :max="discountForm.type === 'percent' ? 100 : null" placeholder="0" class="w-14 rounded-l-lg border-gray-300 shadow-sm text-xs focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
+                            <select v-model="discountForm.type" :aria-label="t('discount_type')" class="rounded-r-lg border border-l-0 border-gray-300 shadow-sm text-xs focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                                <option value="percent">%</option>
+                                <option value="amount">€</option>
+                            </select>
+                            <button type="submit" :disabled="!discountForm.value || discountForm.processing" class="rounded-lg bg-primary-600 px-2 py-1.5 text-white shadow-sm hover:bg-primary-500 disabled:opacity-40" :title="t('add')">
+                                <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
+                            </button>
+                        </form>
+
+                        <div class="flex justify-between text-sm border-t border-gray-200 dark:border-gray-700 pt-3">
+                            <span class="text-slate-500 dark:text-slate-400">Total HT</span>
+                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(quote.total_ht) }}</span>
                         </div>
                         <div class="flex justify-between text-sm">
                             <span class="text-slate-500 dark:text-slate-400">TVA</span>
-                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(totals.vat) }}</span>
+                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(quote.total_vat) }}</span>
                         </div>
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
                             <div class="flex justify-between">
                                 <span class="text-base font-medium text-slate-900 dark:text-white">Total TTC</span>
-                                <span class="text-lg font-bold text-slate-900 dark:text-white">{{ formatCurrency(totals.ttc) }}</span>
+                                <span class="text-lg font-bold text-slate-900 dark:text-white">{{ formatCurrency(quote.total_ttc) }}</span>
                             </div>
                         </div>
                     </div>

@@ -194,7 +194,7 @@ class QuoteController extends Controller
      */
     public function show(Quote $quote): Response
     {
-        $quote->load(['client', 'items', 'convertedInvoice']);
+        $quote->load(['client', 'items', 'discounts', 'convertedInvoice']);
 
         return Inertia::render('Quotes/Show', [
             'quote' => $quote,
@@ -210,7 +210,7 @@ class QuoteController extends Controller
             return redirect()->route('quotes.show', $quote);
         }
 
-        $quote->load(['client', 'items']);
+        $quote->load(['client', 'items', 'discounts']);
         $settings = \App\Models\BusinessSettings::getInstance();
 
         // Get VAT scenario for the current client

@@ -90,7 +90,7 @@ class QuotePdfService
      */
     public function prepareData(Quote $quote, ?string $localeOverride = null): array
     {
-        $quote->load(['items', 'client']);
+        $quote->load(['items', 'client', 'discounts']);
 
         // Use snapshots if they exist, otherwise use current data
         if ($quote->seller_snapshot) {
@@ -149,16 +149,14 @@ class QuotePdfService
             $logoPath = $this->getLogoDataUri($seller['logo_path']);
         }
 
-        // Group items by VAT rate for summary
-        $vatSummary = $quote->items
-            ->groupBy('vat_rate')
-            ->map(function ($items, $rate) {
-                return [
-                    'rate' => $rate,
-                    'base' => $items->sum('total_ht'),
-                    'vat' => $items->sum('total_vat'),
-                ];
-            })
+        // VAT summary — global discounts ventilated per rate (source unique)
+        $documentTotals = app(\App\Services\DocumentTotalsCalculator::class)->compute($quote->items, $quote->discounts);
+        $vatSummary = collect($documentTotals['rates'])
+            ->map(fn ($r) => [
+                'rate' => $r['rate'],
+                'base' => $r['net_base'],
+                'vat' => $r['vat'],
+            ])
             ->values()
             ->toArray();
 
@@ -182,6 +180,8 @@ class QuotePdfService
             'items' => $quote->items,
             'isVatExempt' => $isVatExempt,
             'vatSummary' => $vatSummary,
+            'discounts' => $quote->discounts,
+            'subtotalHt' => $documentTotals['subtotal_ht'],
             'logoPath' => $logoPath,
             'showBranding' => $showBranding,
             'locale' => $locale,

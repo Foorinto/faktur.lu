@@ -59,6 +59,10 @@ class RecurringInvoiceController extends Controller
             'items.*.discount_type' => 'nullable|in:percent,amount',
             'items.*.discount_value' => 'nullable|numeric|min:0',
             'items.*.vat_rate' => 'required|numeric|min:0|max:100',
+            'discounts' => 'nullable|array',
+            'discounts.*.label' => 'nullable|string|max:255',
+            'discounts.*.type' => 'required|in:percent,amount',
+            'discounts.*.value' => 'required|numeric|min:0',
         ]);
 
         // Verify client belongs to user
@@ -96,6 +100,15 @@ class RecurringInvoiceController extends Controller
             ]);
         }
 
+        foreach ($validated['discounts'] ?? [] as $index => $discount) {
+            $recurring->discounts()->create([
+                'label' => $discount['label'] ?? null,
+                'type' => $discount['type'],
+                'value' => $discount['value'],
+                'sort_order' => $index,
+            ]);
+        }
+
         return redirect()->route('recurring-invoices.index')
             ->with('success', __('app.recurring_flash.created'));
     }
@@ -104,7 +117,7 @@ class RecurringInvoiceController extends Controller
     {
         abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
 
-        $recurringInvoice->load('items');
+        $recurringInvoice->load(['items', 'discounts']);
 
         $clients = Client::where('user_id', auth()->id())
             ->orderBy('name')
@@ -145,6 +158,10 @@ class RecurringInvoiceController extends Controller
             'items.*.discount_type' => 'nullable|in:percent,amount',
             'items.*.discount_value' => 'nullable|numeric|min:0',
             'items.*.vat_rate' => 'required|numeric|min:0|max:100',
+            'discounts' => 'nullable|array',
+            'discounts.*.label' => 'nullable|string|max:255',
+            'discounts.*.type' => 'required|in:percent,amount',
+            'discounts.*.value' => 'required|numeric|min:0',
         ]);
 
         $recurringInvoice->update([
@@ -179,6 +196,17 @@ class RecurringInvoiceController extends Controller
             ]);
         }
 
+        // Replace global discounts
+        $recurringInvoice->discounts()->delete();
+        foreach ($validated['discounts'] ?? [] as $index => $discount) {
+            $recurringInvoice->discounts()->create([
+                'label' => $discount['label'] ?? null,
+                'type' => $discount['type'],
+                'value' => $discount['value'],
+                'sort_order' => $index,
+            ]);
+        }
+
         return redirect()->route('recurring-invoices.index')
             ->with('success', __('app.recurring_flash.updated'));
     }
@@ -202,7 +230,7 @@ class RecurringInvoiceController extends Controller
     {
         abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
 
-        $recurringInvoice->load('items');
+        $recurringInvoice->load(['items', 'discounts']);
 
         $duplicate = \Illuminate\Support\Facades\DB::transaction(function () use ($recurringInvoice) {
             $copy = RecurringInvoice::create([
@@ -234,6 +262,15 @@ class RecurringInvoiceController extends Controller
                     'discount_value' => $item->discount_value,
                     'vat_rate' => $item->vat_rate,
                     'sort_order' => $item->sort_order,
+                ]);
+            }
+
+            foreach ($recurringInvoice->discounts as $discount) {
+                $copy->discounts()->create([
+                    'label' => $discount->label,
+                    'type' => $discount->type,
+                    'value' => $discount->value,
+                    'sort_order' => $discount->sort_order,
                 ]);
             }
 

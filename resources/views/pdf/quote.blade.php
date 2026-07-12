@@ -503,10 +503,27 @@
 
             <div class="totals-column">
                 <div class="totals-box">
+                    @php $hasDiscounts = count($discounts ?? []) > 0; @endphp
                     <div class="total-row">
-                        <span class="total-label">{{ __('invoice.subtotal') }}</span>
-                        <span class="total-value">{{ number_format($quote->total_ht ?? 0, 2, ',', ' ') }} €</span>
+                        <span class="total-label">{{ $hasDiscounts ? __('invoice.subtotal_ht') : __('invoice.subtotal') }}</span>
+                        <span class="total-value">{{ number_format($hasDiscounts ? ($subtotalHt ?? 0) : ($quote->total_ht ?? 0), 2, ',', ' ') }} €</span>
                     </div>
+                    @foreach(($discounts ?? []) as $discount)
+                        @php
+                            $dv = (float) $discount->value;
+                            $damount = $discount->type === 'amount' ? $dv : ((float) ($subtotalHt ?? 0) * $dv / 100);
+                        @endphp
+                        <div class="total-row">
+                            <span class="total-label">{{ $discount->label ?: __('invoice.discount_line') }}@if($discount->type === 'percent') ({{ rtrim(rtrim(number_format($dv, 2, ',', ' '), '0'), ',') }} %)@endif</span>
+                            <span class="total-value">- {{ number_format($damount, 2, ',', ' ') }} €</span>
+                        </div>
+                    @endforeach
+                    @if($hasDiscounts)
+                        <div class="total-row">
+                            <span class="total-label">{{ __('invoice.subtotal') }}</span>
+                            <span class="total-value">{{ number_format($quote->total_ht ?? 0, 2, ',', ' ') }} €</span>
+                        </div>
+                    @endif
                     @if(!$isVatExempt)
                         @foreach($vatSummary as $vat)
                             <div class="total-row">

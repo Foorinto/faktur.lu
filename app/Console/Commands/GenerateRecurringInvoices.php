@@ -93,11 +93,23 @@ class GenerateRecurringInvoices extends Command
             ]);
         }
 
-        // Recalculate totals
+        // Copy global discounts from the recurring template
+        foreach ($recurring->discounts as $discount) {
+            $invoice->discounts()->create([
+                'label' => $discount->label,
+                'type' => $discount->type,
+                'value' => $discount->value,
+                'sort_order' => $discount->sort_order,
+            ]);
+        }
+
+        // Recalculate totals (global discounts ventilated per VAT rate)
+        $invoice->load('items', 'discounts');
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
         $invoice->update([
-            'total_ht' => $invoice->items()->sum('total_ht'),
-            'total_vat' => $invoice->items()->sum('total_vat'),
-            'total_ttc' => $invoice->items()->sum('total_ttc'),
+            'total_ht' => $totals['total_ht'],
+            'total_vat' => $totals['total_vat'],
+            'total_ttc' => $totals['total_ttc'],
         ]);
 
         return $invoice->fresh();

@@ -46,11 +46,19 @@ const form = useForm({
         discount_value: parseFloat(item.discount_value) || 0,
         vat_rate: item.vat_rate,
     })),
+    discounts: (props.recurringInvoice.discounts || []).map(d => ({
+        label: d.label || '',
+        type: d.type || 'percent',
+        value: parseFloat(d.value) || 0,
+    })),
 });
 
 const addItem = () => {
     form.items.push({ title: '', description: '', quantity: 1, unit: 'unit', unit_price: 0, discount_type: 'percent', discount_value: 0, vat_rate: props.defaultVatRate });
 };
+
+const addDiscountLine = () => form.discounts.push({ label: '', type: 'percent', value: null });
+const removeDiscountLine = (index) => form.discounts.splice(index, 1);
 
 const removeItem = (index) => {
     if (form.items.length > 1) {
@@ -71,15 +79,33 @@ const lineNetHt = (item) => {
     return Math.max(0, gross - discount);
 };
 
-const totalHt = () => {
-    return form.items.reduce((sum, item) => sum + lineNetHt(item), 0);
+const subtotalHt = () => form.items.reduce((sum, item) => sum + lineNetHt(item), 0);
+
+const globalDiscountTotal = () => {
+    const subtotal = subtotalHt();
+    let discount = 0;
+    for (const d of form.discounts) {
+        const v = parseFloat(d.value) || 0;
+        discount += d.type === 'amount' ? v : subtotal * v / 100;
+    }
+    return Math.min(discount, subtotal);
 };
 
+const discountLineAmount = (discount) => {
+    const v = parseFloat(discount.value) || 0;
+    return discount.type === 'amount' ? v : subtotalHt() * v / 100;
+};
+
+const totalHt = () => subtotalHt() - globalDiscountTotal();
+
 const totalTtc = () => {
-    return form.items.reduce((sum, item) => {
-        const ht = lineNetHt(item);
-        return sum + ht + (ht * item.vat_rate / 100);
-    }, 0);
+    const subtotal = subtotalHt();
+    const factor = subtotal > 0 ? (subtotal - globalDiscountTotal()) / subtotal : 1;
+    let vat = 0;
+    for (const item of form.items) {
+        vat += lineNetHt(item) * factor * (parseFloat(item.vat_rate) || 0) / 100;
+    }
+    return totalHt() + vat;
 };
 
 const formatCurrency = (amount) => {
@@ -214,6 +240,26 @@ const submit = () => {
                                     {{ formatCurrency(lineNetHt(item)) }} {{ t('recurring_invoice_amount_suffix_ht') }}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Remises globales -->
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300">{{ t('discount') }}</h3>
+                            <button type="button" @click="addDiscountLine" class="text-sm text-primary-500 hover:text-primary-600 font-medium">+ {{ t('discount') }}</button>
+                        </div>
+                        <div v-for="(discount, index) in form.discounts" :key="index" class="flex items-center gap-2 mb-2">
+                            <input v-model="discount.label" type="text" :placeholder="t('discount_label_placeholder')" class="flex-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
+                            <input v-model.number="discount.value" type="number" step="0.01" min="0" :max="discount.type === 'percent' ? 100 : null" placeholder="0" class="w-16 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-l-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
+                            <select v-model="discount.type" :aria-label="t('discount_type')" class="-ml-2 border border-l-0 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-r-lg text-sm focus:ring-2 focus:ring-primary-500">
+                                <option value="percent">%</option>
+                                <option value="amount">€</option>
+                            </select>
+                            <span class="w-20 text-right text-sm text-amber-700 dark:text-amber-400">− {{ formatCurrency(discountLineAmount(discount)) }}</span>
+                            <button type="button" @click="removeDiscountLine(index)" class="p-2 text-slate-400 hover:text-red-500">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
                         </div>
                     </div>
 
