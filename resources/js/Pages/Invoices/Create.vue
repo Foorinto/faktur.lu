@@ -419,7 +419,10 @@ if (form.items.length === 0) {
                             </button>
                         </div>
                         <div class="flex justify-end text-sm text-slate-600 dark:text-slate-300">
-                            <span>{{ t('line_total_ht') }} : <strong class="ml-1">{{ formatCurrency(lineNetHt(item)) }} €</strong></span>
+                            <span>{{ t('line_total_ht') }} :
+                                <s v-if="parseFloat(item.discount_value) > 0" class="text-slate-400 text-xs mr-1">{{ formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0)) }} €</s>
+                                <strong class="ml-1">{{ formatCurrency(lineNetHt(item)) }} €</strong>
+                            </span>
                         </div>
                         </div>
 

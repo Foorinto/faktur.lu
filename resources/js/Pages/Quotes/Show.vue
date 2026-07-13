@@ -387,6 +387,7 @@ const duplicateQuote = () => {
                                     {{ item.vat_rate }}%
                                 </td>
                                 <td class="whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white">
+                                    <s v-if="parseFloat(item.discount_value) > 0" class="block text-xs font-normal text-slate-400">{{ formatCurrency(item.quantity * item.unit_price, quote.currency) }}</s>
                                     {{ formatCurrency(item.total_ht, quote.currency) }}
                                 </td>
                             </tr>

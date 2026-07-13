@@ -457,7 +457,12 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="text-right">{{ number_format($item->total_ht, 2, ',', ' ') }} €</td>
+                        <td class="text-right">
+                            @if((float) $item->discount_value > 0)
+                                <s style="color: #94a3b8; font-size: 0.8em;">{{ number_format($item->quantity * $item->unit_price, 2, ',', ' ') }} €</s><br>
+                            @endif
+                            {{ number_format($item->total_ht, 2, ',', ' ') }} €
+                        </td>
                     </tr>
                 @empty
                     <tr>

@@ -116,6 +116,17 @@ const itemForm = useForm({
     vat_rate: defaultVatRate,
 });
 
+// Custom ("Autre") VAT rate handling for the item forms
+const isKnownVat = (rate) => (props.vatRates || []).some(r => Number(r.value) === Number(rate));
+const editVatCustom = ref(false);
+const itemVatCustom = ref(false);
+const onEditVatChange = (val) => {
+    if (val === 'custom') { editVatCustom.value = true; } else { editVatCustom.value = false; editItemForm.vat_rate = parseFloat(val); }
+};
+const onItemVatChange = (val) => {
+    if (val === 'custom') { itemVatCustom.value = true; } else { itemVatCustom.value = false; itemForm.vat_rate = parseFloat(val); }
+};
+
 // Global discounts (on the total)
 const discountForm = useForm({ label: '', type: 'percent', value: null });
 
@@ -277,6 +288,7 @@ const startEditItem = (item) => {
     editItemForm.discount_type = item.discount_type || 'percent';
     editItemForm.discount_value = parseFloat(item.discount_value) || 0;
     editItemForm.vat_rate = parseFloat(item.vat_rate);
+    editVatCustom.value = !isKnownVat(item.vat_rate);
 };
 
 // Cancel editing
@@ -660,13 +672,22 @@ const openPreview = () => {
                                     <div class="w-28">
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('vat') }}</label>
                                         <select
-                                            v-model.number="editItemForm.vat_rate"
+                                            :value="editVatCustom ? 'custom' : editItemForm.vat_rate"
+                                            @change="onEditVatChange($event.target.value)"
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                                 {{ rate.value }}%
                                             </option>
+                                            <option value="custom">{{ t('other') }}</option>
                                         </select>
+                                        <input
+                                            v-if="editVatCustom"
+                                            v-model.number="editItemForm.vat_rate"
+                                            type="number" step="0.01" min="0" max="100"
+                                            placeholder="%"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                        />
                                     </div>
                                     <div class="flex space-x-2">
                                         <button
@@ -727,6 +748,7 @@ const openPreview = () => {
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <span class="text-sm font-medium text-slate-900 dark:text-white mr-2">
+                                        <s v-if="parseFloat(item.discount_value) > 0" class="text-slate-400 text-xs mr-1">{{ formatCurrency(item.quantity * item.unit_price) }}</s>
                                         {{ formatCurrency(item.total_ht) }}
                                     </span>
                                     <button
@@ -836,13 +858,22 @@ const openPreview = () => {
                                     <div class="w-28">
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('vat') }}</label>
                                         <select
-                                            v-model.number="itemForm.vat_rate"
+                                            :value="itemVatCustom ? 'custom' : itemForm.vat_rate"
+                                            @change="onItemVatChange($event.target.value)"
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
                                                 {{ rate.value }}%
                                             </option>
+                                            <option value="custom">{{ t('other') }}</option>
                                         </select>
+                                        <input
+                                            v-if="itemVatCustom"
+                                            v-model.number="itemForm.vat_rate"
+                                            type="number" step="0.01" min="0" max="100"
+                                            placeholder="%"
+                                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                        />
                                     </div>
                                     <button
                                         type="submit"
