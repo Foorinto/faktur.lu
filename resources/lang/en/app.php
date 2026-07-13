@@ -2581,20 +2581,20 @@ return [
                 'alternate' => 'Administration de l\'Enregistrement, des Domaines et de la TVA',
                 'description' => 'Luxembourg tax authority responsible for VAT, registration of deeds and inheritance duties. It conducts tax audits and is the recipient of the FAIA audit file.',
             ],
-            'article_21_liva' => [
-                'name' => 'Article 21 LIVA',
-                'alternate' => 'Intra-EU B2B VAT reverse charge',
-                'description' => 'Article of the Luxembourg VAT law transposing the EU reverse-charge principle: services between taxable persons in two different EU member states are invoiced without VAT, and the customer self-assesses VAT in their own country. The mention "Autoliquidation, article 21 LIVA" is mandatory on the invoice.',
+            'autoliquidation' => [
+                'name' => 'Reverse charge',
+                'alternate' => 'Intra-EU B2B VAT reverse charge (autoliquidation)',
+                'description' => 'Mechanism whereby, for services supplied between taxable persons in two EU member states, VAT is not charged by the supplier but self-assessed by the customer in their own country. The invoice bears the "Reverse charge" mention. Legal basis: article 17 LIVA (place of supply) and article 196 of Directive 2006/112/EC (person liable for VAT).',
             ],
-            'article_56_ter_liva' => [
-                'name' => 'Article 56 ter LIVA',
-                'alternate' => 'VAT exemption for small businesses',
-                'description' => 'VAT exemption scheme for taxable persons whose annual turnover does not exceed EUR 50,000 in Luxembourg (2026 threshold). Under this scheme the business charges no VAT and cannot deduct it on its purchases. The mention "TVA non applicable, art. 56 ter LIVA" must appear on every invoice.',
+            'franchise_tva' => [
+                'name' => 'VAT exemption scheme',
+                'alternate' => 'Small business franchise regime',
+                'description' => 'Scheme for taxable persons whose annual turnover does not exceed EUR 50,000 excl. VAT (threshold in force since 2025, with a 10% tolerance for exceeding it). Under this scheme the business charges no VAT and cannot deduct it on purchases. An exemption mention must appear on every invoice (regime set out in articles 57 et seq. LIVA).',
             ],
-            'article_61_liva' => [
-                'name' => 'Article 61 LIVA',
-                'alternate' => 'Mandatory sequential invoice numbering',
-                'description' => 'Provision requiring every Luxembourg invoice to bear a unique, sequential and continuous number, assigned chronologically per fiscal year. A gap or duplicate in the numbering can trigger a tax adjustment under the presumption of undeclared turnover.',
+            'numerotation_sequentielle' => [
+                'name' => 'Sequential numbering',
+                'alternate' => 'Mandatory continuous invoice numbering',
+                'description' => 'Requirement to give every invoice a unique, sequential and continuous number, in an unbroken chronological series. A gap or duplicate in the numbering can trigger a tax adjustment under the presumption of undeclared turnover. Legal basis: article 63 LIVA.',
             ],
             'ccss' => [
                 'name' => 'CCSS',

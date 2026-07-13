@@ -2482,20 +2482,20 @@ return [
                 'alternate' => 'Verwaltung fir Eintragung, Domänen an TVA',
                 'description' => 'Lëtzebuerger Steierverwaltung, zoustänneg fir d\'TVA, d\'Eintragung vun Akten an d\'Ierfschaftssteier. Si féiert Steierkontrollen duerch an ass den Empfänger vun der FAIA-Prüfdatei.',
             ],
-            'article_21_liva' => [
-                'name' => 'Artikel 21 LIVA',
-                'alternate' => 'Autoliquidatioun TVA B2B innergemeinschaftlech',
-                'description' => 'Artikel vum lëtzebuerger TVA-Gesetz, dat de EU-Prinzip vum Reverse-Charge ëmsetzt: Servicer tëschent Steierflichtegen an zwee EU-Memberstaaten ginn ouni TVA fakturéiert, de Client schëllt d\'Steier a sengem Land. De Vermierk "Autoliquidation, article 21 LIVA" ass op der Rechnung obligatoresch.',
+            'autoliquidation' => [
+                'name' => 'Autoliquidatioun',
+                'alternate' => 'Reverse-Charge TVA B2B innergemeinschaftlech',
+                'description' => 'Mechanismus, wou fir Servicer tëschent Steierflichtegen an zwee EU-Memberstaaten d\'TVA net vum Prestataire fakturéiert gëtt, mä vum Client a sengem Land geschëllt gëtt. D\'Rechnung dréit de Vermierk „Autoliquidation". Rechtsgrondlag: Artikel 17 LIVA (Uert vun der Prestatioun) an Artikel 196 vun der Direktiv 2006/112/CE (Steierschëllner).',
             ],
-            'article_56_ter_liva' => [
-                'name' => 'Artikel 56 ter LIVA',
-                'alternate' => 'TVA-Franchise fir kleng Entreprisen',
-                'description' => 'TVA-Franchise-Regime fir Steierflichteg, deenen hire jäerleche Chiffre d\'Affaires 50 000 EUR zu Lëtzebuerg net iwwerschreit (Schwell 2026). Ënner dësem Regime gëtt keng TVA verlaangt a keng Virsteier kann ofgezunn ginn. De Vermierk "TVA non applicable, art. 56 ter LIVA" muss op all Rechnung stoen.',
+            'franchise_tva' => [
+                'name' => 'TVA-Franchise',
+                'alternate' => 'Franchise-Regime fir kleng Entreprisen',
+                'description' => 'Regime fir Steierflichteg, deenen hire jäerleche Chiffre d\'Affaires 50 000 EUR HT net iwwerschreit (Schwell zanter 2025, mat enger Toleranz vun 10 %). Ënner dësem Regime gëtt keng TVA verlaangt a keng Virsteier ofgezunn. E Befreiungsvermierk muss op all Rechnung stoen (Regime no den Artikelen 57 ff. LIVA).',
             ],
-            'article_61_liva' => [
-                'name' => 'Artikel 61 LIVA',
-                'alternate' => 'Obligatoresch sequentiell Rechnungsnummeréierung',
-                'description' => 'Bestëmmung, déi all lëtzebuerger Rechnung verflicht, eng eenzegaarteg, sequentiell a kontinuéierlech Nummer ze droen, chronologesch pro Geschäftsjoer vergiewen. Eng Lück oder Duebel an der Nummeréierung kann zu enger Steier-Nopassung wéinst vermuter Geheime vum Chiffre d\'Affaires féieren.',
+            'numerotation_sequentielle' => [
+                'name' => 'Sequentiell Nummeréierung',
+                'alternate' => 'Obligatoresch kontinuéierlech Rechnungsnummeréierung',
+                'description' => 'Verflichtung, all Rechnung eng eenzegaarteg, sequentiell a kontinuéierlech Nummer an enger ononnerbrachener chronologescher Serie ze ginn. Eng Lück oder Duebel an der Nummeréierung kann zu enger Steier-Nopassung wéinst vermuter net erkläerter Recetten féieren. Rechtsgrondlag: Artikel 63 LIVA.',
             ],
             'ccss' => [
                 'name' => 'CCSS',

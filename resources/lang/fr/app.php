@@ -2811,20 +2811,20 @@ return [
                 'alternate' => 'Administration de l\'Enregistrement, des Domaines et de la TVA',
                 'description' => 'Administration fiscale luxembourgeoise compétente pour la TVA, l\'enregistrement des actes et les droits de succession. Elle effectue les contrôles fiscaux des assujettis et est l\'autorité destinataire du fichier d\'audit FAIA.',
             ],
-            'article_21_liva' => [
-                'name' => 'Article 21 LIVA',
-                'alternate' => 'Autoliquidation TVA B2B intra-UE',
-                'description' => 'Article de la loi luxembourgeoise sur la TVA qui transpose le principe européen du reverse charge : les prestations de services entre assujettis dans deux États membres de l\'UE sont facturées sans TVA, le client autoliquide la taxe dans son pays. La mention "Autoliquidation, article 21 LIVA" est obligatoire sur la facture.',
+            'autoliquidation' => [
+                'name' => 'Autoliquidation',
+                'alternate' => 'Reverse charge TVA B2B intra-UE',
+                'description' => 'Mécanisme par lequel, pour une prestation de services entre assujettis de deux États membres de l\'UE, la TVA n\'est pas facturée par le prestataire mais autoliquidée par le client dans son pays. La facture porte la mention « Autoliquidation ». Base légale : article 17 LIVA (lieu de la prestation) et article 196 de la directive 2006/112/CE (désignation du redevable).',
             ],
-            'article_56_ter_liva' => [
-                'name' => 'Article 56 ter LIVA',
-                'alternate' => 'Franchise TVA pour petites entreprises',
-                'description' => 'Régime de franchise TVA pour les assujettis dont le chiffre d\'affaires annuel ne dépasse pas 50 000 € au Luxembourg (seuil 2026). Sous ce régime, l\'entreprise ne facture pas la TVA et ne peut pas la récupérer sur ses achats. La mention "TVA non applicable, art. 56 ter LIVA" doit figurer sur chaque facture.',
+            'franchise_tva' => [
+                'name' => 'Franchise de TVA',
+                'alternate' => 'Régime de franchise des petites entreprises',
+                'description' => 'Régime réservé aux assujettis dont le chiffre d\'affaires annuel ne dépasse pas 50 000 € HT (seuil en vigueur depuis 2025, avec une tolérance de dépassement de 10 %). Sous ce régime, l\'entreprise ne facture pas la TVA et ne la récupère pas sur ses achats. Une mention d\'exonération doit figurer sur chaque facture (régime prévu aux articles 57 et suivants LIVA).',
             ],
-            'article_61_liva' => [
-                'name' => 'Article 61 LIVA',
-                'alternate' => 'Numérotation séquentielle obligatoire des factures',
-                'description' => 'Disposition qui impose à toute facture luxembourgeoise un numéro unique, séquentiel et continu, attribué chronologiquement pour chaque exercice fiscal. Un trou ou un doublon dans la numérotation peut déclencher un redressement par présomption de dissimulation de chiffre d\'affaires.',
+            'numerotation_sequentielle' => [
+                'name' => 'Numérotation séquentielle',
+                'alternate' => 'Numérotation continue obligatoire des factures',
+                'description' => 'Obligation d\'attribuer à chaque facture un numéro unique, séquentiel et continu, dans une série chronologique ininterrompue. Un trou ou un doublon dans la numérotation peut déclencher un redressement par présomption de dissimulation de chiffre d\'affaires. Base légale : article 63 LIVA.',
             ],
             'ccss' => [
                 'name' => 'CCSS',

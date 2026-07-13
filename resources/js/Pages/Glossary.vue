@@ -15,13 +15,13 @@ const glossaryUrl = computed(() => `${appUrl.value}/${currentLocale()}/${t('glos
 // 14 terms - ordered alphabetically. Each translation key returns name + description.
 const termIds = [
     'aed',
-    'article_21_liva',
-    'article_56_ter_liva',
-    'article_61_liva',
+    'autoliquidation',
     'ccss',
     'factur_x',
     'faia',
+    'franchise_tva',
     'liva',
+    'numerotation_sequentielle',
     'oss',
     'pdf_a',
     'peppol',

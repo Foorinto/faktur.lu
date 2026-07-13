@@ -2786,20 +2786,20 @@ return [
                 'alternate' => 'Administração do Registo, dos Domínios e do IVA',
                 'description' => 'Administração fiscal luxemburguesa competente para o IVA, o registo de atos e os direitos de sucessão. Realiza auditorias fiscais e é a destinatária do ficheiro de auditoria FAIA.',
             ],
-            'article_21_liva' => [
-                'name' => 'Artigo 21 LIVA',
-                'alternate' => 'Autoliquidação de IVA B2B intra-UE',
-                'description' => 'Artigo da lei luxemburguesa do IVA que transpõe o princípio europeu do reverse charge: as prestações de serviços entre sujeitos passivos em dois Estados-Membros são faturadas sem IVA, sendo o cliente a autoliquidar o imposto no seu país. A menção "Autoliquidation, article 21 LIVA" é obrigatória na fatura.',
+            'autoliquidation' => [
+                'name' => 'Autoliquidação',
+                'alternate' => 'Reverse charge de IVA B2B intra-UE',
+                'description' => 'Mecanismo pelo qual, nas prestações de serviços entre sujeitos passivos de dois Estados-Membros da UE, o IVA não é faturado pelo prestador mas autoliquidado pelo cliente no seu país. A fatura contém a menção «Autoliquidation». Base legal: artigo 17 LIVA (lugar da prestação) e artigo 196 da Diretiva 2006/112/CE (devedor do imposto).',
             ],
-            'article_56_ter_liva' => [
-                'name' => 'Artigo 56 ter LIVA',
-                'alternate' => 'Isenção de IVA para pequenas empresas',
-                'description' => 'Regime de isenção de IVA para sujeitos passivos cujo volume de negócios anual não exceda 50 000 € no Luxemburgo (limite 2026). Sob este regime, a empresa não fatura IVA nem pode deduzi-lo nas suas compras. A menção "TVA non applicable, art. 56 ter LIVA" deve constar em cada fatura.',
+            'franchise_tva' => [
+                'name' => 'Isenção de IVA',
+                'alternate' => 'Regime de isenção das pequenas empresas',
+                'description' => 'Regime reservado aos sujeitos passivos cujo volume de negócios anual não exceda 50 000 € sem IVA (limite em vigor desde 2025, com uma tolerância de ultrapassagem de 10 %). Sob este regime, a empresa não fatura IVA nem o deduz nas suas compras. Uma menção de isenção deve constar em cada fatura (regime previsto nos artigos 57.º e seguintes LIVA).',
             ],
-            'article_61_liva' => [
-                'name' => 'Artigo 61 LIVA',
-                'alternate' => 'Numeração sequencial obrigatória das faturas',
-                'description' => 'Disposição que impõe a toda a fatura luxemburguesa um número único, sequencial e contínuo, atribuído cronologicamente por exercício fiscal. Uma falha ou duplicação na numeração pode desencadear um ajustamento fiscal por presunção de dissimulação de receitas.',
+            'numerotation_sequentielle' => [
+                'name' => 'Numeração sequencial',
+                'alternate' => 'Numeração contínua obrigatória das faturas',
+                'description' => 'Obrigação de atribuir a cada fatura um número único, sequencial e contínuo, numa série cronológica ininterrupta. Uma falha ou duplicação na numeração pode desencadear um ajustamento fiscal por presunção de dissimulação de receitas. Base legal: artigo 63 LIVA.',
             ],
             'ccss' => [
                 'name' => 'CCSS',

@@ -2482,20 +2482,20 @@ return [
                 'alternate' => 'Verwaltung fuer Eintragung, Domaenen und Mehrwertsteuer',
                 'description' => 'Luxemburgische Steuerverwaltung, zustaendig fuer die Mehrwertsteuer, die Eintragung von Urkunden und Erbschaftssteuern. Sie fuehrt Steuerpruefungen durch und ist die Empfaengerin der FAIA-Pruefdatei.',
             ],
-            'article_21_liva' => [
-                'name' => 'Artikel 21 LIVA',
-                'alternate' => 'Reverse-Charge bei innergemeinschaftlichem B2B',
-                'description' => 'Artikel des luxemburgischen MwSt-Gesetzes, der das EU-Reverse-Charge-Prinzip umsetzt: Dienstleistungen zwischen Steuerpflichtigen in zwei EU-Mitgliedstaaten werden ohne MwSt fakturiert, der Kunde schuldet die Steuer in seinem Land. Der Hinweis "Autoliquidation, article 21 LIVA" ist auf der Rechnung obligatorisch.',
+            'autoliquidation' => [
+                'name' => 'Reverse-Charge',
+                'alternate' => 'Steuerschuldumkehr bei innergemeinschaftlichem B2B',
+                'description' => 'Mechanismus, bei dem für Dienstleistungen zwischen Steuerpflichtigen in zwei EU-Mitgliedstaaten die MwSt nicht vom Leistungserbringer berechnet, sondern vom Kunden in seinem Land geschuldet wird. Die Rechnung trägt den Hinweis „Autoliquidation". Rechtsgrundlage: Artikel 17 LIVA (Ort der Leistung) und Artikel 196 der Richtlinie 2006/112/EG (Steuerschuldner).',
             ],
-            'article_56_ter_liva' => [
-                'name' => 'Artikel 56 ter LIVA',
-                'alternate' => 'MwSt-Befreiung fuer Kleinunternehmen',
-                'description' => 'MwSt-Befreiungsregime fuer Steuerpflichtige mit einem jaehrlichen Umsatz unter 50 000 EUR in Luxemburg (Schwelle 2026). Unter dieser Regelung wird keine MwSt berechnet und keine Vorsteuer abgezogen. Der Hinweis "TVA non applicable, art. 56 ter LIVA" muss auf jeder Rechnung erscheinen.',
+            'franchise_tva' => [
+                'name' => 'MwSt-Befreiung (Kleinunternehmer)',
+                'alternate' => 'Franchise-Regime für Kleinunternehmen',
+                'description' => 'Regime für Steuerpflichtige mit einem Jahresumsatz unter 50 000 EUR netto (Schwelle seit 2025, mit einer Überschreitungstoleranz von 10 %). Unter dieser Regelung wird keine MwSt berechnet und keine Vorsteuer abgezogen. Ein Befreiungshinweis muss auf jeder Rechnung erscheinen (Regelung nach Artikel 57 ff. LIVA).',
             ],
-            'article_61_liva' => [
-                'name' => 'Artikel 61 LIVA',
-                'alternate' => 'Verpflichtende laufende Rechnungsnummerierung',
-                'description' => 'Bestimmung, die jede luxemburgische Rechnung verpflichtet, eine eindeutige, lueckenlose und chronologisch je Geschaeftsjahr vergebene Nummer zu tragen. Luecken oder Doppelnummern koennen zu einer Steuernachzahlung wegen vermuteter nicht erklaerter Einnahmen fuehren.',
+            'numerotation_sequentielle' => [
+                'name' => 'Fortlaufende Nummerierung',
+                'alternate' => 'Verpflichtende lückenlose Rechnungsnummerierung',
+                'description' => 'Verpflichtung, jeder Rechnung eine eindeutige, fortlaufende und lückenlose Nummer in einer ununterbrochenen chronologischen Reihe zu vergeben. Lücken oder Doppelnummern können zu einer Steuernachzahlung wegen vermuteter nicht erklärter Einnahmen führen. Rechtsgrundlage: Artikel 63 LIVA.',
             ],
             'ccss' => [
                 'name' => 'CCSS',
