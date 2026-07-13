@@ -375,6 +375,10 @@ class FacturXService
         $settlement = $dom->createElement('ram:ApplicableHeaderTradeSettlement');
         $currency = $invoice->currency ?? 'EUR';
 
+        // Document totals (global discounts ventilated per VAT rate)
+        $documentTotals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
+        $discountReason = $invoice->discounts->pluck('label')->filter()->implode(', ') ?: 'Remise';
+
         // InvoiceCurrencyCode
         $currencyCode = $dom->createElement('ram:InvoiceCurrencyCode', $currency);
         $settlement->appendChild($currencyCode);
@@ -425,6 +429,33 @@ class FacturXService
             $settlement->appendChild($tradeTax);
         }
 
+        // Document-level allowances (BG-20) : global discounts, one per VAT rate,
+        // linked to their VAT category so the taxable basis reconciles.
+        foreach ($documentTotals['rates'] as $rateBreakdown) {
+            if (bccomp($rateBreakdown['discount'], '0', 4) !== 1) {
+                continue;
+            }
+            $allowance = $dom->createElement('ram:SpecifiedTradeAllowanceCharge');
+
+            $chargeIndicator = $dom->createElement('ram:ChargeIndicator');
+            $chargeIndicator->appendChild($dom->createElement('udt:Indicator', 'false'));
+            $allowance->appendChild($chargeIndicator);
+
+            $actualAmount = $dom->createElement('ram:ActualAmount', $this->formatAmount($rateBreakdown['discount']));
+            $actualAmount->setAttribute('currencyID', $currency);
+            $allowance->appendChild($actualAmount);
+
+            $allowance->appendChild($dom->createElement('ram:Reason', $this->escapeXml($discountReason)));
+
+            $categoryTradeTax = $dom->createElement('ram:CategoryTradeTax');
+            $categoryTradeTax->appendChild($dom->createElement('ram:TypeCode', 'VAT'));
+            $categoryTradeTax->appendChild($dom->createElement('ram:CategoryCode', (float) $rateBreakdown['rate'] > 0 ? 'S' : 'E'));
+            $categoryTradeTax->appendChild($dom->createElement('ram:RateApplicablePercent', $this->formatAmount($rateBreakdown['rate'])));
+            $allowance->appendChild($categoryTradeTax);
+
+            $settlement->appendChild($allowance);
+        }
+
         // SpecifiedTradePaymentTerms
         if ($invoice->due_at) {
             $paymentTerms = $dom->createElement('ram:SpecifiedTradePaymentTerms');
@@ -439,10 +470,19 @@ class FacturXService
         // SpecifiedTradeSettlementHeaderMonetarySummation
         $summation = $dom->createElement('ram:SpecifiedTradeSettlementHeaderMonetarySummation');
 
-        $lineTotalAmount = $dom->createElement('ram:LineTotalAmount', $this->formatAmount($invoice->total_ht));
+        // LineTotalAmount (BT-106) = sum of line net amounts (before document discounts)
+        $lineTotalAmount = $dom->createElement('ram:LineTotalAmount', $this->formatAmount($documentTotals['subtotal_ht']));
         $lineTotalAmount->setAttribute('currencyID', $currency);
         $summation->appendChild($lineTotalAmount);
 
+        // AllowanceTotalAmount (BT-107) = sum of document-level discounts
+        if (bccomp($documentTotals['discount_total'], '0', 4) === 1) {
+            $allowanceTotalAmount = $dom->createElement('ram:AllowanceTotalAmount', $this->formatAmount($documentTotals['discount_total']));
+            $allowanceTotalAmount->setAttribute('currencyID', $currency);
+            $summation->appendChild($allowanceTotalAmount);
+        }
+
+        // TaxBasisTotalAmount (BT-109) = LineTotal - Allowances (= net HT)
         $taxBasisTotalAmount = $dom->createElement('ram:TaxBasisTotalAmount', $this->formatAmount($invoice->total_ht));
         $taxBasisTotalAmount->setAttribute('currencyID', $currency);
         $summation->appendChild($taxBasisTotalAmount);

@@ -64,6 +64,7 @@ class PeppolExportService
         }
 
         $this->addPaymentMeans($doc, $root, $invoice);
+        $this->addDocumentAllowances($doc, $root, $invoice);
         $this->addTaxTotal($doc, $root, $invoice);
         $this->addLegalMonetaryTotal($doc, $root, $invoice, $isCreditNote);
         $this->addInvoiceLines($doc, $root, $invoice, $isCreditNote);
@@ -359,24 +360,65 @@ class PeppolExportService
     }
 
     /**
+     * Add document-level allowances (BG-20) for global discounts, one per VAT rate,
+     * each linked to its tax category so the taxable amounts reconcile.
+     */
+    protected function addDocumentAllowances(DOMDocument $doc, DOMElement $root, Invoice $invoice): void
+    {
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
+        $reason = $invoice->discounts->pluck('label')->filter()->implode(', ') ?: 'Remise';
+        $currency = $invoice->currency ?? 'EUR';
+
+        foreach ($totals['rates'] as $rateBreakdown) {
+            if (bccomp($rateBreakdown['discount'], '0', 4) !== 1) {
+                continue;
+            }
+            $rate = (float) $rateBreakdown['rate'];
+
+            $allowance = $doc->createElementNS(self::NS_CAC, 'cac:AllowanceCharge');
+            $this->addCbcElement($doc, $allowance, 'ChargeIndicator', 'false');
+            $this->addCbcElement($doc, $allowance, 'AllowanceChargeReason', $reason);
+            $amountEl = $this->addCbcElement($doc, $allowance, 'Amount', $this->formatAmount($rateBreakdown['discount']));
+            $amountEl->setAttribute('currencyID', $currency);
+
+            $taxCategory = $doc->createElementNS(self::NS_CAC, 'cac:TaxCategory');
+            $this->addCbcElement($doc, $taxCategory, 'ID', $this->getTaxCategoryCode($rate, $invoice));
+            $this->addCbcElement($doc, $taxCategory, 'Percent', $rate);
+            $taxScheme = $doc->createElementNS(self::NS_CAC, 'cac:TaxScheme');
+            $this->addCbcElement($doc, $taxScheme, 'ID', 'VAT');
+            $taxCategory->appendChild($taxScheme);
+            $allowance->appendChild($taxCategory);
+
+            $root->appendChild($allowance);
+        }
+    }
+
+    /**
      * Add LegalMonetaryTotal.
      */
     protected function addLegalMonetaryTotal(DOMDocument $doc, DOMElement $root, Invoice $invoice, bool $isCreditNote): void
     {
         $monetary = $doc->createElementNS(self::NS_CAC, 'cac:LegalMonetaryTotal');
         $currency = $invoice->currency ?? 'EUR';
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($invoice->items, $invoice->discounts);
 
-        // LineExtensionAmount (sum of line totals HT)
-        $lineExt = $this->addCbcElement($doc, $monetary, 'LineExtensionAmount', $this->formatAmount($invoice->total_ht));
+        // LineExtensionAmount (BT-106) = sum of line net amounts (before document discounts)
+        $lineExt = $this->addCbcElement($doc, $monetary, 'LineExtensionAmount', $this->formatAmount($totals['subtotal_ht']));
         $lineExt->setAttribute('currencyID', $currency);
 
-        // TaxExclusiveAmount (total HT)
+        // TaxExclusiveAmount (BT-109) = net HT (after document discounts)
         $taxExcl = $this->addCbcElement($doc, $monetary, 'TaxExclusiveAmount', $this->formatAmount($invoice->total_ht));
         $taxExcl->setAttribute('currencyID', $currency);
 
         // TaxInclusiveAmount (total TTC)
         $taxIncl = $this->addCbcElement($doc, $monetary, 'TaxInclusiveAmount', $this->formatAmount($invoice->total_ttc));
         $taxIncl->setAttribute('currencyID', $currency);
+
+        // AllowanceTotalAmount (BT-107) = sum of document-level discounts
+        if (bccomp($totals['discount_total'], '0', 4) === 1) {
+            $allowanceTotal = $this->addCbcElement($doc, $monetary, 'AllowanceTotalAmount', $this->formatAmount($totals['discount_total']));
+            $allowanceTotal->setAttribute('currencyID', $currency);
+        }
 
         // PayableAmount (amount to pay)
         $payable = $this->addCbcElement($doc, $monetary, 'PayableAmount', $this->formatAmount($invoice->total_ttc));

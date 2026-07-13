@@ -347,24 +347,17 @@ class Invoice extends Model
      */
     public function getVatBreakdownAttribute(): array
     {
-        $breakdown = [];
+        // VAT breakdown with global discounts ventilated per rate (net basis).
+        $totals = app(\App\Services\DocumentTotalsCalculator::class)->compute($this->items, $this->discounts);
 
-        foreach ($this->items as $item) {
-            $rate = (string) $item->vat_rate;
-
-            if (!isset($breakdown[$rate])) {
-                $breakdown[$rate] = [
-                    'rate' => $item->vat_rate,
-                    'base' => 0,
-                    'amount' => 0,
-                ];
-            }
-
-            $breakdown[$rate]['base'] = bcadd($breakdown[$rate]['base'], $item->total_ht, 4);
-            $breakdown[$rate]['amount'] = bcadd($breakdown[$rate]['amount'], $item->total_vat, 4);
-        }
-
-        return array_values($breakdown);
+        return collect($totals['rates'])
+            ->map(fn ($r) => [
+                'rate' => (float) $r['rate'],
+                'base' => $r['net_base'],
+                'amount' => $r['vat'],
+            ])
+            ->values()
+            ->toArray();
     }
 
     /**
