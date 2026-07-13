@@ -677,9 +677,8 @@ const openPreview = () => {
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
-                                                {{ rate.value }}%
+                                                {{ rate.value === 'custom' ? rate.label : rate.value + '%' }}
                                             </option>
-                                            <option value="custom">{{ t('other') }}</option>
                                         </select>
                                         <input
                                             v-if="editVatCustom"
@@ -863,9 +862,8 @@ const openPreview = () => {
                                             class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                         >
                                             <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
-                                                {{ rate.value }}%
+                                                {{ rate.value === 'custom' ? rate.label : rate.value + '%' }}
                                             </option>
-                                            <option value="custom">{{ t('other') }}</option>
                                         </select>
                                         <input
                                             v-if="itemVatCustom"
