@@ -2576,6 +2576,61 @@ return [
         'cta_subtitle' => 'faktur.lu adds the right mandatory mentions automatically, validates VIES, generates FAIA and applies the right VAT rates. You no longer need to know every article by heart.',
         'cta_button' => 'Get started for free',
         'terms' => [
+            'access_point' => [
+                'name' => 'Peppol Access Point',
+                'alternate' => 'Point d\'accès Peppol',
+                'description' => 'Certified provider that connects a business to the Peppol network to send and receive electronic invoices. Sender and receiver need not use the same access point: the Peppol "4-corner" model routes documents between them.',
+            ],
+            'acd' => [
+                'name' => 'ACD',
+                'alternate' => 'Luxembourg direct tax administration',
+                'description' => 'Luxembourg tax authority responsible for direct taxes (personal income tax, corporate income tax, withholdings). Distinct from the AED, which handles VAT and the FAIA.',
+            ],
+            'archivage_legal' => [
+                'name' => 'Legal archiving',
+                'alternate' => 'Invoice retention (10 years)',
+                'description' => 'Obligation to keep invoices and accounting records for 10 years in Luxembourg. Electronic retention (PDF/A recommended) is accepted provided integrity, legibility and accessibility are guaranteed for the whole period.',
+            ],
+            'b2g' => [
+                'name' => 'B2G',
+                'alternate' => 'Invoicing the public sector',
+                'description' => 'Invoicing relationship between a business and a public body. In Luxembourg, electronic invoicing via Peppol is mandatory for public procurement (B2G); plain paper or PDF invoices are no longer accepted by contracting authorities.',
+            ],
+            'ecdf' => [
+                'name' => 'eCDF',
+                'alternate' => 'Electronic tax filing platform',
+                'description' => 'Luxembourg financial-data collection platform for the electronic filing of tax returns and annual accounts, including VAT returns. Files must comply with the formats and schemas set by the administration.',
+            ],
+            'ioss' => [
+                'name' => 'IOSS',
+                'alternate' => 'Import One-Stop Shop',
+                'description' => 'EU one-stop shop for declaring and paying VAT on distance sales of goods imported from third countries with a value not exceeding EUR 150. It simplifies import VAT collection for sellers and marketplaces.',
+            ],
+            'matricule' => [
+                'name' => 'Matricule',
+                'alternate' => 'Luxembourg national identification number',
+                'description' => 'Unique identification number assigned in Luxembourg to individuals (13 digits) and to entities, used by social security and the tax administrations. A sole trader receives it upon registration and uses it in dealings with the CCSS, AED and ACD.',
+            ],
+            'note_de_credit' => [
+                'name' => 'Credit note',
+                'alternate' => 'Avoir',
+                'description' => 'Document that cancels or reduces all or part of an already-issued invoice (error, return, discount, cancellation). It references the original invoice, carries its own sequential number and applies the same VAT as the corrected invoice.',
+            ],
+            'saf_t' => [
+                'name' => 'SAF-T',
+                'alternate' => 'Standard Audit File for Tax',
+                'description' => 'International (OECD) standard for a standardised tax audit file, designed to ease audits by exporting accounting data in a common XML format. In Luxembourg, the FAIA is the version required by the AED.',
+            ],
+            'ubl' => [
+                'name' => 'UBL',
+                'alternate' => 'Universal Business Language',
+                'description' => 'Open XML standard (OASIS) defining electronic business documents (invoice, credit note, purchase order). The Peppol BIS format used for e-invoicing in Europe is based on UBL 2.1.',
+            ],
+            'zugferd' => [
+                'name' => 'ZUGFeRD',
+                'alternate' => 'Hybrid PDF/XML invoice (Germany)',
+                'description' => 'German hybrid e-invoice format combining a human-readable PDF/A with embedded structured XML data. It shares the same standard (EN 16931) as the Franco-German Factur-X, with which it is largely interoperable.',
+            ],
             'aed' => [
                 'name' => 'AED',
                 'alternate' => 'Administration de l\'Enregistrement, des Domaines et de la TVA',

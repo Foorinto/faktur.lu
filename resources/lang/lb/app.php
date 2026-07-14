@@ -2477,6 +2477,61 @@ return [
         'cta_subtitle' => 'faktur.lu setzt automatesch déi richteg Pflichtugaben, valéiert VIES, generéiert FAIA a wennt déi richteg TVA-Sätz un. Dir braucht net all Artikel ze kennen.',
         'cta_button' => 'Gratis starten',
         'terms' => [
+            'access_point' => [
+                'name' => 'Peppol Access Point',
+                'alternate' => 'Peppol-Zougangspunkt',
+                'description' => 'Zertifizéierten Prestataire, deen eng Entreprise un d\'Peppol-Netz uschléisst fir elektronesch Rechnungen ze schécken an ze kréien. De Sender an den Empfänger mussen net dee selwechte Zougangspunkt notzen: d\'Peppol-Modell („4 Ecken") këmmert sech ëm d\'Zoustellung tëschent hinnen.',
+            ],
+            'acd' => [
+                'name' => 'ACD',
+                'alternate' => 'Administratioun vun den direkten Steieren',
+                'description' => 'Lëtzebuerger Steierverwaltung fir direkt Steieren (Akommessteier vun de Privatpersounen a Kollektivitéiten, Retenuen). Ze ënnerscheeden vun der AED, déi fir d\'TVA an de FAIA zoustänneg ass.',
+            ],
+            'archivage_legal' => [
+                'name' => 'Gesetzlech Archivéierung',
+                'alternate' => 'Opbewahrung vun de Rechnungen (10 Joer)',
+                'description' => 'Verflichtung, d\'Rechnungen an d\'Comptabilitéitsbeleeg 10 Joer laang zu Lëtzebuerg opzebewahren. D\'elektronesch Opbewahrung (PDF/A recommandéiert) ass zougelooss, wann Integritéit, Liesbarkeet an Zougänglechkeet iwwer déi ganz Period garantéiert sinn.',
+            ],
+            'b2g' => [
+                'name' => 'B2G',
+                'alternate' => 'Rechnungsstellung un de ëffentleche Secteur',
+                'description' => 'Rechnungsrelatioun tëschent enger Entreprise an enger ëffentlecher Stell. Zu Lëtzebuerg ass déi elektronesch Rechnung iwwer Peppol fir ëffentlech Maartë (B2G) obligatoresch; einfach Pabeier- oder PDF-Rechnunge ginn net méi vun den Optraggeber akzeptéiert.',
+            ],
+            'ecdf' => [
+                'name' => 'eCDF',
+                'alternate' => 'Elektronesch Plattform fir Steiererklärungen',
+                'description' => 'Lëtzebuerger Plattform fir d\'Sammele vu Finanzdaten fir déi elektronesch Ofgab vu Steiererklärungen a Jooreskonten, notamment TVA-Erklärungen. D\'Fichiere mussen de Formater a Schemae respektéieren, déi vun der Verwaltung virginn.',
+            ],
+            'ioss' => [
+                'name' => 'IOSS',
+                'alternate' => 'Import One-Stop Shop',
+                'description' => 'Europäesche Guichet unique fir d\'TVA op Distanzverkeef vu Wueren ze deklaréieren an ze bezuelen, déi aus Drëttlänner importéiert ginn a net méi wéi 150 € wäert sinn. Et vereinfacht d\'Erhiewung vun der Import-TVA fir Verkeefer a Plattformen.',
+            ],
+            'matricule' => [
+                'name' => 'Matricule',
+                'alternate' => 'Lëtzebuerger national Identifikatiounsnummer',
+                'description' => 'Eenzegaarteg Identifikatiounsnummer, déi zu Lëtzebuerg de Privatpersounen (13 Zifferen) an den Entitéite ginn ass an déi vun der Sozialversécherung an de Steierverwaltunge genotzt gëtt. Den Onofhängege kritt se bei senger Umeldung an notzt se géigeniwwer CCSS, AED an ACD.',
+            ],
+            'note_de_credit' => [
+                'name' => 'Avoir',
+                'alternate' => 'Kredittnott',
+                'description' => 'Dokument, dat eng scho erausginn Rechnung ganz oder deelweis annuléiert oder reduzéiert (Feeler, Retour, Remise, Annulatioun). Et hëlt d\'Referenz vun der Originalrechnung op, dréit seng eege sequentiell Nummer an applizéiert déiselwecht TVA wéi déi korrigéiert Rechnung.',
+            ],
+            'saf_t' => [
+                'name' => 'SAF-T',
+                'alternate' => 'Standard Audit File for Tax',
+                'description' => 'International (OECD) Norm fir e standardiséierte Steier-Auditfichier, deen d\'Kontrollen erliichtert andeems d\'Comptabilitéitsdaten an engem gemeinsame XML-Format exportéiert ginn. Zu Lëtzebuerg ass de FAIA déi vun der AED gefuerdert Ausféierung.',
+            ],
+            'ubl' => [
+                'name' => 'UBL',
+                'alternate' => 'Universal Business Language',
+                'description' => 'Offene XML-Standard (OASIS), deen elektronesch Geschäftsdokumenter definéiert (Rechnung, Avoir, Bestellung). De Peppol-BIS-Format, deen an Europa fir d\'E-Rechnung genotzt gëtt, baséiert op UBL 2.1.',
+            ],
+            'zugferd' => [
+                'name' => 'ZUGFeRD',
+                'alternate' => 'Hybrid PDF/XML-Rechnung (Däitschland)',
+                'description' => 'Däitscht hybrid E-Rechnungsformat, dat e liesbart PDF/A mat agebettene strukturéierten XML-Daten kombinéiert. Et baséiert op derselwechter Norm (EN 16931) wéi de franséisch-däitsche Factur-X an ass domat wäitgehend interoperabel.',
+            ],
             'aed' => [
                 'name' => 'AED',
                 'alternate' => 'Verwaltung fir Eintragung, Domänen an TVA',

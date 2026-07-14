@@ -12,22 +12,33 @@ const { localizedRoute, currentLocale } = useLocalizedRoute();
 const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
 const glossaryUrl = computed(() => `${appUrl.value}/${currentLocale()}/${t('glossary.slug')}`);
 
-// 14 terms - ordered alphabetically. Each translation key returns name + description.
+// 25 terms - ordered alphabetically. Each translation key returns name + description.
 const termIds = [
+    'access_point',
+    'acd',
     'aed',
+    'archivage_legal',
     'autoliquidation',
+    'b2g',
     'ccss',
+    'ecdf',
     'factur_x',
     'faia',
     'franchise_tva',
+    'ioss',
     'liva',
+    'matricule',
+    'note_de_credit',
     'numerotation_sequentielle',
     'oss',
     'pdf_a',
     'peppol',
     'rcs',
+    'saf_t',
+    'ubl',
     'vida',
     'vies',
+    'zugferd',
 ];
 
 // Optional sameAs (Wikidata) for terms with a public knowledge graph entry

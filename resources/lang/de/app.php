@@ -2477,6 +2477,61 @@ return [
         'cta_subtitle' => 'faktur.lu fuegt die richtigen Pflichtangaben automatisch hinzu, validiert ueber VIES, erzeugt FAIA und wendet die richtigen Mehrwertsteuersaetze an. Sie muessen nicht jeden Artikel kennen.',
         'cta_button' => 'Kostenlos starten',
         'terms' => [
+            'access_point' => [
+                'name' => 'Peppol Access Point',
+                'alternate' => 'Peppol-Zugangspunkt',
+                'description' => 'Zertifizierter Anbieter, der ein Unternehmen an das Peppol-Netz anbindet, um elektronische Rechnungen zu senden und zu empfangen. Sender und Empfänger müssen nicht denselben Zugangspunkt nutzen: Das Peppol-Modell („4-Ecken") übernimmt die Zustellung zwischen ihnen.',
+            ],
+            'acd' => [
+                'name' => 'ACD',
+                'alternate' => 'Luxemburger Direktsteuerverwaltung',
+                'description' => 'Luxemburger Steuerverwaltung für direkte Steuern (Einkommensteuer, Körperschaftsteuer, Quellensteuern). Zu unterscheiden von der AED, die für die MwSt und das FAIA zuständig ist.',
+            ],
+            'archivage_legal' => [
+                'name' => 'Gesetzliche Archivierung',
+                'alternate' => 'Aufbewahrung der Rechnungen (10 Jahre)',
+                'description' => 'Pflicht, Rechnungen und Buchungsbelege in Luxemburg 10 Jahre lang aufzubewahren. Die elektronische Aufbewahrung (PDF/A empfohlen) ist zulässig, sofern Integrität, Lesbarkeit und Zugänglichkeit über den gesamten Zeitraum gewährleistet sind.',
+            ],
+            'b2g' => [
+                'name' => 'B2G',
+                'alternate' => 'Rechnungsstellung an den öffentlichen Sektor',
+                'description' => 'Rechnungsbeziehung zwischen einem Unternehmen und einer öffentlichen Stelle. In Luxemburg ist die elektronische Rechnung über Peppol für öffentliche Aufträge (B2G) verpflichtend; einfache Papier- oder PDF-Rechnungen werden von den Auftraggebern nicht mehr akzeptiert.',
+            ],
+            'ecdf' => [
+                'name' => 'eCDF',
+                'alternate' => 'Elektronische Plattform für Steuererklärungen',
+                'description' => 'Luxemburger Plattform zur Erfassung von Finanzdaten für die elektronische Einreichung von Steuererklärungen und Jahresabschlüssen, insbesondere MwSt-Erklärungen. Die Dateien müssen den von der Verwaltung vorgegebenen Formaten und Schemata entsprechen.',
+            ],
+            'ioss' => [
+                'name' => 'IOSS',
+                'alternate' => 'Import One-Stop Shop',
+                'description' => 'EU-weite Anlaufstelle zur Erklärung und Zahlung der MwSt auf Fernverkäufe von aus Drittländern eingeführten Waren mit einem Wert von höchstens 150 EUR. Sie vereinfacht die Erhebung der Einfuhr-MwSt für Verkäufer und Plattformen.',
+            ],
+            'matricule' => [
+                'name' => 'Matricule',
+                'alternate' => 'Luxemburger nationale Identifikationsnummer',
+                'description' => 'Eindeutige Identifikationsnummer, die in Luxemburg natürlichen Personen (13 Ziffern) und Rechtsträgern zugeteilt wird und von der Sozialversicherung und den Steuerverwaltungen genutzt wird. Der Selbstständige erhält sie bei der Anmeldung und verwendet sie gegenüber CCSS, AED und ACD.',
+            ],
+            'note_de_credit' => [
+                'name' => 'Gutschrift',
+                'alternate' => 'Storno-/Korrekturrechnung',
+                'description' => 'Dokument, das eine bereits ausgestellte Rechnung ganz oder teilweise storniert oder mindert (Fehler, Rückgabe, Rabatt, Annullierung). Es verweist auf die ursprüngliche Rechnung, trägt eine eigene fortlaufende Nummer und wendet dieselbe MwSt wie die korrigierte Rechnung an.',
+            ],
+            'saf_t' => [
+                'name' => 'SAF-T',
+                'alternate' => 'Standard Audit File for Tax',
+                'description' => 'Internationaler (OECD-)Standard für eine standardisierte Steuerprüfdatei, die Prüfungen erleichtert, indem Buchhaltungsdaten in einem gemeinsamen XML-Format exportiert werden. In Luxemburg ist das FAIA die von der AED geforderte Ausprägung.',
+            ],
+            'ubl' => [
+                'name' => 'UBL',
+                'alternate' => 'Universal Business Language',
+                'description' => 'Offener XML-Standard (OASIS), der elektronische Geschäftsdokumente definiert (Rechnung, Gutschrift, Bestellung). Das in Europa für die E-Rechnung genutzte Peppol-BIS-Format basiert auf UBL 2.1.',
+            ],
+            'zugferd' => [
+                'name' => 'ZUGFeRD',
+                'alternate' => 'Hybride PDF/XML-Rechnung (Deutschland)',
+                'description' => 'Deutsches hybrides E-Rechnungsformat, das ein lesbares PDF/A mit eingebetteten strukturierten XML-Daten kombiniert. Es beruht auf derselben Norm (EN 16931) wie das deutsch-französische Factur-X und ist damit weitgehend interoperabel.',
+            ],
             'aed' => [
                 'name' => 'AED',
                 'alternate' => 'Verwaltung fuer Eintragung, Domaenen und Mehrwertsteuer',

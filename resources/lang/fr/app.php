@@ -2806,6 +2806,61 @@ return [
         'cta_subtitle' => 'faktur.lu applique automatiquement les bonnes mentions, valide VIES, génère le FAIA et applique les bons taux de TVA. Plus besoin de connaître chaque article par cœur.',
         'cta_button' => 'Démarrer gratuitement',
         'terms' => [
+            'access_point' => [
+                'name' => 'Point d\'accès Peppol',
+                'alternate' => 'Peppol Access Point',
+                'description' => 'Prestataire certifié qui connecte une entreprise au réseau Peppol pour envoyer et recevoir des factures électroniques. L\'expéditeur et le destinataire n\'ont pas besoin d\'être sur le même point d\'accès : le réseau (modèle « à 4 coins ») assure l\'acheminement entre eux.',
+            ],
+            'acd' => [
+                'name' => 'ACD',
+                'alternate' => 'Administration des contributions directes',
+                'description' => 'Administration fiscale luxembourgeoise compétente pour les impôts directs (impôt sur le revenu des personnes physiques, impôt sur le revenu des collectivités, retenues). À distinguer de l\'AED, compétente pour la TVA et le FAIA.',
+            ],
+            'archivage_legal' => [
+                'name' => 'Archivage légal',
+                'alternate' => 'Conservation des factures (10 ans)',
+                'description' => 'Obligation de conserver les factures et pièces comptables pendant 10 ans au Luxembourg. La conservation sous forme électronique (PDF/A recommandé) est admise à condition d\'en garantir l\'intégrité, la lisibilité et l\'accessibilité durant toute la période.',
+            ],
+            'b2g' => [
+                'name' => 'B2G',
+                'alternate' => 'Facturation au secteur public',
+                'description' => 'Relations de facturation entre une entreprise et un organisme public. Au Luxembourg, la facturation électronique via Peppol est obligatoire pour les marchés publics (B2G), les factures papier ou PDF simples n\'étant plus acceptées par les pouvoirs adjudicateurs.',
+            ],
+            'ecdf' => [
+                'name' => 'eCDF',
+                'alternate' => 'Plateforme de dépôt électronique des déclarations',
+                'description' => 'Plateforme luxembourgeoise de collecte des données financières permettant le dépôt électronique des déclarations fiscales et des comptes annuels, notamment les déclarations de TVA. Les fichiers doivent respecter les formats et schémas imposés par l\'administration.',
+            ],
+            'ioss' => [
+                'name' => 'IOSS',
+                'alternate' => 'Import One-Stop Shop',
+                'description' => 'Guichet unique européen permettant de déclarer et payer la TVA sur les ventes à distance de biens importés de pays tiers d\'une valeur ne dépassant pas 150 €. Il simplifie la collecte de la TVA à l\'importation pour les vendeurs et les plateformes.',
+            ],
+            'matricule' => [
+                'name' => 'Matricule',
+                'alternate' => 'Numéro d\'identification national',
+                'description' => 'Numéro d\'identification unique attribué au Luxembourg aux personnes physiques (13 chiffres) et aux entités, utilisé par la sécurité sociale et les administrations fiscales. L\'indépendant l\'obtient lors de son immatriculation et l\'emploie dans ses démarches (CCSS, AED, ACD).',
+            ],
+            'note_de_credit' => [
+                'name' => 'Note de crédit',
+                'alternate' => 'Avoir',
+                'description' => 'Document qui annule ou réduit tout ou partie d\'une facture déjà émise (erreur, retour, remise, annulation). Elle reprend la référence de la facture d\'origine, porte sa propre numérotation séquentielle et applique la même TVA que la facture corrigée.',
+            ],
+            'saf_t' => [
+                'name' => 'SAF-T',
+                'alternate' => 'Standard Audit File for Tax',
+                'description' => 'Norme internationale (OCDE) de fichier d\'audit fiscal standardisé, destinée à faciliter les contrôles en exportant les données comptables dans un format XML commun. Au Luxembourg, le FAIA en est la déclinaison exigée par l\'AED.',
+            ],
+            'ubl' => [
+                'name' => 'UBL',
+                'alternate' => 'Universal Business Language',
+                'description' => 'Standard XML ouvert (OASIS) définissant des documents commerciaux électroniques (facture, avoir, bon de commande). Le format Peppol BIS utilisé pour la facturation électronique en Europe repose sur UBL 2.1.',
+            ],
+            'zugferd' => [
+                'name' => 'ZUGFeRD',
+                'alternate' => 'Facture hybride PDF/XML (Allemagne)',
+                'description' => 'Format allemand de facture électronique hybride combinant un PDF/A lisible et des données XML structurées intégrées. Il partage la même norme (EN 16931) que le Factur-X franco-allemand, avec lequel il est largement interopérable.',
+            ],
             'aed' => [
                 'name' => 'AED',
                 'alternate' => 'Administration de l\'Enregistrement, des Domaines et de la TVA',
