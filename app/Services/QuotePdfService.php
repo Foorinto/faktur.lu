@@ -173,9 +173,15 @@ class QuotePdfService
             $footerMessage = $settings?->default_invoice_footer ?? 'Merci pour votre confiance !';
         }
 
+        // Company brand colour (used to tint footer links), made legible.
+        $pdfColor = BusinessSettings::legibleColor(
+            $seller['pdf_color'] ?? BusinessSettings::getInstance()?->getEffectivePdfColor() ?? BusinessSettings::DEFAULT_PDF_COLOR
+        );
+
         return [
             'quote' => $quote,
             'seller' => $seller,
+            'pdfColor' => $pdfColor,
             'buyer' => $buyer,
             'items' => $quote->items,
             'isVatExempt' => $isVatExempt,

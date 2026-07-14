@@ -310,7 +310,7 @@
         }
         .thanks-message p { margin: 0 0 3px; }
         .thanks-message ul, .thanks-message ol { margin: 0 0 3px; padding-left: 16px; }
-        .thanks-message a { color: #333; }
+        .thanks-message a { color: {{ $pdfColor ?? '#7c3aed' }}; }
 
         .notes-content {
             font-size: 7pt;

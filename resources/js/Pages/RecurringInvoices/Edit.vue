@@ -280,7 +280,7 @@ const submit = () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('recurring_invoice_field_footer') }}</label>
-                            <RichTextEditor v-model="form.footer_message" />
+                            <RichTextEditor use-company-link-color v-model="form.footer_message" />
                         </div>
                     </div>
                 </div>

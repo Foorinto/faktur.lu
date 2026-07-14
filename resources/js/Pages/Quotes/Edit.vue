@@ -516,7 +516,7 @@ const getStatusLabel = (status) => {
 
                         <div class="mt-4">
                             <InputLabel for="footer_message" value="Message de pied de page (optionnel)" />
-                            <RichTextEditor v-model="form.footer_message" class="mt-1" @blur="updateQuote" />
+                            <RichTextEditor use-company-link-color v-model="form.footer_message" class="mt-1" @blur="updateQuote" />
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 Si vide, le message par défaut sera utilisé : "{{ defaultQuoteFooter }}"
                             </p>

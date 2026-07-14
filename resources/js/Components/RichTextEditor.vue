@@ -3,7 +3,8 @@ import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     modelValue: {
@@ -14,7 +15,17 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    // When true, tint links with the company brand colour (shared as companyColor).
+    useCompanyLinkColor: {
+        type: Boolean,
+        default: false,
+    },
 });
+
+const page = usePage();
+const linkColor = computed(() =>
+    props.useCompanyLinkColor ? (page.props.companyColor || null) : null
+);
 
 const emit = defineEmits(['update:modelValue', 'blur']);
 
@@ -73,7 +84,10 @@ watch(() => props.modelValue, (newValue) => {
 </script>
 
 <template>
-    <div class="rich-text-editor rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-surface-card overflow-hidden">
+    <div
+        class="rich-text-editor rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-surface-card overflow-hidden"
+        :style="{ '--rte-link-color': linkColor || undefined }"
+    >
         <!-- Toolbar -->
         <div v-if="editor" class="flex flex-wrap items-center gap-1 border-b border-gray-200 bg-slate-50 px-2 py-1.5 dark:border-gray-700 dark:bg-gray-800/50">
             <button
@@ -190,6 +204,11 @@ watch(() => props.modelValue, (newValue) => {
 
 .rich-text-editor .ProseMirror p {
     margin: 0.5em 0;
+}
+
+.rich-text-editor .ProseMirror a {
+    color: var(--rte-link-color, #2563eb);
+    text-decoration: underline;
 }
 
 .rich-text-editor .ProseMirror p:first-child {

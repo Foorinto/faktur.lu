@@ -102,6 +102,9 @@ class HandleInertiaRequests extends Middleware
             'translations' => $this->getTranslations($locale),
             'currentPath' => $request->getPathInfo(),
             'currentUrl' => $request->url(),
+            // Company brand colour (PDF colour) — used e.g. to tint links in the
+            // rich-text editor so they match the PDF. Null when not authenticated.
+            'companyColor' => fn () => \App\Models\BusinessSettings::getInstance()?->getEffectivePdfColor(),
             'unreadSupportCount' => fn () => $this->getUnreadSupportCount($request),
             'pendingRemindersCount' => fn () => $this->getPendingRemindersCount($request),
         ];

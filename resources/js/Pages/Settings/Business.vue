@@ -1117,7 +1117,7 @@ const cancelPaymentQrcodeUpload = () => {
                         <!-- Footer Message -->
                         <div>
                             <InputLabel for="default_invoice_footer" :value="t('default_footer_message')" />
-                            <RichTextEditor v-model="form.default_invoice_footer" class="mt-1" />
+                            <RichTextEditor use-company-link-color v-model="form.default_invoice_footer" class="mt-1" />
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('footer_message_help') }}
                             </p>

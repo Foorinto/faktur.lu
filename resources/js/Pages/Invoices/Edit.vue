@@ -525,7 +525,7 @@ const openPreview = () => {
 
                         <div class="mt-4">
                             <InputLabel for="footer_message" :value="t('footer_message_optional')" />
-                            <RichTextEditor v-model="form.footer_message" class="mt-1" />
+                            <RichTextEditor use-company-link-color v-model="form.footer_message" class="mt-1" />
                             <p v-if="defaultInvoiceFooter && !form.footer_message" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('add_footer_suggestion') }}
                                 <button
