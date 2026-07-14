@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import NumberingHintBanner from '@/Components/Numbering/NumberingHintBanner.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -486,12 +487,7 @@ if (form.items.length === 0) {
 
                     <div>
                         <InputLabel for="footer_message" :value="t('footer_message_optional')" />
-                        <textarea
-                            id="footer_message"
-                            v-model="form.footer_message"
-                            rows="2"
-                            class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                        ></textarea>
+                        <RichTextEditor v-model="form.footer_message" class="mt-1" />
                         <p v-if="defaultInvoiceFooter && !form.footer_message" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                             {{ t('add_footer_suggestion') }}
                             <button

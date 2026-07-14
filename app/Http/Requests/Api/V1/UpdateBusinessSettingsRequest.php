@@ -79,7 +79,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'bank_name' => ['nullable', 'string', 'max:255'],
             'vat_regime' => ['required', Rule::in(['assujetti', 'franchise'])],
             'default_hourly_rate' => ['nullable', 'numeric', 'min:0', 'max:9999.99'],
-            'default_invoice_footer' => ['nullable', 'string', 'max:1000'],
+            'default_invoice_footer' => ['nullable', 'string', 'max:10000'],
             'default_vat_mention' => ['nullable', 'string', Rule::in(['franchise', 'reverse_charge', 'intra_eu', 'export', 'none', 'other'])],
             'default_custom_vat_mention' => ['nullable', 'string', 'max:1000'],
             'default_pdf_color' => ['nullable', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],

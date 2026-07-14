@@ -23,7 +23,7 @@ class UpdateInvoiceRequest extends FormRequest
             'issued_at' => ['nullable', 'date'],
             'due_at' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:2000'],
-            'footer_message' => ['nullable', 'string', 'max:1000'],
+            'footer_message' => ['nullable', 'string', 'max:10000'],
             'vat_mention' => ['nullable', 'string', Rule::in(['franchise', 'reverse_charge', 'intra_eu', 'export', 'none', 'other'])],
             'custom_vat_mention' => ['nullable', 'string', 'max:1000'],
             'currency' => ['sometimes', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],

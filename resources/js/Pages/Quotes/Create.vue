@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import NumberingHintBanner from '@/Components/Numbering/NumberingHintBanner.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { computed, ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
@@ -462,13 +463,7 @@ if (form.items.length === 0) {
 
                     <div>
                         <InputLabel for="footer_message" value="Message de pied de page (optionnel)" />
-                        <textarea
-                            id="footer_message"
-                            v-model="form.footer_message"
-                            rows="2"
-                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                            :placeholder="defaultQuoteFooter"
-                        ></textarea>
+                        <RichTextEditor v-model="form.footer_message" class="mt-1" />
                         <p v-if="defaultQuoteFooter" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                             Si vide, le message par défaut sera utilisé : "{{ defaultQuoteFooter }}"
                         </p>

@@ -332,10 +332,12 @@
 
         .thanks-message {
             font-size: 9pt;
-            font-weight: bold;
             color: #333;
             margin-bottom: 5px;
         }
+        .thanks-message p { margin: 0 0 3px; }
+        .thanks-message ul, .thanks-message ol { margin: 0 0 3px; padding-left: 16px; }
+        .thanks-message a { color: #333; }
 
         .notes-content {
             font-size: 7pt;
@@ -664,7 +666,7 @@
         <!-- Notes Section -->
         <div class="notes-section">
             @if($invoice->effective_footer_message)
-                <div class="thanks-message">{!! nl2br(e($invoice->effective_footer_message)) !!}</div>
+                <div class="thanks-message">{!! \App\Support\HtmlSanitizer::clean($invoice->effective_footer_message) !!}</div>
             @endif
 
             @if($invoice->notes)

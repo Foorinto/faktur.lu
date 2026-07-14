@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import FlagIcon from '@/Components/FlagIcon.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { computed, ref } from 'vue';
 import axios from 'axios';
 
@@ -515,14 +516,7 @@ const getStatusLabel = (status) => {
 
                         <div class="mt-4">
                             <InputLabel for="footer_message" value="Message de pied de page (optionnel)" />
-                            <textarea
-                                id="footer_message"
-                                v-model="form.footer_message"
-                                @blur="updateQuote"
-                                rows="2"
-                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                :placeholder="defaultQuoteFooter"
-                            ></textarea>
+                            <RichTextEditor v-model="form.footer_message" class="mt-1" @blur="updateQuote" />
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 Si vide, le message par défaut sera utilisé : "{{ defaultQuoteFooter }}"
                             </p>

@@ -7,6 +7,7 @@ import NumberingSettingsSection from '@/Components/Numbering/NumberingSettingsSe
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { computed, watch, ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
@@ -1116,13 +1117,7 @@ const cancelPaymentQrcodeUpload = () => {
                         <!-- Footer Message -->
                         <div>
                             <InputLabel for="default_invoice_footer" :value="t('default_footer_message')" />
-                            <textarea
-                                id="default_invoice_footer"
-                                v-model="form.default_invoice_footer"
-                                rows="3"
-                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                :placeholder="t('default_footer_placeholder')"
-                            ></textarea>
+                            <RichTextEditor v-model="form.default_invoice_footer" class="mt-1" />
                             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 {{ t('footer_message_help') }}
                             </p>

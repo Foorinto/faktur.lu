@@ -305,10 +305,12 @@
 
         .thanks-message {
             font-size: 9pt;
-            font-weight: bold;
             color: #333;
             margin-bottom: 5px;
         }
+        .thanks-message p { margin: 0 0 3px; }
+        .thanks-message ul, .thanks-message ol { margin: 0 0 3px; padding-left: 16px; }
+        .thanks-message a { color: #333; }
 
         .notes-content {
             font-size: 7pt;
@@ -558,7 +560,7 @@
 
         <!-- Notes Section -->
         <div class="notes-section">
-            <div class="thanks-message">{{ $footerMessage ?? __('invoice.thank_you') }}</div>
+            <div class="thanks-message">{!! \App\Support\HtmlSanitizer::clean($footerMessage ?? __('invoice.thank_you')) !!}</div>
             <div class="notes-content">
                 {{ __('invoice.quote_info') }}
                 {{ __('invoice.quote_prices_valid') }}

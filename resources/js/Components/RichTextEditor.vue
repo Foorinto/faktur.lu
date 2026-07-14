@@ -16,7 +16,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur']);
 
 const setLink = () => {
     const previousUrl = editor.value?.getAttributes('link').href || '';
@@ -58,6 +58,9 @@ const editor = useEditor({
     },
     onUpdate: ({ editor }) => {
         emit('update:modelValue', editor.getHTML());
+    },
+    onBlur: () => {
+        emit('blur');
     },
 });
 

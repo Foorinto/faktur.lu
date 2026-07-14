@@ -24,7 +24,7 @@ class StoreQuoteRequest extends FormRequest
             'currency' => ['nullable', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
             'vat_mention' => ['nullable', 'string', 'max:50'],
             'custom_vat_mention' => ['nullable', 'string', 'max:500'],
-            'footer_message' => ['nullable', 'string', 'max:1000'],
+            'footer_message' => ['nullable', 'string', 'max:10000'],
             'items' => ['nullable', 'array'],
             'items.*.title' => ['required_with:items', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string', 'max:2000'],

@@ -1,5 +1,6 @@
 <script setup>
 import { useForm, Link } from '@inertiajs/vue3';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -279,7 +280,7 @@ const submit = () => {
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">{{ t('recurring_invoice_field_footer') }}</label>
-                            <textarea v-model="form.footer_message" rows="2" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary-500"></textarea>
+                            <RichTextEditor v-model="form.footer_message" />
                         </div>
                     </div>
                 </div>
