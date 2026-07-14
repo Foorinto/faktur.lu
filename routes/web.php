@@ -7,6 +7,7 @@ use App\Http\Controllers\AccountingSettingsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\AlternativeController;
 use App\Http\Controllers\FeaturePageController;
 use App\Http\Controllers\ToolsController;
 use App\Models\BlogPost;
@@ -249,6 +250,11 @@ Route::prefix('{locale}')
         Route::get('/about', [ContactController::class, 'about'])->name('about.en');
         Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
         Route::get('/sobre', [ContactController::class, 'about'])->name('about.pt');
+
+        // "Alternative à X" comparison pages (FR only for now, high buyer intent SEO)
+        Route::get('/alternative-{competitor}-luxembourg', [AlternativeController::class, 'show'])
+            ->where('locale', 'fr')
+            ->name('alternatives.show.fr');
 
         // Why faktur.lu page (explicit localized routes)
         Route::get('/pourquoi-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.fr');

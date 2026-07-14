@@ -145,6 +145,15 @@ class SitemapController extends Controller
             $xml .= $this->generateLocalizedUrlEntry($baseUrl, $page['route'] ?? null, $page['path'] ?? null, $page['priority'], $page['changefreq'], $page['suffix'] ?? '');
         }
 
+        // "Alternative à X" comparison pages — FR only for now, so plain FR entries (no hreflang).
+        foreach (\App\Http\Controllers\AlternativeController::competitorSlugs() as $slug) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . $baseUrl . '/fr/alternative-' . $slug . '-luxembourg</loc>';
+            $xml .= '<changefreq>monthly</changefreq>';
+            $xml .= '<priority>0.8</priority>';
+            $xml .= '</url>';
+        }
+
         $xml .= '</urlset>';
 
         return $xml;
