@@ -2576,6 +2576,61 @@ return [
         'cta_subtitle' => 'faktur.lu adds the right mandatory mentions automatically, validates VIES, generates FAIA and applies the right VAT rates. You no longer need to know every article by heart.',
         'cta_button' => 'Get started for free',
         'terms' => [
+            'delai_paiement' => [
+                'name' => 'Payment term',
+                'alternate' => 'Payment due date',
+                'description' => 'The period agreed to settle an invoice. Absent an agreement, the statutory term between businesses in Luxembourg is 30 days from receipt of the invoice or of the goods/services; beyond that, late-payment interest accrues automatically.',
+            ],
+            'exigibilite_tva' => [
+                'name' => 'VAT chargeability',
+                'alternate' => 'Chargeable event and chargeability',
+                'description' => 'The moment when VAT becomes due to the administration and the customer\'s right to deduct arises. Depending on the scheme, VAT is chargeable upon supply or upon payment. Legal basis: article 21 LIVA (not to be confused with the reverse charge, governed by article 17).',
+            ],
+            'facture_acompte' => [
+                'name' => 'Down-payment invoice',
+                'alternate' => 'Advance invoice',
+                'description' => 'Invoice issued for a partial payment received before delivery or completion of the service. It makes VAT chargeable on the amount received; the final invoice then deducts the down payments already invoiced.',
+            ],
+            'forme_juridique' => [
+                'name' => 'Legal form',
+                'alternate' => 'Business structure',
+                'description' => 'The legal structure under which an activity is carried out in Luxembourg (sole proprietorship, SARL, SARL-S "one-euro company", SA, etc.). It determines the entrepreneur\'s liability, taxation and accounting obligations.',
+            ],
+            'interets_de_retard' => [
+                'name' => 'Late-payment interest',
+                'alternate' => 'Late fees',
+                'description' => 'Interest owed by a customer who pays an invoice after the due date. Between businesses, Luxembourg law (transposing Directive 2011/7/EU) provides for the ECB reference rate plus 8 points, together with a flat EUR 40 recovery-costs compensation.',
+            ],
+            'mention_obligatoire' => [
+                'name' => 'Mandatory particulars',
+                'alternate' => 'Legal content of an invoice',
+                'description' => 'The information every Luxembourg invoice must contain: identity and address of the parties, VAT numbers, date, sequential number, description, net base, VAT rate and amount, total. Legal basis: article 63 LIVA. An incomplete invoice may be rejected and expose the issuer to a fine.',
+            ],
+            'mise_en_demeure' => [
+                'name' => 'Formal notice',
+                'alternate' => 'Demand for payment',
+                'description' => 'A formal letter demanding payment of an overdue invoice, generally a prerequisite before debt-recovery action. It may claim, in addition to the principal, late-payment interest and the flat recovery-costs compensation.',
+            ],
+            'numero_tva' => [
+                'name' => 'VAT number',
+                'alternate' => 'VAT identification number',
+                'description' => 'Identifier assigned to a taxable person for VAT operations. In Luxembourg it takes the form "LU" followed by 8 digits. It must appear on invoices and be checked via VIES to apply the reverse charge to business customers in another member state.',
+            ],
+            'regime_normal_tva' => [
+                'name' => 'Normal VAT scheme',
+                'alternate' => 'VAT-registered scheme',
+                'description' => 'Scheme under which the business charges VAT to its customers, deducts it on purchases and files periodic returns (monthly, quarterly or annually depending on turnover). It contrasts with the exemption scheme reserved for small turnovers.',
+            ],
+            'taux_tva' => [
+                'name' => 'VAT rates (Luxembourg)',
+                'alternate' => '17%, 14%, 8%, 3%',
+                'description' => 'Luxembourg applies four VAT rates: 17% (standard), 14% (intermediate), 8% (reduced) and 3% (super-reduced). The rate depends on the nature of the good or service; Luxembourg\'s standard rate is the lowest in the European Union.',
+            ],
+            'tva_intracommunautaire' => [
+                'name' => 'Intra-community VAT',
+                'alternate' => 'Intra-EU transactions',
+                'description' => 'VAT regime for supplies of goods and services between taxable persons in two EU member states. B2B services are generally invoiced without VAT (reverse charge by the customer), subject to a valid VAT number checked via VIES and a declaration in the recapitulative statement.',
+            ],
             'access_point' => [
                 'name' => 'Peppol Access Point',
                 'alternate' => 'Point d\'accès Peppol',

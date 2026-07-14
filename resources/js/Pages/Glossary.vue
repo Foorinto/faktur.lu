@@ -12,7 +12,7 @@ const { localizedRoute, currentLocale } = useLocalizedRoute();
 const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
 const glossaryUrl = computed(() => `${appUrl.value}/${currentLocale()}/${t('glossary.slug')}`);
 
-// 25 terms - ordered alphabetically. Each translation key returns name + description.
+// 36 terms - ordered alphabetically. Each translation key returns name + description.
 const termIds = [
     'access_point',
     'acd',
@@ -21,20 +21,31 @@ const termIds = [
     'autoliquidation',
     'b2g',
     'ccss',
+    'delai_paiement',
     'ecdf',
+    'exigibilite_tva',
     'factur_x',
+    'facture_acompte',
     'faia',
+    'forme_juridique',
     'franchise_tva',
+    'interets_de_retard',
     'ioss',
     'liva',
     'matricule',
+    'mention_obligatoire',
+    'mise_en_demeure',
     'note_de_credit',
+    'numero_tva',
     'numerotation_sequentielle',
     'oss',
     'pdf_a',
     'peppol',
     'rcs',
+    'regime_normal_tva',
     'saf_t',
+    'taux_tva',
+    'tva_intracommunautaire',
     'ubl',
     'vida',
     'vies',

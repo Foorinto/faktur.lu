@@ -2781,6 +2781,61 @@ return [
         'cta_subtitle' => 'O faktur.lu aplica automaticamente as menções obrigatórias corretas, valida via VIES, gera o FAIA e aplica as taxas de IVA adequadas. Já não precisa de saber cada artigo de cor.',
         'cta_button' => 'Começar gratuitamente',
         'terms' => [
+            'delai_paiement' => [
+                'name' => 'Prazo de pagamento',
+                'alternate' => 'Data de vencimento',
+                'description' => 'Prazo acordado para liquidar uma fatura. Na falta de acordo, o prazo legal entre empresas no Luxemburgo é de 30 dias a contar da receção da fatura ou dos bens/serviços; após esse prazo, os juros de mora vencem automaticamente.',
+            ],
+            'exigibilite_tva' => [
+                'name' => 'Exigibilidade do IVA',
+                'alternate' => 'Facto gerador e exigibilidade',
+                'description' => 'Momento em que o IVA se torna devido à administração e em que nasce o direito à dedução do cliente. Consoante o regime, o IVA é exigível na entrega ou no recebimento. Base legal: artigo 21 LIVA (a não confundir com a autoliquidação, regida pelo artigo 17).',
+            ],
+            'facture_acompte' => [
+                'name' => 'Fatura de adiantamento',
+                'alternate' => 'Fatura de sinal',
+                'description' => 'Fatura emitida por um pagamento parcial recebido antes da entrega ou da conclusão da prestação. Torna o IVA exigível sobre o montante recebido; a fatura final deduz depois os adiantamentos já faturados.',
+            ],
+            'forme_juridique' => [
+                'name' => 'Forma jurídica',
+                'alternate' => 'Estatuto da empresa',
+                'description' => 'Estrutura legal sob a qual uma atividade é exercida no Luxemburgo (empresário em nome individual, SARL, SARL-S «sociedade de 1 euro», SA, etc.). Determina a responsabilidade, a fiscalidade e as obrigações contabilísticas do empresário.',
+            ],
+            'interets_de_retard' => [
+                'name' => 'Juros de mora',
+                'alternate' => 'Penalizações por atraso',
+                'description' => 'Juros devidos por um cliente que paga uma fatura após o vencimento. Entre empresas, a lei luxemburguesa (que transpõe a Diretiva 2011/7/UE) prevê a taxa de referência do BCE acrescida de 8 pontos, bem como uma indemnização fixa de 40 € por custos de cobrança.',
+            ],
+            'mention_obligatoire' => [
+                'name' => 'Menções obrigatórias',
+                'alternate' => 'Conteúdo legal de uma fatura',
+                'description' => 'Conjunto de informações que qualquer fatura luxemburguesa deve conter: identidade e endereço das partes, números de IVA, data, número sequencial, designação, base sem IVA, taxa e montante de IVA, total. Base legal: artigo 63 LIVA. Uma fatura incompleta pode ser rejeitada e sujeitar a uma coima.',
+            ],
+            'mise_en_demeure' => [
+                'name' => 'Interpelação (mise en demeure)',
+                'alternate' => 'Intimação de pagamento',
+                'description' => 'Carta formal que exige o pagamento de uma fatura vencida, geralmente um requisito prévio a uma ação de cobrança. Pode reclamar, além do capital, os juros de mora e a indemnização fixa por custos de cobrança.',
+            ],
+            'numero_tva' => [
+                'name' => 'Número de IVA',
+                'alternate' => 'Número de identificação para efeitos de IVA',
+                'description' => 'Identificador atribuído a um sujeito passivo para as suas operações sujeitas a IVA. No Luxemburgo apresenta a forma «LU» seguida de 8 dígitos. Deve constar das faturas e ser verificado via VIES para aplicar a autoliquidação a clientes profissionais de outro Estado-Membro.',
+            ],
+            'regime_normal_tva' => [
+                'name' => 'Regime normal de IVA',
+                'alternate' => 'Sujeição a IVA',
+                'description' => 'Regime em que a empresa fatura IVA aos seus clientes, o deduz nas suas compras e entrega declarações periódicas (mensais, trimestrais ou anuais consoante o volume de negócios). Opõe-se ao regime de isenção reservado aos pequenos volumes de negócios.',
+            ],
+            'taux_tva' => [
+                'name' => 'Taxas de IVA (Luxemburgo)',
+                'alternate' => '17%, 14%, 8%, 3%',
+                'description' => 'O Luxemburgo aplica quatro taxas de IVA: 17% (normal), 14% (intermédia), 8% (reduzida) e 3% (super-reduzida). A taxa depende da natureza do bem ou serviço; a taxa normal luxemburguesa é a mais baixa da União Europeia.',
+            ],
+            'tva_intracommunautaire' => [
+                'name' => 'IVA intracomunitário',
+                'alternate' => 'Operações intra-UE',
+                'description' => 'Regime de IVA aplicável às transações de bens e serviços entre sujeitos passivos de dois Estados-Membros da UE. As prestações B2B são geralmente faturadas sem IVA (autoliquidação pelo cliente), desde que exista um número de IVA válido verificado via VIES e uma declaração no mapa recapitulativo.',
+            ],
             'access_point' => [
                 'name' => 'Ponto de acesso Peppol',
                 'alternate' => 'Peppol Access Point',

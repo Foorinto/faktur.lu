@@ -2806,6 +2806,61 @@ return [
         'cta_subtitle' => 'faktur.lu applique automatiquement les bonnes mentions, valide VIES, génère le FAIA et applique les bons taux de TVA. Plus besoin de connaître chaque article par cœur.',
         'cta_button' => 'Démarrer gratuitement',
         'terms' => [
+            'delai_paiement' => [
+                'name' => 'Délai de paiement',
+                'alternate' => 'Échéance de règlement',
+                'description' => 'Délai convenu pour régler une facture. À défaut d\'accord, le délai légal entre entreprises au Luxembourg est de 30 jours à compter de la réception de la facture ou des biens et services ; au-delà, des intérêts de retard courent de plein droit.',
+            ],
+            'exigibilite_tva' => [
+                'name' => 'Exigibilité de la TVA',
+                'alternate' => 'Fait générateur et exigibilité',
+                'description' => 'Moment où la TVA devient due à l\'administration et où le droit à déduction naît chez le client. Selon le régime, la TVA est exigible lors de la livraison ou de l\'encaissement. Base légale : article 21 LIVA (à ne pas confondre avec l\'autoliquidation, régie par l\'article 17).',
+            ],
+            'facture_acompte' => [
+                'name' => 'Facture d\'acompte',
+                'alternate' => 'Facture d\'avance',
+                'description' => 'Facture émise pour un paiement partiel reçu avant la livraison ou l\'achèvement de la prestation. Elle rend la TVA exigible sur le montant encaissé ; la facture finale déduit ensuite les acomptes déjà facturés.',
+            ],
+            'forme_juridique' => [
+                'name' => 'Forme juridique',
+                'alternate' => 'Statut de l\'entreprise',
+                'description' => 'Structure légale sous laquelle une activité est exercée au Luxembourg (entreprise individuelle, SARL, SARL-S dite « société à 1 euro », SA, etc.). Elle détermine la responsabilité, la fiscalité et les obligations comptables de l\'entrepreneur.',
+            ],
+            'interets_de_retard' => [
+                'name' => 'Intérêts de retard',
+                'alternate' => 'Pénalités de retard',
+                'description' => 'Intérêts dus par un client qui règle une facture après l\'échéance. Entre professionnels, la loi luxembourgeoise (transposant la directive 2011/7/UE) prévoit le taux de référence de la BCE majoré de 8 points, ainsi qu\'une indemnité forfaitaire de 40 € pour frais de recouvrement.',
+            ],
+            'mention_obligatoire' => [
+                'name' => 'Mentions obligatoires',
+                'alternate' => 'Contenu légal d\'une facture',
+                'description' => 'Ensemble des informations que toute facture luxembourgeoise doit contenir : identité et adresse des parties, numéros de TVA, date, numéro séquentiel, désignation, base HT, taux et montant de TVA, total. Base légale : article 63 LIVA. Une facture incomplète peut être rejetée et exposer à une amende.',
+            ],
+            'mise_en_demeure' => [
+                'name' => 'Mise en demeure',
+                'alternate' => 'Sommation de payer',
+                'description' => 'Courrier formel exigeant le paiement d\'une facture échue, préalable généralement nécessaire avant une action en recouvrement. Elle peut réclamer, outre le principal, les intérêts de retard et l\'indemnité forfaitaire pour frais de recouvrement.',
+            ],
+            'numero_tva' => [
+                'name' => 'Numéro de TVA',
+                'alternate' => 'Numéro d\'identification à la TVA',
+                'description' => 'Identifiant attribué à un assujetti pour ses opérations soumises à la TVA. Au Luxembourg, il se présente sous la forme « LU » suivi de 8 chiffres. Il doit figurer sur les factures et être vérifié via VIES pour appliquer l\'autoliquidation aux clients professionnels d\'un autre État membre.',
+            ],
+            'regime_normal_tva' => [
+                'name' => 'Régime normal de TVA',
+                'alternate' => 'Assujettissement à la TVA',
+                'description' => 'Régime dans lequel l\'entreprise facture la TVA à ses clients, la déduit sur ses achats et dépose des déclarations périodiques (mensuelles, trimestrielles ou annuelles selon le chiffre d\'affaires). Il s\'oppose au régime de franchise réservé aux petits chiffres d\'affaires.',
+            ],
+            'taux_tva' => [
+                'name' => 'Taux de TVA (Luxembourg)',
+                'alternate' => '17 %, 14 %, 8 %, 3 %',
+                'description' => 'Le Luxembourg applique quatre taux de TVA : 17 % (normal), 14 % (intermédiaire), 8 % (réduit) et 3 % (super-réduit). Le taux dépend de la nature du bien ou du service ; le taux normal luxembourgeois est le plus bas de l\'Union européenne.',
+            ],
+            'tva_intracommunautaire' => [
+                'name' => 'TVA intracommunautaire',
+                'alternate' => 'Opérations intra-UE',
+                'description' => 'Régime de TVA applicable aux échanges de biens et de services entre assujettis de deux États membres de l\'UE. Les prestations B2B sont en général facturées sans TVA (autoliquidation par le client), sous réserve d\'un numéro de TVA valide vérifié via VIES et d\'une déclaration dans l\'état récapitulatif.',
+            ],
             'access_point' => [
                 'name' => 'Point d\'accès Peppol',
                 'alternate' => 'Peppol Access Point',

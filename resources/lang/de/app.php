@@ -2477,6 +2477,61 @@ return [
         'cta_subtitle' => 'faktur.lu fuegt die richtigen Pflichtangaben automatisch hinzu, validiert ueber VIES, erzeugt FAIA und wendet die richtigen Mehrwertsteuersaetze an. Sie muessen nicht jeden Artikel kennen.',
         'cta_button' => 'Kostenlos starten',
         'terms' => [
+            'delai_paiement' => [
+                'name' => 'Zahlungsfrist',
+                'alternate' => 'Fälligkeit der Zahlung',
+                'description' => 'Vereinbarte Frist zur Begleichung einer Rechnung. Ohne Vereinbarung beträgt die gesetzliche Frist zwischen Unternehmen in Luxemburg 30 Tage ab Erhalt der Rechnung bzw. der Waren/Dienstleistungen; danach fallen von Rechts wegen Verzugszinsen an.',
+            ],
+            'exigibilite_tva' => [
+                'name' => 'MwSt-Fälligkeit',
+                'alternate' => 'Steuertatbestand und Steueranspruch',
+                'description' => 'Zeitpunkt, zu dem die MwSt gegenüber der Verwaltung entsteht und das Vorsteuerabzugsrecht des Kunden entsteht. Je nach Regelung wird die MwSt bei Lieferung oder bei Zahlung fällig. Rechtsgrundlage: Artikel 21 LIVA (nicht zu verwechseln mit dem Reverse-Charge nach Artikel 17).',
+            ],
+            'facture_acompte' => [
+                'name' => 'Anzahlungsrechnung',
+                'alternate' => 'Vorschussrechnung',
+                'description' => 'Rechnung über eine Teilzahlung, die vor Lieferung oder Fertigstellung der Leistung eingeht. Sie löst die MwSt-Fälligkeit auf den vereinnahmten Betrag aus; die Schlussrechnung zieht anschließend die bereits fakturierten Anzahlungen ab.',
+            ],
+            'forme_juridique' => [
+                'name' => 'Rechtsform',
+                'alternate' => 'Unternehmensform',
+                'description' => 'Rechtliche Struktur, unter der eine Tätigkeit in Luxemburg ausgeübt wird (Einzelunternehmen, SARL, SARL-S „Ein-Euro-Gesellschaft", SA usw.). Sie bestimmt die Haftung, die Besteuerung und die Buchführungspflichten des Unternehmers.',
+            ],
+            'interets_de_retard' => [
+                'name' => 'Verzugszinsen',
+                'alternate' => 'Säumniszuschläge',
+                'description' => 'Zinsen, die ein Kunde schuldet, der eine Rechnung nach Fälligkeit begleicht. Zwischen Unternehmen sieht das luxemburgische Recht (Umsetzung der Richtlinie 2011/7/EU) den EZB-Referenzzinssatz plus 8 Punkte sowie eine Pauschale von 40 EUR für Beitreibungskosten vor.',
+            ],
+            'mention_obligatoire' => [
+                'name' => 'Pflichtangaben',
+                'alternate' => 'Gesetzlicher Rechnungsinhalt',
+                'description' => 'Angaben, die jede luxemburgische Rechnung enthalten muss: Identität und Anschrift der Parteien, USt-IdNr., Datum, fortlaufende Nummer, Bezeichnung, Nettobasis, MwSt-Satz und -Betrag, Gesamtbetrag. Rechtsgrundlage: Artikel 63 LIVA. Eine unvollständige Rechnung kann abgelehnt werden und ein Bußgeld nach sich ziehen.',
+            ],
+            'mise_en_demeure' => [
+                'name' => 'Mahnung (Inverzugsetzung)',
+                'alternate' => 'Zahlungsaufforderung',
+                'description' => 'Förmliches Schreiben, das die Zahlung einer fälligen Rechnung verlangt und in der Regel Voraussetzung für ein Beitreibungsverfahren ist. Es kann neben der Hauptforderung Verzugszinsen und die pauschale Beitreibungskostenentschädigung fordern.',
+            ],
+            'numero_tva' => [
+                'name' => 'USt-IdNr.',
+                'alternate' => 'MwSt-Identifikationsnummer',
+                'description' => 'Kennung, die einem Steuerpflichtigen für seine MwSt-Umsätze zugeteilt wird. In Luxemburg lautet sie „LU" gefolgt von 8 Ziffern. Sie muss auf den Rechnungen erscheinen und über VIES geprüft werden, um das Reverse-Charge bei Geschäftskunden in einem anderen Mitgliedstaat anzuwenden.',
+            ],
+            'regime_normal_tva' => [
+                'name' => 'Normale MwSt-Regelung',
+                'alternate' => 'MwSt-Pflicht',
+                'description' => 'Regelung, bei der das Unternehmen seinen Kunden MwSt in Rechnung stellt, sie auf Einkäufe abzieht und regelmäßige Erklärungen abgibt (monatlich, vierteljährlich oder jährlich je nach Umsatz). Sie steht im Gegensatz zur Befreiungsregelung für kleine Umsätze.',
+            ],
+            'taux_tva' => [
+                'name' => 'MwSt-Sätze (Luxemburg)',
+                'alternate' => '17 %, 14 %, 8 %, 3 %',
+                'description' => 'Luxemburg wendet vier MwSt-Sätze an: 17 % (Normalsatz), 14 % (Zwischensatz), 8 % (ermäßigt) und 3 % (stark ermäßigt). Der Satz richtet sich nach der Art der Ware oder Dienstleistung; der luxemburgische Normalsatz ist der niedrigste der Europäischen Union.',
+            ],
+            'tva_intracommunautaire' => [
+                'name' => 'Innergemeinschaftliche MwSt',
+                'alternate' => 'Innergemeinschaftliche Umsätze',
+                'description' => 'MwSt-Regelung für Lieferungen von Waren und Dienstleistungen zwischen Steuerpflichtigen in zwei EU-Mitgliedstaaten. B2B-Dienstleistungen werden in der Regel ohne MwSt fakturiert (Reverse-Charge durch den Kunden), sofern eine gültige, über VIES geprüfte USt-IdNr. vorliegt und eine Zusammenfassende Meldung erfolgt.',
+            ],
             'access_point' => [
                 'name' => 'Peppol Access Point',
                 'alternate' => 'Peppol-Zugangspunkt',

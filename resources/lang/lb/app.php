@@ -2477,6 +2477,61 @@ return [
         'cta_subtitle' => 'faktur.lu setzt automatesch déi richteg Pflichtugaben, valéiert VIES, generéiert FAIA a wennt déi richteg TVA-Sätz un. Dir braucht net all Artikel ze kennen.',
         'cta_button' => 'Gratis starten',
         'terms' => [
+            'delai_paiement' => [
+                'name' => 'Bezuelfrist',
+                'alternate' => 'Fälligkeet vun der Bezuelung',
+                'description' => 'Ofgemaach Frist fir eng Rechnung ze bezuelen. Ouni Ofmaachung ass déi gesetzlech Frist tëschent Entreprisen zu Lëtzebuerg 30 Deeg no Empfang vun der Rechnung oder vun de Wueren/Servicer; duerno lafen automatesch Verzuchszënsen.',
+            ],
+            'exigibilite_tva' => [
+                'name' => 'Exigibilitéit vun der TVA',
+                'alternate' => 'Steiertatbestand an Exigibilitéit',
+                'description' => 'Moment, wou d\'TVA géigeniwwer der Verwaltung geschëllt gëtt an d\'Recht op Ofzuch beim Client entsteet. Jee no Regime gëtt d\'TVA bei der Liwwerung oder beim Encaissement exigibel. Rechtsgrondlag: Artikel 21 LIVA (net ze verwiesselen mat der Autoliquidatioun no Artikel 17).',
+            ],
+            'facture_acompte' => [
+                'name' => 'Acompte-Rechnung',
+                'alternate' => 'Virschossrechnung',
+                'description' => 'Rechnung fir eng Deelbezuelung, déi virun der Liwwerung oder dem Ofschloss vun der Prestatioun erakënnt. Si mécht d\'TVA um erakruten Betrag exigibel; d\'Schlussrechnung zitt duerno déi scho fakturéiert Acompten of.',
+            ],
+            'forme_juridique' => [
+                'name' => 'Juristesch Form',
+                'alternate' => 'Statut vun der Entreprise',
+                'description' => 'Juristesch Struktur, ënner där eng Aktivitéit zu Lëtzebuerg ausgeüübt gëtt (Eenzelentreprise, SARL, SARL-S „Gesellschaft mat 1 Euro", SA asw.). Si bestëmmt d\'Verantwortung, d\'Besteierung an d\'Comptabilitéitsflichte vum Entrepreneur.',
+            ],
+            'interets_de_retard' => [
+                'name' => 'Verzuchszënsen',
+                'alternate' => 'Retardspenaliteiten',
+                'description' => 'Zënsen, déi e Client schëllt, deen eng Rechnung no der Echéance bezuelt. Tëschent Professionneller gesäit d\'lëtzebuerger Gesetz (Ëmsetzung vun der Direktiv 2011/7/UE) de BCE-Referenzzëns plus 8 Punkten a eng Pauschal vun 40 € fir Recouvrement-Käschte vir.',
+            ],
+            'mention_obligatoire' => [
+                'name' => 'Obligatoresch Mentiounen',
+                'alternate' => 'Gesetzlechen Inhalt vun enger Rechnung',
+                'description' => 'Informatiounen, déi all lëtzebuerger Rechnung muss enthalen: Identitéit an Adress vun de Parteien, TVA-Nummeren, Datum, sequentiell Nummer, Bezeechnung, Nettobasis, TVA-Taux a -Betrag, Total. Rechtsgrondlag: Artikel 63 LIVA. Eng onvollstänneg Rechnung kann ofgeleent ginn an zu enger Geldstrof féieren.',
+            ],
+            'mise_en_demeure' => [
+                'name' => 'Mise en demeure',
+                'alternate' => 'Bezuelopfuerderung',
+                'description' => 'Formellt Schreiwes, dat d\'Bezuelung vun enger fälleger Rechnung verlaangt, allgemeng eng Viraussetzung virun engem Recouvrement. Et kann, nieft dem Haaptbetrag, Verzuchszënsen an d\'Pauschal fir Recouvrement-Käschte fuerderen.',
+            ],
+            'numero_tva' => [
+                'name' => 'TVA-Nummer',
+                'alternate' => 'TVA-Identifikatiounsnummer',
+                'description' => 'Identifiant, deen engem Steierflichtege fir seng TVA-Operatioune ginn ass. Zu Lëtzebuerg huet en d\'Form „LU" gefollegt vun 8 Zifferen. En muss op de Rechnungen stoen an iwwer VIES geprüft ginn, fir d\'Autoliquidatioun bei Geschäftskonden an engem anere Memberstaat unzewenden.',
+            ],
+            'regime_normal_tva' => [
+                'name' => 'Normalt TVA-Regime',
+                'alternate' => 'TVA-Flicht',
+                'description' => 'Regime, an deem d\'Entreprise hire Clienten d\'TVA fakturéiert, se op hir Akeef ofzitt a periodesch Erklärungen ofgëtt (méintlech, trimestriell oder jäerlech jee no Chiffre d\'Affaires). Et steet am Géigesaz zum Franchise-Regime fir kleng Chiffren d\'Affaires.',
+            ],
+            'taux_tva' => [
+                'name' => 'TVA-Taux (Lëtzebuerg)',
+                'alternate' => '17 %, 14 %, 8 %, 3 %',
+                'description' => 'Lëtzebuerg wennt véier TVA-Taux un: 17 % (normal), 14 % (intermediaire), 8 % (reduzéiert) an 3 % (super-reduzéiert). Den Taux hänkt vun der Natur vun der Wuer oder vum Service of; den lëtzebuerger Normaltaux ass deen niddregsten an der Europäescher Unioun.',
+            ],
+            'tva_intracommunautaire' => [
+                'name' => 'Intracommunautaire TVA',
+                'alternate' => 'Intra-UE Operatiounen',
+                'description' => 'TVA-Regime fir den Austausch vu Wueren a Servicer tëschent Steierflichtegen an zwee EU-Memberstaaten. B2B-Servicer ginn allgemeng ouni TVA fakturéiert (Autoliquidatioun duerch de Client), ënner der Konditioun vun enger gëlteger, iwwer VIES geprüfter TVA-Nummer an enger Deklaratioun am récapitulatif.',
+            ],
             'access_point' => [
                 'name' => 'Peppol Access Point',
                 'alternate' => 'Peppol-Zougangspunkt',
