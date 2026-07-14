@@ -2806,6 +2806,76 @@ return [
         'cta_subtitle' => 'faktur.lu applique automatiquement les bonnes mentions, valide VIES, génère le FAIA et applique les bons taux de TVA. Plus besoin de connaître chaque article par cœur.',
         'cta_button' => 'Démarrer gratuitement',
         'terms' => [
+            'assujetti' => [
+                'name' => 'Assujetti',
+                'alternate' => 'Assujetti à la TVA',
+                'description' => 'Personne physique ou morale qui exerce de manière indépendante une activité économique et est, à ce titre, redevable de la TVA sur ses opérations. L\'assujetti collecte la TVA auprès de ses clients et la déduit sur ses achats, sauf s\'il relève d\'un régime de franchise ou d\'exonération.',
+            ],
+            'autofacturation' => [
+                'name' => 'Autofacturation',
+                'alternate' => 'Self-billing',
+                'description' => 'Procédé par lequel c\'est le client, et non le fournisseur, qui établit la facture au nom et pour le compte de ce dernier, sur la base d\'un accord préalable. Elle reste soumise aux mêmes mentions obligatoires et à l\'acceptation du fournisseur.',
+            ],
+            'bic' => [
+                'name' => 'BIC',
+                'alternate' => 'Bank Identifier Code (SWIFT)',
+                'description' => 'Code international de 8 ou 11 caractères identifiant une banque lors des virements. Associé à l\'IBAN, il permet d\'acheminer un paiement SEPA ou international vers le bon établissement ; les banques luxembourgeoises portent le code pays « LU » en 5e et 6e position.',
+            ],
+            'bon_de_commande' => [
+                'name' => 'Bon de commande',
+                'alternate' => 'Commande client',
+                'description' => 'Document par lequel un client formalise une commande auprès d\'un fournisseur (produits, quantités, prix convenus). Il précède la facture et, une fois accepté, engage les deux parties ; son numéro peut être repris sur la facture pour faciliter le rapprochement.',
+            ],
+            'devis' => [
+                'name' => 'Devis',
+                'alternate' => 'Offre de prix',
+                'description' => 'Proposition commerciale chiffrée et datée, valable pour une durée déterminée, détaillant les prestations et leur prix avant tout engagement. Accepté et signé par le client, il vaut contrat et peut être converti en facture.',
+            ],
+            'e_facturation' => [
+                'name' => 'Facturation électronique',
+                'alternate' => 'E-invoicing',
+                'description' => 'Émission, transmission et réception de factures dans un format électronique structuré (et non un simple PDF), permettant leur traitement automatisé. Au Luxembourg, elle est obligatoire pour le secteur public via Peppol et se généralisera au B2B avec la réforme européenne ViDA.',
+            ],
+            'escompte' => [
+                'name' => 'Escompte',
+                'alternate' => 'Escompte pour paiement anticipé',
+                'description' => 'Réduction de prix accordée à un client qui règle sa facture avant l\'échéance. À distinguer de la remise (rabais commercial) : l\'escompte récompense la rapidité de paiement et doit figurer distinctement sur la facture.',
+            ],
+            'facture_proforma' => [
+                'name' => 'Facture proforma',
+                'alternate' => 'Proforma',
+                'description' => 'Document ayant l\'apparence d\'une facture mais sans valeur comptable ni fiscale, utilisé pour communiquer un prix, obtenir un acompte ou accompagner une démarche douanière. Elle ne génère pas de TVA et ne remplace pas la facture définitive.',
+            ],
+            'facture_rectificative' => [
+                'name' => 'Facture rectificative',
+                'alternate' => 'Facture corrective',
+                'description' => 'Facture émise pour corriger une facture précédente comportant une erreur (montant, TVA, mentions). Elle référence la facture d\'origine ; lorsqu\'elle réduit le montant, elle prend souvent la forme d\'une note de crédit.',
+            ],
+            'iban' => [
+                'name' => 'IBAN',
+                'alternate' => 'International Bank Account Number',
+                'description' => 'Identifiant international normalisé d\'un compte bancaire. Au Luxembourg, il comporte 20 caractères commençant par « LU » suivis d\'une clé de contrôle (validation MOD-97, ISO 13616). Il figure sur les factures pour permettre le paiement par virement.',
+            ],
+            'remise' => [
+                'name' => 'Remise',
+                'alternate' => 'Rabais commercial',
+                'description' => 'Réduction de prix accordée sur une ligne ou sur le total d\'une facture (geste commercial, fidélité, volume). Elle diminue la base imposable : la TVA se calcule sur le montant net après remise. À distinguer de l\'escompte, lié au délai de paiement.',
+            ],
+            'retenue_garantie' => [
+                'name' => 'Retenue de garantie',
+                'alternate' => 'Retenue de bonne exécution',
+                'description' => 'Fraction du montant d\'une facture (souvent 5 à 10 %) qu\'un client conserve temporairement, notamment dans le BTP, pour garantir la bonne exécution des travaux. Elle est libérée après réception ou expiration du délai de garantie.',
+            ],
+            'sepa' => [
+                'name' => 'SEPA',
+                'alternate' => 'Single Euro Payments Area',
+                'description' => 'Espace unique de paiement en euros qui harmonise les virements et prélèvements dans l\'UE et quelques pays associés. Grâce au SEPA, un virement vers un IBAN luxembourgeois s\'effectue aux mêmes conditions qu\'un virement national.',
+            ],
+            'tva_deductible' => [
+                'name' => 'TVA déductible',
+                'alternate' => 'TVA en amont',
+                'description' => 'TVA payée par une entreprise sur ses achats professionnels, qu\'elle peut récupérer en la déduisant de la TVA collectée sur ses ventes. Seule la différence est versée à l\'administration. Le droit à déduction suppose une facture conforme et un usage professionnel.',
+            ],
             'delai_paiement' => [
                 'name' => 'Délai de paiement',
                 'alternate' => 'Échéance de règlement',

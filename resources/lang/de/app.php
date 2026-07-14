@@ -2477,6 +2477,76 @@ return [
         'cta_subtitle' => 'faktur.lu fuegt die richtigen Pflichtangaben automatisch hinzu, validiert ueber VIES, erzeugt FAIA und wendet die richtigen Mehrwertsteuersaetze an. Sie muessen nicht jeden Artikel kennen.',
         'cta_button' => 'Kostenlos starten',
         'terms' => [
+            'assujetti' => [
+                'name' => 'Steuerpflichtiger',
+                'alternate' => 'MwSt-Steuerpflichtiger',
+                'description' => 'Natürliche oder juristische Person, die selbstständig eine wirtschaftliche Tätigkeit ausübt und daher MwSt auf ihre Umsätze schuldet. Der Steuerpflichtige berechnet seinen Kunden MwSt und zieht sie auf Einkäufe ab, sofern er nicht unter eine Befreiungs- oder Franchise-Regelung fällt.',
+            ],
+            'autofacturation' => [
+                'name' => 'Gutschriftverfahren (Self-Billing)',
+                'alternate' => 'Autofacturation',
+                'description' => 'Verfahren, bei dem der Kunde statt des Lieferanten die Rechnung im Namen und für Rechnung des Lieferanten ausstellt, auf Grundlage einer vorherigen Vereinbarung. Es unterliegt denselben Pflichtangaben und der Zustimmung des Lieferanten.',
+            ],
+            'bic' => [
+                'name' => 'BIC',
+                'alternate' => 'Bank Identifier Code (SWIFT)',
+                'description' => 'Internationaler 8- oder 11-stelliger Code zur Identifizierung einer Bank bei Überweisungen. Zusammen mit der IBAN leitet er eine SEPA- oder internationale Zahlung an das richtige Institut; luxemburgische Banken tragen den Ländercode „LU" an 5. und 6. Stelle.',
+            ],
+            'bon_de_commande' => [
+                'name' => 'Bestellung',
+                'alternate' => 'Kundenbestellung',
+                'description' => 'Dokument, mit dem ein Kunde eine Bestellung bei einem Lieferanten formalisiert (Produkte, Mengen, vereinbarte Preise). Sie geht der Rechnung voraus und bindet nach Annahme beide Parteien; ihre Nummer kann zur Zuordnung auf der Rechnung angegeben werden.',
+            ],
+            'devis' => [
+                'name' => 'Angebot',
+                'alternate' => 'Kostenvoranschlag',
+                'description' => 'Datiertes, beziffertes Angebot, das für einen bestimmten Zeitraum gilt und die Leistungen samt Preis vor jeder Verpflichtung aufführt. Vom Kunden angenommen und unterzeichnet gilt es als Vertrag und kann in eine Rechnung umgewandelt werden.',
+            ],
+            'e_facturation' => [
+                'name' => 'Elektronische Rechnung',
+                'alternate' => 'E-Invoicing',
+                'description' => 'Ausstellung, Übermittlung und Empfang von Rechnungen in einem strukturierten elektronischen Format (kein einfaches PDF), das eine automatisierte Verarbeitung ermöglicht. In Luxemburg für den öffentlichen Sektor über Peppol verpflichtend, mit Ausweitung auf B2B im Rahmen der EU-Reform ViDA.',
+            ],
+            'escompte' => [
+                'name' => 'Skonto',
+                'alternate' => 'Skonto bei früher Zahlung',
+                'description' => 'Preisnachlass für einen Kunden, der seine Rechnung vor Fälligkeit begleicht. Zu unterscheiden vom Rabatt (Remise): Der Skonto belohnt die schnelle Zahlung und muss gesondert auf der Rechnung ausgewiesen werden.',
+            ],
+            'facture_proforma' => [
+                'name' => 'Proforma-Rechnung',
+                'alternate' => 'Proforma',
+                'description' => 'Dokument, das wie eine Rechnung aussieht, aber keinen buchhalterischen oder steuerlichen Wert hat und dazu dient, einen Preis mitzuteilen, eine Anzahlung zu erhalten oder Zollformalitäten zu begleiten. Es löst keine MwSt aus und ersetzt nicht die endgültige Rechnung.',
+            ],
+            'facture_rectificative' => [
+                'name' => 'Berichtigungsrechnung',
+                'alternate' => 'Korrekturrechnung',
+                'description' => 'Rechnung, die eine frühere fehlerhafte Rechnung korrigiert (Betrag, MwSt, Angaben). Sie verweist auf die ursprüngliche Rechnung; mindert sie den Betrag, nimmt sie oft die Form einer Gutschrift an.',
+            ],
+            'iban' => [
+                'name' => 'IBAN',
+                'alternate' => 'International Bank Account Number',
+                'description' => 'Standardisierte internationale Kennung eines Bankkontos. In Luxemburg umfasst sie 20 Zeichen, beginnend mit „LU" gefolgt von einer Prüfsumme (MOD-97-Prüfung, ISO 13616). Sie steht auf den Rechnungen, um die Zahlung per Überweisung zu ermöglichen.',
+            ],
+            'remise' => [
+                'name' => 'Rabatt',
+                'alternate' => 'Preisnachlass',
+                'description' => 'Preisnachlass auf eine Zeile oder auf den Rechnungsgesamtbetrag (Kulanz, Treue, Menge). Er mindert die Bemessungsgrundlage: Die MwSt wird auf den Nettobetrag nach Rabatt berechnet. Zu unterscheiden vom Skonto, der an die Zahlungsfrist geknüpft ist.',
+            ],
+            'retenue_garantie' => [
+                'name' => 'Sicherheitseinbehalt',
+                'alternate' => 'Gewährleistungseinbehalt',
+                'description' => 'Anteil eines Rechnungsbetrags (oft 5-10 %), den ein Kunde vorübergehend einbehält, insbesondere im Bauwesen, um die ordnungsgemäße Ausführung der Arbeiten zu sichern. Er wird nach Abnahme oder Ablauf der Gewährleistungsfrist freigegeben.',
+            ],
+            'sepa' => [
+                'name' => 'SEPA',
+                'alternate' => 'Single Euro Payments Area',
+                'description' => 'Einheitlicher Euro-Zahlungsverkehrsraum, der Überweisungen und Lastschriften in der EU und einigen assoziierten Ländern vereinheitlicht. Dank SEPA erfolgt eine Überweisung an eine luxemburgische IBAN zu denselben Bedingungen wie eine Inlandsüberweisung.',
+            ],
+            'tva_deductible' => [
+                'name' => 'Abziehbare MwSt (Vorsteuer)',
+                'alternate' => 'Vorsteuer',
+                'description' => 'MwSt, die ein Unternehmen auf seine betrieblichen Einkäufe zahlt und zurückholen kann, indem es sie von der auf seine Verkäufe berechneten MwSt abzieht. Nur die Differenz wird an die Verwaltung abgeführt. Der Vorsteuerabzug setzt eine ordnungsgemäße Rechnung und eine betriebliche Nutzung voraus.',
+            ],
             'delai_paiement' => [
                 'name' => 'Zahlungsfrist',
                 'alternate' => 'Fälligkeit der Zahlung',

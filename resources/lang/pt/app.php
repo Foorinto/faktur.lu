@@ -2781,6 +2781,76 @@ return [
         'cta_subtitle' => 'O faktur.lu aplica automaticamente as menções obrigatórias corretas, valida via VIES, gera o FAIA e aplica as taxas de IVA adequadas. Já não precisa de saber cada artigo de cor.',
         'cta_button' => 'Começar gratuitamente',
         'terms' => [
+            'assujetti' => [
+                'name' => 'Sujeito passivo',
+                'alternate' => 'Sujeito passivo de IVA',
+                'description' => 'Pessoa singular ou coletiva que exerce de forma independente uma atividade económica e é, por esse facto, devedora de IVA sobre as suas operações. O sujeito passivo cobra IVA aos clientes e deduz-no nas compras, salvo se estiver abrangido por um regime de isenção ou de franquia.',
+            ],
+            'autofacturation' => [
+                'name' => 'Autofaturação',
+                'alternate' => 'Self-billing',
+                'description' => 'Processo pelo qual é o cliente, e não o fornecedor, que emite a fatura em nome e por conta deste último, com base num acordo prévio. Continua sujeito às mesmas menções obrigatórias e à aceitação do fornecedor.',
+            ],
+            'bic' => [
+                'name' => 'BIC',
+                'alternate' => 'Bank Identifier Code (SWIFT)',
+                'description' => 'Código internacional de 8 ou 11 caracteres que identifica um banco nas transferências. Associado ao IBAN, encaminha um pagamento SEPA ou internacional para a instituição correta; os bancos luxemburgueses têm o código de país «LU» na 5.ª e 6.ª posição.',
+            ],
+            'bon_de_commande' => [
+                'name' => 'Nota de encomenda',
+                'alternate' => 'Encomenda do cliente',
+                'description' => 'Documento pelo qual um cliente formaliza uma encomenda a um fornecedor (produtos, quantidades, preços acordados). Precede a fatura e, uma vez aceite, vincula ambas as partes; o seu número pode figurar na fatura para facilitar a reconciliação.',
+            ],
+            'devis' => [
+                'name' => 'Orçamento',
+                'alternate' => 'Proposta de preço',
+                'description' => 'Proposta comercial datada e valorizada, válida por um período determinado, que detalha as prestações e o seu preço antes de qualquer compromisso. Aceite e assinado pelo cliente, vale como contrato e pode ser convertido em fatura.',
+            ],
+            'e_facturation' => [
+                'name' => 'Faturação eletrónica',
+                'alternate' => 'E-invoicing',
+                'description' => 'Emissão, transmissão e receção de faturas num formato eletrónico estruturado (e não um simples PDF), permitindo o seu tratamento automatizado. No Luxemburgo é obrigatória para o setor público via Peppol e generalizar-se-á ao B2B com a reforma europeia ViDA.',
+            ],
+            'escompte' => [
+                'name' => 'Desconto de pronto pagamento',
+                'alternate' => 'Desconto por pagamento antecipado',
+                'description' => 'Redução de preço concedida a um cliente que paga a fatura antes do vencimento. A distinguir do desconto comercial (remise): o desconto de pronto pagamento recompensa a rapidez de pagamento e deve figurar distintamente na fatura.',
+            ],
+            'facture_proforma' => [
+                'name' => 'Fatura proforma',
+                'alternate' => 'Proforma',
+                'description' => 'Documento com a aparência de uma fatura mas sem valor contabilístico nem fiscal, utilizado para comunicar um preço, obter um adiantamento ou acompanhar uma formalidade aduaneira. Não gera IVA e não substitui a fatura definitiva.',
+            ],
+            'facture_rectificative' => [
+                'name' => 'Fatura retificativa',
+                'alternate' => 'Fatura corretiva',
+                'description' => 'Fatura emitida para corrigir uma fatura anterior que contém um erro (montante, IVA, menções). Refere a fatura de origem; quando reduz o montante, assume frequentemente a forma de uma nota de crédito.',
+            ],
+            'iban' => [
+                'name' => 'IBAN',
+                'alternate' => 'International Bank Account Number',
+                'description' => 'Identificador internacional normalizado de uma conta bancária. No Luxemburgo tem 20 caracteres começados por «LU» seguidos de uma chave de controlo (validação MOD-97, ISO 13616). Figura nas faturas para permitir o pagamento por transferência.',
+            ],
+            'remise' => [
+                'name' => 'Desconto comercial',
+                'alternate' => 'Abatimento',
+                'description' => 'Redução de preço concedida numa linha ou no total de uma fatura (gesto comercial, fidelidade, volume). Diminui a base tributável: o IVA é calculado sobre o montante líquido após o desconto. A distinguir do desconto de pronto pagamento, ligado ao prazo de pagamento.',
+            ],
+            'retenue_garantie' => [
+                'name' => 'Retenção de garantia',
+                'alternate' => 'Retenção de boa execução',
+                'description' => 'Fração do montante de uma fatura (frequentemente 5 a 10 %) que um cliente retém temporariamente, nomeadamente na construção, para garantir a boa execução dos trabalhos. É libertada após a receção ou o termo do prazo de garantia.',
+            ],
+            'sepa' => [
+                'name' => 'SEPA',
+                'alternate' => 'Single Euro Payments Area',
+                'description' => 'Espaço único de pagamentos em euros que harmoniza as transferências e os débitos diretos na UE e em alguns países associados. Graças ao SEPA, uma transferência para um IBAN luxemburguês é efetuada nas mesmas condições que uma transferência nacional.',
+            ],
+            'tva_deductible' => [
+                'name' => 'IVA dedutível',
+                'alternate' => 'IVA suportado',
+                'description' => 'IVA pago por uma empresa nas suas compras profissionais, que pode recuperar deduzindo-o do IVA cobrado nas suas vendas. Apenas a diferença é entregue à administração. O direito à dedução pressupõe uma fatura conforme e uma utilização profissional.',
+            ],
             'delai_paiement' => [
                 'name' => 'Prazo de pagamento',
                 'alternate' => 'Data de vencimento',

@@ -2576,6 +2576,76 @@ return [
         'cta_subtitle' => 'faktur.lu adds the right mandatory mentions automatically, validates VIES, generates FAIA and applies the right VAT rates. You no longer need to know every article by heart.',
         'cta_button' => 'Get started for free',
         'terms' => [
+            'assujetti' => [
+                'name' => 'Taxable person',
+                'alternate' => 'VAT taxable person',
+                'description' => 'Individual or legal entity that independently carries out an economic activity and is, on that basis, liable for VAT on its transactions. The taxable person charges VAT to customers and deducts it on purchases, unless covered by an exemption or franchise scheme.',
+            ],
+            'autofacturation' => [
+                'name' => 'Self-billing',
+                'alternate' => 'Autofacturation',
+                'description' => 'Arrangement whereby the customer, rather than the supplier, issues the invoice in the supplier\'s name and on their behalf, based on a prior agreement. It remains subject to the same mandatory particulars and to the supplier\'s acceptance.',
+            ],
+            'bic' => [
+                'name' => 'BIC',
+                'alternate' => 'Bank Identifier Code (SWIFT)',
+                'description' => 'International 8- or 11-character code identifying a bank in transfers. Together with the IBAN, it routes a SEPA or international payment to the right institution; Luxembourg banks carry the "LU" country code in positions 5 and 6.',
+            ],
+            'bon_de_commande' => [
+                'name' => 'Purchase order',
+                'alternate' => 'Customer order',
+                'description' => 'Document by which a customer formalises an order with a supplier (products, quantities, agreed prices). It precedes the invoice and, once accepted, binds both parties; its number may be shown on the invoice to ease reconciliation.',
+            ],
+            'devis' => [
+                'name' => 'Quote',
+                'alternate' => 'Estimate',
+                'description' => 'Dated, priced commercial proposal, valid for a set period, detailing the services and their price before any commitment. Once accepted and signed by the customer it acts as a contract and can be converted into an invoice.',
+            ],
+            'e_facturation' => [
+                'name' => 'Electronic invoicing',
+                'alternate' => 'E-invoicing',
+                'description' => 'Issuing, transmitting and receiving invoices in a structured electronic format (not a plain PDF), enabling automated processing. In Luxembourg it is mandatory for the public sector via Peppol and will extend to B2B under the EU ViDA reform.',
+            ],
+            'escompte' => [
+                'name' => 'Cash discount',
+                'alternate' => 'Early-payment discount',
+                'description' => 'Price reduction granted to a customer who pays before the due date. To be distinguished from a trade discount (remise): the cash discount rewards fast payment and must be shown separately on the invoice.',
+            ],
+            'facture_proforma' => [
+                'name' => 'Proforma invoice',
+                'alternate' => 'Proforma',
+                'description' => 'Document that looks like an invoice but has no accounting or tax value, used to quote a price, obtain a down payment or accompany customs formalities. It does not generate VAT and does not replace the final invoice.',
+            ],
+            'facture_rectificative' => [
+                'name' => 'Corrective invoice',
+                'alternate' => 'Rectifying invoice',
+                'description' => 'Invoice issued to correct a previous invoice containing an error (amount, VAT, particulars). It references the original invoice; when it reduces the amount, it often takes the form of a credit note.',
+            ],
+            'iban' => [
+                'name' => 'IBAN',
+                'alternate' => 'International Bank Account Number',
+                'description' => 'Standardised international identifier of a bank account. In Luxembourg it has 20 characters starting with "LU" followed by a check key (MOD-97 validation, ISO 13616). It appears on invoices to enable payment by bank transfer.',
+            ],
+            'remise' => [
+                'name' => 'Trade discount',
+                'alternate' => 'Commercial rebate',
+                'description' => 'Price reduction granted on a line or on the invoice total (commercial gesture, loyalty, volume). It lowers the taxable base: VAT is computed on the net amount after the discount. To be distinguished from the cash discount, which relates to the payment term.',
+            ],
+            'retenue_garantie' => [
+                'name' => 'Retention guarantee',
+                'alternate' => 'Performance retention',
+                'description' => 'Portion of an invoice amount (often 5-10%) that a customer temporarily withholds, notably in construction, to secure proper completion of the works. It is released after acceptance or expiry of the warranty period.',
+            ],
+            'sepa' => [
+                'name' => 'SEPA',
+                'alternate' => 'Single Euro Payments Area',
+                'description' => 'Single euro payments area that harmonises transfers and direct debits across the EU and a few associated countries. Thanks to SEPA, a transfer to a Luxembourg IBAN is made on the same terms as a domestic transfer.',
+            ],
+            'tva_deductible' => [
+                'name' => 'Deductible VAT',
+                'alternate' => 'Input VAT',
+                'description' => 'VAT paid by a business on its professional purchases, which it can recover by deducting it from the VAT charged on its sales. Only the difference is paid to the administration. The right to deduct requires a compliant invoice and a business use.',
+            ],
             'delai_paiement' => [
                 'name' => 'Payment term',
                 'alternate' => 'Payment due date',

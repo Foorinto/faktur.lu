@@ -2477,6 +2477,76 @@ return [
         'cta_subtitle' => 'faktur.lu setzt automatesch déi richteg Pflichtugaben, valéiert VIES, generéiert FAIA a wennt déi richteg TVA-Sätz un. Dir braucht net all Artikel ze kennen.',
         'cta_button' => 'Gratis starten',
         'terms' => [
+            'assujetti' => [
+                'name' => 'Steierflichtegen',
+                'alternate' => 'TVA-Steierflichtegen',
+                'description' => 'Natierlech oder juristesch Persoun, déi onofhängeg eng wirtschaftlech Aktivitéit ausüübt an dofir TVA op hir Operatioune schëllt. De Steierflichtege collectéiert d\'TVA bei senge Clienten an zitt se op seng Akeef of, ausser wann en ënner e Franchise- oder Exonératiounsregime fällt.',
+            ],
+            'autofacturation' => [
+                'name' => 'Autofacturation',
+                'alternate' => 'Self-Billing',
+                'description' => 'Verfaren, wou de Client, an net de Fournisseur, d\'Rechnung am Numm a fir Rechnung vum Fournisseur ausstellt, op Basis vun enger virdrun Ofmaachung. Et ënnerläit deenen selwechten obligatoresche Mentiounen an der Zoustëmmung vum Fournisseur.',
+            ],
+            'bic' => [
+                'name' => 'BIC',
+                'alternate' => 'Bank Identifier Code (SWIFT)',
+                'description' => 'Internationale Code vun 8 oder 11 Zeechen, deen eng Bank bei Iwwerweisungen identifizéiert. Zesumme mat der IBAN leet en eng SEPA- oder international Bezuelung un dat richtegt Institut; lëtzebuerger Banken droen de Landescode „LU" op der 5. an 6. Positioun.',
+            ],
+            'bon_de_commande' => [
+                'name' => 'Bestellschäin',
+                'alternate' => 'Clientsbestellung',
+                'description' => 'Dokument, mat deem e Client eng Bestellung bei engem Fournisseur formaliséiert (Produiten, Quantitéiten, ofgemaach Präisser). Et geet der Rechnung viraus a bënnt no der Unhuelung béid Parteien; seng Nummer kann op der Rechnung ugi ginn fir d\'Zouuerdnung.',
+            ],
+            'devis' => [
+                'name' => 'Devis',
+                'alternate' => 'Ugebot',
+                'description' => 'Datéiert, bezifferte kommerziellt Ugebot, dat fir eng bestëmmten Dauer gëlteg ass an d\'Prestatiounen a hire Präis virun all Engagement opféiert. Vum Client ugeholl an ënnerschriwwen, gëllt et als Kontrakt a kann an eng Rechnung ëmgewandelt ginn.',
+            ],
+            'e_facturation' => [
+                'name' => 'Elektronesch Rechnung',
+                'alternate' => 'E-Invoicing',
+                'description' => 'Ausstellung, Iwwerdroung an Empfang vu Rechnungen an engem strukturéierten elektronesche Format (net e simpelt PDF), wat eng automatiséiert Veraarbechtung erméiglecht. Zu Lëtzebuerg obligatoresch fir de ëffentleche Secteur iwwer Peppol, mat Ausweidung op B2B am Kader vun der EU-Reform ViDA.',
+            ],
+            'escompte' => [
+                'name' => 'Escompte',
+                'alternate' => 'Escompte fir fréi Bezuelung',
+                'description' => 'Präisreduktioun fir e Client, deen seng Rechnung virun der Echéance bezuelt. Ze ënnerscheeden vun der Remise (kommerzielle Rabatt): den Escompte belount déi séier Bezuelung a muss separat op der Rechnung stoen.',
+            ],
+            'facture_proforma' => [
+                'name' => 'Proforma-Rechnung',
+                'alternate' => 'Proforma',
+                'description' => 'Dokument, dat wéi eng Rechnung ausgesäit, awer keng comptabel oder fiskalesch Wäert huet, a benotzt gëtt fir e Präis matzedeelen, en Acompte ze kréien oder eng Douane-Demarche ze begleeden. Et generéiert keng TVA an ersetzt net déi definitiv Rechnung.',
+            ],
+            'facture_rectificative' => [
+                'name' => 'Rektifizéierungsrechnung',
+                'alternate' => 'Korrekturrechnung',
+                'description' => 'Rechnung, déi eng virdru feelerhaft Rechnung korrigéiert (Betrag, TVA, Mentiounen). Si referenzéiert d\'Originalrechnung; wann se de Betrag reduzéiert, hëlt se dacks d\'Form vun enger Kredittnott un.',
+            ],
+            'iban' => [
+                'name' => 'IBAN',
+                'alternate' => 'International Bank Account Number',
+                'description' => 'Standardiséierten internationalen Identifiant vun engem Bankkont. Zu Lëtzebuerg huet en 20 Zeechen, déi mat „LU" ufänken, gefollegt vun engem Kontrollschlëssel (MOD-97-Validatioun, ISO 13616). En steet op de Rechnungen fir d\'Bezuelung per Iwwerweisung.',
+            ],
+            'remise' => [
+                'name' => 'Remise',
+                'alternate' => 'Kommerzielle Rabatt',
+                'description' => 'Präisreduktioun op enger Zeil oder um Total vun enger Rechnung (kommerzielle Geste, Trei, Volumen). Si reduzéiert d\'imposabel Basis: d\'TVA gëtt um Nettobetrag no der Remise berechent. Ze ënnerscheeden vum Escompte, dee mat der Bezuelfrist verbonnen ass.',
+            ],
+            'retenue_garantie' => [
+                'name' => 'Retenue de garantie',
+                'alternate' => 'Garantiezréckbehalt',
+                'description' => 'Deel vun engem Rechnungsbetrag (dacks 5 bis 10 %), deen e Client provisoresch zréckhält, notamment am Bausecteur, fir déi gutt Ausféierung vun den Aarbechten ze garantéieren. Et gëtt no der Réceptioun oder no Oflaf vun der Garantiefrist fräigi.',
+            ],
+            'sepa' => [
+                'name' => 'SEPA',
+                'alternate' => 'Single Euro Payments Area',
+                'description' => 'Eenheetleche Raum fir Euro-Bezuelungen, deen d\'Iwwerweisungen an d\'Prélèvementer an der EU an e puer assoziéierte Länner harmoniséiert. Dank SEPA gëtt eng Iwwerweisung op eng lëtzebuerger IBAN ënner deene selwechte Konditioune wéi eng national Iwwerweisung gemaach.',
+            ],
+            'tva_deductible' => [
+                'name' => 'Ofzéibar TVA',
+                'alternate' => 'TVA en amont',
+                'description' => 'TVA, déi eng Entreprise op hir professionell Akeef bezilt an déi se zréckkréie kann andeems se se vun der TVA ofzitt, déi op hire Verkeef erhuewe gouf. Nëmmen den Ënnerscheed gëtt un d\'Verwaltung gezuelt. D\'Ofzuchsrecht setzt eng konform Rechnung an eng professionell Notzung viraus.',
+            ],
             'delai_paiement' => [
                 'name' => 'Bezuelfrist',
                 'alternate' => 'Fälligkeet vun der Bezuelung',
