@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewSupportReplyNotification;
 use App\Mail\NewSupportTicketNotification;
 use App\Models\SupportAttachment;
 use App\Models\SupportMessage;
@@ -150,6 +151,13 @@ class SupportController extends Controller
         // Reopen the ticket if it was waiting or resolved
         if (in_array($ticket->status, ['waiting', 'resolved'])) {
             $ticket->update(['status' => 'open']);
+        }
+
+        // Send notification email to admin (a client replied to an existing ticket)
+        $adminEmail = config('admin.support_email');
+        if ($adminEmail) {
+            $ticket->load('user');
+            Mail::to($adminEmail)->send(new NewSupportReplyNotification($ticket, $validated['message']));
         }
 
         return back()->with('success', __('app.support_flash.reply_sent'));
