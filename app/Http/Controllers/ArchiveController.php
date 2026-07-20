@@ -61,7 +61,7 @@ class ArchiveController extends Controller
 
             return back()->with('success', $message);
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', \App\Support\UserError::report($e, 'archive.generate'));
         }
     }
 

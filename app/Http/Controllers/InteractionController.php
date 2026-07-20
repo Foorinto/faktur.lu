@@ -58,7 +58,7 @@ class InteractionController extends Controller
             } catch (\Exception $e) {
                 Log::error("CRM email failed to {$client->email}: {$e->getMessage()}");
 
-                return back()->with('error', __('app.interactions_flash.email_error', ['error' => $e->getMessage()]));
+                return back()->with('error', \App\Support\UserError::report($e, 'crm.email'));
             }
         }
 

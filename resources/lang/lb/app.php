@@ -5108,6 +5108,7 @@ return [
     'mail_subject_new_user_registered' => 'Nei Umeldung: :name',
     'mail_subject_new_support_ticket' => '[:reference] Nei Support-Ufro: :subject',
     'mail_subject_new_support_reply' => '[:reference] Nei Äntwert: :subject',
+    'error_generic_with_ref' => 'En onerwaarte Feeler ass opgetrueden. Probéiert w.e.g. nach eng Kéier; wann de Problem weiderbesteet, kontaktéiert de Support mam Code: :ref.',
     'mail_subject_support_reply' => '[:reference] Äntwert op Är Ufro: :subject',
     'mail_subject_newsletter_confirmation' => 'Bestätegt Är :app Newsletter-Umeldung',
     'mail_subject_trial_ending_soon' => 'Nach :days Deeg fir :app ze profitéieren',

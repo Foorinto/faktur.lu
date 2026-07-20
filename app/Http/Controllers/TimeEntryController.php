@@ -311,7 +311,7 @@ class TimeEntryController extends Controller
                 ->route('invoices.edit', $invoice)
                 ->with('success', __('app.time_entries_flash.invoice_draft_created'));
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', \App\Support\UserError::report($e, 'time_entry.to_invoice'));
         }
     }
 

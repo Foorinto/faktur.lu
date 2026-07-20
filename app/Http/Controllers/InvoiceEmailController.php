@@ -105,9 +105,7 @@ class InvoiceEmailController extends Controller
                 'sent_at' => now(),
             ]);
 
-            report($e);
-
-            return back()->withErrors(['email' => __('app.invoice_email_flash.error_email_send', ['error' => $e->getMessage()])]);
+            return back()->withErrors(['email' => \App\Support\UserError::report($e, 'invoice.email_send')]);
         }
     }
 

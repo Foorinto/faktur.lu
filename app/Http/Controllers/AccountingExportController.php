@@ -125,7 +125,7 @@ class AccountingExportController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->route('exports.accounting.index')
-                ->with('error', __('app.accounting_flash.error_generation', ['error' => $e->getMessage()]));
+                ->with('error', \App\Support\UserError::report($e, 'export.accounting'));
         }
     }
 

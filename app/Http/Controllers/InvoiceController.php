@@ -390,7 +390,7 @@ class InvoiceController extends Controller
                 ->route('invoices.show', $invoice)
                 ->with('success', __('app.invoices_flash.finalized', ['number' => $invoice->number]));
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', \App\Support\UserError::report($e, 'invoice.finalize'));
         }
     }
 
@@ -562,7 +562,7 @@ class InvoiceController extends Controller
                 'Content-Length' => strlen($content),
             ]);
         } catch (\Exception $e) {
-            abort(500, 'Erreur lors de la génération Factur-X: ' . $e->getMessage());
+            abort(500, \App\Support\UserError::report($e, 'invoice.facturx_pdf'));
         }
     }
 
@@ -587,7 +587,7 @@ class InvoiceController extends Controller
                 'Content-Length' => strlen($xml),
             ]);
         } catch (\Exception $e) {
-            abort(500, 'Erreur lors de la génération XML: ' . $e->getMessage());
+            abort(500, \App\Support\UserError::report($e, 'invoice.facturx_xml'));
         }
     }
 
@@ -616,7 +616,7 @@ class InvoiceController extends Controller
                 ->route('invoices.edit', $creditNote)
                 ->with('success', $message);
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->with('error', \App\Support\UserError::report($e, 'invoice.credit_note'));
         }
     }
 
@@ -701,7 +701,7 @@ class InvoiceController extends Controller
             $html = $pdfService->previewDraft($invoice, $locale);
             return response()->json(['html' => $html]);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['error' => \App\Support\UserError::report($e, 'invoice.preview_draft')], 400);
         }
     }
 
@@ -762,7 +762,7 @@ class InvoiceController extends Controller
 
             return back()->with('success', __('app.invoices_flash.email_sent'));
         } catch (\Exception $e) {
-            return back()->with('error', __('app.invoices_flash.email_error', ['error' => $e->getMessage()]));
+            return back()->with('error', \App\Support\UserError::report($e, 'invoice.email'));
         }
     }
 

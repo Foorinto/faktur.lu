@@ -134,5 +134,29 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Global safety net: turn unexpected server errors into a clear message + a
+        // support reference code (the full exception is logged under that same code),
+        // instead of leaking technical details (e.g. raw SQL) to the user.
+        // Only in production; HTTP/validation/auth exceptions keep their normal handling.
+        $exceptions->render(function (\Throwable $e, Request $request) {
+            if (config('app.debug')) {
+                return null; // keep Laravel's detailed error page during development
+            }
+
+            if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface
+                || $e instanceof \Illuminate\Validation\ValidationException
+                || $e instanceof \Illuminate\Auth\AuthenticationException
+                || $e instanceof \Illuminate\Auth\Access\AuthorizationException
+                || $e instanceof \Illuminate\Session\TokenMismatchException) {
+                return null; // 401/403/404/419/422... handled normally
+            }
+
+            $message = \App\Support\UserError::report($e, 'unhandled');
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => $message], 500);
+            }
+
+            return back()->with('error', $message);
+        });
     })->create();

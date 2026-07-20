@@ -111,7 +111,7 @@ class AuditExportController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->route('exports.audit.index')
-                ->with('error', __('app.audit_flash.error_generation', ['error' => $e->getMessage()]));
+                ->with('error', \App\Support\UserError::report($e, 'export.audit'));
         }
     }
 

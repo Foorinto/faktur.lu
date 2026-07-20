@@ -5108,6 +5108,7 @@ return [
     'mail_subject_new_user_registered' => 'Neue Anmeldung: :name',
     'mail_subject_new_support_ticket' => '[:reference] Neue Support-Anfrage: :subject',
     'mail_subject_new_support_reply' => '[:reference] Neue Antwort: :subject',
+    'error_generic_with_ref' => 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut; falls das Problem weiterhin besteht, kontaktieren Sie den Support mit dem Code: :ref.',
     'mail_subject_support_reply' => '[:reference] Antwort auf Ihre Anfrage: :subject',
     'mail_subject_newsletter_confirmation' => 'Bestätigen Sie Ihre :app Newsletter-Anmeldung',
     'mail_subject_trial_ending_soon' => 'Nur noch :days Tage, um :app zu nutzen',

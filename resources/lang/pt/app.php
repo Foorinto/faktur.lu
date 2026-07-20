@@ -5355,6 +5355,7 @@ return [
     'mail_subject_new_user_registered' => 'Nova inscrição: :name',
     'mail_subject_new_support_ticket' => '[:reference] Novo pedido de suporte: :subject',
     'mail_subject_new_support_reply' => '[:reference] Nova resposta: :subject',
+    'error_generic_with_ref' => 'Ocorreu um erro inesperado. Tente novamente; se o problema persistir, contacte o suporte indicando o código: :ref.',
     'mail_subject_support_reply' => '[:reference] Resposta ao seu pedido: :subject',
     'mail_subject_newsletter_confirmation' => 'Confirme a sua subscrição da newsletter :app',
     'mail_subject_trial_ending_soon' => 'Faltam :days dias para aproveitar o :app',

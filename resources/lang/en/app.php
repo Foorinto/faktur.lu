@@ -5150,6 +5150,7 @@ return [
     'mail_subject_new_user_registered' => 'New registration: :name',
     'mail_subject_new_support_ticket' => '[:reference] New support request: :subject',
     'mail_subject_new_support_reply' => '[:reference] New reply: :subject',
+    'error_generic_with_ref' => 'An unexpected error occurred. Please try again; if the problem persists, contact support with the code: :ref.',
     'mail_subject_support_reply' => '[:reference] Reply to your request: :subject',
     'mail_subject_newsletter_confirmation' => 'Confirm your :app newsletter subscription',
     'mail_subject_trial_ending_soon' => 'Only :days days left to enjoy :app',

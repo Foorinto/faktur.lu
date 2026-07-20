@@ -5453,6 +5453,7 @@ return [
     'mail_subject_new_user_registered' => 'Nouvelle inscription : :name',
     'mail_subject_new_support_ticket' => '[:reference] Nouvelle demande de support : :subject',
     'mail_subject_new_support_reply' => '[:reference] Nouvelle réponse : :subject',
+    'error_generic_with_ref' => 'Une erreur inattendue s\'est produite. Réessayez ; si le problème persiste, contactez le support en indiquant le code : :ref.',
     'mail_subject_support_reply' => '[:reference] Réponse à votre demande : :subject',
     'mail_subject_newsletter_confirmation' => 'Confirmez votre inscription à la newsletter :app',
     'mail_subject_trial_ending_soon' => 'Plus que :days jours pour profiter de :app',
