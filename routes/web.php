@@ -470,6 +470,14 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::patch('/clients/{client}/convert', [ClientController::class, 'convertProspect'])
             ->name('clients.convert');
 
+        // Catalogue d'articles / produits réutilisables (FEAT-095)
+        Route::get('/products/search', [\App\Http\Controllers\ProductController::class, 'search'])
+            ->name('products.search');
+        Route::resource('products', \App\Http\Controllers\ProductController::class)->except(['store', 'show']);
+        Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])
+            ->middleware('plan.limit:products')
+            ->name('products.store');
+
         // CRM - Interactions, Reminders, Tags (Pro only)
         Route::middleware('plan.feature:crm')->group(function () {
             Route::post('/clients/{client}/interactions', [InteractionController::class, 'store'])->name('interactions.store');

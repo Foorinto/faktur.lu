@@ -28,6 +28,46 @@ class ProductCatalogTest extends TestCase
         $this->assertSame('Micro Bob', Product::first()->designation);
     }
 
+    public function test_user_can_create_product_via_route(): void
+    {
+        $this->seed(\Database\Seeders\PlansSeeder::class);
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('products.store', ['locale' => 'fr']), [
+            'designation' => 'Prestation conseil',
+            'reference' => 'REF-1',
+            'unit_price_ht' => 120,
+            'vat_rate' => 17,
+            'unit' => 'hour',
+            'is_active' => true,
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('products', [
+            'designation' => 'Prestation conseil',
+            'user_id' => $user->id,
+            'unit' => 'hour',
+        ]);
+    }
+
+    public function test_quota_middleware_blocks_store_when_limit_reached(): void
+    {
+        $this->seed(\Database\Seeders\PlansSeeder::class);
+        $user = User::factory()->create();
+        Product::factory()->count(10)->create(['user_id' => $user->id]);
+
+        $this->actingAs($user)->post(route('products.store', ['locale' => 'fr']), [
+            'designation' => 'Onzième',
+            'unit_price_ht' => 10,
+            'vat_rate' => 17,
+            'unit' => 'piece',
+        ]);
+
+        // Blocked by plan.limit:products — still 10, the 11th was not created.
+        $this->assertSame(10, Product::withoutUserScope()->where('user_id', $user->id)->count());
+        $this->assertDatabaseMissing('products', ['designation' => 'Onzième']);
+    }
+
     public function test_free_plan_quota_blocks_the_eleventh_product(): void
     {
         $this->seed(\Database\Seeders\PlansSeeder::class);

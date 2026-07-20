@@ -35,6 +35,7 @@ class CheckPlanLimits
             'expenses' => $this->planService->canCreateExpense($user),
             'projects' => $this->planService->canCreateProject($user),
             'peppol' => $this->planService->canExportPeppol($user),
+            'products' => $this->planService->canCreateProduct($user),
             default => true,
         };
 
@@ -69,6 +70,7 @@ class CheckPlanLimits
             'expenses' => __('Vous avez atteint la limite de dépenses ce mois-ci. Passez à un plan supérieur pour continuer.'),
             'projects' => __('Vous avez atteint la limite de projets actifs. Passez à un plan supérieur pour continuer.'),
             'peppol' => __('Vous avez atteint la limite d\'exports Peppol ce mois-ci. Passez au plan Pro pour continuer.'),
+            'products' => __('app.products.limit_reached'),
             default => __('Vous avez atteint une limite de votre plan. Passez à un plan supérieur pour continuer.'),
         };
     }
