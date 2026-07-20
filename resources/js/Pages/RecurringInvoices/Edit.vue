@@ -3,6 +3,7 @@ import { useForm, Link } from '@inertiajs/vue3';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
+import ProductAutocomplete from '@/Components/ProductAutocomplete.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -65,6 +66,16 @@ const removeItem = (index) => {
     if (form.items.length > 1) {
         form.items.splice(index, 1);
     }
+};
+
+// Pre-fill a line from a selected catalogue product (FEAT-095).
+const applyProduct = (index, product) => {
+    const item = form.items[index];
+    item.title = product.designation;
+    if (product.description) { item.description = product.description; }
+    item.unit_price = Number(product.unit_price_ht);
+    if (product.unit && units.includes(product.unit)) { item.unit = product.unit; }
+    item.vat_rate = Number(product.vat_rate);
 };
 
 // Net line total after discount (mirrors backend InvoiceItem::applyLineDiscount)
@@ -199,7 +210,7 @@ const submit = () => {
                             <div class="grid sm:grid-cols-6 gap-3">
                                 <div class="sm:col-span-3">
                                     <label class="block text-xs font-medium text-slate-500 mb-1">{{ t('recurring_invoice_field_designation_required') }}</label>
-                                    <input v-model="item.title" type="text" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
+                                    <ProductAutocomplete v-model="item.title" :placeholder="t('recurring_invoice_field_designation_placeholder')" @select="applyProduct(index, $event)" />
                                 </div>
                                 <div>
                                     <label class="block text-xs font-medium text-slate-500 mb-1">{{ t('recurring_invoice_field_qty') }}</label>

@@ -4,6 +4,7 @@ import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import ProductAutocomplete from '@/Components/ProductAutocomplete.vue';
 import FlagIcon from '@/Components/FlagIcon.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
@@ -103,6 +104,26 @@ const onEditVatChange = (val) => {
 };
 const onItemVatChange = (val) => {
     if (val === 'custom') { itemVatCustom.value = true; } else { itemVatCustom.value = false; itemForm.vat_rate = parseFloat(val); }
+};
+
+// Pre-fill from a selected catalogue product (FEAT-095).
+const applyProductToEdit = (product) => {
+    editItemForm.title = product.designation;
+    if (product.description) { editItemForm.description = product.description; }
+    editItemForm.unit_price = Number(product.unit_price_ht);
+    if (product.unit) { editItemForm.unit = product.unit; }
+    const rate = Number(product.vat_rate);
+    editItemForm.vat_rate = rate;
+    editVatCustom.value = !isKnownVat(rate);
+};
+const applyProductToItem = (product) => {
+    itemForm.title = product.designation;
+    if (product.description) { itemForm.description = product.description; }
+    itemForm.unit_price = Number(product.unit_price_ht);
+    if (product.unit) { itemForm.unit = product.unit; }
+    const rate = Number(product.vat_rate);
+    itemForm.vat_rate = rate;
+    itemVatCustom.value = !isKnownVat(rate);
 };
 
 const addDiscount = () => {
@@ -541,12 +562,12 @@ const getStatusLabel = (status) => {
                                 <div class="grid grid-cols-1 gap-3">
                                     <div>
                                         <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Titre</label>
-                                        <input
+                                        <ProductAutocomplete
+                                            input-id="edit-item-title"
                                             v-model="editItemForm.title"
-                                            type="text"
-                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             placeholder="Titre de la prestation"
                                             required
+                                            @select="applyProductToEdit($event)"
                                         />
                                         <InputError :message="editItemForm.errors.title" class="mt-1" />
                                     </div>
@@ -745,12 +766,12 @@ const getStatusLabel = (status) => {
                                 <!-- Title and description -->
                                 <div class="grid grid-cols-1 gap-3">
                                     <div>
-                                        <input
+                                        <ProductAutocomplete
+                                            input-id="add-item-title"
                                             v-model="itemForm.title"
-                                            type="text"
-                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
                                             placeholder="Titre de la prestation"
                                             required
+                                            @select="applyProductToItem($event)"
                                         />
                                         <InputError :message="itemForm.errors.title" class="mt-1" />
                                     </div>
