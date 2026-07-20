@@ -49,6 +49,21 @@ class PlanService
     }
 
     /**
+     * Check if user can create more catalogue products (FEAT-095).
+     */
+    public function canCreateProduct(User $user): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_products');
+
+        if ($limit === null) {
+            return true; // unlimited
+        }
+
+        return $user->products()->count() < $limit;
+    }
+
+    /**
      * Check if user can create more invoices this month.
      */
     public function canCreateInvoice(User $user): bool
@@ -321,6 +336,7 @@ class PlanService
             'max_quotes_per_month' => 5,
             'max_emails_per_month' => 10,
             'max_expenses_per_month' => 10,
+            'max_products' => 10,
         ];
         // 'accounting_portal' réservé à Essentiel+ (grandfathering pour l'existant).
         $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];
