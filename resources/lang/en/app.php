@@ -5162,6 +5162,8 @@ return [
         'nav' => 'Items',
         'title' => 'Item catalogue',
         'browse' => 'Pick from catalogue',
+        'search_placeholder' => 'Search an item…',
+        'none_found' => 'No item found.',
         'new' => 'New item',
         'new_title' => 'New item',
         'edit_title' => 'Edit item',

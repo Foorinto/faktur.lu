@@ -5465,6 +5465,8 @@ return [
         'nav' => 'Articles',
         'title' => 'Catalogue d\'articles',
         'browse' => 'Choisir dans le catalogue',
+        'search_placeholder' => 'Rechercher un article…',
+        'none_found' => 'Aucun article trouvé.',
         'new' => 'Nouvel article',
         'new_title' => 'Nouvel article',
         'edit_title' => 'Modifier l\'article',

@@ -5120,6 +5120,8 @@ return [
         'nav' => 'Artikel',
         'title' => 'Artikelkatalog',
         'browse' => 'Aus dem Katalog wählen',
+        'search_placeholder' => 'Artikel suchen…',
+        'none_found' => 'Kein Artikel gefunden.',
         'new' => 'Neuer Artikel',
         'new_title' => 'Neuer Artikel',
         'edit_title' => 'Artikel bearbeiten',

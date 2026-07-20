@@ -112,7 +112,7 @@ class ProductController extends Controller
                 });
             })
             ->orderBy('designation')
-            ->limit(20)
+            ->limit(50)
             ->get(['id', 'designation', 'description', 'reference', 'unit_price_ht', 'vat_rate', 'unit']);
 
         return response()->json(['products' => $products]);

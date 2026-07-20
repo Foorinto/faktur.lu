@@ -5120,6 +5120,8 @@ return [
         'nav' => 'Artikelen',
         'title' => 'Artikelkatalog',
         'browse' => 'Aus dem Katalog wielen',
+        'search_placeholder' => 'En Artikel sichen…',
+        'none_found' => 'Kee Artikel fonnt.',
         'new' => 'Neien Artikel',
         'new_title' => 'Neien Artikel',
         'edit_title' => 'Artikel änneren',
