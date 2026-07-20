@@ -79,7 +79,7 @@ class Quote extends Model
         // Prevent deletion of converted quotes
         static::deleting(function (Quote $quote) {
             if ($quote->status === self::STATUS_CONVERTED) {
-                throw new \InvalidArgumentException('Impossible de supprimer un devis converti en facture.');
+                throw new \InvalidArgumentException(__('app.error_quote_delete_converted'));
             }
         });
     }

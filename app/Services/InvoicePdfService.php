@@ -429,7 +429,7 @@ class InvoicePdfService
     {
         if (!$invoice->isFinalized()) {
             throw new \InvalidArgumentException(
-                'Impossible de générer un PDF pour une facture non finalisée.'
+                __('app.error_pdf_not_finalized')
             );
         }
     }

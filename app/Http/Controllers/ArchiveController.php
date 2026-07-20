@@ -60,6 +60,8 @@ class ArchiveController extends Controller
                 : __('app.archive_flash.archived_no_pdfa');
 
             return back()->with('success', $message);
+        } catch (\InvalidArgumentException $e) {
+            return back()->with('error', $e->getMessage());
         } catch (\Exception $e) {
             return back()->with('error', \App\Support\UserError::report($e, 'archive.generate'));
         }

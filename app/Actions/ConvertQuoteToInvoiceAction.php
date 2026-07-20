@@ -18,7 +18,7 @@ class ConvertQuoteToInvoiceAction
         // Verify the quote can be converted
         if (!$quote->canConvert()) {
             throw new \InvalidArgumentException(
-                'Ce devis ne peut pas être converti. Seuls les devis acceptés peuvent être convertis en facture.'
+                __('app.error_quote_not_convertible')
             );
         }
 

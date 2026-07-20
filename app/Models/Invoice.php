@@ -128,7 +128,7 @@ class Invoice extends Model
                     $allowed = $allowedStatusTransitions[$originalStatus] ?? [];
 
                     if (!in_array($newStatus, $allowed)) {
-                        throw new ImmutableInvoiceException("Transition de statut non autorisée: {$originalStatus} → {$newStatus}");
+                        throw new ImmutableInvoiceException(__('app.error_invoice_status_transition'));
                     }
                 }
             }
@@ -137,7 +137,7 @@ class Invoice extends Model
         // Prevent deletion of finalized invoices
         static::deleting(function (Invoice $invoice) {
             if ($invoice->status !== self::STATUS_DRAFT) {
-                throw new ImmutableInvoiceException('Impossible de supprimer une facture finalisée.');
+                throw new ImmutableInvoiceException(__('app.error_invoice_delete_finalized'));
             }
         });
     }

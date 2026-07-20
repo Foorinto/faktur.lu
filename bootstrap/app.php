@@ -143,12 +143,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 return null; // keep Laravel's detailed error page during development
             }
 
-            if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface
+            if ($e instanceof \App\Exceptions\UserFacingException
+                || $e instanceof \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface
                 || $e instanceof \Illuminate\Validation\ValidationException
                 || $e instanceof \Illuminate\Auth\AuthenticationException
                 || $e instanceof \Illuminate\Auth\Access\AuthorizationException
                 || $e instanceof \Illuminate\Session\TokenMismatchException) {
-                return null; // 401/403/404/419/422... handled normally
+                return null; // domain messages + 401/403/404/419/422... handled normally
             }
 
             $message = \App\Support\UserError::report($e, 'unhandled');

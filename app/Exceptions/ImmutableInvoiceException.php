@@ -6,11 +6,11 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ImmutableInvoiceException extends Exception
+class ImmutableInvoiceException extends Exception implements UserFacingException
 {
-    public function __construct(string $message = 'Cette facture est verrouillée et ne peut pas être modifiée.')
+    public function __construct(?string $message = null)
     {
-        parent::__construct($message);
+        parent::__construct($message ?? __('app.error_invoice_locked'));
     }
 
     /**

@@ -27,7 +27,7 @@ class PdfArchiveService
     public function archive(Invoice $invoice, string $format = self::FORMAT_PDFA_1B): array
     {
         if (!$invoice->isFinalized()) {
-            throw new \InvalidArgumentException('Seules les factures finalisées peuvent être archivées.');
+            throw new \InvalidArgumentException(__('app.error_archive_only_finalized'));
         }
 
         // Generate PDF content

@@ -135,7 +135,7 @@ class InvoicePdfServiceTest extends TestCase
         ]);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('non finalisée');
+        $this->expectExceptionMessage(__('app.error_pdf_not_finalized'));
 
         $this->service->preview($draftInvoice);
     }
