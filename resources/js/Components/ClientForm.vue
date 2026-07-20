@@ -394,7 +394,6 @@ const submit = () => {
                             v-model="form.email"
                             type="email"
                             class="mt-1 block w-full"
-                            required
                             placeholder="contact@example.com"
                         />
                         <InputError :message="form.errors.email" class="mt-2" />
