@@ -5161,6 +5161,7 @@ return [
     'products' => [
         'nav' => 'Items',
         'title' => 'Item catalogue',
+        'browse' => 'Pick from catalogue',
         'new' => 'New item',
         'new_title' => 'New item',
         'edit_title' => 'Edit item',

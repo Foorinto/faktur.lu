@@ -5366,6 +5366,7 @@ return [
     'products' => [
         'nav' => 'Artigos',
         'title' => 'Catálogo de artigos',
+        'browse' => 'Escolher do catálogo',
         'new' => 'Novo artigo',
         'new_title' => 'Novo artigo',
         'edit_title' => 'Editar artigo',

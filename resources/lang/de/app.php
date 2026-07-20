@@ -5119,6 +5119,7 @@ return [
     'products' => [
         'nav' => 'Artikel',
         'title' => 'Artikelkatalog',
+        'browse' => 'Aus dem Katalog wählen',
         'new' => 'Neuer Artikel',
         'new_title' => 'Neuer Artikel',
         'edit_title' => 'Artikel bearbeiten',

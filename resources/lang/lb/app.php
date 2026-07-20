@@ -5119,6 +5119,7 @@ return [
     'products' => [
         'nav' => 'Artikelen',
         'title' => 'Artikelkatalog',
+        'browse' => 'Aus dem Katalog wielen',
         'new' => 'Neien Artikel',
         'new_title' => 'Neien Artikel',
         'edit_title' => 'Artikel änneren',
