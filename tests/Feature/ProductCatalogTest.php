@@ -68,6 +68,26 @@ class ProductCatalogTest extends TestCase
         $this->assertDatabaseMissing('products', ['designation' => 'Onzième']);
     }
 
+    public function test_search_returns_only_own_active_matching_products(): void
+    {
+        $user = User::factory()->create();
+        $other = User::factory()->create();
+
+        Product::factory()->create(['user_id' => $user->id, 'designation' => 'Micro Shure', 'is_active' => true]);
+        Product::factory()->create(['user_id' => $user->id, 'designation' => 'Micro inactif', 'is_active' => false]);
+        Product::factory()->create(['user_id' => $other->id, 'designation' => 'Micro Autre', 'is_active' => true]);
+
+        $response = $this->actingAs($user)->getJson(route('products.search', ['locale' => 'fr', 'q' => 'Micro']));
+
+        $response->assertOk();
+        $data = $response->json('products');
+        $names = array_column($data, 'designation');
+
+        $this->assertContains('Micro Shure', $names);
+        $this->assertNotContains('Micro inactif', $names); // inactive excluded
+        $this->assertNotContains('Micro Autre', $names);   // other user's excluded
+    }
+
     public function test_free_plan_quota_blocks_the_eleventh_product(): void
     {
         $this->seed(\Database\Seeders\PlansSeeder::class);

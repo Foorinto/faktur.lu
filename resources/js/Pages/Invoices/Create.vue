@@ -7,6 +7,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import NumberingHintBanner from '@/Components/Numbering/NumberingHintBanner.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
+import ProductAutocomplete from '@/Components/ProductAutocomplete.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -130,6 +131,28 @@ const handleCustomVatRateChange = (index, value) => {
     customVatRates.value[index] = value;
     if (form.items[index].vat_rate_select === 'custom') {
         form.items[index].vat_rate = parseFloat(value) || 0;
+    }
+};
+
+// Pre-fill a line from a selected catalogue product (FEAT-095).
+const applyProduct = (index, product) => {
+    const item = form.items[index];
+    item.title = product.designation;
+    if (product.description) {
+        item.description = product.description;
+    }
+    item.unit_price = Number(product.unit_price_ht);
+    if (product.unit) {
+        item.unit = product.unit;
+    }
+    const rate = Number(product.vat_rate);
+    item.vat_rate = rate;
+    const isStandard = props.vatRates.some((r) => Number(r.value) === rate);
+    if (isStandard) {
+        item.vat_rate_select = rate;
+    } else {
+        item.vat_rate_select = 'custom';
+        customVatRates.value[index] = rate;
     }
 };
 
@@ -293,13 +316,12 @@ if (form.items.length === 0) {
                             <div class="flex flex-wrap gap-4 items-end">
                                 <div class="flex-1 min-w-[200px]">
                                     <InputLabel :for="`item-${index}-title`" :value="t('title_required')" />
-                                    <input
-                                        :id="`item-${index}-title`"
+                                    <ProductAutocomplete
+                                        :input-id="`item-${index}-title`"
                                         v-model="item.title"
-                                        type="text"
-                                        class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                         :placeholder="t('service_title_placeholder')"
                                         required
+                                        @select="applyProduct(index, $event)"
                                     />
                                 </div>
                             </div>
