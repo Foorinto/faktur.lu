@@ -34,6 +34,31 @@ class DocumentNumberLengthTest extends TestCase
         $this->assertStringContainsString('gams-asbl', $number);
     }
 
+    public function test_unknown_placeholder_template_still_produces_unique_numbers(): void
+    {
+        // Legacy invalid format ("{YYYY}"/"{####}" are not real placeholders): would
+        // otherwise render a constant string and cause duplicate-key crashes.
+        $ctx = ['prefix' => 'F', 'padding' => 4, 'date' => Carbon::parse('2026-01-01')];
+        $a = DocumentNumberFormatter::format('INV-{YYYY}-{####}', $ctx + ['sequence' => 1]);
+        $b = DocumentNumberFormatter::format('INV-{YYYY}-{####}', $ctx + ['sequence' => 2]);
+
+        $this->assertNotSame($a, $b);
+        $this->assertStringContainsString('0001', $a);
+        $this->assertStringContainsString('0002', $b);
+    }
+
+    public function test_valid_template_is_unaffected_by_safety_net(): void
+    {
+        $number = DocumentNumberFormatter::format('{prefix}-{year}-{number}', [
+            'prefix' => 'F',
+            'sequence' => 5,
+            'padding' => 3,
+            'date' => Carbon::parse('2026-01-01'),
+        ]);
+
+        $this->assertSame('F-2026-005', $number);
+    }
+
     public function test_worst_case_output_fits_new_191_column(): void
     {
         // Template is capped at 100 chars (validateTemplate) and {client_name} slug at 20.

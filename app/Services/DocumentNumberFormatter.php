@@ -46,19 +46,29 @@ class DocumentNumberFormatter
             $clientSlug = self::slugClientName($context['client_name']);
         }
 
+        $paddedSequence = str_pad((string) $sequence, $padding, '0', STR_PAD_LEFT);
+
         $replacements = [
             '{prefix}' => $context['prefix'] ?? '',
             '{year}' => $date->format('Y'),
             '{yy}' => $date->format('y'),
             '{month}' => $date->format('m'),
             '{day}' => $date->format('d'),
-            '{number}' => str_pad((string) $sequence, $padding, '0', STR_PAD_LEFT),
+            '{number}' => $paddedSequence,
             '{client_name}' => $clientSlug,
         ];
 
-        $result = strtr($template, $replacements);
+        $result = self::cleanupEmptySegments(strtr($template, $replacements));
 
-        return self::cleanupEmptySegments($result);
+        // Safety net: the sequence MUST appear in the number so two documents can
+        // never collide. If the template omitted {number} or used an unknown
+        // placeholder (e.g. legacy "{YYYY}"/"{####}"), the rendered string would be
+        // constant → duplicate-key crash. Append the sequence to guarantee uniqueness.
+        if (! str_contains($result, $paddedSequence)) {
+            $result = $result === '' ? $paddedSequence : $result . '-' . $paddedSequence;
+        }
+
+        return $result;
     }
 
     /**
