@@ -1479,7 +1479,7 @@ return [
                         'Peppol-Export (10/Monat)',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal (1 Experte)', 'Sage BOB 50, Sage 100, CSV Exporte', 'Peppol B2G (10/Monat)', 'Anpassbare Nummerierung'],
+                    'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal (1 Experte)', 'Sage BOB 50, Sage 100, CSV Exporte', 'Peppol B2G Export (BIS 3.0)', 'Anpassbare Nummerierung'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1492,7 +1492,7 @@ return [
                         'Ohne faktur.lu-Branding',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenztes Peppol + Übertragung', 'Automatische Zahlungserinnerungen', '5 Benutzer, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
+                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-Export + Übertragung (bald)', 'Automatische Zahlungserinnerungen', '5 Benutzer, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
                 ],
             ],
             'comparison' => [
@@ -1531,7 +1531,7 @@ return [
                     'crm' => 'CRM (Interaktionen, Erinnerungen, Tags)',
                     'faia_export' => 'FAIA-Export (Steuerprüfung)',
                     'factur_x' => 'Factur-X Export',
-                    'peppol_transmission' => 'Peppol-Übertragung',
+                    'peppol_transmission' => 'Peppol-Übertragung (bald)',
                     'pdfa_archive' => 'PDF/A-Archivierung 10 Jahre',
                     'auto_reminders' => 'Automatische Zahlungserinnerungen',
                     'no_branding' => 'Ohne "faktur.lu"-Erwähnung',
@@ -1566,11 +1566,11 @@ return [
                 ],
                 'peppol_obligatoire' => [
                     'question' => 'Ist die Nutzung von Peppol in Luxemburg verpflichtend?',
-                    'answer' => 'Für die B2G-Rechnungsstellung (an den luxemburgischen öffentlichen Sektor) ist Peppol seit 2023 verpflichtend. Im B2B-Bereich kommt die Verpflichtung schrittweise mit ViDA (Vat in the Digital Age) bis 2030. Faktur.lu ist über einen zertifizierten Access Point an das Peppol-Netzwerk angeschlossen: Sie können bereits heute BIS-3.0-konforme E-Rechnungen direkt aus Ihrer Oberfläche versenden.',
+                    'answer' => 'Für die B2G-Rechnungsstellung (an den luxemburgischen öffentlichen Sektor) ist Peppol seit 2023 verpflichtend. Im B2B-Bereich kommt die Verpflichtung schrittweise mit ViDA (Vat in the Digital Age) bis 2030. Faktur.lu erstellt bereits heute Ihre Rechnungen im Peppol-Format BIS 3.0 (und UBL 2.1), konform zum B2G-Mandat. Die automatische Übertragung über einen zertifizierten Access Point wird derzeit fertiggestellt und kommt mit der B2B-Pflicht.',
                 ],
                 'e_facturation' => [
                     'question' => 'Wie stellt man auf elektronische Rechnungsstellung in Luxemburg um?',
-                    'answer' => 'Der Übergang erfolgt mit faktur.lu in 3 Schritten: 1) Konfigurieren Sie Ihre Peppol-Kennung in den Unternehmenseinstellungen, 2) Erfassen Sie die Peppol-Kennung Ihrer Kunden (öffentliche Verwaltungen, Großunternehmen), 3) Stellen Sie Ihre Rechnungen wie gewohnt aus - der Peppol-Versand erfolgt mit einem Klick. Faktur.lu unterstützt zudem Factur-X und ZUGFeRD für Ihre Kunden in Frankreich und Deutschland.',
+                    'answer' => 'Der Übergang erfolgt mit faktur.lu in 3 Schritten: 1) Konfigurieren Sie Ihre Peppol-Kennung in den Unternehmenseinstellungen, 2) Erfassen Sie die Peppol-Kennung Ihrer Kunden (öffentliche Verwaltungen, Großunternehmen), 3) Stellen Sie Ihre Rechnungen aus und erzeugen Sie die konforme Peppol-BIS-3.0-Datei (die automatische Übertragung über Access Point kommt mit der B2B-Pflicht). Faktur.lu unterstützt zudem Factur-X und ZUGFeRD für Ihre Kunden in Frankreich und Deutschland.',
                 ],
                 // Cluster B - Vergleiche & Preise
                 'meilleure_solution' => [
@@ -2417,7 +2417,7 @@ return [
             'crm' => ['title' => 'Integriertes CRM', 'desc' => 'Kundeninteraktionen, Erinnerungen, Tags, Segmente. Kein separates Pipedrive oder HubSpot nötig.'],
             'hr' => ['title' => 'HR-Modul (bis 15 Mitarbeiter)', 'desc' => 'Onboarding, Urlaub, Spesenabrechnungen, Verträge, Organigramm, Mitarbeiterportal. Alles integriert.'],
             'accountant' => ['title' => 'Multi-Buchhalter-Portal', 'desc' => 'Bis zu 3 externe Buchhalter im Lesemodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A-Exporte.'],
-            'peppol' => ['title' => 'Unbegrenztes Peppol + B2G-Übermittlung', 'desc' => 'Zertifizierter Access Point für das luxemburgische B2G-Mandat und B2B ViDA 2030. UBL 2.1 / BIS 3.0 Versand.'],
+            'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Erstellung von Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform zum luxemburgischen B2G-Mandat. Automatische Übertragung über Access Point in Vorbereitung (B2B-Pflicht 2028).'],
             'archive' => ['title' => '10-Jahre PDF/A-Archiv', 'desc' => 'Luxemburgische gesetzliche Aufbewahrung (Handelsgesetzbuch Art. 16) garantiert. SHA-256-Hash für Integrität.'],
             'reminders' => ['title' => 'Automatische Zahlungsmahnungen', 'desc' => '3 konfigurierbare Eskalationsstufen (T+X, Mahnung, Einschreiben). Kunden zahlen ohne Ihr Zutun.'],
             'branding' => ['title' => 'Ohne „faktur.lu"-Branding', 'desc' => 'Ihre Rechnungen tragen nur Ihre Identität. Kein Logo oder „Made with..."-Hinweis am unteren PDF-Rand.'],

@@ -1578,7 +1578,7 @@ return [
                         'Peppol export (10/month)',
                         'Custom numbering',
                     ],
-                    'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal (1 expert)', 'Sage BOB 50, Sage 100, CSV exports', 'Peppol B2G (10/month)', 'Custom numbering'],
+                    'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal (1 expert)', 'Sage BOB 50, Sage 100, CSV exports', 'Peppol B2G export (BIS 3.0)', 'Custom numbering'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1591,7 +1591,7 @@ return [
                         'No faktur.lu branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol + transmission', 'Automatic payment reminders', '5 users, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol export + transmission (soon)', 'Automatic payment reminders', '5 users, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [
@@ -1630,7 +1630,7 @@ return [
                     'crm' => 'CRM (interactions, reminders, tags)',
                     'faia_export' => 'FAIA export (tax audit)',
                     'factur_x' => 'Factur-X export',
-                    'peppol_transmission' => 'Peppol transmission',
+                    'peppol_transmission' => 'Peppol transmission (soon)',
                     'pdfa_archive' => 'PDF/A archiving 10 years',
                     'auto_reminders' => 'Automatic payment reminders',
                     'no_branding' => 'No "faktur.lu" mention',
@@ -1665,11 +1665,11 @@ return [
                 ],
                 'peppol_obligatoire' => [
                     'question' => 'Is using Peppol mandatory in Luxembourg?',
-                    'answer' => 'For B2G invoicing (to the Luxembourg public sector), Peppol has been mandatory since 2023. For B2B, the obligation is being introduced gradually with ViDA (VAT in the Digital Age) by 2030. Faktur.lu is connected to the Peppol network via a certified Access Point: you can send your BIS 3.0-compliant electronic invoices directly from your interface today.',
+                    'answer' => 'For B2G invoicing (to the Luxembourg public sector), Peppol has been mandatory since 2023. For B2B, the obligation is being introduced gradually with ViDA (VAT in the Digital Age) by 2030. Faktur.lu already generates your invoices in the Peppol BIS 3.0 (and UBL 2.1) format, compliant with the B2G mandate. Automatic transmission via a certified Access Point is being finalised and will arrive with the B2B obligation.',
                 ],
                 'e_facturation' => [
                     'question' => 'How do I switch to electronic invoicing in Luxembourg?',
-                    'answer' => 'The transition takes 3 steps with faktur.lu: 1) Configure your Peppol identifier in your business settings, 2) Enter your clients\' Peppol identifiers (public administrations, large companies), 3) Issue your invoices as usual - Peppol sending happens in one click. Faktur.lu also supports Factur-X and ZUGFeRD for your clients in France and Germany.',
+                    'answer' => 'The transition takes 3 steps with faktur.lu: 1) Configure your Peppol identifier in your business settings, 2) Enter your clients\' Peppol identifiers (public administrations, large companies), 3) Issue your invoices and generate the compliant Peppol BIS 3.0 file (automatic transmission via Access Point is coming with the B2B obligation). Faktur.lu also supports Factur-X and ZUGFeRD for your clients in France and Germany.',
                 ],
                 // Cluster B - Comparisons & pricing
                 'meilleure_solution' => [
@@ -2516,7 +2516,7 @@ return [
             'crm' => ['title' => 'Integrated CRM', 'desc' => 'Client interactions, reminders, tags, segments. No need for a separate Pipedrive or HubSpot.'],
             'hr' => ['title' => 'HR module (up to 15 employees)', 'desc' => 'Onboarding, leave, expense reports, contracts, org chart, employee portal. Everything integrated.'],
             'accountant' => ['title' => 'Multi-accountant portal', 'desc' => 'Up to 3 external accountants invited in read-only mode, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A exports.'],
-            'peppol' => ['title' => 'Unlimited Peppol + B2G transmission', 'desc' => 'Certified Access Point for the Luxembourg B2G mandate and B2B ViDA 2030 preparation. UBL 2.1 / BIS 3.0 sending.'],
+            'peppol' => ['title' => 'Peppol B2G export (BIS 3.0)', 'desc' => 'Generate Peppol BIS 3.0 / UBL 2.1 invoices compliant with the Luxembourg B2G mandate. Automatic transmission via Access Point coming (B2B obligation 2028).'],
             'archive' => ['title' => '10-year PDF/A archive', 'desc' => 'Luxembourg legal retention (Commercial Code art. 16) guaranteed. SHA-256 hash for integrity.'],
             'reminders' => ['title' => 'Automatic payment reminders', 'desc' => '3 configurable escalation levels (D+X, formal notice, registered letter). Clients pay without your involvement.'],
             'branding' => ['title' => 'No "faktur.lu" branding', 'desc' => 'Your invoices carry your identity only. No logo or "Made with..." mention at the bottom of PDFs.'],

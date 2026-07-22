@@ -1479,7 +1479,7 @@ return [
                         'Peppol-Export (10/Mount)',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal (1 Expert)', 'Sage BOB 50, Sage 100, CSV Exporter', 'Peppol B2G (10/Mount)', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal (1 Expert)', 'Sage BOB 50, Sage 100, CSV Exporter', 'Peppol B2G Export (BIS 3.0)', 'Personaliséierbar Nummeréierung'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1492,7 +1492,7 @@ return [
                         'Ouni faktur.lu-Branding',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéiert Peppol + Iwwerdroung', 'Automatesch Bezuelungserënnerungen', '5 Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-Export + Iwwerdroung (geschwënn)', 'Automatesch Bezuelungserënnerungen', '5 Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
                 ],
             ],
             'comparison' => [
@@ -1531,7 +1531,7 @@ return [
                     'crm' => 'CRM (Interaktiounen, Erënnerungen, Tags)',
                     'faia_export' => 'FAIA-Export (Steierprüfung)',
                     'factur_x' => 'Factur-X Export',
-                    'peppol_transmission' => 'Peppol-Iwwerdroung',
+                    'peppol_transmission' => 'Peppol-Iwwerdroung (geschwënn)',
                     'pdfa_archive' => 'PDF/A-Archivéierung 10 Joer',
                     'auto_reminders' => 'Automatesch Bezuelungserënnerungen',
                     'no_branding' => 'Ouni "faktur.lu"-Erwähnung',
@@ -1566,11 +1566,11 @@ return [
                 ],
                 'peppol_obligatoire' => [
                     'question' => 'Ass et obligatoresch Peppol zu Lëtzebuerg ze benotzen?',
-                    'answer' => 'Fir d\'B2G-Fakturatioun (un de Lëtzebuerger ëffentleche Secteur) ass Peppol zënter 2023 obligatoresch. Fir B2B kënnt d\'Verflichtung schrëttweis mat ViDA (Vat in the Digital Age) bis 2030. Faktur.lu ass iwwer en zertifizéierten Access Point un d\'Peppol-Reseau ugeschloss: Dir kënnt schonn haut BIS-3.0-konform E-Rechnungen direkt aus Ärer Interface verschécken.',
+                    'answer' => 'Fir d\'B2G-Fakturatioun (un de Lëtzebuerger ëffentleche Secteur) ass Peppol zënter 2023 obligatoresch. Fir B2B kënnt d\'Verflichtung schrëttweis mat ViDA (Vat in the Digital Age) bis 2030. Faktur.lu generéiert schonn haut Är Rechnungen am Peppol-Format BIS 3.0 (an UBL 2.1), konform mam B2G-Mandat. Déi automatesch Iwwerdroung iwwer en zertifizéierten Access Point gëtt fäerdeggestallt a kënnt mat der B2B-Flicht.',
                 ],
                 'e_facturation' => [
                     'question' => 'Wéi geet een op elektronesch Fakturatioun zu Lëtzebuerg iwwer?',
-                    'answer' => 'Den Iwwergang geschitt mat faktur.lu an 3 Schrëtt: 1) Konfiguréiert Är Peppol-Identifikatioun an de Parameter vun Ärer Entreprise, 2) Erfaast d\'Peppol-Identifikatioun vun Ären Cliente (ëffentlech Verwaltungen, grouss Entreprisen), 3) Stellt Är Rechnungen normal aus - de Peppol-Versand geschitt mat engem Klick. Faktur.lu ënnerstëtzt och Factur-X an ZUGFeRD fir Är Cliente a Frankräich an Däitschland.',
+                    'answer' => 'Den Iwwergang geschitt mat faktur.lu an 3 Schrëtt: 1) Konfiguréiert Är Peppol-Identifikatioun an de Parameter vun Ärer Entreprise, 2) Erfaast d\'Peppol-Identifikatioun vun Ären Cliente (ëffentlech Verwaltungen, grouss Entreprisen), 3) Stellt Är Rechnungen aus a generéiert déi konform Peppol-BIS-3.0-Datei (déi automatesch Iwwerdroung iwwer Access Point kënnt mat der B2B-Flicht). Faktur.lu ënnerstëtzt och Factur-X an ZUGFeRD fir Är Cliente a Frankräich an Däitschland.',
                 ],
                 // Cluster B - Verglächer & Präisser
                 'meilleure_solution' => [
@@ -2417,7 +2417,7 @@ return [
             'crm' => ['title' => 'Integréiert CRM', 'desc' => 'Cliente-Interaktiounen, Rappellen, Tags, Segmenter. Kee separat Pipedrive oder HubSpot néideg.'],
             'hr' => ['title' => 'HR-Modul (bis 15 Mataarbechter)', 'desc' => 'Onboarding, Vakanzen, Spesennoten, Kontrakter, Organigramm, Mataarbechter-Portal. Alles integréiert.'],
             'accountant' => ['title' => 'Multi-Comptable-Portal', 'desc' => 'Bis zu 3 extern Comptablen am Liesmodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A Exporter.'],
-            'peppol' => ['title' => 'Onlimitéiert Peppol + B2G Iwwerdroung', 'desc' => 'Zertifizéierte Access Point fir Lëtzebuerger B2G-Mandat a B2B ViDA 2030. UBL 2.1 / BIS 3.0 Versand.'],
+            'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Generéierung vu Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform mam Lëtzebuerger B2G-Mandat. Automatesch Iwwerdroung iwwer Access Point a Virbereedung (B2B-Flicht 2028).'],
             'archive' => ['title' => '10-Joer PDF/A-Archiv', 'desc' => 'Lëtzebuerger gesetzlech Opbewahrung (Handelsgesetzbuch Art. 16) garantéiert. SHA-256 fir Integritéit.'],
             'reminders' => ['title' => 'Automatesch Zuelungsrappellen', 'desc' => '3 konfiguréierbar Eskalatiounsniveauen (D+X, Mahnung, Eischreiwen). Cliente bezuele ouni Är Ariichtung.'],
             'branding' => ['title' => 'Ouni "faktur.lu"-Branding', 'desc' => 'Är Rechnungen droen nëmmen Är Identitéit. Kee Logo oder "Made with..."-Hinweis um PDF-Buedem.'],
