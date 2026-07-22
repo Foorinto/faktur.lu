@@ -1915,8 +1915,8 @@ return [
             'title' => 'Faturação Peppol',
             'short_description' => 'Faturação eletrónica estruturada para o setor público e empresas.',
             'page_title' => 'Peppol Luxemburgo | Faturação eletrónica B2G | faktur.lu',
-            'meta_description' => 'Faturação eletrónica Peppol para os contratos públicos luxemburgueses. Envio B2G conforme, formato UBL 2.1, Access Point certificado. Integração nativa.',
-            'hero_description' => 'Envie as suas faturas eletrónicas através da rede Peppol, obrigatória para os contratos públicos luxemburgueses. Formato UBL 2.1 conforme, transmissão através de Access Point certificado.',
+            'meta_description' => 'Faturação eletrónica Peppol para os contratos públicos luxemburgueses. Geração B2G conforme, formato UBL 2.1, Access Point certificado. Integração nativa.',
+            'hero_description' => 'Gere as suas faturas no formato Peppol BIS 3.0 / UBL 2.1, conformes com o mandato B2G luxemburguês. A transmissão automática através de um Access Point certificado chega com a obrigação B2B.',
             'details_title' => 'Faturação eletrónica Peppol integrada',
             'items' => [
                 'b2g' => [
@@ -1929,7 +1929,7 @@ return [
                 ],
                 'access_point' => [
                     'title' => 'Access Point certificado',
-                    'description' => 'Transmissão através de um Access Point Peppol certificado para o setor público luxemburguês.',
+                    'description' => 'As suas faturas são geradas no formato Peppol certificado, prontas para transmissão através de um Access Point (em breve).',
                 ],
                 'belgium' => [
                     'title' => 'Rede europeia Peppol',
@@ -1940,8 +1940,8 @@ return [
                     'description' => 'Formato híbrido PDF+XML disponível para exportação para as suas trocas B2B com parceiros europeus.',
                 ],
                 'tracking' => [
-                    'title' => 'Acompanhamento da transmissão',
-                    'description' => 'Acompanhe o estado das suas faturas Peppol em tempo real: enviada, recebida, aceite ou rejeitada.',
+                    'title' => 'Acompanhamento da transmissão (em breve)',
+                    'description' => 'Assim que a transmissão automática estiver disponível, acompanhe o estado das suas faturas Peppol em tempo real: enviada, recebida, aceite ou rejeitada.',
                 ],
             ],
             'faqs' => [

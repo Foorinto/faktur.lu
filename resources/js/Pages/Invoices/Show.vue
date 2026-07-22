@@ -127,8 +127,13 @@ const canExportPeppol = computed(() => {
         && props.invoice.buyer_snapshot?.peppol_endpoint_scheme;
 });
 
+// FEAT-096 : la transmission Peppol automatique n'est pas encore active en production
+// (Access Point certifié + enregistrement multi-tenant à finaliser). Repasser à true au go-live.
+const peppolTransmissionAvailable = false;
+
 const canSendPeppol = computed(() => {
-    return props.peppolEnabled
+    return peppolTransmissionAvailable
+        && props.peppolEnabled
         && canExportPeppol.value
         && (!props.invoice.peppol_transmission || props.invoice.peppol_transmission.status === 'failed');
 });
@@ -622,6 +627,21 @@ const submitCreditNote = () => {
                     <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
                 </svg>
                 Envoyer Peppol
+            </button>
+
+            <!-- Transmission Peppol à venir (FEAT-096) -->
+            <button
+                v-else-if="canExportPeppol"
+                type="button"
+                disabled
+                class="inline-flex cursor-not-allowed items-center rounded-xl border border-gray-200 bg-gray-100 px-3 py-2 text-sm font-medium text-slate-400 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-500"
+                title="Transmission Peppol — bientôt disponible (l'export Peppol XML est déjà actif)"
+            >
+                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+                </svg>
+                Envoyer Peppol
+                <span class="ml-1.5 inline-flex items-center rounded-full bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">Bientôt</span>
             </button>
 
             <!-- Peppol Status Badge -->
