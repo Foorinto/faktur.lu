@@ -1476,7 +1476,7 @@ return [
                         '50 Rechnungen / Mount',
                         'Projeten & Zäiterfassung',
                         'Comptablesportal & Exporter',
-                        'Peppol-Export (10/Mount)',
+                        'Peppol B2G Export (BIS 3.0)',
                         'Personaliséierbar Nummeréierung',
                     ],
                     'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal (1 Expert)', 'Sage BOB 50, Sage 100, CSV Exporter', 'Peppol B2G Export (BIS 3.0)', 'Personaliséierbar Nummeréierung'],
@@ -1536,7 +1536,7 @@ return [
                     'auto_reminders' => 'Automatesch Bezuelungserënnerungen',
                     'no_branding' => 'Ouni "faktur.lu"-Erwähnung',
                     'priority_support' => 'Prioritäre E-Mail-Support',
-                    'peppol_per_month' => '10/Mount',
+                    'peppol_per_month' => 'B2G',
                 ],
             ],
             'latest_blog' => [
@@ -1955,7 +1955,7 @@ return [
             ],
             '2026_q3' => [
                 'title' => 'Peppol a Factur-X',
-                'description' => 'Peppol-Integratioun iwwer zertifizéierten Access Point fir den zu Lëtzebuerg obligatoresche B2G-Versand, an Factur-X / ZUGFeRD-Export fir den Austausch mat Däitschland a Frankräich.',
+                'description' => 'Peppol-Integratioun iwwer zertifizéierten Access Point fir déi zu Lëtzebuerg obligatoresch elektronesch B2G-Fakturatioun, an Factur-X / ZUGFeRD-Export fir den Austausch mat Däitschland a Frankräich.',
             ],
             '2026_q1' => [
                 'title' => 'Comptablë-Portal a CRM',

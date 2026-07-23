@@ -1575,7 +1575,7 @@ return [
                         '50 invoices / month',
                         'Projects & time tracking',
                         'Accountant portal & exports',
-                        'Peppol export (10/month)',
+                        'Peppol B2G export (BIS 3.0)',
                         'Custom numbering',
                     ],
                     'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal (1 expert)', 'Sage BOB 50, Sage 100, CSV exports', 'Peppol B2G export (BIS 3.0)', 'Custom numbering'],
@@ -1635,7 +1635,7 @@ return [
                     'auto_reminders' => 'Automatic payment reminders',
                     'no_branding' => 'No "faktur.lu" mention',
                     'priority_support' => 'Priority email support',
-                    'peppol_per_month' => '10/month',
+                    'peppol_per_month' => 'B2G',
                 ],
             ],
             'latest_blog' => [
@@ -2054,7 +2054,7 @@ return [
             ],
             '2026_q3' => [
                 'title' => 'Peppol and Factur-X',
-                'description' => 'Peppol integration via certified Access Point for mandatory B2G sending in Luxembourg, and Factur-X / ZUGFeRD export for exchanges with Germany and France.',
+                'description' => 'Peppol integration via certified Access Point for mandatory B2G e-invoicing in Luxembourg, and Factur-X / ZUGFeRD export for exchanges with Germany and France.',
             ],
             '2026_q1' => [
                 'title' => 'Accountant portal and CRM',

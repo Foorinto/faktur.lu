@@ -1586,7 +1586,7 @@ return [
                         '50 factures / mois',
                         'Projets & suivi du temps',
                         'Portail comptable & exports',
-                        'Export Peppol (10/mois)',
+                        'Export Peppol B2G (BIS 3.0)',
                         'Numérotation personnalisable',
                     ],
                     'features' => [
@@ -1670,7 +1670,7 @@ return [
                     'auto_reminders' => 'Relances automatiques impayés',
                     'no_branding' => 'Sans mention "faktur.lu"',
                     'priority_support' => 'Support email prioritaire',
-                    'peppol_per_month' => '10/mois',
+                    'peppol_per_month' => 'B2G',
                 ],
             ],
             'latest_blog' => [
@@ -2284,7 +2284,7 @@ return [
             ],
             '2026_q3' => [
                 'title' => 'Peppol et Factur-X',
-                'description' => 'Intégration Peppol via Access Point certifié pour l\'envoi B2G obligatoire au Luxembourg, et export Factur-X / ZUGFeRD pour les échanges avec l\'Allemagne et la France.',
+                'description' => 'Intégration Peppol via Access Point certifié pour la facturation électronique B2G obligatoire au Luxembourg, et export Factur-X / ZUGFeRD pour les échanges avec l\'Allemagne et la France.',
             ],
             '2026_q1' => [
                 'title' => 'Portail comptable et CRM',

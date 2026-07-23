@@ -1476,7 +1476,7 @@ return [
                         '50 Rechnungen / Monat',
                         'Projekte & Zeiterfassung',
                         'Buchhalterportal & Exporte',
-                        'Peppol-Export (10/Monat)',
+                        'Peppol B2G Export (BIS 3.0)',
                         'Anpassbare Nummerierung',
                     ],
                     'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal (1 Experte)', 'Sage BOB 50, Sage 100, CSV Exporte', 'Peppol B2G Export (BIS 3.0)', 'Anpassbare Nummerierung'],
@@ -1536,7 +1536,7 @@ return [
                     'auto_reminders' => 'Automatische Zahlungserinnerungen',
                     'no_branding' => 'Ohne "faktur.lu"-Erwähnung',
                     'priority_support' => 'Prioritärer E-Mail-Support',
-                    'peppol_per_month' => '10/Monat',
+                    'peppol_per_month' => 'B2G',
                 ],
             ],
             'latest_blog' => [
@@ -1955,7 +1955,7 @@ return [
             ],
             '2026_q3' => [
                 'title' => 'Peppol und Factur-X',
-                'description' => 'Peppol-Integration über zertifizierten Access Point für den in Luxemburg obligatorischen B2G-Versand und Factur-X / ZUGFeRD-Export für den Austausch mit Deutschland und Frankreich.',
+                'description' => 'Peppol-Integration über zertifizierten Access Point für die in Luxemburg obligatorische elektronische B2G-Rechnungsstellung und Factur-X / ZUGFeRD-Export für den Austausch mit Deutschland und Frankreich.',
             ],
             '2026_q1' => [
                 'title' => 'Buchhalterportal und CRM',
