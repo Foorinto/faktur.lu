@@ -499,6 +499,11 @@ return [
     'payment_instructions_setting_title' => 'Instruções de pagamento (opcional)',
     'payment_instructions_setting_help' => 'Texto livre exibido na fatura (ex. cheque à ordem de…, link de pagamento por cartão).',
     'payment_instructions_placeholder' => 'Ex.: Cheque à ordem de [Nome]. Cartão: pague em [link].',
+    'payment_conditions_setting_title' => 'Condições de pagamento (menções legais)',
+    'payment_conditions_setting_help' => 'Mostrar penalização, indemnização e desconto nas faturas. Desmarque para clientes particulares. Deixe um campo vazio para o valor predefinido.',
+    'payment_conditions_late_penalty' => 'Penalização de mora',
+    'payment_conditions_recovery_fee' => 'Indemnização (€)',
+    'payment_conditions_discount' => 'Desconto',
     'payment_methods' => [
         'card' => 'Cartão bancário',
         'transfer' => 'Transferência bancária',

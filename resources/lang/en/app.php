@@ -500,6 +500,11 @@ return [
     'payment_instructions_setting_title' => 'Payment instructions (optional)',
     'payment_instructions_setting_help' => 'Free text shown on the invoice (e.g. cheque payable to…, card payment link).',
     'payment_instructions_placeholder' => 'e.g. Cheque payable to [Name]. Card: pay at [link].',
+    'payment_conditions_setting_title' => 'Payment terms (legal mentions)',
+    'payment_conditions_setting_help' => 'Show late penalty, recovery fee and discount on invoices. Uncheck for private (B2C) clients. Leave a field empty for the default value.',
+    'payment_conditions_late_penalty' => 'Late penalty',
+    'payment_conditions_recovery_fee' => 'Recovery fee (€)',
+    'payment_conditions_discount' => 'Discount',
     'payment_methods' => [
         'card' => 'Credit card',
         'transfer' => 'Bank transfer',

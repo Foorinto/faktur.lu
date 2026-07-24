@@ -403,6 +403,11 @@ return [
     'payment_instructions_setting_title' => 'Zahlungshinweise (optional)',
     'payment_instructions_setting_help' => 'Freitext auf der Rechnung (z. B. Scheck an [Name], Kartenzahlungslink).',
     'payment_instructions_placeholder' => 'z. B. Scheck an [Name]. Karte: zahlen unter [Link].',
+    'payment_conditions_setting_title' => 'Zahlungsbedingungen (Pflichtangaben)',
+    'payment_conditions_setting_help' => 'Verzugszinsen, Pauschale und Skonto auf Rechnungen anzeigen. Für Privatkunden deaktivieren. Leeres Feld = Standardwert.',
+    'payment_conditions_late_penalty' => 'Verzugszinsen',
+    'payment_conditions_recovery_fee' => 'Pauschale (€)',
+    'payment_conditions_discount' => 'Skonto',
     'payment_methods' => [
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',

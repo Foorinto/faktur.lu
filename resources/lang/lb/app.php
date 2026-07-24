@@ -403,6 +403,11 @@ return [
     'payment_instructions_setting_title' => 'Bezuelinstruktiounen (optional)',
     'payment_instructions_setting_help' => 'Fräien Text op der Rechnung (z. B. Scheck op [Numm], Kaart-Bezuellink).',
     'payment_instructions_placeholder' => 'z. B. Scheck op [Numm]. Kaart: bezuelt op [Link].',
+    'payment_conditions_setting_title' => 'Bezuelbedéngungen (gesetzlech Mentiounen)',
+    'payment_conditions_setting_help' => 'Pénalitéit, Pauschal a Skonto op de Rechnunge weisen. Fir Privatclienten ofhaken. Eidelt Feld = Standardwäert.',
+    'payment_conditions_late_penalty' => 'Verzéierungspénalitéit',
+    'payment_conditions_recovery_fee' => 'Pauschal (€)',
+    'payment_conditions_discount' => 'Skonto',
     'payment_methods' => [
         'card' => 'Kreditkaart',
         'transfer' => 'Iwwerweisung',

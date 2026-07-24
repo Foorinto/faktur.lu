@@ -535,6 +535,10 @@
                     if ($invoice->due_at && $invoice->issued_at) {
                         $paymentDays = $invoice->issued_at->diffInDays($invoice->due_at);
                     }
+                    $showPaymentConditions = !isset($seller['show_payment_conditions']) || $seller['show_payment_conditions'];
+                    $latePenaltyText = !empty($seller['late_penalty_text']) ? $seller['late_penalty_text'] : __('invoice.late_penalty_value');
+                    $recoveryFeeAmount = (isset($seller['recovery_fee_amount']) && $seller['recovery_fee_amount'] !== null) ? (float) $seller['recovery_fee_amount'] : 40;
+                    $discountTerms = !empty($seller['discount_terms']) ? $seller['discount_terms'] : __('invoice.no_discount');
                 @endphp
 
                 <div class="condition-item">
@@ -542,20 +546,22 @@
                     <div class="condition-value">{{ $paymentDays }} {{ __('invoice.days') }}</div>
                 </div>
 
+                @if($showPaymentConditions)
                 <div class="condition-item">
                     <div class="condition-label">{{ __('invoice.late_penalty') }}</div>
-                    <div class="condition-value">{{ __('invoice.late_penalty_value') }}</div>
+                    <div class="condition-value">{{ $latePenaltyText }}</div>
                 </div>
 
                 <div class="condition-item">
                     <div class="condition-label">{{ __('invoice.recovery_fee') }}</div>
-                    <div class="condition-value">40 €</div>
+                    <div class="condition-value">{{ rtrim(rtrim(number_format($recoveryFeeAmount, 2, ',', ' '), '0'), ',') }} €</div>
                 </div>
 
                 <div class="condition-item">
                     <div class="condition-label">{{ __('invoice.discount') }}</div>
-                    <div class="condition-value">{{ __('invoice.no_discount') }}</div>
+                    <div class="condition-value">{{ $discountTerms }}</div>
                 </div>
+                @endif
 
                 @php
                     $paymentMethodKeys = (!empty($seller['default_payment_methods']) && is_array($seller['default_payment_methods']))

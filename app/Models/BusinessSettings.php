@@ -42,6 +42,10 @@ class BusinessSettings extends Model
         'payment_qrcode_path',
         'default_payment_methods',
         'payment_instructions',
+        'show_payment_conditions',
+        'late_penalty_text',
+        'recovery_fee_amount',
+        'discount_terms',
         'logo_path',
         // Custom document numbering (Invoice / Credit note / Quote)
         'number_format',
@@ -135,6 +139,8 @@ class BusinessSettings extends Model
         'show_phone_on_invoice' => 'boolean',
         'show_payment_qrcode' => 'boolean',
         'default_payment_methods' => 'array',
+        'show_payment_conditions' => 'boolean',
+        'recovery_fee_amount' => 'decimal:2',
         'shared_calendar_enabled' => 'boolean',
     ];
 
@@ -319,6 +325,10 @@ class BusinessSettings extends Model
             'payment_qrcode_path' => $this->payment_qrcode_path,
             'default_payment_methods' => $this->getEffectivePaymentMethods(),
             'payment_instructions' => $this->payment_instructions,
+            'show_payment_conditions' => $this->show_payment_conditions ?? true,
+            'late_penalty_text' => $this->late_penalty_text,
+            'recovery_fee_amount' => $this->recovery_fee_amount,
+            'discount_terms' => $this->discount_terms,
             'logo_path' => $this->logo_path,
             'pdf_color' => $this->getEffectivePdfColor(),
         ];

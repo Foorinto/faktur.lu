@@ -116,6 +116,10 @@ const form = useForm({
     show_payment_qrcode: props.settings?.show_payment_qrcode ?? false,
     default_payment_methods: props.settings?.default_payment_methods ?? [],
     payment_instructions: props.settings?.payment_instructions ?? '',
+    show_payment_conditions: props.settings?.show_payment_conditions ?? true,
+    late_penalty_text: props.settings?.late_penalty_text ?? '',
+    recovery_fee_amount: props.settings?.recovery_fee_amount ?? null,
+    discount_terms: props.settings?.discount_terms ?? '',
     // Numbering customization
     number_format: props.settings?.number_format ?? '{prefix}-{year}-{number}',
     invoice_prefix: props.settings?.invoice_prefix ?? 'F',
@@ -849,6 +853,35 @@ const cancelPaymentQrcodeUpload = () => {
                                 <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('payment_instructions_setting_help') }}</p>
                                 <RichTextEditor use-company-link-color v-model="form.payment_instructions" class="mt-1" />
                                 <InputError :message="form.errors.payment_instructions" class="mt-1" />
+                            </div>
+                        </div>
+
+                        <!-- Payment conditions / legal mentions (FEAT-099) -->
+                        <div class="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <label class="flex items-start cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    v-model="form.show_payment_conditions"
+                                    class="mt-0.5 rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
+                                />
+                                <span class="ml-2">
+                                    <span class="text-sm text-slate-700 dark:text-slate-300">{{ t('payment_conditions_setting_title') }}</span>
+                                    <span class="block text-xs text-slate-500 dark:text-slate-400">{{ t('payment_conditions_setting_help') }}</span>
+                                </span>
+                            </label>
+                            <div v-if="form.show_payment_conditions" class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                                <div>
+                                    <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('payment_conditions_late_penalty') }}</label>
+                                    <input type="text" v-model="form.late_penalty_text" class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm" />
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('payment_conditions_recovery_fee') }}</label>
+                                    <input type="number" step="0.01" min="0" v-model="form.recovery_fee_amount" placeholder="40" class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm" />
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('payment_conditions_discount') }}</label>
+                                    <input type="text" v-model="form.discount_terms" class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm" />
+                                </div>
                             </div>
                         </div>
 

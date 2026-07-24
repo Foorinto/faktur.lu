@@ -500,6 +500,11 @@ return [
     'payment_instructions_setting_title' => 'Instructions de paiement (optionnel)',
     'payment_instructions_setting_help' => 'Texte libre affiché sur la facture (ex. chèque à l\'ordre de…, lien de paiement carte).',
     'payment_instructions_placeholder' => 'Ex : Chèque à l\'ordre de [Nom]. Carte : payez sur [lien].',
+    'payment_conditions_setting_title' => 'Conditions de paiement (mentions légales)',
+    'payment_conditions_setting_help' => 'Afficher pénalité, indemnité et escompte sur les factures. Décochez pour vos clients particuliers. Laissez un champ vide pour la valeur par défaut.',
+    'payment_conditions_late_penalty' => 'Pénalité de retard',
+    'payment_conditions_recovery_fee' => 'Indemnité forfaitaire (€)',
+    'payment_conditions_discount' => 'Escompte',
     'payment_methods' => [
         'card' => 'Carte bancaire',
         'transfer' => 'Virement bancaire',
