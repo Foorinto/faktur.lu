@@ -398,11 +398,14 @@ return [
     ],
 
     // Payment methods
+    'payment_methods_setting_title' => 'Akzeptierte Zahlungsmethoden',
+    'payment_methods_setting_help' => 'Diese Methoden erscheinen auf Ihren Rechnungen. Standard: Überweisung.',
     'payment_methods' => [
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',
         'cash' => 'Bargeld',
         'check' => 'Scheck',
+        'payconiq' => 'Payconiq',
     ],
 
     // VAT rates

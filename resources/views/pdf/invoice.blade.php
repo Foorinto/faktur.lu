@@ -554,9 +554,15 @@
                     <div class="condition-value">{{ __('invoice.no_discount') }}</div>
                 </div>
 
+                @php
+                    $paymentMethodKeys = (!empty($seller['default_payment_methods']) && is_array($seller['default_payment_methods']))
+                        ? $seller['default_payment_methods']
+                        : ['transfer'];
+                    $paymentMethodLabels = array_map(fn ($k) => __('app.payment_methods.' . $k), $paymentMethodKeys);
+                @endphp
                 <div class="condition-item">
                     <div class="condition-label">{{ __('invoice.payment_method') }}</div>
-                    <div class="condition-value">{{ __('invoice.bank_transfer') }}</div>
+                    <div class="condition-value">{{ implode(', ', $paymentMethodLabels) }}</div>
                 </div>
 
                 @if(!$isCreditNote && (!empty($seller['iban']) || !empty($seller['bic'])))

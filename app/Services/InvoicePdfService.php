@@ -254,6 +254,7 @@ class InvoicePdfService
             'iban' => $settings->iban,
             'bic' => $settings->bic,
             'bank_name' => $settings->bank_name,
+            'default_payment_methods' => $settings->getEffectivePaymentMethods(),
             'email' => $settings->email,
             'show_email_on_invoice' => $settings->show_email_on_invoice,
             'phone' => $settings->phone,

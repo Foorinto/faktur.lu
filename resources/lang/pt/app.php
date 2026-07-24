@@ -494,11 +494,14 @@ return [
     ],
 
     // Payment methods
+    'payment_methods_setting_title' => 'Meios de pagamento aceites',
+    'payment_methods_setting_help' => 'Estes meios aparecem nas suas faturas. Predefinição: transferência bancária.',
     'payment_methods' => [
         'card' => 'Cartão bancário',
         'transfer' => 'Transferência bancária',
         'cash' => 'Numerário',
         'check' => 'Cheque',
+        'payconiq' => 'Payconiq',
     ],
 
     // VAT rates

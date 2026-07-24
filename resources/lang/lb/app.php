@@ -398,11 +398,14 @@ return [
     ],
 
     // Payment methods
+    'payment_methods_setting_title' => 'Akzeptéiert Bezuelmethoden',
+    'payment_methods_setting_help' => 'Dës Methode erschéngen op Ären Rechnungen. Standard: Iwwerweisung.',
     'payment_methods' => [
         'card' => 'Kreditkaart',
         'transfer' => 'Iwwerweisung',
         'cash' => 'Boergeld',
         'check' => 'Scheck',
+        'payconiq' => 'Payconiq',
     ],
 
     // VAT rates

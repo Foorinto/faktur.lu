@@ -495,11 +495,14 @@ return [
     ],
 
     // Payment methods
+    'payment_methods_setting_title' => 'Moyens de paiement acceptés',
+    'payment_methods_setting_help' => 'Ces moyens s\'affichent sur vos factures. Par défaut : Virement.',
     'payment_methods' => [
         'card' => 'Carte bancaire',
         'transfer' => 'Virement bancaire',
         'cash' => 'Espèces',
         'check' => 'Chèque',
+        'payconiq' => 'Payconiq',
     ],
 
     // VAT rates

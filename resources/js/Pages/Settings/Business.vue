@@ -114,6 +114,7 @@ const form = useForm({
     peppol_endpoint_scheme: props.settings?.peppol_endpoint_scheme ?? '',
     peppol_endpoint_id: props.settings?.peppol_endpoint_id ?? '',
     show_payment_qrcode: props.settings?.show_payment_qrcode ?? false,
+    default_payment_methods: props.settings?.default_payment_methods ?? [],
     // Numbering customization
     number_format: props.settings?.number_format ?? '{prefix}-{year}-{number}',
     invoice_prefix: props.settings?.invoice_prefix ?? 'F',
@@ -166,6 +167,9 @@ const paymentQrcodeForm = useForm({
 
 const paymentQrcodeInput = ref(null);
 const paymentQrcodePreview = ref(props.settings?.payment_qrcode_url ?? null);
+
+// FEAT-098: moyens de paiement affichés sur les factures
+const paymentMethodOptions = ['transfer', 'payconiq', 'cash', 'card', 'check'];
 
 const isVatRequired = computed(() => form.vat_regime === 'assujetti');
 
@@ -815,6 +819,27 @@ const cancelPaymentQrcodeUpload = () => {
                                     placeholder="AAAABBCCXXX"
                                 />
                                 <InputError :message="form.errors.bic" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <!-- Accepted payment methods (FEAT-098) -->
+                        <div class="mt-4">
+                            <p class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('payment_methods_setting_title') }}</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">{{ t('payment_methods_setting_help') }}</p>
+                            <div class="flex flex-wrap gap-2">
+                                <label
+                                    v-for="method in paymentMethodOptions"
+                                    :key="method"
+                                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-1.5 text-sm cursor-pointer dark:border-gray-700"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        :value="method"
+                                        v-model="form.default_payment_methods"
+                                        class="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
+                                    />
+                                    <span class="text-slate-700 dark:text-slate-300">{{ t('payment_methods.' + method) }}</span>
+                                </label>
                             </div>
                         </div>
 

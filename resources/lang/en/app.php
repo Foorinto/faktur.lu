@@ -495,11 +495,14 @@ return [
     ],
 
     // Payment methods
+    'payment_methods_setting_title' => 'Accepted payment methods',
+    'payment_methods_setting_help' => 'These methods appear on your invoices. Default: bank transfer.',
     'payment_methods' => [
         'card' => 'Credit card',
         'transfer' => 'Bank transfer',
         'cash' => 'Cash',
         'check' => 'Check',
+        'payconiq' => 'Payconiq',
     ],
 
     // VAT rates

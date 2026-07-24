@@ -40,6 +40,7 @@ class BusinessSettings extends Model
         'show_email_on_invoice',
         'show_payment_qrcode',
         'payment_qrcode_path',
+        'default_payment_methods',
         'logo_path',
         // Custom document numbering (Invoice / Credit note / Quote)
         'number_format',
@@ -132,6 +133,7 @@ class BusinessSettings extends Model
         'show_email_on_invoice' => 'boolean',
         'show_phone_on_invoice' => 'boolean',
         'show_payment_qrcode' => 'boolean',
+        'default_payment_methods' => 'array',
         'shared_calendar_enabled' => 'boolean',
     ];
 
@@ -272,6 +274,23 @@ class BusinessSettings extends Model
      * Generate a snapshot of the business settings for invoice immutability.
      * This data will be stored in the invoice to preserve the state at creation time.
      */
+    /** Supported payment methods for invoices (FEAT-098). */
+    public const PAYMENT_METHODS = ['transfer', 'payconiq', 'cash', 'card', 'check'];
+
+    /**
+     * Effective payment methods to display on invoices.
+     * Defaults to bank transfer when nothing is configured (preserves legacy behaviour).
+     *
+     * @return array<int, string>
+     */
+    public function getEffectivePaymentMethods(): array
+    {
+        $methods = is_array($this->default_payment_methods) ? $this->default_payment_methods : [];
+        $valid = array_values(array_intersect($methods, self::PAYMENT_METHODS));
+
+        return $valid !== [] ? $valid : ['transfer'];
+    }
+
     public function toSnapshot(): array
     {
         return [
@@ -297,6 +316,7 @@ class BusinessSettings extends Model
             'show_email_on_invoice' => $this->show_email_on_invoice,
             'show_payment_qrcode' => $this->show_payment_qrcode,
             'payment_qrcode_path' => $this->payment_qrcode_path,
+            'default_payment_methods' => $this->getEffectivePaymentMethods(),
             'logo_path' => $this->logo_path,
             'pdf_color' => $this->getEffectivePdfColor(),
         ];
