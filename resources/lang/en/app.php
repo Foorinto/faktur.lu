@@ -508,6 +508,9 @@ return [
     'vat_auto_adjusted_title' => 'VAT automatically adjusted',
     'vat_auto_reverse_charge' => 'Business client in the EU: reverse charge — invoice issued without VAT (0%). The legal mention was added.',
     'vat_auto_export' => 'Client outside the EU: export — invoice issued without VAT (0%). The mention was added.',
+    'vat_check_title' => 'Check the VAT mention',
+    'vat_check_eu' => 'Note: this client is in the EU. Under the franchise scheme, check whether a reverse-charge mention should apply (confirm with your accountant).',
+    'vat_check_foreign' => 'Note: this client is outside the EU. Under the franchise scheme, check whether an export mention should apply (confirm with your accountant).',
     'payment_methods' => [
         'card' => 'Credit card',
         'transfer' => 'Bank transfer',

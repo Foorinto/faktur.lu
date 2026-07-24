@@ -507,6 +507,9 @@ return [
     'vat_auto_adjusted_title' => 'IVA ajustado automaticamente',
     'vat_auto_reverse_charge' => 'Cliente profissional na UE: autoliquidação — fatura emitida sem IVA (0 %). A menção legal foi adicionada.',
     'vat_auto_export' => 'Cliente fora da UE: exportação — fatura emitida sem IVA (0 %). A menção foi adicionada.',
+    'vat_check_title' => 'Verifique a menção de IVA',
+    'vat_check_eu' => 'Atenção: este cliente está na UE. No regime de franquia, verifique se deve aplicar-se uma menção de autoliquidação (confirme com o seu contabilista).',
+    'vat_check_foreign' => 'Atenção: este cliente está fora da UE. No regime de franquia, verifique se deve aplicar-se uma menção de exportação (confirme com o seu contabilista).',
     'payment_methods' => [
         'card' => 'Cartão bancário',
         'transfer' => 'Transferência bancária',

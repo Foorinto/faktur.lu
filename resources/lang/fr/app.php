@@ -508,6 +508,9 @@ return [
     'vat_auto_adjusted_title' => 'TVA adaptée automatiquement',
     'vat_auto_reverse_charge' => 'Client professionnel dans l\'UE : autoliquidation — facture émise hors TVA (0 %). La mention légale a été ajoutée.',
     'vat_auto_export' => 'Client hors UE : exportation — facture émise hors TVA (0 %). La mention a été ajoutée.',
+    'vat_check_title' => 'Vérifiez la mention de TVA',
+    'vat_check_eu' => 'Attention : ce client est dans l\'Union européenne. En franchise, vérifiez si une mention d\'autoliquidation doit s\'appliquer (à confirmer avec votre fiduciaire).',
+    'vat_check_foreign' => 'Attention : ce client est hors Union européenne. En franchise, vérifiez si une mention d\'exportation doit s\'appliquer (à confirmer avec votre fiduciaire).',
     'payment_methods' => [
         'card' => 'Carte bancaire',
         'transfer' => 'Virement bancaire',

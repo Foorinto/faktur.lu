@@ -160,10 +160,13 @@ const applyProduct = (index, product) => {
 // FEAT-100: adapte automatiquement la TVA au scénario du client (autoliquidation/export)
 // + affiche une notice quand le client est à l'étranger.
 const vatAdjustedNotice = ref(null);
+const vatCheckNotice = ref(null); // franchise + client étranger → inviter à vérifier
+const EU_COUNTRIES = ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
 
 watch(() => form.client_id, (newClientId) => {
     if (!newClientId) {
         vatAdjustedNotice.value = null;
+        vatCheckNotice.value = null;
         return;
     }
     const client = props.clients.find(c => c.id === newClientId);
@@ -202,8 +205,15 @@ watch(() => form.client_id, (newClientId) => {
         });
     }
 
-    // Notice quand la TVA a été adaptée pour un client à l'étranger
+    // Notice quand la TVA a été adaptée automatiquement (vendeur assujetti)
     vatAdjustedNotice.value = isForeignScenario ? { mention: scenario.mention } : null;
+
+    // Vendeur en franchise + client étranger : la franchise reste appliquée, mais la
+    // règle transfrontalière peut différer → on invite à vérifier la mention.
+    const isForeignCountry = client?.country_code && client.country_code !== 'LU';
+    vatCheckNotice.value = (scenario && scenario.mention === 'franchise' && isForeignCountry)
+        ? { region: EU_COUNTRIES.includes(client.country_code) ? 'eu' : 'foreign' }
+        : null;
 });
 
 const removeItem = (index) => {
@@ -285,6 +295,15 @@ if (form.items.length === 0) {
                                     <p class="text-amber-700 dark:text-amber-300">{{ vatAdjustedNotice.mention === 'export' ? t('vat_auto_export') : t('vat_auto_reverse_charge') }}</p>
                                 </div>
                                 <button type="button" class="text-amber-500 hover:text-amber-700" @click="vatAdjustedNotice = null">✕</button>
+                            </div>
+                            <!-- FEAT-100: avertissement (franchise + client étranger → vérifier la mention) -->
+                            <div v-if="vatCheckNotice" class="mt-2 flex items-start gap-2 rounded-xl border border-orange-200 bg-orange-50 p-3 text-sm dark:border-orange-900/40 dark:bg-orange-900/20">
+                                <span aria-hidden="true">⚠️</span>
+                                <div class="flex-1">
+                                    <p class="font-medium text-orange-800 dark:text-orange-200">{{ t('vat_check_title') }}</p>
+                                    <p class="text-orange-700 dark:text-orange-300">{{ vatCheckNotice.region === 'eu' ? t('vat_check_eu') : t('vat_check_foreign') }}</p>
+                                </div>
+                                <button type="button" class="text-orange-500 hover:text-orange-700" @click="vatCheckNotice = null">✕</button>
                             </div>
                         </div>
 

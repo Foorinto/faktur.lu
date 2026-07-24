@@ -411,6 +411,9 @@ return [
     'vat_auto_adjusted_title' => 'TVA automatesch ugepasst',
     'vat_auto_reverse_charge' => 'Geschäftsclient an der EU: Autoliquidatioun — Rechnung ouni TVA (0 %). D\'gesetzlech Mentioun gouf bäigefüügt.',
     'vat_auto_export' => 'Client ausserhalb vun der EU: Export — Rechnung ouni TVA (0 %). D\'Mentioun gouf bäigefüügt.',
+    'vat_check_title' => 'TVA-Mentioun iwwerpréifen',
+    'vat_check_eu' => 'Opgepasst: dëse Client ass an der EU. Am Franchise-Regime, iwwerpréift ob eng Autoliquidatioun-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
+    'vat_check_foreign' => 'Opgepasst: dëse Client ass ausserhalb vun der EU. Am Franchise-Regime, iwwerpréift ob eng Export-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
     'payment_methods' => [
         'card' => 'Kreditkaart',
         'transfer' => 'Iwwerweisung',

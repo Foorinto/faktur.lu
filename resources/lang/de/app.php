@@ -411,6 +411,9 @@ return [
     'vat_auto_adjusted_title' => 'MwSt. automatisch angepasst',
     'vat_auto_reverse_charge' => 'Geschäftskunde in der EU: Reverse-Charge — Rechnung ohne MwSt. (0 %). Der gesetzliche Hinweis wurde hinzugefügt.',
     'vat_auto_export' => 'Kunde außerhalb der EU: Ausfuhr — Rechnung ohne MwSt. (0 %). Der Hinweis wurde hinzugefügt.',
+    'vat_check_title' => 'MwSt.-Hinweis prüfen',
+    'vat_check_eu' => 'Achtung: Dieser Kunde ist in der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Reverse-Charge-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
+    'vat_check_foreign' => 'Achtung: Dieser Kunde ist außerhalb der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Ausfuhr-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
     'payment_methods' => [
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',
