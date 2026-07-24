@@ -338,6 +338,9 @@
         .thanks-message p { margin: 0 0 3px; }
         .thanks-message ul, .thanks-message ol { margin: 0 0 3px; padding-left: 16px; }
         .thanks-message a { color: {{ $pdfColor ?? '#7c3aed' }}; }
+        .payment-instructions a { color: {{ $pdfColor ?? '#7c3aed' }}; }
+        .payment-instructions ul, .payment-instructions ol { margin: 2px 0; padding-left: 14px; }
+        .payment-instructions p { margin: 0 0 2px; }
 
         .notes-content {
             font-size: 7pt;
@@ -568,7 +571,7 @@
                 @if(!empty($seller['payment_instructions']))
                     <div class="condition-item">
                         <div class="condition-label">{{ __('invoice.payment_instructions') }}</div>
-                        <div class="condition-value">{!! nl2br(e($seller['payment_instructions'])) !!}</div>
+                        <div class="condition-value payment-instructions">{!! \App\Support\HtmlSanitizer::clean($seller['payment_instructions']) !!}</div>
                     </div>
                 @endif
 

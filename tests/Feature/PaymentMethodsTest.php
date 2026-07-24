@@ -61,7 +61,7 @@ class PaymentMethodsTest extends TestCase
 
         Client::factory()->create(['user_id' => $user->id]);
         BusinessSettings::factory()->create([
-            'payment_instructions' => 'Chèque à l\'ordre de Test SARL',
+            'payment_instructions' => '<p>Chèque à l\'ordre de <strong>Test SARL</strong>. <a href="https://pay.me">Payer</a></p><script>alert(1)</script>',
         ]);
 
         $client = Client::first();
@@ -74,8 +74,10 @@ class PaymentMethodsTest extends TestCase
 
         $html = app(InvoicePdfService::class)->previewDraft($invoice->fresh());
 
-        $this->assertStringContainsString('Chèque à l', $html);
-        $this->assertStringContainsString('Test SARL', $html);
+        // Mise en forme WYSIWYG conservée (gras + lien), script retiré.
+        $this->assertStringContainsString('<strong>Test SARL</strong>', $html);
+        $this->assertStringContainsString('href="https://pay.me"', $html);
+        $this->assertStringNotContainsString('<script', $html);
     }
 
     public function test_payment_methods_persist_and_cast_to_array(): void

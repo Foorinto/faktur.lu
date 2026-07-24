@@ -847,13 +847,7 @@ const cancelPaymentQrcodeUpload = () => {
                             <div class="mt-3">
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('payment_instructions_setting_title') }}</label>
                                 <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('payment_instructions_setting_help') }}</p>
-                                <textarea
-                                    v-model="form.payment_instructions"
-                                    rows="2"
-                                    maxlength="1000"
-                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
-                                    :placeholder="t('payment_instructions_placeholder')"
-                                ></textarea>
+                                <RichTextEditor use-company-link-color v-model="form.payment_instructions" class="mt-1" />
                                 <InputError :message="form.errors.payment_instructions" class="mt-1" />
                             </div>
                         </div>
