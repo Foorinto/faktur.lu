@@ -54,6 +54,30 @@ class PaymentMethodsTest extends TestCase
         $this->assertStringContainsString(__('app.payment_methods.transfer'), $html);
     }
 
+    public function test_invoice_pdf_shows_payment_instructions(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        Client::factory()->create(['user_id' => $user->id]);
+        BusinessSettings::factory()->create([
+            'payment_instructions' => 'Chèque à l\'ordre de Test SARL',
+        ]);
+
+        $client = Client::first();
+        $invoice = Invoice::factory()->create([
+            'client_id' => $client->id,
+            'user_id' => $user->id,
+            'status' => Invoice::STATUS_DRAFT,
+        ]);
+        InvoiceItem::create(['invoice_id' => $invoice->id, 'title' => 'X', 'quantity' => 1, 'unit_price' => 100, 'vat_rate' => 17]);
+
+        $html = app(InvoicePdfService::class)->previewDraft($invoice->fresh());
+
+        $this->assertStringContainsString('Chèque à l', $html);
+        $this->assertStringContainsString('Test SARL', $html);
+    }
+
     public function test_payment_methods_persist_and_cast_to_array(): void
     {
         $user = User::factory()->create();

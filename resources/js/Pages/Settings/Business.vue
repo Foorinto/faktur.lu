@@ -115,6 +115,7 @@ const form = useForm({
     peppol_endpoint_id: props.settings?.peppol_endpoint_id ?? '',
     show_payment_qrcode: props.settings?.show_payment_qrcode ?? false,
     default_payment_methods: props.settings?.default_payment_methods ?? [],
+    payment_instructions: props.settings?.payment_instructions ?? '',
     // Numbering customization
     number_format: props.settings?.number_format ?? '{prefix}-{year}-{number}',
     invoice_prefix: props.settings?.invoice_prefix ?? 'F',
@@ -840,6 +841,20 @@ const cancelPaymentQrcodeUpload = () => {
                                     />
                                     <span class="text-slate-700 dark:text-slate-300">{{ t('payment_methods.' + method) }}</span>
                                 </label>
+                            </div>
+
+                            <!-- Payment instructions free text (chèque, lien CB, etc.) -->
+                            <div class="mt-3">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('payment_instructions_setting_title') }}</label>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('payment_instructions_setting_help') }}</p>
+                                <textarea
+                                    v-model="form.payment_instructions"
+                                    rows="2"
+                                    maxlength="1000"
+                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                    :placeholder="t('payment_instructions_placeholder')"
+                                ></textarea>
+                                <InputError :message="form.errors.payment_instructions" class="mt-1" />
                             </div>
                         </div>
 

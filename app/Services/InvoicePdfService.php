@@ -255,6 +255,7 @@ class InvoicePdfService
             'bic' => $settings->bic,
             'bank_name' => $settings->bank_name,
             'default_payment_methods' => $settings->getEffectivePaymentMethods(),
+            'payment_instructions' => $settings->payment_instructions,
             'email' => $settings->email,
             'show_email_on_invoice' => $settings->show_email_on_invoice,
             'phone' => $settings->phone,
@@ -318,7 +319,7 @@ class InvoicePdfService
                     $settings->iban,
                     $settings->bic ?? '',
                     (float) $invoice->total_ttc,
-                    'BROUILLON',
+                    $invoice->number ?? '',
                 );
             }
             if ($settings->payment_qrcode_path) {

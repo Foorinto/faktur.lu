@@ -90,6 +90,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'show_payment_qrcode' => ['boolean'],
             'default_payment_methods' => ['nullable', 'array'],
             'default_payment_methods.*' => ['string', \Illuminate\Validation\Rule::in(\App\Models\BusinessSettings::PAYMENT_METHODS)],
+            'payment_instructions' => ['nullable', 'string', 'max:1000'],
             'logo_path' => ['nullable', 'string', 'max:255'],
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],

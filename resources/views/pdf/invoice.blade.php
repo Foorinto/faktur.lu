@@ -565,6 +565,13 @@
                     <div class="condition-value">{{ implode(', ', $paymentMethodLabels) }}</div>
                 </div>
 
+                @if(!empty($seller['payment_instructions']))
+                    <div class="condition-item">
+                        <div class="condition-label">{{ __('invoice.payment_instructions') }}</div>
+                        <div class="condition-value">{!! nl2br(e($seller['payment_instructions'])) !!}</div>
+                    </div>
+                @endif
+
                 @if(!$isCreditNote && (!empty($seller['iban']) || !empty($seller['bic'])))
                     <div class="bank-section">
                         <div class="bank-title">{{ __('invoice.bank_details') }}</div>
@@ -601,7 +608,7 @@
                             @if(!empty($paymentQrCode))
                                 <div class="qr-payment-item">
                                     <img src="{{ $paymentQrCode }}" alt="QR Code virement" />
-                                    <div class="qr-payment-label">{{ __('invoice.bank_transfer') }}</div>
+                                    <div class="qr-payment-label">{{ __('invoice.bank_transfer') }} — {{ __('invoice.scan_to_pay') }}</div>
                                 </div>
                             @endif
                         </div>

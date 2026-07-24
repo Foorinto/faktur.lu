@@ -48,6 +48,7 @@ return [
     'discount' => 'Skonto',
     'no_discount' => 'Kein',
     'payment_method' => 'Zahlungsart',
+    'payment_instructions' => 'Zahlungshinweise',
     'bank_transfer' => 'Überweisung',
 
     // Bank details

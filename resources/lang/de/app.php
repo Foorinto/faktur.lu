@@ -400,6 +400,9 @@ return [
     // Payment methods
     'payment_methods_setting_title' => 'Akzeptierte Zahlungsmethoden',
     'payment_methods_setting_help' => 'Diese Methoden erscheinen auf Ihren Rechnungen. Standard: Überweisung.',
+    'payment_instructions_setting_title' => 'Zahlungshinweise (optional)',
+    'payment_instructions_setting_help' => 'Freitext auf der Rechnung (z. B. Scheck an [Name], Kartenzahlungslink).',
+    'payment_instructions_placeholder' => 'z. B. Scheck an [Name]. Karte: zahlen unter [Link].',
     'payment_methods' => [
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',

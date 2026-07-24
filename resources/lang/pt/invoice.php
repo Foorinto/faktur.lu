@@ -48,6 +48,7 @@ return [
     'discount' => 'Desconto',
     'no_discount' => 'Nenhum',
     'payment_method' => 'Meios de pagamento',
+    'payment_instructions' => 'Instruções de pagamento',
     'bank_transfer' => 'Transferência bancária',
 
     // Bank details

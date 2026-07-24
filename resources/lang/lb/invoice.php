@@ -48,6 +48,7 @@ return [
     'discount' => 'Remise',
     'no_discount' => 'Keen',
     'payment_method' => 'Bezuelungsmethod',
+    'payment_instructions' => 'Bezuelinstruktiounen',
     'bank_transfer' => 'Iwwerweisung',
 
     // Bank details

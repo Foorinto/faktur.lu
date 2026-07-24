@@ -41,6 +41,7 @@ class BusinessSettings extends Model
         'show_payment_qrcode',
         'payment_qrcode_path',
         'default_payment_methods',
+        'payment_instructions',
         'logo_path',
         // Custom document numbering (Invoice / Credit note / Quote)
         'number_format',
@@ -317,6 +318,7 @@ class BusinessSettings extends Model
             'show_payment_qrcode' => $this->show_payment_qrcode,
             'payment_qrcode_path' => $this->payment_qrcode_path,
             'default_payment_methods' => $this->getEffectivePaymentMethods(),
+            'payment_instructions' => $this->payment_instructions,
             'logo_path' => $this->logo_path,
             'pdf_color' => $this->getEffectivePdfColor(),
         ];
