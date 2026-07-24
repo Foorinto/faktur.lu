@@ -408,6 +408,9 @@ return [
     'payment_conditions_late_penalty' => 'Verzugszinsen',
     'payment_conditions_recovery_fee' => 'Pauschale (€)',
     'payment_conditions_discount' => 'Skonto',
+    'vat_auto_adjusted_title' => 'MwSt. automatisch angepasst',
+    'vat_auto_reverse_charge' => 'Geschäftskunde in der EU: Reverse-Charge — Rechnung ohne MwSt. (0 %). Der gesetzliche Hinweis wurde hinzugefügt.',
+    'vat_auto_export' => 'Kunde außerhalb der EU: Ausfuhr — Rechnung ohne MwSt. (0 %). Der Hinweis wurde hinzugefügt.',
     'payment_methods' => [
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',

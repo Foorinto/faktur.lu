@@ -157,34 +157,53 @@ const applyProduct = (index, product) => {
 };
 
 // Watch for client changes to update default VAT rate on items and suggest VAT mention
+// FEAT-100: adapte automatiquement la TVA au scénario du client (autoliquidation/export)
+// + affiche une notice quand le client est à l'étranger.
+const vatAdjustedNotice = ref(null);
+
 watch(() => form.client_id, (newClientId) => {
-    if (newClientId) {
-        const client = props.clients.find(c => c.id === newClientId);
-        if (client?.default_vat_rate !== null && client?.default_vat_rate !== undefined) {
-            // Update all items with 0 quantity (new items) to use client's default rate
-            form.items.forEach((item, index) => {
-                if (item.vat_rate_select !== 'custom') {
-                    const newRate = parseFloat(client.default_vat_rate);
-                    item.vat_rate = newRate;
-                    item.vat_rate_select = newRate;
-                }
-            });
-        }
-
-        // Pre-fill hourly rate on items with unit 'hour' and no price set
-        if (client?.default_hourly_rate) {
-            form.items.forEach((item) => {
-                if (item.unit === 'hour' && (!item.unit_price || item.unit_price == 0)) {
-                    item.unit_price = parseFloat(client.default_hourly_rate);
-                }
-            });
-        }
-
-        // Auto-suggest VAT mention based on client's VAT scenario
-        if (!form.vat_mention && client?.vat_scenario?.mention) {
-            form.vat_mention = client.vat_scenario.mention;
-        }
+    if (!newClientId) {
+        vatAdjustedNotice.value = null;
+        return;
     }
+    const client = props.clients.find(c => c.id === newClientId);
+    const scenario = client?.vat_scenario;
+    const isForeignScenario = !!(scenario && ['reverse_charge', 'export'].includes(scenario.mention));
+
+    // Taux de TVA à appliquer aux lignes (hors lignes en taux personnalisé)
+    let appliedRate = null;
+    if (isForeignScenario) {
+        appliedRate = 0; // autoliquidation intra-UE ou export = hors TVA
+    } else if (client?.default_vat_rate !== null && client?.default_vat_rate !== undefined) {
+        appliedRate = parseFloat(client.default_vat_rate);
+    } else if (scenario && scenario.rate !== null && scenario.rate !== undefined) {
+        appliedRate = Number(scenario.rate);
+    }
+    if (appliedRate !== null) {
+        form.items.forEach((item) => {
+            if (item.vat_rate_select !== 'custom') {
+                item.vat_rate = appliedRate;
+                item.vat_rate_select = appliedRate;
+            }
+        });
+    }
+
+    // Applique la mention TVA du scénario (s'adapte au client sélectionné)
+    if (scenario) {
+        form.vat_mention = scenario.mention || 'none';
+    }
+
+    // Pré-remplit le tarif horaire sur les lignes en heures sans prix
+    if (client?.default_hourly_rate) {
+        form.items.forEach((item) => {
+            if (item.unit === 'hour' && (!item.unit_price || item.unit_price == 0)) {
+                item.unit_price = parseFloat(client.default_hourly_rate);
+            }
+        });
+    }
+
+    // Notice quand la TVA a été adaptée pour un client à l'étranger
+    vatAdjustedNotice.value = isForeignScenario ? { mention: scenario.mention } : null;
 });
 
 const removeItem = (index) => {
@@ -257,6 +276,15 @@ if (form.items.length === 0) {
                             <!-- VAT Scenario indicator -->
                             <div v-if="clientVatScenario" class="mt-2">
                                 <VatScenarioIndicator :scenario="clientVatScenario" size="sm" />
+                            </div>
+                            <!-- FEAT-100: notice TVA adaptée automatiquement (client à l'étranger) -->
+                            <div v-if="vatAdjustedNotice" class="mt-2 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm dark:border-amber-900/40 dark:bg-amber-900/20">
+                                <span aria-hidden="true">ℹ️</span>
+                                <div class="flex-1">
+                                    <p class="font-medium text-amber-800 dark:text-amber-200">{{ t('vat_auto_adjusted_title') }}</p>
+                                    <p class="text-amber-700 dark:text-amber-300">{{ vatAdjustedNotice.mention === 'export' ? t('vat_auto_export') : t('vat_auto_reverse_charge') }}</p>
+                                </div>
+                                <button type="button" class="text-amber-500 hover:text-amber-700" @click="vatAdjustedNotice = null">✕</button>
                             </div>
                         </div>
 

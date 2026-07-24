@@ -408,6 +408,9 @@ return [
     'payment_conditions_late_penalty' => 'Verzéierungspénalitéit',
     'payment_conditions_recovery_fee' => 'Pauschal (€)',
     'payment_conditions_discount' => 'Skonto',
+    'vat_auto_adjusted_title' => 'TVA automatesch ugepasst',
+    'vat_auto_reverse_charge' => 'Geschäftsclient an der EU: Autoliquidatioun — Rechnung ouni TVA (0 %). D\'gesetzlech Mentioun gouf bäigefüügt.',
+    'vat_auto_export' => 'Client ausserhalb vun der EU: Export — Rechnung ouni TVA (0 %). D\'Mentioun gouf bäigefüügt.',
     'payment_methods' => [
         'card' => 'Kreditkaart',
         'transfer' => 'Iwwerweisung',

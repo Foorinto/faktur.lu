@@ -505,6 +505,9 @@ return [
     'payment_conditions_late_penalty' => 'Pénalité de retard',
     'payment_conditions_recovery_fee' => 'Indemnité forfaitaire (€)',
     'payment_conditions_discount' => 'Escompte',
+    'vat_auto_adjusted_title' => 'TVA adaptée automatiquement',
+    'vat_auto_reverse_charge' => 'Client professionnel dans l\'UE : autoliquidation — facture émise hors TVA (0 %). La mention légale a été ajoutée.',
+    'vat_auto_export' => 'Client hors UE : exportation — facture émise hors TVA (0 %). La mention a été ajoutée.',
     'payment_methods' => [
         'card' => 'Carte bancaire',
         'transfer' => 'Virement bancaire',

@@ -504,6 +504,9 @@ return [
     'payment_conditions_late_penalty' => 'Penalização de mora',
     'payment_conditions_recovery_fee' => 'Indemnização (€)',
     'payment_conditions_discount' => 'Desconto',
+    'vat_auto_adjusted_title' => 'IVA ajustado automaticamente',
+    'vat_auto_reverse_charge' => 'Cliente profissional na UE: autoliquidação — fatura emitida sem IVA (0 %). A menção legal foi adicionada.',
+    'vat_auto_export' => 'Cliente fora da UE: exportação — fatura emitida sem IVA (0 %). A menção foi adicionada.',
     'payment_methods' => [
         'card' => 'Cartão bancário',
         'transfer' => 'Transferência bancária',
