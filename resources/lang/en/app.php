@@ -711,6 +711,7 @@ return [
     'line_total_ht' => 'Line total excl. VAT',
     'subtotal_ht' => 'Subtotal excl. VAT',
     'discount_label_placeholder' => 'Label (e.g. first order)',
+    'global_discount_title' => 'Discount on the entire invoice',
     'total_vat' => 'Total VAT',
     'related_credit_notes' => 'Related credit notes',
     'create_credit_note_for' => 'Create credit note for :number',

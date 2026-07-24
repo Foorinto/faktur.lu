@@ -711,6 +711,7 @@ return [
     'line_total_ht' => 'Total HT ligne',
     'subtotal_ht' => 'Sous-total HT',
     'discount_label_placeholder' => 'Libellé (ex : première commande)',
+    'global_discount_title' => 'Remise sur l\'ensemble de la facture',
     'total_vat' => 'Total TVA',
     'related_credit_notes' => 'Avoirs liés',
     'create_credit_note_for' => 'Créer un avoir pour :number',

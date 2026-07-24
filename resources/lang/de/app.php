@@ -614,6 +614,7 @@ return [
     'line_total_ht' => 'Zeilensumme netto',
     'subtotal_ht' => 'Zwischensumme netto',
     'discount_label_placeholder' => 'Bezeichnung (z. B. Erstbestellung)',
+    'global_discount_title' => 'Rabatt auf die gesamte Rechnung',
     'total_vat' => 'MwSt. gesamt',
     'related_credit_notes' => 'Zugehörige Gutschriften',
     'create_credit_note_for' => 'Gutschrift für :number erstellen',

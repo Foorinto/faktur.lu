@@ -710,6 +710,7 @@ return [
     'line_total_ht' => 'Total da linha sem IVA',
     'subtotal_ht' => 'Subtotal sem IVA',
     'discount_label_placeholder' => 'Rótulo (ex.: primeira encomenda)',
+    'global_discount_title' => 'Desconto sobre a fatura inteira',
     'total_vat' => 'Total IVA',
     'related_credit_notes' => 'Notas de crédito associadas',
     'create_credit_note_for' => 'Criar uma nota de crédito para :number',

@@ -614,6 +614,7 @@ return [
     'line_total_ht' => 'Zeil-Total HT',
     'subtotal_ht' => 'Ënnersumme HT',
     'discount_label_placeholder' => 'Bezeechnung (z. B. éischt Bestellung)',
+    'global_discount_title' => 'Remise op déi ganz Rechnung',
     'total_vat' => 'Total TVA',
     'related_credit_notes' => 'Zougehéireg Gutschrëften',
     'create_credit_note_for' => 'Gutschrëft fir :number erstellen',

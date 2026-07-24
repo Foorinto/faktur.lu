@@ -918,6 +918,9 @@ const openPreview = () => {
                             <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(totals.ht) }}</span>
                         </div>
 
+                        <!-- Titre : remise globale -->
+                        <p class="mt-1 text-xs font-medium text-slate-500 dark:text-slate-400">{{ t('global_discount_title') }}</p>
+
                         <!-- Lignes de remise existantes -->
                         <div
                             v-for="discount in invoice.discounts || []"
