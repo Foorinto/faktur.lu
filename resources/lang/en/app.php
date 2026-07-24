@@ -497,6 +497,7 @@ return [
     // Payment methods
     'payment_methods_setting_title' => 'Accepted payment methods',
     'payment_methods_setting_help' => 'These methods appear on your invoices. Default: bank transfer.',
+    'payment_methods_add_placeholder' => 'Add a payment method, then press Enter',
     'payment_instructions_setting_title' => 'Payment instructions (optional)',
     'payment_instructions_setting_help' => 'Free text shown on the invoice (e.g. cheque payable to…, card payment link).',
     'payment_instructions_placeholder' => 'e.g. Cheque payable to [Name]. Card: pay at [link].',

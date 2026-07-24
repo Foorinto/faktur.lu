@@ -173,8 +173,28 @@ const paymentQrcodeForm = useForm({
 const paymentQrcodeInput = ref(null);
 const paymentQrcodePreview = ref(props.settings?.payment_qrcode_url ?? null);
 
-// FEAT-098: moyens de paiement affichés sur les factures
-const paymentMethodOptions = ['transfer', 'payconiq', 'cash', 'card', 'check'];
+// FEAT-098: moyens de paiement affichés sur les factures (champ libre type "tags")
+const newPaymentMethod = ref('');
+const paymentMethodLegacyKeys = ['transfer', 'payconiq', 'cash', 'card', 'check'];
+const paymentMethodSuggestions = computed(() => [
+    t('payment_methods.transfer'),
+    t('payment_methods.cash'),
+    t('payment_methods.card'),
+    t('payment_methods.check'),
+    'Wero',
+]);
+// Traduit les anciennes clés stockées ; le texte libre est affiché tel quel.
+const paymentMethodLabel = (m) => (paymentMethodLegacyKeys.includes(m) ? t('payment_methods.' + m) : m);
+const addPaymentMethod = (value) => {
+    const v = (value ?? newPaymentMethod.value).trim();
+    if (v && !form.default_payment_methods.map(paymentMethodLabel).includes(v) && !form.default_payment_methods.includes(v)) {
+        form.default_payment_methods.push(v);
+    }
+    newPaymentMethod.value = '';
+};
+const removePaymentMethod = (index) => {
+    form.default_payment_methods.splice(index, 1);
+};
 
 const isVatRequired = computed(() => form.vat_regime === 'assujetti');
 
@@ -831,20 +851,39 @@ const cancelPaymentQrcodeUpload = () => {
                         <div class="mt-4">
                             <p class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('payment_methods_setting_title') }}</p>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">{{ t('payment_methods_setting_help') }}</p>
-                            <div class="flex flex-wrap gap-2">
-                                <label
-                                    v-for="method in paymentMethodOptions"
-                                    :key="method"
-                                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-1.5 text-sm cursor-pointer dark:border-gray-700"
+                            <!-- Tags des moyens sélectionnés -->
+                            <div v-if="form.default_payment_methods.length" class="flex flex-wrap gap-1.5 mb-2">
+                                <span
+                                    v-for="(method, index) in form.default_payment_methods"
+                                    :key="index"
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-2.5 py-1 text-xs text-primary-700 dark:bg-primary-900/30 dark:text-primary-300"
                                 >
-                                    <input
-                                        type="checkbox"
-                                        :value="method"
-                                        v-model="form.default_payment_methods"
-                                        class="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
-                                    />
-                                    <span class="text-slate-700 dark:text-slate-300">{{ t('payment_methods.' + method) }}</span>
-                                </label>
+                                    {{ paymentMethodLabel(method) }}
+                                    <button
+                                        type="button"
+                                        class="text-primary-400 hover:text-primary-700 dark:hover:text-primary-200"
+                                        :aria-label="t('remove')"
+                                        @click="removePaymentMethod(index)"
+                                    >✕</button>
+                                </span>
+                            </div>
+                            <!-- Champ libre : ajout d'un moyen -->
+                            <input
+                                v-model="newPaymentMethod"
+                                type="text"
+                                :placeholder="t('payment_methods_add_placeholder')"
+                                class="block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                @keydown.enter.prevent="addPaymentMethod()"
+                            />
+                            <!-- Suggestions rapides -->
+                            <div class="mt-1.5 flex flex-wrap gap-1">
+                                <button
+                                    v-for="suggestion in paymentMethodSuggestions"
+                                    :key="suggestion"
+                                    type="button"
+                                    class="rounded-full border border-gray-200 px-2 py-0.5 text-xs text-slate-500 hover:bg-gray-100 dark:border-gray-700 dark:text-slate-400 dark:hover:bg-gray-700"
+                                    @click="addPaymentMethod(suggestion)"
+                                >+ {{ suggestion }}</button>
                             </div>
 
                             <!-- Payment instructions free text (chèque, lien CB, etc.) -->

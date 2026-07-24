@@ -497,6 +497,7 @@ return [
     // Payment methods
     'payment_methods_setting_title' => 'Moyens de paiement acceptés',
     'payment_methods_setting_help' => 'Ces moyens s\'affichent sur vos factures. Par défaut : Virement.',
+    'payment_methods_add_placeholder' => 'Ajouter un moyen de paiement, puis Entrée',
     'payment_instructions_setting_title' => 'Instructions de paiement (optionnel)',
     'payment_instructions_setting_help' => 'Texte libre affiché sur la facture (ex. chèque à l\'ordre de…, lien de paiement carte).',
     'payment_instructions_placeholder' => 'Ex : Chèque à l\'ordre de [Nom]. Carte : payez sur [lien].',

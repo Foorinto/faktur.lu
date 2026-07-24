@@ -496,6 +496,7 @@ return [
     // Payment methods
     'payment_methods_setting_title' => 'Meios de pagamento aceites',
     'payment_methods_setting_help' => 'Estes meios aparecem nas suas faturas. Predefinição: transferência bancária.',
+    'payment_methods_add_placeholder' => 'Adicionar um meio de pagamento, depois Enter',
     'payment_instructions_setting_title' => 'Instruções de pagamento (opcional)',
     'payment_instructions_setting_help' => 'Texto livre exibido na fatura (ex. cheque à ordem de…, link de pagamento por cartão).',
     'payment_instructions_placeholder' => 'Ex.: Cheque à ordem de [Nome]. Cartão: pague em [link].',

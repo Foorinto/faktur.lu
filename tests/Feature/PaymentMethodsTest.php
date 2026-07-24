@@ -18,15 +18,19 @@ class PaymentMethodsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_effective_payment_methods_default_and_filter(): void
+    public function test_effective_payment_methods_default_and_freetext(): void
     {
         $settings = new BusinessSettings();
         // Aucun réglage → défaut Virement.
         $this->assertSame(['transfer'], $settings->getEffectivePaymentMethods());
 
-        // Valeurs valides conservées, invalides écartées, ordre préservé.
-        $settings->default_payment_methods = ['payconiq', 'cash', 'bogus'];
-        $this->assertSame(['payconiq', 'cash'], $settings->getEffectivePaymentMethods());
+        // Texte libre (FEAT-098) : valeurs conservées, vides retirées, ordre préservé.
+        $settings->default_payment_methods = ['Wero', '  ', 'Mon moyen à moi'];
+        $this->assertSame(['Wero', 'Mon moyen à moi'], $settings->getEffectivePaymentMethods());
+
+        // Les anciennes clés restent acceptées telles quelles (compat).
+        $settings->default_payment_methods = ['transfer', 'cash'];
+        $this->assertSame(['transfer', 'cash'], $settings->getEffectivePaymentMethods());
     }
 
     public function test_invoice_pdf_shows_configured_payment_methods(): void
@@ -36,7 +40,8 @@ class PaymentMethodsTest extends TestCase
 
         Client::factory()->create(['user_id' => $user->id]);
         BusinessSettings::factory()->create([
-            'default_payment_methods' => ['transfer', 'payconiq', 'cash'],
+            // Clé connue traduite ('transfer') + texte libre affiché tel quel.
+            'default_payment_methods' => ['transfer', 'Wero', 'Espèces sur place'],
         ]);
 
         $client = Client::first();
@@ -49,9 +54,9 @@ class PaymentMethodsTest extends TestCase
 
         $html = app(InvoicePdfService::class)->previewDraft($invoice->fresh());
 
-        $this->assertStringContainsString('Payconiq', $html);
-        $this->assertStringContainsString(__('app.payment_methods.cash'), $html);
         $this->assertStringContainsString(__('app.payment_methods.transfer'), $html);
+        $this->assertStringContainsString('Wero', $html);
+        $this->assertStringContainsString('Espèces sur place', $html);
     }
 
     public function test_invoice_pdf_shows_payment_instructions(): void

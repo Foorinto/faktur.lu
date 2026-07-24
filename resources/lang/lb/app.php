@@ -400,6 +400,7 @@ return [
     // Payment methods
     'payment_methods_setting_title' => 'Akzeptéiert Bezuelmethoden',
     'payment_methods_setting_help' => 'Dës Methode erschéngen op Ären Rechnungen. Standard: Iwwerweisung.',
+    'payment_methods_add_placeholder' => 'Bezuelmethod bäisetzen, dann Enter',
     'payment_instructions_setting_title' => 'Bezuelinstruktiounen (optional)',
     'payment_instructions_setting_help' => 'Fräien Text op der Rechnung (z. B. Scheck op [Numm], Kaart-Bezuellink).',
     'payment_instructions_placeholder' => 'z. B. Scheck op [Numm]. Kaart: bezuelt op [Link].',

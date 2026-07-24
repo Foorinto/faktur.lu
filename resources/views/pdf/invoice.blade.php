@@ -567,7 +567,11 @@
                     $paymentMethodKeys = (!empty($seller['default_payment_methods']) && is_array($seller['default_payment_methods']))
                         ? $seller['default_payment_methods']
                         : ['transfer'];
-                    $paymentMethodLabels = array_map(fn ($k) => __('app.payment_methods.' . $k), $paymentMethodKeys);
+                    $paymentMethodKnown = \App\Models\BusinessSettings::PAYMENT_METHODS;
+                    $paymentMethodLabels = array_map(
+                        fn ($k) => in_array($k, $paymentMethodKnown, true) ? __('app.payment_methods.' . $k) : $k,
+                        $paymentMethodKeys
+                    );
                 @endphp
                 <div class="condition-item">
                     <div class="condition-label">{{ __('invoice.payment_method') }}</div>

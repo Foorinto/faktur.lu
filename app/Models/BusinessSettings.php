@@ -281,11 +281,15 @@ class BusinessSettings extends Model
      * Generate a snapshot of the business settings for invoice immutability.
      * This data will be stored in the invoice to preserve the state at creation time.
      */
-    /** Supported payment methods for invoices (FEAT-098). */
+    /**
+     * Legacy predefined keys still recognised for label translation on the PDF.
+     * Payment methods are now free-text (FEAT-098), so this list is only used to
+     * translate historical values; new entries are stored as plain labels.
+     */
     public const PAYMENT_METHODS = ['transfer', 'payconiq', 'cash', 'card', 'check'];
 
     /**
-     * Effective payment methods to display on invoices.
+     * Effective payment methods to display on invoices (free-text labels).
      * Defaults to bank transfer when nothing is configured (preserves legacy behaviour).
      *
      * @return array<int, string>
@@ -293,9 +297,12 @@ class BusinessSettings extends Model
     public function getEffectivePaymentMethods(): array
     {
         $methods = is_array($this->default_payment_methods) ? $this->default_payment_methods : [];
-        $valid = array_values(array_intersect($methods, self::PAYMENT_METHODS));
+        $methods = array_values(array_filter(
+            array_map(fn ($m) => trim((string) $m), $methods),
+            fn ($m) => $m !== ''
+        ));
 
-        return $valid !== [] ? $valid : ['transfer'];
+        return $methods !== [] ? $methods : ['transfer'];
     }
 
     public function toSnapshot(): array
