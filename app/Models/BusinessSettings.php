@@ -134,6 +134,7 @@ class BusinessSettings extends Model
 
     protected $casts = [
         'vat_regime' => 'string',
+        'iban' => 'encrypted', // chiffré au repos (RGPD) ; déchiffrement transparent à la lecture
         'default_hourly_rate' => 'decimal:2',
         'show_email_on_invoice' => 'boolean',
         'show_phone_on_invoice' => 'boolean',

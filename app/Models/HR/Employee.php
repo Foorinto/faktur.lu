@@ -62,6 +62,7 @@ class Employee extends Model
         'trial_end_date' => 'date:Y-m-d',
         'termination_date' => 'date:Y-m-d',
         'salary_gross' => 'decimal:2',
+        'bank_iban' => 'encrypted', // chiffré au repos (RGPD) ; déchiffrement transparent à la lecture
         'benefits' => 'array',
         'emergency_contact' => 'array',
         'portal_activated_at' => 'datetime',
