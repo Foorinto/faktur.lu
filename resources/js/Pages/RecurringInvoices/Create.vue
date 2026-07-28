@@ -12,6 +12,7 @@ const props = defineProps({
     clients: Array,
     frequencies: Array,
     defaultVatRate: { type: Number, default: 17 },
+    isVatExempt: Boolean,
 });
 
 const frequencyLabels = {
@@ -62,7 +63,8 @@ const applyProduct = (index, product) => {
     if (product.description) { item.description = product.description; }
     item.unit_price = Number(product.unit_price_ht);
     if (product.unit && units.includes(product.unit)) { item.unit = product.unit; }
-    item.vat_rate = Number(product.vat_rate);
+    // En franchise de TVA, le taux du catalogue ne doit pas écraser le 0 %.
+    item.vat_rate = props.isVatExempt ? 0 : Number(product.vat_rate);
 };
 
 // Net line total after discount (mirrors backend InvoiceItem::applyLineDiscount)

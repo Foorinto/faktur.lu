@@ -106,13 +106,16 @@ const onItemVatChange = (val) => {
     if (val === 'custom') { itemVatCustom.value = true; } else { itemVatCustom.value = false; itemForm.vat_rate = parseFloat(val); }
 };
 
+// En franchise de TVA, le taux du catalogue ne doit pas écraser le 0 %.
+const productVatRate = (product) => (props.isVatExempt ? 0 : Number(product.vat_rate));
+
 // Pre-fill from a selected catalogue product (FEAT-095).
 const applyProductToEdit = (product) => {
     editItemForm.title = product.designation;
     if (product.description) { editItemForm.description = product.description; }
     editItemForm.unit_price = Number(product.unit_price_ht);
     if (product.unit) { editItemForm.unit = product.unit; }
-    const rate = Number(product.vat_rate);
+    const rate = productVatRate(product);
     editItemForm.vat_rate = rate;
     editVatCustom.value = !isKnownVat(rate);
 };
@@ -121,7 +124,7 @@ const applyProductToItem = (product) => {
     if (product.description) { itemForm.description = product.description; }
     itemForm.unit_price = Number(product.unit_price_ht);
     if (product.unit) { itemForm.unit = product.unit; }
-    const rate = Number(product.vat_rate);
+    const rate = productVatRate(product);
     itemForm.vat_rate = rate;
     itemVatCustom.value = !isKnownVat(rate);
 };

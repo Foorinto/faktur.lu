@@ -32,6 +32,7 @@ class RecurringInvoiceController extends Controller
             'clients' => $clients,
             'frequencies' => RecurringInvoice::FREQUENCIES,
             'defaultVatRate' => auth()->user()->businessSettings?->default_vat_rate ?? 17,
+            'isVatExempt' => auth()->user()->businessSettings?->isVatExempt() ?? true,
         ]);
     }
 
@@ -128,6 +129,7 @@ class RecurringInvoiceController extends Controller
             'clients' => $clients,
             'frequencies' => RecurringInvoice::FREQUENCIES,
             'defaultVatRate' => auth()->user()->businessSettings?->default_vat_rate ?? 17,
+            'isVatExempt' => auth()->user()->businessSettings?->isVatExempt() ?? true,
         ]);
     }
 
