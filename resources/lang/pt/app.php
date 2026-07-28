@@ -5381,6 +5381,7 @@ return [
     'error_quote_delete_converted' => 'Não é possível eliminar um orçamento já convertido em fatura.',
     'error_quote_not_convertible' => 'Este orçamento não pode ser convertido: apenas orçamentos aceites podem tornar-se fatura.',
     'error_pdf_not_finalized' => 'O PDF só pode ser gerado após a finalização da fatura.',
+    'validation_vat_rate_franchise' => 'Está no regime de franquia de IVA: a taxa deve ser 0 %.',
     'error_archive_only_finalized' => 'Apenas faturas finalizadas podem ser arquivadas.',
     'products' => [
         'nav' => 'Artigos',

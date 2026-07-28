@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api\V1;
 use App\Models\Client;
 use App\Models\InvoiceItem;
 use App\Rules\BelongsToAuthUser;
+use App\Rules\SalesVatRateAllowed;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -36,7 +37,7 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.discount_type' => ['nullable', Rule::in(['percent', 'amount'])],
             'items.*.discount_value' => ['nullable', 'numeric', 'min:0'],
             // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
-            'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100'],
+            'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
             'retention_guarantee_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'retention_release_date' => ['nullable', 'date'],
             'discounts' => ['nullable', 'array'],

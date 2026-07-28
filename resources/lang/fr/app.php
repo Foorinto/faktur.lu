@@ -5479,6 +5479,7 @@ return [
     'error_quote_delete_converted' => 'Impossible de supprimer un devis déjà converti en facture.',
     'error_quote_not_convertible' => 'Ce devis ne peut pas être converti : seuls les devis acceptés peuvent devenir une facture.',
     'error_pdf_not_finalized' => 'Le PDF ne peut être généré qu\'une fois la facture finalisée.',
+    'validation_vat_rate_franchise' => 'Vous êtes en franchise de TVA : le taux doit être de 0 %.',
     'error_archive_only_finalized' => 'Seules les factures finalisées peuvent être archivées.',
     'products' => [
         'nav' => 'Articles',

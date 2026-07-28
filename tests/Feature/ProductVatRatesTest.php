@@ -28,6 +28,52 @@ class ProductVatRatesTest extends TestCase
             );
     }
 
+    public function test_franchise_seller_cannot_persist_a_non_zero_rate(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        BusinessSettings::factory()->create(['vat_regime' => 'franchise']);
+
+        // Envoi hors interface (API, formulaire périmé) : le serveur doit refuser.
+        $this->post(route('products.store', ['locale' => 'fr']), [
+            'designation' => 'Micro d\'occasion',
+            'unit_price_ht' => 120,
+            'vat_rate' => 17,
+        ])->assertSessionHasErrors('vat_rate');
+
+        $this->assertDatabaseCount('products', 0);
+    }
+
+    public function test_franchise_seller_can_persist_a_zero_rate(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        BusinessSettings::factory()->create(['vat_regime' => 'franchise']);
+
+        $this->post(route('products.store', ['locale' => 'fr']), [
+            'designation' => 'Micro d\'occasion',
+            'unit_price_ht' => 120,
+            'vat_rate' => 0,
+        ])->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('products', ['designation' => 'Micro d\'occasion', 'vat_rate' => 0]);
+    }
+
+    public function test_vat_registered_seller_can_still_persist_a_standard_rate(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        BusinessSettings::factory()->create(['vat_regime' => 'assujetti']);
+
+        $this->post(route('products.store', ['locale' => 'fr']), [
+            'designation' => 'Prestation',
+            'unit_price_ht' => 100,
+            'vat_rate' => 17,
+        ])->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('products', ['designation' => 'Prestation', 'vat_rate' => 17]);
+    }
+
     public function test_vat_registered_seller_is_offered_country_rates(): void
     {
         $user = User::factory()->create();

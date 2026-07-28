@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\RecurringInvoice;
+use App\Rules\SalesVatRateAllowed;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,7 +43,7 @@ class RecurringInvoiceController extends Controller
         $validated = $request->validate([
             'client_id' => 'required|exists:clients,id',
             'title' => 'nullable|string|max:255',
-            'frequency' => 'required|in:' . implode(',', RecurringInvoice::FREQUENCIES),
+            'frequency' => 'required|in:'.implode(',', RecurringInvoice::FREQUENCIES),
             'next_invoice_date' => 'required|date|after_or_equal:today',
             'ends_at' => 'nullable|date|after:next_invoice_date',
             'auto_finalize' => 'boolean',
@@ -59,7 +61,7 @@ class RecurringInvoiceController extends Controller
             'items.*.unit_price' => 'required|numeric|min:0',
             'items.*.discount_type' => 'nullable|in:percent,amount',
             'items.*.discount_value' => 'nullable|numeric|min:0',
-            'items.*.vat_rate' => 'required|numeric|min:0|max:100',
+            'items.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
             'discounts' => 'nullable|array',
             'discounts.*.label' => 'nullable|string|max:255',
             'discounts.*.type' => 'required|in:percent,amount',
@@ -140,7 +142,7 @@ class RecurringInvoiceController extends Controller
         $validated = $request->validate([
             'client_id' => 'required|exists:clients,id',
             'title' => 'nullable|string|max:255',
-            'frequency' => 'required|in:' . implode(',', RecurringInvoice::FREQUENCIES),
+            'frequency' => 'required|in:'.implode(',', RecurringInvoice::FREQUENCIES),
             'next_invoice_date' => 'required|date',
             'ends_at' => 'nullable|date|after:next_invoice_date',
             'is_active' => 'boolean',
@@ -159,7 +161,7 @@ class RecurringInvoiceController extends Controller
             'items.*.unit_price' => 'required|numeric|min:0',
             'items.*.discount_type' => 'nullable|in:percent,amount',
             'items.*.discount_value' => 'nullable|numeric|min:0',
-            'items.*.vat_rate' => 'required|numeric|min:0|max:100',
+            'items.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
             'discounts' => 'nullable|array',
             'discounts.*.label' => 'nullable|string|max:255',
             'discounts.*.type' => 'required|in:percent,amount',
@@ -234,7 +236,7 @@ class RecurringInvoiceController extends Controller
 
         $recurringInvoice->load(['items', 'discounts']);
 
-        $duplicate = \Illuminate\Support\Facades\DB::transaction(function () use ($recurringInvoice) {
+        $duplicate = DB::transaction(function () use ($recurringInvoice) {
             $copy = RecurringInvoice::create([
                 'user_id' => auth()->id(),
                 'client_id' => $recurringInvoice->client_id,
@@ -288,7 +290,7 @@ class RecurringInvoiceController extends Controller
     {
         abort_unless((int) $recurringInvoice->user_id === (int) auth()->id(), 403);
 
-        $recurringInvoice->update(['is_active' => !$recurringInvoice->is_active]);
+        $recurringInvoice->update(['is_active' => ! $recurringInvoice->is_active]);
 
         return back()->with('success', $recurringInvoice->is_active ? __('app.recurring_flash.activated') : __('app.recurring_flash.deactivated'));
     }

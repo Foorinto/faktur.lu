@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\V1;
 
 use App\Models\QuoteItem;
+use App\Rules\SalesVatRateAllowed;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -24,7 +25,7 @@ class StoreQuoteItemRequest extends FormRequest
             'unit_price' => ['required', 'numeric', 'min:0'],
             'discount_type' => ['nullable', Rule::in(['percent', 'amount'])],
             'discount_value' => ['nullable', 'numeric', 'min:0'],
-            'vat_rate' => ['required', 'numeric', Rule::in([0, 3, 8, 14, 17])],
+            'vat_rate' => ['required', 'numeric', Rule::in([0, 3, 8, 14, 17]), new SalesVatRateAllowed],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ];
     }
