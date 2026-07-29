@@ -2,7 +2,9 @@
 
 namespace App\Support;
 
+use App\Exceptions\UserFacingException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 /**
@@ -38,6 +40,15 @@ class UserError
      */
     public static function report(Throwable $e, string $context, ?string $intro = null): string
     {
+        // Filet : les appelants attrapent souvent `\Exception` largement, ce qui
+        // faisait passer ici des exceptions dont le message est DÉJÀ destiné à
+        // l'utilisateur (« la facture doit contenir au moins une ligne »).
+        // Les masquer derrière un code de référence transforme une erreur
+        // actionnable en impasse — on les laisse donc parler d'elles-mêmes.
+        if ($userMessage = self::userFacingMessage($e)) {
+            return $userMessage;
+        }
+
         $ref = self::generateReference();
 
         Log::error("[UserError {$ref}] {$context}: {$e->getMessage()}", [
@@ -49,6 +60,26 @@ class UserError
         $codeSentence = __('app.error_generic_with_ref', ['ref' => $ref]);
 
         return $intro ? trim($intro) . ' ' . $codeSentence : $codeSentence;
+    }
+
+    /**
+     * Message déjà rédigé pour l'utilisateur, s'il y en a un.
+     * Ces exceptions ne sont pas des défaillances techniques : ne pas les
+     * journaliser en ERROR, ce sont des saisies incomplètes attendues.
+     */
+    private static function userFacingMessage(Throwable $e): ?string
+    {
+        if ($e instanceof ValidationException) {
+            $first = collect($e->errors())->flatten()->first();
+
+            return $first ?: $e->getMessage();
+        }
+
+        if ($e instanceof UserFacingException) {
+            return $e->getMessage();
+        }
+
+        return null;
     }
 
     /**

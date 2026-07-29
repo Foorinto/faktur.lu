@@ -139,6 +139,9 @@ class InvoiceController extends Controller
             'suggestedVatMention' => $suggestedVatMention,
             'defaultInvoiceFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
             'numberingHint' => $this->buildNumberingHint($settings),
+            // Sans paramètres d'entreprise, la finalisation échouera : on prévient
+            // ici plutôt qu'après la saisie complète de la facture.
+            'businessSettingsMissing' => $settings === null,
         ]);
     }
 
