@@ -35,6 +35,7 @@ class InvoiceNumberSequenceTest extends TestCase
                 'user_id' => $user->id,
                 'client_id' => $client->id,
                 'status' => Invoice::STATUS_FINALIZED,
+                'issued_at' => now(),
                 'finalized_at' => now(),
                 'sequence_number' => $sequence,
                 'number' => 'INV-'.now()->year.'-'.str_pad((string) $sequence, 4, '0', STR_PAD_LEFT),
@@ -51,11 +52,9 @@ class InvoiceNumberSequenceTest extends TestCase
 
         // La séquence doit continuer à 4, sans repasser par le 3 déjà consommé.
         $this->assertSame(4, $generated['sequence_number']);
-        $this->assertNotSame(
-            'INV-'.now()->year.'-0003',
-            $generated['number'],
-            'Un numéro déjà attribué ne doit jamais être réémis.'
-        );
+        $this->assertSame(0, Invoice::withTrashed()
+            ->where('number', $generated['number'])
+            ->count(), 'Un numéro déjà attribué ne doit jamais être réémis.');
     }
 
     public function test_finalizing_after_a_deletion_does_not_collide(): void
@@ -69,6 +68,7 @@ class InvoiceNumberSequenceTest extends TestCase
             'user_id' => $user->id,
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
+            'issued_at' => now(),
             'finalized_at' => now(),
             'sequence_number' => 11,
             'number' => 'INV-'.now()->year.'-0011',
@@ -79,6 +79,37 @@ class InvoiceNumberSequenceTest extends TestCase
             ->execute(null, now()->year, Invoice::TYPE_INVOICE);
 
         // Le numéro proposé ne doit pas déjà exister, supprimé ou non.
+        $this->assertSame(0, Invoice::withTrashed()
+            ->where('number', $generated['number'])
+            ->count());
+    }
+
+    /**
+     * Cas réel (staging) : facture datée 2026 mais finalisée en décembre 2025.
+     * Son numéro affiche « 2026 » ; elle doit donc compter dans le compteur 2026,
+     * sinon l'année suivante le générateur réattribue son numéro.
+     */
+    public function test_invoice_dated_next_year_but_finalized_earlier_reserves_its_number(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        BusinessSettings::factory()->create();
+        $client = Client::factory()->create(['user_id' => $user->id]);
+
+        Invoice::factory()->create([
+            'user_id' => $user->id,
+            'client_id' => $client->id,
+            'status' => Invoice::STATUS_PAID,
+            'issued_at' => '2026-01-05',        // date de facture : 2026
+            'finalized_at' => '2025-12-14',     // finalisée en 2025
+            'sequence_number' => 11,
+            'number' => 'INV-2026-0011',
+        ]);
+
+        $generated = app(GenerateInvoiceNumberAction::class)
+            ->execute(null, 2026, Invoice::TYPE_INVOICE);
+
+        $this->assertNotSame('INV-2026-0011', $generated['number']);
         $this->assertSame(0, Invoice::withTrashed()
             ->where('number', $generated['number'])
             ->count());
