@@ -81,7 +81,14 @@ class GenerateInvoiceNumberAction
      */
     private function nextSequence(int $year, string $type, ?BusinessSettings $settings, bool $lock = true): int
     {
+        // withTrashed() est indispensable : l'index unique (user_id, number) ignore
+        // deleted_at, donc une facture supprimée conserve son numéro en base. Sans
+        // cela, la séquence le réattribue et la finalisation échoue sur un doublon.
+        // C'est aussi une exigence de la numérotation séquentielle : un numéro
+        // consommé ne doit jamais être réémis, même si le document a été supprimé.
+        // (GenerateQuoteNumberAction applique déjà cette règle.)
         $query = Invoice::query()
+            ->withTrashed()
             ->where('type', $type)
             ->whereYear('finalized_at', $year)
             ->whereNotNull('finalized_at');
