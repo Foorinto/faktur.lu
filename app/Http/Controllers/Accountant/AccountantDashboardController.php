@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accountant;
 
+use App\Helpers\DatabaseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\User;
@@ -111,11 +112,12 @@ class AccountantDashboardController extends Controller
             'quarter' => 'nullable|integer|min:1|max:4',
         ]);
 
-        // Get available years (SQLite compatible)
+        // Années disponibles. Passe par DatabaseHelper : strftime() n'existe pas
+        // en MySQL, et cette page tourne en production sur MySQL.
         $years = $user->userInvoices()
             ->where('status', '!=', 'draft')
             ->whereNotNull('finalized_at')
-            ->selectRaw("strftime('%Y', finalized_at) as year")
+            ->selectRaw(DatabaseHelper::year('finalized_at').' as year')
             ->distinct()
             ->orderByDesc('year')
             ->pluck('year')
@@ -133,12 +135,12 @@ class AccountantDashboardController extends Controller
         $invoiceQuery = $user->userInvoices()
             ->whereIn('status', [Invoice::STATUS_FINALIZED, Invoice::STATUS_SENT, Invoice::STATUS_PAID])
             ->whereNotNull('finalized_at')
-            ->whereRaw("strftime('%Y', finalized_at) = ?", [(string) $selectedYear]);
+            ->whereRaw(DatabaseHelper::year('finalized_at').' = ?', [$selectedYear]);
 
         if ($selectedQuarter) {
             $startMonth = ($selectedQuarter - 1) * 3 + 1;
             $endMonth = $startMonth + 2;
-            $invoiceQuery->whereRaw("CAST(strftime('%m', finalized_at) AS INTEGER) BETWEEN ? AND ?", [$startMonth, $endMonth]);
+            $invoiceQuery->whereRaw(DatabaseHelper::month('finalized_at').' BETWEEN ? AND ?', [$startMonth, $endMonth]);
         }
 
         $invoices = $invoiceQuery
