@@ -34,7 +34,9 @@ class SupportAttachment extends Model
      */
     public function getUrlAttribute(): string
     {
-        return Storage::url($this->path);
+        // Route authentifiée : la pièce jointe vit sur le disque privé et n'est
+        // servie qu'au propriétaire du ticket.
+        return route('files.support-attachment', $this->id);
     }
 
     /**

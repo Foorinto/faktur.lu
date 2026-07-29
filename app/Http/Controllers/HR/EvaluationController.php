@@ -64,7 +64,7 @@ class EvaluationController extends Controller
             'user_id' => auth()->id(),
             'type' => 'evaluation',
             'name' => $name,
-            'file_path' => $file->store('hr/evaluations', 'public'),
+            'file_path' => $file->store('hr/evaluations', 'local'),
             'original_name' => $file->getClientOriginalName(),
         ]);
 
@@ -75,7 +75,7 @@ class EvaluationController extends Controller
     {
         abort_unless((int) $document->evaluation_id === (int) $evaluation->id, 403);
 
-        Storage::disk('public')->delete($document->file_path);
+        Storage::disk('local')->delete($document->file_path);
         $document->delete();
 
         return back()->with('success', 'Document supprimé.');
@@ -85,7 +85,7 @@ class EvaluationController extends Controller
     {
         // Delete associated documents files
         foreach ($evaluation->documents as $doc) {
-            Storage::disk('public')->delete($doc->file_path);
+            Storage::disk('local')->delete($doc->file_path);
         }
 
         $evaluation->delete();

@@ -247,7 +247,7 @@ const applyTemplate = () => {
                 <div class="h-10 w-10 flex-shrink-0">
                     <img
                         v-if="employee.photo_path"
-                        :src="`/storage/${employee.photo_path}`"
+                        :src="route('files.employee-photo', employee.id)"
                         :alt="employee.full_name"
                         class="h-10 w-10 rounded-xl object-cover"
                     />
@@ -658,7 +658,7 @@ const applyTemplate = () => {
                                             </span>
                                         </div>
                                         <div class="mt-1 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                                            <a :href="`/storage/${doc.file_path}`" target="_blank" class="text-primary-600 hover:text-primary-500 dark:text-primary-400 hover:underline truncate">
+                                            <a :href="route('files.employee-document', doc.id)" target="_blank" class="text-primary-600 hover:text-primary-500 dark:text-primary-400 hover:underline truncate">
                                                 {{ doc.original_name }}
                                             </a>
                                             <span v-if="doc.expiry_date && !isExpired(doc.expiry_date)">

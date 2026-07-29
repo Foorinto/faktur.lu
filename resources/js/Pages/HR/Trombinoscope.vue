@@ -163,7 +163,7 @@ const orgTree = computed(() => {
                             <div class="mx-auto mb-3 h-20 w-20">
                                 <img
                                     v-if="employee.photo_path"
-                                    :src="`/storage/${employee.photo_path}`"
+                                    :src="route('files.employee-photo', employee.id)"
                                     :alt="employee.full_name"
                                     class="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-gray-700"
                                 />

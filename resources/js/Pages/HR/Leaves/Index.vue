@@ -428,7 +428,7 @@ const submitNew = () => {
                                 <div class="h-8 w-8 flex-shrink-0">
                                     <img
                                         v-if="lr.employee?.photo_path"
-                                        :src="`/storage/${lr.employee.photo_path}`"
+                                        :src="route('files.employee-photo', lr.employee.id)"
                                         :alt="
                                             lr.employee?.first_name +
                                             ' ' +

@@ -462,7 +462,7 @@ const deleteExpense = (id) => {
                                 <div class="h-8 w-8 flex-shrink-0">
                                     <img
                                         v-if="exp.employee?.photo_path"
-                                        :src="`/storage/${exp.employee.photo_path}`"
+                                        :src="route('files.employee-photo', exp.employee.id)"
                                         :alt="
                                             exp.employee?.first_name +
                                             ' ' +
@@ -1271,7 +1271,7 @@ const deleteExpense = (id) => {
                                     class="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 ring-1 ring-inset ring-gray-200 dark:bg-gray-800 dark:ring-slate-600"
                                 >
                                     <a
-                                        :href="`/storage/${receipt.file_path}`"
+                                        :href="route('files.expense-receipt', receipt.id)"
                                         target="_blank"
                                         class="flex items-center gap-2 text-sm text-primary-600 hover:underline dark:text-primary-400 truncate"
                                     >

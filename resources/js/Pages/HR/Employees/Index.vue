@@ -330,7 +330,7 @@ const getContractBadgeClass = (type) => {
                                 <div class="h-10 w-10 flex-shrink-0">
                                     <img
                                         v-if="employee.photo_path"
-                                        :src="`/storage/${employee.photo_path}`"
+                                        :src="route('files.employee-photo', employee.id)"
                                         :alt="employee.full_name"
                                         class="h-10 w-10 rounded-xl object-cover"
                                     />

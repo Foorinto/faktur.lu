@@ -425,6 +425,25 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'redirect.employee'])
     ->name('dashboard');
 
+/*
+| Fichiers privés (données personnelles : contrats, pièces d'identité,
+| évaluations, justificatifs, photos, pièces jointes support).
+|
+| Volontairement HORS du groupe 'redirect.employee' : un salarié doit pouvoir
+| télécharger ses propres documents depuis le portail. La propriété est
+| vérifiée dans le contrôleur, pour chaque type de fichier.
+*/
+Route::middleware(['auth', 'verified'])->prefix('fichiers')->name('files.')->group(function () {
+    Route::get('/document-rh/{document}', [\App\Http\Controllers\PrivateFileController::class, 'employeeDocument'])
+        ->whereNumber('document')->name('employee-document');
+    Route::get('/justificatif/{receipt}', [\App\Http\Controllers\PrivateFileController::class, 'expenseReceipt'])
+        ->whereNumber('receipt')->name('expense-receipt');
+    Route::get('/photo-salarie/{employee}', [\App\Http\Controllers\PrivateFileController::class, 'employeePhoto'])
+        ->whereNumber('employee')->name('employee-photo');
+    Route::get('/piece-jointe-support/{attachment}', [\App\Http\Controllers\PrivateFileController::class, 'supportAttachment'])
+        ->whereNumber('attachment')->name('support-attachment');
+});
+
 Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
     // Onboarding wizard
     Route::get('/onboarding', [\App\Http\Controllers\OnboardingController::class, 'show'])->name('onboarding.show');

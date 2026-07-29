@@ -182,7 +182,7 @@ const formatFileSize = (bytes) => {
                                 </div>
                                 <div class="flex items-center gap-2 flex-shrink-0 ml-4">
                                     <a
-                                        :href="`/storage/${doc.file_path}`"
+                                        :href="route('files.employee-document', doc.id)"
                                         target="_blank"
                                         class="text-slate-400 hover:text-primary-500 transition-colors"
                                         :title="t('download_short')"

@@ -19,7 +19,7 @@ defineProps({
             <div class="mx-auto mb-2" :class="depth === 0 ? 'h-16 w-16' : 'h-12 w-12'">
                 <img
                     v-if="node.photo_path"
-                    :src="`/storage/${node.photo_path}`"
+                    :src="route('files.employee-photo', node.id)"
                     :alt="node.full_name"
                     class="rounded-full object-cover ring-2 ring-slate-100 dark:ring-gray-700"
                     :class="depth === 0 ? 'h-16 w-16' : 'h-12 w-12'"

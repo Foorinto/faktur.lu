@@ -27,7 +27,7 @@ class EmployeeDocumentController extends Controller
         $employee->documents()->create([
             'type' => $validated['type'],
             'name' => $validated['name'],
-            'file_path' => $file->store('hr/documents', 'public'),
+            'file_path' => $file->store('hr/documents', 'local'),
             'original_name' => $file->getClientOriginalName(),
             'expiry_date' => $validated['expiry_date'] ?? null,
             'notes' => $validated['notes'] ?? null,
@@ -38,7 +38,7 @@ class EmployeeDocumentController extends Controller
 
     public function destroy(Employee $employee, EmployeeDocument $employeeDocument): RedirectResponse
     {
-        Storage::disk('public')->delete($employeeDocument->file_path);
+        Storage::disk('local')->delete($employeeDocument->file_path);
         $employeeDocument->delete();
 
         return back()->with('success', __('app.hr.document_deleted'));

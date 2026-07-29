@@ -73,7 +73,7 @@ const getScoreClass = (score) => {
                                 </div>
                             </div>
                             <a
-                                :href="`/storage/${doc.file_path}`"
+                                :href="route('files.employee-document', doc.id)"
                                 target="_blank"
                                 class="inline-flex items-center gap-1.5 rounded-xl bg-primary-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-primary-600 flex-shrink-0 ml-4"
                             >

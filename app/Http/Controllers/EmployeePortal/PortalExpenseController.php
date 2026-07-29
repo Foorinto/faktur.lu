@@ -68,7 +68,7 @@ class PortalExpenseController extends Controller
         if ($request->hasFile('receipts')) {
             foreach ($request->file('receipts') as $file) {
                 $expense->receipts()->withoutGlobalScope('user')->create([
-                    'file_path' => $file->store('hr/expense-receipts', 'public'),
+                    'file_path' => $file->store('hr/expense-receipts', 'local'),
                     'original_name' => $file->getClientOriginalName(),
                     'user_id' => $employee->user_id,
                 ]);
@@ -89,7 +89,7 @@ class PortalExpenseController extends Controller
         }
 
         $receipt = ExpenseReceipt::withoutGlobalScope('user')->findOrFail($receiptId);
-        Storage::disk('public')->delete($receipt->file_path);
+        Storage::disk('local')->delete($receipt->file_path);
         $receipt->delete();
 
         return back()->with('success', __('app.hr.receipt_deleted'));
@@ -106,7 +106,7 @@ class PortalExpenseController extends Controller
         }
 
         foreach ($expense->receipts()->withoutGlobalScope('user')->get() as $receipt) {
-            Storage::disk('public')->delete($receipt->file_path);
+            Storage::disk('local')->delete($receipt->file_path);
         }
 
         $expense->delete();

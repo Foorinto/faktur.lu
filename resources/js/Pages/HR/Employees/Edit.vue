@@ -51,7 +51,7 @@ const form = useForm({
 });
 
 const photoPreview = ref(
-    props.employee.photo_path ? `/storage/${props.employee.photo_path}` : null
+    props.employee.photo_path ? route('files.employee-photo', props.employee.id) : null
 );
 
 const handlePhotoChange = (e) => {

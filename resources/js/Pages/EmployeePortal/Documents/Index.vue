@@ -84,7 +84,7 @@ const getTypeIcon = (type) => {
                                 </div>
                             </div>
                             <a
-                                :href="`/storage/${doc.file_path}`"
+                                :href="route('files.employee-document', doc.id)"
                                 target="_blank"
                                 class="ml-4 flex-shrink-0 rounded-lg p-2 text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-900/20"
                             >

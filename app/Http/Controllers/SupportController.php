@@ -71,7 +71,7 @@ class SupportController extends Controller
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
-            $path = $file->store('support-attachments', 'public');
+            $path = $file->store('support-attachments', 'local');
 
             $message->attachments()->create([
                 'filename' => $file->getClientOriginalName(),
@@ -138,7 +138,7 @@ class SupportController extends Controller
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
-            $path = $file->store('support-attachments', 'public');
+            $path = $file->store('support-attachments', 'local');
 
             $message->attachments()->create([
                 'filename' => $file->getClientOriginalName(),

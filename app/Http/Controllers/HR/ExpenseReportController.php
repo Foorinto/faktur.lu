@@ -73,7 +73,7 @@ class ExpenseReportController extends Controller
         if ($request->hasFile('receipts')) {
             foreach ($request->file('receipts') as $file) {
                 $expense->receipts()->create([
-                    'file_path' => $file->store('hr/expense-receipts', 'public'),
+                    'file_path' => $file->store('hr/expense-receipts', 'local'),
                     'original_name' => $file->getClientOriginalName(),
                 ]);
             }
@@ -112,7 +112,7 @@ class ExpenseReportController extends Controller
         if ($request->hasFile('receipts')) {
             foreach ($request->file('receipts') as $file) {
                 $expenseReport->receipts()->create([
-                    'file_path' => $file->store('hr/expense-receipts', 'public'),
+                    'file_path' => $file->store('hr/expense-receipts', 'local'),
                     'original_name' => $file->getClientOriginalName(),
                 ]);
             }
@@ -127,7 +127,7 @@ class ExpenseReportController extends Controller
             return back()->with('error', __('app.hr.expense_not_editable'));
         }
 
-        Storage::disk('public')->delete($expenseReceipt->file_path);
+        Storage::disk('local')->delete($expenseReceipt->file_path);
         $expenseReceipt->delete();
 
         return back()->with('success', __('app.hr.receipt_deleted'));
@@ -166,7 +166,7 @@ class ExpenseReportController extends Controller
         }
 
         foreach ($expenseReport->receipts as $receipt) {
-            Storage::disk('public')->delete($receipt->file_path);
+            Storage::disk('local')->delete($receipt->file_path);
         }
 
         $expenseReport->delete();

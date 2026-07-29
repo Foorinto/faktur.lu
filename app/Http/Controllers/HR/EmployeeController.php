@@ -79,7 +79,7 @@ class EmployeeController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('photo')) {
-            $data['photo_path'] = $request->file('photo')->store('hr/photos', 'public');
+            $data['photo_path'] = $request->file('photo')->store('hr/photos', 'local');
         }
         unset($data['photo']);
 
@@ -254,9 +254,9 @@ class EmployeeController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($employee->photo_path) {
-                Storage::disk('public')->delete($employee->photo_path);
+                Storage::disk('local')->delete($employee->photo_path);
             }
-            $data['photo_path'] = $request->file('photo')->store('hr/photos', 'public');
+            $data['photo_path'] = $request->file('photo')->store('hr/photos', 'local');
         }
         unset($data['photo']);
 
@@ -320,7 +320,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee): RedirectResponse
     {
         if ($employee->photo_path) {
-            Storage::disk('public')->delete($employee->photo_path);
+            Storage::disk('local')->delete($employee->photo_path);
         }
 
         $employee->delete();

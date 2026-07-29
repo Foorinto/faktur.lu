@@ -128,7 +128,7 @@ const formatDate = (date) => {
                             <p class="text-xs text-slate-500 dark:text-slate-400">{{ formatDate(doc.created_at) }}</p>
                         </div>
                         <a
-                            :href="`/storage/${doc.file_path}`"
+                            :href="route('files.employee-document', doc.id)"
                             target="_blank"
                             class="text-primary-600 hover:text-primary-700 dark:text-primary-400"
                         >
