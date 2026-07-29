@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\InvoiceItem;
-use App\Rules\SalesVatRateAllowed;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +20,7 @@ class UpdateProductRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:2000'],
             'reference' => ['nullable', 'string', 'max:100'],
             'unit_price_ht' => ['required', 'numeric', 'min:0', 'max:9999999999'],
-            'vat_rate' => ['required', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
+            'vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
             'unit' => ['nullable', 'string', Rule::in(array_keys(InvoiceItem::getUnits()))],
             'is_active' => ['boolean'],
         ];

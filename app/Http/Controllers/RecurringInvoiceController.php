@@ -161,7 +161,7 @@ class RecurringInvoiceController extends Controller
             'items.*.unit_price' => 'required|numeric|min:0',
             'items.*.discount_type' => 'nullable|in:percent,amount',
             'items.*.discount_value' => 'nullable|numeric|min:0',
-            'items.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
+            'items.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
             'discounts' => 'nullable|array',
             'discounts.*.label' => 'nullable|string|max:255',
             'discounts.*.type' => 'required|in:percent,amount',

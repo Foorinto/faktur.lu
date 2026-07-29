@@ -87,4 +87,29 @@ class ProductVatRatesTest extends TestCase
                 $this->assertContains(0, $rates);
             });
     }
+
+    public function test_franchise_seller_can_still_edit_a_legacy_product_kept_at_17(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        BusinessSettings::factory()->create(['vat_regime' => 'franchise']);
+
+        // Produit créé AVANT le passage en franchise : il porte encore 17 %.
+        $product = \App\Models\Product::create([
+            'user_id' => $user->id,
+            'designation' => 'Ancien article',
+            'unit_price_ht' => 100,
+            'vat_rate' => 17,
+            'unit' => 'piece',
+        ]);
+
+        // Renommer ne doit pas être bloqué sous prétexte du taux hérité.
+        $this->put(route('products.update', ['locale' => 'fr', 'product' => $product->id]), [
+            'designation' => 'Article renommé',
+            'unit_price_ht' => 100,
+            'vat_rate' => 17,
+        ])->assertSessionHasNoErrors();
+
+        $this->assertDatabaseHas('products', ['id' => $product->id, 'designation' => 'Article renommé']);
+    }
 }
