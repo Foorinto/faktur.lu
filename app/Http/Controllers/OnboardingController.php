@@ -6,6 +6,8 @@ use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Rules\SalesVatRateAllowed;
+use App\Services\DocumentNumberFormatter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -81,7 +83,7 @@ class OnboardingController extends Controller
 
         // Format template validation (re-use the service-level validator)
         if (! empty($data['number_format'])) {
-            $errors = \App\Services\DocumentNumberFormatter::validateTemplate($data['number_format']);
+            $errors = DocumentNumberFormatter::validateTemplate($data['number_format']);
             if (! empty($errors)) {
                 return response()->json([
                     'success' => false,
@@ -131,7 +133,7 @@ class OnboardingController extends Controller
         $business = BusinessSettings::firstOrCreate(['user_id' => $request->user()->id]);
 
         if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('logos/' . $request->user()->id, 'public');
+            $path = $request->file('logo')->store('logos/'.$request->user()->id, 'public');
             $business->logo_path = $path;
         }
 
@@ -186,7 +188,7 @@ class OnboardingController extends Controller
             'client_id' => 'required|exists:clients,id',
             'title' => 'required|string|max:255',
             'unit_price' => 'required|numeric|min:0',
-            'vat_rate' => 'nullable|numeric|min:0|max:100',
+            'vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
         ]);
 
         $client = Client::where('user_id', $request->user()->id)->findOrFail($data['client_id']);

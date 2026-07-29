@@ -5397,6 +5397,7 @@ return [
     ],
     'business_settings_required_notice' => 'Preencha primeiro os dados da sua empresa: sem eles não poderá finalizar esta fatura.',
     'business_settings_required_cta' => 'Completar os meus dados',
+    'validation_vat_rate_franchise' => 'Está no regime de franquia de IVA: a taxa deve ser 0 %.',
     'error_archive_only_finalized' => 'Apenas faturas finalizadas podem ser arquivadas.',
     'products' => [
         'nav' => 'Artigos',

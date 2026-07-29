@@ -33,16 +33,35 @@ class GenerateInvoiceNumberAction
         return DB::transaction(function () use ($invoice, $year, $type, $settings) {
             $sequence = $this->nextSequence($year, $type, $settings);
 
-            $number = DocumentNumberFormatter::format(
-                $settings?->number_format ?? DocumentNumberFormatter::DEFAULT_TEMPLATE,
-                [
-                    'prefix' => $this->prefixForType($type, $settings),
-                    'sequence' => $sequence,
-                    'padding' => $settings?->number_padding ?? 3,
-                    'date' => $this->resolveDate($invoice, $year),
-                    'client_name' => $invoice?->client?->name,
-                ],
-            );
+            // Filet de sécurité : des données historiques peuvent déjà porter le
+            // numéro calculé (comptes créés avant l'alignement des années, imports
+            // depuis un autre outil, numéros saisis à la main). On avance jusqu'à
+            // un numéro réellement libre plutôt que d'échouer sur l'index unique
+            // au moment de l'écriture — l'utilisateur voyait sinon une erreur
+            // technique en fin de parcours, sans pouvoir rien y faire.
+            $attempts = 0;
+            do {
+                $number = DocumentNumberFormatter::format(
+                    $settings?->number_format ?? DocumentNumberFormatter::DEFAULT_TEMPLATE,
+                    [
+                        'prefix' => $this->prefixForType($type, $settings),
+                        'sequence' => $sequence,
+                        'padding' => $settings?->number_padding ?? 3,
+                        'date' => $this->resolveDate($invoice, $year),
+                        'client_name' => $invoice?->client?->name,
+                    ],
+                );
+
+                $taken = Invoice::query()
+                    ->withTrashed()
+                    ->where('number', $number)
+                    ->when($invoice?->exists, fn ($q) => $q->whereKeyNot($invoice->getKey()))
+                    ->exists();
+
+                if ($taken) {
+                    $sequence++;
+                }
+            } while ($taken && ++$attempts < 1000);
 
             return [
                 'number' => $number,
@@ -81,9 +100,19 @@ class GenerateInvoiceNumberAction
      */
     private function nextSequence(int $year, string $type, ?BusinessSettings $settings, bool $lock = true): int
     {
+        // L'année du compteur doit être CELLE QUI S'AFFICHE dans le numéro, donc
+        // celle de la date de facture (issued_at) — et non celle de finalisation.
+        // Une facture datée 2026 mais finalisée en 2025 portait sinon un numéro
+        // « 2026 » tout en étant comptée dans le compteur 2025 : l'année suivante,
+        // le générateur ne la voyait pas et réattribuait son numéro.
+        //
+        // withTrashed() : l'index unique (user_id, number) ignore deleted_at, donc
+        // une ligne supprimée conserve son numéro. Un numéro consommé ne doit
+        // jamais être réémis. (GenerateQuoteNumberAction applique déjà cette règle.)
         $query = Invoice::query()
+            ->withTrashed()
             ->where('type', $type)
-            ->whereYear('finalized_at', $year)
+            ->whereYear('issued_at', $year)
             ->whereNotNull('finalized_at');
 
         if ($lock) {

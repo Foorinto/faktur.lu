@@ -11,12 +11,18 @@ const props = defineProps({
     vatRates: { type: Array, default: () => [] },
 });
 
+// Taux par défaut aligné sur les taux réellement proposés : en franchise de TVA
+// seul le 0 % est disponible, il ne faut donc pas pré-remplir 17 %.
+const defaultVatRate = props.vatRates.map(Number).includes(17)
+    ? 17
+    : Number(props.vatRates[0] ?? 0);
+
 const form = useForm({
     designation: '',
     reference: '',
     description: '',
     unit_price_ht: null,
-    vat_rate: 17,
+    vat_rate: defaultVatRate,
     unit: 'piece',
     is_active: true,
 });

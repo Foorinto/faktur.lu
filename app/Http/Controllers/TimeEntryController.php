@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Actions\ConvertTimeToInvoiceAction;
 use App\Http\Requests\Api\V1\StoreTimeEntryRequest;
 use App\Http\Requests\Api\V1\UpdateTimeEntryRequest;
+use App\Models\BusinessSettings;
 use App\Models\Client;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\Project;
 use App\Models\TimeEntry;
+use App\Rules\SalesVatRateAllowed;
+use App\Support\UserError;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -92,7 +97,7 @@ class TimeEntryController extends Controller
         $unbilledSeconds = (clone $summaryQuery)->unbilled()->sum('duration_seconds');
 
         // Get draft invoices grouped by client for the add-to-invoice feature
-        $draftInvoices = \App\Models\Invoice::query()
+        $draftInvoices = Invoice::query()
             ->draft()
             ->with('client:id,name')
             ->orderBy('created_at', 'desc')
@@ -138,8 +143,8 @@ class TimeEntryController extends Controller
                 ['value' => 'month', 'label' => 'Ce mois'],
             ],
             'draftInvoices' => $draftInvoices,
-            'defaultHourlyRate' => \App\Models\BusinessSettings::getInstance()?->default_hourly_rate,
-            'isVatExempt' => \App\Models\BusinessSettings::getInstance()?->isVatExempt() ?? true,
+            'defaultHourlyRate' => BusinessSettings::getInstance()?->default_hourly_rate,
+            'isVatExempt' => BusinessSettings::getInstance()?->isVatExempt() ?? true,
         ]);
     }
 
@@ -157,7 +162,7 @@ class TimeEntryController extends Controller
         }
 
         // Set started_at and stopped_at for manual entries
-        if (isset($data['duration_seconds']) && !isset($data['started_at'])) {
+        if (isset($data['duration_seconds']) && ! isset($data['started_at'])) {
             $data['started_at'] = isset($data['date'])
                 ? now()->parse($data['date'])->setTime(9, 0)
                 : now()->subSeconds($data['duration_seconds']);
@@ -235,7 +240,7 @@ class TimeEntryController extends Controller
         $projectName = $request->input('project_name');
         if ($request->filled('project_id')) {
             $project = Project::find($request->input('project_id'));
-            if ($project && !$projectName) {
+            if ($project && ! $projectName) {
                 $projectName = $project->title;
             }
         }
@@ -258,7 +263,7 @@ class TimeEntryController extends Controller
      */
     public function stop(TimeEntry $timeEntry): RedirectResponse
     {
-        if (!$timeEntry->isRunning()) {
+        if (! $timeEntry->isRunning()) {
             return back()->with('error', __('app.time_entries_flash.error_timer_not_running'));
         }
 
@@ -295,7 +300,7 @@ class TimeEntryController extends Controller
             'time_entry_ids' => 'required|array|min:1',
             'time_entry_ids.*' => 'exists:time_entries,id',
             'hourly_rate' => 'required|numeric|min:0',
-            'vat_rate' => 'required|numeric|in:0,3,8,14,17',
+            'vat_rate' => ['required', 'numeric', 'in:0,3,8,14,17', new SalesVatRateAllowed],
             'group_by_project' => 'boolean',
         ]);
 
@@ -311,7 +316,7 @@ class TimeEntryController extends Controller
                 ->route('invoices.edit', $invoice)
                 ->with('success', __('app.time_entries_flash.invoice_draft_created'));
         } catch (\Exception $e) {
-            return back()->with('error', \App\Support\UserError::report($e, 'time_entry.to_invoice'));
+            return back()->with('error', UserError::report($e, 'time_entry.to_invoice'));
         }
     }
 
@@ -327,13 +332,13 @@ class TimeEntryController extends Controller
         $request->validate([
             'invoice_id' => 'required|exists:invoices,id',
             'hourly_rate' => 'required|numeric|min:0',
-            'vat_rate' => 'required|numeric|in:0,3,8,14,17',
+            'vat_rate' => ['required', 'numeric', 'in:0,3,8,14,17', new SalesVatRateAllowed],
         ]);
 
-        $invoice = \App\Models\Invoice::findOrFail($request->input('invoice_id'));
+        $invoice = Invoice::findOrFail($request->input('invoice_id'));
 
         // Verify invoice is draft
-        if (!$invoice->isDraft()) {
+        if (! $invoice->isDraft()) {
             return back()->with('error', __('app.time_entries_flash.error_finalized_invoice'));
         }
 
@@ -344,19 +349,19 @@ class TimeEntryController extends Controller
         $hours = round($timeEntry->duration_seconds / 3600, 2);
 
         // Build title and description
-        $title = $timeEntry->project_name ?: "Prestation du " . $timeEntry->started_at->format('d/m/Y');
+        $title = $timeEntry->project_name ?: 'Prestation du '.$timeEntry->started_at->format('d/m/Y');
         $description = $timeEntry->description;
 
         // If we have a project name, add the date to description
         if ($timeEntry->project_name && $timeEntry->started_at) {
-            $dateInfo = "(" . $timeEntry->started_at->format('d/m/Y') . ")";
+            $dateInfo = '('.$timeEntry->started_at->format('d/m/Y').')';
             $description = $description ? "{$dateInfo}\n{$description}" : $dateInfo;
         }
 
         // Get the next sort order
         $maxSortOrder = $invoice->items()->max('sort_order') ?? 0;
 
-        \App\Models\InvoiceItem::create([
+        InvoiceItem::create([
             'invoice_id' => $invoice->id,
             'title' => $title,
             'description' => $description ?: null,

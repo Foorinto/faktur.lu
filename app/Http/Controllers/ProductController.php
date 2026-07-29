@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\BusinessSettings;
 use App\Models\InvoiceItem;
 use App\Models\Product;
 use App\Services\PlanService;
@@ -150,8 +151,29 @@ class ProductController extends Controller
      *
      * @return array<int, float>
      */
+    /**
+     * Taux de TVA proposés dans le catalogue.
+     * Suit le régime et le pays de l'entreprise, comme sur les factures.
+     *
+     * @return array<int, int>
+     */
     private function getVatRates(): array
     {
-        return [17, 14, 8, 3, 0];
+        $settings = BusinessSettings::getInstance();
+
+        // En franchise de TVA, seul le 0 % est applicable.
+        if ($settings?->isVatExempt() ?? true) {
+            return [0];
+        }
+
+        $rates = $settings?->getVatRates() ?: config('countries.LU.vat_rates', []);
+        $values = array_map(fn ($rate) => (int) ($rate['value'] ?? $rate), $rates);
+
+        // 0 % reste proposé (autoliquidation, export, opérations exonérées).
+        if (! in_array(0, $values, true)) {
+            $values[] = 0;
+        }
+
+        return array_values(array_unique($values));
     }
 }

@@ -146,7 +146,11 @@ const applyProduct = (index, product) => {
     if (product.unit) {
         item.unit = product.unit;
     }
-    const rate = Number(product.vat_rate);
+    // Le taux du catalogue ne doit pas écraser un taux imposé par le contexte :
+    // franchise de TVA du vendeur, ou client étranger (autoliquidation/export).
+    const scenario = clientVatScenario.value;
+    const isForeignScenario = !!(scenario && ['reverse_charge', 'export'].includes(scenario.mention));
+    const rate = (props.isVatExempt || isForeignScenario) ? 0 : Number(product.vat_rate);
     item.vat_rate = rate;
     const isStandard = props.vatRates.some((r) => Number(r.value) === rate);
     if (isStandard) {

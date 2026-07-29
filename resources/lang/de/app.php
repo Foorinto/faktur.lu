@@ -5150,6 +5150,7 @@ return [
     ],
     'business_settings_required_notice' => 'Hinterlegen Sie zuerst Ihre Unternehmensdaten: ohne sie können Sie diese Rechnung nicht finalisieren.',
     'business_settings_required_cta' => 'Daten vervollständigen',
+    'validation_vat_rate_franchise' => 'Sie unterliegen der Kleinunternehmerregelung: Der Satz muss 0 % betragen.',
     'error_archive_only_finalized' => 'Nur finalisierte Rechnungen können archiviert werden.',
     'products' => [
         'nav' => 'Artikel',

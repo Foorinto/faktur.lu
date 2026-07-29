@@ -131,7 +131,8 @@ const applyProduct = (index, product) => {
     if (product.unit) {
         item.unit = product.unit;
     }
-    const rate = Number(product.vat_rate);
+    // En franchise de TVA, le taux du catalogue ne doit pas écraser le 0 %.
+    const rate = props.isVatExempt ? 0 : Number(product.vat_rate);
     item.vat_rate = rate;
     const isStandard = props.vatRates.some((r) => Number(r.value) === rate);
     if (isStandard) {

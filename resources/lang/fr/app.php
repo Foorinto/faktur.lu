@@ -5495,6 +5495,7 @@ return [
     ],
     'business_settings_required_notice' => 'Renseignez d\'abord les informations de votre entreprise : sans elles, vous ne pourrez pas finaliser cette facture.',
     'business_settings_required_cta' => 'Compléter mes informations',
+    'validation_vat_rate_franchise' => 'Vous êtes en franchise de TVA : le taux doit être de 0 %.',
     'error_archive_only_finalized' => 'Seules les factures finalisées peuvent être archivées.',
     'products' => [
         'nav' => 'Articles',
