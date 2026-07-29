@@ -136,5 +136,42 @@ class PlansSeeder extends Seeder
                 'sort_order' => 2,
             ]
         );
+
+        $this->warnAboutMissingStripePrices();
+    }
+
+    /**
+     * Un plan payant sans price ID Stripe renvoie « Configuration de paiement
+     * manquante » à l'utilisateur au moment du paiement, sans autre signe.
+     * On le signale donc bruyamment au déploiement plutôt que de le découvrir
+     * via un client bloqué.
+     */
+    private function warnAboutMissingStripePrices(): void
+    {
+        $missing = [];
+
+        foreach (Plan::whereIn('name', ['essentiel', 'pro'])->get() as $plan) {
+            foreach (['monthly', 'yearly'] as $period) {
+                if (blank($plan->{"stripe_price_id_{$period}"})) {
+                    $missing[] = sprintf(
+                        '%s (%s) → STRIPE_PRICE_%s_%s',
+                        $plan->name,
+                        $period,
+                        strtoupper($plan->name),
+                        strtoupper($period)
+                    );
+                }
+            }
+        }
+
+        if ($missing === []) {
+            return;
+        }
+
+        $this->command?->warn('⚠️  Price ID Stripe manquant — ces plans ne pourront pas être souscrits :');
+        foreach ($missing as $line) {
+            $this->command?->warn('   - '.$line);
+        }
+        $this->command?->warn('   Renseignez ces variables dans le .env, puis rejouez : php artisan db:seed --class=PlansSeeder --force');
     }
 }
