@@ -57,8 +57,8 @@ class PlansSeeder extends Seeder
                 'description' => 'Pour les freelances et indépendants',
                 'price_monthly' => 500,
                 'price_yearly' => 5000,
-                'stripe_price_id_monthly' => env('STRIPE_PRICE_ESSENTIEL_MONTHLY'),
-                'stripe_price_id_yearly' => env('STRIPE_PRICE_ESSENTIEL_YEARLY'),
+                'stripe_price_id_monthly' => $this->priceId('essentiel', 'monthly'),
+                'stripe_price_id_yearly' => $this->priceId('essentiel', 'yearly'),
                 'limits' => [
                     'max_clients' => 100,
                     'max_invoices_per_month' => 50,
@@ -96,8 +96,8 @@ class PlansSeeder extends Seeder
                 'description' => 'Pour les PME en croissance',
                 'price_monthly' => 1500,
                 'price_yearly' => 15000,
-                'stripe_price_id_monthly' => env('STRIPE_PRICE_PRO_MONTHLY'),
-                'stripe_price_id_yearly' => env('STRIPE_PRICE_PRO_YEARLY'),
+                'stripe_price_id_monthly' => $this->priceId('pro', 'monthly'),
+                'stripe_price_id_yearly' => $this->priceId('pro', 'yearly'),
                 'limits' => [
                     'max_clients' => null,
                     'max_invoices_per_month' => null,
@@ -136,5 +136,60 @@ class PlansSeeder extends Seeder
                 'sort_order' => 2,
             ]
         );
+
+        $this->warnAboutMissingStripePrices();
+    }
+
+    /**
+     * Price ID Stripe d'un plan payant.
+     *
+     * Ne renvoie jamais une valeur vide si la base en contient déjà une : ce
+     * seeder est rejoué à chaque déploiement, et une variable d'environnement
+     * absente écraserait sinon un price ID valide — rendant le plan
+     * insouscriptible ("Configuration de paiement manquante") sans autre signe.
+     */
+    private function priceId(string $plan, string $period): ?string
+    {
+        $value = config("services.stripe.{$plan}_{$period}");
+
+        if (filled($value)) {
+            return $value;
+        }
+
+        return Plan::where('name', $plan)->value("stripe_price_id_{$period}");
+    }
+
+    /**
+     * Un plan payant sans price ID ne peut pas être souscrit, et le symptôme
+     * n'apparaît qu'au moment où un client tente de payer. On le signale donc
+     * bruyamment au déploiement.
+     */
+    private function warnAboutMissingStripePrices(): void
+    {
+        $missing = [];
+
+        foreach (Plan::whereIn('name', ['essentiel', 'pro'])->get() as $plan) {
+            foreach (['monthly', 'yearly'] as $period) {
+                if (blank($plan->{"stripe_price_id_{$period}"})) {
+                    $missing[] = sprintf(
+                        '%s (%s) → STRIPE_%s_%s_PRICE_ID',
+                        $plan->name,
+                        $period,
+                        strtoupper($plan->name),
+                        strtoupper($period)
+                    );
+                }
+            }
+        }
+
+        if ($missing === []) {
+            return;
+        }
+
+        $this->command?->warn('⚠️  Price ID Stripe manquant — ces plans ne pourront pas être souscrits :');
+        foreach ($missing as $line) {
+            $this->command?->warn('   - '.$line);
+        }
+        $this->command?->warn('   Renseignez ces variables dans le .env, puis rejouez : php artisan db:seed --class=PlansSeeder --force');
     }
 }
