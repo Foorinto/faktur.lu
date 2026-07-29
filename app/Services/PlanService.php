@@ -84,6 +84,32 @@ class PlanService
     }
 
     /**
+     * Check if user can finalize (issue) another invoice this month.
+     *
+     * Compte les factures RÉELLEMENT ÉMISES ce mois-ci, et non les brouillons :
+     * un utilisateur qui possède déjà des brouillons au-delà de son quota (créés
+     * avant que la limite ne soit appliquée partout) ne doit pas les perdre, mais
+     * ne peut en émettre que le nombre prévu par son plan.
+     */
+    public function canFinalizeInvoice(User $user): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_invoices_per_month');
+
+        if ($limit === null) {
+            return true; // unlimited
+        }
+
+        $count = $user->userInvoices()
+            ->whereNotNull('finalized_at')
+            ->whereMonth('finalized_at', Carbon::now()->month)
+            ->whereYear('finalized_at', Carbon::now()->year)
+            ->count();
+
+        return $count < $limit;
+    }
+
+    /**
      * Check if user can create more quotes this month.
      */
     public function canCreateQuote(User $user): bool
