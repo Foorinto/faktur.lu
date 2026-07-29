@@ -30,6 +30,7 @@ class CheckPlanLimits
         $canProceed = match ($limitType) {
             'clients' => $this->planService->canCreateClient($user),
             'invoices' => $this->planService->canCreateInvoice($user),
+            'invoices_finalize' => $this->planService->canFinalizeInvoice($user),
             'quotes' => $this->planService->canCreateQuote($user),
             'emails' => $this->planService->canSendEmail($user),
             'expenses' => $this->planService->canCreateExpense($user),
@@ -65,6 +66,7 @@ class CheckPlanLimits
         return match ($limitType) {
             'clients' => __('Vous avez atteint la limite de clients de votre plan. Passez à un plan supérieur pour continuer.'),
             'invoices' => __('Vous avez atteint la limite de factures ce mois-ci. Passez à un plan supérieur pour continuer.'),
+            'invoices_finalize' => __('Vous avez atteint la limite de factures émises ce mois-ci. Votre brouillon est conservé : passez à un plan supérieur pour l\'émettre.'),
             'quotes' => __('Vous avez atteint la limite de devis ce mois-ci. Passez à un plan supérieur pour continuer.'),
             'emails' => __('Vous avez atteint la limite d\'emails ce mois-ci. Passez à un plan supérieur pour continuer.'),
             'expenses' => __('Vous avez atteint la limite de dépenses ce mois-ci. Passez à un plan supérieur pour continuer.'),

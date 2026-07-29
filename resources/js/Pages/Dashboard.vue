@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import CashflowChart from '@/Components/Dashboard/CashflowChart.vue';
 import FranchiseAlert from '@/Components/FranchiseAlert.vue';
+import QuotaAlertBanner from '@/Components/QuotaAlertBanner.vue';
 import OnboardingChecklist from '@/Components/OnboardingChecklist.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
@@ -26,6 +27,7 @@ const props = defineProps({
     franchiseAlert: Object,
     cashflowForecast: Object,
     onboardingChecklist: Object,
+    quotaAlerts: { type: Array, default: () => [] },
 });
 
 const selectedYear = ref(props.selectedYear);
@@ -156,6 +158,8 @@ const getStatusLabel = (status) => {
         </div>
 
         <!-- Franchise Alert (TVA threshold warning) -->
+        <QuotaAlertBanner :alerts="quotaAlerts" />
+
         <FranchiseAlert v-if="franchiseAlert" :franchise-alert="franchiseAlert" />
 
         <!-- Alerts -->

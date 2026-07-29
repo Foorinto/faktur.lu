@@ -577,7 +577,9 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/invoices', [InvoiceController::class, 'store'])
             ->middleware('plan.limit:invoices')
             ->name('invoices.store');
-        Route::post('/invoices/{invoice}/finalize', [InvoiceController::class, 'finalize'])->name('invoices.finalize');
+        Route::post('/invoices/{invoice}/finalize', [InvoiceController::class, 'finalize'])
+            ->middleware('plan.limit:invoices_finalize')
+            ->name('invoices.finalize');
         Route::post('/invoices/{invoice}/mark-sent', [InvoiceController::class, 'markAsSent'])->name('invoices.mark-sent');
         Route::post('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
         Route::post('/invoices/{invoice}/paid-at', [InvoiceController::class, 'updatePaidAt'])->name('invoices.update-paid-at');
@@ -610,7 +612,9 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/quotes/{quote}/mark-sent', [QuoteController::class, 'markAsSent'])->name('quotes.mark-sent');
         Route::post('/quotes/{quote}/mark-accepted', [QuoteController::class, 'markAsAccepted'])->name('quotes.mark-accepted');
         Route::post('/quotes/{quote}/mark-declined', [QuoteController::class, 'markAsDeclined'])->name('quotes.mark-declined');
-        Route::post('/quotes/{quote}/convert', [QuoteController::class, 'convertToInvoice'])->name('quotes.convert');
+        Route::post('/quotes/{quote}/convert', [QuoteController::class, 'convertToInvoice'])
+            ->middleware('plan.limit:invoices')
+            ->name('quotes.convert');
         Route::post('/quotes/{quote}/duplicate', [QuoteController::class, 'duplicate'])
             ->middleware('plan.limit:quotes')
             ->name('quotes.duplicate');
@@ -641,7 +645,9 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             Route::post('/time-entries/{timeEntry}/stop', [TimeEntryController::class, 'stop'])->name('time-entries.stop');
             Route::get('/time-entries/running', [TimeEntryController::class, 'running'])->name('time-entries.running');
             Route::get('/time-entries/summary', [TimeEntryController::class, 'summary'])->name('time-entries.summary');
-            Route::post('/time-entries/to-invoice', [TimeEntryController::class, 'toInvoice'])->name('time-entries.to-invoice');
+            Route::post('/time-entries/to-invoice', [TimeEntryController::class, 'toInvoice'])
+                ->middleware('plan.limit:invoices')
+                ->name('time-entries.to-invoice');
             Route::post('/time-entries/{timeEntry}/add-to-invoice', [TimeEntryController::class, 'addToInvoice'])->name('time-entries.add-to-invoice');
         });
 

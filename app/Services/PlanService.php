@@ -84,6 +84,32 @@ class PlanService
     }
 
     /**
+     * Check if user can finalize (issue) another invoice this month.
+     *
+     * Compte les factures RÉELLEMENT ÉMISES ce mois-ci, et non les brouillons :
+     * un utilisateur qui possède déjà des brouillons au-delà de son quota (créés
+     * avant que la limite ne soit appliquée partout) ne doit pas les perdre, mais
+     * ne peut en émettre que le nombre prévu par son plan.
+     */
+    public function canFinalizeInvoice(User $user): bool
+    {
+        $plan = $this->getUserPlan($user);
+        $limit = $plan->getLimit('max_invoices_per_month');
+
+        if ($limit === null) {
+            return true; // unlimited
+        }
+
+        $count = $user->userInvoices()
+            ->whereNotNull('finalized_at')
+            ->whereMonth('finalized_at', Carbon::now()->month)
+            ->whereYear('finalized_at', Carbon::now()->year)
+            ->count();
+
+        return $count < $limit;
+    }
+
+    /**
      * Check if user can create more quotes this month.
      */
     public function canCreateQuote(User $user): bool
@@ -294,6 +320,56 @@ class PlanService
             ],
             'features' => $plan->features ?? [],
         ];
+    }
+
+    /**
+     * Quotas approchant ou ayant atteint leur limite.
+     *
+     * Prévenir AVANT le blocage (80 % par défaut) évite que l'utilisateur ne
+     * découvre sa limite au moment où il en a besoin. Les quotas illimités et
+     * ceux encore loin du seuil ne remontent pas : un bandeau permanent
+     * deviendrait un décor qu'on ne lit plus.
+     *
+     * @return array<int, array{type: string, used: int, limit: int, remaining: int, reached: bool}>
+     */
+    public function getQuotaAlerts(User $user, float $threshold = 0.8): array
+    {
+        $stats = $this->getUsageStats($user);
+
+        $watched = [
+            'invoices_this_month' => 'invoices',
+            'quotes_this_month' => 'quotes',
+            'clients' => 'clients',
+            'expenses_this_month' => 'expenses',
+            'active_projects' => 'projects',
+        ];
+
+        $alerts = [];
+
+        foreach ($watched as $key => $type) {
+            $stat = $stats[$key] ?? null;
+
+            if (! $stat || ! empty($stat['unlimited']) || empty($stat['limit'])) {
+                continue;
+            }
+
+            $used = (int) $stat['used'];
+            $limit = (int) $stat['limit'];
+
+            if ($used / $limit < $threshold) {
+                continue;
+            }
+
+            $alerts[] = [
+                'type' => $type,
+                'used' => $used,
+                'limit' => $limit,
+                'remaining' => max(0, $limit - $used),
+                'reached' => $used >= $limit,
+            ];
+        }
+
+        return $alerts;
     }
 
     /**
