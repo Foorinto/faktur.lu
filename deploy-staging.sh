@@ -1,8 +1,14 @@
 #!/bin/bash
 
 #############################################
-# Script de déploiement faktur.lu
-# Usage: ./deploy.sh [quick]
+# Script de déploiement faktur.lu (STAGING)
+# Usage: ./deploy-staging.sh [quick|content-fix|prerender-only]
+#
+# Déployer une branche autre que main (test d'une feature avant merge) :
+#   DEPLOY_BRANCH=ma-branche ./deploy-staging.sh
+#
+# Revenir sur main ensuite :
+#   ./deploy-staging.sh
 #############################################
 
 set -e
@@ -12,7 +18,8 @@ SSH_USER="sc1beal9117"
 SSH_HOST="saut.o2switch.net"
 SSH_PORT="22"
 REMOTE_PATH="/home2/sc1beal9117/faktur.lu-staging"
-BRANCH="main"
+# Branche déployée : main par défaut, surchargeable via DEPLOY_BRANCH.
+BRANCH="${DEPLOY_BRANCH:-main}"
 SITE_URL="https://staging.faktur.lu"
 BACKUP_DIR="/home2/sc1beal9117/backups-staging"
 
@@ -95,6 +102,20 @@ if [ "$1" == "prerender-only" ]; then
     prerender_and_sync
     echo -e "${GREEN}Terminé.${NC}"
     exit 0
+fi
+
+# Bandeau explicite quand on ne déploie pas main (évite un déploiement de branche oublié)
+if [ "$BRANCH" != "main" ]; then
+    echo -e "${YELLOW}┌────────────────────────────────────────────────────────┐${NC}"
+    echo -e "${YELLOW}│  STAGING sur une branche : ${BRANCH}${NC}"
+    echo -e "${YELLOW}│  Pensez à redéployer main ensuite : ./deploy-staging.sh ${NC}"
+    echo -e "${YELLOW}└────────────────────────────────────────────────────────┘${NC}"
+    # La branche doit exister sur origin, sinon le checkout distant échouerait en plein déploiement.
+    if ! git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+        echo -e "${RED}Erreur: la branche '$BRANCH' n'existe pas sur origin.${NC}"
+        echo -e "${YELLOW}Poussez-la d'abord: git push -u origin $BRANCH${NC}"
+        exit 1
+    fi
 fi
 
 # Vérifier la branche
@@ -188,7 +209,18 @@ trap 'echo \"[SAFETY NET] forcing php artisan up\" ; php artisan up || true' EXI
 # Le stash sera applique a la fin si le pull a reussi ; sinon on l'ignore.
 # IMPORTANT : la chaine doit se terminer sur une commande qui retourne 0,
 # sans newline final, pour que le `&&` qui suit dans DEPLOY_CMD reste valide.
-GIT_PULL_SAFE="echo '--- Stash des modifs locales eventuelles (htaccess auto-modifie par cPanel...) ---' && (git stash push --include-untracked -m \"deploy-auto-stash-\$(date +%s)\" || true) && git pull origin main && echo '--- Tentative de re-application du stash (peut echouer si conflits) ---' && (git stash pop || git stash drop || true)"
+# Recuperation du code cote serveur :
+# - main            : comportement historique strictement inchange (git pull).
+# - autre branche   : fetch + checkout force sur origin/<branche>, pour basculer
+#                     proprement le serveur sans creer de merge local parasite.
+#                     Idempotent : rejouable et reversible (redeployer main suffit).
+if [ "$BRANCH" == "main" ]; then
+    GIT_UPDATE_CMD="git pull origin main"
+else
+    GIT_UPDATE_CMD="git fetch origin && git checkout -B $BRANCH origin/$BRANCH"
+fi
+
+GIT_PULL_SAFE="echo '--- Stash des modifs locales eventuelles (htaccess auto-modifie par cPanel...) ---' && (git stash push --include-untracked -m \"deploy-auto-stash-\$(date +%s)\" || true) && ${GIT_UPDATE_CMD} && echo '--- Tentative de re-application du stash (peut echouer si conflits) ---' && (git stash pop || git stash drop || true)"
 
 if [ "$1" == "quick" ]; then
     DEPLOY_CMD="
