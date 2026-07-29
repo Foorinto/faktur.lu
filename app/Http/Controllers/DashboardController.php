@@ -6,6 +6,7 @@ use App\Services\CashflowForecastService;
 use App\Services\DashboardService;
 use App\Services\FranchiseAlertService;
 use App\Services\OnboardingService;
+use App\Services\PlanService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +18,8 @@ class DashboardController extends Controller
         protected DashboardService $dashboardService,
         protected FranchiseAlertService $franchiseAlertService,
         protected CashflowForecastService $cashflowForecastService,
-        protected OnboardingService $onboardingService
+        protected OnboardingService $onboardingService,
+        protected PlanService $planService
     ) {}
 
     /**
@@ -42,6 +44,8 @@ class DashboardController extends Controller
             'franchiseAlert' => $this->franchiseAlertService->getFranchiseAlertData(),
             'cashflowForecast' => $this->cashflowForecastService->getForecast(90),
             'onboardingChecklist' => $checklist,
+            // Quotas proches ou atteints : prévenir avant le blocage.
+            'quotaAlerts' => $this->planService->getQuotaAlerts($user),
         ]);
     }
 
