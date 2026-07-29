@@ -5134,6 +5134,8 @@ return [
     'error_quote_delete_converted' => 'Ein bereits in eine Rechnung umgewandeltes Angebot kann nicht gelöscht werden.',
     'error_quote_not_convertible' => 'Dieses Angebot kann nicht umgewandelt werden: Nur angenommene Angebote können zu einer Rechnung werden.',
     'error_pdf_not_finalized' => 'Das PDF kann erst nach Finalisierung der Rechnung erstellt werden.',
+    'business_settings_required_notice' => 'Hinterlegen Sie zuerst Ihre Unternehmensdaten: ohne sie können Sie diese Rechnung nicht finalisieren.',
+    'business_settings_required_cta' => 'Daten vervollständigen',
     'validation_vat_rate_franchise' => 'Sie unterliegen der Kleinunternehmerregelung: Der Satz muss 0 % betragen.',
     'error_archive_only_finalized' => 'Nur finalisierte Rechnungen können archiviert werden.',
     'products' => [

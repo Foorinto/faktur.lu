@@ -5134,6 +5134,8 @@ return [
     'error_quote_delete_converted' => 'En Devis deen elo an eng Rechnung ëmgewandelt ass, kann net geläscht ginn.',
     'error_quote_not_convertible' => 'Dësen Devis kann net ëmgewandelt ginn: nëmmen akzeptéiert Devise kënnen eng Rechnung ginn.',
     'error_pdf_not_finalized' => 'De PDF kann réischt generéiert ginn, wann d\'Rechnung finaliséiert ass.',
+    'business_settings_required_notice' => 'Fëllt fir d\'éischt Är Firmendaten aus: ouni si kënnt Dir dës Rechnung net finaliséieren.',
+    'business_settings_required_cta' => 'Meng Donnéeë complétéieren',
     'validation_vat_rate_franchise' => 'Dir sidd an der TVA-Franchise: de Saz muss 0 % sinn.',
     'error_archive_only_finalized' => 'Nëmme finaliséiert Rechnunge kënnen archivéiert ginn.',
     'products' => [

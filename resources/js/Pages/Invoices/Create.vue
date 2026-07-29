@@ -34,6 +34,7 @@ const props = defineProps({
     suggestedVatMention: String,
     defaultInvoiceFooter: String,
     numberingHint: { type: Object, default: null },
+    businessSettingsMissing: Boolean,
 });
 
 // Calculate effective default VAT rate based on exemption status and country
@@ -251,6 +252,25 @@ if (form.items.length === 0) {
         </template>
 
         <BillingNav class="mb-6" />
+
+        <!-- Sans paramètres d'entreprise, la finalisation échouera en fin de parcours :
+             on prévient dès la saisie plutôt qu'après tout le travail. -->
+        <div
+            v-if="businessSettingsMissing"
+            class="mb-6 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-700 dark:bg-amber-900/30"
+        >
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p class="text-sm text-amber-900 dark:text-amber-100">
+                    {{ t('business_settings_required_notice') }}
+                </p>
+                <Link
+                    :href="route('settings.business.edit')"
+                    class="w-full shrink-0 rounded-lg bg-amber-600 px-4 py-1.5 text-center text-sm font-semibold text-white transition-colors hover:bg-amber-700 sm:w-auto"
+                >
+                    {{ t('business_settings_required_cta') }}
+                </Link>
+            </div>
+        </div>
 
         <NumberingHintBanner
             v-if="numberingHint && numberingHint.preview_number"

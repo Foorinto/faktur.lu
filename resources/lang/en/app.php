@@ -5176,6 +5176,8 @@ return [
     'error_quote_delete_converted' => 'A quote already converted to an invoice cannot be deleted.',
     'error_quote_not_convertible' => 'This quote cannot be converted: only accepted quotes can become an invoice.',
     'error_pdf_not_finalized' => 'The PDF can only be generated once the invoice is finalized.',
+    'business_settings_required_notice' => 'Set up your company details first: without them you won\'t be able to finalize this invoice.',
+    'business_settings_required_cta' => 'Complete my details',
     'validation_vat_rate_franchise' => 'You are under the VAT franchise scheme: the rate must be 0%.',
     'error_archive_only_finalized' => 'Only finalized invoices can be archived.',
     'products' => [
