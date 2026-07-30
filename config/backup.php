@@ -48,6 +48,14 @@ return [
         'remote' => env('BACKUP_CLOUD_REMOTE', 'pcloud'),       // rclone remote name
         'path' => env('BACKUP_CLOUD_PATH', '/Backups/Facturation'), // path on the remote
         'retention_days' => (int) env('BACKUP_CLOUD_RETENTION_DAYS', 30),
+
+        // Chemin du binaire rclone.
+        //
+        // Sur un hébergement mutualisé, rclone est souvent installé dans
+        // ~/bin, qui n'appartient pas au PATH des processus lancés par le
+        // cron : appeler « rclone » tout court échouerait alors chaque nuit,
+        // sans que rien ne le signale côté interface.
+        'binary' => env('BACKUP_RCLONE_BINARY', 'rclone'),
     ],
 
     /*

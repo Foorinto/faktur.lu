@@ -358,6 +358,12 @@ class BackupService
         return $outputPath;
     }
 
+    /** Binaire rclone à utiliser (configurable : voir config/backup.php). */
+    protected function rcloneBinary(): string
+    {
+        return (string) config('backup.cloud.binary', 'rclone');
+    }
+
     /**
      * Upload a file to cloud storage via rclone.
      */
@@ -368,7 +374,12 @@ class BackupService
         $destination = "{$remote}:{$path}";
 
         $process = Process::timeout(300)->run(
-            sprintf('rclone copy %s %s --no-traverse', escapeshellarg($filePath), escapeshellarg($destination))
+            sprintf(
+                '%s copy %s %s --no-traverse',
+                escapeshellarg($this->rcloneBinary()),
+                escapeshellarg($filePath),
+                escapeshellarg($destination)
+            )
         );
 
         if (! $process->successful()) {
@@ -389,7 +400,7 @@ class BackupService
         // Use rclone delete with --min-age to remove old backup files
         $process = Process::timeout(120)->run(
             sprintf(
-                'rclone delete %s --min-age %dd --include "backup_*" -v 2>&1 | grep -c "Deleted" || echo "0"',
+                escapeshellarg($this->rcloneBinary()).' delete %s --min-age %dd --include "backup_*" -v 2>&1 | grep -c "Deleted" || echo "0"',
                 escapeshellarg($destination),
                 $retentionDays
             )
