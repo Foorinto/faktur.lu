@@ -5493,7 +5493,6 @@ return [
             'projects' => 'projets actifs',
         ],
     ],
-    'invoice_quota_reached_notice' => 'Vous avez atteint votre limite de factures pour ce mois-ci : cette facture ne pourra pas être enregistrée. Passez à un plan supérieur pour continuer.',
     'business_settings_required_notice' => 'Renseignez d\'abord les informations de votre entreprise : sans elles, vous ne pourrez pas finaliser cette facture.',
     'business_settings_required_cta' => 'Compléter mes informations',
     'validation_vat_rate_franchise' => 'Vous êtes en franchise de TVA : le taux doit être de 0 %.',

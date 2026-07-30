@@ -127,7 +127,7 @@ class InvoiceQuotaTest extends TestCase
         $this->assertSame(5, $user->userInvoices()->count());
     }
 
-    public function test_the_creation_form_warns_before_letting_the_user_fill_it_in(): void
+    public function test_the_creation_form_is_not_even_opened_once_the_quota_is_reached(): void
     {
         $user = $this->freeUserWithClient();
 
@@ -135,9 +135,21 @@ class InvoiceQuotaTest extends TestCase
             $this->makeDraft($user);
         }
 
-        // Ouvrir un formulaire qu'on ne pourra pas enregistrer est une impasse :
-        // l'écran doit le dire AVANT la saisie.
-        $this->get(route('invoices.create'))
-            ->assertInertia(fn ($page) => $page->where('invoiceQuotaReached', true));
+        // Sept écrans mènent au formulaire ; le contrôle est posé sur le
+        // formulaire lui-même. L'utilisateur est renvoyé d'où il vient avec le
+        // message, sans saisir une facture pour rien.
+        $this->from(route('invoices.index'))
+            ->get(route('invoices.create'))
+            ->assertRedirect(route('invoices.index'))
+            ->assertSessionHas('error');
+    }
+
+    public function test_the_form_stays_open_while_the_quota_allows_it(): void
+    {
+        $user = $this->freeUserWithClient();
+        $this->makeDraft($user); // 1 sur 5
+
+        // Contrôle inverse : ne pas bloquer un utilisateur qui a encore de la marge.
+        $this->get(route('invoices.create'))->assertOk();
     }
 }

@@ -592,7 +592,23 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         });
 
         // Invoices
-        Route::resource('invoices', InvoiceController::class)->except(['store']);
+        // Le FORMULAIRE de création porte le même contrôle de quota que
+        // l'enregistrement. Sept écrans mènent ici (tableau de bord, liste,
+        // fiches clients, suivi du temps) : contrôler au point de convergence
+        // couvre tous les chemins d'un coup, là où bloquer chaque bouton
+        // laisserait forcément passer un oubli.
+        //
+        // L'utilisateur au quota est ainsi renvoyé d'où il vient avec le message,
+        // au lieu de saisir une facture entière avant de la voir refusée.
+        //
+        // DOIT être déclarée AVANT la resource : sinon 'create' serait capturé
+        // comme identifiant par invoices/{invoice}.
+        Route::get('/invoices/create', [InvoiceController::class, 'create'])
+            ->middleware('plan.limit:invoices')
+            ->name('invoices.create');
+
+        Route::resource('invoices', InvoiceController::class)->except(['store', 'create']);
+
         Route::post('/invoices', [InvoiceController::class, 'store'])
             ->middleware('plan.limit:invoices')
             ->name('invoices.store');

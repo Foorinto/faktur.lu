@@ -5148,7 +5148,6 @@ return [
             'projects' => 'aktive Projekte',
         ],
     ],
-    'invoice_quota_reached_notice' => 'Sie haben Ihr Rechnungslimit für diesen Monat erreicht: diese Rechnung kann nicht gespeichert werden. Wechseln Sie zu einem höheren Tarif.',
     'business_settings_required_notice' => 'Hinterlegen Sie zuerst Ihre Unternehmensdaten: ohne sie können Sie diese Rechnung nicht finalisieren.',
     'business_settings_required_cta' => 'Daten vervollständigen',
     'validation_vat_rate_franchise' => 'Sie unterliegen der Kleinunternehmerregelung: Der Satz muss 0 % betragen.',

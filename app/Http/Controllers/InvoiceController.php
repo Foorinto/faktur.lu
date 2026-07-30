@@ -142,10 +142,6 @@ class InvoiceController extends Controller
             // Sans paramètres d'entreprise, la finalisation échouera : on prévient
             // ici plutôt qu'après la saisie complète de la facture.
             'businessSettingsMissing' => $settings === null,
-            // Quota atteint : le prévenir ici évite de laisser saisir une facture
-            // entière avant de la refuser à l'enregistrement.
-            'invoiceQuotaReached' => ! app(\App\Services\PlanService::class)
-                ->canCreateInvoice($request->user()),
         ]);
     }
 
