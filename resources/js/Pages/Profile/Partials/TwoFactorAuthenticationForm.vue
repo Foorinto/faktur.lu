@@ -33,6 +33,16 @@ const twoFactorEnabled = computed(
     () => !enabling.value && page.props.auth.user?.two_factor_enabled
 );
 
+/**
+ * Installation en cours OU double authentification active.
+ *
+ * Avec l'option 'confirm' de Fortify, `two_factor_enabled` n'est vrai qu'une
+ * fois le CODE confirmé : juste après l'activation, le secret existe mais la
+ * confirmation non. Le QR code était donc bien récupéré (réponse 200) puis
+ * jamais affiché, le bloc étant conditionné au seul `twoFactorEnabled`.
+ */
+const twoFactorSetupStarted = computed(() => twoFactorEnabled.value || confirming.value);
+
 watch(twoFactorEnabled, () => {
     if (!twoFactorEnabled.value) {
         confirmationForm.reset();
@@ -138,7 +148,7 @@ const disableTwoFactorAuthentication = () => {
                 {{ t('two_factor_enabled') }}
             </h3>
 
-            <h3 v-else-if="twoFactorEnabled && confirming" class="text-lg font-medium text-slate-900 dark:text-slate-100">
+            <h3 v-else-if="confirming" class="text-lg font-medium text-slate-900 dark:text-slate-100">
                 {{ t('two_factor_finish_enabling') }}
             </h3>
 
@@ -152,7 +162,7 @@ const disableTwoFactorAuthentication = () => {
                 </p>
             </div>
 
-            <div v-if="twoFactorEnabled">
+            <div v-if="twoFactorSetupStarted">
                 <div v-if="qrCode">
                     <div class="mt-4 max-w-xl text-sm text-slate-600 dark:text-slate-400">
                         <p v-if="confirming" class="font-semibold">
@@ -207,7 +217,7 @@ const disableTwoFactorAuthentication = () => {
             </div>
 
             <div class="mt-5">
-                <div v-if="!twoFactorEnabled">
+                <div v-if="!twoFactorSetupStarted">
                     <ConfirmsPassword @confirmed="enableTwoFactorAuthentication">
                         <PrimaryButton type="button" :class="{ 'opacity-25': enabling }" :disabled="enabling">
                             {{ t('enable') }}
