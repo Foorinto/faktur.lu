@@ -27,7 +27,14 @@ class BusinessSettingsFactory extends Factory
             'matricule' => fake()->numerify('###########'),
             'iban' => 'LU' . fake()->numerify('## #### #### #### ####'),
             'bic' => 'BGLL' . fake()->randomLetter() . fake()->randomLetter() . 'LL',
-            'vat_regime' => fake()->randomElement(['assujetti', 'franchise']),
+            // Défaut DÉTERMINISTE, volontairement.
+            //
+            // Ce champ était tiré au hasard entre 'assujetti' et 'franchise', ce
+            // qui rendait intermittent tout test touchant la TVA : une facture à
+            // 17 % passait ou échouait selon le tirage. Les cas franchise
+            // disposent de l'état ->franchise() ci-dessous, à utiliser
+            // explicitement.
+            'vat_regime' => 'assujetti',
             'phone' => '+352 ' . fake()->numerify('### ### ###'),
             'email' => fake()->companyEmail(),
         ];

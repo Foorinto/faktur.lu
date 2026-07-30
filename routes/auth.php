@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController as FortifyTwoFactorController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -23,6 +24,17 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])
         ->middleware('throttle:login');
+
+    // Écran de défi 2FA.
+    //
+    // Fortify ne l'enregistre pas lui-même : config/fortify.php pose
+    // 'views' => false pour ne pas entrer en conflit avec les routes d'auth de
+    // l'application. La vérification du code (POST two-factor.login.store) est,
+    // elle, bien fournie par Fortify — on ne réimplémente donc que l'affichage,
+    // via son propre contrôleur, qui utilise la vue Inertia déclarée dans
+    // FortifyServiceProvider.
+    Route::get('two-factor-challenge', [FortifyTwoFactorController::class, 'create'])
+        ->name('two-factor.login');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
