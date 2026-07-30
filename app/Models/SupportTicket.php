@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class SupportTicket extends Model
 {
@@ -97,6 +98,30 @@ class SupportTicket extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(SupportMessage::class, 'ticket_id');
+    }
+
+    /**
+     * Supprime les fichiers des pièces jointes avant la disparition du ticket.
+     *
+     * La base fait cascader ticket → messages → pièces jointes, mais une cascade
+     * SQL ne déclenche AUCUN événement Eloquent : sans ce hook, les lignes
+     * disparaissent et les fichiers restent indéfiniment sur le disque, sans plus
+     * aucune trace permettant de les retrouver ni de les supprimer — ce qui rend
+     * impossible d'honorer une demande d'effacement (RGPD art. 17).
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (SupportTicket $ticket) {
+            $paths = SupportAttachment::query()
+                ->whereIn('message_id', $ticket->messages()->select('id'))
+                ->pluck('path')
+                ->filter()
+                ->all();
+
+            if ($paths !== []) {
+                Storage::disk('local')->delete($paths);
+            }
+        });
     }
 
     /**

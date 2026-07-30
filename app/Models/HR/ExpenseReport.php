@@ -64,6 +64,23 @@ class ExpenseReport extends Model
                 $expense->amount_ttc = round($expense->amount_ht + $expense->amount_vat, 4);
             }
         });
+
+        // Suppression DÉFINITIVE uniquement : la base fait cascader la note de
+        // frais vers ses justificatifs, mais une cascade SQL ne déclenche aucun
+        // événement Eloquent — les fichiers resteraient sur le disque sans plus
+        // aucune ligne pour les retrouver. Sur un simple soft delete, on conserve
+        // les fichiers : la note peut être restaurée.
+        static::deleting(function (ExpenseReport $expense) {
+            if (! $expense->isForceDeleting()) {
+                return;
+            }
+
+            $paths = $expense->receipts()->pluck('file_path')->filter()->all();
+
+            if ($paths !== []) {
+                \Illuminate\Support\Facades\Storage::disk('local')->delete($paths);
+            }
+        });
     }
 
     // Relationships

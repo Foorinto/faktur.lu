@@ -235,4 +235,61 @@ class PrivateFileAccessTest extends TestCase
             ->get(route('files.employee-photo', $employee->id))
             ->assertForbidden();
     }
+
+    public function test_deleting_a_ticket_removes_its_attachment_files(): void
+    {
+        $owner = User::factory()->create();
+
+        $ticket = \App\Models\SupportTicket::create([
+            'user_id' => $owner->id,
+            'reference' => \App\Models\SupportTicket::generateReference(),
+            'subject' => 'À supprimer',
+            'category' => array_key_first(\App\Models\SupportTicket::CATEGORIES),
+            'status' => array_key_first(\App\Models\SupportTicket::STATUSES),
+        ]);
+        $message = $ticket->messages()->create([
+            'sender_type' => User::class,
+            'sender_id' => $owner->id,
+            'content' => 'Voici le fichier',
+        ]);
+        Storage::disk('local')->put('support-attachments/a-supprimer.png', 'image');
+        $message->attachments()->create([
+            'filename' => 'a-supprimer.png',
+            'path' => 'support-attachments/a-supprimer.png',
+            'mime_type' => 'image/png',
+            'size' => 5,
+        ]);
+
+        $this->assertTrue(Storage::disk('local')->exists('support-attachments/a-supprimer.png'));
+
+        $ticket->delete();
+
+        // Sans nettoyage, le fichier survivrait sans aucune ligne pour le retrouver.
+        $this->assertFalse(
+            Storage::disk('local')->exists('support-attachments/a-supprimer.png'),
+            'Le fichier doit disparaître avec le ticket.'
+        );
+    }
+
+    public function test_soft_deleting_an_expense_report_keeps_its_receipt(): void
+    {
+        $owner = User::factory()->create();
+        $this->actingAs($owner);
+        $receipt = $this->receiptFor($owner);
+        $report = $receipt->expenseReport;
+
+        $report->delete(); // soft delete : la note peut être restaurée
+
+        $this->assertTrue(
+            Storage::disk('local')->exists('hr/expense-receipts/recu.pdf'),
+            'Un soft delete ne doit pas détruire le justificatif.'
+        );
+
+        $report->forceDelete();
+
+        $this->assertFalse(
+            Storage::disk('local')->exists('hr/expense-receipts/recu.pdf'),
+            'Une suppression définitive doit emporter le justificatif.'
+        );
+    }
 }
