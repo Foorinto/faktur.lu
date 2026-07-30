@@ -35,6 +35,7 @@ const props = defineProps({
     defaultInvoiceFooter: String,
     numberingHint: { type: Object, default: null },
     businessSettingsMissing: Boolean,
+    invoiceQuotaReached: Boolean,
 });
 
 // Calculate effective default VAT rate based on exemption status and country
@@ -252,6 +253,25 @@ if (form.items.length === 0) {
         </template>
 
         <BillingNav class="mb-6" />
+
+        <!-- Quota mensuel atteint : l'enregistrement sera refusé. On le dit AVANT
+             la saisie plutôt que de laisser remplir une facture pour rien. -->
+        <div
+            v-if="invoiceQuotaReached"
+            class="mb-6 rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 dark:border-rose-800 dark:bg-rose-900/30"
+        >
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p class="text-sm text-rose-900 dark:text-rose-100">
+                    {{ t('invoice_quota_reached_notice') }}
+                </p>
+                <Link
+                    :href="route('subscription.index')"
+                    class="w-full shrink-0 rounded-lg bg-rose-600 px-4 py-1.5 text-center text-sm font-semibold text-white transition-colors hover:bg-rose-700 sm:w-auto"
+                >
+                    {{ t('quota_alert.cta') }}
+                </Link>
+            </div>
+        </div>
 
         <!-- Sans paramètres d'entreprise, la finalisation échouera en fin de parcours :
              on prévient dès la saisie plutôt qu'après tout le travail. -->

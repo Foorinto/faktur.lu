@@ -5395,6 +5395,7 @@ return [
             'projects' => 'projetos ativos',
         ],
     ],
+    'invoice_quota_reached_notice' => 'Atingiu o seu limite de faturas deste mês: esta fatura não poderá ser guardada. Mude para um plano superior para continuar.',
     'business_settings_required_notice' => 'Preencha primeiro os dados da sua empresa: sem eles não poderá finalizar esta fatura.',
     'business_settings_required_cta' => 'Completar os meus dados',
     'validation_vat_rate_franchise' => 'Está no regime de franquia de IVA: a taxa deve ser 0 %.',

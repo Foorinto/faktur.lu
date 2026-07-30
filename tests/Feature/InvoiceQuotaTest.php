@@ -103,4 +103,41 @@ class InvoiceQuotaTest extends TestCase
 
         $this->assertTrue(app(PlanService::class)->canFinalizeInvoice($user));
     }
+
+    public function test_creating_a_draft_is_refused_once_the_monthly_quota_is_reached(): void
+    {
+        $user = $this->freeUserWithClient();
+
+        // 5 factures créées ce mois-ci = quota du plan gratuit.
+        for ($i = 0; $i < 5; $i++) {
+            $this->makeDraft($user);
+        }
+
+        $this->post(route('invoices.store'), [
+            'client_id' => Client::first()->id,
+            'items' => [[
+                'title' => 'Une de trop',
+                'quantity' => 1,
+                'unit_price' => 100,
+                'vat_rate' => 17,
+            ]],
+        ])->assertSessionHas('error');
+
+        // Rien n'a été créé : on reste à 5.
+        $this->assertSame(5, $user->userInvoices()->count());
+    }
+
+    public function test_the_creation_form_warns_before_letting_the_user_fill_it_in(): void
+    {
+        $user = $this->freeUserWithClient();
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->makeDraft($user);
+        }
+
+        // Ouvrir un formulaire qu'on ne pourra pas enregistrer est une impasse :
+        // l'écran doit le dire AVANT la saisie.
+        $this->get(route('invoices.create'))
+            ->assertInertia(fn ($page) => $page->where('invoiceQuotaReached', true));
+    }
 }

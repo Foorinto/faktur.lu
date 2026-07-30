@@ -5148,6 +5148,7 @@ return [
             'projects' => 'aktiv Projeten',
         ],
     ],
+    'invoice_quota_reached_notice' => 'Dir hutt Är Rechnungsgrenz fir dëse Mount erreecht: dës Rechnung kann net gespäichert ginn. Wiesselt op e méi hohen Plang.',
     'business_settings_required_notice' => 'Fëllt fir d\'éischt Är Firmendaten aus: ouni si kënnt Dir dës Rechnung net finaliséieren.',
     'business_settings_required_cta' => 'Meng Donnéeë complétéieren',
     'validation_vat_rate_franchise' => 'Dir sidd an der TVA-Franchise: de Saz muss 0 % sinn.',
