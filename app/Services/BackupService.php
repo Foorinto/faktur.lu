@@ -307,14 +307,20 @@ class BackupService
         $key = config('backup.encryption_key');
         $outputPath = "{$filePath}.enc";
 
-        $process = Process::timeout(120)->run(
-            sprintf(
-                'openssl enc -aes-256-cbc -salt -pbkdf2 -in %s -out %s -pass pass:%s',
-                escapeshellarg($filePath),
-                escapeshellarg($outputPath),
-                escapeshellarg($key)
-            )
-        );
+        // La clé passe par l'ENVIRONNEMENT, jamais en argument de commande :
+        // sur un hébergement mutualisé, la liste des processus peut être lisible
+        // par d'autres comptes du serveur, et `-pass pass:<clé>` l'y exposerait
+        // le temps du chiffrement. L'algorithme est inchangé : les archives
+        // existantes restent déchiffrables.
+        $process = Process::timeout(120)
+            ->env(['BACKUP_ENC_PASS' => $key])
+            ->run(
+                sprintf(
+                    'openssl enc -aes-256-cbc -salt -pbkdf2 -in %s -out %s -pass env:BACKUP_ENC_PASS',
+                    escapeshellarg($filePath),
+                    escapeshellarg($outputPath)
+                )
+            );
 
         if (! $process->successful()) {
             throw new RuntimeException("Encryption failed: {$process->errorOutput()}");
@@ -335,14 +341,15 @@ class BackupService
             $outputPath = tempnam(sys_get_temp_dir(), 'decrypt_');
         }
 
-        $process = Process::timeout(120)->run(
-            sprintf(
-                'openssl enc -aes-256-cbc -d -pbkdf2 -in %s -out %s -pass pass:%s',
-                escapeshellarg($filePath),
-                escapeshellarg($outputPath),
-                escapeshellarg($key)
-            )
-        );
+        $process = Process::timeout(120)
+            ->env(['BACKUP_ENC_PASS' => $key])
+            ->run(
+                sprintf(
+                    'openssl enc -aes-256-cbc -d -pbkdf2 -in %s -out %s -pass env:BACKUP_ENC_PASS',
+                    escapeshellarg($filePath),
+                    escapeshellarg($outputPath)
+                )
+            );
 
         if (! $process->successful()) {
             throw new RuntimeException("Decryption failed: {$process->errorOutput()}");
