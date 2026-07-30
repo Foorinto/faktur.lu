@@ -65,7 +65,21 @@ class PrivateFileController extends Controller
         $attachment = SupportAttachment::findOrFail($attachment);
         $ticket = $attachment->message?->ticket;
         abort_if($ticket === null, 404);
-        abort_unless((int) $ticket->user_id === (int) auth()->id(), 403);
+
+        // Le propriétaire du ticket, ou un administrateur de la plateforme : le
+        // panneau d'administration affiche déjà le contenu complet des tickets,
+        // traiter une demande suppose d'en voir les pièces jointes.
+        //
+        // Cette tolérance est VOLONTAIREMENT limitée au support. Les fichiers RH
+        // (contrats, pièces d'identité, évaluations) restent inaccessibles aux
+        // administrateurs : aucune vue d'administration ne les expose, et y
+        // donner accès serait une intrusion injustifiée dans les données
+        // personnelles des salariés de nos clients.
+        $user = auth()->user();
+        $isOwner = $user !== null && (int) $ticket->user_id === (int) $user->id;
+        $isAdmin = $user !== null && (bool) $user->is_admin;
+
+        abort_unless($isOwner || $isAdmin, 403);
 
         return $this->stream($attachment->path, $attachment->filename);
     }

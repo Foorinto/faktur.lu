@@ -110,4 +110,52 @@ class PrivateFileAccessTest extends TestCase
             ->get(route('files.employee-document', $document->id))
             ->assertNotFound();
     }
+
+    public function test_platform_admin_can_download_a_support_attachment(): void
+    {
+        $owner = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $ticket = \App\Models\SupportTicket::create([
+            'user_id' => $owner->id,
+            'reference' => \App\Models\SupportTicket::generateReference(),
+            'subject' => 'Question',
+            'category' => array_key_first(\App\Models\SupportTicket::CATEGORIES),
+            'status' => array_key_first(\App\Models\SupportTicket::STATUSES),
+        ]);
+        $message = $ticket->messages()->create([
+            'sender_type' => User::class,
+            'sender_id' => $owner->id,
+            'content' => 'Bonjour',
+        ]);
+        Storage::disk('local')->put('support-attachments/capture.png', 'image');
+        $attachment = $message->attachments()->create([
+            'filename' => 'capture.png',
+            'path' => 'support-attachments/capture.png',
+            'mime_type' => 'image/png',
+            'size' => 5,
+        ]);
+
+        // Traiter un ticket suppose de voir ses pièces jointes.
+        $this->actingAs($admin)
+            ->get(route('files.support-attachment', $attachment->id))
+            ->assertOk();
+
+        // Mais un utilisateur tiers reste refusé.
+        $this->actingAs(User::factory()->create())
+            ->get(route('files.support-attachment', $attachment->id))
+            ->assertForbidden();
+    }
+
+    public function test_platform_admin_cannot_download_hr_documents(): void
+    {
+        $owner = User::factory()->create();
+        $document = $this->documentFor($owner);
+
+        // Le statut d'administrateur n'ouvre PAS les données personnelles des
+        // salariés de nos clients : aucune vue d'administration ne les expose.
+        $this->actingAs(User::factory()->create(['is_admin' => true]))
+            ->get(route('files.employee-document', $document->id))
+            ->assertForbidden();
+    }
 }
