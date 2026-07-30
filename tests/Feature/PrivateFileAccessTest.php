@@ -158,4 +158,81 @@ class PrivateFileAccessTest extends TestCase
             ->get(route('files.employee-document', $document->id))
             ->assertForbidden();
     }
+
+    private function receiptFor(User $owner, ?int $employeeId = null): \App\Models\HR\ExpenseReceipt
+    {
+        $employee = $employeeId
+            ? \App\Models\HR\Employee::withoutGlobalScopes()->find($employeeId)
+            : \App\Models\HR\Employee::factory()->create(['user_id' => $owner->id]);
+
+        $category = \App\Models\HR\ExpenseCategory::create([
+            'user_id' => $owner->id,
+            'name' => 'Déplacements',
+        ]);
+
+        $report = \App\Models\HR\ExpenseReport::create([
+            'user_id' => $owner->id,
+            'employee_id' => $employee->id,
+            'expense_category_id' => $category->id,
+            'date' => now()->toDateString(),
+            'vendor' => 'Taxi',
+            'amount_ht' => 100,
+            'vat_rate' => 17,
+            'amount_vat' => 17,
+            'amount_ttc' => 117,
+            'status' => 'pending',
+        ]);
+
+        Storage::disk('local')->put('hr/expense-receipts/recu.pdf', 'justificatif');
+
+        return \App\Models\HR\ExpenseReceipt::create([
+            'expense_report_id' => $report->id,
+            'file_path' => 'hr/expense-receipts/recu.pdf',
+            'original_name' => 'recu.pdf',
+        ]);
+    }
+
+    public function test_expense_receipt_is_owner_only(): void
+    {
+        $owner = User::factory()->create();
+        $receipt = $this->receiptFor($owner);
+
+        $this->actingAs($owner)
+            ->get(route('files.expense-receipt', $receipt->id))
+            ->assertOk();
+
+        $this->actingAs(User::factory()->create())
+            ->get(route('files.expense-receipt', $receipt->id))
+            ->assertForbidden();
+    }
+
+    public function test_employee_photo_is_visible_to_the_company_but_not_to_outsiders(): void
+    {
+        $employer = User::factory()->create();
+        $colleagueAccount = User::factory()->create();
+
+        Storage::disk('local')->put('hr/photos/portrait.jpg', 'image');
+        $employee = Employee::factory()->create([
+            'user_id' => $employer->id,
+            'photo_path' => 'hr/photos/portrait.jpg',
+        ]);
+        // Un collègue de la même entreprise : le trombinoscope affiche l'équipe.
+        Employee::factory()->create([
+            'user_id' => $employer->id,
+            'account_id' => $colleagueAccount->id,
+        ]);
+
+        $this->actingAs($employer)
+            ->get(route('files.employee-photo', $employee->id))
+            ->assertOk();
+
+        $this->actingAs($colleagueAccount)
+            ->get(route('files.employee-photo', $employee->id))
+            ->assertOk();
+
+        // Une autre entreprise n'a rien à voir ici.
+        $this->actingAs(User::factory()->create())
+            ->get(route('files.employee-photo', $employee->id))
+            ->assertForbidden();
+    }
 }
