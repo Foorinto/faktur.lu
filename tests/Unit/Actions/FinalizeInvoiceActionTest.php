@@ -7,6 +7,7 @@ use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -22,6 +23,11 @@ class FinalizeInvoiceActionTest extends TestCase
     {
         parent::setUp();
         $this->action = app(FinalizeInvoiceAction::class);
+
+        // Les paramètres d'entreprise sont rattachés à l'utilisateur (scope
+        // BelongsToUser) : sans authentification préalable, getInstance() ne les
+        // retrouve pas et la finalisation refuse de s'exécuter.
+        $this->actingAs(User::factory()->create());
 
         BusinessSettings::factory()->create([
             'company_name' => 'Test Company SARL',
@@ -61,7 +67,10 @@ class FinalizeInvoiceActionTest extends TestCase
         $result = $this->action->execute($this->invoice);
 
         $year = now()->year;
-        $this->assertMatchesRegularExpression("/^FAC-$year-\d{3}$/", $result->number);
+        // Le préfixe est configurable : on vérifie la forme (préfixe, année,
+        // séquence paddée), pas une valeur figée.
+        $this->assertMatchesRegularExpression("/^[A-Z]+-$year-\d{3}$/", $result->number);
+        $this->assertSame(1, $result->sequence_number);
     }
 
     public function test_creates_seller_snapshot(): void

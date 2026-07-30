@@ -62,9 +62,9 @@ class AuditExportServiceTest extends TestCase
     public function test_preview_returns_correct_counts(): void
     {
         // Create 3 invoices and 1 credit note
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-002']);
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-003']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-002']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-003']);
         $this->createFinalizedInvoice([
             'number' => 'AV-2026-001',
             'type' => Invoice::TYPE_CREDIT_NOTE,
@@ -85,13 +85,13 @@ class AuditExportServiceTest extends TestCase
     public function test_preview_calculates_totals_correctly(): void
     {
         $this->createFinalizedInvoice([
-            'number' => 'FAC-2026-001',
+            'number' => 'F-2026-001',
             'total_ht' => 1000,
             'total_vat' => 170,
             'total_ttc' => 1170,
         ]);
         $this->createFinalizedInvoice([
-            'number' => 'FAC-2026-002',
+            'number' => 'F-2026-002',
             'total_ht' => 2000,
             'total_vat' => 340,
             'total_ttc' => 2340,
@@ -109,7 +109,7 @@ class AuditExportServiceTest extends TestCase
 
     public function test_preview_excludes_credit_notes_when_option_false(): void
     {
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
         $this->createFinalizedInvoice([
             'number' => 'AV-2026-001',
             'type' => Invoice::TYPE_CREDIT_NOTE,
@@ -127,8 +127,8 @@ class AuditExportServiceTest extends TestCase
 
     public function test_sequence_validation_detects_gaps(): void
     {
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-003']); // Gap: 002 missing
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-003']); // Gap: 002 missing
 
         $preview = $this->service->getPreview(
             Carbon::parse('2026-01-01'),
@@ -136,14 +136,14 @@ class AuditExportServiceTest extends TestCase
         );
 
         $this->assertFalse($preview['sequence_valid']);
-        $this->assertContains('Numéro manquant: FAC-2026-002', $preview['sequence_errors']);
+        $this->assertContains('Numéro manquant: F-2026-002', $preview['sequence_errors']);
     }
 
     public function test_sequence_validation_passes_with_no_gaps(): void
     {
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-002']);
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-003']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-002']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-003']);
 
         $preview = $this->service->getPreview(
             Carbon::parse('2026-01-01'),
@@ -158,7 +158,7 @@ class AuditExportServiceTest extends TestCase
     {
         Storage::fake('local');
 
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
 
         $export = AuditExport::create([
             'period_start' => '2026-01-01',
@@ -180,14 +180,14 @@ class AuditExportServiceTest extends TestCase
 
         $content = Storage::disk('local')->get($export->file_path);
         $this->assertStringContainsString('numero;date_emission', $content);
-        $this->assertStringContainsString('FAC-2026-001', $content);
+        $this->assertStringContainsString('F-2026-001', $content);
     }
 
     public function test_generates_json_export(): void
     {
         Storage::fake('local');
 
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
 
         $export = AuditExport::create([
             'period_start' => '2026-01-01',
@@ -217,7 +217,7 @@ class AuditExportServiceTest extends TestCase
     {
         Storage::fake('local');
 
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
 
         $export = AuditExport::create([
             'period_start' => '2026-01-01',
@@ -237,14 +237,14 @@ class AuditExportServiceTest extends TestCase
         $content = Storage::disk('local')->get($export->file_path);
         $this->assertStringContainsString('<?xml version="1.0"', $content);
         $this->assertStringContainsString('<AuditFile', $content);
-        $this->assertStringContainsString('<InvoiceNo>FAC-2026-001</InvoiceNo>', $content);
+        $this->assertStringContainsString('<InvoiceNo>F-2026-001</InvoiceNo>', $content);
     }
 
     public function test_anonymizes_client_data_when_option_true(): void
     {
         Storage::fake('local');
 
-        $this->createFinalizedInvoice(['number' => 'FAC-2026-001']);
+        $this->createFinalizedInvoice(['number' => 'F-2026-001']);
 
         $export = AuditExport::create([
             'period_start' => '2026-01-01',

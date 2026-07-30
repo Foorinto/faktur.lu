@@ -55,7 +55,7 @@ class TimeEntryTest extends TestCase
             'duration_seconds' => 5400, // 1 hour 30 minutes
         ]);
 
-        $this->assertEquals('1:30', $entry->duration_formatted);
+        $this->assertEquals('1:30:00', $entry->duration_formatted);
     }
 
     public function test_duration_hours_attribute(): void
@@ -206,17 +206,17 @@ class TimeEntryTest extends TestCase
 
     public function test_format_seconds_static_method(): void
     {
-        $this->assertEquals('0:00', TimeEntry::formatSeconds(0));
-        $this->assertEquals('1:00', TimeEntry::formatSeconds(3600));
-        $this->assertEquals('1:30', TimeEntry::formatSeconds(5400));
-        $this->assertEquals('10:15', TimeEntry::formatSeconds(36900));
+        $this->assertEquals('0:00:00', TimeEntry::formatSeconds(0));
+        $this->assertEquals('1:00:00', TimeEntry::formatSeconds(3600));
+        $this->assertEquals('1:30:00', TimeEntry::formatSeconds(5400));
+        $this->assertEquals('10:15:00', TimeEntry::formatSeconds(36900));
     }
 
     public function test_parse_to_seconds_with_colon_format(): void
     {
-        $this->assertEquals(5400, TimeEntry::parseToSeconds('1:30'));
-        $this->assertEquals(3600, TimeEntry::parseToSeconds('1:00'));
-        $this->assertEquals(36900, TimeEntry::parseToSeconds('10:15'));
+        $this->assertEquals(5400, TimeEntry::parseToSeconds('1:30:00'));
+        $this->assertEquals(3600, TimeEntry::parseToSeconds('1:00:00'));
+        $this->assertEquals(36900, TimeEntry::parseToSeconds('10:15:00'));
     }
 
     public function test_parse_to_seconds_with_decimal_format(): void
@@ -274,5 +274,26 @@ class TimeEntryTest extends TestCase
         $entry->save();
 
         $this->assertGreaterThan(7000, $entry->duration_seconds); // ~2 hours
+    }
+
+    /**
+     * L'application doit savoir relire ce qu'elle affiche : formatSeconds()
+     * produit « h:mm:ss », parseToSeconds() n'acceptait que « h:mm ». Recopier
+     * une durée lue à l'écran renvoyait donc 0, silencieusement.
+     */
+    public function test_format_and_parse_are_symmetric(): void
+    {
+        foreach ([60, 3600, 5400, 36900, 4530] as $seconds) {
+            $this->assertSame(
+                $seconds,
+                TimeEntry::parseToSeconds(TimeEntry::formatSeconds($seconds)),
+                "Aller-retour cassé pour {$seconds} secondes."
+            );
+        }
+    }
+
+    public function test_the_short_format_without_seconds_is_still_accepted(): void
+    {
+        $this->assertSame(5400, TimeEntry::parseToSeconds('1:30'));
     }
 }

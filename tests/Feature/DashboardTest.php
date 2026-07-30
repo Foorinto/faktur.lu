@@ -90,7 +90,10 @@ class DashboardTest extends TestCase
         $this->assertEquals(5000, $kpis['annual_revenue']);
         $this->assertEquals(1000, $kpis['annual_expenses']);
         $this->assertEquals(4000, $kpis['net_profit']);
-        $this->assertEquals(35000, $kpis['vat_franchise_threshold']);
+        $this->assertEquals(
+            \App\Services\DashboardService::VAT_FRANCHISE_THRESHOLD,
+            $kpis['vat_franchise_threshold']
+        );
         $this->assertEquals(100000, $kpis['simplified_accounting_threshold']);
     }
 
@@ -203,7 +206,7 @@ class DashboardTest extends TestCase
             'client_id' => $this->client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 40000, // > 35000
+            'total_ht' => \App\Services\DashboardService::VAT_FRANCHISE_THRESHOLD * 1.1, // au-delà du seuil
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -464,12 +467,12 @@ class DashboardTest extends TestCase
             'country_code' => 'LU',
         ]);
 
-        // Create invoices totaling 32000 EUR (>90% of 35000)
+        // 90 % du seuil : bande d'avertissement
         Invoice::factory()->create([
             'client_id' => $this->client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 32000,
+            'total_ht' => \App\Services\DashboardService::VAT_FRANCHISE_THRESHOLD * 0.9,
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -492,12 +495,12 @@ class DashboardTest extends TestCase
             'country_code' => 'LU',
         ]);
 
-        // Create invoices totaling 40000 EUR (>35000 threshold)
+        // Au-delà du seuil
         Invoice::factory()->create([
             'client_id' => $this->client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 40000,
+            'total_ht' => \App\Services\DashboardService::VAT_FRANCHISE_THRESHOLD * 1.1,
             'type' => Invoice::TYPE_INVOICE,
         ]);
 

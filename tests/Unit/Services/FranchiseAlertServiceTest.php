@@ -15,6 +15,24 @@ class FranchiseAlertServiceTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Seuil de franchise réel du pays, lu depuis la configuration.
+     *
+     * Ces tests codaient le seuil en dur (35 000 €) : ils ont donc tous cassé
+     * quand le Luxembourg l'a relevé à 50 000 €, alors que l'application était
+     * correcte. On dérive désormais du même référentiel que le code testé.
+     */
+    private function threshold(string $country = 'LU'): float
+    {
+        return (float) config("countries.{$country}.franchise.threshold");
+    }
+
+    /** Un chiffre d'affaires représentant X % du seuil. */
+    private function revenueAt(float $percent, string $country = 'LU'): float
+    {
+        return round($this->threshold($country) * $percent / 100, 2);
+    }
+
     protected User $user;
 
     protected function setUp(): void
@@ -161,7 +179,7 @@ class FranchiseAlertServiceTest extends TestCase
     {
         $service = new FranchiseAlertService();
 
-        $this->assertEquals(35000, $service->getThreshold());
+        $this->assertEquals($this->threshold(), $service->getThreshold());
     }
 
     public function test_get_threshold_returns_country_specific_threshold(): void
@@ -173,7 +191,7 @@ class FranchiseAlertServiceTest extends TestCase
         ]);
 
         $service = new FranchiseAlertService();
-        $this->assertEquals(35000, $service->getThreshold());
+        $this->assertEquals($this->threshold(), $service->getThreshold());
     }
 
     public function test_get_threshold_returns_belgium_threshold(): void
@@ -217,8 +235,7 @@ class FranchiseAlertServiceTest extends TestCase
 
         $service = new FranchiseAlertService();
 
-        // 35000 - 20000 = 15000
-        $this->assertEquals(15000.0, $service->getRemainingAmount());
+        $this->assertEquals($this->threshold() - $this->revenueAt(40), $service->getRemainingAmount());
     }
 
     public function test_get_remaining_amount_returns_zero_when_exceeded(): void
@@ -234,7 +251,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 40000,
+            'total_ht' => $this->revenueAt(110), // au-delà du seuil
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -256,7 +273,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 17500, // 50% of 35000
+            'total_ht' => $this->revenueAt(50),
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -274,12 +291,12 @@ class FranchiseAlertServiceTest extends TestCase
 
         $client = Client::factory()->create();
 
-        // 31500 is 90% of 35000
+        // 90 % du seuil
         Invoice::factory()->create([
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 31500,
+            'total_ht' => $this->revenueAt(90),
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -298,12 +315,12 @@ class FranchiseAlertServiceTest extends TestCase
 
         $client = Client::factory()->create();
 
-        // 28000 is 80% of 35000
+        // 80 % du seuil
         Invoice::factory()->create([
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 28000,
+            'total_ht' => $this->revenueAt(80),
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -325,7 +342,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 40000,
+            'total_ht' => $this->revenueAt(110), // au-delà du seuil
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -348,7 +365,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 35001,
+            'total_ht' => $this->revenueAt(110), // au-delà du seuil
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -440,7 +457,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 50000,
+            'total_ht' => $this->revenueAt(110), // au-delà du seuil
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -462,7 +479,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 40000,
+            'total_ht' => $this->revenueAt(110), // au-delà du seuil
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -480,12 +497,12 @@ class FranchiseAlertServiceTest extends TestCase
 
         $client = Client::factory()->create();
 
-        // 32000 is ~91.4% of 35000
+        // 91 % du seuil
         Invoice::factory()->create([
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 32000,
+            'total_ht' => $this->revenueAt(91),
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -503,7 +520,7 @@ class FranchiseAlertServiceTest extends TestCase
 
         $client = Client::factory()->create();
 
-        // 20000 is ~57% of 35000
+        // 57 % du seuil
         Invoice::factory()->create([
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
@@ -530,7 +547,7 @@ class FranchiseAlertServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 32000,
+            'total_ht' => $this->revenueAt(91),
             'type' => Invoice::TYPE_INVOICE,
         ]);
 
@@ -550,9 +567,9 @@ class FranchiseAlertServiceTest extends TestCase
 
         $this->assertTrue($data['show']);
         $this->assertEquals('warning', $data['status']);
-        $this->assertEquals(32000.0, $data['yearly_revenue']);
-        $this->assertEquals(35000, $data['threshold']);
-        $this->assertEquals(3000.0, $data['remaining_amount']);
+        $this->assertEquals($this->revenueAt(91), $data['yearly_revenue']);
+        $this->assertEquals($this->threshold(), $data['threshold']);
+        $this->assertEquals($this->threshold() - $this->revenueAt(91), $data['remaining_amount']);
         $this->assertEquals('LU', $data['country_code']);
         $this->assertTrue($data['is_franchise_regime']);
     }
@@ -590,8 +607,8 @@ class FranchiseAlertServiceTest extends TestCase
         $this->assertFalse($data['show']);
         $this->assertNull($data['status']);
         $this->assertEquals(0, $data['yearly_revenue']);
-        $this->assertEquals(35000, $data['threshold']);
-        $this->assertEquals(35000, $data['remaining_amount']);
+        $this->assertEquals($this->threshold(), $data['threshold']);
+        $this->assertEquals($this->threshold(), $data['remaining_amount']);
         $this->assertEquals('LU', $data['country_code']);
     }
 
@@ -604,12 +621,12 @@ class FranchiseAlertServiceTest extends TestCase
 
         $client = Client::factory()->create();
 
-        // 28000 is 80% of 35000
+        // 80 % du seuil
         Invoice::factory()->create([
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'issued_at' => now(),
-            'total_ht' => 28000,
+            'total_ht' => $this->revenueAt(80),
             'type' => Invoice::TYPE_INVOICE,
         ]);
 

@@ -19,10 +19,16 @@ class ExpenseTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+
+        // S'authentifier avant de créer les données : le scope BelongsToUser
+        // attribue le propriétaire à la création.
+        $this->actingAs($this->user);
     }
 
     public function test_guest_cannot_access_expenses(): void
     {
+        auth()->logout(); // setUp() authentifie pour créer les données
+
         $this->get(route('expenses.index'))->assertRedirect(route('login'));
     }
 

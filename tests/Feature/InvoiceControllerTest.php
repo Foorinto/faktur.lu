@@ -21,14 +21,20 @@ class InvoiceControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->client = Client::factory()->create();
 
-        // Create business settings for finalization
+        // S'authentifier AVANT de créer les données : le scope BelongsToUser
+        // attribue le propriétaire à la création. Sans cela, les fixtures
+        // appartiennent à un autre utilisateur et deviennent invisibles.
+        $this->actingAs($this->user);
+
+        $this->client = Client::factory()->create(['user_id' => $this->user->id]);
         BusinessSettings::factory()->create();
     }
 
     public function test_guest_cannot_access_invoices(): void
     {
+        auth()->logout(); // setUp() authentifie pour créer les données
+
         $this->get(route('invoices.index'))->assertRedirect(route('login'));
     }
 
@@ -302,8 +308,12 @@ class InvoiceControllerTest extends TestCase
         $invoice1->refresh();
         $invoice2->refresh();
 
-        $year = now()->year;
-        $this->assertEquals("FAC-$year-001", $invoice1->number);
-        $this->assertEquals("FAC-$year-002", $invoice2->number);
+        // On vérifie la séquence, pas le préfixe : celui-ci est configurable
+        // (Paramètres → numérotation) et a déjà changé une fois.
+        $this->assertSame(1, $invoice1->sequence_number);
+        $this->assertSame(2, $invoice2->sequence_number);
+        $this->assertNotSame($invoice1->number, $invoice2->number);
+        $this->assertStringEndsWith('001', $invoice1->number);
+        $this->assertStringEndsWith('002', $invoice2->number);
     }
 }

@@ -17,6 +17,10 @@ class VatCalculationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // determineScenario() lit BusinessSettings::getInstance(), filtré par
+        // l'utilisateur courant : sans authentification, le régime est ignoré.
+        $this->actingAs(\App\Models\User::factory()->create());
         $this->service = new VatCalculationService();
     }
 
@@ -66,7 +70,7 @@ class VatCalculationServiceTest extends TestCase
 
         $scenario = $this->service->determineScenario($client);
 
-        $this->assertEquals('B2B_LU', $scenario['key']);
+        $this->assertEquals('B2B_DOMESTIC', $scenario['key']);
         $this->assertEquals(17, $scenario['rate']);
         $this->assertNull($scenario['mention']);
     }
@@ -82,7 +86,7 @@ class VatCalculationServiceTest extends TestCase
 
         $scenario = $this->service->determineScenario($client);
 
-        $this->assertEquals('B2C_LU', $scenario['key']);
+        $this->assertEquals('B2C_DOMESTIC', $scenario['key']);
         $this->assertEquals(17, $scenario['rate']);
         $this->assertNull($scenario['mention']);
     }
@@ -116,7 +120,7 @@ class VatCalculationServiceTest extends TestCase
         $scenario = $this->service->determineScenario($client);
 
         // B2B EU client without VAT number should get Luxembourg VAT
-        $this->assertEquals('B2B_LU', $scenario['key']);
+        $this->assertEquals('B2B_DOMESTIC', $scenario['key']);
         $this->assertEquals(17, $scenario['rate']);
     }
 
@@ -167,8 +171,8 @@ class VatCalculationServiceTest extends TestCase
 
         $keys = array_column($scenarios, 'key');
         $this->assertContains('B2B_INTRA_EU', $keys);
-        $this->assertContains('B2B_LU', $keys);
-        $this->assertContains('B2C_LU', $keys);
+        $this->assertContains('B2B_DOMESTIC', $keys);
+        $this->assertContains('B2C_DOMESTIC', $keys);
         $this->assertContains('FRANCHISE', $keys);
         $this->assertContains('EXPORT', $keys);
     }

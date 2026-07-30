@@ -17,6 +17,10 @@ class BusinessSettingsTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+
+        // S'authentifier avant de créer les données : le scope BelongsToUser
+        // attribue le propriétaire à la création.
+        $this->actingAs($this->user);
     }
 
     public function test_settings_page_is_displayed(): void
@@ -191,6 +195,8 @@ class BusinessSettingsTest extends TestCase
 
     public function test_guest_cannot_access_settings(): void
     {
+        auth()->logout(); // setUp() authentifie pour créer les données
+
         $response = $this->get(route('settings.business.edit'));
 
         $response->assertRedirect(route('login'));

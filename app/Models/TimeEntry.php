@@ -308,12 +308,20 @@ class TimeEntry extends Model
     }
 
     /**
-     * Parse hours:minutes to seconds.
+     * Parse une durée saisie (h:mm, h:mm:ss ou heures décimales) en secondes.
+     *
+     * Les secondes sont acceptées car formatSeconds() les AFFICHE (« 1:30:00 ») :
+     * sans cela, recopier une durée lue à l'écran renvoyait 0, sans erreur ni
+     * avertissement — l'application ne savait pas relire son propre format.
      */
     public static function parseToSeconds(string $duration): int
     {
-        if (preg_match('/^(\d+):(\d{2})$/', $duration, $matches)) {
-            return ((int) $matches[1] * 3600) + ((int) $matches[2] * 60);
+        $duration = trim($duration);
+
+        if (preg_match('/^(\d+):(\d{2})(?::(\d{2}))?$/', $duration, $matches)) {
+            return ((int) $matches[1] * 3600)
+                + ((int) $matches[2] * 60)
+                + ((int) ($matches[3] ?? 0));
         }
 
         // Try decimal hours (e.g., 1.5)

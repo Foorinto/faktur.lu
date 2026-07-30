@@ -22,6 +22,10 @@ class InvoicePdfServiceTest extends TestCase
         parent::setUp();
         $this->service = new InvoicePdfService();
 
+        // Les paramètres d'entreprise sont rattachés à l'utilisateur : sans
+        // authentification, le rendu ne les retrouve pas.
+        $this->actingAs(\App\Models\User::factory()->create());
+
         // Create business settings
         BusinessSettings::factory()->create([
             'vat_regime' => 'assujetti',
@@ -154,8 +158,10 @@ class InvoicePdfServiceTest extends TestCase
         $html = $this->service->preview($this->invoice);
 
         $this->assertStringContainsString('Test Company', $html);
-        $this->assertStringContainsString('12345678901', $html);
         $this->assertStringContainsString('LU12345678', $html);
+        // Le matricule n'est PAS imprimé pour un vendeur luxembourgeois : le
+        // numéro de TVA suffit. Il n'apparaît que pour les vendeurs étrangers
+        // (SIREN français, numéro d'entreprise belge…). Cf. test ci-dessous.
     }
 
     public function test_preview_contains_buyer_info(): void
@@ -189,6 +195,8 @@ class InvoicePdfServiceTest extends TestCase
             'client_id' => $client->id,
             'status' => Invoice::STATUS_FINALIZED,
             'number' => '2026-003',
+            // Une facture finalisée est immuable : la mention se pose à la création.
+            'vat_mention' => 'franchise',
             'issued_at' => now(),
             'seller_snapshot' => [
                 'company_name' => 'Franchise Company',
@@ -259,5 +267,38 @@ class InvoicePdfServiceTest extends TestCase
         $html = $this->service->preview($creditNote);
 
         $this->assertStringContainsString('Avoir', $html);
+    }
+
+    /**
+     * Un vendeur étranger doit voir son identifiant fiscal national sur la
+     * facture (SIREN, numéro d'entreprise…), contrairement au vendeur
+     * luxembourgeois pour qui le numéro de TVA suffit.
+     */
+    public function test_preview_shows_the_fiscal_identifier_for_a_foreign_seller(): void
+    {
+        $client = Client::factory()->create();
+        $invoice = Invoice::factory()->create([
+            'client_id' => $client->id,
+            'status' => Invoice::STATUS_FINALIZED,
+            'number' => '2026-999',
+            'issued_at' => now(),
+            'due_at' => now()->addDays(30),
+            'seller_snapshot' => [
+                'company_name' => 'Société Française',
+                'country_code' => 'FR',
+                'matricule' => '552100554',
+                'vat_regime' => 'assujetti',
+                'vat_number' => 'FR12552100554',
+                'address' => '1 rue de Paris',
+                'postal_code' => '75001',
+                'city' => 'Paris',
+            ],
+            'buyer_snapshot' => ['company_name' => 'Client', 'address' => 'x', 'postal_code' => 'y', 'city' => 'z'],
+        ]);
+        InvoiceItem::factory()->create(['invoice_id' => $invoice->id]);
+
+        $html = $this->service->preview($invoice);
+
+        $this->assertStringContainsString('552100554', $html);
     }
 }

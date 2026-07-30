@@ -30,7 +30,11 @@ class DashboardServiceTest extends TestCase
 
     public function test_vat_franchise_threshold_constant(): void
     {
-        $this->assertEquals(35000, DashboardService::VAT_FRANCHISE_THRESHOLD);
+        // Le seuil doit rester aligné sur la configuration pays.
+        $this->assertSame(
+            (int) config('countries.LU.franchise.threshold'),
+            DashboardService::VAT_FRANCHISE_THRESHOLD
+        );
     }
 
     public function test_simplified_accounting_threshold_constant(): void
@@ -163,14 +167,15 @@ class DashboardServiceTest extends TestCase
         $progress = $this->service->getVatFranchiseProgress(10000);
 
         $this->assertEquals(10000, $progress['current']);
-        $this->assertEquals(35000, $progress['threshold']);
-        $this->assertEquals(28.6, $progress['percentage']);
-        $this->assertEquals(25000, $progress['remaining']);
+        $this->assertEquals(DashboardService::VAT_FRANCHISE_THRESHOLD, $progress['threshold']);
+        $threshold = DashboardService::VAT_FRANCHISE_THRESHOLD;
+        $this->assertEquals(round(10000 / $threshold * 100, 1), $progress['percentage']);
+        $this->assertEquals($threshold - 10000, $progress['remaining']);
     }
 
     public function test_get_vat_franchise_progress_at_threshold(): void
     {
-        $progress = $this->service->getVatFranchiseProgress(35000);
+        $progress = $this->service->getVatFranchiseProgress(DashboardService::VAT_FRANCHISE_THRESHOLD);
 
         $this->assertEquals(100.0, $progress['percentage']);
         $this->assertEquals(0, $progress['remaining']);
@@ -447,7 +452,9 @@ class DashboardServiceTest extends TestCase
 
     public function test_get_alerts_returns_vat_threshold_exceeded(): void
     {
-        $alerts = $this->service->getAlerts(now()->year, 40000);
+        // 110 % du seuil : dépassement, quel que soit le seuil en vigueur.
+        $revenue = DashboardService::VAT_FRANCHISE_THRESHOLD * 1.1;
+        $alerts = $this->service->getAlerts(now()->year, $revenue);
 
         $this->assertCount(1, $alerts);
         $this->assertEquals('vat_threshold_exceeded', $alerts[0]['type']);
@@ -456,7 +463,9 @@ class DashboardServiceTest extends TestCase
 
     public function test_get_alerts_returns_vat_threshold_warning(): void
     {
-        $alerts = $this->service->getAlerts(now()->year, 30000);
+        // 90 % du seuil : dans la bande d'avertissement (80–100 %).
+        $revenue = DashboardService::VAT_FRANCHISE_THRESHOLD * 0.9;
+        $alerts = $this->service->getAlerts(now()->year, $revenue);
 
         $vatAlerts = array_filter($alerts, fn($a) => $a['type'] === 'vat_threshold_warning');
         $this->assertCount(1, $vatAlerts);

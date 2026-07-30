@@ -19,12 +19,21 @@ class TimeEntryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
+        // Le suivi du temps est une fonctionnalité payante : un utilisateur sans
+        // essai actif est renvoyé vers la page d'abonnement. L'essai donne accès
+        // aux fonctionnalités Pro.
+        $this->user = User::factory()->create(['trial_ends_at' => now()->addDays(14)]);
+
+        // S'authentifier avant de créer les données : le scope BelongsToUser
+        // attribue le propriétaire à la création.
+        $this->actingAs($this->user);
         $this->client = Client::factory()->create();
     }
 
     public function test_guest_cannot_access_time_entries(): void
     {
+        auth()->logout(); // setUp() authentifie pour créer les données
+
         $this->get(route('time-entries.index'))->assertRedirect(route('login'));
     }
 

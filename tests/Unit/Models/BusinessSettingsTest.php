@@ -75,6 +75,8 @@ class BusinessSettingsTest extends TestCase
 
     public function test_get_instance_returns_first_record(): void
     {
+        // getInstance() est filtré par l'utilisateur courant (scope BelongsToUser).
+        $this->actingAs(\App\Models\User::factory()->create());
         $settings = BusinessSettings::factory()->create();
 
         $instance = BusinessSettings::getInstance();
@@ -92,6 +94,7 @@ class BusinessSettingsTest extends TestCase
 
     public function test_is_configured_returns_true_when_settings_exist(): void
     {
+        $this->actingAs(\App\Models\User::factory()->create());
         BusinessSettings::factory()->create();
 
         $this->assertTrue(BusinessSettings::isConfigured());

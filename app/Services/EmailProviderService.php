@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\EmailSettings;
 use App\Models\User;
+use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Config;
@@ -15,8 +16,13 @@ class EmailProviderService
 {
     /**
      * Get the mailer for a specific user.
+     *
+     * Type de retour volontairement le CONTRAT et non la classe concrète :
+     * Mail::mailer() peut renvoyer un MailFake pendant les tests, et une
+     * signature figée sur Illuminate\Mail\Mailer rendait tout ce service
+     * intestable (TypeError dès que Mail::fake() est utilisé).
      */
-    public function getMailerForUser(User $user): Mailer
+    public function getMailerForUser(User $user): MailerContract
     {
         $settings = $user->emailSettings;
 

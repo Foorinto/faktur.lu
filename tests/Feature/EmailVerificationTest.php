@@ -101,8 +101,11 @@ class EmailVerificationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'Password123!',
-            'password_confirmation' => 'Password123!',
+            'password' => 'Fakt#2026!Secur',
+            'password_confirmation' => 'Fakt#2026!Secur',
+            'terms' => true,
+            'homepage_url' => '',
+            'form_loaded_at' => now()->subSeconds(10)->timestamp,
         ]);
 
         $user = User::where('email', 'test@example.com')->first();

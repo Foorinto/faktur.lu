@@ -21,6 +21,10 @@ class CreateCreditNoteActionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Les paramètres et données sont rattachés à l'utilisateur (scope
+        // BelongsToUser) : il faut être authentifié AVANT de les créer.
+        $this->actingAs(\App\Models\User::factory()->create());
         $this->action = app(CreateCreditNoteAction::class);
 
         BusinessSettings::factory()->create();

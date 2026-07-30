@@ -25,6 +25,10 @@ class InvoicePdfTest extends TestCase
         parent::setUp();
 
         $this->user = User::factory()->create();
+
+        // S'authentifier avant de créer les données : le scope BelongsToUser
+        // attribue le propriétaire à la création.
+        $this->actingAs($this->user);
         $this->client = Client::factory()->create([
             'email' => 'client@example.com',
         ]);
@@ -83,6 +87,8 @@ class InvoicePdfTest extends TestCase
 
     public function test_guest_cannot_download_pdf(): void
     {
+        auth()->logout(); // setUp() authentifie pour créer les données
+
         $this->get(route('invoices.pdf', $this->finalizedInvoice))
             ->assertRedirect(route('login'));
     }
@@ -127,8 +133,9 @@ class InvoicePdfTest extends TestCase
         Mail::fake();
 
         $this->actingAs($this->user)
-            ->post(route('invoices.send', $this->finalizedInvoice), [
-                'email' => 'recipient@example.com',
+            ->post(route('invoices.send-email', $this->finalizedInvoice), [
+                'recipient_email' => 'recipient@example.com',
+                'subject' => 'Votre facture',
                 'message' => 'Please find attached your invoice.',
             ])
             ->assertRedirect()
@@ -144,8 +151,9 @@ class InvoicePdfTest extends TestCase
         Mail::fake();
 
         $this->actingAs($this->user)
-            ->post(route('invoices.send', $this->finalizedInvoice), [
-                'email' => 'recipient@example.com',
+            ->post(route('invoices.send-email', $this->finalizedInvoice), [
+                'recipient_email' => 'recipient@example.com',
+                'subject' => 'Votre facture',
             ]);
 
         $this->finalizedInvoice->refresh();
@@ -158,11 +166,11 @@ class InvoicePdfTest extends TestCase
         Mail::fake();
 
         $this->actingAs($this->user)
-            ->post(route('invoices.send', $this->draftInvoice), [
+            ->post(route('invoices.send-email', $this->draftInvoice), [
                 'email' => 'recipient@example.com',
             ])
             ->assertRedirect()
-            ->assertSessionHas('error');
+            ->assertSessionHasErrors();
 
         Mail::assertNothingSent();
     }
@@ -170,10 +178,11 @@ class InvoicePdfTest extends TestCase
     public function test_send_email_requires_valid_email(): void
     {
         $this->actingAs($this->user)
-            ->post(route('invoices.send', $this->finalizedInvoice), [
-                'email' => 'not-an-email',
+            ->post(route('invoices.send-email', $this->finalizedInvoice), [
+                'subject' => 'Votre facture',
+                'recipient_email' => 'not-an-email',
             ])
-            ->assertSessionHasErrors('email');
+            ->assertSessionHasErrors('recipient_email');
     }
 
     public function test_pdf_contains_invoice_number(): void
@@ -195,6 +204,9 @@ class InvoicePdfTest extends TestCase
             'number' => '2026-002',
             'issued_at' => now(),
             'due_at' => now()->addDays(30),
+            // La mention est portée par la facture elle-même (figée à la
+            // finalisation), pas déduite du snapshot vendeur.
+            'vat_mention' => 'franchise',
             'seller_snapshot' => [
                 'company_name' => 'Franchise Company',
                 'matricule' => '12345678901',
