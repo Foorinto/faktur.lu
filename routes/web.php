@@ -206,6 +206,13 @@ $mergedDuplicateRedirects = [
             => 'faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado',
     ],
 ];
+// Contrôle fiscal : retenu = ...comment-preparer (le plus ancien, titre
+// intemporel). Le contenu du doublon, plus riche, y a été promu.
+$mergedDuplicateRedirects['fr']['controle-fiscal-aed-luxembourg-2026-preparation'] = 'controle-fiscal-luxembourg-comment-preparer';
+$mergedDuplicateRedirects['de']['aed-steuerpruefung-luxemburg-2026-vorbereitung'] = 'steuerpruefung-luxemburg-vorbereiten';
+$mergedDuplicateRedirects['en']['aed-tax-audit-luxembourg-2026-preparation-guide'] = 'tax-audit-luxembourg-how-to-prepare';
+$mergedDuplicateRedirects['lb']['aed-steierkontroll-letzebuerg-2026-virbereedung'] = 'steierprefung-letzebuerg-virbereden';
+$mergedDuplicateRedirects['pt']['auditoria-fiscal-aed-luxemburgo-2026-preparacao'] = 'controlo-fiscal-no-luxemburgo-como-se-preparar';
 foreach ($mergedDuplicateRedirects as $loc => $map) {
     foreach ($map as $oldSlug => $newSlug) {
         Route::get("/{$loc}/blog/{$oldSlug}", fn () => redirect()->route('blog.show', [
