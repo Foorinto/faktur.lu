@@ -8,6 +8,7 @@ use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\TimeEntry;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -284,7 +285,9 @@ class DashboardTest extends TestCase
         Invoice::factory()->create([
             'client_id' => $this->client->id,
             'status' => Invoice::STATUS_FINALIZED,
-            'issued_at' => now()->setMonth(6),
+            // Jour fixe : now()->setMonth(6) un 31 déborde sur juillet
+            // (juin n'a que 30 jours) et le test casse 7 jours par an.
+            'issued_at' => Carbon::create(now()->year, 6, 15),
             'total_ht' => 2000,
             'type' => Invoice::TYPE_INVOICE,
         ]);
