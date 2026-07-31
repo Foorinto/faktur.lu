@@ -213,6 +213,12 @@ $mergedDuplicateRedirects['de']['aed-steuerpruefung-luxemburg-2026-vorbereitung'
 $mergedDuplicateRedirects['en']['aed-tax-audit-luxembourg-2026-preparation-guide'] = 'tax-audit-luxembourg-how-to-prepare';
 $mergedDuplicateRedirects['lb']['aed-steierkontroll-letzebuerg-2026-virbereedung'] = 'steierprefung-letzebuerg-virbereden';
 $mergedDuplicateRedirects['pt']['auditoria-fiscal-aed-luxemburgo-2026-preparacao'] = 'controlo-fiscal-no-luxemburgo-como-se-preparar';
+// Taux de TVA : retenu = ...taux-calcul-obligations (17 liens internes contre 2).
+$mergedDuplicateRedirects['fr']['tva-luxembourg-2026-quatre-taux-17-14-8-3-expliques'] = 'tva-luxembourg-taux-calcul-obligations';
+$mergedDuplicateRedirects['de']['luxemburgische-mwst-2026-vier-saetze-17-14-8-3-erklaert'] = 'mwst-luxemburg-saetze-berechnung-pflichten';
+$mergedDuplicateRedirects['en']['luxembourg-vat-2026-four-rates-17-14-8-3-explained'] = 'vat-luxembourg-rates-calculation-obligations';
+$mergedDuplicateRedirects['lb']['letzebuerger-tva-2026-veier-satz-17-14-8-3-erklaert'] = 'tva-letzebuerg-tariffer-berechnung-obligatiounen';
+$mergedDuplicateRedirects['pt']['iva-luxemburgo-2026-quatro-taxas-17-14-8-3-explicadas'] = 'iva-no-luxemburgo-taxas-calculo-e-obrigacoes-para-as-empresas';
 foreach ($mergedDuplicateRedirects as $loc => $map) {
     foreach ($map as $oldSlug => $newSlug) {
         Route::get("/{$loc}/blog/{$oldSlug}", fn () => redirect()->route('blog.show', [
