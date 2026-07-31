@@ -177,6 +177,44 @@ foreach ($articleLivaSlugRedirects as $loc => $map) {
     }
 }
 
+// Redirects 301 : fusion des articles en doublon.
+// Le blog hébergeait plusieurs articles concurrents sur le même sujet, qui se
+// cannibalisaient en SEO et divergeaient dans leur contenu. Le doublon est
+// archivé en base (status = 'archived') et son URL redirigée vers l'article
+// retenu, choisi sur le maillage interne et l'audience réelle.
+$mergedDuplicateRedirects = [
+    // FAIA : retenu = ...-fichier-audit-informatise-guide (24 liens internes,
+    // top 10 Matomo) contre 5 liens pour le doublon.
+    'fr' => [
+        'faia-luxembourg-guide-fichier-audit-informatise-2026'
+            => 'faia-luxembourg-fichier-audit-informatise-guide',
+    ],
+    'de' => [
+        'faia-luxemburg-vollstaendiger-leitfaden-pruefdatei-2026'
+            => 'faia-luxemburg-informatisierte-audit-datei-leitfaden',
+    ],
+    'en' => [
+        'faia-luxembourg-standard-audit-file-complete-guide-2026'
+            => 'faia-luxembourg-computerized-audit-file-guide',
+    ],
+    'lb' => [
+        'faia-letzebuerg-komplette-guide-auditdatei-2026'
+            => 'faia-letzebuerg-informatiseierte-audit-fichier-guide',
+    ],
+    'pt' => [
+        'faia-luxemburgo-guia-completo-ficheiro-auditoria-2026'
+            => 'faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado',
+    ],
+];
+foreach ($mergedDuplicateRedirects as $loc => $map) {
+    foreach ($map as $oldSlug => $newSlug) {
+        Route::get("/{$loc}/blog/{$oldSlug}", fn () => redirect()->route('blog.show', [
+            'locale' => $loc,
+            'post' => $newSlug,
+        ], 301));
+    }
+}
+
 Route::prefix('{locale}')
     ->where(['locale' => 'fr|de|en|lb|pt'])
     ->group(function () {
