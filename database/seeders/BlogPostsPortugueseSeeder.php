@@ -22,23 +22,38 @@ class BlogPostsPortugueseSeeder extends Seeder
         $articles = $this->getArticles();
 
         $count = 0;
+        $skipped = 0;
         foreach ($articles as $article) {
             // Override l'author_id en dur (1) par celui resolu dynamiquement
             $article['author_id'] = $resolvedAuthorId;
 
-            // Idempotent: identifié par locale + translation_key
-            BlogPost::updateOrCreate(
-                [
-                    'locale' => 'pt',
-                    'translation_key' => $article['translation_key'],
-                ],
-                $article
-            );
+            // NE CRÉE QUE SI ABSENT — ne jamais écraser une ligne existante.
+            //
+            // Ce seeder tourne à CHAQUE déploiement (voir deploy.sh). Avec
+            // `updateOrCreate`, il réécrivait le contenu portugais à chaque
+            // fois, annulant silencieusement les corrections éditoriales
+            // apportées ensuite par migration : 15 articles ont ainsi perdu
+            // leurs corrections PT sans qu'aucune erreur ne soit remontée.
+            //
+            // Même garde que les seeders BlogScheduledSummer2026* : le seeder
+            // garde son utilité pour amorcer une base neuve, sans figer le
+            // contenu d'une base déjà en service.
+            $exists = BlogPost::where('locale', 'pt')
+                ->where('translation_key', $article['translation_key'])
+                ->exists();
+
+            if ($exists) {
+                $skipped++;
+
+                continue;
+            }
+
+            BlogPost::create($article);
             $count++;
         }
 
         $authorInfo = $resolvedAuthorId === null ? 'NULL' : "user_id={$resolvedAuthorId}";
-        $this->command->info("Created/updated {$count} Portuguese (pt-PT) blog posts (author: {$authorInfo}).");
+        $this->command->info("Created {$count} Portuguese (pt-PT) blog posts, skipped {$skipped} already present (author: {$authorInfo}).");
     }
 
     /**
