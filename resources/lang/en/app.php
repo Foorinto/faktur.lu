@@ -862,7 +862,8 @@ return [
     'annual_revenue' => 'Annual Revenue (excl. VAT)',
     'net_profit' => 'Net Profit',
     'vat_franchise_threshold' => 'VAT exemption threshold',
-    'article_57_threshold' => 'Article 57 - Threshold of',
+    'article_57_threshold' => 'Article 57bis - Threshold of',
+    'threshold_of' => 'Threshold of',
     'vat_franchise_learn_more' => 'Learn more about the exemption threshold',
     'remaining_before_threshold' => ':amount remaining before threshold',
     'threshold_exceeded_vat' => 'Threshold exceeded - VAT registration required',
@@ -1221,7 +1222,7 @@ return [
         'meta_description' => 'Compliant invoicing software for Luxembourg. FAIA export for tax audits, automatic 17% VAT, quotes, time tracking. Free trial.',
         'meta_keywords' => 'invoicing software luxembourg, FAIA compliant invoicing Luxembourg, electronic invoice luxembourg, FAIA, Peppol, VAT luxembourg 17%, SME invoicing, freelancer invoicing luxembourg, accounting software luxembourg',
 
-        'schema_software_description' => 'Faktur.lu is the leading invoicing platform for sole traders and SMEs in Luxembourg, guaranteeing tax compliance (VAT, FAIA, B2B e-invoicing).',
+        'schema_software_description' => 'Faktur.lu is an invoicing platform built for sole traders and SMEs in Luxembourg: Luxembourg VAT, FAIA export and B2B e-invoicing.',
         'schema_slogan' => 'The Luxembourg invoicing solution',
         'schema_offer_free_name' => 'Free Plan',
         'schema_offer_free_description' => 'Free Plan - 10 clients, 5 invoices per month',
@@ -1597,7 +1598,7 @@ return [
                         'Peppol B2G export (BIS 3.0)',
                         'Custom numbering',
                     ],
-                    'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal (1 expert)', 'Sage BOB 50, Sage 100, CSV exports', 'Peppol B2G export (BIS 3.0)', 'Custom numbering'],
+                    'features' => ['50 invoices/month', '100 clients maximum', '20 quotes/month', '30 expenses/month', '10 active projects', 'Time tracking', 'Accountant portal for your fiduciaire', 'Sage BOB 50, Sage 100, CSV exports', 'Peppol B2G export (BIS 3.0)', 'Custom numbering'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1610,7 +1611,7 @@ return [
                         'No faktur.lu branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol export + transmission (soon)', 'Automatic payment reminders', '5 users, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol export + transmission (soon)', 'Automatic payment reminders', 'Multi-user and multi-accountant access', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [
@@ -1693,7 +1694,7 @@ return [
                 // Cluster B - Comparisons & pricing
                 'meilleure_solution' => [
                     'question' => 'What is the best invoicing software for SMEs in Luxembourg?',
-                    'answer' => 'Faktur.lu is the leading invoicing platform for sole traders and SMEs in Luxembourg. Unlike generic international solutions, faktur.lu is built specifically for the Luxembourg context: native FAIA compliance, pre-configured VAT rates, Peppol integration via local Access Point, support in 5 languages (FR, DE, EN, LB, PT), dedicated portal for accountants, and GDPR compliance with European hosting. 14-day free trial, no credit card required.',
+                    'answer' => 'Faktur.lu is an invoicing platform built for sole traders and SMEs in Luxembourg. Unlike generic international solutions, faktur.lu is built specifically for the Luxembourg context: native FAIA compliance, pre-configured VAT rates, Peppol integration via local Access Point, support in 5 languages (FR, DE, EN, LB, PT), dedicated portal for accountants, and GDPR compliance with European hosting. 14-day free trial, no credit card required.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'How much does invoicing software cost in Luxembourg?',
@@ -2150,7 +2151,7 @@ return [
     // Why faktur.lu page (defense concurrentielle)
     'why_faktur' => [
         'page_title' => 'Why choose faktur.lu? | Luxembourg invoicing software',
-        'meta_description' => 'Faktur.lu is the leading invoicing platform for sole traders and SMEs in Luxembourg: native FAIA compliance, Peppol, 5 languages, European hosting. Discover our commitments.',
+        'meta_description' => 'Faktur.lu is an invoicing platform built for sole traders and SMEs in Luxembourg: native FAIA compliance, Peppol, 5 languages, European hosting. Discover our commitments.',
         'breadcrumb' => 'Why faktur.lu',
         'hero' => [
             'badge' => 'Built for Luxembourg',
@@ -2205,7 +2206,7 @@ return [
             'paragraph_3' => 'Today, hundreds of Luxembourg businesses - freelancers, SMEs, fiduciaries - use faktur.lu daily. Our commitment remains the same: to be the reference invoicing solution in Luxembourg, while staying accessible, compliant and close to local entrepreneurs.',
         ],
         'cta' => [
-            'title' => 'Join the leading solution in Luxembourg',
+            'title' => 'Join a solution built for Luxembourg',
             'subtitle' => '14-day free trial, no credit card. Assisted migration for Pro accounts.',
             'primary_button' => 'Start free',
             'secondary_button' => 'See pricing',
@@ -2526,7 +2527,7 @@ return [
         'pains' => [
             'silos' => ['title' => '"Too many tools, none connected"', 'desc' => 'Excel for invoices, a separate CRM, an HR file somewhere, an accountant asking everything by email. You spend more time moving data than managing.'],
             'team' => ['title' => '"My team doesn\'t know who did what"', 'desc' => 'Multi-user essential: 5 collaborators access in parallel, each with their rights. Audit log of who created/modified what.'],
-            'compliance' => ['title' => '"AED audit in 2 months, panic"', 'desc' => '10-year PDF/A archive, FAIA 2.01 on demand, LIVA compliance guaranteed. Audit prep in 30 minutes instead of 3 days.'],
+            'compliance' => ['title' => '"AED audit in 2 months, panic"', 'desc' => '10-year PDF/A archive, FAIA 2.01 on demand, LIVA mandatory mentions applied automatically. Audit prep in 30 minutes instead of 3 days.'],
             'cashflow' => ['title' => '"30% of my invoices stay unpaid too long"', 'desc' => 'Automatic reminders (D+15, D+30, D+45 configurable), real-time cash tracking, overdue dashboard. Clients pay faster.'],
         ],
         'features_title' => 'The complete platform for Luxembourg SMEs',

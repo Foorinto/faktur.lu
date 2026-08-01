@@ -233,7 +233,7 @@ class InvoicePdfTest extends TestCase
             ->assertInertia(fn ($page) => $page
                 ->where('htmlContent', fn ($html) =>
                     str_contains($html, 'TVA non applicable') &&
-                    str_contains($html, 'art. 57')
+                    str_contains($html, 'Article 57bis de la loi modifiée du 12 février 1979')
                 )
             );
     }

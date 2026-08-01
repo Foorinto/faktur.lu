@@ -59,14 +59,14 @@ return [
     'scan_to_pay' => 'Scan to pay',
 
     // VAT mentions
-    'vat_exempt' => 'VAT exempt pursuant to Art. 57 of the Luxembourg VAT Code',
+    'vat_exempt' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979',
     'vat_exempt_franchise' => 'Tax exemption scheme',
     'vat_intra_community' => 'VAT exempt - Intra-community supply',
     'vat_reverse_charge' => 'Reverse charge mechanism applies',
 
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
-        'franchise' => 'VAT exempt pursuant to Art. 57 of the Luxembourg VAT Code (Tax exemption scheme)',
+        'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (VAT exemption scheme for small businesses)',
         'reverse_charge' => 'Reverse charge - Article 196 of Directive 2006/112/EC',
         'intra_eu' => 'VAT exempt - Intra-community supply (Art. 43 of the VAT Code)',
         'export' => 'VAT exempt - Export (Art. 43 of the VAT Code)',

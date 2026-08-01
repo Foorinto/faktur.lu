@@ -765,7 +765,8 @@ return [
     'annual_revenue' => 'Joresëmsaz (HT)',
     'net_profit' => 'Nettogewënn',
     'vat_franchise_threshold' => 'TVA-Franchise Schwellwäert',
-    'article_57_threshold' => 'Artikel 57 - Schwellwäert vun',
+    'article_57_threshold' => 'Artikel 57bis - Schwellwäert vun',
+    'threshold_of' => 'Schwellwäert vun',
     'vat_franchise_learn_more' => 'Méi iwwer d\'Befreiungsschwell gewuer ginn',
     'remaining_before_threshold' => 'Nach :amount bis zum Schwellwäert',
     'threshold_exceeded_vat' => 'Schwellwäert iwwerschratt - TVA-Uschléissung obligatoresch',
@@ -1124,7 +1125,7 @@ return [
         'meta_description' => 'Fakturatiounssoftware fir Lëtzebuerg: FAIA-Export fir Steierkontrollen, automatesch TVA 17%, Peppol, Devis, Zäiterfassung. Gratis testen.',
         'meta_keywords' => 'Fakturatiounsprogramm Lëtzebuerg, Rechnung Lëtzebuerg, FAIA, Peppol, TVA Lëtzebuerg, KMU Rechnungsstellung',
 
-        'schema_software_description' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg, déi steierlech Konformitéit (TVA, FAIA, B2B-E-Fakturatioun) garantéiert.',
+        'schema_software_description' => 'Faktur.lu ass eng Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg: Lëtzebuerger TVA, FAIA-Export a B2B-E-Fakturatioun.',
         'schema_slogan' => 'Déi Lëtzebuerger Fakturatiounsléisung',
         'schema_offer_free_name' => 'Gratis Plang',
         'schema_offer_free_description' => 'Gratis Plang - 10 Clienten, 5 Rechnungen pro Mount',
@@ -1498,7 +1499,7 @@ return [
                         'Peppol B2G Export (BIS 3.0)',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal (1 Expert)', 'Sage BOB 50, Sage 100, CSV Exporter', 'Peppol B2G Export (BIS 3.0)', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['50 Rechnungen/Mount', 'Maximal 100 Clienten', '20 Devis/Mount', '30 Ausgaben/Mount', '10 aktiv Projeten', 'Zäiterfassung', 'Comptablesportal fir Ären Fiduciaire', 'Sage BOB 50, Sage 100, CSV Exporter', 'Peppol B2G Export (BIS 3.0)', 'Personaliséierbar Nummeréierung'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1511,7 +1512,7 @@ return [
                         'Ouni faktur.lu-Branding',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-Export + Iwwerdroung (geschwënn)', 'Automatesch Bezuelungserënnerungen', '5 Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-Export + Iwwerdroung (geschwënn)', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer a Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
                 ],
             ],
             'comparison' => [
@@ -1594,7 +1595,7 @@ return [
                 // Cluster B - Verglächer & Präisser
                 'meilleure_solution' => [
                     'question' => 'Wat ass déi bescht Fakturatiounsléisung fir PME zu Lëtzebuerg?',
-                    'answer' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg. Am Géigesaz zu generesche internationalen Léisunge gouf faktur.lu speziell fir de Lëtzebuerger Kontext entwéckelt: native FAIA-Konformitéit, virkonfiguréiert TVA-Sätz, Peppol-Integratioun iwwer lokalen Access Point, Ënnerstëtzung an 5 Sproochen (FR, DE, EN, LB, PT), dediéiert Portal fir Fiduciaire, an RGPD-Konformitéit mat europäesche Hosting. 14 Deeg gratis testen, ouni Kreditkaart.',
+                    'answer' => 'Faktur.lu ass eng Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg. Am Géigesaz zu generesche internationalen Léisunge gouf faktur.lu speziell fir de Lëtzebuerger Kontext entwéckelt: native FAIA-Konformitéit, virkonfiguréiert TVA-Sätz, Peppol-Integratioun iwwer lokalen Access Point, Ënnerstëtzung an 5 Sproochen (FR, DE, EN, LB, PT), dediéiert Portal fir Fiduciaire, an RGPD-Konformitéit mat europäesche Hosting. 14 Deeg gratis testen, ouni Kreditkaart.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wat kascht e Fakturatiounsprogramm zu Lëtzebuerg?',
@@ -2051,7 +2052,7 @@ return [
     // Why faktur.lu page (defense concurrentielle)
     'why_faktur' => [
         'page_title' => 'Firwat faktur.lu wielen? | Fakturatiounsprogramm Lëtzebuerg',
-        'meta_description' => 'Faktur.lu ass déi féierend Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg: native FAIA-Konformitéit, Peppol, 5 Sproochen, europäescht Hosting. Entdeckt eis Engagementen.',
+        'meta_description' => 'Faktur.lu ass eng Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg: native FAIA-Konformitéit, Peppol, 5 Sproochen, europäescht Hosting. Entdeckt eis Engagementen.',
         'breadcrumb' => 'Firwat faktur.lu',
         'hero' => [
             'badge' => 'Fir Lëtzebuerg konzipéiert',
@@ -2106,7 +2107,7 @@ return [
             'paragraph_3' => 'Haut benotzen Honnerten Lëtzebuerger Entreprisen - Selbstänneg, PME, Fiduciaire - faktur.lu deeglech. Eis Engagement bleift datselwecht: déi Referenz-Fakturatiounsléisung zu Lëtzebuerg ze sinn, dobäi accessibel, konform an no bei de lokalen Entrepreneuren.',
         ],
         'cta' => [
-            'title' => 'Schléisst Iech der féierender Léisung zu Lëtzebuerg un',
+            'title' => 'Schléisst Iech enger Léisung fir Lëtzebuerg un',
             'subtitle' => '14 Deeg gratis testen, ouni Kreditkaart. Begleeten Migratioun fir Pro-Konten.',
             'primary_button' => 'Gratis ufänken',
             'secondary_button' => 'Präisser kucken',
@@ -2427,7 +2428,7 @@ return [
         'pains' => [
             'silos' => ['title' => '"Ze vill Tools, net verbonnen"', 'desc' => 'Excel fir Rechnungen, separat CRM, HR-Datei iergendwou, Comptable deen alles per Mail freet. Dir verbréngt méi Zäit mam Donnéeën-Transferen wéi mam Pilotéieren.'],
             'team' => ['title' => '"Meng Equipe weess net wien wat gemaach huet"', 'desc' => 'Multi-Notzer essentiell: 5 Mataarbechter parallel, jiddereen mat sengen Rechter. Audit-Log wien wat erstallt/geännert huet.'],
-            'compliance' => ['title' => '"AED-Kontroll an 2 Méint, Panik"', 'desc' => '10-Joer PDF/A-Archiv, FAIA 2.01 op Ufro, LIVA-Konformitéit garantéiert. Kontrollvirbereedung an 30 Min anstatt 3 Deeg.'],
+            'compliance' => ['title' => '"AED-Kontroll an 2 Méint, Panik"', 'desc' => '10-Joer PDF/A-Archiv, FAIA 2.01 op Ufro, LIVA-Pflichtmentiounen automatesch ugewannt. Kontrollvirbereedung an 30 Min anstatt 3 Deeg.'],
             'cashflow' => ['title' => '"30% vu menge Rechnungen bleiwen ze laang onbezuelt"', 'desc' => 'Automatesch Rappellen (D+15, D+30, D+45 konfiguréierbar), Cash-Tracking an Echtzäit, Iwwerfälleg-Dashboard. Cliente bezuele méi séier.'],
         ],
         'features_title' => 'Déi komplett Plattform fir Lëtzebuerger KMU',
@@ -2437,7 +2438,7 @@ return [
             'hr' => ['title' => 'HR-Modul (bis 15 Mataarbechter)', 'desc' => 'Onboarding, Vakanzen, Spesennoten, Kontrakter, Organigramm, Mataarbechter-Portal. Alles integréiert.'],
             'accountant' => ['title' => 'Multi-Comptable-Portal', 'desc' => 'Bis zu 3 extern Comptablen am Liesmodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A Exporter.'],
             'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Generéierung vu Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform mam Lëtzebuerger B2G-Mandat. Automatesch Iwwerdroung iwwer Access Point a Virbereedung (B2B-Flicht 2028).'],
-            'archive' => ['title' => '10-Joer PDF/A-Archiv', 'desc' => 'Lëtzebuerger gesetzlech Opbewahrung (Handelsgesetzbuch Art. 16) garantéiert. SHA-256 fir Integritéit.'],
+            'archive' => ['title' => '10-Joer PDF/A-Archiv', 'desc' => 'Lëtzebuerger gesetzlech Opbewahrung (Handelsgesetzbuch, Art. 16) ënnerstëtzt. SHA-256 fir Integritéit.'],
             'reminders' => ['title' => 'Automatesch Zuelungsrappellen', 'desc' => '3 konfiguréierbar Eskalatiounsniveauen (D+X, Mahnung, Eischreiwen). Cliente bezuele ouni Är Ariichtung.'],
             'branding' => ['title' => 'Ouni "faktur.lu"-Branding', 'desc' => 'Är Rechnungen droen nëmmen Är Identitéit. Kee Logo oder "Made with..."-Hinweis um PDF-Buedem.'],
         ],

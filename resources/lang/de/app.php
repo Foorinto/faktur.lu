@@ -765,7 +765,8 @@ return [
     'annual_revenue' => 'Jahresumsatz (netto)',
     'net_profit' => 'Nettogewinn',
     'vat_franchise_threshold' => 'Kleinunternehmergrenze',
-    'article_57_threshold' => 'Artikel 57 - Grenze von',
+    'article_57_threshold' => 'Artikel 57bis - Grenze von',
+    'threshold_of' => 'Grenze von',
     'vat_franchise_learn_more' => 'Mehr über die Befreiungsschwelle erfahren',
     'remaining_before_threshold' => 'Noch :amount bis zur Grenze',
     'threshold_exceeded_vat' => 'Grenze überschritten - MwSt.-Pflicht',
@@ -1124,7 +1125,7 @@ return [
         'meta_description' => 'Rechnungssoftware für Luxemburg: FAIA-Export für Steuerprüfungen, automatische MwSt 17%, Peppol, Angebote, Zeiterfassung. Kostenlos testen.',
         'meta_keywords' => 'Rechnungssoftware Luxemburg, Rechnung Luxemburg, FAIA, Peppol, MwSt Luxemburg, KMU Rechnungsstellung, Fakturierung Luxemburg',
 
-        'schema_software_description' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg und gewährleistet die steuerliche Konformität (MwSt., FAIA, B2B-E-Rechnungsstellung).',
+        'schema_software_description' => 'Faktur.lu ist eine Rechnungsplattform für Einzelunternehmer und KMU in Luxemburg: luxemburgische MwSt., FAIA-Export und B2B-E-Rechnungsstellung.',
         'schema_slogan' => 'Die luxemburgische Rechnungslösung',
         'schema_offer_free_name' => 'Kostenloser Plan',
         'schema_offer_free_description' => 'Kostenloser Plan - 10 Kunden, 5 Rechnungen pro Monat',
@@ -1498,7 +1499,7 @@ return [
                         'Peppol B2G Export (BIS 3.0)',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal (1 Experte)', 'Sage BOB 50, Sage 100, CSV Exporte', 'Peppol B2G Export (BIS 3.0)', 'Anpassbare Nummerierung'],
+                    'features' => ['50 Rechnungen/Monat', 'Maximal 100 Kunden', '20 Angebote/Monat', '30 Ausgaben/Monat', '10 aktive Projekte', 'Zeiterfassung', 'Buchhalterportal für Ihren Treuhänder', 'Sage BOB 50, Sage 100, CSV Exporte', 'Peppol B2G Export (BIS 3.0)', 'Anpassbare Nummerierung'],
                 ],
                 'pro' => [
                     'name' => 'Pro',
@@ -1511,7 +1512,7 @@ return [
                         'Ohne faktur.lu-Branding',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-Export + Übertragung (bald)', 'Automatische Zahlungserinnerungen', '5 Benutzer, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
+                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-Export + Übertragung (bald)', 'Automatische Zahlungserinnerungen', 'Zugang für mehrere Benutzer und Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
                 ],
             ],
             'comparison' => [
@@ -1594,7 +1595,7 @@ return [
                 // Cluster B - Vergleiche & Preise
                 'meilleure_solution' => [
                     'question' => 'Welches ist die beste Rechnungssoftware für KMU in Luxemburg?',
-                    'answer' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg. Im Gegensatz zu generischen internationalen Lösungen ist faktur.lu speziell für den luxemburgischen Kontext konzipiert: native FAIA-Konformität, vorkonfigurierte MwSt-Sätze, Peppol-Integration über lokalen Access Point, Unterstützung in 5 Sprachen (FR, DE, EN, LB, PT), dediziertes Treuhänderportal und DSGVO-Konformität mit europäischem Hosting. 14 Tage kostenlos testen, ohne Kreditkarte.',
+                    'answer' => 'Faktur.lu ist eine Rechnungsplattform für Einzelunternehmer und KMU in Luxemburg. Im Gegensatz zu generischen internationalen Lösungen ist faktur.lu speziell für den luxemburgischen Kontext konzipiert: native FAIA-Konformität, vorkonfigurierte MwSt-Sätze, Peppol-Integration über lokalen Access Point, Unterstützung in 5 Sprachen (FR, DE, EN, LB, PT), dediziertes Treuhänderportal und DSGVO-Konformität mit europäischem Hosting. 14 Tage kostenlos testen, ohne Kreditkarte.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wie viel kostet eine Rechnungssoftware in Luxemburg?',
@@ -2051,7 +2052,7 @@ return [
     // Why faktur.lu page (defense concurrentielle)
     'why_faktur' => [
         'page_title' => 'Warum faktur.lu wählen? | Rechnungssoftware Luxemburg',
-        'meta_description' => 'Faktur.lu ist die führende Rechnungssoftware-Plattform für Einzelunternehmer und KMU in Luxemburg: native FAIA-Konformität, Peppol, 5 Sprachen, europäisches Hosting. Entdecken Sie unsere Verpflichtungen.',
+        'meta_description' => 'Faktur.lu ist eine Rechnungsplattform für Einzelunternehmer und KMU in Luxemburg: native FAIA-Konformität, Peppol, 5 Sprachen, europäisches Hosting. Entdecken Sie unsere Verpflichtungen.',
         'breadcrumb' => 'Warum faktur.lu',
         'hero' => [
             'badge' => 'Für Luxemburg konzipiert',
@@ -2106,7 +2107,7 @@ return [
             'paragraph_3' => 'Heute nutzen Hunderte luxemburgischer Unternehmen - Selbstständige, KMU, Treuhänder - faktur.lu täglich. Unser Engagement bleibt das gleiche: die Referenz-Rechnungslösung in Luxemburg zu sein, dabei zugänglich, konform und nahe an den lokalen Unternehmern.',
         ],
         'cta' => [
-            'title' => 'Schließen Sie sich der führenden Lösung in Luxemburg an',
+            'title' => 'Schließen Sie sich einer Lösung für Luxemburg an',
             'subtitle' => '14 Tage kostenlos testen, ohne Kreditkarte. Begleitete Migration für Pro-Konten.',
             'primary_button' => 'Kostenlos starten',
             'secondary_button' => 'Preise ansehen',
@@ -2427,7 +2428,7 @@ return [
         'pains' => [
             'silos' => ['title' => '„Zu viele Tools, nicht verbunden"', 'desc' => 'Excel für Rechnungen, separates CRM, HR-Datei irgendwo, Buchhalter der alles per Mail fordert. Sie verbringen mehr Zeit mit Datenübertragung als mit Management.'],
             'team' => ['title' => '„Mein Team weiß nicht, wer was gemacht hat"', 'desc' => 'Mehrbenutzer essenziell: 5 Mitarbeiter parallel, je mit eigenen Rechten. Audit-Log wer was erstellt/geändert hat.'],
-            'compliance' => ['title' => '„AED-Prüfung in 2 Monaten, Panik"', 'desc' => '10-Jahre PDF/A-Archiv, FAIA 2.01 auf Abruf, LIVA-Konformität garantiert. Prüfungsvorbereitung in 30 Min statt 3 Tagen.'],
+            'compliance' => ['title' => '„AED-Prüfung in 2 Monaten, Panik"', 'desc' => '10-Jahre PDF/A-Archiv, FAIA 2.01 auf Abruf, LIVA-Pflichtangaben automatisch angewendet. Prüfungsvorbereitung in 30 Min statt 3 Tagen.'],
             'cashflow' => ['title' => '„30% meiner Rechnungen bleiben zu lange unbezahlt"', 'desc' => 'Automatische Mahnungen (T+15, T+30, T+45 konfigurierbar), Cash-Tracking in Echtzeit, Überfälligkeits-Dashboard. Kunden zahlen schneller.'],
         ],
         'features_title' => 'Die komplette Plattform für luxemburgische KMU',

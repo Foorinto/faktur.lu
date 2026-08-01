@@ -416,7 +416,10 @@ class FranchiseAlertServiceTest extends TestCase
 
         $service = new FranchiseAlertService();
 
-        $this->assertEquals('Art. 57 du Code de la TVA luxembourgeois', $service->getLegalReference());
+        // La FAQ SME de l'AED prescrit la reference a l'article 57bis depuis
+        // la reforme du 1er janvier 2025 ; l'article 57 visait le regime a
+        // 35 000 EUR.
+        $this->assertEquals('Article 57bis de la loi modifiée du 12 février 1979', $service->getLegalReference());
     }
 
     public function test_is_in_franchise_regime_returns_true_for_franchise(): void

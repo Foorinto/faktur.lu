@@ -59,14 +59,14 @@ return [
     'scan_to_pay' => 'Zum Bezahlen scannen',
 
     // VAT mentions
-    'vat_exempt' => 'Steuerbefreit gem. Art. 57 des luxemburgischen MwSt-Gesetzes',
+    'vat_exempt' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979',
     'vat_exempt_franchise' => 'Steuerbefreiungsregelung',
     'vat_intra_community' => 'MwSt.-befreit - Innergemeinschaftliche Lieferung',
     'vat_reverse_charge' => 'Steuerschuldnerschaft des Leistungsempfängers',
 
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
-        'franchise' => 'Steuerbefreit gem. Art. 57 des luxemburgischen MwSt-Gesetzes (Steuerbefreiungsregelung)',
+        'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Kleinunternehmerregelung)',
         'reverse_charge' => 'Steuerschuldnerschaft des Leistungsempfängers - Artikel 196 der Richtlinie 2006/112/EG',
         'intra_eu' => 'MwSt.-befreit - Innergemeinschaftliche Lieferung (Art. 43 des MwSt-Gesetzes)',
         'export' => 'MwSt.-befreit - Ausfuhr (Art. 43 des MwSt-Gesetzes)',

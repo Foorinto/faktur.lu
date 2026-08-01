@@ -861,7 +861,8 @@ return [
     'annual_revenue' => 'Volume de negócios anual (sem IVA)',
     'net_profit' => 'Lucro líquido',
     'vat_franchise_threshold' => 'Limiar de isenção de IVA',
-    'article_57_threshold' => 'Artigo 57 - Limiar de',
+    'article_57_threshold' => 'Artigo 57bis - Limiar de',
+    'threshold_of' => 'Limiar de',
     'vat_franchise_learn_more' => 'Saber mais sobre o limite de isenção',
     'remaining_before_threshold' => ':amount restante antes do limiar',
     'threshold_exceeded_vat' => 'Limiar ultrapassado - Sujeição a IVA obrigatória',
@@ -1220,7 +1221,7 @@ return [
         'meta_description' => 'Software de faturação conforme para o Luxemburgo. Exportação FAIA para controlos fiscais, IVA automático 17%, orçamentos, registo de tempo. Avaliação gratuita.',
         'meta_keywords' => 'software faturação luxemburgo, software faturação conforme FAIA Luxemburgo, fatura eletrónica luxemburgo, FAIA, Peppol, IVA luxemburgo 17%, faturação PME, faturação trabalhador independente luxemburgo, software contabilidade luxemburgo',
 
-        'schema_software_description' => 'Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo, garantindo a conformidade fiscal (IVA, FAIA, faturação eletrónica B2B).',
+        'schema_software_description' => 'Faktur.lu é uma plataforma de faturação concebida para empresários individuais e PME no Luxemburgo: IVA luxemburguês, exportação FAIA e faturação eletrónica B2B.',
         'schema_slogan' => 'A solução de faturação luxemburguesa',
         'schema_offer_free_name' => 'Plano Gratuito',
         'schema_offer_free_description' => 'Plano Gratuito - 10 clientes, 5 faturas por mês',
@@ -1614,7 +1615,7 @@ return [
                         '30 despesas/mês',
                         '10 projetos ativos',
                         'Registo de tempo',
-                        'Portal do contabilista (1 perito)',
+                        'Portal do contabilista para o seu fiduciaire',
                         'Exportações Sage BOB 50, Sage 100, CSV',
                         'Exportação Peppol B2G (BIS 3.0)',
                         'Numeração personalizável',
@@ -1633,14 +1634,14 @@ return [
                     ],
                     'features' => [
                         'Tudo ilimitado (clientes, faturas, orçamentos)',
-                        'Módulo RH completo (15 colaboradores)',
+                        'Módulo RH completo',
                         'CRM avançado (interações, lembretes, etiquetas)',
                         'Exportação FAIA (controlo fiscal)',
                         'Arquivamento PDF/A 10 anos',
                         'Factur-X / ZUGFeRD',
                         'Exportação Peppol ilimitada + transmissão (em breve)',
                         'Lembretes automáticos de pagamentos em atraso',
-                        '5 utilizadores, 3 contabilistas',
+                        'Acesso multiutilizador e multicontabilista',
                         'Sem menção "faktur.lu"',
                         'Suporte prioritário',
                         'Numeração personalizável',
@@ -1751,7 +1752,7 @@ return [
                 // Cluster B - Comparações & preços
                 'meilleure_solution' => [
                     'question' => 'Qual é a melhor solução de faturação para PME no Luxemburgo?',
-                    'answer' => 'O Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo. Ao contrário das soluções internacionais genéricas, o faktur.lu foi concebido especificamente para o contexto luxemburguês: conformidade FAIA nativa, taxas de IVA pré-configuradas, integração Peppol via Access Point local, suporte em 5 línguas (FR, DE, EN, LB, PT), portal dedicado para fidúcias e conformidade RGPD com alojamento europeu. Avaliação gratuita de 14 dias, sem cartão bancário.',
+                    'answer' => 'O Faktur.lu é uma plataforma de faturação concebida para empresários individuais e PME no Luxemburgo. Ao contrário das soluções internacionais genéricas, o faktur.lu foi concebido especificamente para o contexto luxemburguês: conformidade FAIA nativa, taxas de IVA pré-configuradas, integração Peppol via Access Point local, suporte em 5 línguas (FR, DE, EN, LB, PT), portal dedicado para fidúcias e conformidade RGPD com alojamento europeu. Avaliação gratuita de 14 dias, sem cartão bancário.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'Quanto custa um software de faturação no Luxemburgo?',
@@ -2355,7 +2356,7 @@ return [
     // Why faktur.lu page (defense concurrentielle)
     'why_faktur' => [
         'page_title' => 'Porquê escolher faktur.lu? | Software de faturação Luxemburgo',
-        'meta_description' => 'O Faktur.lu é a plataforma de faturação líder para empresários individuais e PME no Luxemburgo: conformidade FAIA nativa, Peppol, 5 línguas, alojamento europeu. Descubra os nossos compromissos.',
+        'meta_description' => 'O Faktur.lu é uma plataforma de faturação concebida para empresários individuais e PME no Luxemburgo: conformidade FAIA nativa, Peppol, 5 línguas, alojamento europeu. Descubra os nossos compromissos.',
         'breadcrumb' => 'Porquê faktur.lu',
         'hero' => [
             'badge' => 'Concebido para o Luxemburgo',
@@ -2410,7 +2411,7 @@ return [
             'paragraph_3' => 'Hoje, centenas de empresas luxemburguesas - trabalhadores independentes, PME, fidúcias - utilizam o faktur.lu diariamente. O nosso compromisso permanece o mesmo: ser a solução de faturação de referência no Luxemburgo, mantendo-se acessível, conforme e à escuta dos empresários locais.',
         ],
         'cta' => [
-            'title' => 'Junte-se à solução líder no Luxemburgo',
+            'title' => 'Junte-se a uma solução pensada para o Luxemburgo',
             'subtitle' => 'Avaliação gratuita de 14 dias, sem cartão bancário. Migração acompanhada para contas Pro.',
             'primary_button' => 'Começar gratuitamente',
             'secondary_button' => 'Ver preços',
@@ -2731,7 +2732,7 @@ return [
         'pains' => [
             'silos' => ['title' => '"Demasiadas ferramentas, não conectadas"', 'desc' => 'Excel para faturas, CRM separado, ficheiro RH algures, contabilista que pede tudo por email. Passa mais tempo a transferir dados do que a gerir.'],
             'team' => ['title' => '"A minha equipa não sabe quem fez o quê"', 'desc' => 'Multi-utilizador essencial: 5 colaboradores acedem em paralelo, cada um com os seus direitos. Audit log de quem criou/modificou o quê.'],
-            'compliance' => ['title' => '"Auditoria AED em 2 meses, pânico"', 'desc' => 'Arquivo PDF/A 10 anos, FAIA 2.01 a pedido, conformidade LIVA garantida. Preparação da auditoria em 30 min em vez de 3 dias.'],
+            'compliance' => ['title' => '"Auditoria AED em 2 meses, pânico"', 'desc' => 'Arquivo PDF/A 10 anos, FAIA 2.01 a pedido, menções LIVA aplicadas automaticamente. Preparação da auditoria em 30 min em vez de 3 dias.'],
             'cashflow' => ['title' => '"30% das minhas faturas ficam por pagar demasiado tempo"', 'desc' => 'Lembretes automáticos (D+15, D+30, D+45 configuráveis), seguimento de cash em tempo real, dashboard de vencidas. Os clientes pagam mais depressa.'],
         ],
         'features_title' => 'A plataforma completa para PMEs luxemburguesas',

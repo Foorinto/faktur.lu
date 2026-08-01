@@ -59,14 +59,14 @@ return [
     'scan_to_pay' => 'Scannez pour payer',
 
     // VAT mentions
-    'vat_exempt' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois',
+    'vat_exempt' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979',
     'vat_exempt_franchise' => 'Régime de franchise de taxe',
     'vat_intra_community' => 'Exonération de TVA - Livraison intracommunautaire',
     'vat_reverse_charge' => 'Autoliquidation de la TVA par le preneur',
 
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
-        'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
+        'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Régime de franchise de taxe)',
         'reverse_charge' => 'Autoliquidation - Article 196 de la directive 2006/112/CE',
         'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 43 du Code de la TVA)',
         'export' => 'Exonération de TVA - Exportation (Art. 43 du Code de la TVA)',

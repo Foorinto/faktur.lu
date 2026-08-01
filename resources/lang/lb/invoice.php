@@ -59,14 +59,14 @@ return [
     'scan_to_pay' => 'Scannt fir ze bezuelen',
 
     // VAT mentions
-    'vat_exempt' => 'TVA net applicabel, Art. 57 vum lëtzebuerger TVA Code',
+    'vat_exempt' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979',
     'vat_exempt_franchise' => 'Steierbefreiungsregelung',
     'vat_intra_community' => 'TVA-befreit - Innergemeinschaftlech Liwwerung',
     'vat_reverse_charge' => 'Steierulaaschter vum Leeschtungsempfänger',
 
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
-        'franchise' => 'TVA net applicabel, Art. 57 vum lëtzebuerger TVA Code (Steierbefreiungsregelung)',
+        'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Steierbefreiungsregelung)',
         'reverse_charge' => 'Steierulaaschter vum Leeschtungsempfänger - Artikel 196 vun der Richtlinn 2006/112/EG',
         'intra_eu' => 'TVA-befreit - Innergemeinschaftlech Liwwerung (Art. 43 vum TVA Code)',
         'export' => 'TVA-befreit - Export (Art. 43 vum TVA Code)',

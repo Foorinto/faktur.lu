@@ -170,7 +170,7 @@ class FranchiseAlertService
     public function getLegalReference(): string
     {
         if (!$this->getSettings()) {
-            return 'Art. 57 du Code de la TVA luxembourgeois';
+            return 'Article 57bis de la loi modifiée du 12 février 1979';
         }
 
         return $this->getSettings()->getFranchiseLegalReference();
@@ -222,7 +222,7 @@ class FranchiseAlertService
                 'percentage_used' => 0,
                 'country_code' => 'LU',
                 'tax_authority' => self::TAX_AUTHORITIES['LU'],
-                'legal_reference' => 'Art. 57 du Code de la TVA luxembourgeois',
+                'legal_reference' => 'Article 57bis de la loi modifiée du 12 février 1979',
                 'is_franchise_regime' => true,
             ];
         }

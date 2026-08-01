@@ -221,7 +221,8 @@ class InvoicePdfServiceTest extends TestCase
         $html = $this->service->preview($franchiseInvoice);
 
         $this->assertStringContainsString('TVA non applicable', $html);
-        $this->assertStringContainsString('art. 57', $html);
+        // Mention prescrite mot pour mot par la FAQ SME de l'AED.
+        $this->assertStringContainsString('Article 57bis de la loi modifiée du 12 février 1979', $html);
     }
 
     public function test_get_content_returns_pdf_binary(): void

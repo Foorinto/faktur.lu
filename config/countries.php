@@ -30,8 +30,8 @@ return [
             'enabled' => true,
             'threshold' => 50000,
             'threshold_type' => 'single', // single, services_goods
-            'legal_reference' => 'Art. 57 du Code de la TVA luxembourgeois',
-            'mention' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
+            'legal_reference' => 'Article 57bis de la loi modifiée du 12 février 1979',
+            'mention' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Régime de franchise de taxe)',
             'effect' => 'immediate', // immediate, next_month, next_year
             'declaration_delay_days' => 15,
         ],
@@ -72,7 +72,7 @@ return [
             'thousands_separator' => ' ',
         ],
         'vat_mentions' => [
-            'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
+            'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Régime de franchise de taxe)',
             // Art. 196 désigne le preneur comme redevable ; l'art. 44 ne fixe
             // que le lieu d'imposition. Sur une facture émise depuis le
             // Luxembourg, la référence à la directive vaut quel que soit le
@@ -100,7 +100,7 @@ return [
             'threshold' => 37500, // Services (micro-BNC)
             'threshold_services' => 37500,
             'threshold_goods' => 85000, // Ventes de biens (micro-BIC)
-            'threshold_services_major' => 39100, // Seuil majoré services
+            'threshold_services_major' => 41250, // Seuil majoré services (service-public.gouv.fr, 2026)
             'threshold_goods_major' => 93500, // Seuil majoré biens
             'threshold_type' => 'services_goods',
             'legal_reference' => 'Art. 293 B du CGI',

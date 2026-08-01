@@ -59,14 +59,14 @@ return [
     'scan_to_pay' => 'Digitalize para pagar',
 
     // VAT mentions
-    'vat_exempt' => 'IVA não aplicável, art. 57 do Código do IVA luxemburguês',
+    'vat_exempt' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979',
     'vat_exempt_franchise' => 'Regime de isenção de imposto',
     'vat_intra_community' => 'Isenção de IVA - Entrega intracomunitária',
     'vat_reverse_charge' => 'Autoliquidação do IVA pelo adquirente',
 
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
-        'franchise' => 'IVA não aplicável, art. 57 do Código do IVA luxemburguês (Regime de isenção de imposto)',
+        'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Regime de isenção de imposto)',
         'reverse_charge' => 'Autoliquidação - Artigo 196.º da Diretiva 2006/112/CE',
         'intra_eu' => 'Isenção de IVA - Entrega intracomunitária (Art. 43.º do Código do IVA)',
         'export' => 'Isenção de IVA - Exportação (Art. 43.º do Código do IVA)',

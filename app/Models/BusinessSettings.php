@@ -124,7 +124,7 @@ class BusinessSettings extends Model
      * @deprecated Use getVatMentions() instead
      */
     public const VAT_MENTIONS = [
-        'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
+        'franchise' => 'TVA non applicable - Article 57bis de la loi modifiée du 12 février 1979 (Régime de franchise de taxe)',
         // Art. 196 (redevable = le preneur), pas art. 44 (lieu d'imposition).
         'reverse_charge' => 'Autoliquidation - Article 196 de la directive 2006/112/CE',
         'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 43 du Code de la TVA)',
@@ -643,7 +643,7 @@ class BusinessSettings extends Model
     {
         $config = $this->getCountryConfig();
 
-        return $config['franchise']['legal_reference'] ?? 'Art. 57 du Code de la TVA luxembourgeois';
+        return $config['franchise']['legal_reference'] ?? 'Article 57bis de la loi modifiée du 12 février 1979';
     }
 
     /**

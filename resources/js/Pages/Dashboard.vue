@@ -380,7 +380,7 @@ const getStatusLabel = (status) => {
                         {{ t('simplified_accounting_threshold') }}
                     </h3>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        {{ t('article_57_threshold') }} {{ formatCurrency(kpis?.simplified_accounting_threshold) }}
+                        {{ t('threshold_of') }} {{ formatCurrency(kpis?.simplified_accounting_threshold) }}
                     </p>
                     <div class="mt-4">
                         <div class="flex items-center justify-between text-sm">
