@@ -67,7 +67,7 @@ return [
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
         'franchise' => 'TVA net applicabel, Art. 57 vum lëtzebuerger TVA Code (Steierbefreiungsregelung)',
-        'reverse_charge' => 'Steierulaaschter vum Leeschtungsempfänger - Artikel 44 vun der Richtlinn 2006/112/EG',
+        'reverse_charge' => 'Steierulaaschter vum Leeschtungsempfänger - Artikel 196 vun der Richtlinn 2006/112/EG',
         'intra_eu' => 'TVA-befreit - Innergemeinschaftlech Liwwerung (Art. 43 vum TVA Code)',
         'export' => 'TVA-befreit - Export (Art. 43 vum TVA Code)',
     ],

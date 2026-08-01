@@ -67,7 +67,7 @@ return [
     // VAT mentions (full text used on invoice PDF)
     'vat_mentions' => [
         'franchise' => 'IVA não aplicável, art. 57 do Código do IVA luxemburguês (Regime de isenção de imposto)',
-        'reverse_charge' => 'Autoliquidação - Artigo 44.º da Diretiva 2006/112/CE',
+        'reverse_charge' => 'Autoliquidação - Artigo 196.º da Diretiva 2006/112/CE',
         'intra_eu' => 'Isenção de IVA - Entrega intracomunitária (Art. 43.º do Código do IVA)',
         'export' => 'Isenção de IVA - Exportação (Art. 43.º do Código do IVA)',
     ],

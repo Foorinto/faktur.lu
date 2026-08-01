@@ -125,7 +125,8 @@ class BusinessSettings extends Model
      */
     public const VAT_MENTIONS = [
         'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
-        'reverse_charge' => 'Autoliquidation - Article 44 de la directive 2006/112/CE',
+        // Art. 196 (redevable = le preneur), pas art. 44 (lieu d'imposition).
+        'reverse_charge' => 'Autoliquidation - Article 196 de la directive 2006/112/CE',
         'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 43 du Code de la TVA)',
         'export' => 'Exonération de TVA - Exportation (Art. 43 du Code de la TVA)',
         'none' => 'Aucune mention',
@@ -202,7 +203,7 @@ class BusinessSettings extends Model
      * Determine whether numbering settings (format, prefix, starting_number) for a
      * given document type can still be edited for the given year. They become locked
      * as soon as at least one document of that type has been finalised by this user
-     * for that year - this guarantees the Article 61 LIVA continuous numbering rule.
+     * for that year - this guarantees the Article 63 LIVA continuous numbering rule.
      */
     public function canEditNumbering(string $type, ?int $year = null): bool
     {

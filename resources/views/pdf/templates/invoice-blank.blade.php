@@ -36,7 +36,7 @@
             'vat_total' => 'TVA', 'total' => 'Total TTC',
             'payment' => 'Conditions de paiement', 'iban' => 'IBAN', 'bic' => 'BIC',
             'mentions' => 'Mentions légales obligatoires (Luxembourg)',
-            'mentions_text' => '· Numéro de TVA luxembourgeois (LU + 8 chiffres)\\n· Numérotation séquentielle continue (Article 61 LIVA)\\n· Mention "Autoliquidation - Article 21 LIVA" pour les opérations B2B intra-UE\\n· Conservation 10 ans obligatoire',
+            'mentions_text' => '· Numéro de TVA luxembourgeois (LU + 8 chiffres)\\n· Numérotation séquentielle continue (Article 63 LIVA)\\n· Mention "Autoliquidation - Article 196 de la directive 2006/112/CE" pour les opérations B2B intra-UE\\n· Conservation 10 ans obligatoire',
             'footer' => 'Modèle gratuit',
         ],
         'de' => [
@@ -49,7 +49,7 @@
             'vat_total' => 'MwSt', 'total' => 'Gesamtbetrag',
             'payment' => 'Zahlungsbedingungen', 'iban' => 'IBAN', 'bic' => 'BIC',
             'mentions' => 'Pflichtangaben (Luxemburg)',
-            'mentions_text' => '· Luxemburgische MwSt-Nummer (LU + 8 Ziffern)\\n· Lückenlose fortlaufende Nummerierung (Artikel 61 LIVA)\\n· Hinweis "Reverse Charge - Artikel 21 LIVA" bei B2B-Geschäften innerhalb der EU\\n· 10 Jahre Aufbewahrungspflicht',
+            'mentions_text' => '· Luxemburgische MwSt-Nummer (LU + 8 Ziffern)\\n· Lückenlose fortlaufende Nummerierung (Artikel 63 LIVA)\\n· Hinweis "Reverse Charge - Artikel 196 der Richtlinie 2006/112/EG" bei B2B-Geschäften innerhalb der EU\\n· 10 Jahre Aufbewahrungspflicht',
             'footer' => 'Kostenlose Vorlage',
         ],
         'en' => [
@@ -62,7 +62,7 @@
             'vat_total' => 'VAT', 'total' => 'Total',
             'payment' => 'Payment terms', 'iban' => 'IBAN', 'bic' => 'BIC',
             'mentions' => 'Mandatory legal mentions (Luxembourg)',
-            'mentions_text' => '· Luxembourg VAT number (LU + 8 digits)\\n· Continuous sequential numbering (LIVA Article 61)\\n· "Reverse charge - Article 21 LIVA" mention for B2B intra-EU\\n· 10-year retention mandatory',
+            'mentions_text' => '· Luxembourg VAT number (LU + 8 digits)\\n· Continuous sequential numbering (LIVA Article 63)\\n· "Reverse charge - Article 196 of Directive 2006/112/EC" mention for B2B intra-EU\\n· 10-year retention mandatory',
             'footer' => 'Free template',
         ],
         'lb' => [
@@ -75,7 +75,7 @@
             'vat_total' => 'TVA', 'total' => 'Total TTC',
             'payment' => 'Bezuelungskonditiounen', 'iban' => 'IBAN', 'bic' => 'BIC',
             'mentions' => 'Obligatoresch gesetzlech Erwähnungen (Lëtzebuerg)',
-            'mentions_text' => '· Lëtzebuerger TVA-Nummer (LU + 8 Zifferen)\\n· Kontinuéierlech sequentiell Numeréierung (Artikel 61 LIVA)\\n· Erwähnung "Autoliquidatioun - Artikel 21 LIVA" fir B2B-Operatiounen bannent der EU\\n· 10 Joer Opbewahrungspflicht',
+            'mentions_text' => '· Lëtzebuerger TVA-Nummer (LU + 8 Zifferen)\\n· Kontinuéierlech sequentiell Numeréierung (Artikel 63 LIVA)\\n· Erwähnung "Autoliquidatioun - Artikel 196 vun der Richtlinn 2006/112/EG" fir B2B-Operatiounen bannent der EU\\n· 10 Joer Opbewahrungspflicht',
             'footer' => 'Gratis Modell',
         ],
         'pt' => [
@@ -88,7 +88,7 @@
             'vat_total' => 'IVA', 'total' => 'Total',
             'payment' => 'Condições de pagamento', 'iban' => 'IBAN', 'bic' => 'BIC',
             'mentions' => 'Menções legais obrigatórias (Luxemburgo)',
-            'mentions_text' => '· Número de IVA luxemburguês (LU + 8 dígitos)\\n· Numeração sequencial contínua (Artigo 61 LIVA)\\n· Menção "Autoliquidação - Artigo 21 LIVA" para operações B2B intra-UE\\n· Conservação obrigatória 10 anos',
+            'mentions_text' => '· Número de IVA luxemburguês (LU + 8 dígitos)\\n· Numeração sequencial contínua (Artigo 63 LIVA)\\n· Menção "Autoliquidação - Artigo 196.º da Diretiva 2006/112/CE" para operações B2B intra-UE\\n· Conservação obrigatória 10 anos',
             'footer' => 'Modelo gratuito',
         ],
     ];

@@ -1602,12 +1602,12 @@ return [
                 ],
                 'compliant' => [
                     'question' => 'Sinn meng faktur.lu-Rechnungen wierklech konform zu Lëtzebuerg?',
-                    'answer' => 'Jo, all mat faktur.lu generéiert Rechnungen erfëllen d\'Lëtzebuerger gesetzlech Ufuerderungen: TVA-Nummer, sequentiell kontinuéierlech Nummeréierung (Artikel 61 LIVA), gesetzlech Pflichtangaben, Konservatioun vun den Authentizitéits- an Integritéitsbeweiser. D\'TVA-Engine geréiert Sonderfäll: intracommunautär Reverse-Charge, Befreiung Artikel 44, dematerialiséiert Servicer. D\'Konformitéit gëtt kontinuéierlech getest an mat der Reglementatioun aktualiséiert.',
+                    'answer' => 'Jo, all mat faktur.lu generéiert Rechnungen erfëllen d\'Lëtzebuerger gesetzlech Ufuerderungen: TVA-Nummer, sequentiell kontinuéierlech Nummeréierung (Artikel 63 LIVA), gesetzlech Pflichtangaben, Konservatioun vun den Authentizitéits- an Integritéitsbeweiser. D\'TVA-Engine geréiert Sonderfäll: intracommunautär Reverse-Charge, Befreiung Artikel 44, dematerialiséiert Servicer. D\'Konformitéit gëtt kontinuéierlech getest an mat der Reglementatioun aktualiséiert.',
                 ],
                 // Cluster C - Notzungsfäll
                 'client_belge' => [
                     'question' => 'Wéi fakturéiert ee belschen Client vu Lëtzebuerg aus?',
-                    'answer' => 'Faktur.lu erkennt automatesch intracommunautär Operatiounen: fir e B2B-Belschen Client mat gülteger TVA-Nummer gëtt d\'Rechnung HT mat Reverse-Charge-Mention (Artikel 21 LIVA) erausgestallt. D\'TVA-Nummer vum Client gëtt an Echtzäit iwwer VIES validéiert. Déi intracommunautär Erklärung gëtt duerch dediéiert Exporten erliichtert. Fir e B2C-Belschen Client gëllt d\'Lëtzebuerger TVA, ausser Dir iwwerschreit den OSS-Schwell, an deem Fall applizéiert faktur.lu de belsche Saaz.',
+                    'answer' => 'Faktur.lu erkennt automatesch intracommunautär Operatiounen: fir e B2B-Belschen Client mat gülteger TVA-Nummer gëtt d\'Rechnung HT mat Reverse-Charge-Mention (Artikel 196 vun der Richtlinn 2006/112/EG) erausgestallt. D\'TVA-Nummer vum Client gëtt an Echtzäit iwwer VIES validéiert. Déi intracommunautär Erklärung gëtt duerch dediéiert Exporten erliichtert. Fir e B2C-Belschen Client gëllt d\'Lëtzebuerger TVA, ausser Dir iwwerschreit den OSS-Schwell, an deem Fall applizéiert faktur.lu de belsche Saaz.',
                 ],
                 'credit_notes' => [
                     'question' => 'Wéi stellt ee konform Avoir zu Lëtzebuerg eraus?',
@@ -2286,7 +2286,7 @@ return [
             'faq' => [
                 'title' => 'Heefeg gestallte Froen',
                 'q1' => 'Ass d\'Rechnung Lëtzebuerg-konform?',
-                'a1' => 'Jo, all Pflichtmentioune sinn enthalen. Bei Reverse-Charge gëtt "Artikel 21 LIVA" automatesch derbäigesat.',
+                'a1' => 'Jo, all Pflichtmentioune sinn enthalen. Bei Reverse-Charge gëtt "Artikel 196 vun der Richtlinn 2006/112/EG" automatesch derbäigesat.',
                 'q2' => 'Ginn meng Daten gespäichert?',
                 'a2' => 'Nee. D\'PDF gëtt online generéiert an direkt zerstéiert.',
                 'q3' => 'Kann ech méi Rechnungen erstellen?',
@@ -2383,7 +2383,7 @@ return [
         'pains_title' => 'Är richteg Problemer als Freelancer',
         'pains' => [
             'admin' => ['title' => '"Ech wollt kee Comptable ginn"', 'desc' => 'Dir fakturéiert är Servicer - Dir wollt Iech net mat Pabeier, Numere, TVA-Sätz an Pflichtmentiounen beschäftegen. faktur.lu mécht dat fir Iech.'],
-            'compliant' => ['title' => '"Ass meng Rechnung legal?"', 'desc' => 'Sequentiell Nummeréierung (Artikel 61 LIVA), Pflichtmentiounen, 17% TVA (oder Reverse-Charge Artikel 21 fir B2B intra-EU): alles automatesch a konform.'],
+            'compliant' => ['title' => '"Ass meng Rechnung legal?"', 'desc' => 'Sequentiell Nummeréierung (Artikel 63 LIVA), Pflichtmentiounen, 17% TVA (oder Reverse-Charge Artikel 21 fir B2B intra-EU): alles automatesch a konform.'],
             'audit' => ['title' => '"Wat wann d\'AED kontrolléiert?"', 'desc' => 'D\'FAIA-Datei konform AED 2.01 gëtt op Ufro generéiert. Äre Comptable kritt et mat engem Klick iwwer d\'Comptablesportal. Kee Stress méi.'],
             'cost' => ['title' => '"30 €/Mount fir Fakturatiounssoftware? Nee."', 'desc' => 'Gratis Plang bis 5 Rechnungen/Mount. Essentiel ab 5 €/Mount fir 50 Rechnungen. Ouni Verbindlechkeet.'],
         ],
@@ -2404,7 +2404,7 @@ return [
         'faq_title' => 'Heefeg Froen vu Freelancer',
         'faq' => [
             'q1' => ['q' => 'Ech sinn an der TVA-Befreiung (ënner 50.000 €/Joer), kompatibel?', 'a' => 'Jo. Aktivéiert d\'Befreiung an Äre Firmenastellungen: "TVA net uwendbar, art. 56 ter LIVA" gëtt automatesch op all Rechnungen derbäigesat. Wann Dir Iech der Schwell nähert, warnt faktur.lu Iech.'],
-            'q2' => ['q' => 'Ech fakturéiere auslännesch Cliente (intra-EU, ausserhalb EU), gëtt et verwalt?', 'a' => 'Jo. Fir B2B intra-EU mat gülteger TVA-Nummer (VIES-Echtzäit-Validatioun) gëtt "Reverse-Charge, Artikel 21 LIVA" automatesch derbäigesat. Ausserhalb EU: ugepasst Befreiungsmention pro Land.'],
+            'q2' => ['q' => 'Ech fakturéiere auslännesch Cliente (intra-EU, ausserhalb EU), gëtt et verwalt?', 'a' => 'Jo. Fir B2B intra-EU mat gülteger TVA-Nummer (VIES-Echtzäit-Validatioun) gëtt "Reverse-Charge, Artikel 196 vun der Richtlinn 2006/112/EG" automatesch derbäigesat. Ausserhalb EU: ugepasst Befreiungsmention pro Land.'],
             'q3' => ['q' => 'Wéi geet et mat mengem Comptable/Treuhänner?', 'a' => 'Invitéiert hien per E-Mail aus Äre Astellungen. Hie kritt e Link a greift op e separat Liesmodus-Portal zou, wou hien är Rechnungen, FAIA an Sage BOB/Sage 100/CSV Exporter ofruft. Keng Installatioun, gratis fir hien.'],
             'q4' => ['q' => 'Wat wann ech nëmme wéineg Rechnungen pro Mount maachen?', 'a' => 'De gratis Plang deckt 5 Rechnungen/Mount an 10 Cliente. Fir Deelzäit-Freelancer oder Niewenaktivitéit méi wéi genuch.'],
             'q5' => ['q' => 'Sinn meng Donnéeën sécher?', 'a' => 'Gehost bei o2switch a Frankräich (100% EU, RGPD), TLS 1.3 verschlësselten Transport, bcrypt-Passwierder, AES-256-CBC fir sensibel Donnéeën. Deeglech 30-Deeg-Backupen.'],
@@ -2744,7 +2744,7 @@ return [
             'vies' => [
                 'name' => 'VIES',
                 'alternate' => 'VAT Information Exchange System',
-                'description' => 'EU-Service, dee vun der Kommissioun verwalt gëtt an deen et erlaabt, an Echtzäit d\'Gëltegkeet vun enger innergemeinschaftlecher TVA-Nummer ze iwwerpréiwen. Virun all B2B-Rechnung mat Autoliquidatioun (Art. 21 LIVA) muss d\'TVA-Nummer vum Client iwwer VIES validéiert ginn, soss kann d\'Operatioun als zu Lëtzebuerg steierflichteg requalifizéiert ginn.',
+                'description' => 'EU-Service, dee vun der Kommissioun verwalt gëtt an deen et erlaabt, an Echtzäit d\'Gëltegkeet vun enger innergemeinschaftlecher TVA-Nummer ze iwwerpréiwen. Virun all B2B-Rechnung mat Autoliquidatioun (Art. 196 vun der Richtlinn 2006/112/EG) muss d\'TVA-Nummer vum Client iwwer VIES validéiert ginn, soss kann d\'Operatioun als zu Lëtzebuerg steierflichteg requalifizéiert ginn.',
             ],
         ],
     ],
@@ -3895,7 +3895,7 @@ return [
             'credit_note_prefix' => 'Gutschrëft-Präfix',
             'quote_prefix' => 'Devis-Präfix',
             'migration_help_title' => 'Ech hunn dëst Joer schonn Facturen an engem aneren Programm gemaach (avancéiert)',
-            'migration_help_body' => 'Gitt Är lescht erausgëfen Nummer un, fir d\'Sequenz weiderzeféieren ouni nees bei 1 unzefänken (Artikel 61 LIVA).',
+            'migration_help_body' => 'Gitt Är lescht erausgëfen Nummer un, fir d\'Sequenz weiderzeféieren ouni nees bei 1 unzefänken (Artikel 63 LIVA).',
             'invoice_start' => 'Nächst Facture #',
             'credit_note_start' => 'Nächst Gutschrëft #',
             'quote_start' => 'Nächste Devis #',
@@ -4158,7 +4158,7 @@ return [
         'credit_note_section' => 'Gutschrëften',
         'quote_section' => 'Devisen',
         'locked_format_title' => 'Format fir :year gespaart',
-        'locked_format_message' => 'D\'Format z\'änneren géif d\'Kontinuitéit vun der Sequenz, déi schonn fir :year erausgi gouf, briechen (Artikel 61 LIVA). Dir kënnt et nees ab dem 1. Januar :next_year änneren.',
+        'locked_format_message' => 'D\'Format z\'änneren géif d\'Kontinuitéit vun der Sequenz, déi schonn fir :year erausgi gouf, briechen (Artikel 63 LIVA). Dir kënnt et nees ab dem 1. Januar :next_year änneren.',
         'locked_invoice' => 'Gespaart: :count Rechnung(en) schonn an :year erausgi.',
         'locked_credit_note' => 'Gespaart: :count Gutschrëft(en) schonn an :year erausgi.',
         'locked_quote' => 'Gespaart: :count Devis(en) schonn an :year erstallt.',

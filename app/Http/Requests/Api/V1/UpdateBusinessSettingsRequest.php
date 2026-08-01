@@ -133,7 +133,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
 
     /**
      * After base validation, refuse any numbering change that would tamper with a year
-     * that already has finalized documents (Article 61 LIVA continuous numbering).
+     * that already has finalized documents (Article 63 LIVA continuous numbering).
      */
     public function withValidator($validator): void
     {
@@ -175,7 +175,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
                     if ($this->has($sharedField) && (string) $this->input($sharedField) !== (string) ($settings->{$sharedField} ?? '')) {
                         $validator->errors()->add(
                             $sharedField,
-                            'Verrouillé pour ' . $year . ' : modifier le format casserait la continuité de la numérotation déjà émise (Article 61 LIVA).',
+                            'Verrouillé pour ' . $year . ' : modifier le format casserait la continuité de la numérotation déjà émise (Article 63 LIVA).',
                         );
                     }
                 }

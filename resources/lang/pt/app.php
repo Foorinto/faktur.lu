@@ -1759,12 +1759,12 @@ return [
                 ],
                 'compliant' => [
                     'question' => 'As minhas faturas faktur.lu são realmente conformes no Luxemburgo?',
-                    'answer' => 'Sim, todas as faturas geradas pelo faktur.lu respeitam os requisitos legais luxemburgueses: número de IVA, numeração sequencial contínua (artigo 61 LIVA), menções legais obrigatórias, conservação das provas de autenticidade e integridade. O motor de IVA gere os casos especiais: autoliquidação intracomunitária, isenção do artigo 44, prestações de serviços desmaterializados. A conformidade é testada continuamente e atualizada com a regulamentação.',
+                    'answer' => 'Sim, todas as faturas geradas pelo faktur.lu respeitam os requisitos legais luxemburgueses: número de IVA, numeração sequencial contínua (artigo 63 LIVA), menções legais obrigatórias, conservação das provas de autenticidade e integridade. O motor de IVA gere os casos especiais: autoliquidação intracomunitária, isenção do artigo 44, prestações de serviços desmaterializados. A conformidade é testada continuamente e atualizada com a regulamentação.',
                 ],
                 // Cluster C - Casos de utilização
                 'client_belge' => [
                     'question' => 'Como faturar um cliente belga a partir do Luxemburgo?',
-                    'answer' => 'O Faktur.lu deteta automaticamente as operações intracomunitárias: para um cliente B2B belga com número de IVA válido, a fatura é emitida sem IVA com menção de autoliquidação (artigo 21 LIVA). O número de IVA do cliente é validado em tempo real via VIES. A declaração intracomunitária é facilitada por exportações dedicadas. Para um cliente B2C belga, o IVA luxemburguês aplica-se exceto se ultrapassar o limite OSS, caso em que o faktur.lu aplica a taxa belga.',
+                    'answer' => 'O Faktur.lu deteta automaticamente as operações intracomunitárias: para um cliente B2B belga com número de IVA válido, a fatura é emitida sem IVA com menção de autoliquidação (artigo 196.º da Diretiva 2006/112/CE). O número de IVA do cliente é validado em tempo real via VIES. A declaração intracomunitária é facilitada por exportações dedicadas. Para um cliente B2C belga, o IVA luxemburguês aplica-se exceto se ultrapassar o limite OSS, caso em que o faktur.lu aplica a taxa belga.',
                 ],
                 'credit_notes' => [
                     'question' => 'Como emitir uma nota de crédito conforme no Luxemburgo?',
@@ -2565,7 +2565,7 @@ return [
             'client_address' => 'Morada',
             'client_vat' => 'N.º IVA do cliente',
             'reverse_charge_label' => 'Autoliquidação B2B intra-UE',
-            'reverse_charge_help' => 'Para clientes B2B com n.º IVA válido na UE (exceto LU). Fatura emitida sem IVA com menção "Artigo 21 LIVA".',
+            'reverse_charge_help' => 'Para clientes B2B com n.º IVA válido na UE (exceto LU). Fatura emitida sem IVA com menção "Artigo 196.º da Diretiva 2006/112/CE".',
             'invoice_number' => 'N.º de fatura',
             'invoice_date' => 'Data',
             'due_date' => 'Vencimento',
@@ -2590,7 +2590,7 @@ return [
             'faq' => [
                 'title' => 'Perguntas frequentes',
                 'q1' => 'A fatura é conforme à legislação luxemburguesa?',
-                'a1' => 'Sim, o PDF inclui todas as menções obrigatórias LIVA. Para autoliquidação intra-UE, "Artigo 21 LIVA" é adicionado automaticamente.',
+                'a1' => 'Sim, o PDF inclui todas as menções obrigatórias LIVA. Para autoliquidação intra-UE, "Artigo 196.º da Diretiva 2006/112/CE" é adicionado automaticamente.',
                 'q2' => 'Os meus dados são guardados?',
                 'a2' => 'Não. O PDF é gerado em tempo real e destruído no servidor.',
                 'q3' => 'Posso gerar várias faturas?',
@@ -2687,7 +2687,7 @@ return [
         'pains_title' => 'Os seus problemas reais como freelancer',
         'pains' => [
             'admin' => ['title' => '"Não me inscrevi para ser contabilista"', 'desc' => 'Você fatura os seus serviços - não se inscreveu para gerir papelada, números sequenciais, taxas de IVA e menções legais. O faktur.lu trata de tudo.'],
-            'compliant' => ['title' => '"A minha fatura é legal?"', 'desc' => 'Numeração sequencial (Artigo 61 LIVA), menções obrigatórias, IVA 17% (ou autoliquidação Artigo 21 para B2B intra-UE): tudo gerado automaticamente e conforme.'],
+            'compliant' => ['title' => '"A minha fatura é legal?"', 'desc' => 'Numeração sequencial (Artigo 63 LIVA), menções obrigatórias, IVA 17% (ou autoliquidação Artigo 21 para B2B intra-UE): tudo gerado automaticamente e conforme.'],
             'audit' => ['title' => '"E se a AED inspeccionar?"', 'desc' => 'O ficheiro FAIA conforme AED 2.01 é gerado a pedido. O seu contabilista recupera-o num clique através do portal. Sem stress de inspecção.'],
             'cost' => ['title' => '"30 €/mês por software de faturação? Não."', 'desc' => 'Plano gratuito até 5 faturas/mês. Plano Essencial a 5 €/mês para 50 faturas. Sem compromisso.'],
         ],
@@ -2708,7 +2708,7 @@ return [
         'faq_title' => 'Perguntas frequentes de freelancers',
         'faq' => [
             'q1' => ['q' => 'Estou em isenção de IVA (abaixo de 50.000 €/ano), é compatível?', 'a' => 'Sim. Ative a isenção nas suas definições da empresa: "IVA não aplicável, art. 56 ter LIVA" é adicionado automaticamente em todas as suas faturas. Quando se aproxima do limite, o faktur.lu avisa-o.'],
-            'q2' => ['q' => 'Faturo clientes estrangeiros (intra-UE, fora UE), é gerido?', 'a' => 'Sim. Para B2B intra-UE com NIF válido (validação VIES em tempo real), "Autoliquidação, artigo 21 LIVA" é adicionado automaticamente. Fora UE: isenção com menção adaptada conforme o país.'],
+            'q2' => ['q' => 'Faturo clientes estrangeiros (intra-UE, fora UE), é gerido?', 'a' => 'Sim. Para B2B intra-UE com NIF válido (validação VIES em tempo real), "Autoliquidação, artigo 196.º da Diretiva 2006/112/CE" é adicionado automaticamente. Fora UE: isenção com menção adaptada conforme o país.'],
             'q3' => ['q' => 'Como funciona com o meu contabilista/fiduciária?', 'a' => 'Convida-o por email a partir das suas definições. Recebe um link e acede a um portal separado em modo de leitura onde recupera as suas faturas, FAIA e exportações Sage BOB/Sage 100/CSV. Sem instalação, gratuito para ele.'],
             'q4' => ['q' => 'E se apenas faço algumas faturas por mês?', 'a' => 'O plano Gratuito cobre 5 faturas/mês e 10 clientes. Para um freelancer a tempo parcial ou atividade complementar, é mais que suficiente.'],
             'q5' => ['q' => 'Os meus dados estão seguros?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), transporte cifrado TLS 1.3, palavras-passe bcrypt, dados sensíveis cifrados AES-256-CBC. Backups diários 30 dias.'],
@@ -3048,7 +3048,7 @@ return [
             'vies' => [
                 'name' => 'VIES',
                 'alternate' => 'VAT Information Exchange System',
-                'description' => 'Sistema europeu gerido pela Comissão que permite verificar em tempo real a validade de um número de IVA intracomunitário. Antes de qualquer faturação B2B intra-UE em autoliquidação (art. 21 LIVA), o número de IVA do cliente deve ser validado via VIES, caso contrário a operação pode ser requalificada como tributável no Luxemburgo.',
+                'description' => 'Sistema europeu gerido pela Comissão que permite verificar em tempo real a validade de um número de IVA intracomunitário. Antes de qualquer faturação B2B intra-UE em autoliquidação (art. 196.º da Diretiva 2006/112/CE), o número de IVA do cliente deve ser validado via VIES, caso contrário a operação pode ser requalificada como tributável no Luxemburgo.',
             ],
         ],
     ],

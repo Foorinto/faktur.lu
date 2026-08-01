@@ -73,7 +73,11 @@ return [
         ],
         'vat_mentions' => [
             'franchise' => 'TVA non applicable, art. 57 du Code de la TVA luxembourgeois (Régime de franchise de taxe)',
-            'reverse_charge' => 'Autoliquidation - Article 44 de la directive 2006/112/CE',
+            // Art. 196 désigne le preneur comme redevable ; l'art. 44 ne fixe
+            // que le lieu d'imposition. Sur une facture émise depuis le
+            // Luxembourg, la référence à la directive vaut quel que soit le
+            // pays du client (l'art. 61 §5 LIVA, lui, vise le cas entrant).
+            'reverse_charge' => 'Autoliquidation - Article 196 de la directive 2006/112/CE',
             'intra_eu' => 'Exonération de TVA - Livraison intracommunautaire (Art. 43 du Code de la TVA luxembourgeois)',
             'export' => 'Exonération de TVA - Exportation (Art. 43 du Code de la TVA luxembourgeois)',
         ],

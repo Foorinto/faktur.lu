@@ -1602,12 +1602,12 @@ return [
                 ],
                 'compliant' => [
                     'question' => 'Sind meine faktur.lu-Rechnungen wirklich konform in Luxemburg?',
-                    'answer' => 'Ja, alle mit faktur.lu erstellten Rechnungen erfüllen die luxemburgischen gesetzlichen Anforderungen: MwSt-Nummer, fortlaufende Nummerierung (Artikel 61 LIVA), gesetzliche Pflichtangaben, Aufbewahrung der Authentizitäts- und Integritätsnachweise. Die MwSt-Engine verwaltet Sonderfälle: innergemeinschaftliches Reverse-Charge, Befreiung nach Artikel 44, digitale Dienstleistungen. Die Konformität wird kontinuierlich getestet und der Gesetzgebung angepasst.',
+                    'answer' => 'Ja, alle mit faktur.lu erstellten Rechnungen erfüllen die luxemburgischen gesetzlichen Anforderungen: MwSt-Nummer, fortlaufende Nummerierung (Artikel 63 LIVA), gesetzliche Pflichtangaben, Aufbewahrung der Authentizitäts- und Integritätsnachweise. Die MwSt-Engine verwaltet Sonderfälle: innergemeinschaftliches Reverse-Charge, Befreiung nach Artikel 44, digitale Dienstleistungen. Die Konformität wird kontinuierlich getestet und der Gesetzgebung angepasst.',
                 ],
                 // Cluster C - Anwendungsfälle
                 'client_belge' => [
                     'question' => 'Wie stellt man einem belgischen Kunden aus Luxemburg eine Rechnung?',
-                    'answer' => 'Faktur.lu erkennt automatisch innergemeinschaftliche Umsätze: Bei einem belgischen B2B-Kunden mit gültiger MwSt-Nummer wird die Rechnung netto mit Reverse-Charge-Hinweis (Artikel 21 LIVA) ausgestellt. Die MwSt-Nummer des Kunden wird in Echtzeit über VIES validiert. Die innergemeinschaftliche Meldung wird durch dedizierte Exporte erleichtert. Bei einem belgischen B2C-Kunden gilt die luxemburgische MwSt, sofern Sie nicht die OSS-Schwelle überschreiten - in diesem Fall wendet faktur.lu den belgischen Satz an.',
+                    'answer' => 'Faktur.lu erkennt automatisch innergemeinschaftliche Umsätze: Bei einem belgischen B2B-Kunden mit gültiger MwSt-Nummer wird die Rechnung netto mit Reverse-Charge-Hinweis (Artikel 196 der Richtlinie 2006/112/EG) ausgestellt. Die MwSt-Nummer des Kunden wird in Echtzeit über VIES validiert. Die innergemeinschaftliche Meldung wird durch dedizierte Exporte erleichtert. Bei einem belgischen B2C-Kunden gilt die luxemburgische MwSt, sofern Sie nicht die OSS-Schwelle überschreiten - in diesem Fall wendet faktur.lu den belgischen Satz an.',
                 ],
                 'credit_notes' => [
                     'question' => 'Wie erstellt man eine konforme Gutschrift in Luxemburg?',
@@ -2261,7 +2261,7 @@ return [
             'client_address' => 'Adresse',
             'client_vat' => 'Kunden-USt-IdNr.',
             'reverse_charge_label' => 'B2B Reverse-Charge innerhalb der EU',
-            'reverse_charge_help' => 'Für B2B-Kunden mit gültiger EU-USt-IdNr. (außer LU). Rechnung netto mit "Artikel 21 LIVA".',
+            'reverse_charge_help' => 'Für B2B-Kunden mit gültiger EU-USt-IdNr. (außer LU). Rechnung netto mit "Artikel 196 der Richtlinie 2006/112/EG".',
             'invoice_number' => 'Rechnungsnummer',
             'invoice_date' => 'Datum',
             'due_date' => 'Fälligkeit',
@@ -2286,7 +2286,7 @@ return [
             'faq' => [
                 'title' => 'Häufige Fragen',
                 'q1' => 'Ist die Rechnung Luxemburg-konform?',
-                'a1' => 'Ja, das PDF enthält alle Pflichtangaben gemäß LIVA. Bei Reverse-Charge wird "Artikel 21 LIVA" hinzugefügt.',
+                'a1' => 'Ja, das PDF enthält alle Pflichtangaben gemäß LIVA. Bei Reverse-Charge wird "Artikel 196 der Richtlinie 2006/112/EG" hinzugefügt.',
                 'q2' => 'Werden meine Daten gespeichert?',
                 'a2' => 'Nein. Das PDF wird im laufenden Betrieb erstellt und serverseitig zerstört.',
                 'q3' => 'Kann ich mehrere Rechnungen erstellen?',
@@ -2383,7 +2383,7 @@ return [
         'pains_title' => 'Ihre echten Probleme als Freelancer',
         'pains' => [
             'admin' => ['title' => '„Ich wollte kein Buchhalter werden"', 'desc' => 'Sie stellen Rechnungen für Ihre Leistungen - Sie wollten sich nicht um Papierkram, Nummerierung, MwSt-Sätze und Pflichtangaben kümmern. faktur.lu erledigt das für Sie.'],
-            'compliant' => ['title' => '„Ist meine Rechnung rechtens?"', 'desc' => 'Fortlaufende Nummerierung (Artikel 61 LIVA), Pflichtangaben, 17% MwSt (oder Reverse-Charge Artikel 21 für B2B innerhalb der EU): alles automatisch und konform.'],
+            'compliant' => ['title' => '„Ist meine Rechnung rechtens?"', 'desc' => 'Fortlaufende Nummerierung (Artikel 63 LIVA), Pflichtangaben, 17% MwSt (oder Reverse-Charge Artikel 21 für B2B innerhalb der EU): alles automatisch und konform.'],
             'audit' => ['title' => '„Was, wenn die AED prüft?"', 'desc' => 'Die FAIA-Datei nach AED 2.01 wird auf Abruf generiert. Ihr Buchhalter holt sie sich mit einem Klick über das Buchhalterportal. Kein Prüfungsstress mehr.'],
             'cost' => ['title' => '„30 €/Monat für Rechnungssoftware? Nein."', 'desc' => 'Kostenloser Plan bis 5 Rechnungen/Monat. Essentiel-Plan ab 5 €/Monat für 50 Rechnungen. Ohne Bindung.'],
         ],
@@ -2404,7 +2404,7 @@ return [
         'faq_title' => 'Häufige Fragen von Freelancern',
         'faq' => [
             'q1' => ['q' => 'Ich bin von der MwSt befreit (unter 50.000 €/Jahr), kompatibel?', 'a' => 'Ja. Aktivieren Sie die Befreiung in Ihren Einstellungen: „MwSt nicht anwendbar, Art. 56 ter LIVA" wird automatisch auf allen Rechnungen hinzugefügt. Bei Annäherung an die Schwelle werden Sie gewarnt.'],
-            'q2' => ['q' => 'Ich stelle ausländischen Kunden (intra-EU, außerhalb EU) Rechnungen, wird das verwaltet?', 'a' => 'Ja. Für B2B intra-EU mit gültiger MwSt-Nummer (Echtzeit-VIES-Validierung) wird „Reverse-Charge, Artikel 21 LIVA" automatisch hinzugefügt. Außerhalb EU: angepasste Befreiungsangabe je Land.'],
+            'q2' => ['q' => 'Ich stelle ausländischen Kunden (intra-EU, außerhalb EU) Rechnungen, wird das verwaltet?', 'a' => 'Ja. Für B2B intra-EU mit gültiger MwSt-Nummer (Echtzeit-VIES-Validierung) wird „Reverse-Charge, Artikel 196 der Richtlinie 2006/112/EG" automatisch hinzugefügt. Außerhalb EU: angepasste Befreiungsangabe je Land.'],
             'q3' => ['q' => 'Wie läuft das mit meinem Buchhalter/Treuhänder?', 'a' => 'Laden Sie ihn per E-Mail aus Ihren Einstellungen ein. Er erhält einen Link und greift auf ein separates Lesemodus-Portal zu, wo er Rechnungen, FAIA und Sage BOB/Sage 100/CSV-Exporte abruft. Keine Installation, kostenlos für ihn.'],
             'q4' => ['q' => 'Was, wenn ich nur wenige Rechnungen pro Monat ausstelle?', 'a' => 'Der kostenlose Plan deckt 5 Rechnungen/Monat und 10 Kunden ab. Für Teilzeit-Freelancer oder Nebentätigkeit mehr als ausreichend.'],
             'q5' => ['q' => 'Sind meine Daten sicher?', 'a' => 'Gehostet bei o2switch in Frankreich (100% EU, DSGVO), TLS 1.3 verschlüsselter Transport, bcrypt-Passwörter, AES-256-CBC für sensible Daten. Tägliche 30-Tage-Backups.'],
@@ -2744,7 +2744,7 @@ return [
             'vies' => [
                 'name' => 'VIES',
                 'alternate' => 'VAT Information Exchange System',
-                'description' => 'Von der Europaeischen Kommission verwaltetes System zur Echtzeit-Ueberpruefung einer innergemeinschaftlichen MwSt-Nummer. Vor jeder Reverse-Charge-B2B-Rechnung (Art. 21 LIVA) muss die MwSt-Nummer des Kunden ueber VIES geprueft werden, sonst kann der Vorgang als in Luxemburg steuerpflichtig umqualifiziert werden.',
+                'description' => 'Von der Europaeischen Kommission verwaltetes System zur Echtzeit-Ueberpruefung einer innergemeinschaftlichen MwSt-Nummer. Vor jeder Reverse-Charge-B2B-Rechnung (Art. 196 der Richtlinie 2006/112/EG) muss die MwSt-Nummer des Kunden ueber VIES geprueft werden, sonst kann der Vorgang als in Luxemburg steuerpflichtig umqualifiziert werden.',
             ],
         ],
     ],
@@ -3895,7 +3895,7 @@ return [
             'credit_note_prefix' => 'Präfix Gutschrift',
             'quote_prefix' => 'Präfix Angebot',
             'migration_help_title' => 'Ich habe dieses Jahr schon Rechnungen in einem anderen Programm erstellt (erweitert)',
-            'migration_help_body' => 'Geben Sie Ihre letzte ausgestellte Nummer an, um die Sequenz fortzuführen, ohne bei 1 wieder anzufangen (Artikel 61 LIVA).',
+            'migration_help_body' => 'Geben Sie Ihre letzte ausgestellte Nummer an, um die Sequenz fortzuführen, ohne bei 1 wieder anzufangen (Artikel 63 LIVA).',
             'invoice_start' => 'Nächste Rechnung #',
             'credit_note_start' => 'Nächste Gutschrift #',
             'quote_start' => 'Nächstes Angebot #',
@@ -4158,7 +4158,7 @@ return [
         'credit_note_section' => 'Gutschriften',
         'quote_section' => 'Angebote',
         'locked_format_title' => 'Format für :year gesperrt',
-        'locked_format_message' => 'Eine Änderung des Nummerierungsschemas würde die bereits ausgestellte Sequenz für :year unterbrechen (Artikel 61 LIVA). Sie können es ab dem 1. Januar :next_year wieder anpassen.',
+        'locked_format_message' => 'Eine Änderung des Nummerierungsschemas würde die bereits ausgestellte Sequenz für :year unterbrechen (Artikel 63 LIVA). Sie können es ab dem 1. Januar :next_year wieder anpassen.',
         'locked_invoice' => 'Gesperrt: :count Rechnung(en) bereits in :year ausgestellt.',
         'locked_credit_note' => 'Gesperrt: :count Gutschrift(en) bereits in :year ausgestellt.',
         'locked_quote' => 'Gesperrt: :count Angebot(e) bereits in :year erstellt.',
