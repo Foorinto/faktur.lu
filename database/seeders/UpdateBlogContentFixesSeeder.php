@@ -108,14 +108,11 @@ class UpdateBlogContentFixesSeeder extends Seeder
             'controler' => 'contrôler',
             'controlee' => 'contrôlée',
             'verifier' => 'vérifier',
-            'verifie' => 'vérifié',
             'verifiez' => 'vérifiez',
             'verification' => 'vérification',
             'declarer' => 'déclarer',
-            'declare' => 'déclaré',
             'declaration' => 'déclaration',
             'preparer' => 'préparer',
-            'prepare' => 'préparé',
             'arriere' => 'arrière',
             'derniere' => 'dernière',
             'derniers' => 'derniers',
@@ -129,7 +126,6 @@ class UpdateBlogContentFixesSeeder extends Seeder
             'numeros' => 'numéros',
             'etre' => 'être',
             'reglement' => 'règlement',
-            'considere' => 'considéré',
             'consideree' => 'considérée',
             'economie' => 'économie',
             'economies' => 'économies',
@@ -145,15 +141,18 @@ class UpdateBlogContentFixesSeeder extends Seeder
             'caracteres' => 'caractères',
             'completer' => 'compléter',
             'completee' => 'complétée',
-            'modifie' => 'modifié',
             'modifiee' => 'modifiée',
-            'achete' => 'acheté',
-            'genere' => 'généré',
+            // RETIRÉES : 'verifie', 'declare', 'considere', 'modifie' et
+            // 'achete'. Leur forme source est un VERBE CONJUGUÉ valide, que
+            // ce dictionnaire transformait en participe passé — donc en faute
+            // de grammaire. Le cas relevé : la citation de l'article 63 LIVA
+            // « tout document ou message qui modifie la facture initiale »
+            // devenait « qui modifié » à chaque déploiement, le seeder
+            // tournant après les migrations. Les variantes féminines
+            // ('modifiee', 'consideree') sont sans ambiguïté et conservées.
             'generer' => 'générer',
-            'enregistre' => 'enregistré',
             'specifique' => 'spécifique',
             'specifiques' => 'spécifiques',
-            'integre' => 'intégré',
             'integree' => 'intégrée',
             'integrer' => 'intégrer',
             // Audit de contenu (formes non ambiguës uniquement - pas de verbes
@@ -176,7 +175,6 @@ class UpdateBlogContentFixesSeeder extends Seeder
             'presents' => 'présents',
             'presentes' => 'présentes',
             'telecharger' => 'télécharger',
-            'telecharge' => 'téléchargé',
             'telechargement' => 'téléchargement',
             'generale' => 'générale',
             'generales' => 'générales',
