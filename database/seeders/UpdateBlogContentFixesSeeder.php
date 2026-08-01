@@ -261,6 +261,23 @@ class UpdateBlogContentFixesSeeder extends Seeder
             return $token;
         }, $text);
 
+        // Meme raison pour les noms de domaine cites dans le TEXTE VISIBLE, que
+        // le masquage des href ne couvre pas : le libelle d'un lien vers
+        // economie.gouv.fr devenait "économie.gouv.fr" a chaque deploiement,
+        // la regle 'economie' => 'économie' s'y appliquant aveuglement.
+        // Le dernier segment doit etre alphabetique, sinon "art.63" serait
+        // pris pour un domaine.
+        $text = preg_replace_callback(
+            '/\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,6}\b/i',
+            function ($m) use (&$hrefs) {
+                $token = "\x00HREF" . count($hrefs) . "\x00";
+                $hrefs[$token] = $m[0];
+
+                return $token;
+            },
+            $text
+        );
+
         foreach ($map as $bad => $good) {
             // Word-boundary case-insensitive match preserving the first-letter case of the original.
             $text = preg_replace_callback(
