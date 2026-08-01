@@ -1848,7 +1848,7 @@ return [
                 'documents' => ['title' => 'RH Dokumenter', 'description' => 'Späichert an deelt RH Dokumenter: Kontrakter, Bescheinegungen, Zertifikater.'],
             ],
             'faqs' => [
-                'employees' => ['question' => 'Wéi vill Mataarbechter kann ech verwalten?', 'answer' => 'De Pro Plang erlaabt d\'Verwaltung vun bis zu 15 Mataarbechter. Den RH Modul ass bei de Pläng Gratuit an Essentiel net verfügbar.'],
+                'employees' => ['question' => 'Wéi vill Mataarbechter kann ech verwalten?', 'answer' => 'Den RH-Modul ass am Pro Plang abegraff. Den RH Modul ass bei de Pläng Gratuit an Essentiel net verfügbar.'],
                 'portal' => ['question' => 'Hunn d\'Mataarbechter hiren eegenen Zougang?', 'answer' => 'Jo, all Mataarbechter huet e perséinleche Portal fir Paifichen, Congésufroe an Dateaktualiséierung.'],
                 'legal' => ['question' => 'Ass de Modul konform mam lëtzebuergeschen Aarbechtsrecht?', 'answer' => 'De Modul integréiert lëtzebuergesch Spezifizitéiten: Feierdeeg, gesetzlech Congésaarten a Saldoberechnung.'],
             ],
@@ -2416,7 +2416,7 @@ return [
 
     'for_smes' => [
         'page_title' => 'Fakturatiounssoftware KMU Lëtzebuerg: CRM, HR, Multi-Notzer | faktur.lu',
-        'meta_description' => 'Fakturatiounssoftware fir KMU zu Lëtzebuerg: onlimitéiert Rechnungen an Devisen, CRM, HR-Modul (15 Mataarbechter), Comptablesportal, Sage BOB 50/Sage 100/FAIA Exporter, 10-Joer PDF/A-Archiv, automatesch Rappellen. 15 €/Mount onlimitéiert.',
+        'meta_description' => 'Fakturatiounssoftware fir KMU zu Lëtzebuerg: onlimitéiert Rechnungen an Devisen, CRM, HR-Modul, Comptablesportal, Sage BOB 50/Sage 100/FAIA Exporter, 10-Joer PDF/A-Archiv, automatesch Rappellen. 15 €/Mount onlimitéiert.',
         'breadcrumb' => 'Fir KMU',
         'badge' => 'Fir KMU',
         'hero_title' => 'Är Equipe fakturéiert, kasséiert, deklaréiert. Dir steiert.',
@@ -2435,8 +2435,8 @@ return [
         'features' => [
             'unlimited' => ['title' => 'Alles onlimitéiert', 'desc' => 'Rechnungen, Devisen, Cliente, Spesen: kee Mountlimit. Multi-Notzer (5 Mataarbechter, 3 Comptablen).'],
             'crm' => ['title' => 'Integréiert CRM', 'desc' => 'Cliente-Interaktiounen, Rappellen, Tags, Segmenter. Kee separat Pipedrive oder HubSpot néideg.'],
-            'hr' => ['title' => 'HR-Modul (bis 15 Mataarbechter)', 'desc' => 'Onboarding, Vakanzen, Spesennoten, Kontrakter, Organigramm, Mataarbechter-Portal. Alles integréiert.'],
-            'accountant' => ['title' => 'Multi-Comptable-Portal', 'desc' => 'Bis zu 3 extern Comptablen am Liesmodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A Exporter.'],
+            'hr' => ['title' => 'HR-Modul', 'desc' => 'Onboarding, Vakanzen, Spesennoten, Kontrakter, Organigramm, Mataarbechter-Portal. Alles integréiert.'],
+            'accountant' => ['title' => 'Multi-Comptable-Portal', 'desc' => 'Bis zu extern Comptablen am Liesmodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A Exporter.'],
             'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Generéierung vu Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform mam Lëtzebuerger B2G-Mandat. Automatesch Iwwerdroung iwwer Access Point a Virbereedung (B2B-Flicht 2028).'],
             'archive' => ['title' => '10-Joer PDF/A-Archiv', 'desc' => 'Lëtzebuerger gesetzlech Opbewahrung (Handelsgesetzbuch, Art. 16) ënnerstëtzt. SHA-256 fir Integritéit.'],
             'reminders' => ['title' => 'Automatesch Zuelungsrappellen', 'desc' => '3 konfiguréierbar Eskalatiounsniveauen (D+X, Mahnung, Eischreiwen). Cliente bezuele ouni Är Ariichtung.'],
@@ -2444,13 +2444,13 @@ return [
         ],
         'plan_recommend_title' => 'Empfohlene Plang fir Iech',
         'plan_recommend_name' => 'Pro - 15 €/Mount',
-        'plan_recommend_desc' => 'Alles onlimitéiert, CRM, HR-Modul (15 Mataarbechter), 3 extern Comptablen, onlimitéiert Peppol, 10-Joer PDF/A-Archiv, automatesch Rappellen, ouni Branding. Keng Zousazkäschten pro Notzer.',
+        'plan_recommend_desc' => 'Alles onlimitéiert, CRM, HR-Modul, extern Comptablen, onlimitéiert Peppol, 10-Joer PDF/A-Archiv, automatesch Rappellen, ouni Branding. Keng Zousazkäschten pro Notzer.',
         'plan_recommend_cta' => '14 Deeg gratis testen',
         'plan_note' => 'Op Pro kritt Dir all Funktiounen ouni Zousazkäschten pro Mataarbechter oder Client. De Präis bleift fix, egal wéi Dir wuesst.',
         'faq_title' => 'Heefeg Froen vu KMU',
         'faq' => [
             'q1' => ['q' => 'Kënne mir eis bestehend Cliente a Rechnungen migréieren?', 'a' => 'Jo. Import aus Excel/CSV fir Cliente (mat automateschem Spaltenmapping). Fir historesch Rechnungen kann Äre Comptable iwwer d\'Portal Exporter ofruffen. Op Pro bidden mir begleet Migratioun (gratis).'],
-            'q2' => ['q' => 'Wéi vill Notzer kënne parallel schaffen?', 'a' => 'Pro-Plang: 5 Notzer (Admins a Mataarbechter) + 3 extern Comptablen am Liesmodus. Keng Zousazkäschten pro Notzer. Wann Dir méi braucht, kontaktéiert eis.'],
+            'q2' => ['q' => 'Wéi vill Notzer kënne parallel schaffen?', 'a' => 'Pro-Plang: 5 Notzer (Admins a Mataarbechter) + extern Comptablen am Liesmodus. Keng Zousazkäschten pro Notzer. Wann Dir méi braucht, kontaktéiert eis.'],
             'q3' => ['q' => 'Ersetzt d\'HR-Modul e richtegt HRIS?', 'a' => 'Fir KMU bis 15 Mataarbechter, jo. Dir verwaltt Kontrakter, Vakanzen, Spesennoten, Onboarding/Offboarding, Organigramm a Mataarbechter-Portal. Iwwer 15 Mataarbechter oder fir spezifesch Bedürfnisser (komplex Pai, Schoulungen) ergänzt et éischter en dediéiert HRIS.'],
             'q4' => ['q' => 'Wéi funktionéiert d\'10-Joer-Archivéierung?', 'a' => 'All finaliséiert Rechnung gëtt automatesch a PDF/A (ISO 19005, gesetzlech Archivformat) konvertéiert, mat SHA-256-Hash fir Integritéit. Archiv jidderzäit kuckbar an erofluedbar. Konform mat Art. 16 vum Lëtzebuerger Handelsgesetzbuch.'],
             'q5' => ['q' => 'Ass Peppol obligatoresch fir mäin KMU?', 'a' => 'Jo am B2G (Rechnungen un de Lëtzebuerger Staat) zënter 2023. D\'ViDA 2030-Richtlinn erweidert dës Pflicht ab 2030 op B2B intra-EU. faktur.lu ass fir béid prett.'],

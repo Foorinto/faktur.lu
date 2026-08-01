@@ -1947,7 +1947,7 @@ return [
                 'documents' => ['title' => 'HR documents', 'description' => 'Store and share HR documents: contracts, certificates, attestations.'],
             ],
             'faqs' => [
-                'employees' => ['question' => 'How many employees can I manage?', 'answer' => 'The Pro plan allows managing up to 15 employees. The HR module is not available on Free and Essentiel plans.'],
+                'employees' => ['question' => 'How many employees can I manage?', 'answer' => 'The HR module is included in the Pro plan. The HR module is not available on Free and Essentiel plans.'],
                 'portal' => ['question' => 'Do employees have their own access?', 'answer' => 'Yes, each employee has a personal portal to view payslips, request leave and update their information.'],
                 'legal' => ['question' => 'Is the module compliant with Luxembourg labour law?', 'answer' => 'The module integrates Luxembourg specificities: public holidays, legal leave types and balance calculation.'],
             ],
@@ -2515,7 +2515,7 @@ return [
 
     'for_smes' => [
         'page_title' => 'SME invoicing software Luxembourg: CRM, HR, multi-user | faktur.lu',
-        'meta_description' => 'Invoicing software for Luxembourg SMEs: unlimited invoices and quotes, CRM, HR module (15 employees), accountant portal, Sage BOB 50/Sage 100/FAIA exports, 10-year PDF/A archive, automatic reminders. €15/month unlimited.',
+        'meta_description' => 'Invoicing software for Luxembourg SMEs: unlimited invoices and quotes, CRM, HR module, accountant portal, Sage BOB 50/Sage 100/FAIA exports, 10-year PDF/A archive, automatic reminders. €15/month unlimited.',
         'breadcrumb' => 'For SMEs',
         'badge' => 'For SMEs',
         'hero_title' => 'Your team invoices, collects, files. You manage.',
@@ -2532,10 +2532,10 @@ return [
         ],
         'features_title' => 'The complete platform for Luxembourg SMEs',
         'features' => [
-            'unlimited' => ['title' => 'Unlimited everything', 'desc' => 'Invoices, quotes, clients, expenses: no monthly limit. Multi-user (5 collaborators, 3 accountants).'],
+            'unlimited' => ['title' => 'Unlimited everything', 'desc' => 'Invoices, quotes, clients, expenses: no monthly limit. Multi-user and multi-accountant access.'],
             'crm' => ['title' => 'Integrated CRM', 'desc' => 'Client interactions, reminders, tags, segments. No need for a separate Pipedrive or HubSpot.'],
-            'hr' => ['title' => 'HR module (up to 15 employees)', 'desc' => 'Onboarding, leave, expense reports, contracts, org chart, employee portal. Everything integrated.'],
-            'accountant' => ['title' => 'Multi-accountant portal', 'desc' => 'Up to 3 external accountants invited in read-only mode, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A exports.'],
+            'hr' => ['title' => 'HR module', 'desc' => 'Onboarding, leave, expense reports, contracts, org chart, employee portal. Everything integrated.'],
+            'accountant' => ['title' => 'Multi-accountant portal', 'desc' => 'Up to external accountants invited in read-only mode, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A exports.'],
             'peppol' => ['title' => 'Peppol B2G export (BIS 3.0)', 'desc' => 'Generate Peppol BIS 3.0 / UBL 2.1 invoices compliant with the Luxembourg B2G mandate. Automatic transmission via Access Point coming (B2B obligation 2028).'],
             'archive' => ['title' => '10-year PDF/A archive', 'desc' => 'Luxembourg legal retention (Commercial Code art. 16) guaranteed. SHA-256 hash for integrity.'],
             'reminders' => ['title' => 'Automatic payment reminders', 'desc' => '3 configurable escalation levels (D+X, formal notice, registered letter). Clients pay without your involvement.'],
@@ -2543,13 +2543,13 @@ return [
         ],
         'plan_recommend_title' => 'Recommended plan for you',
         'plan_recommend_name' => 'Pro - €15/month',
-        'plan_recommend_desc' => 'Unlimited everything, CRM, HR module (15 employees), 3 external accountants, unlimited Peppol, 10-year PDF/A archive, automatic reminders, no branding. No per-user surcharge.',
+        'plan_recommend_desc' => 'Unlimited everything, CRM, HR module, external accountants, unlimited Peppol, 10-year PDF/A archive, automatic reminders, no branding. No per-user surcharge.',
         'plan_recommend_cta' => 'Try 14 days free',
         'plan_note' => 'On Pro, you get all features with no per-employee or per-client surcharge. The price stays fixed regardless of your growth.',
         'faq_title' => 'Frequently asked questions from SMEs',
         'faq' => [
             'q1' => ['q' => 'Can we migrate our existing clients and invoices?', 'a' => 'Yes. Import from Excel/CSV for your clients (with automatic column mapping). For historical invoices, the accountant portal allows your accountant to retrieve necessary exports. On Pro, we offer assisted migration (no fee).'],
-            'q2' => ['q' => 'How many users can work in parallel?', 'a' => 'Pro plan: 5 users (admins and collaborators) + 3 external accountants in read-only mode. No per-user surcharge. If you need more, contact us.'],
+            'q2' => ['q' => 'How many users can work in parallel?', 'a' => 'Pro plan: 5 users (admins and collaborators) + external accountants in read-only mode. No per-user surcharge. If you need more, contact us.'],
             'q3' => ['q' => 'Does the HR module replace a real HRIS?', 'a' => 'For SMEs up to 15 employees, yes. You manage contracts, leave, expense reports, onboarding/offboarding, org chart and employee portal. Above 15 employees or for very specific needs (complex payroll, training), it complements a dedicated HRIS.'],
             'q4' => ['q' => 'How does the 10-year legal archive work?', 'a' => 'Each finalized invoice is automatically converted to PDF/A (ISO 19005, legal archival format), with SHA-256 hash for integrity. Archive is consultable and downloadable anytime. Compliant with art. 16 of the Luxembourg Commercial Code.'],
             'q5' => ['q' => 'Is Peppol mandatory for my SME?', 'a' => 'Yes for B2G (invoices to the Luxembourg State) since 2023. The ViDA 2030 directive extends this obligation to intra-EU B2B from 2030. faktur.lu is ready for both.'],

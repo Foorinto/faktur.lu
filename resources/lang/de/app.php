@@ -1848,7 +1848,7 @@ return [
                 'documents' => ['title' => 'HR-Dokumente', 'description' => 'Speichern und teilen Sie HR-Dokumente: Verträge, Bescheinigungen, Zertifikate.'],
             ],
             'faqs' => [
-                'employees' => ['question' => 'Wie viele Mitarbeiter kann ich verwalten?', 'answer' => 'Der Pro-Plan ermöglicht die Verwaltung von bis zu 15 Mitarbeitern. Das HR-Modul ist bei den Plänen Gratuit und Essentiel nicht verfügbar.'],
+                'employees' => ['question' => 'Wie viele Mitarbeiter kann ich verwalten?', 'answer' => 'Das HR-Modul ist im Pro-Plan enthalten. Das HR-Modul ist bei den Plänen Gratuit und Essentiel nicht verfügbar.'],
                 'portal' => ['question' => 'Haben Mitarbeiter ihren eigenen Zugang?', 'answer' => 'Ja, jeder Mitarbeiter hat ein persönliches Portal für Gehaltsabrechnungen, Urlaubsanträge und Datenaktualisierung.'],
                 'legal' => ['question' => 'Ist das Modul konform mit dem luxemburgischen Arbeitsrecht?', 'answer' => 'Das Modul berücksichtigt luxemburgische Besonderheiten: Feiertage, gesetzliche Urlaubsarten und Saldoberechnung.'],
             ],
@@ -2416,7 +2416,7 @@ return [
 
     'for_smes' => [
         'page_title' => 'Rechnungssoftware KMU Luxemburg: CRM, HR, Mehrbenutzer | faktur.lu',
-        'meta_description' => 'Rechnungssoftware für KMU in Luxemburg: unbegrenzte Rechnungen und Angebote, CRM, HR-Modul (15 Mitarbeiter), Buchhalterportal, Sage BOB 50/Sage 100/FAIA-Exporte, 10-Jahre PDF/A-Archiv, automatische Mahnungen. 15 €/Monat unbegrenzt.',
+        'meta_description' => 'Rechnungssoftware für KMU in Luxemburg: unbegrenzte Rechnungen und Angebote, CRM, HR-Modul, Buchhalterportal, Sage BOB 50/Sage 100/FAIA-Exporte, 10-Jahre PDF/A-Archiv, automatische Mahnungen. 15 €/Monat unbegrenzt.',
         'breadcrumb' => 'Für KMU',
         'badge' => 'Für KMU',
         'hero_title' => 'Ihr Team rechnet, kassiert, deklariert. Sie steuern.',
@@ -2433,10 +2433,10 @@ return [
         ],
         'features_title' => 'Die komplette Plattform für luxemburgische KMU',
         'features' => [
-            'unlimited' => ['title' => 'Alles unbegrenzt', 'desc' => 'Rechnungen, Angebote, Kunden, Ausgaben: kein Monatslimit. Mehrbenutzer (5 Mitarbeiter, 3 Buchhalter).'],
+            'unlimited' => ['title' => 'Alles unbegrenzt', 'desc' => 'Rechnungen, Angebote, Kunden, Ausgaben: kein Monatslimit. Zugang für mehrere Benutzer und Buchhalter.'],
             'crm' => ['title' => 'Integriertes CRM', 'desc' => 'Kundeninteraktionen, Erinnerungen, Tags, Segmente. Kein separates Pipedrive oder HubSpot nötig.'],
-            'hr' => ['title' => 'HR-Modul (bis 15 Mitarbeiter)', 'desc' => 'Onboarding, Urlaub, Spesenabrechnungen, Verträge, Organigramm, Mitarbeiterportal. Alles integriert.'],
-            'accountant' => ['title' => 'Multi-Buchhalter-Portal', 'desc' => 'Bis zu 3 externe Buchhalter im Lesemodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A-Exporte.'],
+            'hr' => ['title' => 'HR-Modul', 'desc' => 'Onboarding, Urlaub, Spesenabrechnungen, Verträge, Organigramm, Mitarbeiterportal. Alles integriert.'],
+            'accountant' => ['title' => 'Multi-Buchhalter-Portal', 'desc' => 'Bis zu externe Buchhalter im Lesemodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A-Exporte.'],
             'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Erstellung von Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform zum luxemburgischen B2G-Mandat. Automatische Übertragung über Access Point in Vorbereitung (B2B-Pflicht 2028).'],
             'archive' => ['title' => '10-Jahre PDF/A-Archiv', 'desc' => 'Luxemburgische gesetzliche Aufbewahrung (Handelsgesetzbuch Art. 16) garantiert. SHA-256-Hash für Integrität.'],
             'reminders' => ['title' => 'Automatische Zahlungsmahnungen', 'desc' => '3 konfigurierbare Eskalationsstufen (T+X, Mahnung, Einschreiben). Kunden zahlen ohne Ihr Zutun.'],
@@ -2444,13 +2444,13 @@ return [
         ],
         'plan_recommend_title' => 'Empfohlener Plan für Sie',
         'plan_recommend_name' => 'Pro - 15 €/Monat',
-        'plan_recommend_desc' => 'Alles unbegrenzt, CRM, HR-Modul (15 Mitarbeiter), 3 externe Buchhalter, unbegrenztes Peppol, 10-Jahre PDF/A-Archiv, automatische Mahnungen, ohne Branding. Kein Aufpreis pro Nutzer.',
+        'plan_recommend_desc' => 'Alles unbegrenzt, CRM, HR-Modul, externe Buchhalter, unbegrenztes Peppol, 10-Jahre PDF/A-Archiv, automatische Mahnungen, ohne Branding. Kein Aufpreis pro Nutzer.',
         'plan_recommend_cta' => '14 Tage kostenlos testen',
         'plan_note' => 'Mit Pro erhalten Sie alle Funktionen ohne Aufpreis pro Mitarbeiter oder Kunde. Der Preis bleibt fest, egal wie Sie wachsen.',
         'faq_title' => 'Häufige Fragen von KMU',
         'faq' => [
             'q1' => ['q' => 'Können wir bestehende Kunden und Rechnungen migrieren?', 'a' => 'Ja. Import aus Excel/CSV für Kunden (mit automatischem Spaltenmapping). Für historische Rechnungen kann Ihr Buchhalter über das Portal Exporte abrufen. Auf Pro bieten wir begleitete Migration (kostenfrei).'],
-            'q2' => ['q' => 'Wie viele Nutzer können parallel arbeiten?', 'a' => 'Pro-Plan: 5 Nutzer (Admins und Mitarbeiter) + 3 externe Buchhalter im Lesemodus. Kein Aufpreis pro Nutzer. Wenn Sie mehr brauchen, kontaktieren Sie uns.'],
+            'q2' => ['q' => 'Wie viele Nutzer können parallel arbeiten?', 'a' => 'Pro-Plan: 5 Nutzer (Admins und Mitarbeiter) + externe Buchhalter im Lesemodus. Kein Aufpreis pro Nutzer. Wenn Sie mehr brauchen, kontaktieren Sie uns.'],
             'q3' => ['q' => 'Ersetzt das HR-Modul ein echtes HRIS?', 'a' => 'Für KMU bis 15 Mitarbeiter, ja. Sie verwalten Verträge, Urlaub, Spesenabrechnungen, Onboarding/Offboarding, Organigramm und Mitarbeiterportal. Über 15 Mitarbeitern oder bei spezifischen Bedürfnissen (komplexe Lohnabrechnung, Schulungen) ergänzt es eher ein dediziertes HRIS.'],
             'q4' => ['q' => 'Wie funktioniert die 10-Jahre-Archivierung?', 'a' => 'Jede finalisierte Rechnung wird automatisch in PDF/A (ISO 19005, gesetzliches Archivformat) umgewandelt, mit SHA-256-Hash für Integrität. Archiv jederzeit einsehbar und herunterladbar. Konform mit Art. 16 des luxemburgischen Handelsgesetzbuchs.'],
             'q5' => ['q' => 'Ist Peppol für mein KMU verpflichtend?', 'a' => 'Ja im B2G (Rechnungen an den luxemburgischen Staat) seit 2023. Die ViDA 2030-Richtlinie erweitert diese Pflicht ab 2030 auf B2B intra-EU. faktur.lu ist für beide bereit.'],

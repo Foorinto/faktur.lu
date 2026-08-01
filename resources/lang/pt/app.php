@@ -2152,7 +2152,7 @@ return [
                 'documents' => ['title' => 'Documentos RH', 'description' => 'Armazene e partilhe os documentos de RH: contratos, declarações, certificados.'],
             ],
             'faqs' => [
-                'employees' => ['question' => 'Quantos colaboradores posso gerir?', 'answer' => 'O plano Pro permite gerir até 15 colaboradores. O módulo RH não está disponível nos planos Gratuito e Essencial.'],
+                'employees' => ['question' => 'Quantos colaboradores posso gerir?', 'answer' => 'O módulo RH está incluído no plano Pro. O módulo RH não está disponível nos planos Gratuito e Essencial.'],
                 'portal' => ['question' => 'Os colaboradores têm o seu próprio acesso?', 'answer' => 'Sim, cada colaborador dispõe de um portal pessoal para consultar os seus recibos de vencimento, pedir férias e atualizar as suas informações.'],
                 'legal' => ['question' => 'O módulo está conforme ao direito do trabalho luxemburguês?', 'answer' => 'O módulo integra as especificidades luxemburguesas: feriados, tipos de férias legais e cálculo do saldo.'],
             ],
@@ -2720,7 +2720,7 @@ return [
 
     'for_smes' => [
         'page_title' => 'Software de faturação PME Luxemburgo: CRM, RH, multi-utilizador | faktur.lu',
-        'meta_description' => 'Software de faturação para PMEs no Luxemburgo: faturas e orçamentos ilimitados, CRM, módulo RH (15 colaboradores), portal contabilista, exportações Sage BOB 50/Sage 100/FAIA, arquivo PDF/A 10 anos, lembretes automáticos. 15 €/mês ilimitado.',
+        'meta_description' => 'Software de faturação para PMEs no Luxemburgo: faturas e orçamentos ilimitados, CRM, módulo RH, portal contabilista, exportações Sage BOB 50/Sage 100/FAIA, arquivo PDF/A 10 anos, lembretes automáticos. 15 €/mês ilimitado.',
         'breadcrumb' => 'Para PMEs',
         'badge' => 'Para PMEs',
         'hero_title' => 'A sua equipa fatura, cobra, declara. Você comanda.',
@@ -2737,10 +2737,10 @@ return [
         ],
         'features_title' => 'A plataforma completa para PMEs luxemburguesas',
         'features' => [
-            'unlimited' => ['title' => 'Tudo ilimitado', 'desc' => 'Faturas, orçamentos, clientes, despesas: sem limite mensal. Multi-utilizador (5 colaboradores, 3 contabilistas).'],
+            'unlimited' => ['title' => 'Tudo ilimitado', 'desc' => 'Faturas, orçamentos, clientes, despesas: sem limite mensal. Acesso multiutilizador e multicontabilista.'],
             'crm' => ['title' => 'CRM integrado', 'desc' => 'Interações com clientes, lembretes, tags, segmentos. Sem necessidade de Pipedrive ou HubSpot separados.'],
-            'hr' => ['title' => 'Módulo RH (até 15 colaboradores)', 'desc' => 'Onboarding, férias, despesas, contratos, organigrama, portal do colaborador. Tudo integrado.'],
-            'accountant' => ['title' => 'Portal multi-contabilista', 'desc' => 'Até 3 contabilistas externos convidados em modo só de leitura, exportações Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A.'],
+            'hr' => ['title' => 'Módulo RH', 'desc' => 'Onboarding, férias, despesas, contratos, organigrama, portal do colaborador. Tudo integrado.'],
+            'accountant' => ['title' => 'Portal multi-contabilista', 'desc' => 'Contabilistas externos convidados em modo só de leitura, exportações Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A.'],
             'peppol' => ['title' => 'Exportação Peppol B2G (BIS 3.0)', 'desc' => 'Geração de faturas Peppol BIS 3.0 / UBL 2.1 conformes com o mandato B2G luxemburguês. Transmissão automática via Access Point em breve (obrigação B2B 2028).'],
             'archive' => ['title' => 'Arquivo PDF/A 10 anos', 'desc' => 'Conservação legal luxemburguesa (Código de Comércio art. 16) garantida. Hash SHA-256 para integridade.'],
             'reminders' => ['title' => 'Lembretes automáticos por dívidas', 'desc' => '3 níveis de escalonamento configuráveis (D+X, notificação formal, carta registada). Os clientes pagam sem o seu envolvimento.'],
@@ -2748,13 +2748,13 @@ return [
         ],
         'plan_recommend_title' => 'Plano recomendado para si',
         'plan_recommend_name' => 'Pro - 15 €/mês',
-        'plan_recommend_desc' => 'Tudo ilimitado, CRM, módulo RH (15 colaboradores), 3 contabilistas externos, Peppol ilimitado, arquivo PDF/A 10 anos, lembretes automáticos, sem branding. Sem custo por utilizador.',
+        'plan_recommend_desc' => 'Tudo ilimitado, CRM, módulo RH, contabilistas externos, Peppol ilimitado, arquivo PDF/A 10 anos, lembretes automáticos, sem branding. Sem custo por utilizador.',
         'plan_recommend_cta' => 'Experimentar 14 dias grátis',
         'plan_note' => 'No Pro, tem acesso a todas as funções sem custo por colaborador ou cliente. O preço fica fixo independentemente do seu crescimento.',
         'faq_title' => 'Perguntas frequentes de PMEs',
         'faq' => [
             'q1' => ['q' => 'Podemos migrar os nossos clientes e faturas existentes?', 'a' => 'Sim. Importação a partir de Excel/CSV para os clientes (com mapeamento automático de colunas). Para faturas históricas, o portal contabilista permite ao seu contabilista recuperar as exportações necessárias. No Pro, oferecemos migração acompanhada (sem custo).'],
-            'q2' => ['q' => 'Quantos utilizadores podem trabalhar em paralelo?', 'a' => 'Plano Pro: 5 utilizadores (administradores e colaboradores) + 3 contabilistas externos em modo de leitura. Sem custo por utilizador. Se precisar de mais, contacte-nos.'],
+            'q2' => ['q' => 'Quantos utilizadores podem trabalhar em paralelo?', 'a' => 'Plano Pro: 5 utilizadores (administradores e colaboradores) + contabilistas externos em modo de leitura. Sem custo por utilizador. Se precisar de mais, contacte-nos.'],
             'q3' => ['q' => 'O módulo RH substitui um verdadeiro HRIS?', 'a' => 'Para PMEs até 15 colaboradores, sim. Gere contratos, férias, despesas, onboarding/offboarding, organigrama e portal do colaborador. Acima de 15 colaboradores ou para necessidades muito específicas (folha de pagamento complexa, formação), complementa um HRIS dedicado.'],
             'q4' => ['q' => 'Como funciona o arquivo legal de 10 anos?', 'a' => 'Cada fatura finalizada é automaticamente convertida em PDF/A (ISO 19005, formato legal de arquivo), com hash SHA-256 para integridade. Arquivo consultável e descarregável a qualquer momento. Em conformidade com o art. 16 do Código Comercial luxemburguês.'],
             'q5' => ['q' => 'Peppol é obrigatório para a minha PME?', 'a' => 'Sim no B2G (faturas para o Estado luxemburguês) desde 2023. A diretiva ViDA 2030 estende esta obrigação ao B2B intra-UE a partir de 2030. O faktur.lu está pronto para ambos.'],
