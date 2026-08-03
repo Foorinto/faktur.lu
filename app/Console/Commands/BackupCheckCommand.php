@@ -40,6 +40,59 @@ class BackupCheckCommand extends Command
             $problems[] = 'Aucun email d\'alerte : un échec resterait invisible.';
         }
 
+        // --- Planification ---
+        //
+        // Un dump absent ressemble à un envoi raté vu de l'extérieur. La
+        // distinction se fait ici : si le planificateur ne tourne pas, rien
+        // n'est jamais tenté et tous les autres contrôles sont trompeurs.
+        $this->line('');
+        $this->info('── Planification ──');
+
+        $crontab = Process::timeout(30)->run('crontab -l');
+
+        if (! $crontab->successful()) {
+            $this->line('  crontab               : illisible depuis PHP');
+        } else {
+            $entries = array_values(array_filter(
+                explode("\n", $crontab->output()),
+                fn ($l) => str_contains($l, 'schedule:run') && ! str_starts_with(trim($l), '#')
+            ));
+
+            if (empty($entries)) {
+                $this->line('  Entrée schedule:run   : ABSENTE');
+                $problems[] = 'Aucune ligne « php artisan schedule:run » active dans la crontab : '
+                    .'Laravel ne déclenche donc aucune tâche planifiée, sauvegarde comprise. '
+                    .'La ligne attendue tourne chaque minute.';
+            } else {
+                foreach ($entries as $entry) {
+                    $this->line('  Entrée schedule:run   : '.trim($entry));
+                }
+            }
+        }
+
+        $logPath = storage_path('logs/laravel.log');
+
+        if (is_readable($logPath)) {
+            $tail = Process::timeout(30)->run(
+                sprintf('grep -F "[Backup]" %s | tail -n 3', escapeshellarg($logPath))
+            );
+            $lines = array_filter(explode("\n", trim($tail->output())));
+
+            if (! empty($lines)) {
+                $this->line('  Dernières traces      :');
+                foreach ($lines as $line) {
+                    $this->line('    '.mb_substr(trim($line), 0, 160));
+                }
+            } else {
+                $this->line('  Dernières traces      : — aucune trace [Backup] dans le journal —');
+            }
+
+            if (empty($lines)) {
+                $problems[] = 'Aucune trace « [Backup] » dans storage/logs/laravel.log : '
+                    .'la commande backup:run n\'a jamais été exécutée par le planificateur.';
+            }
+        }
+
         // --- Dumps locaux ---
         $this->line('');
         $this->info('── Sauvegardes locales ──');
