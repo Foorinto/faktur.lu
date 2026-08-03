@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Process;
 
 /**
  * Le cron tourne-t-il, et depuis quand ?
@@ -36,6 +37,24 @@ class CronCheckCommand extends Command
         $this->line('');
         $this->info('── Battement du cron ──');
 
+        // Vérifier la CRONTAB avant le fichier. Le battement peut avoir été
+        // écrit à la main — la commande de diagnostic « date > … » produit un
+        // fichier rigoureusement identique à celui du cron. Sans ce contrôle,
+        // un test manuel fait passer un cron mort pour un cron vivant : c'est
+        // arrivé le 2026-08-03, et cette commande a répondu que tout allait bien
+        // alors que la crontab n'avait pas été modifiée.
+        $declared = $this->heartbeatIsInCrontab();
+
+        if ($declared === false) {
+            $this->line('  Ligne crontab         : elle n\'écrit PAS de battement');
+            $problems[] = 'La crontab ne contient pas l\'écriture du battement '
+                .'(« date > storage/logs/cron-last-run.txt »). Toute fraîcheur du fichier '
+                .'ci-dessous provient donc d\'une exécution manuelle, et ne prouve rien '
+                .'sur le cron.';
+        } elseif ($declared === true) {
+            $this->line('  Ligne crontab         : elle écrit bien le battement');
+        }
+
         if (! file_exists($heartbeat)) {
             $this->line('  Fichier de battement  : ABSENT');
             $this->line('  → '.$heartbeat);
@@ -44,14 +63,27 @@ class CronCheckCommand extends Command
         } else {
             $age = time() - filemtime($heartbeat);
 
+            $seconds = (int) date('s', filemtime($heartbeat));
+            $suspect = $declared !== true && $seconds > 10;
+
             $this->line('  Dernier passage       : '.date('Y-m-d H:i:s', filemtime($heartbeat)));
             $this->line('  Il y a                : '.$this->humanize($age));
+
+            // Un cron démarre à la seconde 00 (quelques secondes de gigue au
+            // plus). Un horodatage en milieu de minute trahit une écriture
+            // manuelle — second garde-fou, indépendant de la lecture de crontab
+            // qui n'est pas toujours possible.
+            if ($suspect) {
+                $this->line('  ⚠ Horodatage à la seconde '.$seconds.' : un cron écrit à la seconde 00.');
+                $problems[] = 'Le battement porte un horodatage incompatible avec un déclenchement '
+                    .'par cron : il a très probablement été écrit à la main.';
+            }
 
             if ($age > self::STALE_AFTER_SECONDS) {
                 $problems[] = 'Le cron ne s\'est pas déclenché depuis '.$this->humanize($age)
                     .' alors qu\'il devrait passer chaque minute : la tâche planifiée est arrêtée '
                     .'côté hébergeur, ou la ligne crontab a été modifiée.';
-            } else {
+            } elseif (! $suspect && $declared !== false) {
                 $this->line('  État                  : le cron passe bien');
             }
         }
@@ -101,6 +133,35 @@ class CronCheckCommand extends Command
         }
 
         return self::FAILURE;
+    }
+
+    /**
+     * La crontab contient-elle l'écriture du battement ?
+     *
+     * Renvoie null quand la crontab est illisible depuis PHP — on ne peut alors
+     * ni confirmer ni infirmer, et seul le contrôle sur l'horodatage s'applique.
+     */
+    private function heartbeatIsInCrontab(): ?bool
+    {
+        $crontab = Process::timeout(30)->run('crontab -l');
+
+        if (! $crontab->successful()) {
+            $this->line('  Ligne crontab         : illisible depuis PHP');
+
+            return null;
+        }
+
+        foreach (explode("\n", $crontab->output()) as $line) {
+            if (str_starts_with(trim($line), '#')) {
+                continue;
+            }
+
+            if (str_contains($line, 'cron-last-run.txt')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function humanize(int $seconds): string
