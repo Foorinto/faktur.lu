@@ -30,6 +30,7 @@ class BackupService
             'local_path' => null,
             'encrypted' => false,
             'cloud_uploaded' => false,
+            'cloud_error' => null,
             'local_cleaned' => 0,
             'cloud_cleaned' => 0,
             'duration_seconds' => 0,
@@ -60,12 +61,19 @@ class BackupService
         chmod($finalPath, 0600);
 
         // 4. Upload to cloud via rclone
+        //
+        // L'échec est enregistré dans le résultat, et non seulement journalisé :
+        // une sauvegarde qui ne quitte pas le serveur disparaît avec lui. Tant
+        // que l'erreur restait confinée au fichier de log, la commande sortait
+        // en succès et personne n'apprenait que la copie hors-site manquait —
+        // c'est ainsi que des nuits entières ont pu passer sans dépôt distant.
         if (config('backup.cloud.enabled')) {
             try {
                 $this->uploadToCloud($finalPath);
                 $result['cloud_uploaded'] = true;
                 Log::info('[Backup] Uploaded to cloud via rclone');
             } catch (\Throwable $e) {
+                $result['cloud_error'] = $e->getMessage();
                 Log::error("[Backup] Cloud upload failed: {$e->getMessage()}");
             }
         }
@@ -384,6 +392,24 @@ class BackupService
 
         if (! $process->successful()) {
             throw new RuntimeException("rclone upload failed: {$process->errorOutput()}");
+        }
+
+        // « Envoyé » doit vouloir dire « présent à destination », pas seulement
+        // « rclone est sorti en 0 » : on relit le fichier sur le distant.
+        $check = Process::timeout(120)->run(
+            sprintf(
+                '%s lsf %s --include %s',
+                escapeshellarg($this->rcloneBinary()),
+                escapeshellarg($destination),
+                escapeshellarg(basename($filePath))
+            )
+        );
+
+        if (! $check->successful() || trim($check->output()) === '') {
+            throw new RuntimeException(
+                'rclone reported success but the file is not present on the remote: '
+                .$destination.'/'.basename($filePath)
+            );
         }
     }
 

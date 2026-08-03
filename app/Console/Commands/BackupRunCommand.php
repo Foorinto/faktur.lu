@@ -46,6 +46,25 @@ class BackupRunCommand extends Command
                 ]
             );
 
+            // Une copie hors-site manquante est un échec, pas un détail : le
+            // dump local vit sur la machine qu'il est censé protéger. Tant que
+            // ce cas sortait en SUCCESS, rien ne le signalait — ni le code de
+            // retour du cron, ni l'email d'alerte.
+            if (config('backup.cloud.enabled') && ! $result['cloud_uploaded']) {
+                $reason = $result['cloud_error'] ?? __('raison inconnue');
+
+                $this->error("Sauvegarde locale OK, mais l'envoi hors-site a échoué : {$reason}");
+
+                if (config('backup.notify_on_failure') && config('backup.notification_email')) {
+                    $this->sendNotification('failure', [
+                        'error' => "Copie hors-site manquante ({$reason}). "
+                            ."Le dump local {$result['filename']} existe, mais il se trouve sur le serveur qu'il protège.",
+                    ]);
+                }
+
+                return self::FAILURE;
+            }
+
             if (config('backup.notify_on_success') && config('backup.notification_email')) {
                 $this->sendNotification('success', $result);
             }
