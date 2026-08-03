@@ -1,16 +1,23 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, useForm, Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
 
-defineProps({
+const props = defineProps({
     accountants: Array,
     pendingInvitations: Array,
     recentDownloads: Array,
+    quota: { type: Object, default: () => ({ used: 0, max: null }) },
 });
+
+// max === null : aucun plafond sur ce plan, rien à afficher.
+const quotaVisible = computed(() => props.quota.max !== null);
+const quotaReached = computed(
+    () => quotaVisible.value && props.quota.used >= props.quota.max,
+);
 
 const showInviteModal = ref(false);
 
@@ -100,10 +107,18 @@ const revokeAccess = (accountantId, accountantName) => {
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         {{ t('manage_export_clients') }}
                     </p>
+                    <p
+                        v-if="quotaVisible"
+                        class="mt-1 text-sm"
+                        :class="quotaReached ? 'font-medium text-pink-600 dark:text-pink-400' : 'text-slate-500 dark:text-slate-400'"
+                    >
+                        {{ t('accountant_quota', { used: quota.used, max: quota.max }) }}
+                    </p>
                 </div>
                 <button
                     @click="showInviteModal = true"
-                    class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 w-full sm:w-auto"
+                    :disabled="quotaReached"
+                    class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-500 w-full sm:w-auto disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:hover:bg-slate-300 dark:disabled:bg-slate-700 dark:disabled:text-slate-400"
                 >
                     <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

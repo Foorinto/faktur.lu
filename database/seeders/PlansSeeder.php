@@ -33,6 +33,11 @@ class PlansSeeder extends Seeder
                     'max_expenses_per_month' => 10,
                     'max_collaborators_per_project' => 3,
                     'max_products' => 10,
+                    // Le module RH est réservé au plan Pro : le plafond à 0 double
+                    // la garde de `plan.feature:hr_module`, pour que le quota reste
+                    // vrai même si l'accès à la fonctionnalité évolue.
+                    'max_employees' => 0,
+                    'max_accountants' => 1,
                 ],
                 'features' => [
                     'invoices',
@@ -69,6 +74,10 @@ class PlansSeeder extends Seeder
                     'max_peppol_per_month' => 10,
                     'max_collaborators_per_project' => 5,
                     'max_products' => null,
+                    'max_employees' => 0,
+                    // « Portail comptable (1 expert) » : le chiffre annoncé sur la
+                    // page tarifs devient une règle appliquée.
+                    'max_accountants' => 1,
                 ],
                 'features' => [
                     'invoices',
@@ -108,6 +117,10 @@ class PlansSeeder extends Seeder
                     'max_peppol_per_month' => null,
                     'max_collaborators_per_project' => 10,
                     'max_products' => null,
+                    // Les deux plafonds annoncés sur les pages PME et tarifs :
+                    // « module RH jusqu'à 15 employés », « 3 comptables externes ».
+                    'max_employees' => 15,
+                    'max_accountants' => 3,
                 ],
                 'features' => [
                     'invoices',

@@ -233,6 +233,73 @@ class PlanService
     }
 
     /**
+     * Check if user can add another employee to the HR module.
+     */
+    public function canCreateEmployee(User $user): bool
+    {
+        $quota = $this->employeeQuota($user);
+
+        return $quota['max'] === null || $quota['used'] < $quota['max'];
+    }
+
+    /**
+     * Effectif géré et plafond du plan.
+     *
+     * Le plafond porte sur les personnes réellement suivies, pas sur les
+     * archives : un employé sorti (`terminated`) reste en base pour l'historique
+     * — et pour les obligations de conservation — mais libère sa place. Sans
+     * cela, une PME au turnover normal atteindrait son plafond sans avoir
+     * jamais dépassé l'effectif annoncé.
+     *
+     * @return array{used: int, max: int|null, plan: string}
+     */
+    public function employeeQuota(User $user): array
+    {
+        $plan = $this->getUserPlan($user);
+
+        return [
+            'used' => \App\Models\HR\Employee::forUser($user)
+                ->where('status', '!=', 'terminated')
+                ->count(),
+            'max' => $plan->getLimit('max_employees'),
+            'plan' => $plan->name,
+        ];
+    }
+
+    /**
+     * Check if user can invite another external accountant.
+     */
+    public function canInviteAccountant(User $user): bool
+    {
+        $quota = $this->accountantQuota($user);
+
+        return $quota['max'] === null || $quota['used'] < $quota['max'];
+    }
+
+    /**
+     * Comptables externes occupant une place, et plafond du plan.
+     *
+     * Les invitations en attente comptent au même titre que les accès actifs :
+     * sinon le plafond serait contournable en envoyant les invitations d'un
+     * coup, et ne mordrait qu'au moment des acceptations — c'est-à-dire trop
+     * tard, une fois les accès accordés. Les invitations expirées ou révoquées
+     * ne comptent pas (`scopePending` les exclut déjà).
+     *
+     * @return array{used: int, max: int|null, plan: string}
+     */
+    public function accountantQuota(User $user): array
+    {
+        $plan = $this->getUserPlan($user);
+
+        return [
+            'used' => $user->activeAccountants()->count()
+                + $user->accountantInvitations()->pending()->count(),
+            'max' => $plan->getLimit('max_accountants'),
+            'plan' => $plan->name,
+        ];
+    }
+
+    /**
      * Check if user can export more Peppol this month.
      */
     public function canExportPeppol(User $user): bool
@@ -413,6 +480,8 @@ class PlanService
             'max_emails_per_month' => 10,
             'max_expenses_per_month' => 10,
             'max_products' => 10,
+            'max_employees' => 0, // module RH réservé au plan Pro
+            'max_accountants' => 1, // portail comptable : uniquement les comptes grandfathered
         ];
         // 'accounting_portal' réservé à Essentiel+ (grandfathering pour l'existant).
         $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];
@@ -436,6 +505,8 @@ class PlanService
             'max_expenses_per_month' => 30,
             'max_active_projects' => 10,
             'max_peppol_per_month' => 10,
+            'max_employees' => 0, // module RH réservé au plan Pro
+            'max_accountants' => 1,
         ];
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
@@ -453,7 +524,12 @@ class PlanService
         $plan = new Plan();
         $plan->name = 'pro';
         $plan->display_name = 'Pro';
-        $plan->limits = null; // unlimited
+        // Illimité sauf ce qui est explicitement plafonné : une clé absente vaut
+        // null, donc « sans limite » (cf. Plan::getLimit).
+        $plan->limits = [
+            'max_employees' => 15,
+            'max_accountants' => 3,
+        ];
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export',

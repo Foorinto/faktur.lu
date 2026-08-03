@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\AccountantInvitation;
 use App\Notifications\AccountantInvitationNotification;
+use App\Services\PlanService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AccountantSettingsController extends Controller
 {
+    public function __construct(private readonly PlanService $planService) {}
+
     /**
      * Show the accountant settings page.
      */
@@ -64,6 +67,7 @@ class AccountantSettingsController extends Controller
             'accountants' => $accountants,
             'pendingInvitations' => $pendingInvitations,
             'recentDownloads' => $recentDownloads,
+            'quota' => $this->planService->accountantQuota($user),
         ]);
     }
 
@@ -78,6 +82,17 @@ class AccountantSettingsController extends Controller
         ]);
 
         $user = $request->user();
+
+        // Plafond du plan. Contrôlé avant les doublons : inutile de discuter
+        // d'une adresse dont on n'a de toute façon plus la place.
+        if (! $this->planService->canInviteAccountant($user)) {
+            $quota = $this->planService->accountantQuota($user);
+
+            return back()->withErrors(['email' => __('app.plan_limit_accountants', [
+                'max' => $quota['max'],
+                'used' => $quota['used'],
+            ])]);
+        }
 
         // Check if already invited or has access
         $existingInvitation = $user->accountantInvitations()
@@ -98,10 +113,13 @@ class AccountantSettingsController extends Controller
         }
 
         // Create invitation
+        // `name` est facultatif : absent de la requête, il est absent de
+        // $validated. Le formulaire envoie toujours la clé (chaîne vide), d'où
+        // un plantage qui ne se voyait que hors interface.
         $invitation = AccountantInvitation::createForUser(
             $user,
             $validated['email'],
-            $validated['name']
+            $validated['name'] ?? null
         );
 
         // Send invitation email

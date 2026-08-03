@@ -21,7 +21,15 @@ const props = defineProps({
     departments: { type: Array, default: () => [] },
     contractTypes: { type: Array, required: true },
     statuses: { type: Array, required: true },
+    quota: { type: Object, default: () => ({ used: 0, max: null }) },
 });
+
+// max === null : plan sans plafond. On n'affiche alors rien plutôt qu'un
+// « 12 / ∞ » qui n'apprend rien.
+const quotaVisible = computed(() => props.quota.max !== null);
+const quotaReached = computed(
+    () => quotaVisible.value && props.quota.used >= props.quota.max,
+);
 
 const search = ref(props.filters.search || "");
 const departmentFilter = ref(props.filters.department || "");
@@ -129,22 +137,48 @@ const getContractBadgeClass = (type) => {
             </h1>
         </template>
         <template #header-actions>
-            <Link
-                data-tour="hr-employees-new"
-                :href="route('hr.employees.create')"
-                class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
-            >
-                <svg
-                    class="-ml-0.5 mr-1.5 h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+            <div class="flex items-center gap-3">
+                <span
+                    v-if="quotaVisible"
+                    class="hidden text-sm sm:inline"
+                    :class="
+                        quotaReached
+                            ? 'font-medium text-pink-600 dark:text-pink-400'
+                            : 'text-slate-500 dark:text-slate-400'
+                    "
                 >
-                    <path
-                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
-                    />
-                </svg>
-                {{ t("hr.new_employee") }}
-            </Link>
+                    {{
+                        t("hr.employee_quota", {
+                            used: quota.used,
+                            max: quota.max,
+                        })
+                    }}
+                </span>
+                <span
+                    v-if="quotaReached"
+                    class="inline-flex cursor-not-allowed items-center rounded-xl bg-slate-200 px-3 py-2 text-sm font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-400"
+                    :title="t('hr.employee_quota_reached')"
+                >
+                    {{ t("hr.new_employee") }}
+                </span>
+                <Link
+                    v-else
+                    data-tour="hr-employees-new"
+                    :href="route('hr.employees.create')"
+                    class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+                >
+                    <svg
+                        class="-ml-0.5 mr-1.5 h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                        />
+                    </svg>
+                    {{ t("hr.new_employee") }}
+                </Link>
+            </div>
         </template>
 
         <HRNav class="mb-6" />
@@ -304,6 +338,7 @@ const getContractBadgeClass = (type) => {
                             </svg>
                             <p class="mt-2">{{ t("hr.no_employees") }}</p>
                             <Link
+                                v-if="!quotaReached"
                                 :href="route('hr.employees.create')"
                                 class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500 dark:text-primary-400"
                             >

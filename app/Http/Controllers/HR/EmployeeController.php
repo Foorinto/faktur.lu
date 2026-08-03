@@ -12,6 +12,7 @@ use App\Models\HR\LeaveRequest;
 use App\Models\HR\LeaveType;
 use App\Models\HR\OnboardingTemplate;
 use App\Models\User;
+use App\Services\PlanService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +24,8 @@ use Inertia\Response;
 
 class EmployeeController extends Controller
 {
+    public function __construct(private readonly PlanService $planService) {}
+
     public function index(Request $request): Response
     {
         $query = Employee::query()
@@ -56,11 +59,20 @@ class EmployeeController extends Controller
             'departments' => $departments,
             'contractTypes' => Employee::CONTRACT_TYPES,
             'statuses' => Employee::STATUSES,
+            'quota' => $this->planService->employeeQuota($request->user()),
         ]);
     }
 
-    public function create(): Response
+    public function create(): Response|RedirectResponse
     {
+        // Mieux vaut refuser à l'entrée du formulaire qu'après la saisie : un
+        // employé se renseigne en une vingtaine de champs.
+        if (! $this->planService->canCreateEmployee(auth()->user())) {
+            return redirect()
+                ->route('hr.employees.index')
+                ->with('error', $this->quotaReachedMessage());
+        }
+
         $departments = Department::query()->orderBy('name')->get(['id', 'name']);
         $employees = Employee::where('status', '!=', 'terminated')->orderBy('last_name')->get(['id', 'first_name', 'last_name']);
 
@@ -76,6 +88,12 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request): RedirectResponse
     {
+        // Un onglet resté ouvert avant que le plafond ne soit atteint peut
+        // arriver ici malgré le garde-fou de create() : on conserve la saisie.
+        if (! $this->planService->canCreateEmployee($request->user())) {
+            return back()->withInput()->with('error', $this->quotaReachedMessage());
+        }
+
         $data = $request->validated();
 
         if ($request->hasFile('photo')) {
@@ -252,6 +270,17 @@ class EmployeeController extends Controller
     {
         $data = $request->validated();
 
+        // Réintégrer un employé sorti le fait rentrer dans l'effectif : sans ce
+        // contrôle, il suffirait de sortir puis de réintégrer pour dépasser le
+        // plafond. Les autres modifications ne changent pas l'effectif.
+        $reintegration = $employee->status === 'terminated'
+            && isset($data['status'])
+            && $data['status'] !== 'terminated';
+
+        if ($reintegration && ! $this->planService->canCreateEmployee($request->user())) {
+            return back()->with('error', $this->quotaReachedMessage());
+        }
+
         if ($request->hasFile('photo')) {
             if ($employee->photo_path) {
                 Storage::disk('local')->delete($employee->photo_path);
@@ -328,6 +357,19 @@ class EmployeeController extends Controller
         return redirect()
             ->route('hr.employees.index')
             ->with('success', 'Employé supprimé.');
+    }
+
+    /**
+     * Message unique des trois entrées qui font grossir l'effectif.
+     */
+    private function quotaReachedMessage(): string
+    {
+        $quota = $this->planService->employeeQuota(auth()->user());
+
+        return __('app.plan_limit_employees', [
+            'max' => $quota['max'],
+            'used' => $quota['used'],
+        ]);
     }
 
     private function getCountries(): array
