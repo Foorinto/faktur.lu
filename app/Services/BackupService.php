@@ -180,7 +180,8 @@ class BackupService
         $password = config('database.connections.mysql.password');
 
         $command = sprintf(
-            'mysqldump --host=%s --port=%s --user=%s --password=%s --single-transaction --routines --triggers %s | gzip > %s',
+            '%s --host=%s --port=%s --user=%s --password=%s --single-transaction --routines --triggers %s | gzip > %s',
+            escapeshellarg((string) config('backup.mysqldump_binary', 'mysqldump')),
             escapeshellarg($host),
             escapeshellarg($port),
             escapeshellarg($username),

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\BackupService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BackupRunCommand extends Command
@@ -71,6 +72,15 @@ class BackupRunCommand extends Command
 
             return self::SUCCESS;
         } catch (\Throwable $e) {
+            // Journaliser AVANT toute autre chose. La sortie console part dans
+            // /dev/null via le cron, et l'email suppose une adresse configurée :
+            // sans cette ligne, un échec de sauvegarde ne laisse strictement
+            // aucune trace nulle part. C'est ce qui a permis à la panne de durer.
+            Log::error("[Backup] Échec de la sauvegarde : {$e->getMessage()}", [
+                'exception' => $e::class,
+                'file' => $e->getFile().':'.$e->getLine(),
+            ]);
+
             $this->error("Backup failed: {$e->getMessage()}");
 
             if (config('backup.notify_on_failure') && config('backup.notification_email')) {

@@ -74,4 +74,16 @@ return [
     | Which database connection to back up.
     */
     'database_connection' => env('BACKUP_DB_CONNECTION', env('DB_CONNECTION', 'mysql')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Binaire mysqldump
+    |--------------------------------------------------------------------------
+    | Même précaution que pour rclone : le PATH d'un processus lancé par le cron
+    | est réduit au strict minimum et ne contient pas forcément le répertoire où
+    | vit mysqldump. Appelé sans chemin absolu, le dump échouerait chaque nuit —
+    | et l'échec survenant avant la première écriture dans le journal, il ne
+    | laisserait aucune trace exploitable.
+    */
+    'mysqldump_binary' => env('BACKUP_MYSQLDUMP_BINARY', 'mysqldump'),
 ];

@@ -59,12 +59,19 @@ return Application::configure(basePath: dirname(__DIR__))
             ->onOneServer();
 
         // Database backup daily at configured time (default 3:00 AM)
+        //
+        // Volontairement AU PREMIER PLAN. `runInBackground()` fait lancer la
+        // commande par un shell détaché (« ... & »), sans nohup ni setsid : sur
+        // un hébergement mutualisé, ce processus orphelin est fauché dès que la
+        // session du cron se termine, et la sauvegarde meurt avant d'avoir écrit
+        // la moindre ligne de journal. C'était la seule des huit tâches
+        // planifiées à être détachée — et la seule à n'avoir jamais abouti.
+        // Le dump dure quelques secondes ; il n'y a rien à gagner à le détacher.
         if (config('backup.enabled')) {
             $schedule->command('backup:run')
                 ->dailyAt(config('backup.schedule_time', '03:00'))
                 ->withoutOverlapping()
-                ->onOneServer()
-                ->runInBackground();
+                ->onOneServer();
         }
     })
     ->withRouting(
