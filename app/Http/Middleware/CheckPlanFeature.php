@@ -76,6 +76,7 @@ class CheckPlanFeature
             'time_tracking' => __('Suivi du temps'),
             'accounting_portal' => __('Portail comptable / fiduciaire'),
             'accounting_exports' => __('Exports comptables (Sage BOB, FID-Manager)'),
+            'recurring_invoices' => __('Facturation récurrente'),
             default => __('Cette fonctionnalité'),
         };
     }
@@ -98,6 +99,7 @@ class CheckPlanFeature
             'time_tracking' => __('Le suivi du temps nécessite le plan Essentiel ou Pro.'),
             'accounting_portal' => __('Le portail comptable (invitation d\'une fiduciaire) nécessite le plan Essentiel ou Pro.'),
             'accounting_exports' => __('Les exports comptables (Sage BOB, FID-Manager, livre des recettes) nécessitent le plan Essentiel ou Pro.'),
+            'recurring_invoices' => __('La facturation récurrente nécessite le plan Essentiel ou Pro. Vos récurrences existantes restent accessibles.'),
             default => __('Cette fonctionnalité nécessite un plan supérieur.'),
         };
     }

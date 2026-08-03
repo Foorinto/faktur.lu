@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\RecurringInvoice;
 use App\Services\InvoiceEmailService;
+use App\Services\PlanService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +16,19 @@ class GenerateRecurringInvoices extends Command
     protected $signature = 'recurring:generate';
     protected $description = 'Génère les factures récurrentes dues';
 
-    public function handle(FinalizeInvoiceAction $finalizeAction): int
+    /**
+     * Les quotas du plan s'appliquent ici comme ailleurs.
+     *
+     * Cette commande était le seul chemin de création de factures qui ne passait
+     * par aucun contrôle : dix récurrences configurées suffisaient à émettre —
+     * et à envoyer par email — bien au-delà du plafond annoncé.
+     *
+     * Quand le plafond est atteint, la récurrence est **sautée sans avancer son
+     * échéance** : elle reste due et repartira dès le mois suivant ou dès la
+     * montée de plan. Avancer la date perdrait la facture pour de bon, ce qui
+     * est le pire résultat possible pour un logiciel de facturation.
+     */
+    public function handle(FinalizeInvoiceAction $finalizeAction, PlanService $plans): int
     {
         $recurringInvoices = RecurringInvoice::with(['items', 'client', 'user'])
             ->due()
@@ -23,16 +36,40 @@ class GenerateRecurringInvoices extends Command
 
         $generated = 0;
         $errors = 0;
+        $blocked = 0;
 
         foreach ($recurringInvoices as $recurring) {
             try {
+                $owner = $recurring->user;
+
+                if ($owner && ! $plans->canCreateInvoice($owner)) {
+                    $blocked++;
+                    $this->warn("Récurrence #{$recurring->id} reportée : quota de factures atteint (compte #{$owner->id}).");
+                    Log::warning("Recurring invoice #{$recurring->id} deferred: monthly invoice quota reached for user #{$owner->id}");
+
+                    continue;
+                }
+
                 $invoice = $this->createInvoice($recurring);
 
                 if ($recurring->auto_finalize) {
-                    $finalizeAction->execute($invoice);
+                    // Émettre est un second quota : un brouillon créé dans les
+                    // clous peut malgré tout ne pas pouvoir être émis. Il reste
+                    // alors en brouillon plutôt que d'être perdu.
+                    if ($owner && ! $plans->canFinalizeInvoice($owner)) {
+                        $this->warn("Récurrence #{$recurring->id} : facture laissée en brouillon (quota d'émission atteint).");
+                        Log::warning("Recurring invoice #{$recurring->id}: invoice #{$invoice->id} left as draft, finalization quota reached");
+                    } else {
+                        $finalizeAction->execute($invoice);
 
-                    if ($recurring->auto_send && $recurring->client->email) {
-                        $this->sendInvoice($invoice, $recurring);
+                        if ($recurring->auto_send && $recurring->client->email) {
+                            if ($owner && ! $plans->canSendEmail($owner)) {
+                                $this->warn("Récurrence #{$recurring->id} : envoi non effectué (quota d'emails atteint).");
+                                Log::warning("Recurring invoice #{$recurring->id}: auto-send skipped, email quota reached");
+                            } else {
+                                $this->sendInvoice($invoice, $recurring);
+                            }
+                        }
                     }
                 }
 
@@ -49,7 +86,7 @@ class GenerateRecurringInvoices extends Command
             }
         }
 
-        $this->info("Terminé : {$generated} factures générées, {$errors} erreurs.");
+        $this->info("Terminé : {$generated} factures générées, {$blocked} reportées (quota), {$errors} erreurs.");
 
         return 0;
     }

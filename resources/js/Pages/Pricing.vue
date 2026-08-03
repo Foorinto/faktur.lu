@@ -610,6 +610,28 @@ const proFeatures = computed(() => {
                                     <td
                                         class="py-3 px-6 text-sm text-slate-700"
                                     >
+                                        {{ t('landing.pricing.comparison.rows.products') }}
+                                    </td>
+                                    <td
+                                        class="py-3 px-4 text-center text-sm text-slate-600"
+                                    >
+                                        10
+                                    </td>
+                                    <td
+                                        class="py-3 px-4 text-center text-sm font-medium text-primary-500"
+                                    >
+                                        {{ t('landing.pricing.unlimited') }}
+                                    </td>
+                                    <td
+                                        class="py-3 px-4 text-center text-sm font-medium text-primary-500"
+                                    >
+                                        {{ t('landing.pricing.unlimited') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        class="py-3 px-6 text-sm text-slate-700"
+                                    >
                                         {{ t('landing.pricing.comparison.rows.active_projects') }}
                                     </td>
                                     <td class="py-3 px-4 text-center">
@@ -636,6 +658,40 @@ const proFeatures = computed(() => {
                                         class="py-3 px-4 text-center text-sm font-medium text-primary-500"
                                     >
                                         {{ t('landing.pricing.unlimited') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        class="py-3 px-6 text-sm text-slate-700"
+                                    >
+                                        {{ t('landing.pricing.comparison.rows.collaborators_per_project') }}
+                                    </td>
+                                    <!-- Les projets n'existent pas sur le plan
+                                         Gratuit : un chiffre y serait trompeur. -->
+                                    <td class="py-3 px-4 text-center">
+                                        <svg
+                                            class="w-5 h-5 text-slate-300 mx-auto"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                        </svg>
+                                    </td>
+                                    <td
+                                        class="py-3 px-4 text-center text-sm text-slate-600"
+                                    >
+                                        5
+                                    </td>
+                                    <td
+                                        class="py-3 px-4 text-center text-sm text-slate-600"
+                                    >
+                                        10
                                     </td>
                                 </tr>
 

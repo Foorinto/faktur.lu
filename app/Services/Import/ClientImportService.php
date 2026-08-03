@@ -4,11 +4,39 @@ namespace App\Services\Import;
 
 use App\Models\Client;
 use App\Models\Import\ImportSession;
+use App\Models\User;
+use App\Services\PlanService;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ClientImportService
 {
+    public function __construct(private readonly PlanService $planService) {}
+
+    /**
+     * Places encore disponibles dans le quota de clients, ou null si illimité.
+     *
+     * L'import était le seul chemin de création de clients qui ne consultait
+     * aucun plafond : un compte annonçant « 10 clients maximum » pouvait en
+     * charger mille depuis un fichier Excel.
+     */
+    private function remainingClientSlots(ImportSession $session): ?int
+    {
+        $owner = User::find($session->user_id);
+
+        if (! $owner) {
+            return null;
+        }
+
+        $limit = $this->planService->getUserPlan($owner)->getLimit('max_clients');
+
+        if ($limit === null) {
+            return null;
+        }
+
+        return max(0, $limit - Client::where('user_id', $session->user_id)->count());
+    }
+
     /**
      * Champs disponibles pour le mapping.
      */
@@ -287,6 +315,12 @@ class ClientImportService
             $skipped = 0;
             $errors = [];
 
+            // Calculé une fois : recompter à chaque ligne coûterait une requête
+            // par ligne pour un résultat identique, l'import étant le seul
+            // écrivain pendant sa propre exécution.
+            $remainingSlots = $this->remainingClientSlots($session);
+            $quotaBlocked = 0;
+
             $existingClients = Client::where('user_id', $session->user_id)
                 ->get()
                 ->keyBy(fn($c) => strtolower($c->email ?: $c->name));
@@ -330,6 +364,15 @@ class ClientImportService
                         $status = 'prospect';
                     }
 
+                    // Le plafond ne s'applique qu'aux créations : mettre à jour
+                    // un client existant n'agrandit pas le portefeuille.
+                    if ($remainingSlots !== null && $remainingSlots <= 0) {
+                        $quotaBlocked++;
+                        $skipped++;
+
+                        continue;
+                    }
+
                     Client::create(array_merge($clientData, [
                         'user_id' => $session->user_id,
                         'type' => $type,
@@ -338,6 +381,10 @@ class ClientImportService
                         'country_code' => $clientData['country_code'] ?? 'LU',
                     ]));
                     $imported++;
+
+                    if ($remainingSlots !== null) {
+                        $remainingSlots--;
+                    }
                 } catch (\Exception $e) {
                     $errors[] = [
                         'row' => $rowIndex + 2,
@@ -345,6 +392,15 @@ class ClientImportService
                     ];
                     $skipped++;
                 }
+            }
+
+            // Un import qui s'arrête au plafond sans le dire ressemble à un bug :
+            // les lignes manquantes doivent être expliquées, pas seulement comptées.
+            if ($quotaBlocked > 0) {
+                $errors[] = [
+                    'row' => null,
+                    'message' => __('app.import_clients_quota_reached', ['count' => $quotaBlocked]),
+                ];
             }
 
             $session->update([

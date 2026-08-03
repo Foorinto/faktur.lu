@@ -674,10 +674,21 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->middleware('plan.limit:invoices')
             ->name('invoices.duplicate');
 
-        // Recurring Invoices
-        Route::resource('recurring-invoices', \App\Http\Controllers\RecurringInvoiceController::class)->except(['show']);
+        // Recurring Invoices — Essentiel ou Pro pour en CRÉER de nouvelles.
+        //
+        // La consultation, la modification, la désactivation et la suppression
+        // restent ouvertes à tous les plans : un compte redescendu en Gratuit
+        // doit pouvoir reprendre la main sur ses récurrences existantes. Le
+        // couper de sa propre configuration reviendrait à laisser tourner une
+        // automatisation qu'il ne peut plus arrêter.
+        Route::resource('recurring-invoices', \App\Http\Controllers\RecurringInvoiceController::class)
+            ->except(['show', 'create', 'store']);
+        Route::middleware('plan.feature:recurring_invoices')->group(function () {
+            Route::get('/recurring-invoices/create', [\App\Http\Controllers\RecurringInvoiceController::class, 'create'])->name('recurring-invoices.create');
+            Route::post('/recurring-invoices', [\App\Http\Controllers\RecurringInvoiceController::class, 'store'])->name('recurring-invoices.store');
+            Route::post('/recurring-invoices/{recurring_invoice}/duplicate', [\App\Http\Controllers\RecurringInvoiceController::class, 'duplicate'])->name('recurring-invoices.duplicate');
+        });
         Route::post('/recurring-invoices/{recurring_invoice}/toggle', [\App\Http\Controllers\RecurringInvoiceController::class, 'toggleActive'])->name('recurring-invoices.toggle');
-        Route::post('/recurring-invoices/{recurring_invoice}/duplicate', [\App\Http\Controllers\RecurringInvoiceController::class, 'duplicate'])->name('recurring-invoices.duplicate');
 
         // Invoice Items
         Route::post('/invoices/{invoice}/items', [InvoiceItemController::class, 'store'])->name('invoices.items.store');

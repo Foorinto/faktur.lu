@@ -9,6 +9,9 @@ const { t } = useTranslations();
 
 const props = defineProps({
     recurringInvoices: Object,
+    // Le plan Gratuit garde l'accès à la liste pour arrêter ses récurrences
+    // héritées, mais ne peut plus en créer de nouvelles.
+    canCreate: { type: Boolean, default: true },
 });
 
 const frequencyLabels = {
@@ -56,6 +59,7 @@ const duplicateRecurring = (recurring) => {
         </template>
         <template #header-actions>
             <Link
+                v-if="canCreate"
                 :href="route('recurring-invoices.create')"
                 class="inline-flex items-center rounded-xl bg-accent-rose px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 transition-colors"
             >
@@ -102,10 +106,18 @@ const duplicateRecurring = (recurring) => {
             <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">{{ t('recurring_invoice_empty_title') }}</h3>
             <p class="text-slate-500 dark:text-slate-400 mb-6">{{ t('recurring_invoice_empty_desc') }}</p>
             <Link
+                v-if="canCreate"
                 :href="route('recurring-invoices.create')"
                 class="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm"
             >
                 {{ t('recurring_invoice_create_cta') }}
+            </Link>
+            <Link
+                v-else
+                :href="route('subscription.index')"
+                class="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm"
+            >
+                {{ t('upgrade_to_higher_plan') }}
             </Link>
         </div>
 

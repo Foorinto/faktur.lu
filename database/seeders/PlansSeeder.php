@@ -71,7 +71,7 @@ class PlansSeeder extends Seeder
                     'max_emails_per_month' => 100,
                     'max_expenses_per_month' => 30,
                     'max_active_projects' => 10,
-                    'max_peppol_per_month' => 10,
+                    'max_peppol_per_month' => null, // aucun plafond annoncé sur la page tarifs
                     'max_collaborators_per_project' => 5,
                     'max_products' => null,
                     'max_employees' => 0,
@@ -91,6 +91,9 @@ class PlansSeeder extends Seeder
                     'accounting_exports',
                     'peppol_export',
                     'faia_export',
+                    // Le client au forfait mensuel est le cas d'usage du
+                    // freelance : la récurrence reste dans le plan freelance.
+                    'recurring_invoices',
                 ],
                 'is_active' => true,
                 'sort_order' => 1,
@@ -144,6 +147,7 @@ class PlansSeeder extends Seeder
                     'organizations',
                     'facturx',
                     'advanced_reporting',
+                    'recurring_invoices',
                 ],
                 'is_active' => true,
                 'sort_order' => 2,

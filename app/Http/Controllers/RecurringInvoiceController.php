@@ -21,6 +21,10 @@ class RecurringInvoiceController extends Controller
 
         return Inertia::render('RecurringInvoices/Index', [
             'recurringInvoices' => $recurringInvoices,
+            // La liste reste ouverte à tous les plans pour que les récurrences
+            // héritées puissent être arrêtées ; seule la création est réservée.
+            'canCreate' => app(\App\Services\PlanService::class)
+                ->hasFeature(auth()->user(), 'recurring_invoices'),
         ]);
     }
 

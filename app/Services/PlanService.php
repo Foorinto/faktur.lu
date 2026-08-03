@@ -65,6 +65,14 @@ class PlanService
 
     /**
      * Check if user can create more invoices this month.
+     *
+     * `invoicesOnly()` exclut les avoirs, et ce n'est pas un détail : la loi
+     * impose la note de crédit dès qu'une facture émise comporte une erreur, et
+     * interdit de la retoucher. Si l'avoir consommait une des places du mois,
+     * le quota rendrait le chemin conforme plus coûteux que le chemin interdit.
+     * L'avoir ne libère pas non plus la place de la facture d'origine — celle-ci
+     * a été émise et porte un numéro légal —, sinon la boucle
+     * facture → avoir → facture viderait le plafond de son sens.
      */
     public function canCreateInvoice(User $user): bool
     {
@@ -76,6 +84,7 @@ class PlanService
         }
 
         $count = $user->userInvoices()
+            ->invoicesOnly()
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
             ->count();
@@ -101,6 +110,7 @@ class PlanService
         }
 
         $count = $user->userInvoices()
+            ->invoicesOnly() // un avoir ne consomme pas de place (cf. canCreateInvoice)
             ->whereNotNull('finalized_at')
             ->whereMonth('finalized_at', Carbon::now()->month)
             ->whereYear('finalized_at', Carbon::now()->year)
@@ -355,7 +365,10 @@ class PlanService
                 'unlimited' => $plan->getLimit('max_clients') === null,
             ],
             'invoices_this_month' => [
+                // Même règle que canCreateInvoice : le compteur affiché doit dire
+                // la même chose que le contrôle qui bloque.
                 'used' => $user->userInvoices()
+                    ->invoicesOnly()
                     ->whereMonth('created_at', Carbon::now()->month)
                     ->whereYear('created_at', Carbon::now()->year)
                     ->count(),
@@ -504,13 +517,14 @@ class PlanService
             'max_emails_per_month' => 100,
             'max_expenses_per_month' => 30,
             'max_active_projects' => 10,
-            'max_peppol_per_month' => 10,
+            'max_peppol_per_month' => null,
             'max_employees' => 0, // module RH réservé au plan Pro
             'max_accountants' => 1,
         ];
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export', 'faia_export',
+            'recurring_invoices',
         ];
 
         return $plan;
@@ -535,7 +549,7 @@ class PlanService
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export',
             'hr_module', 'crm', 'peppol_transmission', 'faia_export', 'pdf_archive',
             'email_reminders', 'no_branding', 'priority_support', 'organizations',
-            'facturx', 'advanced_reporting',
+            'facturx', 'advanced_reporting', 'recurring_invoices',
         ];
 
         return $plan;
