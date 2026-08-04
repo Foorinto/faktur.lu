@@ -12,7 +12,38 @@ const props = defineProps({
     canCreate: { type: Boolean, default: true },
     quota: { type: Object, default: () => ({ limit: null, used: 0 }) },
     units: { type: Array, default: () => [] },
+    filters: { type: Object, default: () => ({ type: null }) },
+    typeCounts: { type: Object, default: () => ({}) },
 });
+
+// Onglets de famille. « Non classé » n'apparaît que s'il existe des articles
+// antérieurs au champ : sur un catalogue neuf, l'onglet serait un décor.
+const typeTabs = computed(() => {
+    const tabs = [
+        { value: null, label: t('products.type_all'), count: props.typeCounts.all ?? 0 },
+        { value: 'product', label: t('products.type_product'), count: props.typeCounts.product ?? 0 },
+        { value: 'service', label: t('products.type_service'), count: props.typeCounts.service ?? 0 },
+    ];
+
+    if ((props.typeCounts.unclassified ?? 0) > 0) {
+        tabs.push({ value: 'unclassified', label: t('products.type_unclassified'), count: props.typeCounts.unclassified });
+    }
+
+    return tabs;
+});
+
+const setType = (value) => {
+    router.get(route('products.index'), value ? { type: value } : {}, {
+        preserveState: true,
+        replace: true,
+    });
+};
+
+const typeLabel = (value) => {
+    if (value === 'product') return t('products.type_product');
+    if (value === 'service') return t('products.type_service');
+    return null;
+};
 
 const unitLabel = (value) => props.units.find((u) => u.value === value)?.label ?? value;
 
@@ -63,6 +94,25 @@ const destroy = (product) => {
         </template>
 
         <div class="mx-auto max-w-5xl">
+            <!-- Filtre par famille -->
+            <div v-if="typeTabs.length > 1" class="mb-4 flex flex-wrap gap-2">
+                <button
+                    v-for="tab in typeTabs"
+                    :key="tab.value ?? 'all'"
+                    type="button"
+                    @click="setType(tab.value)"
+                    :class="[
+                        'rounded-xl px-3 py-1.5 text-sm font-medium transition-colors',
+                        (filters.type ?? null) === tab.value
+                            ? 'bg-primary-600 text-white'
+                            : 'bg-gray-100 text-slate-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-700',
+                    ]"
+                >
+                    {{ tab.label }}
+                    <span class="ml-1 tabular-nums opacity-70">{{ tab.count }}</span>
+                </button>
+            </div>
+
             <!-- Empty -->
             <div
                 v-if="products.data.length === 0"
@@ -87,6 +137,7 @@ const destroy = (product) => {
                             <tr class="text-left text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
                                 <th class="px-4 py-3">{{ t('products.designation') }}</th>
                                 <th class="px-4 py-3">{{ t('products.reference') }}</th>
+                                <th class="px-4 py-3">{{ t('products.type') }}</th>
                                 <th class="px-4 py-3 text-right">{{ t('products.unit_price_ht') }}</th>
                                 <th class="px-4 py-3 text-right">{{ t('products.vat_rate') }}</th>
                                 <th class="px-4 py-3">{{ t('products.unit') }}</th>
@@ -105,6 +156,13 @@ const destroy = (product) => {
                                     <p v-if="product.description" class="mt-0.5 line-clamp-1 text-xs text-slate-400">{{ product.description }}</p>
                                 </td>
                                 <td class="px-4 py-3 text-slate-500">{{ product.reference || '—' }}</td>
+                                <td class="px-4 py-3">
+                                    <span
+                                        v-if="typeLabel(product.type)"
+                                        class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-gray-800 dark:text-slate-300"
+                                    >{{ typeLabel(product.type) }}</span>
+                                    <span v-else class="text-slate-400">—</span>
+                                </td>
                                 <td class="px-4 py-3 text-right tabular-nums">{{ formatPrice(product.unit_price_ht) }}</td>
                                 <td class="px-4 py-3 text-right tabular-nums">{{ Number(product.vat_rate) }}%</td>
                                 <td class="px-4 py-3 text-slate-500">{{ unitLabel(product.unit) }}</td>

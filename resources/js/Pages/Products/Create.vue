@@ -20,6 +20,7 @@ const defaultVatRate = props.vatRates.map(Number).includes(17)
 const form = useForm({
     designation: '',
     reference: '',
+    type: null,
     description: '',
     unit_price_ht: null,
     vat_rate: defaultVatRate,

@@ -25,16 +25,34 @@ class ProductController extends Controller
      */
     public function index(Request $request): Response
     {
+        $type = $request->input('type');
+
         $products = Product::query()
+            ->ofType($type)
             ->orderBy('designation')
             ->paginate(20)
             ->withQueryString();
+
+        // Les compteurs par famille sont calculés sur tout le catalogue, pas sur
+        // la page courante : sinon les onglets changeraient de valeur en
+        // paginant. `unclassified` compte les articles antérieurs au champ.
+        $counts = Product::query()
+            ->selectRaw('type, COUNT(*) as total')
+            ->groupBy('type')
+            ->pluck('total', 'type');
 
         return Inertia::render('Products/Index', [
             'products' => $products,
             'canCreate' => $this->planService->canCreateProduct($request->user()),
             'quota' => $this->quotaInfo($request),
             'units' => $this->getUnits(),
+            'filters' => ['type' => $type],
+            'typeCounts' => [
+                'all' => $counts->sum(),
+                Product::TYPE_PRODUCT => (int) ($counts[Product::TYPE_PRODUCT] ?? 0),
+                Product::TYPE_SERVICE => (int) ($counts[Product::TYPE_SERVICE] ?? 0),
+                'unclassified' => (int) ($counts[''] ?? $counts[null] ?? 0),
+            ],
         ]);
     }
 
@@ -106,6 +124,9 @@ class ProductController extends Controller
 
         $products = Product::query()
             ->active()
+            // Filtre facultatif : l'autocomplétion des lignes de facture peut
+            // s'y appuyer plus tard sans que son appel actuel change.
+            ->ofType($request->query('type'))
             ->when($term !== '', function ($query) use ($term) {
                 $query->where(function ($q) use ($term) {
                     $q->where('designation', 'like', "%{$term}%")
@@ -114,7 +135,7 @@ class ProductController extends Controller
             })
             ->orderBy('designation')
             ->limit(50)
-            ->get(['id', 'designation', 'description', 'reference', 'unit_price_ht', 'vat_rate', 'unit']);
+            ->get(['id', 'designation', 'description', 'reference', 'type', 'unit_price_ht', 'vat_rate', 'unit']);
 
         return response()->json(['products' => $products]);
     }

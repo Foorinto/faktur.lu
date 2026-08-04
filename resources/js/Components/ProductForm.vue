@@ -59,6 +59,24 @@ watch(vatMode, (mode) => {
             <InputError :message="form.errors.reference" class="mt-2" />
         </div>
 
+        <!-- Famille : produit ou prestation -->
+        <div>
+            <InputLabel for="type" :value="t('products.type')" />
+            <select
+                id="type"
+                v-model="form.type"
+                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            >
+                <!-- La valeur vide reste offerte : le champ est facultatif et
+                     les articles créés avant son introduction sont non classés. -->
+                <option :value="null">{{ t('products.type_unclassified') }}</option>
+                <option value="product">{{ t('products.type_product') }}</option>
+                <option value="service">{{ t('products.type_service') }}</option>
+            </select>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('products.type_help') }}</p>
+            <InputError :message="form.errors.type" class="mt-2" />
+        </div>
+
         <!-- Description -->
         <div>
             <InputLabel for="description" :value="t('products.description')" />

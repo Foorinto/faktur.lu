@@ -15,6 +15,7 @@ const props = defineProps({
 const form = useForm({
     designation: props.product.designation ?? '',
     reference: props.product.reference ?? '',
+    type: props.product.type ?? null,
     description: props.product.description ?? '',
     unit_price_ht: props.product.unit_price_ht ?? 0,
     vat_rate: Number(props.product.vat_rate ?? 17),
