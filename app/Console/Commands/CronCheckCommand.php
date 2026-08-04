@@ -88,6 +88,36 @@ class CronCheckCommand extends Command
             }
         }
 
+        // --- Le planificateur s'exécute-t-il vraiment ? ---
+        //
+        // Le battement précédent est écrit par le shell ; celui-ci par Laravel.
+        // Les comparer sépare « le cron ne passe pas » de « le cron passe mais
+        // n'exécute pas Laravel » — le cas du binaire PHP en mode CGI, qui
+        // ignore les arguments et laisse toutes les apparences intactes.
+        $this->line('');
+        $this->info('── Exécution du planificateur ──');
+
+        $schedulerBeat = storage_path('logs/scheduler-last-run.txt');
+
+        if (! file_exists($schedulerBeat)) {
+            $this->line('  Battement Laravel     : ABSENT');
+            $problems[] = 'Le planificateur Laravel n\'a jamais tourné. Si le battement du cron '
+                .'ci-dessus est frais, c\'est que la ligne crontab s\'exécute sans lancer artisan : '
+                .'vérifiez que « php » y désigne bien le binaire CLI (un binaire CGI ignore les '
+                .'arguments et fait afficher la liste des commandes sans rien exécuter, sans erreur).';
+        } else {
+            $beatAge = time() - filemtime($schedulerBeat);
+            $this->line('  Battement Laravel     : '.date('Y-m-d H:i:s', filemtime($schedulerBeat))
+                .' (il y a '.$this->humanize($beatAge).')');
+
+            if ($beatAge > self::STALE_AFTER_SECONDS) {
+                $problems[] = 'Le planificateur Laravel ne s\'est pas exécuté depuis '
+                    .$this->humanize($beatAge).' : les tâches planifiées ne tournent pas.';
+            } else {
+                $this->line('  État                  : les tâches planifiées s\'exécutent');
+            }
+        }
+
         // --- Erreurs remontées par le cron ---
         $this->line('');
         $this->info('── Erreurs du planificateur ──');

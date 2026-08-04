@@ -58,6 +58,22 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Battement DU PLANIFICATEUR, à distinguer de celui du cron.
+        //
+        // La ligne crontab écrit déjà un horodatage via `date`, avant que PHP ne
+        // démarre. Mais un `date` qui passe ne prouve rien sur Laravel : le
+        // 2026-08-04, le cron attrapait un binaire PHP en mode CGI, qui ignore
+        // les arguments de la ligne de commande. « php artisan schedule:run »
+        // devenait « php artisan », affichait la liste des commandes et sortait
+        // en succès. Quatre nuits sans sauvegarde, sans une seule erreur.
+        //
+        // Ce second battement n'est écrit que si le planificateur s'exécute
+        // réellement. L'écart entre les deux fichiers nomme la panne.
+        $schedule->call(fn () => @touch(storage_path('logs/scheduler-last-run.txt')))
+            ->everyMinute()
+            ->name('scheduler-heartbeat')
+            ->withoutOverlapping();
+
         // Database backup daily at configured time (default 3:00 AM)
         //
         // Volontairement AU PREMIER PLAN. `runInBackground()` fait lancer la
