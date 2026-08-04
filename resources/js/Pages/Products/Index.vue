@@ -75,6 +75,16 @@ const destroy = (product) => {
                     <p class="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{{ quotaLabel }}</p>
                 </div>
 
+                <div class="flex items-center gap-2">
+                <!-- L'import reste accessible même au plafond : il sert aussi à
+                     mettre à jour des articles existants, ce que le quota ne
+                     restreint pas. -->
+                <Link
+                    :href="route('products.import.index')"
+                    class="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-gray-50 dark:border-gray-700 dark:text-slate-300 dark:hover:bg-gray-800"
+                >
+                    {{ t('products.import.title') }}
+                </Link>
                 <Link
                     v-if="canCreate"
                     :href="route('products.create')"
@@ -90,6 +100,7 @@ const destroy = (product) => {
                 >
                     ⚡ {{ t('products.upgrade') }}
                 </Link>
+                </div>
             </div>
         </template>
 

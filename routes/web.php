@@ -543,6 +543,24 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         // Catalogue d'articles / produits réutilisables (FEAT-095)
         Route::get('/products/search', [\App\Http\Controllers\ProductController::class, 'search'])
             ->name('products.search');
+
+        // Assistant d'import du catalogue — déclaré AVANT la resource, comme
+        // pour les clients : sinon /products/import serait capturé comme un
+        // identifiant d'article.
+        Route::get('/products/import', [\App\Http\Controllers\Import\ProductImportController::class, 'index'])
+            ->name('products.import.index');
+        Route::get('/products/import/template', [\App\Http\Controllers\Import\ProductImportController::class, 'template'])
+            ->name('products.import.template');
+        Route::post('/products/import/upload', [\App\Http\Controllers\Import\ProductImportController::class, 'upload'])
+            ->name('products.import.upload');
+        Route::post('/products/import/{importSession}/mapping', [\App\Http\Controllers\Import\ProductImportController::class, 'saveMapping'])
+            ->name('products.import.mapping');
+        Route::post('/products/import/{importSession}/process', [\App\Http\Controllers\Import\ProductImportController::class, 'process'])
+            ->name('products.import.process');
+        Route::get('/products/import/{importSession}/status', [\App\Http\Controllers\Import\ProductImportController::class, 'status'])
+            ->name('products.import.status');
+        Route::delete('/products/import/{importSession}', [\App\Http\Controllers\Import\ProductImportController::class, 'destroy'])
+            ->name('products.import.destroy');
         Route::resource('products', \App\Http\Controllers\ProductController::class)->except(['store', 'show']);
         Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])
             ->middleware('plan.limit:products')
