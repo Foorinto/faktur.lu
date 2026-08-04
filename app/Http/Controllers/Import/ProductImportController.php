@@ -114,9 +114,15 @@ class ProductImportController extends Controller
             'status' => 'preview',
         ]);
 
+        // L'aperçu AVANT la relecture de la session : c'est lui qui écrit les
+        // compteurs valid_rows / duplicate_rows / error_rows. Les intervertir
+        // renverrait une session figée à zéro, et l'écran d'aperçu proposerait
+        // d'importer « 0 article ».
+        $preview = $this->service->validateAndPreview($importSession);
+
         return response()->json([
             'session' => $importSession->fresh(),
-            'preview' => $this->service->validateAndPreview($importSession),
+            'preview' => $preview,
         ]);
     }
 

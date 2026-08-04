@@ -269,6 +269,45 @@ class ProductImportTest extends TestCase
         $this->assertStringContainsString('unit_price_ht', $content);
     }
 
+    // --- Chaîne complète ------------------------------------------------------
+
+    public function test_l_assistant_fonctionne_de_bout_en_bout(): void
+    {
+        $user = $this->proUser();
+        $this->actingAs($user);
+
+        // Fichier volontairement « sale » : en-têtes en allemand, prix à
+        // virgule, unité en toutes lettres — le cas réel d'un export.
+        $csv = "Bezeichnung;Referenz;Preis;MwSt;Einheit\n"
+            ."Beratung;SRV-1;750,00;17;jour\n"
+            ."Mikrofon;PRD-1;129,90;17;pièce\n";
+
+        $upload = $this->post(route('products.import.upload'), [
+            'file' => \Illuminate\Http\UploadedFile::fake()->createWithContent('katalog.csv', $csv),
+        ]);
+        $upload->assertSuccessful();
+
+        $sessionId = $upload->json('session.id');
+        $mapping = $upload->json('session.mapping');
+
+        // La détection doit avoir reconnu les colonnes allemandes seule.
+        $this->assertSame('designation', $mapping['Bezeichnung']);
+        $this->assertSame('unit_price_ht', $mapping['Preis']);
+        $this->assertSame('vat_rate', $mapping['MwSt']);
+
+        $this->post(route('products.import.mapping', $sessionId), ['mapping' => $mapping])
+            ->assertSuccessful()
+            ->assertJsonPath('session.valid_rows', 2);
+
+        $this->post(route('products.import.process', $sessionId), ['duplicate_strategy' => 'skip'])
+            ->assertSuccessful()
+            ->assertJsonPath('session.imported_count', 2);
+
+        $beratung = Product::withoutUserScope()->where('reference', 'SRV-1')->first();
+        $this->assertEquals(750.0, (float) $beratung->unit_price_ht);
+        $this->assertSame('day', $beratung->unit);
+    }
+
     // --- Cloisonnement --------------------------------------------------------
 
     public function test_une_session_d_un_autre_compte_est_refusee(): void
