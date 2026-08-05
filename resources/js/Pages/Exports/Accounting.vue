@@ -25,6 +25,7 @@ const form = useForm({
     period_end: `${props.defaultYear}-12-31`,
     format: 'generic',
     include_credit_notes: true,
+    scope: 'sales',
 });
 
 // Preview
@@ -38,6 +39,7 @@ const fetchPreview = async () => {
             period_start: form.period_start,
             period_end: form.period_end,
             include_credit_notes: form.include_credit_notes,
+            scope: form.scope,
         }));
         if (response.ok) {
             preview.value = await response.json();
@@ -49,7 +51,7 @@ const fetchPreview = async () => {
     }
 };
 
-watch([() => form.period_start, () => form.period_end, () => form.include_credit_notes], () => {
+watch([() => form.period_start, () => form.period_end, () => form.include_credit_notes, () => form.scope], () => {
     if (form.period_start && form.period_end) {
         fetchPreview();
     }
@@ -77,6 +79,12 @@ const settingsForm = ref({
     bank_account: props.accountingSettings?.bank_account ?? '512000',
     sales_journal: props.accountingSettings?.sales_journal ?? 'VE',
     client_prefix: props.accountingSettings?.client_prefix ?? 'C',
+    // Achats. Valeurs par défaut relevées dans le plan comptable normalisé 2020.
+    purchase_journal: props.accountingSettings?.purchase_journal ?? 'AC',
+    suppliers_account: props.accountingSettings?.suppliers_account ?? '44111',
+    vat_deductible_account: props.accountingSettings?.vat_deductible_account ?? '421611',
+    vat_foreign_account: props.accountingSettings?.vat_foreign_account ?? '421811',
+    default_expense_account: props.accountingSettings?.default_expense_account ?? '6188',
 });
 const settingsSaving = ref(false);
 const settingsSaved = ref(false);
@@ -252,8 +260,26 @@ const getStatusBadge = (status) => {
                                 </div>
                             </div>
 
-                            <!-- Options -->
+                            <!-- Périmètre : ventes, achats, ou les deux -->
                             <div>
+                                <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    {{ t('accounting_scope') }}
+                                </label>
+                                <select
+                                    v-model="form.scope"
+                                    class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                >
+                                    <option value="sales">{{ t('accounting_scope_sales') }}</option>
+                                    <option value="purchases">{{ t('accounting_scope_purchases') }}</option>
+                                    <option value="both">{{ t('accounting_scope_both') }}</option>
+                                </select>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                    {{ t('accounting_scope_help') }}
+                                </p>
+                            </div>
+
+                            <!-- Options -->
+                            <div v-show="form.scope !== 'purchases'">
                                 <label class="flex items-center">
                                     <input
                                         v-model="form.include_credit_notes"
@@ -278,11 +304,11 @@ const getStatusBadge = (status) => {
                                 </div>
 
                                 <div v-else-if="preview" class="space-y-2">
-                                    <div class="flex justify-between text-sm">
+                                    <div v-if="form.scope !== 'purchases'" class="flex justify-between text-sm">
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('invoices') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ preview.invoices_count }}</span>
                                     </div>
-                                    <div v-if="form.include_credit_notes" class="flex justify-between text-sm">
+                                    <div v-if="form.include_credit_notes && form.scope !== 'purchases'" class="flex justify-between text-sm">
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('credit_notes') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ preview.credit_notes_count }}</span>
                                     </div>
@@ -298,6 +324,24 @@ const getStatusBadge = (status) => {
                                         <span class="text-slate-600 dark:text-slate-400">{{ t('total_ttc') }}</span>
                                         <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.total_ttc) }}</span>
                                     </div>
+
+                                    <!-- Les achats ont leurs propres totaux : les
+                                         additionner aux ventes n'aurait aucun sens
+                                         comptable. -->
+                                    <template v-if="form.scope !== 'sales'">
+                                        <div class="flex justify-between border-t border-gray-200 pt-2 text-sm dark:border-gray-700">
+                                            <span class="text-slate-600 dark:text-slate-400">{{ t('expenses') }}</span>
+                                            <span class="font-medium text-slate-900 dark:text-white">{{ preview.expenses_count }}</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-slate-600 dark:text-slate-400">{{ t('total_ht') }}</span>
+                                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.expenses_total_ht) }}</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-slate-600 dark:text-slate-400">{{ t('vat_deductible') }}</span>
+                                            <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(preview.expenses_total_vat) }}</span>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
 
@@ -306,7 +350,7 @@ const getStatusBadge = (status) => {
                                 <button
                                     type="button"
                                     @click="downloadPdfArchive"
-                                    :disabled="pdfArchiveLoading || !preview || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
+                                    :disabled="pdfArchiveLoading || !preview || form.scope === 'purchases' || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
                                     class="w-full sm:w-auto justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                                 >
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -467,6 +511,67 @@ const getStatusBadge = (status) => {
                                             class="w-full rounded-xl border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:border-violet-500 focus:ring-violet-500"
                                             placeholder="C"
                                         />
+                                    </div>
+                                </div>
+
+                                <!-- Comptes d'achat. Les valeurs par défaut sont
+                                     celles du plan comptable normalisé 2020 ; le
+                                     rattachement définitif appartient à la
+                                     fiduciaire, qui connaît l'activité. -->
+                                <div class="border-t border-gray-200 pt-4 dark:border-gray-700">
+                                    <p class="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-300">{{ t('purchase_accounts') }}</p>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('suppliers_account') }}</label>
+                                            <input
+                                                v-model="settingsForm.suppliers_account"
+                                                type="text"
+                                                class="w-full rounded-xl border-gray-300 tabular-nums shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                                placeholder="44111"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('purchase_journal') }}</label>
+                                            <input
+                                                v-model="settingsForm.purchase_journal"
+                                                type="text"
+                                                class="w-full rounded-xl border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                                placeholder="AC"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('vat_deductible_account') }}</label>
+                                            <input
+                                                v-model="settingsForm.vat_deductible_account"
+                                                type="text"
+                                                class="w-full rounded-xl border-gray-300 tabular-nums shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                                placeholder="421611"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('vat_foreign_account') }}</label>
+                                            <input
+                                                v-model="settingsForm.vat_foreign_account"
+                                                type="text"
+                                                class="w-full rounded-xl border-gray-300 tabular-nums shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                                placeholder="421811"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <label class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('default_expense_account') }}</label>
+                                        <input
+                                            v-model="settingsForm.default_expense_account"
+                                            type="text"
+                                            class="w-full rounded-xl border-gray-300 tabular-nums shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                            placeholder="6188"
+                                        />
+                                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('default_expense_account_help') }}</p>
                                     </div>
                                 </div>
 

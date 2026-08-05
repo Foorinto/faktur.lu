@@ -31,6 +31,13 @@ class AccountingSettingsController extends Controller
             'bank_account' => ['required', 'string', 'max:20'],
             'sales_journal' => ['required', 'string', 'max:10'],
             'client_prefix' => ['required', 'string', 'max:10'],
+            // Achats (FEAT-107). Facultatifs : un compte laissé vide conserve
+            // la valeur en place plutôt que de vider le paramétrage.
+            'purchase_journal' => ['sometimes', 'required', 'string', 'max:8'],
+            'suppliers_account' => ['sometimes', 'required', 'string', 'max:10'],
+            'vat_deductible_account' => ['sometimes', 'required', 'string', 'max:10'],
+            'vat_foreign_account' => ['sometimes', 'required', 'string', 'max:10'],
+            'default_expense_account' => ['sometimes', 'required', 'string', 'max:10'],
         ]);
 
         $settings = AccountingSetting::getForUser($request->user());

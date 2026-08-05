@@ -81,13 +81,17 @@ class AccountingExportController extends Controller
             'period_start' => 'required|date',
             'period_end' => 'required|date|after_or_equal:period_start',
             'include_credit_notes' => 'boolean',
+            'scope' => 'nullable|in:sales,purchases,both',
         ]);
 
         $preview = $this->exportService->getPreview(
             $request->user(),
             Carbon::parse($request->input('period_start')),
             Carbon::parse($request->input('period_end')),
-            ['include_credit_notes' => $request->boolean('include_credit_notes', true)]
+            [
+                'include_credit_notes' => $request->boolean('include_credit_notes', true),
+                'scope' => $request->input('scope', 'sales'),
+            ]
         );
 
         return response()->json($preview);
@@ -103,6 +107,7 @@ class AccountingExportController extends Controller
             'period_end' => 'required|date|after_or_equal:period_start',
             'format' => 'required|in:sage_bob,sage_100,generic,fec',
             'include_credit_notes' => 'boolean',
+            'scope' => 'nullable|in:sales,purchases,both',
         ]);
 
         $export = AccountingExport::create([
@@ -112,6 +117,9 @@ class AccountingExportController extends Controller
             'format' => $validated['format'],
             'options' => [
                 'include_credit_notes' => $request->boolean('include_credit_notes', true),
+                // « ventes » par défaut : un export refait à l'identique doit
+                // produire le même fichier qu'avant l'ajout des achats.
+                'scope' => $request->input('scope', 'sales'),
             ],
             'status' => AccountingExport::STATUS_PENDING,
         ]);

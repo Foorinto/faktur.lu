@@ -29,7 +29,14 @@ class ExpenseAccountingExportTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create(['email_verified_at' => now()]);
+        // Les exports comptables sont réservés à Essentiel et Pro : un compte en
+        // période d'essai obtient les fonctionnalités Pro.
+        $this->seed(\Database\Seeders\PlansSeeder::class);
+
+        $this->user = User::factory()->create([
+            'email_verified_at' => now(),
+            'trial_ends_at' => now()->addDays(14),
+        ]);
         $this->actingAs($this->user);
         BusinessSettings::factory()->assujetti()->create(['user_id' => $this->user->id]);
     }
@@ -250,5 +257,64 @@ class ExpenseAccountingExportTest extends TestCase
         $this->assertStringContainsString('Fournisseur', $content);
         $this->assertStringContainsString('Bureau Vallée', $content);
         $this->assertStringContainsString('TVA déductible', $content);
+    }
+
+    // --- Chaîne HTTP -----------------------------------------------------------
+
+    public function test_l_ecran_d_export_accepte_le_perimetre(): void
+    {
+        $this->expense();
+
+        $this->getJson(route('exports.accounting.preview', [
+            'period_start' => '2026-03-01',
+            'period_end' => '2026-03-31',
+            'scope' => 'purchases',
+        ]))->assertSuccessful()->assertJsonPath('expenses_count', 1);
+    }
+
+    public function test_un_perimetre_inconnu_est_refuse(): void
+    {
+        $this->getJson(route('exports.accounting.preview', [
+            'period_start' => '2026-03-01',
+            'period_end' => '2026-03-31',
+            'scope' => 'nimporte_quoi',
+        ]))->assertStatus(422);
+    }
+
+    public function test_le_perimetre_est_conserve_dans_l_export_enregistre(): void
+    {
+        $this->expense();
+
+        $this->post(route('exports.accounting.store'), [
+            'period_start' => '2026-03-01',
+            'period_end' => '2026-03-31',
+            'format' => 'fec',
+            'scope' => 'both',
+        ])->assertSessionHasNoErrors();
+
+        $export = \App\Models\AccountingExport::where('user_id', $this->user->id)->latest()->firstOrFail();
+
+        $this->assertSame('both', $export->options['scope']);
+    }
+
+    public function test_les_comptes_d_achat_sont_parametrables(): void
+    {
+        $this->putJson(route('settings.accounting.update'), [
+            'sales_account' => '702000',
+            'vat_collected_accounts' => ['17' => '461100'],
+            'clients_account' => '411000',
+            'bank_account' => '512000',
+            'sales_journal' => 'VE',
+            'client_prefix' => 'C',
+            'suppliers_account' => '44121',
+            'default_expense_account' => '61888',
+        ])->assertSuccessful();
+
+        $settings = AccountingSetting::getForUser($this->user)->fresh();
+
+        $this->assertSame('44121', $settings->suppliers_account);
+        $this->assertSame('61888', $settings->default_expense_account);
+        // Non transmis : la valeur en place est conservée, pas vidée.
+        $this->assertSame('421611', $settings->vat_deductible_account);
     }
 }
