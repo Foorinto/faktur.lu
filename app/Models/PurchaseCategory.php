@@ -6,6 +6,7 @@ use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Catégorie de dépense définie par l'utilisateur.
@@ -103,6 +104,48 @@ class PurchaseCategory extends Model
                     'sort_order' => $index,
                 ]
             );
+        }
+
+        self::adoptOrphanKeys($user);
+    }
+
+    /**
+     * Adopte les catégories orphelines trouvées dans les dépenses du compte.
+     *
+     * La liste des catégories a changé au fil des versions : des dépenses
+     * portent des clés qui ne figurent plus nulle part — `office_supplies`,
+     * `telecom`, `transport`. Elles s'affichaient sous leur clé brute et
+     * n'apparaissaient dans aucun filtre, puisque rien ne les déclarait.
+     *
+     * Les créer comme catégories rend ces dépenses filtrables, et le libellé
+     * renommable — ce qui est précisément l'objet de cette fonctionnalité. On
+     * n'écrit toujours rien dans `expenses` : c'est la catégorie qui rejoint la
+     * dépense, jamais l'inverse.
+     */
+    private static function adoptOrphanKeys(User $user): void
+    {
+        $known = static::withoutUserScope()->where('user_id', $user->id)->pluck('key')->all();
+
+        $orphans = Expense::withoutUserScope()
+            ->where('user_id', $user->id)
+            ->whereNotNull('category')
+            ->distinct()
+            ->pluck('category')
+            ->reject(fn ($key) => $key === '' || in_array($key, $known, true));
+
+        $next = (int) static::withoutUserScope()->where('user_id', $user->id)->max('sort_order');
+
+        foreach ($orphans as $key) {
+            static::withoutUserScope()->create([
+                'user_id' => $user->id,
+                'key' => $key,
+                // Un libellé lisible tiré de la clé, que l'utilisateur
+                // renommera : « office_supplies » devient « Office supplies ».
+                'label' => Str::ucfirst(str_replace('_', ' ', $key)),
+                'is_default' => false,
+                'is_active' => true,
+                'sort_order' => ++$next,
+            ]);
         }
     }
 

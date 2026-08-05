@@ -99,6 +99,41 @@ class PurchaseCategoryTest extends TestCase
         $this->assertArrayHasKey('hosting', PurchaseCategory::mapFor($user, activeOnly: false));
     }
 
+    public function test_les_categories_heritees_d_une_ancienne_version_sont_adoptees(): void
+    {
+        $user = $this->user();
+
+        // La liste des catégories a changé au fil des versions : des dépenses
+        // portent des clés qui ne figurent plus dans le code. Constaté en base
+        // de développement : office_supplies, telecom, transport.
+        Expense::factory()->create(['user_id' => $user->id, 'category' => 'office_supplies']);
+        Expense::factory()->create(['user_id' => $user->id, 'category' => 'telecom']);
+
+        PurchaseCategory::ensureDefaultsFor($user);
+
+        $map = PurchaseCategory::mapFor($user);
+
+        $this->assertArrayHasKey('office_supplies', $map, 'Une clé orpheline doit devenir une catégorie…');
+        $this->assertSame('Office supplies', $map['office_supplies'], '…avec un libellé lisible, que l\'utilisateur pourra renommer.');
+        $this->assertArrayHasKey('telecom', $map);
+
+        // Onze catégories : les neuf par défaut plus les deux adoptées.
+        $this->assertSame(11, PurchaseCategory::count());
+        $this->assertFalse(PurchaseCategory::where('key', 'telecom')->first()->is_default);
+    }
+
+    public function test_l_adoption_n_ecrit_rien_dans_les_depenses(): void
+    {
+        $user = $this->user();
+        $expense = Expense::factory()->create(['user_id' => $user->id, 'category' => 'transport']);
+        $before = $expense->updated_at;
+
+        PurchaseCategory::ensureDefaultsFor($user);
+
+        $this->assertSame('transport', $expense->fresh()->category);
+        $this->assertEquals($before, $expense->fresh()->updated_at);
+    }
+
     // --- Écran de gestion --------------------------------------------------
 
     public function test_creer_une_categorie_derive_une_cle_du_libelle(): void
