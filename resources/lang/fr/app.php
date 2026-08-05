@@ -505,6 +505,7 @@ return [
         'in_use' => 'Cette catégorie est utilisée par des dépenses : masquez-la plutôt que de la supprimer, sinon ces dépenses perdraient leur libellé.',
         'confirm_delete' => 'Supprimer la catégorie « :label » ?',
     ],
+    'expenses_totals_for' => 'Totaux pour :',
     'expense_categories' => [
         'hardware' => 'Matériel informatique',
         'software' => 'Logiciels et licences',

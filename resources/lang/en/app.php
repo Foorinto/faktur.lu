@@ -505,6 +505,7 @@ return [
         'in_use' => 'This category is used by expenses: hide it rather than delete it, otherwise those expenses would lose their label.',
         'confirm_delete' => 'Delete the category “:label”?',
     ],
+    'expenses_totals_for' => 'Totals for:',
     'expense_categories' => [
         'hardware' => 'Computer hardware',
         'software' => 'Software and licenses',

@@ -408,6 +408,7 @@ return [
         'in_use' => 'Dës Kategorie gëtt vun Ausgabe benotzt: verstoppt se anstatt se ze läschen, soss verléieren dës Ausgaben hir Bezeechnung.',
         'confirm_delete' => 'D\'Kategorie « :label » läschen?',
     ],
+    'expenses_totals_for' => 'Sommen fir:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',
         'software' => 'Software an Lizenzen',

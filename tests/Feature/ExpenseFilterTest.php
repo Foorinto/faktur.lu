@@ -90,6 +90,25 @@ class ExpenseFilterTest extends TestCase
             );
     }
 
+    public function test_les_totaux_annoncent_le_filtre_qu_ils_recouvrent(): void
+    {
+        $user = $this->user();
+        PurchaseCategory::ensureDefaultsFor($user);
+        PurchaseCategory::where('key', 'office')->update(['label' => 'Loyer']);
+
+        $this->expense($user, ['category' => 'office', 'amount_ht' => 1200]);
+
+        // Le libellé du filtre est reconstitué côté client à partir de
+        // `filters` et `categories` : les deux doivent donc être transmis.
+        $this->get(route('expenses.index', ['category' => 'office']))
+            ->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->where('filters.category', 'office')
+                ->where('categories', fn ($categories) => collect($categories)
+                    ->contains(fn ($c) => $c['value'] === 'office' && $c['label'] === 'Loyer'))
+            );
+    }
+
     public function test_une_categorie_creee_par_l_utilisateur_est_filtrable(): void
     {
         $user = $this->user();

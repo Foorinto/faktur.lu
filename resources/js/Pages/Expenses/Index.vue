@@ -2,7 +2,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import EmptyState from "@/Components/EmptyState.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
-import { ref, watch, onMounted } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 import { useTranslations } from "@/Composables/useTranslations";
 import { useTour } from "@/Composables/useTour";
 
@@ -18,6 +18,29 @@ const props = defineProps({
     categories: Array,
     years: Array,
     months: Array,
+});
+
+// Ce que les totaux recouvrent, dit en toutes lettres. « 1 240 € » ne veut rien
+// dire si l'on ne sait plus quel filtre est actif — et l'utilisateur qui vient
+// d'arriver par une URL partagée ne l'a jamais su.
+const activeFilterLabel = computed(() => {
+    const parts = [];
+
+    if (props.filters.category) {
+        const found = props.categories.find((c) => c.value === props.filters.category);
+        if (found) parts.push(found.label);
+    }
+
+    if (props.filters.provider) parts.push(props.filters.provider);
+
+    if (props.filters.month) {
+        const found = props.months.find((m) => String(m.value) === String(props.filters.month));
+        if (found) parts.push(found.label);
+    }
+
+    if (props.filters.year) parts.push(props.filters.year);
+
+    return parts.join(' · ');
 });
 
 const categoryFilter = ref(props.filters.category || "");
@@ -115,6 +138,14 @@ const deleteExpense = (expense) => {
         </template>
 
         <!-- Summary Cards -->
+        <p
+            v-if="activeFilterLabel"
+            class="mb-2 text-sm text-slate-500 dark:text-slate-400"
+        >
+            {{ t("expenses_totals_for") }}
+            <span class="font-medium text-slate-700 dark:text-slate-200">{{ activeFilterLabel }}</span>
+        </p>
+
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
             <div
                 class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card px-4 py-5"

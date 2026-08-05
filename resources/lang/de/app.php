@@ -408,6 +408,7 @@ return [
         'in_use' => 'Diese Kategorie wird von Ausgaben verwendet: blenden Sie sie aus, statt sie zu löschen — sonst verlören diese Ausgaben ihre Bezeichnung.',
         'confirm_delete' => 'Kategorie „:label“ löschen?',
     ],
+    'expenses_totals_for' => 'Summen für:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',
         'software' => 'Software und Lizenzen',
