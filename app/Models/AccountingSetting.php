@@ -25,6 +25,12 @@ class AccountingSetting extends Model
         'bank_account',
         'sales_journal',
         'client_prefix',
+        // Achats (FEAT-107)
+        'purchase_journal',
+        'suppliers_account',
+        'vat_deductible_account',
+        'vat_foreign_account',
+        'default_expense_account',
     ];
 
     protected $casts = [
@@ -50,6 +56,13 @@ class AccountingSetting extends Model
                 'bank_account' => '512000',
                 'sales_journal' => 'VE',
                 'client_prefix' => 'C',
+                // Relevés dans le classeur officiel de la CNC, cf. migration
+                // 2026_08_05_150000. Modifiables par la fiduciaire.
+                'purchase_journal' => 'AC',
+                'suppliers_account' => '44111',
+                'vat_deductible_account' => '421611',
+                'vat_foreign_account' => '421811',
+                'default_expense_account' => '6188',
             ]
         );
     }

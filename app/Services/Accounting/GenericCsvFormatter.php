@@ -10,8 +10,13 @@ class GenericCsvFormatter
 {
     /**
      * Format invoices as a generic CSV (one line per invoice).
+     *
+     * Les dépenses, quand elles sont demandées, forment un second tableau après
+     * une ligne vide. Elles n'ont pas les mêmes colonnes qu'une facture — ni
+     * numéro, ni client, ni échéance — et les forcer dans le même en-tête
+     * produirait un fichier illisible pour l'humain comme pour le tableur.
      */
-    public function format(Collection $invoices, AccountingSetting $settings): string
+    public function format(Collection $invoices, AccountingSetting $settings, ?Collection $expenses = null): string
     {
         $lines = [];
 
@@ -55,6 +60,37 @@ class GenericCsvFormatter
                 $invoice->due_at?->format('d/m/Y') ?? '',
                 $invoice->type === Invoice::TYPE_CREDIT_NOTE ? 'Avoir' : 'Facture',
             ]);
+        }
+
+        if ($expenses !== null && $expenses->isNotEmpty()) {
+            $lines[] = '';
+            $lines[] = implode(';', [
+                'Date',
+                'Référence',
+                'Fournisseur',
+                'Catégorie',
+                'HT',
+                'TVA',
+                'TTC',
+                'Taux TVA',
+                'TVA déductible',
+                'Journal',
+            ]);
+
+            foreach ($expenses as $expense) {
+                $lines[] = implode(';', [
+                    $expense->date->format('d/m/Y'),
+                    $this->escapeCsvField((string) ($expense->reference ?? '')),
+                    $this->escapeCsvField((string) $expense->provider_name),
+                    $this->escapeCsvField((string) $expense->category_label),
+                    $this->formatAmount((float) $expense->amount_ht),
+                    $this->formatAmount((float) $expense->amount_vat),
+                    $this->formatAmount((float) $expense->amount_ttc),
+                    number_format((float) $expense->vat_rate, 0) . '%',
+                    $expense->is_deductible ? 'Oui' : 'Non',
+                    $settings->purchase_journal,
+                ]);
+            }
         }
 
         return $bom . implode("\r\n", $lines);
