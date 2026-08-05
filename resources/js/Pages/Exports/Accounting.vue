@@ -2,7 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import AccountingNav from '@/Components/AccountingNav.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
 
@@ -50,6 +50,29 @@ const fetchPreview = async () => {
         previewLoading.value = false;
     }
 };
+
+// Y a-t-il quelque chose à exporter ? La réponse dépend du périmètre : en
+// « Achats », un mois sans facture reste exportable s'il porte des dépenses.
+const hasSales = computed(
+    () => (preview.value?.invoices_count ?? 0) > 0 || (preview.value?.credit_notes_count ?? 0) > 0
+);
+const hasExpenses = computed(() => (preview.value?.expenses_count ?? 0) > 0);
+
+const hasSomethingToExport = computed(() => {
+    if (!preview.value) {
+        return false;
+    }
+
+    if (form.scope === 'purchases') {
+        return hasExpenses.value;
+    }
+
+    if (form.scope === 'both') {
+        return hasSales.value || hasExpenses.value;
+    }
+
+    return hasSales.value;
+});
 
 watch([() => form.period_start, () => form.period_end, () => form.include_credit_notes, () => form.scope], () => {
     if (form.period_start && form.period_end) {
@@ -350,7 +373,7 @@ const getStatusBadge = (status) => {
                                 <button
                                     type="button"
                                     @click="downloadPdfArchive"
-                                    :disabled="pdfArchiveLoading || !preview || form.scope === 'purchases' || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
+                                    :disabled="pdfArchiveLoading || form.scope === 'purchases' || !hasSales"
                                     class="w-full sm:w-auto justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                                 >
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,7 +384,7 @@ const getStatusBadge = (status) => {
                                 </button>
                                 <button
                                     type="submit"
-                                    :disabled="form.processing || !preview || (preview.invoices_count === 0 && preview.credit_notes_count === 0)"
+                                    :disabled="form.processing || !hasSomethingToExport"
                                     class="w-full sm:w-auto justify-center px-4 py-2 bg-violet-600 text-white rounded-2xl hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <span v-if="form.processing">{{ t('generating') }}...</span>

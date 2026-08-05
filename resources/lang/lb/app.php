@@ -275,15 +275,7 @@ return [
     'faia_audit_export' => 'FAIA Audit Export',
     'expenses_summary' => 'Ausgabeniwwersiicht',
 
-    // FAIA Export
-    'faia' => [
-        'new_export' => 'Neien Export',
-        'period' => 'Period',
-        'from' => 'Vun',
-        'to' => 'Bis',
-        'format' => 'Format',
-        'options' => 'Optiounen',
-        'include_credit_notes' => 'Avoire mat abegraff',
+    // Export comptable des achats (FEAT-107)
     'purchase_accounts' => 'Akeefskonten',
     'suppliers_account' => 'Fournisseurskont',
     'purchase_journal' => 'Akeefsjournal',
@@ -296,6 +288,15 @@ return [
     'accounting_scope_purchases' => 'Akeef (Ausgaben)',
     'accounting_scope_both' => 'Verkeef an Akeef',
     'accounting_scope_help' => 'D\'Akeef huele de Comptabilitéitskont vun all Ausgabekategorie, soss e generesche Kont.',
+    // FAIA Export
+    'faia' => [
+        'new_export' => 'Neien Export',
+        'period' => 'Period',
+        'from' => 'Vun',
+        'to' => 'Bis',
+        'format' => 'Format',
+        'options' => 'Optiounen',
+        'include_credit_notes' => 'Avoire mat abegraff',
         'anonymize_data' => 'Clientsdaten anonymiséieren (Test)',
         'preview' => 'Virschau',
         'loading' => 'Luet...',
@@ -1340,7 +1341,8 @@ return [
                 'compliance' => [
                     'title' => 'Lëtzebuerg-Konformitéit',
                     'items' => [
-                        'faia' => [
+                        // FAIA Export
+    'faia' => [
                             'title' => 'FAIA-Export 2.01',
                             'description' => 'Konform Audit-Fichier fir Steierkontroller.',
                         ],
@@ -1438,7 +1440,8 @@ return [
                     'title' => 'Zäiterfassung',
                     'description' => 'Erfasst Är Stonnen a berechent automatesch déi verbraucht Zäit.',
                 ],
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'title' => 'FAIA-Export',
                     'description' => 'Exportéiert Är Daten am FAIA-Format fir d\'Steieradministratioun.',
                 ],
@@ -1510,7 +1513,8 @@ return [
                 'trial' => ['question' => 'Wéi funktionéiert d\'gratis Testphas?', 'answer' => 'Genéisst 14 Deeg vollen Zougang zu allen Pro-Funktiounen, ouni Kreditkaart. Um Enn vun der Testphas wielt Dir de passenden Plang.'],
                 'after_trial' => ['question' => 'Wat geschitt no der Testphas wann ech net abonnéieren?', 'answer' => 'Äre Kont wiesselt automatesch op de gratis Plang: Dir kënnt weiderhi Rechnungen erstellen (5/Mount) a bis zu 10 Clienten verwalten.'],
                 'change_plan' => ['question' => 'Kann ech de Plang jidderzäit wiesselen?', 'answer' => 'Jo, Dir kënnt jidderzäit vun Essentiel op Pro wiesselen. D\'Ännerung ass direkt a d\'anteileg Berechnung gëtt automatesch gemaach.'],
-                'faia' => ['question' => 'Ass den FAIA-Export wierklech wichteg?', 'answer' => 'Jo. Bei enger Steierprüfung zu Lëtzebuerg kann d\'Steierverwaltung Är Donnéeën am FAIA-Format verlaangen. Dëst ass obligatoresch fir TVA-pflichteg Entreprisen.'],
+                // FAIA Export
+    'faia' => ['question' => 'Ass den FAIA-Export wierklech wichteg?', 'answer' => 'Jo. Bei enger Steierprüfung zu Lëtzebuerg kann d\'Steierverwaltung Är Donnéeën am FAIA-Format verlaangen. Dëst ass obligatoresch fir TVA-pflichteg Entreprisen.'],
                 'billing' => ['question' => 'Wéi funktionéiert d\'Ofrechnung?', 'answer' => 'Mir benotze Stripe fir sécher Bezuelungen. Dir kënnt mat Kreditkaart bezuelen. D\'Rechnung ass an Ärem Clientsberäich verfügbar.'],
             ],
             'plans' => [
@@ -1617,7 +1621,8 @@ return [
             'cluster_trust' => 'Sécherheet & Vertrauen',
             'items' => [
                 // Cluster A - Lëtzebuerger Konformitéit
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'question' => 'Wéi ee Fakturatiounsprogramm ass FAIA-konform zu Lëtzebuerg?',
                     'answer' => 'Faktur.lu generéiert automatesch e FAIA-Fichier (Fichier d\'Audit Informatisé AED) konform mam Format 2.01, dat vun der Administration de l\'Enregistrement, des Domaines et de la TVA (AED) gefuerdert gëtt. Eis Export gëtt géint déi offiziell Schema validéiert an enthält all Pflichtfelder: Bicher, Comptabilitéitszeilen, TVA-Sätz, Bezuelungsreferenzen. Dir kënnt Äre FAIA-Fichier mat engem Klick aus Ärem Tableau de bord generéieren.',
                 ],
@@ -1724,7 +1729,8 @@ return [
                 'credit_note' => ['question' => 'Wéi erstellen ech eng Gutschreft?', 'answer' => 'Klickt bei enger finaliséierter Rechnung op "Gutschreft erstellen".'],
             ],
         ],
-        'faia' => [
+        // FAIA Export
+    'faia' => [
             'title' => 'FAIA-Export Letzebuerg',
             'short_description' => 'Konform Preifungsdatei fir AED-Steierkontrolle.',
             'page_title' => 'FAIA-Export Letzebuerg | AED-Preifungsdatei | faktur.lu',
@@ -2432,7 +2438,8 @@ return [
         'features_title' => 'Alles wat Dir braucht fir entspaant ze fakturéieren',
         'features' => [
             'invoices' => ['title' => 'Lëtzebuerg-konform Rechnungen', 'desc' => 'LIVA-Mentiounen, sequentiell Nummeréierung, automatesch 17/14/8/3% TVA, B2B intra-EU Reverse-Charge iwwer VIES erkannt.'],
-            'faia' => ['title' => 'FAIA-Export fir äre Comptable', 'desc' => 'AED 2.01-konform XML-Datei op Ufro generéiert. Direkt eroflueden oder vum Comptable iwwer d\'Portal ofruffen.'],
+            // FAIA Export
+    'faia' => ['title' => 'FAIA-Export fir äre Comptable', 'desc' => 'AED 2.01-konform XML-Datei op Ufro generéiert. Direkt eroflueden oder vum Comptable iwwer d\'Portal ofruffen.'],
             'quotes' => ['title' => 'Devisen a Rechnungen konvertibel', 'desc' => 'Erstellt professionnel Devisen, konvertéiert se mat engem Klick a Rechnungen. Separat Nummeréierung.'],
             'time' => ['title' => 'Zäiterfassung & Projeten (Essentiel)', 'desc' => 'Start en Timer, konvertéiert d\'Stonnen a faktureierbar Linnen. Ideal fir stonnenbaséiert Freelancer.'],
             'reminders' => ['title' => 'Zuelungsverfollegung', 'desc' => 'Markéiert bezuelt/onbezuelt, gesitt offen Beträg op engem Bléck. Manuell Rappellen op Essentiel, automatesch op Pro.'],
@@ -2748,7 +2755,8 @@ return [
                 'alternate' => 'Hybridformat PDF/A-3 + XML CII',
                 'description' => 'Europäesch Norm fir elektronesch Rechnungen, déi e fir Mënschen liesbart PDF/A-3 mat enger embedded XML-Datei (UN/CEFACT Cross Industry Invoice) kombinéiert, déi vun der Buchhaltungssoftware gelies ka ginn. Eng eenzeg Rechnung, liesbar fir béid Säiten.',
             ],
-            'faia' => [
+            // FAIA Export
+    'faia' => [
                 'name' => 'FAIA',
                 'alternate' => 'Standardiséiert Auditdatei vun der AED',
                 'description' => 'Strukturéiert XML-Datei, baséiert op der OECD-SAF-T-Norm an an der Versioun 2.01 vun der AED publizéiert, déi all d\'Buchhaltungsdaten vun engem Entreprise iwwer eng bestëmmte Period zesummen bréngt. D\'AED kann hir Produktioun bei enger Steierkontroll verlaangen; si ass zënter 2020 zentral fir all TVA-Iwwerpréiwung.',

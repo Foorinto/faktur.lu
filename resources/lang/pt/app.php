@@ -371,15 +371,7 @@ return [
     'faia_audit_export' => 'Exportação de auditoria FAIA',
     'expenses_summary' => 'Resumo das despesas',
 
-    // FAIA Export
-    'faia' => [
-        'new_export' => 'Nova exportação',
-        'period' => 'Período',
-        'from' => 'De',
-        'to' => 'Até',
-        'format' => 'Formato',
-        'options' => 'Opções',
-        'include_credit_notes' => 'Incluir notas de crédito',
+    // Export comptable des achats (FEAT-107)
     'purchase_accounts' => 'Contas de compra',
     'suppliers_account' => 'Conta de fornecedores',
     'purchase_journal' => 'Diário de compras',
@@ -392,6 +384,15 @@ return [
     'accounting_scope_purchases' => 'Compras (despesas)',
     'accounting_scope_both' => 'Vendas e compras',
     'accounting_scope_help' => 'As compras usam a conta contabilística de cada categoria de despesa ou, na sua ausência, uma conta genérica.',
+    // FAIA Export
+    'faia' => [
+        'new_export' => 'Nova exportação',
+        'period' => 'Período',
+        'from' => 'De',
+        'to' => 'Até',
+        'format' => 'Formato',
+        'options' => 'Opções',
+        'include_credit_notes' => 'Incluir notas de crédito',
         'anonymize_data' => 'Anonimizar os dados dos clientes (teste)',
         'preview' => 'Pré-visualização',
         'loading' => 'A carregar...',
@@ -1441,7 +1442,8 @@ return [
                 'compliance' => [
                     'title' => 'Conformidade Luxemburgo',
                     'items' => [
-                        'faia' => [
+                        // FAIA Export
+    'faia' => [
                             'title' => 'Exportação FAIA 2.01',
                             'description' => 'Ficheiro de auditoria conforme para os controlos da AED.',
                         ],
@@ -1540,7 +1542,8 @@ return [
                     'title' => 'Registo de tempo',
                     'description' => 'Registe o seu tempo e fature as suas horas automaticamente.',
                 ],
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'title' => 'Exportação FAIA',
                     'description' => 'Exporte os seus dados no formato FAIA para os controlos fiscais.',
                 ],
@@ -1753,7 +1756,8 @@ return [
                     'question' => 'Posso mudar de plano a qualquer momento?',
                     'answer' => 'Sim, pode passar de Essencial a Pro a qualquer momento. A alteração é imediata e o pró-rata é calculado automaticamente.',
                 ],
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'question' => 'A exportação FAIA é realmente importante?',
                     'answer' => 'Sim. Em caso de controlo fiscal no Luxemburgo, a Administração das Contribuições Diretas pode exigir os seus dados em formato FAIA. É obrigatório para as empresas sujeitas a IVA.',
                 ],
@@ -1774,7 +1778,8 @@ return [
             'cluster_trust' => 'Segurança & confiança',
             'items' => [
                 // Cluster A - Conformidade luxemburguesa
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'question' => 'Qual o software de faturação conforme FAIA no Luxemburgo?',
                     'answer' => 'O Faktur.lu gera automaticamente um ficheiro FAIA (Fichier d\'Audit Informatisé AED) conforme ao formato 2.01 exigido pela Administration de l\'Enregistrement, des Domaines et de la TVA (AED). A nossa exportação é validada contra o esquema oficial e inclui todos os campos obrigatórios: diários, linhas contabilísticas, taxas de IVA, referências de pagamento. Pode gerar o seu FAIA com um clique a partir do seu painel.',
                 ],
@@ -1923,7 +1928,8 @@ return [
             ],
         ],
 
-        'faia' => [
+        // FAIA Export
+    'faia' => [
             'title' => 'Exportação FAIA Luxemburgo',
             'short_description' => 'Ficheiro de auditoria conforme para os controlos da AED Luxemburgo.',
             'page_title' => 'Exportação FAIA Luxemburgo | Ficheiro Auditoria AED | faktur.lu',
@@ -2736,7 +2742,8 @@ return [
         'features_title' => 'Tudo o que precisa para faturar sem stress',
         'features' => [
             'invoices' => ['title' => 'Faturas conformes ao Luxemburgo', 'desc' => 'Menções LIVA, numeração sequencial, IVA 17/14/8/3% automático, autoliquidação B2B intra-UE detetada via VIES.'],
-            'faia' => ['title' => 'Exportação FAIA para o seu contabilista', 'desc' => 'Ficheiro XML conforme AED 2.01 gerado a pedido. Para download direto ou recuperável pelo seu contabilista via portal.'],
+            // FAIA Export
+    'faia' => ['title' => 'Exportação FAIA para o seu contabilista', 'desc' => 'Ficheiro XML conforme AED 2.01 gerado a pedido. Para download direto ou recuperável pelo seu contabilista via portal.'],
             'quotes' => ['title' => 'Orçamentos convertíveis em faturas', 'desc' => 'Crie orçamentos profissionais, converta-os em fatura num clique após aceitação. Numeração separada.'],
             'time' => ['title' => 'Registo de tempo & projetos (Essencial)', 'desc' => 'Inicie um cronómetro, converta as suas horas em linhas faturáveis. Ideal para freelancers que faturam à hora.'],
             'reminders' => ['title' => 'Seguimento de pagamentos', 'desc' => 'Marque faturas pagas/por pagar, veja saldos pendentes de relance. Lembretes manuais no Essencial, automáticos no Pro.'],
@@ -3052,7 +3059,8 @@ return [
                 'alternate' => 'Formato híbrido PDF/A-3 + XML CII',
                 'description' => 'Norma europeia de fatura eletrónica que combina um PDF/A-3 legível por humanos e um ficheiro XML (UN/CEFACT Cross Industry Invoice) integrado, legível por software de contabilidade. Permite enviar uma única fatura legível por ambos os lados.',
             ],
-            'faia' => [
+            // FAIA Export
+    'faia' => [
                 'name' => 'FAIA',
                 'alternate' => 'Ficheiro de auditoria informatizado da AED',
                 'description' => 'Ficheiro XML estruturado, baseado na norma SAF-T da OCDE e publicado pela AED na versão 2.01, que reúne todos os dados contabilísticos de uma empresa num determinado período. A AED pode exigir a sua produção em caso de auditoria fiscal; é o pivô de qualquer verificação de IVA desde 2020.',

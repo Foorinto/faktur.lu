@@ -372,15 +372,7 @@ return [
     'faia_audit_export' => 'FAIA Audit Export',
     'expenses_summary' => 'Expenses Summary',
 
-    // FAIA Export
-    'faia' => [
-        'new_export' => 'New export',
-        'period' => 'Period',
-        'from' => 'From',
-        'to' => 'To',
-        'format' => 'Format',
-        'options' => 'Options',
-        'include_credit_notes' => 'Include credit notes',
+    // Export comptable des achats (FEAT-107)
     'purchase_accounts' => 'Purchase accounts',
     'suppliers_account' => 'Suppliers account',
     'purchase_journal' => 'Purchase journal',
@@ -393,6 +385,15 @@ return [
     'accounting_scope_purchases' => 'Purchases (expenses)',
     'accounting_scope_both' => 'Sales and purchases',
     'accounting_scope_help' => 'Purchases use each expense category\'s accounting account, or a generic one if none is set.',
+    // FAIA Export
+    'faia' => [
+        'new_export' => 'New export',
+        'period' => 'Period',
+        'from' => 'From',
+        'to' => 'To',
+        'format' => 'Format',
+        'options' => 'Options',
+        'include_credit_notes' => 'Include credit notes',
         'anonymize_data' => 'Anonymize client data (test)',
         'preview' => 'Preview',
         'loading' => 'Loading...',
@@ -1438,7 +1439,8 @@ return [
                 'compliance' => [
                     'title' => 'Luxembourg Compliance',
                     'items' => [
-                        'faia' => [
+                        // FAIA Export
+    'faia' => [
                             'title' => 'FAIA 2.01 Export',
                             'description' => 'Compliant audit file for AED tax audits.',
                         ],
@@ -1537,7 +1539,8 @@ return [
                     'title' => 'Time tracking',
                     'description' => 'Log your hours and automatically invoice time spent.',
                 ],
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'title' => 'FAIA Export',
                     'description' => 'Export your data in FAIA format for the Tax Administration.',
                 ],
@@ -1609,7 +1612,8 @@ return [
                 'trial' => ['question' => 'How does the free trial work?', 'answer' => 'Enjoy 14 days of full access to all Pro features, no credit card required. At the end of the trial, choose the plan that suits you.'],
                 'after_trial' => ['question' => 'What happens after the trial if I don\'t subscribe?', 'answer' => 'Your account automatically switches to the Free plan: you can still create invoices (5/month) and manage up to 10 clients. Subscribe at any time to unlock more features.'],
                 'change_plan' => ['question' => 'Can I change plans at any time?', 'answer' => 'Yes, you can upgrade from Essentiel to Pro at any time. The change is immediate and proration is calculated automatically.'],
-                'faia' => ['question' => 'Is FAIA export really important?', 'answer' => 'Yes. In case of a tax audit in Luxembourg, the Administration des contributions directes may require your data in FAIA format. It is mandatory for VAT-registered businesses.'],
+                // FAIA Export
+    'faia' => ['question' => 'Is FAIA export really important?', 'answer' => 'Yes. In case of a tax audit in Luxembourg, the Administration des contributions directes may require your data in FAIA format. It is mandatory for VAT-registered businesses.'],
                 'billing' => ['question' => 'How does billing work?', 'answer' => 'We use Stripe for secure payments. You can pay by credit card. The invoice is available in your client area.'],
             ],
             'plans' => [
@@ -1716,7 +1720,8 @@ return [
             'cluster_trust' => 'Security & trust',
             'items' => [
                 // Cluster A - Luxembourg compliance
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'question' => 'Which invoicing software is FAIA-compliant in Luxembourg?',
                     'answer' => 'Faktur.lu automatically generates a FAIA file (Fichier d\'Audit Informatisé AED) compliant with the 2.01 format required by the Administration de l\'Enregistrement, des Domaines et de la TVA (AED). Our export is validated against the official schema and includes all mandatory fields: ledgers, accounting lines, VAT rates, payment references. You can generate your FAIA file in one click from your dashboard.',
                 ],
@@ -1823,7 +1828,8 @@ return [
                 'credit_note' => ['question' => 'How to create a credit note?', 'answer' => 'From a finalised invoice, click "Create credit note". The system automatically generates a credit note linked to the original invoice.'],
             ],
         ],
-        'faia' => [
+        // FAIA Export
+    'faia' => [
             'title' => 'FAIA Export Luxembourg',
             'short_description' => 'Compliant audit file for AED Luxembourg tax audits.',
             'page_title' => 'FAIA Export Luxembourg | AED Audit File | faktur.lu',
@@ -2531,7 +2537,8 @@ return [
         'features_title' => 'Everything you need to invoice with peace of mind',
         'features' => [
             'invoices' => ['title' => 'Luxembourg-compliant invoices', 'desc' => 'LIVA mentions, sequential numbering, automatic 17/14/8/3% VAT, B2B intra-EU reverse charge detected via VIES.'],
-            'faia' => ['title' => 'FAIA export for your accountant', 'desc' => 'AED 2.01-compliant XML file generated on demand. Downloadable directly or retrievable by your accountant via the portal.'],
+            // FAIA Export
+    'faia' => ['title' => 'FAIA export for your accountant', 'desc' => 'AED 2.01-compliant XML file generated on demand. Downloadable directly or retrievable by your accountant via the portal.'],
             'quotes' => ['title' => 'Quotes convertible to invoices', 'desc' => 'Create professional quotes, convert them to invoices in one click once accepted. Separate numbering.'],
             'time' => ['title' => 'Time tracking & projects (Essentiel)', 'desc' => 'Start a timer, convert your hours to billable lines. Ideal for freelancers billing by the hour.'],
             'reminders' => ['title' => 'Payment tracking', 'desc' => 'Mark invoices paid/unpaid, see outstanding amounts at a glance. Manual reminders on Essentiel, automatic on Pro.'],
@@ -2847,7 +2854,8 @@ return [
                 'alternate' => 'Hybrid PDF/A-3 + XML CII format',
                 'description' => 'European electronic invoice standard combining a human-readable PDF/A-3 and an embedded XML file (UN/CEFACT Cross Industry Invoice) readable by accounting software. Lets you send a single invoice readable by both sides.',
             ],
-            'faia' => [
+            // FAIA Export
+    'faia' => [
                 'name' => 'FAIA',
                 'alternate' => 'Standard Audit File of the Luxembourg tax authority',
                 'description' => 'Structured XML file based on the OECD SAF-T standard and published by the AED in version 2.01, which gathers all of a company\'s accounting data over a given period. The AED may require its production during a tax audit; it has been the pivot of every VAT review since 2020.',

@@ -275,15 +275,7 @@ return [
     'faia_audit_export' => 'FAIA Audit Export',
     'expenses_summary' => 'Ausgabenübersicht',
 
-    // FAIA Export
-    'faia' => [
-        'new_export' => 'Neuer Export',
-        'period' => 'Zeitraum',
-        'from' => 'Von',
-        'to' => 'Bis',
-        'format' => 'Format',
-        'options' => 'Optionen',
-        'include_credit_notes' => 'Gutschriften einschließen',
+    // Export comptable des achats (FEAT-107)
     'purchase_accounts' => 'Einkaufskonten',
     'suppliers_account' => 'Lieferantenkonto',
     'purchase_journal' => 'Einkaufsjournal',
@@ -296,6 +288,15 @@ return [
     'accounting_scope_purchases' => 'Einkäufe (Ausgaben)',
     'accounting_scope_both' => 'Verkäufe und Einkäufe',
     'accounting_scope_help' => 'Die Einkäufe übernehmen das Buchhaltungskonto jeder Ausgabenkategorie, ersatzweise ein allgemeines Konto.',
+    // FAIA Export
+    'faia' => [
+        'new_export' => 'Neuer Export',
+        'period' => 'Zeitraum',
+        'from' => 'Von',
+        'to' => 'Bis',
+        'format' => 'Format',
+        'options' => 'Optionen',
+        'include_credit_notes' => 'Gutschriften einschließen',
         'anonymize_data' => 'Kundendaten anonymisieren (Test)',
         'preview' => 'Vorschau',
         'loading' => 'Laden...',
@@ -1340,7 +1341,8 @@ return [
                 'compliance' => [
                     'title' => 'Luxemburg-Konformität',
                     'items' => [
-                        'faia' => [
+                        // FAIA Export
+    'faia' => [
                             'title' => 'FAIA-Export 2.01',
                             'description' => 'Konforme Prüfdatei für Steuerprüfungen.',
                         ],
@@ -1438,7 +1440,8 @@ return [
                     'title' => 'Zeiterfassung',
                     'description' => 'Erfassen Sie Ihre Stunden und berechnen Sie automatisch die aufgewendete Zeit.',
                 ],
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'title' => 'FAIA-Export',
                     'description' => 'Exportieren Sie Ihre Daten im FAIA-Format für die Steuerverwaltung.',
                 ],
@@ -1510,7 +1513,8 @@ return [
                 'trial' => ['question' => 'Wie funktioniert die kostenlose Testphase?', 'answer' => 'Genießen Sie 14 Tage vollen Zugang zu allen Pro-Funktionen, ohne Kreditkarte. Am Ende der Testphase wählen Sie den passenden Plan.'],
                 'after_trial' => ['question' => 'Was passiert nach der Testphase, wenn ich nicht abonniere?', 'answer' => 'Ihr Konto wechselt automatisch zum kostenlosen Plan: Sie können weiterhin Rechnungen erstellen (5/Monat) und bis zu 10 Kunden verwalten.'],
                 'change_plan' => ['question' => 'Kann ich den Plan jederzeit wechseln?', 'answer' => 'Ja, Sie können jederzeit von Essentiel auf Pro wechseln. Die Änderung ist sofort wirksam und die anteilige Berechnung erfolgt automatisch.'],
-                'faia' => ['question' => 'Ist der FAIA-Export wirklich wichtig?', 'answer' => 'Ja. Bei einer Steuerprüfung in Luxemburg kann die Steuerverwaltung Ihre Daten im FAIA-Format verlangen. Dies ist für MwSt-pflichtige Unternehmen obligatorisch.'],
+                // FAIA Export
+    'faia' => ['question' => 'Ist der FAIA-Export wirklich wichtig?', 'answer' => 'Ja. Bei einer Steuerprüfung in Luxemburg kann die Steuerverwaltung Ihre Daten im FAIA-Format verlangen. Dies ist für MwSt-pflichtige Unternehmen obligatorisch.'],
                 'billing' => ['question' => 'Wie funktioniert die Abrechnung?', 'answer' => 'Wir verwenden Stripe für sichere Zahlungen. Sie können per Kreditkarte bezahlen. Die Rechnung ist in Ihrem Kundenbereich verfügbar.'],
             ],
             'plans' => [
@@ -1617,7 +1621,8 @@ return [
             'cluster_trust' => 'Sicherheit & Vertrauen',
             'items' => [
                 // Cluster A - Luxemburgische Konformität
-                'faia' => [
+                // FAIA Export
+    'faia' => [
                     'question' => 'Welche Rechnungssoftware ist FAIA-konform in Luxemburg?',
                     'answer' => 'Faktur.lu generiert automatisch eine FAIA-Datei (Fichier d\'Audit Informatisé AED), die dem Format 2.01 entspricht, das von der Administration de l\'Enregistrement, des Domaines et de la TVA (AED) verlangt wird. Unser Export wird gegen das offizielle Schema validiert und enthält alle Pflichtfelder: Buchungsjournale, Buchungszeilen, Mehrwertsteuersätze, Zahlungsreferenzen. Sie können Ihre FAIA-Datei mit einem Klick aus Ihrem Dashboard generieren.',
                 ],
@@ -1724,7 +1729,8 @@ return [
                 'credit_note' => ['question' => 'Wie erstelle ich eine Gutschrift?', 'answer' => 'Klicken Sie bei einer finalisierten Rechnung auf "Gutschrift erstellen".'],
             ],
         ],
-        'faia' => [
+        // FAIA Export
+    'faia' => [
             'title' => 'FAIA-Export Luxemburg',
             'short_description' => 'Konforme Pruefungsdatei fuer AED-Steuerkontrollen.',
             'page_title' => 'FAIA-Export Luxemburg | AED-Pruefungsdatei | faktur.lu',
@@ -2432,7 +2438,8 @@ return [
         'features_title' => 'Alles, was Sie für entspanntes Rechnen brauchen',
         'features' => [
             'invoices' => ['title' => 'Luxemburg-konforme Rechnungen', 'desc' => 'LIVA-Pflichtangaben, fortlaufende Nummerierung, automatische 17/14/8/3% MwSt, B2B intra-EU Reverse-Charge per VIES erkannt.'],
-            'faia' => ['title' => 'FAIA-Export für Ihren Buchhalter', 'desc' => 'AED 2.01-konforme XML-Datei auf Abruf generiert. Direkt herunterladbar oder vom Buchhalter über das Portal abrufbar.'],
+            // FAIA Export
+    'faia' => ['title' => 'FAIA-Export für Ihren Buchhalter', 'desc' => 'AED 2.01-konforme XML-Datei auf Abruf generiert. Direkt herunterladbar oder vom Buchhalter über das Portal abrufbar.'],
             'quotes' => ['title' => 'Angebote in Rechnungen umwandelbar', 'desc' => 'Erstellen Sie professionelle Angebote, wandeln Sie sie mit einem Klick in Rechnungen um. Separate Nummerierung.'],
             'time' => ['title' => 'Zeiterfassung & Projekte (Essentiel)', 'desc' => 'Starten Sie einen Timer, wandeln Sie Stunden in abrechenbare Zeilen um. Ideal für stundenbasierte Freelancer.'],
             'reminders' => ['title' => 'Zahlungsverfolgung', 'desc' => 'Bezahlt/unbezahlt markieren, offene Beträge auf einen Blick. Manuelle Mahnungen auf Essentiel, automatisch auf Pro.'],
@@ -2748,7 +2755,8 @@ return [
                 'alternate' => 'Hybrides Format PDF/A-3 + XML CII',
                 'description' => 'Europaeische Norm fuer elektronische Rechnungen, die ein fuer Menschen lesbares PDF/A-3 mit einer eingebetteten XML-Datei (UN/CEFACT Cross Industry Invoice) kombiniert, lesbar von Buchhaltungssoftware. Eine einzige Rechnung, lesbar fuer beide Seiten.',
             ],
-            'faia' => [
+            // FAIA Export
+    'faia' => [
                 'name' => 'FAIA',
                 'alternate' => 'Standardisierte Pruefdatei der AED',
                 'description' => 'Strukturierte XML-Datei nach dem OECD-SAF-T-Standard, in der Version 2.01 von der AED veroeffentlicht, die alle Buchhaltungsdaten eines Unternehmens ueber einen bestimmten Zeitraum buendelt. Die AED kann sie bei einer Steuerpruefung verlangen; sie ist seit 2020 zentraler Bestandteil jeder MwSt-Pruefung.',
