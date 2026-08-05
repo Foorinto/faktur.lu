@@ -7,12 +7,14 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\BusinessSettings;
 use App\Models\InvoiceItem;
 use App\Models\Product;
+use App\Rules\SalesVatRateAllowed;
 use App\Services\PlanService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -46,6 +48,7 @@ class ProductController extends Controller
             'canCreate' => $this->planService->canCreateProduct($request->user()),
             'quota' => $this->quotaInfo($request),
             'units' => $this->getUnits(),
+            'vatRates' => $this->getVatRates(),
             'filters' => ['type' => $type],
             'typeCounts' => [
                 'all' => $counts->sum(),
@@ -138,6 +141,63 @@ class ProductController extends Controller
             ->get(['id', 'designation', 'description', 'reference', 'type', 'unit_price_ht', 'vat_rate', 'unit']);
 
         return response()->json(['products' => $products]);
+    }
+
+    /**
+     * Modifie en une fois le type et/ou le taux de TVA d'une sélection.
+     *
+     * Le portefeuille est cloisonné par le scope global de BelongsToUser : la
+     * requête filtre sur les identifiants fournis, et le scope y ajoute le
+     * `user_id` de la session. Un identifiant appartenant à un autre compte ne
+     * correspond donc à aucune ligne, plutôt que d'être modifié.
+     */
+    public function bulkUpdate(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+            'type' => ['nullable', Rule::in(Product::TYPES)],
+            'vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
+        ]);
+
+        // `type` peut valoir null volontairement (« non classé ») : on distingue
+        // « absent de la requête » de « transmis à vide » par la présence de la
+        // clé, sans quoi on ne pourrait jamais déclasser un article.
+        $changes = [];
+
+        if ($request->has('type')) {
+            $changes['type'] = $validated['type'] ?? null;
+        }
+
+        if ($request->filled('vat_rate')) {
+            $changes['vat_rate'] = $validated['vat_rate'];
+        }
+
+        if ($changes === []) {
+            return back()->with('error', __('app.products.bulk_nothing_to_change'));
+        }
+
+        $affected = Product::whereIn('id', $validated['ids'])->update($changes);
+
+        return back()->with('success', __('app.products.bulk_updated', ['count' => $affected]));
+    }
+
+    /**
+     * Supprime une sélection d'articles.
+     *
+     * Suppression douce (le modèle utilise SoftDeletes) : une sélection ratée
+     * reste rattrapable en base, ce qui compte pour une action de masse.
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $affected = Product::whereIn('id', $validated['ids'])->delete();
+
+        return back()->with('success', __('app.products.bulk_deleted', ['count' => $affected]));
     }
 
     /**

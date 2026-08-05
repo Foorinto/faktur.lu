@@ -544,6 +544,13 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/products/search', [\App\Http\Controllers\ProductController::class, 'search'])
             ->name('products.search');
 
+        // Actions groupées — déclarées AVANT la resource : « /products/bulk-… »
+        // serait sinon capturé comme un identifiant d'article.
+        Route::post('/products/bulk-update', [\App\Http\Controllers\ProductController::class, 'bulkUpdate'])
+            ->name('products.bulk-update');
+        Route::post('/products/bulk-delete', [\App\Http\Controllers\ProductController::class, 'bulkDelete'])
+            ->name('products.bulk-delete');
+
         // Assistant d'import du catalogue — déclaré AVANT la resource, comme
         // pour les clients : sinon /products/import serait capturé comme un
         // identifiant d'article.

@@ -95,6 +95,71 @@ class ProductTypeTest extends TestCase
         ])->assertSessionHasErrors('type');
     }
 
+    // --- Actions groupées ------------------------------------------------------
+
+    public function test_la_modification_groupee_change_type_et_tva(): void
+    {
+        $user = $this->proUser();
+        $a = Product::factory()->create(['user_id' => $user->id, 'type' => null, 'vat_rate' => 17]);
+        $b = Product::factory()->create(['user_id' => $user->id, 'type' => null, 'vat_rate' => 17]);
+        $intact = Product::factory()->create(['user_id' => $user->id, 'type' => null, 'vat_rate' => 17]);
+
+        $this->post(route('products.bulk-update'), [
+            'ids' => [$a->id, $b->id],
+            'type' => Product::TYPE_SERVICE,
+            'vat_rate' => 14,
+        ])->assertSessionHasNoErrors();
+
+        foreach ([$a, $b] as $p) {
+            $this->assertSame(Product::TYPE_SERVICE, $p->fresh()->type);
+            $this->assertEquals(14, (float) $p->fresh()->vat_rate);
+        }
+
+        // Un article hors sélection ne bouge pas.
+        $this->assertNull($intact->fresh()->type);
+        $this->assertEquals(17, (float) $intact->fresh()->vat_rate);
+    }
+
+    public function test_la_modification_groupee_peut_declasser(): void
+    {
+        $user = $this->proUser();
+        $p = Product::factory()->create(['user_id' => $user->id, 'type' => Product::TYPE_PRODUCT]);
+
+        // `type` transmis à vide = « non classé », et non « ne pas toucher ».
+        $this->post(route('products.bulk-update'), ['ids' => [$p->id], 'type' => null])
+            ->assertSessionHasNoErrors();
+
+        $this->assertNull($p->fresh()->type);
+    }
+
+    public function test_la_suppression_groupee_est_douce(): void
+    {
+        $user = $this->proUser();
+        $a = Product::factory()->create(['user_id' => $user->id]);
+        $b = Product::factory()->create(['user_id' => $user->id]);
+
+        $this->post(route('products.bulk-delete'), ['ids' => [$a->id, $b->id]])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(0, Product::where('user_id', $user->id)->count());
+        // Récupérable : une sélection ratée n'est pas une perte définitive.
+        $this->assertSame(2, Product::withTrashed()->where('user_id', $user->id)->count());
+    }
+
+    public function test_une_action_groupee_ne_touche_pas_le_catalogue_d_un_autre_compte(): void
+    {
+        $victime = User::factory()->create(['trial_ends_at' => now()->addDays(14), 'email_verified_at' => now()]);
+        $sien = Product::factory()->create(['user_id' => $victime->id, 'type' => Product::TYPE_PRODUCT]);
+
+        $this->proUser(); // acteur = un autre compte
+
+        $this->post(route('products.bulk-update'), ['ids' => [$sien->id], 'type' => Product::TYPE_SERVICE]);
+        $this->post(route('products.bulk-delete'), ['ids' => [$sien->id]]);
+
+        $this->assertSame(Product::TYPE_PRODUCT, $sien->fresh()->type, 'Le type d\'un autre compte doit rester intact.');
+        $this->assertNotNull($sien->fresh(), 'L\'article d\'un autre compte ne doit pas être supprimé.');
+    }
+
     public function test_le_catalogue_survit_au_retour_sur_le_plan_gratuit(): void
     {
         // 50 articles créés pendant l'essai, puis l'essai expire.

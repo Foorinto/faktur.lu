@@ -31,7 +31,7 @@ class ProductImportService extends SpreadsheetImportService
     public const AVAILABLE_FIELDS = [
         'designation' => ['label' => 'Désignation', 'required' => true],
         'reference' => ['label' => 'Référence', 'required' => false],
-        'type' => ['label' => 'Famille (produit / prestation)', 'required' => false],
+        'type' => ['label' => 'Type (produit / prestation)', 'required' => false],
         'description' => ['label' => 'Description', 'required' => false],
         'unit_price_ht' => ['label' => 'Prix HT', 'required' => true],
         'vat_rate' => ['label' => 'Taux de TVA', 'required' => false],
