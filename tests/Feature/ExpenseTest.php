@@ -220,16 +220,33 @@ class ExpenseTest extends TestCase
             ->assertSessionHasErrors('category');
     }
 
-    public function test_validation_requires_valid_vat_rate(): void
+    /**
+     * Le taux n'est plus restreint à la grille luxembourgeoise.
+     *
+     * Une dépense n'est pas une vente : la TVA payée est celle du pays du
+     * fournisseur. 25 %, l'ancien exemple de « taux invalide », est simplement
+     * le taux danois et suédois. Seules les bornes 0-100 sont opposables.
+     */
+    public function test_validation_accepte_un_taux_etranger_mais_refuse_l_absurde(): void
     {
+        $valide = fn (int|float $rate) => [
+            'date' => now()->format('Y-m-d'),
+            'provider_name' => 'Test',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 100,
+            'vat_rate' => $rate,
+        ];
+
         $this->actingAs($this->user)
-            ->post(route('expenses.store'), [
-                'date' => now()->format('Y-m-d'),
-                'provider_name' => 'Test',
-                'category' => Expense::CATEGORY_HARDWARE,
-                'amount_ht' => 100,
-                'vat_rate' => 25, // Invalid rate
-            ])
+            ->post(route('expenses.store'), $valide(25))
+            ->assertSessionHasNoErrors();
+
+        $this->actingAs($this->user)
+            ->post(route('expenses.store'), $valide(150))
+            ->assertSessionHasErrors('vat_rate');
+
+        $this->actingAs($this->user)
+            ->post(route('expenses.store'), $valide(-5))
             ->assertSessionHasErrors('vat_rate');
     }
 

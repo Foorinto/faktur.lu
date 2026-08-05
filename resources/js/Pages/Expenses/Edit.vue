@@ -4,7 +4,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -28,6 +28,18 @@ const form = useForm({
     reference: props.expense.reference || '',
     attachment: null,
     remove_attachment: false,
+});
+
+// Les taux luxembourgeois couvrent l'essentiel, mais un achat à l'étranger
+// porte le taux du pays du fournisseur. « Autre » ouvre une saisie libre plutôt
+// que d'obliger à arrondir sur un taux voisin.
+const standardRates = props.vatRates.map((r) => Number(r.value));
+const vatMode = ref(
+    standardRates.includes(Number(form.vat_rate)) ? String(Number(form.vat_rate)) : "custom",
+);
+
+watch(vatMode, (mode) => {
+    if (mode !== "custom") form.vat_rate = Number(mode);
 });
 
 const showCurrentAttachment = ref(!!props.expense.attachment_url);
@@ -169,14 +181,29 @@ const submit = () => {
                             <InputLabel for="vat_rate" :value="t('vat_rate_label')" />
                             <select
                                 id="vat_rate"
-                                v-model.number="form.vat_rate"
+                                v-model="vatMode"
                                 class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 required
                             >
-                                <option v-for="rate in vatRates" :key="rate.value" :value="rate.value">
+                                <option v-for="rate in vatRates" :key="rate.value" :value="String(rate.value)">
                                     {{ rate.label }}
                                 </option>
+                                <option value="custom">{{ t("vat_rate_custom") }}</option>
                             </select>
+                            <!-- Une facture allemande porte 19 %, une française
+                                 20 % : la TVA payée à un fournisseur étranger
+                                 n'a aucune raison de figurer dans la grille
+                                 luxembourgeoise. -->
+                            <input
+                                v-if="vatMode === 'custom'"
+                                v-model.number="form.vat_rate"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                max="100"
+                                class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                :placeholder="t('vat_rate_custom_placeholder')"
+                            />
                             <InputError :message="form.errors.vat_rate" class="mt-2" />
                         </div>
 

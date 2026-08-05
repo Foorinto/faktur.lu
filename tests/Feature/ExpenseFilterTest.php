@@ -132,4 +132,39 @@ class ExpenseFilterTest extends TestCase
                 ->where('summary.total_ht', fn ($v) => (float) $v === 1200.0)
             );
     }
+
+    public function test_un_taux_de_tva_etranger_est_accepte(): void
+    {
+        $user = $this->user();
+
+        // Une facture allemande porte 19 %, une française 20 % : la TVA payée à
+        // un fournisseur étranger n'a aucune raison d'entrer dans la grille
+        // luxembourgeoise. La validation la refusait.
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-15',
+            'provider_name' => 'Fournisseur allemand',
+            'description' => 'Matériel',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 100,
+            'vat_rate' => 19,
+        ])->assertSessionHasNoErrors();
+
+        $expense = Expense::where('provider_name', 'Fournisseur allemand')->firstOrFail();
+
+        $this->assertEquals(19, (float) $expense->vat_rate);
+        $this->assertEquals(119, (float) $expense->amount_ttc, 'Le TTC doit suivre le taux saisi.');
+    }
+
+    public function test_un_taux_hors_bornes_reste_refuse(): void
+    {
+        $this->user();
+
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-15',
+            'provider_name' => 'Test',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 100,
+            'vat_rate' => 150,
+        ])->assertSessionHasErrors('vat_rate');
+    }
 }

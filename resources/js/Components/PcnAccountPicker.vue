@@ -103,8 +103,8 @@ defineExpose({ suggest });
             class="mt-1 block w-full rounded-lg bg-primary-50 px-2 py-1 text-left text-xs text-primary-700 hover:bg-primary-100 dark:bg-primary-900/20 dark:text-primary-300"
         >
             {{ t('purchase_categories.suggested') }}
-            <span class="font-semibold tabular-nums">{{ suggestion.ref }}</span>
-            — {{ suggestion.label }}
+            <span class="font-semibold tabular-nums">{{ suggestion.ref }}</span>,
+            {{ suggestion.label }}
         </button>
 
         <ul
