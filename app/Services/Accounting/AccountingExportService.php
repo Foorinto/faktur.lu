@@ -273,6 +273,8 @@ class AccountingExportService
     {
         $entries = [];
         $localRates = $this->localVatRates();
+        $pcn = app(\App\Services\Accounting\PcnAccountService::class);
+        $locale = app()->getLocale();
 
         foreach ($expenses as $expense) {
             $ht = round((float) $expense->amount_ht, 2);
@@ -289,12 +291,19 @@ class AccountingExportService
             $label = mb_substr(trim($expense->provider_name.' - '.($expense->description ?: $expense->category_label)), 0, 40);
             $piece = mb_substr((string) ($expense->reference ?: 'DEP-'.$expense->id), 0, 8);
 
+            // Un compte doit porter son intitulé officiel, pas le nom que
+            // l'utilisateur a donné à sa catégorie : 6413 s'appelle « Licences
+            // informatiques » même si la catégorie s'intitule « Logiciels ».
+            // La catégorie reste lisible dans le libellé d'écriture.
+            $account = $this->expenseAccount($expense, $settings);
+            $accountLabel = $pcn->find($account, $locale)['label'] ?? $expense->category_label;
+
             // 1. Charge
             $entries[] = [
                 'date' => $expense->date,
                 'journal' => $settings->purchase_journal,
-                'account' => $this->expenseAccount($expense, $settings),
-                'account_label' => $expense->category_label,
+                'account' => $account,
+                'account_label' => $accountLabel,
                 'third_party' => '',
                 'third_party_label' => $expense->provider_name,
                 'piece' => $piece,

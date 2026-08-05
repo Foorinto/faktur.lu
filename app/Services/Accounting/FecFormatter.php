@@ -36,15 +36,26 @@ class FecFormatter
 
             $date = $entry['date']->format('Ymd');
 
+            // CompAuxNum et CompAuxLib se servent ensemble ou pas du tout : un
+            // libellé auxiliaire sans numéro de compte auxiliaire est rejeté
+            // par les contrôles de la norme. Le tiers reste lisible dans
+            // EcritureLib, où il figure déjà.
+            $auxNum = $this->clean($entry['third_party'] ?? '');
+            $auxLabel = $this->clean($entry['third_party_label'] ?? '');
+
+            if ($auxNum === '' || $auxLabel === '') {
+                $auxNum = $auxLabel = '';
+            }
+
             $lines[] = implode("\t", [
                 $this->clean($entry['journal'] ?? ''),                 // JournalCode
-                'Ventes',                                              // JournalLib (seules des ventes émises pour l'instant)
+                $this->journalLabel($entry['journal'] ?? '', $settings), // JournalLib
                 (string) $ecritureNum,                                 // EcritureNum
                 $date,                                                 // EcritureDate (AAAAMMJJ)
                 $this->clean($entry['account'] ?? ''),                 // CompteNum
                 $this->clean($entry['account_label'] ?? ''),           // CompteLib
-                $this->clean($entry['third_party'] ?? ''),             // CompAuxNum
-                $this->clean($entry['third_party_label'] ?? ''),       // CompAuxLib
+                $auxNum,                                               // CompAuxNum
+                $auxLabel,                                             // CompAuxLib
                 $this->clean($entry['piece'] ?? ''),                   // PieceRef
                 $date,                                                 // PieceDate
                 $this->clean($entry['label'] ?? ''),                   // EcritureLib
@@ -59,6 +70,18 @@ class FecFormatter
         }
 
         return implode("\r\n", $lines);
+    }
+
+    /**
+     * Libellé du journal, déduit de son code.
+     *
+     * Le fichier ne contenait que des ventes jusqu'à l'export des dépenses :
+     * le libellé était écrit en dur. Une écriture d'achat estampillée
+     * « Ventes » induirait la fiduciaire en erreur au premier coup d'œil.
+     */
+    private function journalLabel(string $code, AccountingSetting $settings): string
+    {
+        return $code !== '' && $code === $settings->purchase_journal ? 'Achats' : 'Ventes';
     }
 
     /** Montant avec virgule décimale (convention française), 0,00 si nul. */

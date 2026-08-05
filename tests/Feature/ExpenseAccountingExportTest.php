@@ -242,6 +242,85 @@ class ExpenseAccountingExportTest extends TestCase
         $this->assertStringContainsString('AC', $content);
     }
 
+    /** Contenu FEC des achats de mars 2026, découpé en lignes de colonnes. */
+    private function fecRows(): array
+    {
+        $content = $this->service()->generateContent(
+            $this->user,
+            Carbon::parse('2026-03-01'),
+            Carbon::parse('2026-03-31'),
+            \App\Models\AccountingExport::FORMAT_FEC,
+            ['scope' => 'purchases']
+        );
+
+        $lines = explode("\r\n", $content);
+        array_shift($lines);
+
+        return array_map(fn ($line) => explode("\t", $line), array_filter($lines));
+    }
+
+    public function test_le_journal_des_achats_ne_s_intitule_pas_ventes(): void
+    {
+        $this->expense();
+
+        // Le libellé était écrit en dur quand seules des ventes sortaient.
+        foreach ($this->fecRows() as $row) {
+            $this->assertSame('AC', $row[0]);
+            $this->assertSame('Achats', $row[1], 'JournalLib doit suivre le code du journal.');
+        }
+    }
+
+    public function test_les_deux_colonnes_auxiliaires_se_servent_ensemble(): void
+    {
+        $this->expense(['provider_name' => 'Bureau Vallée']);
+
+        // La norme rejette un libellé auxiliaire sans numéro de compte
+        // auxiliaire. Faute de fichier fournisseurs, les deux restent vides.
+        foreach ($this->fecRows() as $row) {
+            $this->assertSame(
+                $row[6] === '',
+                $row[7] === '',
+                'CompAuxNum et CompAuxLib doivent être servis tous les deux ou aucun.'
+            );
+        }
+    }
+
+    public function test_le_fournisseur_reste_lisible_dans_le_libelle_d_ecriture(): void
+    {
+        $this->expense(['provider_name' => 'Bureau Vallée']);
+
+        // Vider les colonnes auxiliaires ne doit pas perdre le fournisseur.
+        $libelles = array_column($this->fecRows(), 10);
+
+        $this->assertNotEmpty(array_filter($libelles, fn ($l) => str_contains($l, 'Bureau Vallée')));
+    }
+
+    public function test_le_compte_porte_son_intitule_officiel_du_pcn(): void
+    {
+        PurchaseCategory::ensureDefaultsFor($this->user);
+        PurchaseCategory::where('key', Expense::CATEGORY_OFFICE)->update([
+            'label' => 'Mes logiciels à moi',
+            'pcn_account' => '6413',
+        ]);
+
+        $entries = $this->service()->buildExpenseEntries(collect([$this->expense()]), $this->settings());
+
+        // Le libellé de compte vient du plan comptable, pas du nom que
+        // l'utilisateur a donné à sa catégorie.
+        $this->assertSame('Licences informatiques', $entries[0]['account_label']);
+    }
+
+    public function test_sans_compte_pcn_le_libelle_retombe_sur_la_categorie(): void
+    {
+        PurchaseCategory::ensureDefaultsFor($this->user);
+        PurchaseCategory::where('key', Expense::CATEGORY_OFFICE)->update(['label' => 'Fournitures']);
+
+        $entries = $this->service()->buildExpenseEntries(collect([$this->expense()]), $this->settings());
+
+        // 6188 appartient au PCN : son intitulé officiel prime malgré tout.
+        $this->assertSame('Autres charges externes diverses', $entries[0]['account_label']);
+    }
+
     public function test_le_csv_generique_ajoute_un_tableau_de_depenses(): void
     {
         $this->expense(['provider_name' => 'Bureau Vallée']);
