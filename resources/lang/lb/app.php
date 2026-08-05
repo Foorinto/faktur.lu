@@ -385,6 +385,28 @@ return [
     ],
 
     // Expense categories
+    'purchase_categories' => [
+        'title' => 'Ausgabekategorien',
+        'subtitle' => 'Uerdnet Är Akeef sou, wéi Är Aktivitéit se klasséiert. D\'Kategorien déngen dem Filter an de Sommen.',
+        'from_expenses' => 'Kategorie verwalten',
+        'label' => 'Bezeechnung',
+        'new_label_placeholder' => 'z. B. Loyer, Versécherung, Bankkäschten…',
+        'pcn_account' => 'Comptabilitéitskont',
+        'pcn_optional' => 'Fakultativ — nëtzlech wann Äre Fiduciaire eng komplett Comptabilitéit féiert.',
+        'add' => 'Eng Kategorie derbäisetzen',
+        'usage' => ':count Ausgab(en)',
+        'unused' => 'Keng Ausgab',
+        'default_badge' => 'Standard',
+        'inactive_badge' => 'Verstoppt',
+        'activate' => 'Nees weisen',
+        'deactivate' => 'Verstoppen',
+        'deactivate_hint' => 'D\'Kategorie verschwënnt aus der Erfassung, vergaangen Ausgabe behalen se.',
+        'created' => 'Kategorie derbäigesat.',
+        'updated' => 'Kategorie aktualiséiert.',
+        'deleted' => 'Kategorie geläscht.',
+        'in_use' => 'Dës Kategorie gëtt vun Ausgabe benotzt: verstoppt se anstatt se ze läschen, soss verléieren dës Ausgaben hir Bezeechnung.',
+        'confirm_delete' => 'D\'Kategorie « :label » läschen?',
+    ],
     'expense_categories' => [
         'hardware' => 'Computerhardware',
         'software' => 'Software an Lizenzen',

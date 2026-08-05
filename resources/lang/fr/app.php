@@ -482,6 +482,28 @@ return [
     ],
 
     // Expense categories
+    'purchase_categories' => [
+        'title' => 'Catégories de dépenses',
+        'subtitle' => 'Organisez vos achats comme votre activité les classe. Les catégories servent au filtre et aux totaux.',
+        'from_expenses' => 'Gérer les catégories',
+        'label' => 'Libellé',
+        'new_label_placeholder' => 'Ex : Loyer, Assurance, Frais bancaires…',
+        'pcn_account' => 'Compte comptable',
+        'pcn_optional' => 'Facultatif — utile si votre fiduciaire tient une comptabilité complète.',
+        'add' => 'Ajouter une catégorie',
+        'usage' => ':count dépense(s)',
+        'unused' => 'Aucune dépense',
+        'default_badge' => 'Par défaut',
+        'inactive_badge' => 'Masquée',
+        'activate' => 'Réafficher',
+        'deactivate' => 'Masquer',
+        'deactivate_hint' => 'La catégorie disparaît de la saisie, les dépenses passées la conservent.',
+        'created' => 'Catégorie ajoutée.',
+        'updated' => 'Catégorie mise à jour.',
+        'deleted' => 'Catégorie supprimée.',
+        'in_use' => 'Cette catégorie est utilisée par des dépenses : masquez-la plutôt que de la supprimer, sinon ces dépenses perdraient leur libellé.',
+        'confirm_delete' => 'Supprimer la catégorie « :label » ?',
+    ],
     'expense_categories' => [
         'hardware' => 'Matériel informatique',
         'software' => 'Logiciels et licences',

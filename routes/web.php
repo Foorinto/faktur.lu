@@ -854,6 +854,16 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     });
 
     // Email settings (no special rate limit)
+    // Catégories de dépenses définies par l'utilisateur (FEAT-106)
+    Route::get('/settings/purchase-categories', [\App\Http\Controllers\PurchaseCategoryController::class, 'index'])
+        ->name('settings.purchase-categories');
+    Route::post('/settings/purchase-categories', [\App\Http\Controllers\PurchaseCategoryController::class, 'store'])
+        ->name('settings.purchase-categories.store');
+    Route::put('/settings/purchase-categories/{purchaseCategory}', [\App\Http\Controllers\PurchaseCategoryController::class, 'update'])
+        ->name('settings.purchase-categories.update');
+    Route::delete('/settings/purchase-categories/{purchaseCategory}', [\App\Http\Controllers\PurchaseCategoryController::class, 'destroy'])
+        ->name('settings.purchase-categories.destroy');
+
     Route::get('/settings/email', [InvoiceEmailController::class, 'settings'])->name('settings.email');
     Route::put('/settings/email', [InvoiceEmailController::class, 'updateSettings'])->name('settings.email.update');
 

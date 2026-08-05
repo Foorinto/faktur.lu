@@ -385,6 +385,28 @@ return [
     ],
 
     // Expense categories
+    'purchase_categories' => [
+        'title' => 'Ausgabenkategorien',
+        'subtitle' => 'Ordnen Sie Ihre Einkäufe so, wie Ihre Tätigkeit sie einteilt. Die Kategorien dienen dem Filter und den Summen.',
+        'from_expenses' => 'Kategorien verwalten',
+        'label' => 'Bezeichnung',
+        'new_label_placeholder' => 'z. B. Miete, Versicherung, Bankgebühren…',
+        'pcn_account' => 'Buchhaltungskonto',
+        'pcn_optional' => 'Optional — nützlich, wenn Ihr Treuhänder eine vollständige Buchhaltung führt.',
+        'add' => 'Kategorie hinzufügen',
+        'usage' => ':count Ausgabe(n)',
+        'unused' => 'Keine Ausgabe',
+        'default_badge' => 'Standard',
+        'inactive_badge' => 'Ausgeblendet',
+        'activate' => 'Wieder anzeigen',
+        'deactivate' => 'Ausblenden',
+        'deactivate_hint' => 'Die Kategorie verschwindet aus der Eingabe, vergangene Ausgaben behalten sie.',
+        'created' => 'Kategorie hinzugefügt.',
+        'updated' => 'Kategorie aktualisiert.',
+        'deleted' => 'Kategorie gelöscht.',
+        'in_use' => 'Diese Kategorie wird von Ausgaben verwendet: blenden Sie sie aus, statt sie zu löschen — sonst verlören diese Ausgaben ihre Bezeichnung.',
+        'confirm_delete' => 'Kategorie „:label“ löschen?',
+    ],
     'expense_categories' => [
         'hardware' => 'Computerhardware',
         'software' => 'Software und Lizenzen',

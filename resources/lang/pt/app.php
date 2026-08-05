@@ -481,6 +481,28 @@ return [
     ],
 
     // Expense categories
+    'purchase_categories' => [
+        'title' => 'Categorias de despesas',
+        'subtitle' => 'Organize as suas compras como a sua atividade as classifica. As categorias servem o filtro e os totais.',
+        'from_expenses' => 'Gerir as categorias',
+        'label' => 'Designação',
+        'new_label_placeholder' => 'Ex.: Renda, Seguro, Despesas bancárias…',
+        'pcn_account' => 'Conta contabilística',
+        'pcn_optional' => 'Opcional — útil se o seu contabilista mantiver contabilidade completa.',
+        'add' => 'Adicionar uma categoria',
+        'usage' => ':count despesa(s)',
+        'unused' => 'Nenhuma despesa',
+        'default_badge' => 'Predefinida',
+        'inactive_badge' => 'Oculta',
+        'activate' => 'Voltar a mostrar',
+        'deactivate' => 'Ocultar',
+        'deactivate_hint' => 'A categoria desaparece do formulário; as despesas passadas mantêm-na.',
+        'created' => 'Categoria adicionada.',
+        'updated' => 'Categoria atualizada.',
+        'deleted' => 'Categoria eliminada.',
+        'in_use' => 'Esta categoria é usada por despesas: oculte-a em vez de a eliminar, caso contrário essas despesas perderiam a sua designação.',
+        'confirm_delete' => 'Eliminar a categoria «:label»?',
+    ],
     'expense_categories' => [
         'hardware' => 'Material informático',
         'software' => 'Software e licenças',

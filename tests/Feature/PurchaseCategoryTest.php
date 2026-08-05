@@ -99,6 +99,93 @@ class PurchaseCategoryTest extends TestCase
         $this->assertArrayHasKey('hosting', PurchaseCategory::mapFor($user, activeOnly: false));
     }
 
+    // --- Écran de gestion --------------------------------------------------
+
+    public function test_creer_une_categorie_derive_une_cle_du_libelle(): void
+    {
+        $this->user();
+
+        $this->post(route('settings.purchase-categories.store'), [
+            'label' => 'Loyer et charges',
+            'pcn_account' => '6111',
+        ])->assertSessionHasNoErrors();
+
+        $created = PurchaseCategory::where('label', 'Loyer et charges')->firstOrFail();
+
+        $this->assertSame('loyer_et_charges', $created->key);
+        $this->assertSame('6111', $created->pcn_account);
+        $this->assertFalse($created->is_default);
+    }
+
+    public function test_deux_libelles_proches_ne_partagent_pas_la_meme_cle(): void
+    {
+        $this->user();
+
+        $this->post(route('settings.purchase-categories.store'), ['label' => 'Loyer']);
+        $this->post(route('settings.purchase-categories.store'), ['label' => 'loyer']);
+
+        $keys = PurchaseCategory::whereIn('label', ['Loyer', 'loyer'])->pluck('key')->all();
+
+        $this->assertCount(2, array_unique($keys), 'La contrainte unique impose des clés distinctes.');
+    }
+
+    public function test_une_categorie_utilisee_ne_peut_pas_etre_supprimee(): void
+    {
+        $user = $this->user();
+        PurchaseCategory::ensureDefaultsFor($user);
+
+        $category = PurchaseCategory::where('key', 'office')->firstOrFail();
+        Expense::factory()->create(['user_id' => $user->id, 'category' => 'office']);
+
+        $this->delete(route('settings.purchase-categories.destroy', $category->id))
+            ->assertSessionHas('error');
+
+        $this->assertModelExists($category);
+    }
+
+    public function test_une_categorie_inutilisee_se_supprime(): void
+    {
+        $user = $this->user();
+        PurchaseCategory::ensureDefaultsFor($user);
+
+        $category = PurchaseCategory::where('key', 'training')->firstOrFail();
+
+        $this->delete(route('settings.purchase-categories.destroy', $category->id))
+            ->assertSessionHas('success');
+
+        $this->assertModelMissing($category);
+    }
+
+    public function test_la_cle_ne_bouge_pas_meme_si_le_libelle_change_du_tout_au_tout(): void
+    {
+        $user = $this->user();
+        PurchaseCategory::ensureDefaultsFor($user);
+
+        $category = PurchaseCategory::where('key', 'hosting')->firstOrFail();
+
+        $this->put(route('settings.purchase-categories.update', $category->id), [
+            'label' => 'Assurance responsabilité civile',
+            'pcn_account' => '6146',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame('hosting', $category->fresh()->key);
+        $this->assertSame('6146', $category->fresh()->pcn_account);
+    }
+
+    public function test_la_categorie_d_un_autre_compte_est_hors_de_portee(): void
+    {
+        $autre = User::factory()->create();
+        PurchaseCategory::ensureDefaultsFor($autre);
+        $sienne = PurchaseCategory::withoutUserScope()->where('user_id', $autre->id)->where('key', 'office')->firstOrFail();
+
+        $this->user();
+
+        $this->put(route('settings.purchase-categories.update', $sienne->id), ['label' => 'Détournée'])
+            ->assertNotFound();
+
+        $this->assertSame('Fournitures de bureau', $sienne->fresh()->label);
+    }
+
     public function test_une_categorie_appartient_a_son_seul_compte(): void
     {
         $autre = User::factory()->create();

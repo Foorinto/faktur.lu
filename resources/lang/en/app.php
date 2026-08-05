@@ -482,6 +482,28 @@ return [
     ],
 
     // Expense categories
+    'purchase_categories' => [
+        'title' => 'Expense categories',
+        'subtitle' => 'Organise your purchases the way your business classifies them. Categories drive the filter and the totals.',
+        'from_expenses' => 'Manage categories',
+        'label' => 'Name',
+        'new_label_placeholder' => 'e.g. Rent, Insurance, Bank charges…',
+        'pcn_account' => 'Accounting account',
+        'pcn_optional' => 'Optional — useful if your accountant keeps full books.',
+        'add' => 'Add a category',
+        'usage' => ':count expense(s)',
+        'unused' => 'No expense',
+        'default_badge' => 'Default',
+        'inactive_badge' => 'Hidden',
+        'activate' => 'Show again',
+        'deactivate' => 'Hide',
+        'deactivate_hint' => 'The category disappears from entry; past expenses keep it.',
+        'created' => 'Category added.',
+        'updated' => 'Category updated.',
+        'deleted' => 'Category deleted.',
+        'in_use' => 'This category is used by expenses: hide it rather than delete it, otherwise those expenses would lose their label.',
+        'confirm_delete' => 'Delete the category “:label”?',
+    ],
     'expense_categories' => [
         'hardware' => 'Computer hardware',
         'software' => 'Software and licenses',

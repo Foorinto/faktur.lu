@@ -76,6 +76,12 @@ const deleteExpense = (expense) => {
         </template>
         <template #header-actions>
             <Link
+                :href="route('settings.purchase-categories')"
+                class="mr-2 inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+            >
+                {{ t("purchase_categories.from_expenses") }}
+            </Link>
+            <Link
                 :href="route('expenses.summary')"
                 class="inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
             >
