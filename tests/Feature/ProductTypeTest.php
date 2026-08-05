@@ -95,6 +95,25 @@ class ProductTypeTest extends TestCase
         ])->assertSessionHasErrors('type');
     }
 
+    public function test_les_compteurs_d_onglets_comptent_les_non_classes(): void
+    {
+        $user = $this->proUser();
+        Product::factory()->count(2)->create(['user_id' => $user->id, 'type' => Product::TYPE_PRODUCT]);
+        Product::factory()->create(['user_id' => $user->id, 'type' => Product::TYPE_SERVICE]);
+        Product::factory()->count(3)->create(['user_id' => $user->id, 'type' => null]);
+
+        $this->get(route('products.index'))
+            ->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->where('typeCounts.all', 6)
+                ->where('typeCounts.product', 2)
+                ->where('typeCounts.service', 1)
+                // Le point sensible : les articles sans type doivent être
+                // comptés, quel que soit le moteur de base de données.
+                ->where('typeCounts.unclassified', 3)
+            );
+    }
+
     // --- Actions groupées ------------------------------------------------------
 
     public function test_la_modification_groupee_change_type_et_tva(): void

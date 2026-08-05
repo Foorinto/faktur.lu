@@ -35,14 +35,13 @@ class ProductController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        // Les compteurs par famille sont calculés sur tout le catalogue, pas sur
-        // la page courante : sinon les onglets changeraient de valeur en
-        // paginant. `unclassified` compte les articles antérieurs au champ.
-        $counts = Product::query()
-            ->selectRaw('type, COUNT(*) as total')
-            ->groupBy('type')
-            ->pluck('total', 'type');
-
+        // Les compteurs portent sur tout le catalogue, pas sur la page courante :
+        // sinon les onglets changeraient de valeur en paginant.
+        //
+        // Chaque famille est comptée par une requête explicite plutôt que par un
+        // GROUP BY dont on relirait les clés : une clé NULL ne se comporte pas
+        // de la même façon selon le moteur, et ce catalogue vit sur MySQL
+        // pendant que les tests tournent sur SQLite.
         return Inertia::render('Products/Index', [
             'products' => $products,
             'canCreate' => $this->planService->canCreateProduct($request->user()),
@@ -51,10 +50,10 @@ class ProductController extends Controller
             'vatRates' => $this->getVatRates(),
             'filters' => ['type' => $type],
             'typeCounts' => [
-                'all' => $counts->sum(),
-                Product::TYPE_PRODUCT => (int) ($counts[Product::TYPE_PRODUCT] ?? 0),
-                Product::TYPE_SERVICE => (int) ($counts[Product::TYPE_SERVICE] ?? 0),
-                'unclassified' => (int) ($counts[''] ?? $counts[null] ?? 0),
+                'all' => Product::query()->count(),
+                Product::TYPE_PRODUCT => Product::query()->where('type', Product::TYPE_PRODUCT)->count(),
+                Product::TYPE_SERVICE => Product::query()->where('type', Product::TYPE_SERVICE)->count(),
+                'unclassified' => Product::query()->whereNull('type')->count(),
             ],
         ]);
     }
