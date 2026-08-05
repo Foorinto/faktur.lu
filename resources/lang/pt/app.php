@@ -3815,7 +3815,7 @@ return [
     'import_products_quota_reached' => ':count linha(s) não importada(s): atingiu o limite de artigos do seu plano. Mude de plano para importar o resto.',
     'import_products_error_designation' => 'A designação é obrigatória',
     'import_products_error_price' => 'O preço sem IVA é obrigatório e deve ser um número',
-    'import_products_error_vat_franchise' => 'A sua empresa está isenta de IVA: apenas a taxa 0 % é possível',
+    'import_products_notice_vat_franchise' => ':count artigo(s) importado(s) com a taxa reduzida a 0 %: a sua empresa está isenta de IVA e não pode cobrar nenhuma.',
     'import_file_type_invalid' => 'O ficheiro deve estar em formato Excel, CSV ou ODS.',
     'feature_hr_module' => 'O módulo RH requer o plano Pro.',
     'feature_crm' => 'O CRM (interações, lembretes, etiquetas) requer o plano Pro.',

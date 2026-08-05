@@ -4,7 +4,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -17,6 +17,23 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['submit']);
+
+// Une prestation se mesure en temps ou en volume produit ; un bien se compte.
+const SERVICE_UNITS = ['hour', 'day', 'month', 'word', 'page'];
+
+const serviceUnits = computed(() => props.units.filter((u) => SERVICE_UNITS.includes(u.value)));
+const productUnits = computed(() => props.units.filter((u) => !SERVICE_UNITS.includes(u.value)));
+
+// Changer de famille propose l'unité naturelle, mais seulement tant que
+// l'utilisateur n'a pas fait de choix délibéré : « pièce » et « heure » sont
+// les deux valeurs par défaut, tout le reste est une décision qu'on respecte.
+watch(
+    () => props.form.type,
+    (type) => {
+        if (!['piece', 'hour'].includes(props.form.unit)) return;
+        props.form.unit = type === 'service' ? 'hour' : 'piece';
+    },
+);
 
 // VAT rate: standard rates via select, or "Autre" → manual number input.
 const rateIsStandard = props.vatRates.map(Number).includes(Number(props.form.vat_rate));
@@ -132,12 +149,22 @@ watch(vatMode, (mode) => {
             <!-- Unité -->
             <div>
                 <InputLabel for="unit" :value="t('products.unit')" />
+                <!-- Les unités sont regroupées par famille : on facture une
+                     prestation à l'heure et un produit à la pièce. Toutes
+                     restent proposées — un forfait mensuel de maintenance est
+                     une prestation facturée au mois, la règle n'est pas
+                     mécanique. -->
                 <select
                     id="unit"
                     v-model="form.unit"
                     class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                 >
-                    <option v-for="unit in units" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
+                    <optgroup v-if="serviceUnits.length" :label="t('products.type_service')">
+                        <option v-for="unit in serviceUnits" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
+                    </optgroup>
+                    <optgroup v-if="productUnits.length" :label="t('products.type_product')">
+                        <option v-for="unit in productUnits" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
+                    </optgroup>
                 </select>
                 <InputError :message="form.errors.unit" class="mt-2" />
             </div>

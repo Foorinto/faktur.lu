@@ -3913,7 +3913,7 @@ return [
     'import_products_quota_reached' => ':count ligne(s) non importée(s) : le plafond d\'articles de votre plan est atteint. Passez à un plan supérieur pour importer le reste.',
     'import_products_error_designation' => 'La désignation est obligatoire',
     'import_products_error_price' => 'Le prix HT est obligatoire et doit être un nombre',
-    'import_products_error_vat_franchise' => 'Votre entreprise est en franchise de TVA : seul le taux 0 % est possible',
+    'import_products_notice_vat_franchise' => ':count article(s) importé(s) avec un taux ramené à 0 % : votre entreprise est en franchise de TVA et ne peut en facturer aucune.',
     'import_file_type_invalid' => 'Le fichier doit être au format Excel, CSV ou ODS.',
     'feature_hr_module' => 'Le module RH nécessite le plan Pro.',
     'feature_crm' => 'Le CRM (interactions, rappels, tags) nécessite le plan Pro.',

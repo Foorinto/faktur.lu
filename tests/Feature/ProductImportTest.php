@@ -269,6 +269,37 @@ class ProductImportTest extends TestCase
         $this->assertStringContainsString('unit_price_ht', $content);
     }
 
+    // --- Franchise de TVA ------------------------------------------------------
+
+    public function test_un_taux_incompatible_avec_la_franchise_est_ramene_a_zero_et_annonce(): void
+    {
+        $user = $this->proUser();
+
+        $this->actingAs($user);
+
+        // L'entreprise est en franchise : elle ne peut facturer aucune TVA.
+        \App\Models\BusinessSettings::factory()->franchise()->create(['user_id' => $user->id]);
+
+        $csv = "designation,prix,tva\nConseil,750,17\n";
+        $path = $this->putCsv('franchise.csv', $csv);
+        $session = $this->importSession($user, $path, [
+            'designation' => 'designation', 'prix' => 'unit_price_ht', 'tva' => 'vat_rate',
+        ]);
+
+        $preview = $this->service()->validateAndPreview($session);
+
+        // La ligne est acceptée, pas rejetée…
+        $this->assertCount(1, $preview['valid']);
+        $this->assertCount(0, $preview['errors']);
+        // …le taux est corrigé…
+        $this->assertEquals(0.0, $preview['valid'][0]['data']['vat_rate']);
+        // …et la correction est annoncée.
+        $this->assertNotEmpty($preview['notices']);
+
+        $this->service()->import($session);
+        $this->assertEquals(0.0, (float) \App\Models\Product::withoutUserScope()->where('designation', 'Conseil')->value('vat_rate'));
+    }
+
     // --- Chaîne complète ------------------------------------------------------
 
     public function test_l_assistant_fonctionne_de_bout_en_bout(): void

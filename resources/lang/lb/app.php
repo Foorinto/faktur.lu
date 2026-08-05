@@ -3568,7 +3568,7 @@ return [
     'import_products_quota_reached' => ':count Zeil(en) net importéiert: de Plafong vun Artikelen vun Ärem Plang ass erreecht. Wiesselt op en héicheren Plang fir de Rescht z\'importéieren.',
     'import_products_error_designation' => 'D\'Bezeechnung ass obligatoresch',
     'import_products_error_price' => 'De Netto-Präis ass obligatoresch a muss eng Zuel sinn',
-    'import_products_error_vat_franchise' => 'Är Entreprise ass vun der TVA befreit: nëmmen 0 % ass méiglech',
+    'import_products_notice_vat_franchise' => ':count Artikel importéiert mat engem Saz op 0 % gesat: Är Entreprise ass vun der TVA befreit a ka keng berechnen.',
     'import_file_type_invalid' => 'D\'Datei muss am Excel-, CSV- oder ODS-Format sinn.',
     'feature_hr_module' => 'Den HR-Modul brauch de Pro Plang.',
     'feature_crm' => 'De CRM (Interaktiounen, Erënnerungen, Tags) brauch de Pro Plang.',

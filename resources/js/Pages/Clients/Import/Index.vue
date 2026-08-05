@@ -161,7 +161,7 @@ const restart = () => {
 <template>
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
+            <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
                 <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
                     Importer des clients
                 </h2>
@@ -174,30 +174,32 @@ const restart = () => {
         <div class="py-8">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <!-- Stepper -->
-                <div class="mb-8">
-                    <div class="flex items-center justify-between">
-                        <div v-for="step in 4" :key="step" class="flex items-center flex-1">
+                <!-- Stepper : chaque étape est une colonne « pastille +
+                     libellé », de sorte que le libellé soit centré sous sa
+                     pastille. Deux rangées séparées en justify-between ne
+                     s'alignent pas, la dernière pastille n'ayant pas de trait
+                     de liaison à sa droite. -->
+                <div class="mb-8 flex items-start">
+                    <template v-for="(label, i) in ['Fichier', 'Colonnes', 'Aperçu', 'Résultat']" :key="label">
+                        <div class="flex w-20 flex-col items-center">
                             <div :class="[
                                 'flex items-center justify-center w-10 h-10 rounded-full font-semibold transition-colors',
-                                currentStep >= step
+                                currentStep >= i + 1
                                     ? 'bg-primary-500 text-white'
                                     : 'bg-slate-200 dark:bg-gray-700 text-slate-500'
                             ]">
-                                {{ step }}
+                                {{ i + 1 }}
                             </div>
-                            <div v-if="step < 4" :class="[
-                                'flex-1 h-1 mx-2',
-                                currentStep > step ? 'bg-primary-500' : 'bg-slate-200 dark:bg-gray-700'
-                            ]"></div>
+                            <span
+                                class="mt-2 text-center text-xs"
+                                :class="currentStep === i + 1 ? 'text-slate-900 font-semibold dark:text-white' : 'text-slate-500'"
+                            >{{ label }}</span>
                         </div>
-                    </div>
-                    <div class="flex justify-between mt-2 text-xs text-slate-500">
-                        <span :class="{ 'text-slate-900 font-semibold dark:text-white': currentStep === 1 }">Upload</span>
-                        <span :class="{ 'text-slate-900 font-semibold dark:text-white': currentStep === 2 }">Mapping</span>
-                        <span :class="{ 'text-slate-900 font-semibold dark:text-white': currentStep === 3 }">Aperçu</span>
-                        <span :class="{ 'text-slate-900 font-semibold dark:text-white': currentStep === 4 }">Résultat</span>
-                    </div>
+                        <div v-if="i < 3" :class="[
+                            'mt-5 h-1 flex-1',
+                            currentStep > i + 1 ? 'bg-primary-500' : 'bg-slate-200 dark:bg-gray-700'
+                        ]"></div>
+                    </template>
                 </div>
 
                 <!-- Step 1: Upload -->

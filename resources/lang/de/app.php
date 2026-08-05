@@ -3568,7 +3568,7 @@ return [
     'import_products_quota_reached' => ':count Zeile(n) nicht importiert: Die Artikelobergrenze Ihres Plans ist erreicht. Upgraden Sie, um den Rest zu importieren.',
     'import_products_error_designation' => 'Die Bezeichnung ist erforderlich',
     'import_products_error_price' => 'Der Nettopreis ist erforderlich und muss eine Zahl sein',
-    'import_products_error_vat_franchise' => 'Ihr Unternehmen ist von der MwSt. befreit: nur 0 % ist möglich',
+    'import_products_notice_vat_franchise' => ':count Artikel mit einem auf 0 % gesetzten Satz importiert: Ihr Unternehmen ist von der MwSt. befreit und darf keine berechnen.',
     'import_file_type_invalid' => 'Die Datei muss im Excel-, CSV- oder ODS-Format vorliegen.',
     'feature_hr_module' => 'Das HR-Modul erfordert den Pro Plan.',
     'feature_crm' => 'Das CRM (Interaktionen, Erinnerungen, Tags) erfordert den Pro Plan.',

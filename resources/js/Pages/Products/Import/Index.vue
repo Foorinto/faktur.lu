@@ -13,6 +13,13 @@ const props = defineProps({
 
 const stepFromStatus = (status) => ({ mapping: 2, preview: 3, completed: 4 })[status] ?? 1;
 
+const stepLabels = computed(() => [
+    t('products.import.step_upload'),
+    t('products.import.step_mapping'),
+    t('products.import.step_preview'),
+    t('products.import.step_result'),
+]);
+
 const currentStep = ref(props.session ? stepFromStatus(props.session.status) : 1);
 const session = ref(props.session);
 const file = ref(null);
@@ -147,7 +154,7 @@ const quotaNotice = computed(
 <template>
     <AppLayout>
         <template #header>
-            <div class="flex items-center justify-between">
+            <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
                 <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
                     {{ t('products.import.title') }}
                 </h2>
@@ -160,29 +167,34 @@ const quotaNotice = computed(
         <div class="py-8">
             <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                 <!-- Stepper -->
-                <div class="mb-8">
-                    <div class="flex items-center justify-between">
-                        <div v-for="step in 4" :key="step" class="flex flex-1 items-center">
+                <!-- Chaque étape est une colonne « pastille + libellé » : le
+                     libellé est ainsi centré sous sa pastille par construction.
+                     Deux rangées séparées réparties en justify-between ne
+                     s'alignent pas, la dernière pastille n'ayant pas de trait
+                     de liaison à sa droite. -->
+                <div class="mb-8 flex items-start">
+                    <template v-for="(label, i) in stepLabels" :key="label">
+                        <div class="flex w-20 flex-col items-center">
                             <div
                                 :class="[
                                     'flex h-10 w-10 items-center justify-center rounded-full font-semibold transition-colors',
-                                    currentStep >= step ? 'bg-primary-500 text-white' : 'bg-slate-200 text-slate-500 dark:bg-gray-700',
+                                    currentStep >= i + 1 ? 'bg-primary-500 text-white' : 'bg-slate-200 text-slate-500 dark:bg-gray-700',
                                 ]"
                             >
-                                {{ step }}
+                                {{ i + 1 }}
                             </div>
-                            <div
-                                v-if="step < 4"
-                                :class="['mx-2 h-1 flex-1', currentStep > step ? 'bg-primary-500' : 'bg-slate-200 dark:bg-gray-700']"
-                            ></div>
+                            <span
+                                class="mt-2 text-center text-xs"
+                                :class="currentStep === i + 1 ? 'font-semibold text-slate-900 dark:text-white' : 'text-slate-500'"
+                            >
+                                {{ label }}
+                            </span>
                         </div>
-                    </div>
-                    <div class="mt-2 flex justify-between text-xs text-slate-500">
-                        <span :class="{ 'font-semibold text-slate-900 dark:text-white': currentStep === 1 }">{{ t('products.import.step_upload') }}</span>
-                        <span :class="{ 'font-semibold text-slate-900 dark:text-white': currentStep === 2 }">{{ t('products.import.step_mapping') }}</span>
-                        <span :class="{ 'font-semibold text-slate-900 dark:text-white': currentStep === 3 }">{{ t('products.import.step_preview') }}</span>
-                        <span :class="{ 'font-semibold text-slate-900 dark:text-white': currentStep === 4 }">{{ t('products.import.step_result') }}</span>
-                    </div>
+                        <div
+                            v-if="i < stepLabels.length - 1"
+                            :class="['mt-5 h-1 flex-1', currentStep > i + 1 ? 'bg-primary-500' : 'bg-slate-200 dark:bg-gray-700']"
+                        ></div>
+                    </template>
                 </div>
 
                 <!-- Étape 1 : dépôt du fichier -->
@@ -292,6 +304,16 @@ const quotaNotice = computed(
                             <p class="text-2xl font-bold text-red-700 dark:text-red-300">{{ session.error_rows }}</p>
                             <p class="text-sm text-red-600 dark:text-red-400">{{ t('products.import.error_rows') }}</p>
                         </div>
+                    </div>
+
+                    <!-- Corrections appliquées : ce ne sont pas des erreurs,
+                         les lignes seront importées. Les mêler aux erreurs
+                         laisserait croire qu'elles sont perdues. -->
+                    <div
+                        v-if="previewResult.notices?.length"
+                        class="mb-6 rounded-xl bg-blue-50 p-4 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-300"
+                    >
+                        <p v-for="(notice, i) in previewResult.notices" :key="i">{{ notice }}</p>
                     </div>
 
                     <div v-if="session.duplicate_rows > 0" class="mb-6 rounded-xl bg-amber-50 p-4 dark:bg-amber-900/20">

@@ -3610,7 +3610,7 @@ return [
     'import_products_quota_reached' => ':count row(s) not imported: your plan\'s catalogue cap has been reached. Upgrade to import the rest.',
     'import_products_error_designation' => 'The name is required',
     'import_products_error_price' => 'The net price is required and must be a number',
-    'import_products_error_vat_franchise' => 'Your business is VAT-exempt: only a 0% rate is possible',
+    'import_products_notice_vat_franchise' => ':count item(s) imported with the rate set to 0%: your business is VAT-exempt and cannot charge any.',
     'import_file_type_invalid' => 'The file must be in Excel, CSV or ODS format.',
     'feature_hr_module' => 'The HR module requires the Pro plan.',
     'feature_crm' => 'The CRM (interactions, reminders, tags) requires the Pro plan.',

@@ -115,11 +115,15 @@ class ProductImportService extends SpreadsheetImportService
         $validRows = [];
         $duplicateRows = [];
         $errorRows = [];
+        $notices = [];
+        $vatCorrected = 0;
+        $exempt = $this->isVatExempt();
 
         [$existingReferences, $existingDesignations] = $this->existingKeys($session->user_id);
 
         foreach ($rows as $rowIndex => $row) {
             $data = $this->mapRowToProduct($row, $headers, $mapping);
+            $data = $this->applyVatFranchise($data, $exempt, $vatCorrected);
             $error = $this->validateRow($data);
 
             if ($error !== null) {
@@ -138,6 +142,13 @@ class ProductImportService extends SpreadsheetImportService
             }
         }
 
+        // Une correction silencieuse serait pire qu'un refus : l'utilisateur
+        // croirait avoir importé des taux qu'il n'a pas. On importe donc, mais
+        // on le dit.
+        if ($vatCorrected > 0) {
+            $notices[] = __('app.import_products_notice_vat_franchise', ['count' => $vatCorrected]);
+        }
+
         $session->update([
             'total_rows' => count($rows),
             'valid_rows' => count($validRows),
@@ -146,7 +157,25 @@ class ProductImportService extends SpreadsheetImportService
             'status' => 'preview',
         ]);
 
-        return ['valid' => $validRows, 'duplicates' => $duplicateRows, 'errors' => $errorRows];
+        return ['valid' => $validRows, 'duplicates' => $duplicateRows, 'errors' => $errorRows, 'notices' => $notices];
+    }
+
+    /**
+     * Ramène le taux à 0 % quand l'entreprise est en franchise.
+     *
+     * Le régime de franchise interdit de facturer la moindre TVA : un taux
+     * hérité d'un ancien logiciel n'est pas une faute de l'utilisateur, c'est
+     * une donnée à convertir. On la convertit, et on compte les conversions
+     * pour pouvoir l'annoncer.
+     */
+    private function applyVatFranchise(array $data, bool $exempt, int &$corrected): array
+    {
+        if ($exempt && (float) ($data['vat_rate'] ?? 0) !== 0.0) {
+            $data['vat_rate'] = 0.0;
+            $corrected++;
+        }
+
+        return $data;
     }
 
     /**
@@ -167,6 +196,8 @@ class ProductImportService extends SpreadsheetImportService
             $skipped = 0;
             $errors = [];
             $quotaBlocked = 0;
+            $vatCorrected = 0;
+            $exempt = $this->isVatExempt();
 
             // Calculé une fois : l'import est le seul écrivain pendant sa
             // propre exécution, recompter à chaque ligne serait sans effet.
@@ -180,6 +211,7 @@ class ProductImportService extends SpreadsheetImportService
             foreach ($rows as $rowIndex => $row) {
                 try {
                     $data = $this->mapRowToProduct($row, $headers, $mapping);
+                    $data = $this->applyVatFranchise($data, $exempt, $vatCorrected);
 
                     if ($this->validateRow($data) !== null) {
                         $skipped++;
@@ -234,6 +266,13 @@ class ProductImportService extends SpreadsheetImportService
                 ];
             }
 
+            if ($vatCorrected > 0) {
+                $errors[] = [
+                    'row' => null,
+                    'message' => __('app.import_products_notice_vat_franchise', ['count' => $vatCorrected]),
+                ];
+            }
+
             $session->update([
                 'imported_count' => $imported,
                 'updated_count' => $updated,
@@ -263,6 +302,11 @@ class ProductImportService extends SpreadsheetImportService
 
     /**
      * Renvoie le motif de rejet d'une ligne, ou null si elle est acceptable.
+     *
+     * Seuls la désignation et le prix sont bloquants : sans eux, l'article
+     * n'existe pas. Un taux de TVA incompatible avec la franchise, lui, se
+     * corrige (cf. mapRowToProduct) — refuser la ligne obligerait l'utilisateur
+     * à retoucher son fichier pour une valeur que nous savons rectifier.
      */
     private function validateRow(array $data): ?string
     {
@@ -274,15 +318,25 @@ class ProductImportService extends SpreadsheetImportService
             return __('app.import_products_error_price');
         }
 
-        // Le régime de franchise interdit tout taux non nul : on rejette la
-        // ligne plutôt que de la corriger en silence, sans quoi l'utilisateur
-        // croirait avoir importé des taux qu'il n'a pas.
-        $rejected = false;
-        (new SalesVatRateAllowed)->validate('vat_rate', $data['vat_rate'] ?? 0, function () use (&$rejected) {
-            $rejected = true;
+        return null;
+    }
+
+    /**
+     * L'entreprise est-elle en franchise de TVA ?
+     *
+     * Interrogé via la règle existante plutôt qu'en relisant les paramètres :
+     * une seule définition de la franchise, partagée avec la validation des
+     * formulaires.
+     */
+    private function isVatExempt(): bool
+    {
+        $exempt = false;
+
+        (new SalesVatRateAllowed)->validate('vat_rate', 1, function () use (&$exempt) {
+            $exempt = true;
         });
 
-        return $rejected ? __('app.import_products_error_vat_franchise') : null;
+        return $exempt;
     }
 
     /**
