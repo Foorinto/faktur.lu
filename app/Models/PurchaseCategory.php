@@ -135,17 +135,22 @@ class PurchaseCategory extends Model
 
         $next = (int) static::withoutUserScope()->where('user_id', $user->id)->max('sort_order');
 
+        // firstOrCreate et non create : le provisionnement se déclenche au
+        // premier affichage de la page, et deux onglets ouverts ensemble
+        // tenteraient la même insertion. Laravel rattrape alors la violation
+        // d'unicité (createOrFirst) au lieu de renvoyer une erreur 500.
         foreach ($orphans as $key) {
-            static::withoutUserScope()->create([
-                'user_id' => $user->id,
-                'key' => $key,
-                // Un libellé lisible tiré de la clé, que l'utilisateur
-                // renommera : « office_supplies » devient « Office supplies ».
-                'label' => Str::ucfirst(str_replace('_', ' ', $key)),
-                'is_default' => false,
-                'is_active' => true,
-                'sort_order' => ++$next,
-            ]);
+            static::withoutUserScope()->firstOrCreate(
+                ['user_id' => $user->id, 'key' => $key],
+                [
+                    // Un libellé lisible tiré de la clé, que l'utilisateur
+                    // renommera : « office_supplies » devient « Office supplies ».
+                    'label' => Str::ucfirst(str_replace('_', ' ', $key)),
+                    'is_default' => false,
+                    'is_active' => true,
+                    'sort_order' => ++$next,
+                ]
+            );
         }
     }
 
