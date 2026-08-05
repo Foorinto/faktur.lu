@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import PcnAccountPicker from '@/Components/PcnAccountPicker.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -23,6 +24,7 @@ const submitCreate = () => {
 // lisible même avec vingt catégories.
 const editingId = ref(null);
 const editForm = useForm({ label: '', pcn_account: '' });
+const createPicker = ref(null);
 
 const startEdit = (category) => {
     editingId.value = category.id;
@@ -87,6 +89,7 @@ const destroy = (category) => {
                         type="text"
                         required
                         :placeholder="t('purchase_categories.new_label_placeholder')"
+                        @blur="createPicker?.suggest()"
                         class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                     />
                     <p v-if="createForm.errors.label" class="mt-1 text-sm text-pink-600">{{ createForm.errors.label }}</p>
@@ -96,13 +99,12 @@ const destroy = (category) => {
                     <label for="new-pcn" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                         {{ t('purchase_categories.pcn_account') }}
                     </label>
-                    <input
+                    <PcnAccountPicker
                         id="new-pcn"
+                        ref="createPicker"
                         v-model="createForm.pcn_account"
-                        type="text"
-                        inputmode="numeric"
-                        placeholder="6111"
-                        class="mt-1 block w-full rounded-xl border-gray-200 tabular-nums shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                        :suggest-from="createForm.label"
+                        class="mt-1"
                     />
                 </div>
 
@@ -138,13 +140,9 @@ const destroy = (category) => {
                                     class="block w-full rounded-xl border-gray-200 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                             </div>
-                            <input
-                                v-model="editForm.pcn_account"
-                                type="text"
-                                inputmode="numeric"
-                                placeholder="6111"
-                                class="w-32 rounded-xl border-gray-200 text-sm tabular-nums dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                            />
+                            <div class="w-44">
+                                <PcnAccountPicker v-model="editForm.pcn_account" :suggest-from="editForm.label" />
+                            </div>
                             <button type="submit" class="rounded-lg bg-primary-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-primary-700">
                                 {{ t('save') }}
                             </button>

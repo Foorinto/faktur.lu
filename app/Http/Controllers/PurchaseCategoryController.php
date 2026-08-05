@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\PurchaseCategory;
+use App\Services\Accounting\PcnAccountService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -44,6 +46,29 @@ class PurchaseCategoryController extends Controller
 
         return Inertia::render('Settings/PurchaseCategories/Index', [
             'categories' => $categories,
+        ]);
+    }
+
+    /**
+     * Recherche dans le plan comptable, et suggestion à partir d'un libellé.
+     *
+     * Deux usages dans un seul point d'entrée : `?q=` pour chercher, `?suggest=`
+     * pour proposer un compte à partir du nom que l'utilisateur vient de taper.
+     * La suggestion n'écrit rien : elle pré-remplit un champ que l'utilisateur
+     * garde ou remplace.
+     */
+    public function accounts(Request $request, PcnAccountService $pcn): JsonResponse
+    {
+        $locale = app()->getLocale();
+
+        if ($request->filled('suggest')) {
+            $ref = $pcn->suggestFor((string) $request->query('suggest'));
+
+            return response()->json(['suggestion' => $ref ? $pcn->find($ref, $locale) : null]);
+        }
+
+        return response()->json([
+            'accounts' => $pcn->search((string) $request->query('q', ''), $locale),
         ]);
     }
 

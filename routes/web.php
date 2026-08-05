@@ -857,6 +857,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     // Catégories de dépenses définies par l'utilisateur (FEAT-106)
     Route::get('/settings/purchase-categories', [\App\Http\Controllers\PurchaseCategoryController::class, 'index'])
         ->name('settings.purchase-categories');
+    Route::get('/settings/pcn-accounts', [\App\Http\Controllers\PurchaseCategoryController::class, 'accounts'])
+        ->name('settings.pcn-accounts');
     Route::post('/settings/purchase-categories', [\App\Http\Controllers\PurchaseCategoryController::class, 'store'])
         ->name('settings.purchase-categories.store');
     Route::put('/settings/purchase-categories/{purchaseCategory}', [\App\Http\Controllers\PurchaseCategoryController::class, 'update'])

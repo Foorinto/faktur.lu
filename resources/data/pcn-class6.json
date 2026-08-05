@@ -1,0 +1,1822 @@
+[
+    {
+        "ref": "601",
+        "parent": "Consommation de marchandises, de matières premières et consommables",
+        "fr": "Achats de matières premières",
+        "de": "Einkäufe von Rohstoffen",
+        "en": "Purchases of raw materials"
+    },
+    {
+        "ref": "60311",
+        "parent": "Combustibles, gaz, eau et électricité (incorporés aux ouvrages et produits)",
+        "fr": "Combustibles solides",
+        "de": "Feste Brennstoffe",
+        "en": "Solid fuels"
+    },
+    {
+        "ref": "60312",
+        "parent": "Combustibles, gaz, eau et électricité (incorporés aux ouvrages et produits)",
+        "fr": "Combustibles liquides",
+        "de": "Flüssige Brennstoffe",
+        "en": "Liquid fuels"
+    },
+    {
+        "ref": "60313",
+        "parent": "Combustibles, gaz, eau et électricité (incorporés aux ouvrages et produits)",
+        "fr": "Gaz",
+        "de": "Gas",
+        "en": "Gas"
+    },
+    {
+        "ref": "60314",
+        "parent": "Combustibles, gaz, eau et électricité (incorporés aux ouvrages et produits)",
+        "fr": "Eau et eaux usées",
+        "de": "Wasser und Abwasser",
+        "en": "Water and sewage"
+    },
+    {
+        "ref": "60315",
+        "parent": "Combustibles, gaz, eau et électricité (incorporés aux ouvrages et produits)",
+        "fr": "Electricité",
+        "de": "Strom",
+        "en": "Electricity"
+    },
+    {
+        "ref": "6032",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Produits d'entretien",
+        "de": "Pflegemittel",
+        "en": "Maintenance supplies"
+    },
+    {
+        "ref": "6033",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Fournitures et petit équipement d'atelier, d'usine et de magasin",
+        "de": "Werkstatt-, Fabrik- und Ladenausstattung",
+        "en": "Workshop, factory and store supplies and small equipment"
+    },
+    {
+        "ref": "6034",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Vêtements professionnels",
+        "de": "Berufsbekleidung",
+        "en": "Work clothes"
+    },
+    {
+        "ref": "6035",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Fournitures administratives et de bureau",
+        "de": "Büroausstattung",
+        "en": "Office and administrative supplies"
+    },
+    {
+        "ref": "6036",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Carburants",
+        "de": "Treibstoffe",
+        "en": "Motor fuels"
+    },
+    {
+        "ref": "6037",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Lubrifiants",
+        "de": "Schmiermittel",
+        "en": "Lubricants"
+    },
+    {
+        "ref": "6038",
+        "parent": "Achats de matières et fournitures consommables",
+        "fr": "Autres fournitures consommables",
+        "de": "Sonstige Betriebsstoffe",
+        "en": "Other consumable supplies"
+    },
+    {
+        "ref": "604",
+        "parent": "Consommation de marchandises, de matières premières et consommables",
+        "fr": "Achats d'emballages",
+        "de": "Einkäufe von Verpackungen",
+        "en": "Purchases of packaging"
+    },
+    {
+        "ref": "6061",
+        "parent": "Achats de marchandises et d'autres biens destinés à la revente",
+        "fr": "Achats de marchandises",
+        "de": "Einkäufe von Waren",
+        "en": "Purchases of merchandise"
+    },
+    {
+        "ref": "6062",
+        "parent": "Achats de marchandises et d'autres biens destinés à la revente",
+        "fr": "Achats de terrains destinés à la revente",
+        "de": "Einkäufe von zum Verkauf bestimmten Grundstücken",
+        "en": "Purchases of land for resale"
+    },
+    {
+        "ref": "6063",
+        "parent": "Achats de marchandises et d'autres biens destinés à la revente",
+        "fr": "Achats d'immeubles destinés à la revente",
+        "de": "Einkäufe von zum Verkauf bestimmten Bauten/Gebäuden",
+        "en": "Purchases of buildings for resale"
+    },
+    {
+        "ref": "6071",
+        "parent": "Variation des stocks",
+        "fr": "Variation des stocks de matières premières",
+        "de": "Bestandsveränderungen an Rohstoffen",
+        "en": "Changes in inventory of raw materials"
+    },
+    {
+        "ref": "6073",
+        "parent": "Variation des stocks",
+        "fr": "Variation des stocks de matières et fournitures consommables",
+        "de": "Bestandsveränderungen an Hilfs- und Betriebsstoffen",
+        "en": "Changes in inventory of consumable materials and supplies"
+    },
+    {
+        "ref": "6074",
+        "parent": "Variation des stocks",
+        "fr": "Variation des stocks d'emballages",
+        "de": "Bestandsveränderungen an Verpackungen",
+        "en": "Changes in inventory of packaging"
+    },
+    {
+        "ref": "60761",
+        "parent": "Variation des stocks de marchandises et d'autres biens destinés à la revente",
+        "fr": "Marchandises",
+        "de": "Waren",
+        "en": "Merchandise"
+    },
+    {
+        "ref": "60762",
+        "parent": "Variation des stocks de marchandises et d'autres biens destinés à la revente",
+        "fr": "Terrains destinés à la revente",
+        "de": "Zum Verkauf bestimme Grundstücke",
+        "en": "Land for resale"
+    },
+    {
+        "ref": "60763",
+        "parent": "Variation des stocks de marchandises et d'autres biens destinés à la revente",
+        "fr": "Immeubles destinés à la revente",
+        "de": "Zum Verkauf bestimmte Bauten/Gebäude",
+        "en": "Buildings for resale"
+    },
+    {
+        "ref": "60811",
+        "parent": "Prestations de services incorporées aux ouvrages et produits",
+        "fr": "Travail à façon",
+        "de": "Lohnverarbeitung",
+        "en": "Tailoring"
+    },
+    {
+        "ref": "60812",
+        "parent": "Prestations de services incorporées aux ouvrages et produits",
+        "fr": "Recherche et développement",
+        "de": "Forschung und Entwicklung",
+        "en": "Research and development"
+    },
+    {
+        "ref": "60813",
+        "parent": "Prestations de services incorporées aux ouvrages et produits",
+        "fr": "Frais d'architectes et d'ingénieurs",
+        "de": "Honorare für Architekten und Ingenieure",
+        "en": "Architects' and engineers' fees"
+    },
+    {
+        "ref": "60814",
+        "parent": "Prestations de services incorporées aux ouvrages et produits",
+        "fr": "Sous-traitance incorporée aux ouvrages et produits",
+        "de": "Zulieferungen für Werklieferungen und -leistungen",
+        "en": "Outsourcing included in the production of goods and services"
+    },
+    {
+        "ref": "6082",
+        "parent": "Achats incorporés aux ouvrages et produits",
+        "fr": "Autres achats de matériel incorporés aux ouvrages et produits",
+        "de": "Sonstige  Einkäufe von Material, Ausstattungen, Ersatzteilen und Arbeiten für Werklieferungen und -leistungen",
+        "en": "Other purchases of material included in the production of goods and services"
+    },
+    {
+        "ref": "6083",
+        "parent": "Achats incorporés aux ouvrages et produits",
+        "fr": "Achats de quotas d'émission de gaz à effet de serre et assimilés",
+        "de": "Einkäufe von Kontigenten für Treibhausgasemissionen und ähnliche",
+        "en": "Purchase of greenhous gas and similar emission quotas"
+    },
+    {
+        "ref": "6088",
+        "parent": "Achats incorporés aux ouvrages et produits",
+        "fr": "Autres achats incorporés aux ouvrages et produits",
+        "de": "Sonstige bezogene Gutachten und Dienstleistungen",
+        "en": "Other purchases included in the production of goods and services"
+    },
+    {
+        "ref": "6091",
+        "parent": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des achats",
+        "fr": "RRR sur achats de matières premières",
+        "de": "Erhaltene Rabatte, Preisnachlässe und Rückvergütungen auf Rohstoffe",
+        "en": "RDR on purchases of raw materials"
+    },
+    {
+        "ref": "6093",
+        "parent": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des achats",
+        "fr": "RRR sur achats de matières et fournitures consommables",
+        "de": "Erhaltene Rabatte, Preisnachlässe und Rückvergütungen auf Hilfs- und Betriebsstoffe",
+        "en": "RDR on purchases of consumable materials and supplies"
+    },
+    {
+        "ref": "6094",
+        "parent": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des achats",
+        "fr": "RRR sur achats d'emballages",
+        "de": "Erhaltene Rabatte, Preisnachlässe und Rückvergütungen auf Verpackungen",
+        "en": "RDR on purchases of packaging"
+    },
+    {
+        "ref": "6096",
+        "parent": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des achats",
+        "fr": "RRR sur achats de marchandises et d'autres biens destinés à la revente",
+        "de": "Erhaltene Rabatte, Preisnachlässe und Rückvergütungen auf Waren und sonstige zum Verkauf bestimmte Güter/Vermögensgegenstände",
+        "en": "RDR on purchases of merchandise and other goods for resale"
+    },
+    {
+        "ref": "6098",
+        "parent": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des achats",
+        "fr": "RRR sur achats incorporés aux ouvrages et produits",
+        "de": "Erhaltene Rabatte, Preisnachlässe und Rückvergütungen auf Einkäufe für Werklieferungen und -leistungen",
+        "en": "RDR on purchases included in the production of goods and services"
+    },
+    {
+        "ref": "6099",
+        "parent": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des achats",
+        "fr": "RRR non affectés",
+        "de": "Nicht zugeordnete Rabatte, Preisnachlässe und Rückvergütungen",
+        "en": "Unallocated RDR"
+    },
+    {
+        "ref": "61111",
+        "parent": "Locations et leasing opérationnel immobiliers",
+        "fr": "Terrains",
+        "de": "Grundstücke",
+        "en": "Land"
+    },
+    {
+        "ref": "61112",
+        "parent": "Locations et leasing opérationnel immobiliers",
+        "fr": "Constructions / Bâtiments",
+        "de": "Bauten/Gebäude",
+        "en": "Buildings"
+    },
+    {
+        "ref": "61123",
+        "parent": "Locations et leasing opérationnel mobiliers",
+        "fr": "Matériel roulant",
+        "de": "Fuhrpark",
+        "en": "Rolling stock"
+    },
+    {
+        "ref": "61128",
+        "parent": "Locations et leasing opérationnel mobiliers",
+        "fr": "Autres",
+        "de": "Sonstige",
+        "en": "Other"
+    },
+    {
+        "ref": "6113",
+        "parent": "Loyers et charges locatives",
+        "fr": "Charges locatives et de copropriété",
+        "de": "Mietnebenkosten und Miteigentumsgemeinschaftskosten",
+        "en": "Service charges and co-ownership expenses"
+    },
+    {
+        "ref": "6114",
+        "parent": "Loyers et charges locatives",
+        "fr": "Leasing financier immobilier",
+        "de": "Immobilienfinanzierungsleasing",
+        "en": "Financial leasing on real property"
+    },
+    {
+        "ref": "61153",
+        "parent": "Leasing financier mobilier",
+        "fr": "Matériel roulant",
+        "de": "Fuhrpark",
+        "en": "Rolling stock"
+    },
+    {
+        "ref": "61158",
+        "parent": "Leasing financier mobilier",
+        "fr": "Autres",
+        "de": "Sonstige",
+        "en": "Other"
+    },
+    {
+        "ref": "6121",
+        "parent": "Sous-traitance, entretiens, réparations et maintenance",
+        "fr": "Sous-traitance générale (non incorporée aux ouvrages et produits)",
+        "de": "Allgemeine Zulieferung (nicht für Werklieferungen und -leistungen und sonstige Arbeiten)",
+        "en": "General subcontracting (not included in the production of goods and services)"
+    },
+    {
+        "ref": "61221",
+        "parent": "Entretien, réparations et maintenance",
+        "fr": "Constructions / Bâtiments",
+        "de": "Von Bauten/Gebäuden",
+        "en": "Buildings"
+    },
+    {
+        "ref": "61223",
+        "parent": "Entretien, réparations et maintenance",
+        "fr": "Matériel roulant",
+        "de": "Vom Fuhrpark",
+        "en": "Rolling stock"
+    },
+    {
+        "ref": "61228",
+        "parent": "Entretien, réparations et maintenance",
+        "fr": "Autres",
+        "de": "Von Sonstigem",
+        "en": "Other"
+    },
+    {
+        "ref": "6131",
+        "parent": "Rémunérations d'intermédiaires et honoraires",
+        "fr": "Commissions et courtages",
+        "de": "Provisionen und Maklergebühren",
+        "en": "Commissions and brokerage fees"
+    },
+    {
+        "ref": "6132",
+        "parent": "Rémunérations d'intermédiaires et honoraires",
+        "fr": "Services informatiques",
+        "de": "IT - Instandhaltung",
+        "en": "IT services"
+    },
+    {
+        "ref": "61332",
+        "parent": "Services bancaires et assimilés",
+        "fr": "Frais sur émission d'emprunts",
+        "de": "Emissionskosten von Anleihen",
+        "en": "Loans' issuance expenses"
+    },
+    {
+        "ref": "61333",
+        "parent": "Services bancaires et assimilés",
+        "fr": "Frais de comptes et commissions bancaires (y compris droits de garde sur titres)",
+        "de": "Kontogebühren und Bankkommissionen (Verwahrungsrechte von Wertpapieren inbegriffen)",
+        "en": "Bank account charges and bank commissions (included custody fees on securities)"
+    },
+    {
+        "ref": "61334",
+        "parent": "Services bancaires et assimilés",
+        "fr": "Frais sur moyens de paiements électroniques",
+        "de": "Gebühren auf elektronische Bezahlungsmittel",
+        "en": "Charges for electronic means of paiment"
+    },
+    {
+        "ref": "61336",
+        "parent": "Services bancaires et assimilés",
+        "fr": "Rémunérations d'affacturage",
+        "de": "Factoringgebühren",
+        "en": "Factoring services"
+    },
+    {
+        "ref": "61338",
+        "parent": "Services bancaires et assimilés",
+        "fr": "Autres services bancaires et assimilés (hors intérêts et frais assimilés)",
+        "de": "Sonstige Bankdienstleistungen (außer Zinsen und vergleichbare Kosten)",
+        "en": "Other banking and similar services (except interest and similar expenses)"
+    },
+    {
+        "ref": "61341",
+        "parent": "Honoraires",
+        "fr": "Honoraires juridiques, de contentieux et assimilés",
+        "de": "Rechts- und Prozesskosten und ähnliche",
+        "en": "Legal, litigation and similar fees"
+    },
+    {
+        "ref": "61342",
+        "parent": "Honoraires",
+        "fr": "Honoraires comptables, fiscaux, d'audit et assimilés",
+        "de": "Buchführungs-, Steuerberatungs- und Prüfungskosten und ähnliche",
+        "en": "Accounting, tax consulting, auditing and similar fees"
+    },
+    {
+        "ref": "61348",
+        "parent": "Honoraires",
+        "fr": "Autres honoraires",
+        "de": "Sonstige Honorare",
+        "en": "Other professional fees"
+    },
+    {
+        "ref": "6135",
+        "parent": "Rémunérations d'intermédiaires et honoraires",
+        "fr": "Frais d'actes notariés et assimilés",
+        "de": "Notarielle Beurkundungskosten und ähnliche",
+        "en": "Notarial and similar fees"
+    },
+    {
+        "ref": "6138",
+        "parent": "Rémunérations d'intermédiaires et honoraires",
+        "fr": "Autres rémunérations d'intermédiaires et honoraires",
+        "de": "Sonstige Vermittlervergütungen und Honorare",
+        "en": "Other remuneration of intermediaries and professional fees"
+    },
+    {
+        "ref": "61411",
+        "parent": "Assurance sur biens de l'actif",
+        "fr": "Constructions / Bâtiments",
+        "de": "Gebäudeversicherungen",
+        "en": "Buildings"
+    },
+    {
+        "ref": "61412",
+        "parent": "Assurance sur biens de l'actif",
+        "fr": "Matériel roulant",
+        "de": "Kfz-Versicherungen",
+        "en": "Rolling stock"
+    },
+    {
+        "ref": "61418",
+        "parent": "Assurance sur biens de l'actif",
+        "fr": "Autres",
+        "de": "Sonstige",
+        "en": "Other"
+    },
+    {
+        "ref": "6142",
+        "parent": "Primes d'assurance",
+        "fr": "Assurance sur biens pris en location",
+        "de": "Versicherung für gemietete Vermögensgegenstände",
+        "en": "Insurance on rented assets"
+    },
+    {
+        "ref": "6143",
+        "parent": "Primes d'assurance",
+        "fr": "Assurance-transport",
+        "de": "Transportversicherung",
+        "en": "Transport insurance"
+    },
+    {
+        "ref": "6144",
+        "parent": "Primes d'assurance",
+        "fr": "Assurance risque d'exploitation",
+        "de": "Versicherung für betriebliche Risiken",
+        "en": "Business risk insurance"
+    },
+    {
+        "ref": "6145",
+        "parent": "Primes d'assurance",
+        "fr": "Assurance insolvabilité clients",
+        "de": "Forderungsausfallversicherung",
+        "en": "Customers credit insurance"
+    },
+    {
+        "ref": "6146",
+        "parent": "Primes d'assurance",
+        "fr": "Assurance responsabilité civile",
+        "de": "Haftpflichtversicherung",
+        "en": "Third-party insurance"
+    },
+    {
+        "ref": "6148",
+        "parent": "Primes d'assurance",
+        "fr": "Autres assurances",
+        "de": "Sonstige Versicherungen",
+        "en": "Other insurances"
+    },
+    {
+        "ref": "61511",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Annonces et insertions",
+        "de": "Annoncen und Inserate",
+        "en": "Press advertising"
+    },
+    {
+        "ref": "61512",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Echantillons",
+        "de": "Muster",
+        "en": "Samples"
+    },
+    {
+        "ref": "61513",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Foires et expositions",
+        "de": "Messen und Ausstellungen",
+        "en": "Fairs and exhibitions"
+    },
+    {
+        "ref": "61514",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Cadeaux à la clientèle",
+        "de": "Geschenke für Kunden",
+        "en": "Gifts to customers"
+    },
+    {
+        "ref": "61515",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Catalogues et imprimés et publications",
+        "de": "Kataloge, Drucksachen und Veröffentlichungen",
+        "en": "Catalogues, printed materials and publications"
+    },
+    {
+        "ref": "61516",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Dons courants",
+        "de": "Spenden",
+        "en": "Donations"
+    },
+    {
+        "ref": "61517",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Sponsoring",
+        "de": "Sponsoring",
+        "en": "Sponsorship"
+    },
+    {
+        "ref": "61518",
+        "parent": "Frais de marketing et de publicité",
+        "fr": "Autres achats de services publicitaires",
+        "de": "Sonstige Werbung",
+        "en": "Other purchases of advertising services"
+    },
+    {
+        "ref": "615211",
+        "parent": "Voyages et déplacements",
+        "fr": "Direction (respectivement exploitant et associés)",
+        "de": "Geschäftsleitung (gegebenenfalls Einzelunternehmer und Gesellschafter)",
+        "en": "Management (if appropriate owner and partner)"
+    },
+    {
+        "ref": "615212",
+        "parent": "Voyages et déplacements",
+        "fr": "Personnel",
+        "de": "Personal",
+        "en": "Staff"
+    },
+    {
+        "ref": "61522",
+        "parent": "Frais de déplacements et de représentation",
+        "fr": "Frais de déménagement de l'entreprise",
+        "de": "Umzugskosten des Unternehmens",
+        "en": "Relocation expenses"
+    },
+    {
+        "ref": "61523",
+        "parent": "Frais de déplacements et de représentation",
+        "fr": "Missions",
+        "de": "Dienstreisen",
+        "en": "Business assignments"
+    },
+    {
+        "ref": "61524",
+        "parent": "Frais de déplacements et de représentation",
+        "fr": "Réceptions et frais de représentation",
+        "de": "Bewirtungs- und Repräsentationskosten",
+        "en": "Receptions and entertainment costs"
+    },
+    {
+        "ref": "61531",
+        "parent": "Frais postaux et de télécommunication",
+        "fr": "Frais postaux",
+        "de": "Postgebühren",
+        "en": "Postal charges"
+    },
+    {
+        "ref": "61532",
+        "parent": "Frais postaux et de télécommunication",
+        "fr": "Frais de télécommunication",
+        "de": "Sonstige Telekommunikationskosten",
+        "en": "Telecommunication costs"
+    },
+    {
+        "ref": "6161",
+        "parent": "Transports de biens et transports collectifs du personnel",
+        "fr": "Transports sur achats",
+        "de": "Transporte von Einkäufen",
+        "en": "Transportation of purchased goods"
+    },
+    {
+        "ref": "6162",
+        "parent": "Transports de biens et transports collectifs du personnel",
+        "fr": "Transports sur ventes",
+        "de": "Transporte von Verkäufen",
+        "en": "Transportation of sold goods"
+    },
+    {
+        "ref": "6165",
+        "parent": "Transports de biens et transports collectifs du personnel",
+        "fr": "Transports collectifs du personnel",
+        "de": "Beförderungen von Personal",
+        "en": "Collective staff transportation"
+    },
+    {
+        "ref": "6168",
+        "parent": "Transports de biens et transports collectifs du personnel",
+        "fr": "Autres transports",
+        "de": "Sonstige Transporte",
+        "en": "Other transportation"
+    },
+    {
+        "ref": "6171",
+        "parent": "Personnel extérieur à l'entreprise",
+        "fr": "Personnel intérimaire",
+        "de": "Aushilfskräfte",
+        "en": "Temporary staff"
+    },
+    {
+        "ref": "6172",
+        "parent": "Personnel extérieur à l'entreprise",
+        "fr": "Personnel prêté à l'entreprise",
+        "de": "Ausgeliehenes Personal",
+        "en": "External staff on secondment"
+    },
+    {
+        "ref": "6181",
+        "parent": "Charges externes diverses",
+        "fr": "Documentation",
+        "de": "Dokumentation",
+        "en": "Documentation"
+    },
+    {
+        "ref": "6182",
+        "parent": "Charges externes diverses",
+        "fr": "Frais de formation, colloques, séminaires, conférences",
+        "de": "Kosten von Weiterbildungen, Kolloquien, Seminaren, Konferenzen",
+        "en": "Costs of training, symposiums, seminars, conferences"
+    },
+    {
+        "ref": "6183",
+        "parent": "Charges externes diverses",
+        "fr": "Elimination des déchets industriels et non industriels",
+        "de": "",
+        "en": ""
+    },
+    {
+        "ref": "61841",
+        "parent": "Combustibles, gaz, eau et électricité (non incorporés aux ouvrages et produits)",
+        "fr": "Combustibles solides",
+        "de": "Feste Brennstoffe",
+        "en": "Solid fuels"
+    },
+    {
+        "ref": "61842",
+        "parent": "Combustibles, gaz, eau et électricité (non incorporés aux ouvrages et produits)",
+        "fr": "Combustibles liquides (mazout, carburants, etc.)",
+        "de": "Flüssige Brennsoffe",
+        "en": "Liquid fuels (oil, motor fuel, etc.)"
+    },
+    {
+        "ref": "61843",
+        "parent": "Combustibles, gaz, eau et électricité (non incorporés aux ouvrages et produits)",
+        "fr": "Gaz",
+        "de": "Gasversorgung",
+        "en": "Gas"
+    },
+    {
+        "ref": "61844",
+        "parent": "Combustibles, gaz, eau et électricité (non incorporés aux ouvrages et produits)",
+        "fr": "Eau et eaux usées",
+        "de": "Wasserversorgung und Abwasserbeseitigung",
+        "en": "Water and waste water"
+    },
+    {
+        "ref": "61845",
+        "parent": "Combustibles, gaz, eau et électricité (non incorporés aux ouvrages et produits)",
+        "fr": "Electricité",
+        "de": "Strom",
+        "en": "Electricity"
+    },
+    {
+        "ref": "61851",
+        "parent": "Fournitures et petit équipement (non incorporés aux ouvrages et produits)",
+        "fr": "Fournitures administratives et de bureau",
+        "de": "Büromaterial",
+        "en": "Office supplies"
+    },
+    {
+        "ref": "61852",
+        "parent": "Fournitures et petit équipement (non incorporés aux ouvrages et produits)",
+        "fr": "Petit équipement",
+        "de": "Kleines Werkzeug",
+        "en": "Small equipment"
+    },
+    {
+        "ref": "61853",
+        "parent": "Fournitures et petit équipement (non incorporés aux ouvrages et produits)",
+        "fr": "Vêtements professionnels",
+        "de": "Berufsbekleidung",
+        "en": "Work clothes"
+    },
+    {
+        "ref": "61854",
+        "parent": "Fournitures et petit équipement (non incorporés aux ouvrages et produits)",
+        "fr": "Produits d'entretien",
+        "de": "Pflegemittel",
+        "en": "Maintenance supplies"
+    },
+    {
+        "ref": "61858",
+        "parent": "Fournitures et petit équipement (non incorporés aux ouvrages et produits)",
+        "fr": "Autres",
+        "de": "Sonstige",
+        "en": "Other"
+    },
+    {
+        "ref": "6186",
+        "parent": "Charges externes diverses",
+        "fr": "Frais de surveillance et de gardiennage",
+        "de": "Wach- und Sicherheitsdienste",
+        "en": "Surveillance and security charges"
+    },
+    {
+        "ref": "6187",
+        "parent": "Charges externes diverses",
+        "fr": "Cotisations aux associations professionnelles",
+        "de": "Beiträge für Berufsverbände",
+        "en": "Contributions to professional associations"
+    },
+    {
+        "ref": "6188",
+        "parent": "Charges externes diverses",
+        "fr": "Autres charges externes diverses",
+        "de": "Andere sonstige externe Aufwendungen",
+        "en": "Other miscellaneous external charges"
+    },
+    {
+        "ref": "619",
+        "parent": "Autres charges externes",
+        "fr": "Rabais, remises et ristournes (RRR) obtenus et non directement déduits des autres charges externes",
+        "de": "Erhaltene Rabatte, Preisnachlässe und Rückvergütungen auf sonstige externe Aufwendungen",
+        "en": "Rebates, discounts and refunds received on other external charges"
+    },
+    {
+        "ref": "62111",
+        "parent": "Salaires bruts",
+        "fr": "Salaires de base",
+        "de": "Grundlöhne",
+        "en": "Base wages"
+    },
+    {
+        "ref": "621121",
+        "parent": "Suppléments pour travail",
+        "fr": "Dimanche",
+        "de": "Sonntagsarbeit",
+        "en": "Sunday"
+    },
+    {
+        "ref": "621122",
+        "parent": "Suppléments pour travail",
+        "fr": "Jours fériés légaux",
+        "de": "Feiertagsarbeit",
+        "en": "Public holidays"
+    },
+    {
+        "ref": "621123",
+        "parent": "Suppléments pour travail",
+        "fr": "Heures supplémentaires",
+        "de": "Überstunden",
+        "en": "Overtime"
+    },
+    {
+        "ref": "621128",
+        "parent": "Suppléments pour travail",
+        "fr": "Autres suppléments",
+        "de": "Sonstige Zuschläge",
+        "en": "Other supplements"
+    },
+    {
+        "ref": "62114",
+        "parent": "Salaires bruts",
+        "fr": "Gratifications, primes et commissions",
+        "de": "Gratifikationen, Prämien und Provisionen",
+        "en": "Incentives, bonuses and commissions"
+    },
+    {
+        "ref": "62115",
+        "parent": "Salaires bruts",
+        "fr": "Avantages en nature",
+        "de": "Sachleistungen",
+        "en": "Benefits in kind"
+    },
+    {
+        "ref": "62116",
+        "parent": "Salaires bruts",
+        "fr": "Indemnités de licenciement",
+        "de": "Abfindungen",
+        "en": "Severance pay"
+    },
+    {
+        "ref": "62117",
+        "parent": "Salaires bruts",
+        "fr": "Trimestre de faveur",
+        "de": "Hinterbliebenenzuschuss",
+        "en": "Survivor's pay"
+    },
+    {
+        "ref": "6218",
+        "parent": "Rémunérations des salariés",
+        "fr": "Autres avantages",
+        "de": "Sonstige Zulagen",
+        "en": "Other benefits"
+    },
+    {
+        "ref": "6219",
+        "parent": "Rémunérations des salariés",
+        "fr": "Remboursements sur salaires",
+        "de": "Erstattungen von gezahlten Löhnen",
+        "en": "Refunds on wages paid"
+    },
+    {
+        "ref": "6221",
+        "parent": "Autre personnel",
+        "fr": "Etudiants",
+        "de": "Studentische Aushilfskräfte",
+        "en": "Students"
+    },
+    {
+        "ref": "6222",
+        "parent": "Autre personnel",
+        "fr": "Salaires occasionnels",
+        "de": "Gelegenheitsarbeitskräfte",
+        "en": "Casual workers"
+    },
+    {
+        "ref": "6228",
+        "parent": "Autre personnel",
+        "fr": "Autres",
+        "de": "Sonstige",
+        "en": "Other"
+    },
+    {
+        "ref": "6231",
+        "parent": "Charges sociales (part patronale)",
+        "fr": "Charges sociales couvrant les pensions",
+        "de": "Soziale Aufwendungen für Renten",
+        "en": "Social security on pensions"
+    },
+    {
+        "ref": "6232",
+        "parent": "Charges sociales (part patronale)",
+        "fr": "Autres charges sociales (y inclus maladie, accident, etc.)",
+        "de": "Sonstige soziale Aufwendungen (einschließlich für Krankheits- und Arbeitsunfallversicherung)",
+        "en": "Other social security costs (including illness, accidents, a.s.o.)"
+    },
+    {
+        "ref": "62411",
+        "parent": "Pensions complémentaires",
+        "fr": "Primes à des fonds de pensions extérieurs",
+        "de": "Beiträge für externe Rentenfonds",
+        "en": "Premiums for external pensions funds"
+    },
+    {
+        "ref": "62412",
+        "parent": "Pensions complémentaires",
+        "fr": "Variations sur provisions pour pensions complémentaires",
+        "de": "Zuführung zu Rückstellungen für Zusatzrenten",
+        "en": "Changes to provisions for complementary pensions"
+    },
+    {
+        "ref": "62413",
+        "parent": "Pensions complémentaires",
+        "fr": "Retenue d'impôt sur pension complémentaire",
+        "de": "Einbehaltene Steuer auf Zusatzrenten",
+        "en": "Withholding tax on complementary pensions"
+    },
+    {
+        "ref": "62414",
+        "parent": "Pensions complémentaires",
+        "fr": "Prime d'assurance insolvabilité",
+        "de": "Beiträge zur Insolvenzversicherung",
+        "en": "Insolvency insurance premiums"
+    },
+    {
+        "ref": "62415",
+        "parent": "Pensions complémentaires",
+        "fr": "Pensions complémentaires versées par l'employeur",
+        "de": "Ausgezahlte betriebliche Zusatzrente",
+        "en": "Complementary pensions paid by the employer"
+    },
+    {
+        "ref": "6248",
+        "parent": "Autres frais de personnel",
+        "fr": "Autres frais de personnel non visés ci-dessus",
+        "de": "Sonstige nicht oben aufgeführte Personalaufwendungen",
+        "en": "Other staff expenses not mentioned above"
+    },
+    {
+        "ref": "6311",
+        "parent": "DCV sur frais d'établissement et frais assimilés",
+        "fr": "DCV sur frais de constitution et de premier établissement",
+        "de": "ZWb von Gründungs- und Errichtungskosten (Rechts- und Beratungskosten)",
+        "en": "AVA on set-up and start-up costs"
+    },
+    {
+        "ref": "6313",
+        "parent": "DCV sur frais d'établissement et frais assimilés",
+        "fr": "DCV sur frais d'augmentation de capital et d'opérations diverses (fusions, scissions, transformations)",
+        "de": "ZWb von Kosten für Kapitalerhöhung und anderen Vorgängen (Verschmelzungen, Spaltungen und Umwandlungen)",
+        "en": "AVA on expenses for capital increases and various operations (mergers, demergers, changes of legal form)"
+    },
+    {
+        "ref": "6314",
+        "parent": "DCV sur frais d'établissement et frais assimilés",
+        "fr": "DCV sur frais d'émission d'emprunts",
+        "de": "ZWb von Emissionskosten von Anleihen",
+        "en": "AVA on loan-issuance expenses"
+    },
+    {
+        "ref": "6318",
+        "parent": "DCV sur frais d'établissement et frais assimilés",
+        "fr": "DCV sur autres frais assimilés",
+        "de": "ZWb von sonstigen vergleichbaren Kosten",
+        "en": "AVA on other similar expenses"
+    },
+    {
+        "ref": "6321",
+        "parent": "DCV sur immobilisations incorporelles",
+        "fr": "DCV sur frais de développement",
+        "de": "ZWb von Entwicklungskosten",
+        "en": "AVA on development costs"
+    },
+    {
+        "ref": "6322",
+        "parent": "DCV sur immobilisations incorporelles",
+        "fr": "DCV sur concessions, brevets, licences, marques ainsi que droits et valeurs similaires",
+        "de": "ZWb von Konzessionen, Patenten, Lizenzen, Warenzeichen und vergleichbaren Rechten und Werten",
+        "en": "AVA on concessions, patents, licences, trademarks and similar rights and assets"
+    },
+    {
+        "ref": "6323",
+        "parent": "DCV sur immobilisations incorporelles",
+        "fr": "DCV sur fonds de commerce dans la mesure où il a été acquis à titre onéreux",
+        "de": "ZWb vom Geschäfts- oder Firmenwert, soweit er entgeltlich erworben wurde",
+        "en": "AVA on goodwill acquired for consideration"
+    },
+    {
+        "ref": "6324",
+        "parent": "DCV sur immobilisations incorporelles",
+        "fr": "DCV sur acomptes versés et immobilisations incorporelles en cours",
+        "de": "ZWb von geleisteten Anzahlungen und immateriellen Vermögensgegenständen in Entwicklung",
+        "en": "AVA on down payments and intangible fixed assets under development"
+    },
+    {
+        "ref": "63311",
+        "parent": "DCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "DCV sur terrains",
+        "de": "ZWb von Grundstücken",
+        "en": "AVA on land"
+    },
+    {
+        "ref": "63312",
+        "parent": "DCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "DCV sur agencements et aménagements de terrains",
+        "de": "ZWb von Erschließungen von Grundstücken",
+        "en": "AVA on fixtures and fittings-out of land"
+    },
+    {
+        "ref": "63313",
+        "parent": "DCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "DCV sur constructions / bâtiments",
+        "de": "ZWb von Bauten / Gebäuden",
+        "en": "AVA on buildings"
+    },
+    {
+        "ref": "63314",
+        "parent": "DCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "DCV sur agencements et aménagements de constructions / bâtiments",
+        "de": "ZWb von Einrichtungen von Bauten/Gebäuden",
+        "en": "AVA on fixtures and fittings-out of buildings"
+    },
+    {
+        "ref": "63315",
+        "parent": "DCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "AJV sur immeubles de placement",
+        "de": "AFV von Anlageimmobilien",
+        "en": "FVA on investment properties"
+    },
+    {
+        "ref": "6332",
+        "parent": "DCV sur immobilisations corporelles et AJV sur immeubles de placement",
+        "fr": "DCV sur installations techniques et machines",
+        "de": "ZWb von technischen Anlagen und Maschinen",
+        "en": "AVA on plant and machinery"
+    },
+    {
+        "ref": "6333",
+        "parent": "DCV sur immobilisations corporelles et AJV sur immeubles de placement",
+        "fr": "DCV sur autres installations, outillage et mobilier (y compris matériel roulant)",
+        "de": "ZWb von anderen Anlagen, Betriebs- und Geschäftsausstattung und Fuhrpark",
+        "en": "AVA on other fixtures and fittings, tools and equipment (including rolling stock)"
+    },
+    {
+        "ref": "6334",
+        "parent": "DCV sur immobilisations corporelles et AJV sur immeubles de placement",
+        "fr": "DCV sur acomptes versés et immobilisations corporelles en cours",
+        "de": "ZWb von geleisteten Anzahlungen und Anlagen im Bau",
+        "en": "AVA on down payments and tangible fixed assets under development"
+    },
+    {
+        "ref": "6341",
+        "parent": "DCV sur stocks",
+        "fr": "DCV sur stocks de matières premières et consommables",
+        "de": "ZWb von Roh-, Hilfs- und Betriebsstoffen",
+        "en": "AVA on inventories of raw materials and consumables"
+    },
+    {
+        "ref": "6342",
+        "parent": "DCV sur stocks",
+        "fr": "DCV sur stocks de produits en cours de fabrication et commandes en cours",
+        "de": "ZWb von unfertigen Erzeugnissen und in Arbeit befindlichen Aufträgen",
+        "en": "AVA on inventories of work and contracts in progress"
+    },
+    {
+        "ref": "6343",
+        "parent": "DCV sur stocks",
+        "fr": "DCV sur stocks de produits",
+        "de": "ZWb von Erzeugnissen",
+        "en": "AVA on inventories of goods"
+    },
+    {
+        "ref": "6344",
+        "parent": "DCV sur stocks",
+        "fr": "DCV sur stocks de marchandises et d'autres biens destinés à la revente",
+        "de": "ZWb von Waren und zum Verkauf bestimmten Gütern/Vermögensgegenständen",
+        "en": "AVA on inventories of merchandise and other goods for resale"
+    },
+    {
+        "ref": "6345",
+        "parent": "DCV sur stocks",
+        "fr": "DCV sur acomptes versés sur stocks",
+        "de": "ZWb von geleisteten Anzahlungen auf Vorräte",
+        "en": "AVA on down payments on inventories"
+    },
+    {
+        "ref": "6351",
+        "parent": "DCV et AJV sur créances de l'actif circulant",
+        "fr": "DCV sur créances résultant de ventes et prestations de services",
+        "de": "ZWb von Forderungen aus Lieferungen und Leistungen",
+        "en": "AVA on trade receivables"
+    },
+    {
+        "ref": "6352",
+        "parent": "DCV et AJV sur créances de l'actif circulant",
+        "fr": "DCV sur créances sur des entreprises liées et sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "ZWb von Forderungen gegen verbundene Unternehmen und Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "AVA on amounts owed by affiliated undertakings and undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "6353",
+        "parent": "DCV et AJV sur créances de l'actif circulant",
+        "fr": "DCV sur autres créances",
+        "de": "ZWb von sonstigen Forderungen",
+        "en": "AVA on other receivables"
+    },
+    {
+        "ref": "6354",
+        "parent": "DCV et AJV sur créances de l'actif circulant",
+        "fr": "AJV sur créances de l'actif circulant",
+        "de": "AFV von Forderungen des Umlaufvermögens",
+        "en": "FVA on receivables from current assets"
+    },
+    {
+        "ref": "6411",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Concessions",
+        "de": "Konzessionen",
+        "en": "Concessions"
+    },
+    {
+        "ref": "6412",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Brevets",
+        "de": "Patente",
+        "en": "Patents"
+    },
+    {
+        "ref": "6413",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Licences informatiques",
+        "de": "Software- und Softwarepaketlizenzen",
+        "en": "Software licences"
+    },
+    {
+        "ref": "6414",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Marques et franchises",
+        "de": "Warenzeichen und Franchising (Verkaufskonzession/Alleinverkaufsrecht)",
+        "en": "Trademarks and franchise"
+    },
+    {
+        "ref": "64151",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Droits d'auteur et de reproduction",
+        "de": "Urheber- und Vervielfältigungsrechte",
+        "en": "Copyrights and reproduction rights"
+    },
+    {
+        "ref": "64158",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Autres droits et valeurs similaires",
+        "de": "Sonstige vergleichbare Rechte und Werte",
+        "en": "Other similar rights and assets"
+    },
+    {
+        "ref": "642",
+        "parent": "Autres charges d'exploitation",
+        "fr": "Indemnités, dommages et intérêts",
+        "de": "Entschädigungen, Schadensersatz und Zinsen",
+        "en": "Indemnities, damages and interest"
+    },
+    {
+        "ref": "6431",
+        "parent": "Jetons de présence, tantièmes et rémunérations assimilées",
+        "fr": "Jetons de présence",
+        "de": "Sitzungsgeld",
+        "en": "Attendance fees"
+    },
+    {
+        "ref": "6432",
+        "parent": "Jetons de présence, tantièmes et rémunérations assimilées",
+        "fr": "Tantièmes",
+        "de": "Tantiemen",
+        "en": "Director's fees"
+    },
+    {
+        "ref": "6438",
+        "parent": "Jetons de présence, tantièmes et rémunérations assimilées",
+        "fr": "Autres rémunérations assimilées",
+        "de": "Sonstige ähnliche Vergütungen",
+        "en": "Other similar remuneration"
+    },
+    {
+        "ref": "64411",
+        "parent": "Moins-values de cession d'immobilisations incorporelles",
+        "fr": "Valeur comptable d'immobilisations incorporelles cédées",
+        "de": "Buchwert der verkauften immateriellen Anlagewerte",
+        "en": "Book value of yielded intangible fixed assets"
+    },
+    {
+        "ref": "64412",
+        "parent": "Moins-values de cession d'immobilisations incorporelles",
+        "fr": "Produits de cession d'immobilisations incorporelles",
+        "de": "Verkaufserlös von immateriellen Anlagewerten",
+        "en": "Disposal proceeds of intangible fixed assets"
+    },
+    {
+        "ref": "64421",
+        "parent": "Moins-values de cession d'immobilisations corporelles",
+        "fr": "Valeur comptable d'immobilisations corporelles cédées",
+        "de": "Buchwert der verkauften materiellen Anlagewerte",
+        "en": "Book value of yielded tangible fixed assets"
+    },
+    {
+        "ref": "64422",
+        "parent": "Moins-values de cession d'immobilisations corporelles",
+        "fr": "Produits de cession d'immobilisations corporelles",
+        "de": "Verkaufserlös von materiellen Anlagewerten",
+        "en": "Disposal proceeds of tangible fixed assets"
+    },
+    {
+        "ref": "6451",
+        "parent": "Pertes sur créances irrécouvrables",
+        "fr": "Créances résultant de ventes et de prestations de services",
+        "de": "Forderungen aus Lieferungen und Leistungen",
+        "en": "Trade receivables"
+    },
+    {
+        "ref": "6452",
+        "parent": "Pertes sur créances irrécouvrables",
+        "fr": "Créances sur des entreprises liées",
+        "de": "Forderungen gegen verbundene Unternehmen",
+        "en": "Amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "6453",
+        "parent": "Pertes sur créances irrécouvrables",
+        "fr": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "6454",
+        "parent": "Pertes sur créances irrécouvrables",
+        "fr": "Autres créances",
+        "de": "Sonstige Forderungen",
+        "en": "Other receivables"
+    },
+    {
+        "ref": "6461",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "Impôt foncier",
+        "de": "Grundsteuer",
+        "en": "Real property tax"
+    },
+    {
+        "ref": "6462",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "TVA non récupérable",
+        "de": "Nicht erstattungsfähige Mehrwertsteuer (MwSt)",
+        "en": "Non-refundable VAT"
+    },
+    {
+        "ref": "6463",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "Droits sur les marchandises en provenance de l'étranger",
+        "de": "Zölle und Einfuhrabgaben",
+        "en": "Duties on imported merchandise"
+    },
+    {
+        "ref": "6464",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "Droits d'accises à la production et taxe de consommation",
+        "de": "Verbrauchsabgaben aus der Produktion und Verbrauchssteuer",
+        "en": "Excise duties on production and tax on consumption"
+    },
+    {
+        "ref": "64651",
+        "parent": "Droits d'enregistrement et de timbre, droits d'hypothèques",
+        "fr": "Droits d'enregistrement",
+        "de": "Eintragungsgebühren",
+        "en": "Registration fees"
+    },
+    {
+        "ref": "64658",
+        "parent": "Droits d'enregistrement et de timbre, droits d'hypothèques",
+        "fr": "Autres droits d'enregistrement et de timbre, droits d'hypothèques",
+        "de": "Sonstige Eintragungs- und Stempelgebühren und Hypothekensteuern",
+        "en": "Other registration fees, stamp duties and mortgage duties"
+    },
+    {
+        "ref": "6466",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "Taxes sur les véhicules",
+        "de": "Kfz-Steuern",
+        "en": "Motor-vehicle taxes"
+    },
+    {
+        "ref": "6467",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "Taxe de cabaretage",
+        "de": "Getränkesteuer",
+        "en": "Bar licence tax"
+    },
+    {
+        "ref": "6468",
+        "parent": "Impôts, taxes et versements assimilés",
+        "fr": "Autres droits et taxes",
+        "de": "Sonstige Gebühren und Steuern",
+        "en": "Other duties and taxes"
+    },
+    {
+        "ref": "647",
+        "parent": "Autres charges d'exploitation",
+        "fr": "Dotations aux plus-values immunisées",
+        "de": "Zuführungen zu Sonderposten mit Rücklageanteil",
+        "en": "Allocations to tax-exempt capital gains"
+    },
+    {
+        "ref": "6481",
+        "parent": "Autres charges d'exploitation diverses",
+        "fr": "Amendes, sanctions et pénalités",
+        "de": "Steuer- und strafrechtliche Bußgelder",
+        "en": "Fines, sanctions and penalties"
+    },
+    {
+        "ref": "6488",
+        "parent": "Autres charges d'exploitation diverses",
+        "fr": "Charges d'exploitation diverses",
+        "de": "Sonstige betriebliche Aufwendungen",
+        "en": "Miscellaneous operating charges"
+    },
+    {
+        "ref": "6491",
+        "parent": "Dotations aux provisions",
+        "fr": "Dotations aux provisions pour impôts",
+        "de": "Zuführungen zu Steuerrückstellungen",
+        "en": "Allocations to tax provisions"
+    },
+    {
+        "ref": "6492",
+        "parent": "Dotations aux provisions",
+        "fr": "Dotations aux provisions d'exploitation",
+        "de": "Zuführungen zu betrieblichen Rückstellungen",
+        "en": "Allocations to operating provisions"
+    },
+    {
+        "ref": "65111",
+        "parent": "DCV sur immobilisations financières",
+        "fr": "DCV sur parts dans des entreprises liées",
+        "de": "ZWb von Anteilen an verbundenen Unternehmen",
+        "en": "AVA on shares in affiliated undertakings"
+    },
+    {
+        "ref": "65112",
+        "parent": "DCV sur immobilisations financières",
+        "fr": "DCV sur créances sur des entreprises liées",
+        "de": "ZWb von Forderungen gegen verbundene Unternehmen",
+        "en": "AVA on amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "65113",
+        "parent": "DCV sur immobilisations financières",
+        "fr": "DCV sur participations",
+        "de": "ZWb von Anteilen",
+        "en": "AVA on participating interests"
+    },
+    {
+        "ref": "65114",
+        "parent": "DCV sur immobilisations financières",
+        "fr": "DCV sur créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "ZWb von Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "AVA on amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "65115",
+        "parent": "DCV sur immobilisations financières",
+        "fr": "DCV sur titres ayant le caractère d'immobilisations",
+        "de": "ZWb von Wertpapieren des Anlagevermögens",
+        "en": "AVA on securities held as fixed assets"
+    },
+    {
+        "ref": "65116",
+        "parent": "DCV sur immobilisations financières",
+        "fr": "DCV sur prêts, dépôts et créances immobilisés",
+        "de": "ZWb von Ausleihungen, geleisteten Hinterlegungen und Forderungen des Anlagevermögens",
+        "en": "AVA on loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "6512",
+        "parent": "Dotations aux corrections de valeur (DCV) et ajustements de juste valeur (AJV) sur immobilisations financières",
+        "fr": "AJV sur immobilisations financières",
+        "de": "AFV der Finanzanlagen",
+        "en": "FVA on financial fixed assets"
+    },
+    {
+        "ref": "65211",
+        "parent": "Charges des immobilisations financières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Anteile an verbundenen Unternehmen",
+        "en": "Shares in affiliated undertakings"
+    },
+    {
+        "ref": "65212",
+        "parent": "Charges des immobilisations financières",
+        "fr": "Créances sur des entreprises liées",
+        "de": "Forderungen gegen verbundene Unternehmen",
+        "en": "Amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "65213",
+        "parent": "Charges des immobilisations financières",
+        "fr": "Participations",
+        "de": "Anteile",
+        "en": "Participating interests"
+    },
+    {
+        "ref": "65214",
+        "parent": "Charges des immobilisations financières",
+        "fr": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "65215",
+        "parent": "Charges des immobilisations financières",
+        "fr": "Titres ayant le caractère d'immobilisations",
+        "de": "Wertpapiere des Anlagevermögens",
+        "en": "Securities held as fixed assets"
+    },
+    {
+        "ref": "65216",
+        "parent": "Charges des immobilisations financières",
+        "fr": "Prêts, dépôts et créances immobilisés",
+        "de": "Ausleihungen, geleistete Hinterlegungen und Forderungen (Anlagevermögen)",
+        "en": "Loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "652211",
+        "parent": "Parts dans des entreprises liées",
+        "fr": "Valeur comptable de parts cédées dans des entreprises liées",
+        "de": "Buchwert der verkauften Anteile an verbundenen Unternehmen",
+        "en": "Book value of yielded shares in affiliated undertakings"
+    },
+    {
+        "ref": "652212",
+        "parent": "Parts dans des entreprises liées",
+        "fr": "Produits de cession de parts dans des entreprises liées",
+        "de": "Veräußerungswert der Anteile an verbundenen Unternehmen",
+        "en": "Disposal proceeds of shares in affiliated undertakings"
+    },
+    {
+        "ref": "652221",
+        "parent": "Créances sur des entreprises liées",
+        "fr": "Valeur comptable de créances cédées sur des entreprises liées",
+        "de": "Buchwert der verkauften Forderungen gegen verbundene Unternehmen",
+        "en": "Book value of yielded amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "652222",
+        "parent": "Créances sur des entreprises liées",
+        "fr": "Produits de cession de créances sur des entreprises liées",
+        "de": "Veräußerungswert der Forderungen gegen verbundene Unternehmen",
+        "en": "Disposal proceeds of amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "652231",
+        "parent": "Participations",
+        "fr": "Valeur comptable de participations cédées",
+        "de": "Buchwert der verkauften Anteile",
+        "en": "Book value of yielded participating interests"
+    },
+    {
+        "ref": "652232",
+        "parent": "Participations",
+        "fr": "Produits de cession de participations",
+        "de": "Veräußerungswert der Anteile",
+        "en": "Disposal proceeds of participating interests"
+    },
+    {
+        "ref": "652241",
+        "parent": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Valeur comptable de créances cédées sur participations",
+        "de": "Buchwert der verkauften Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Book value of yielded amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "652242",
+        "parent": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Produits de cession de créances sur participations",
+        "de": "Veräußerungswert der Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Disposal proceeds of amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "652251",
+        "parent": "Titres ayant le caractère d'immobilisations",
+        "fr": "Valeur comptable de titres cédés ayant le caractère d'immobilisations",
+        "de": "Buchwert der verkauften Wertpapiere des Anlagevermögens",
+        "en": "Book value of yielded securities held as fixed assets"
+    },
+    {
+        "ref": "652252",
+        "parent": "Titres ayant le caractère d'immobilisations",
+        "fr": "Produits de cession de titres ayant le caractère d'immobilisations",
+        "de": "Veräußerungswert der Wertpapiere des Anlagevermögens",
+        "en": "Disposal proceeds of securities held as fixed assets"
+    },
+    {
+        "ref": "652261",
+        "parent": "Prêts, dépôts et créances immobilisés",
+        "fr": "Valeur comptable de prêts, dépôts et créances immobilisés cédés",
+        "de": "Buchwert der verkauften Ausleihungen, geleistete Hinterlegungen und Forderungen des Umlaufvermögens",
+        "en": "Book value of yielded loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "652262",
+        "parent": "Prêts, dépôts et créances immobilisés",
+        "fr": "Produits de cession de prêts, dépôts et créances immobilisés",
+        "de": "Veräußerungswert der Ausleihungen, geleistete Hinterlegungen und Forderungen des Umlaufvermögens",
+        "en": "Disposal proceeds of loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "65311",
+        "parent": "DCV sur valeurs mobilières",
+        "fr": "DCV sur parts dans des entreprises liées",
+        "de": "ZWb von Anteilen an verbundenen Unternehmen",
+        "en": "AVA on shares in affiliated undertakings"
+    },
+    {
+        "ref": "65312",
+        "parent": "DCV sur valeurs mobilières",
+        "fr": "DCV sur actions propres ou parts propres",
+        "de": "ZWb von eigenen Aktien oder Anteilen",
+        "en": "AVA on own shares or own corporate units"
+    },
+    {
+        "ref": "65313",
+        "parent": "DCV sur valeurs mobilières",
+        "fr": "DCV sur parts dans des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "ZWb von Anteilen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "AVA on shares in undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "65318",
+        "parent": "DCV sur valeurs mobilières",
+        "fr": "DCV sur autres valeurs mobilières",
+        "de": "ZWb von sonstigen Wertpapieren",
+        "en": "AVA on other transferable securities"
+    },
+    {
+        "ref": "6532",
+        "parent": "Dotations aux corrections de valeur (DCV) et ajustements de juste valeur (AJV) sur valeurs mobilières",
+        "fr": "AJV sur valeurs mobilières",
+        "de": "AFV der Wertpapiere",
+        "en": "FVA on transferable securities"
+    },
+    {
+        "ref": "65411",
+        "parent": "Moins-values de cession de créances de l'actif circulant",
+        "fr": "sur des entreprises liées",
+        "de": "Forderungen gegen verbundene Unternehmen",
+        "en": "From affiliated undertakings"
+    },
+    {
+        "ref": "65412",
+        "parent": "Moins-values de cession de créances de l'actif circulant",
+        "fr": "sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "From undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "65413",
+        "parent": "Moins-values de cession de créances de l'actif circulant",
+        "fr": "sur autres créances de l'actif circulant",
+        "de": "Sonstige Forderungen",
+        "en": "from other receivables from current assets"
+    },
+    {
+        "ref": "65421",
+        "parent": "Moins-values de cession de valeurs mobilières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Anteile an verbundenen Unternehmen",
+        "en": "Shares in affiliated undertakings"
+    },
+    {
+        "ref": "65422",
+        "parent": "Moins-values de cession de valeurs mobilières",
+        "fr": "Actions propres ou parts propres",
+        "de": "Eigene Aktien oder Anteile",
+        "en": "Own shares or corporate units"
+    },
+    {
+        "ref": "65423",
+        "parent": "Moins-values de cession de valeurs mobilières",
+        "fr": "Parts dans des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Anteile an Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Shares in in undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "65428",
+        "parent": "Moins-values de cession de valeurs mobilières",
+        "fr": "Autres valeurs mobilières",
+        "de": "Sonstige Wertpapiere",
+        "en": "Other transferable securities"
+    },
+    {
+        "ref": "65511",
+        "parent": "Intérêts sur emprunts obligataires",
+        "fr": "Intérêts sur emprunts obligataires - entreprises liées",
+        "de": "Zinsen auf Anleihen - verbundene Unternehmen",
+        "en": "Interest on debenture loans - affiliated undertakings"
+    },
+    {
+        "ref": "65512",
+        "parent": "Intérêts sur emprunts obligataires",
+        "fr": "Intérêts sur emprunts obligataires - autres",
+        "de": "Zinsen auf Anleihen - sonstige",
+        "en": "Interest on debenture loans - other"
+    },
+    {
+        "ref": "65521",
+        "parent": "Intérêts bancaires et assimilés",
+        "fr": "Intérêts sur comptes bancaires",
+        "de": "Kontozinsen",
+        "en": "Banking interest on current accounts"
+    },
+    {
+        "ref": "65522",
+        "parent": "Intérêts bancaires et assimilés",
+        "fr": "Intérêts bancaires sur opérations de financement",
+        "de": "Bankzinsen auf Finanzoperationen",
+        "en": "Banking interest on financing operations"
+    },
+    {
+        "ref": "655231",
+        "parent": "Intérêts sur leasings financiers",
+        "fr": "Intérêts sur leasings financiers - entreprises liées",
+        "de": "Zinsen auf Finanzierungsleasings - verbundene Unternehmen",
+        "en": "Interest on financial leases - affiliated undertakings"
+    },
+    {
+        "ref": "655232",
+        "parent": "Intérêts sur leasings financiers",
+        "fr": "Intérêts sur leasings financiers - autres",
+        "de": "Zinsen auf Finanzierungsleasings - sonstige",
+        "en": "Interest on financial leases - other"
+    },
+    {
+        "ref": "6553",
+        "parent": "Intérêts et escomptes",
+        "fr": "Intérêts sur dettes commerciales",
+        "de": "Zinsen auf Verbindlichkeiten aus Lieferungen und Leistungen",
+        "en": "Interest on trade payables"
+    },
+    {
+        "ref": "65541",
+        "parent": "Intérêts sur des entreprises liées et sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Intérêts sur des entreprises liées",
+        "de": "Zinsen auf Verbindlichkeiten gegenüber verbundenen Unternehmen",
+        "en": "Interest payable to affiliated undertakings"
+    },
+    {
+        "ref": "65542",
+        "parent": "Intérêts sur des entreprises liées et sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Intérêts sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Zinsen auf Verbindlichkeiten gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Interest payable to undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "65551",
+        "parent": "Escomptes et frais sur effets de commerce",
+        "fr": "Escomptes et frais sur effets de commerce - entreprises liées",
+        "de": "Diskonte und Kosten von Handelswechsel - verbundene Unternehmen",
+        "en": "Discounts and charges on bills of exchange - affiliated undertakings"
+    },
+    {
+        "ref": "65552",
+        "parent": "Escomptes et frais sur effets de commerce",
+        "fr": "Escomptes et frais sur effets de commerce - autres",
+        "de": "Diskonte und Kosten von Handelswechsel - sonstige",
+        "en": "Discounts and charges on bills of exchange - other"
+    },
+    {
+        "ref": "65561",
+        "parent": "Escomptes accordés",
+        "fr": "Escomptes accordés - entreprises liées",
+        "de": "Gewährte Diskonten - verbundene Unternehmen",
+        "en": "Granted discounts - affiliated undertakings"
+    },
+    {
+        "ref": "65562",
+        "parent": "Escomptes accordés",
+        "fr": "Escomptes accordés - autres",
+        "de": "Gewährte Diskonten - sonstige",
+        "en": "Granted discounts - other"
+    },
+    {
+        "ref": "65581",
+        "parent": "Intérêts sur autres emprunts et dettes",
+        "fr": "Intérêts sur autres emprunts et dettes - entreprises liées",
+        "de": "Zinsen auf sonstige Ausleihungen und Verbindlichkeiten - verbundene Unternehmen",
+        "en": "Interest payable on other loans and debts - affiliated undertakings"
+    },
+    {
+        "ref": "65582",
+        "parent": "Intérêts sur autres emprunts et dettes",
+        "fr": "Intérêts sur autres emprunts et dettes - autres",
+        "de": "Zinsen auf sonstige Ausleihungen und Verbindlichkeiten - sonstige",
+        "en": "Interest payable on other loans and debts - other"
+    },
+    {
+        "ref": "6561",
+        "parent": "Pertes de change",
+        "fr": "Pertes de change - entreprises liées",
+        "de": "Wechselkursverluste - verbundene Unternehmen",
+        "en": "Foreign currency exchange losses - affiliated undertakings"
+    },
+    {
+        "ref": "6562",
+        "parent": "Pertes de change",
+        "fr": "Pertes de change - autres",
+        "de": "Wechselkursverluste - sonstige",
+        "en": "Foreign currency exchange losses - other"
+    },
+    {
+        "ref": "657",
+        "parent": "Charges financières",
+        "fr": "Quote-part dans la perte des entreprises mises en équivalence",
+        "de": "Verlustanteile in den gemeinsamen Unternehmen (andere als Kapitalgesellschaften)",
+        "en": "Share in the losses of undertakings accounted for under the equity method"
+    },
+    {
+        "ref": "6581",
+        "parent": "Autres charges financières",
+        "fr": "Autres charges financières - entreprises liées",
+        "de": "Sonstige finanzielle Aufwendungen - verbundene Unternehmen",
+        "en": "Other financial charges - affiliated undertakings"
+    },
+    {
+        "ref": "6582",
+        "parent": "Autres charges financières",
+        "fr": "Autres charges financières - autres",
+        "de": "Sonstige finanzielle Aufwendungen - sonstige",
+        "en": "Other financial charges - other"
+    },
+    {
+        "ref": "6591",
+        "parent": "Dotations aux provisions financières",
+        "fr": "Dotations aux provisions financières - entreprises liées",
+        "de": "Zuführungen zu finanziellen Rückstellungen - verbundene Unternehmen",
+        "en": "Allocations to financial provisions - affiliated undertakings"
+    },
+    {
+        "ref": "6592",
+        "parent": "Dotations aux provisions financières",
+        "fr": "Dotations aux provisions financières - autres",
+        "de": "Zuführungen zu finanziellen Rückstellungen - sonstige",
+        "en": "Allocations to financial provisions - other"
+    },
+    {
+        "ref": "6711",
+        "parent": "Impôt sur le revenu des collectivités (IRC)",
+        "fr": "IRC - exercice courant",
+        "de": "KSt - laufendes Geschäftsjahr",
+        "en": "CIT - current financial year"
+    },
+    {
+        "ref": "6712",
+        "parent": "Impôt sur le revenu des collectivités (IRC)",
+        "fr": "IRC - exercices antérieurs",
+        "de": "KSt - vorhergehende Geschäftsjahre",
+        "en": "CIT - previous financial years"
+    },
+    {
+        "ref": "6721",
+        "parent": "Impôt commercial communal (ICC)",
+        "fr": "ICC - exercice courant",
+        "de": "GewSt - laufendes Geschäftsjahr",
+        "en": "MBT - current financial year"
+    },
+    {
+        "ref": "6722",
+        "parent": "Impôt commercial communal (ICC)",
+        "fr": "ICC - exercices antérieurs",
+        "de": "GewSt - vorhergehende Geschäftsjahre",
+        "en": "MBT - previous financial years"
+    },
+    {
+        "ref": "6731",
+        "parent": "Impôts étrangers sur le résultat",
+        "fr": "Retenues d'impôt à la source",
+        "de": "Quellensteuern",
+        "en": "Withholding taxes"
+    },
+    {
+        "ref": "67321",
+        "parent": "Impôts supportés par les établissements stables",
+        "fr": "Exercice courant",
+        "de": "Laufendes Geschäftsjahr",
+        "en": "Current financial year"
+    },
+    {
+        "ref": "67322",
+        "parent": "Impôts supportés par les établissements stables",
+        "fr": "Exercices antérieurs",
+        "de": "Vorhergehende Geschäftsjahre",
+        "en": "Previous financial years"
+    },
+    {
+        "ref": "6733",
+        "parent": "Impôts étrangers sur le résultat",
+        "fr": "Impôts supportés par les entreprises non résidentes",
+        "de": "Steuern, die durch die nicht gebietsansässige Unternehmen getragen wurden",
+        "en": "Taxes levied on non-resident undertakings"
+    },
+    {
+        "ref": "6738",
+        "parent": "Impôts étrangers sur le résultat",
+        "fr": "Autres impôts étrangers sur le résultat",
+        "de": "Sonstige ausländische Steuern auf Einkommen und Erträge",
+        "en": "Other foreign income taxes"
+    },
+    {
+        "ref": "679",
+        "parent": "Impôts sur le résultat",
+        "fr": "Dotations aux provisions pour impôts différés",
+        "de": "Zuführungen zu Rückstellungen für Steuern",
+        "en": "Allocations to provisions for deferred taxes"
+    },
+    {
+        "ref": "6811",
+        "parent": "Impôt sur la fortune (IF)",
+        "fr": "IF - exercice courant",
+        "de": "VermSt - laufendes Geschäftsjahr",
+        "en": "NWT - current financial year"
+    },
+    {
+        "ref": "6812",
+        "parent": "Impôt sur la fortune (IF)",
+        "fr": "IF - exercices antérieurs",
+        "de": "VermSt - vorhergehende Geschäftsjahre",
+        "en": "NWT - previous financial years"
+    },
+    {
+        "ref": "682",
+        "parent": "Autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Taxe d'abonnement",
+        "de": "Abgeltungssteuer",
+        "en": "Subscription tax"
+    },
+    {
+        "ref": "683",
+        "parent": "Autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Impôts étrangers",
+        "de": "Ausländische Steuern",
+        "en": "Foreign taxes"
+    },
+    {
+        "ref": "688",
+        "parent": "Autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Autres impôts",
+        "de": "Sonstige Steuern",
+        "en": "Other taxes"
+    }
+]

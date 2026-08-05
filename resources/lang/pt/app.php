@@ -489,6 +489,7 @@ return [
         'new_label_placeholder' => 'Ex.: Renda, Seguro, Despesas bancárias…',
         'pcn_account' => 'Conta contabilística',
         'pcn_optional' => 'Opcional — útil se o seu contabilista mantiver contabilidade completa.',
+        'suggested' => 'Sugestão:',
         'add' => 'Adicionar uma categoria',
         'usage' => ':count despesa(s)',
         'unused' => 'Nenhuma despesa',

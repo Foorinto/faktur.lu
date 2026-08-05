@@ -490,6 +490,7 @@ return [
         'new_label_placeholder' => 'Ex : Loyer, Assurance, Frais bancaires…',
         'pcn_account' => 'Compte comptable',
         'pcn_optional' => 'Facultatif — utile si votre fiduciaire tient une comptabilité complète.',
+        'suggested' => 'Suggestion :',
         'add' => 'Ajouter une catégorie',
         'usage' => ':count dépense(s)',
         'unused' => 'Aucune dépense',

@@ -490,6 +490,7 @@ return [
         'new_label_placeholder' => 'e.g. Rent, Insurance, Bank charges…',
         'pcn_account' => 'Accounting account',
         'pcn_optional' => 'Optional — useful if your accountant keeps full books.',
+        'suggested' => 'Suggested:',
         'add' => 'Add a category',
         'usage' => ':count expense(s)',
         'unused' => 'No expense',

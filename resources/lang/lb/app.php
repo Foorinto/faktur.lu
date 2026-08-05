@@ -393,6 +393,7 @@ return [
         'new_label_placeholder' => 'z. B. Loyer, Versécherung, Bankkäschten…',
         'pcn_account' => 'Comptabilitéitskont',
         'pcn_optional' => 'Fakultativ — nëtzlech wann Äre Fiduciaire eng komplett Comptabilitéit féiert.',
+        'suggested' => 'Virschlag:',
         'add' => 'Eng Kategorie derbäisetzen',
         'usage' => ':count Ausgab(en)',
         'unused' => 'Keng Ausgab',

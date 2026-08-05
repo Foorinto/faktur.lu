@@ -393,6 +393,7 @@ return [
         'new_label_placeholder' => 'z. B. Miete, Versicherung, Bankgebühren…',
         'pcn_account' => 'Buchhaltungskonto',
         'pcn_optional' => 'Optional — nützlich, wenn Ihr Treuhänder eine vollständige Buchhaltung führt.',
+        'suggested' => 'Vorschlag:',
         'add' => 'Kategorie hinzufügen',
         'usage' => ':count Ausgabe(n)',
         'unused' => 'Keine Ausgabe',
