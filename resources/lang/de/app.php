@@ -406,6 +406,7 @@ return [
         'updated' => 'Kategorie aktualisiert.',
         'deleted' => 'Kategorie gelöscht.',
         'in_use' => 'Diese Kategorie wird von Ausgaben verwendet: blenden Sie sie aus, statt sie zu löschen: sonst verlören diese Ausgaben ihre Bezeichnung.',
+        'delete_blocked' => 'Löschen nicht möglich: :count Ausgabe(n) verwenden diese Kategorie. Blenden Sie sie aus, um sie aus der Eingabe zu entfernen.',
         'confirm_delete' => 'Kategorie „:label“ löschen?',
     ],
     'expenses_totals_for' => 'Summen für:',

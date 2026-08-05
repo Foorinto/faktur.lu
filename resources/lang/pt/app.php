@@ -502,6 +502,7 @@ return [
         'updated' => 'Categoria atualizada.',
         'deleted' => 'Categoria eliminada.',
         'in_use' => 'Esta categoria é usada por despesas: oculte-a em vez de a eliminar, caso contrário essas despesas perderiam a sua designação.',
+        'delete_blocked' => 'Não é possível eliminar: :count despesa(s) usam esta categoria. Oculte-a para a retirar do formulário.',
         'confirm_delete' => 'Eliminar a categoria «:label»?',
     ],
     'expenses_totals_for' => 'Totais para:',

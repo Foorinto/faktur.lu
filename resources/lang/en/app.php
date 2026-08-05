@@ -503,6 +503,7 @@ return [
         'updated' => 'Category updated.',
         'deleted' => 'Category deleted.',
         'in_use' => 'This category is used by expenses: hide it rather than delete it, otherwise those expenses would lose their label.',
+        'delete_blocked' => 'Cannot delete: :count expense(s) use this category. Hide it to remove it from entry.',
         'confirm_delete' => 'Delete the category “:label”?',
     ],
     'expenses_totals_for' => 'Totals for:',

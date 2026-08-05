@@ -406,6 +406,7 @@ return [
         'updated' => 'Kategorie aktualiséiert.',
         'deleted' => 'Kategorie geläscht.',
         'in_use' => 'Dës Kategorie gëtt vun Ausgabe benotzt: verstoppt se anstatt se ze läschen, soss verléieren dës Ausgaben hir Bezeechnung.',
+        'delete_blocked' => 'Läschen net méiglech: :count Ausgab(en) benotzen dës Kategorie. Verstoppt se fir se aus der Erfassung ze huelen.',
         'confirm_delete' => 'D\'Kategorie « :label » läschen?',
     ],
     'expenses_totals_for' => 'Sommen fir:',

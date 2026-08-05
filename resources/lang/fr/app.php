@@ -503,6 +503,7 @@ return [
         'updated' => 'Catégorie mise à jour.',
         'deleted' => 'Catégorie supprimée.',
         'in_use' => 'Cette catégorie est utilisée par des dépenses : masquez-la plutôt que de la supprimer, sinon ces dépenses perdraient leur libellé.',
+        'delete_blocked' => 'Suppression impossible : :count dépense(s) utilisent cette catégorie. Masquez-la pour la retirer de la saisie.',
         'confirm_delete' => 'Supprimer la catégorie « :label » ?',
     ],
     'expenses_totals_for' => 'Totaux pour :',
