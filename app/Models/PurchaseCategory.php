@@ -56,6 +56,17 @@ class PurchaseCategory extends Model
         'other',
     ];
 
+    /**
+     * Toute écriture invalide la mémoire de requête d'Expense : sans cela, une
+     * catégorie renommée continuerait d'apparaître sous son ancien libellé
+     * jusqu'à la fin de la requête.
+     */
+    protected static function booted(): void
+    {
+        static::saved(fn () => Expense::forgetCategoryMapCache());
+        static::deleted(fn () => Expense::forgetCategoryMapCache());
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);

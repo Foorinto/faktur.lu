@@ -116,18 +116,25 @@ class FiscalSummaryService
         $totalTtc = (float) Expense::forYear($year)->sum('amount_ttc');
 
         // By category
+        //
+        // Les catégories créées par l'utilisateur n'ont pas de ligne au
+        // formulaire 152 : on retombe sur LEUR libellé, jamais sur la clé
+        // technique. Une catégorie « Loyer » doit s'écrire « Loyer » dans
+        // l'export, pas `loyer_a1b2`.
+        $userLabels = Expense::categoryMap(activeOnly: false);
+
         $byCategory = Expense::forYear($year)
             ->selectRaw('category, SUM(amount_ht) as total_ht, SUM(amount_vat) as total_vat, COUNT(*) as count')
             ->groupBy('category')
             ->get()
-            ->mapWithKeys(function ($item) {
+            ->mapWithKeys(function ($item) use ($userLabels) {
                 $cat = $item->category;
 
                 return [$cat => [
                     'total_ht' => round((float) $item->total_ht, 2),
                     'total_vat' => round((float) $item->total_vat, 2),
                     'count' => (int) $item->count,
-                    'form152_label' => self::FORM152_MAP[$cat] ?? $cat,
+                    'form152_label' => self::FORM152_MAP[$cat] ?? $userLabels[$cat] ?? $cat,
                 ]];
             })
             ->toArray();

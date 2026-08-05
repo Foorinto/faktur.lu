@@ -18,47 +18,17 @@ class ExpenseController extends Controller
      */
     public function index(Request $request): Response
     {
-        $query = Expense::query();
-
-        // Filter by category
-        if ($request->filled('category')) {
-            $query->where('category', $request->input('category'));
-        }
-
-        // Filter by year
-        if ($request->filled('year')) {
-            $query->whereYear('date', $request->input('year'));
-        }
-
-        // Filter by month
-        if ($request->filled('month')) {
-            $query->whereMonth('date', $request->input('month'));
-        }
-
-        // Filter by provider
-        if ($request->filled('provider')) {
-            $query->where('provider_name', 'like', '%' . $request->input('provider') . '%');
-        }
-
-        $expenses = $query
+        $expenses = $this->filtered($request)
             ->orderByDesc('date')
             ->orderByDesc('created_at')
             ->paginate(20)
             ->withQueryString();
 
-        // Get summary for current filters
-        $summaryQuery = Expense::query();
-        if ($request->filled('category')) {
-            $summaryQuery->where('category', $request->input('category'));
-        }
-        if ($request->filled('year')) {
-            $summaryQuery->whereYear('date', $request->input('year'));
-        }
-        if ($request->filled('month')) {
-            $summaryQuery->whereMonth('date', $request->input('month'));
-        }
-
-        $summary = $summaryQuery->selectRaw('
+        // Le récapitulatif est construit à partir des MÊMES filtres que la
+        // liste. Les deux requêtes étaient auparavant écrites séparément, et le
+        // filtre « fournisseur » avait été oublié dans celle-ci : les totaux
+        // affichés ne correspondaient alors plus aux lignes listées.
+        $summary = $this->filtered($request)->selectRaw('
             SUM(amount_ht) as total_ht,
             SUM(amount_vat) as total_vat,
             SUM(amount_ttc) as total_ttc,
@@ -226,6 +196,22 @@ class ExpenseController extends Controller
     /**
      * Get categories for select.
      */
+    /**
+     * Requête filtrée, source unique de la liste ET du récapitulatif.
+     *
+     * Toute évolution des filtres doit passer par ici : c'est la duplication
+     * des deux constructions qui avait laissé le filtre « fournisseur »
+     * s'appliquer aux lignes sans s'appliquer aux totaux.
+     */
+    private function filtered(Request $request): \Illuminate\Database\Eloquent\Builder
+    {
+        return Expense::query()
+            ->when($request->filled('category'), fn ($q) => $q->where('category', $request->input('category')))
+            ->when($request->filled('year'), fn ($q) => $q->whereYear('date', $request->input('year')))
+            ->when($request->filled('month'), fn ($q) => $q->whereMonth('date', $request->input('month')))
+            ->when($request->filled('provider'), fn ($q) => $q->where('provider_name', 'like', '%'.$request->input('provider').'%'));
+    }
+
     private function getCategoriesForSelect(): array
     {
         $categories = Expense::getCategories();

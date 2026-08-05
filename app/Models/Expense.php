@@ -89,9 +89,63 @@ class Expense extends Model implements HasMedia
     }
 
     /**
-     * Get all available categories.
+     * Mémoire de requête des catégories.
+     *
+     * `getCategoryLabelAttribute()` est appelé une fois par ligne affichée :
+     * sans ce cache, lister vingt dépenses déclencherait vingt lectures de la
+     * table des catégories.
+     *
+     * @var array<string, array<string, string>>
+     */
+    protected static array $categoryMapCache = [];
+
+    /**
+     * Catégories proposées à la saisie (actives uniquement).
+     *
+     * Conserve sa signature d'origine : elle est utilisée par les FormRequests
+     * et par ExpenseController.
      */
     public static function getCategories(): array
+    {
+        return self::categoryMap();
+    }
+
+    /**
+     * Catégories de l'utilisateur courant.
+     *
+     * `$activeOnly = false` sert à deux usages où masquer une catégorie
+     * désactivée serait faux : afficher le libellé d'une dépense ancienne, et
+     * valider la modification d'une dépense dont la catégorie a depuis été
+     * retirée de la liste de saisie.
+     *
+     * @return array<string, string>
+     */
+    public static function categoryMap(bool $activeOnly = true): array
+    {
+        $user = auth()->user();
+
+        if (! $user) {
+            return self::builtInCategories();
+        }
+
+        $cacheKey = $user->id.($activeOnly ? ':active' : ':all');
+
+        return self::$categoryMapCache[$cacheKey] ??= PurchaseCategory::mapFor($user, $activeOnly);
+    }
+
+    /**
+     * Vide la mémoire de requête, après une écriture sur les catégories.
+     */
+    public static function forgetCategoryMapCache(): void
+    {
+        self::$categoryMapCache = [];
+    }
+
+    /**
+     * Les neuf catégories d'origine, encore servies aux comptes qui n'ont pas
+     * déclenché le provisionnement — et hors contexte authentifié.
+     */
+    public static function builtInCategories(): array
     {
         return [
             self::CATEGORY_HARDWARE => __('app.expense_categories.hardware'),
@@ -124,7 +178,12 @@ class Expense extends Model implements HasMedia
      */
     public function getCategoryLabelAttribute(): string
     {
-        return self::getCategories()[$this->category] ?? $this->category;
+        // Les catégories désactivées sont incluses : une dépense de l'an dernier
+        // doit garder un libellé lisible même si la catégorie a été retirée de
+        // la liste de saisie depuis.
+        return self::categoryMap(activeOnly: false)[$this->category]
+            ?? self::builtInCategories()[$this->category]
+            ?? $this->category;
     }
 
     /**

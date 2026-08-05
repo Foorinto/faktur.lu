@@ -18,7 +18,7 @@ class UpdateExpenseRequest extends FormRequest
         return [
             'date' => ['sometimes', 'required', 'date', 'before_or_equal:today'],
             'provider_name' => ['sometimes', 'required', 'string', 'max:255'],
-            'category' => ['sometimes', 'required', 'string', Rule::in(array_keys(Expense::getCategories()))],
+            'category' => ['sometimes', 'required', 'string', Rule::in(array_keys(Expense::categoryMap(activeOnly: false)))],
             'amount_ht' => ['sometimes', 'required', 'numeric', 'min:0.01'],
             'vat_rate' => ['sometimes', 'required', 'numeric', Rule::in([0, 3, 8, 14, 17])],
             'description' => ['nullable', 'string', 'max:2000'],

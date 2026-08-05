@@ -18,7 +18,7 @@ class StoreExpenseRequest extends FormRequest
         return [
             'date' => ['required', 'date', 'before_or_equal:today'],
             'provider_name' => ['required', 'string', 'max:255'],
-            'category' => ['required', 'string', Rule::in(array_keys(Expense::getCategories()))],
+            'category' => ['required', 'string', Rule::in(array_keys(Expense::categoryMap(activeOnly: false)))],
             'amount_ht' => ['required', 'numeric', 'min:0.01'],
             'vat_rate' => ['required', 'numeric', Rule::in([0, 3, 8, 14, 17])],
             'description' => ['nullable', 'string', 'max:2000'],
