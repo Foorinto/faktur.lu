@@ -17,6 +17,10 @@
      n'apparaît que si le plan Gratuit changerait réellement quelque chose. --}}
 ## {{ __('app.email_trial_your_usage_title') }}
 
+{{-- La réassurance vient AVANT les chiffres, à dessein : annoncer un plafond
+     sans dire d'abord ce qu'il advient des données laisse imaginer le pire. --}}
+{{ __('app.email_trial_usage_reassurance') }}
+
 {{ __('app.email_trial_your_usage_intro') }}
 
 @foreach ($freePlanImpact as $row)
@@ -26,8 +30,6 @@
       'limit' => $row['limit'],
   ]) }}
 @endforeach
-
-{{ __('app.email_trial_usage_reassurance') }}
 @endif
 
 ## {{ __('app.email_trial_keep_invoicing') }}

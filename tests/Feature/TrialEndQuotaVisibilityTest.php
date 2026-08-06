@@ -173,13 +173,26 @@ class TrialEndQuotaVisibilityTest extends TestCase
         $this->assertStringContainsString(__('app.email_trial_your_usage_title'), $rendu);
     }
 
-    public function test_le_rappel_rassure_sur_la_conservation_des_donnees(): void
+    public function test_le_rappel_rassure_avant_d_annoncer_les_chiffres(): void
     {
         $this->products(52);
 
         $rendu = (new TrialEndingSoon($this->user, 3))->render();
 
-        $this->assertStringContainsString(__('app.email_trial_usage_reassurance'), $rendu);
+        $reassurance = mb_strpos($rendu, __('app.email_trial_usage_reassurance'));
+        $chiffres = mb_strpos($rendu, __('app.email_trial_your_usage_intro'));
+
+        $this->assertNotFalse($reassurance, 'La réassurance doit figurer dans le courriel.');
+        $this->assertNotFalse($chiffres);
+
+        // L'ordre est le point : annoncer un plafond sans dire d'abord ce
+        // qu'il advient des données laisse imaginer une perte. La crainte naît
+        // de l'ambiguïté, pas du chiffre.
+        $this->assertLessThan(
+            $chiffres,
+            $reassurance,
+            'La réassurance doit précéder les chiffres, pas les suivre.'
+        );
     }
 
     public function test_le_rappel_annonce_les_prix_reels_des_plans(): void
