@@ -54,7 +54,7 @@ class PlansSeeder extends Seeder
             ]
         );
 
-        // Plan Essentiel (9€/mois)
+        // Plan Essentiel (5 EUR/mois, 50 EUR/an)
         Plan::updateOrCreate(
             ['name' => 'essentiel'],
             [
