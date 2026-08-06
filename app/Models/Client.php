@@ -41,6 +41,9 @@ class Client extends Model
         'notes',
         'default_hourly_rate',
         'default_vat_rate',
+        'default_discount_type',
+        'default_discount_value',
+        'default_discount_label',
         'locale',
         'exclude_from_reminders',
         'accounting_id',
@@ -52,6 +55,7 @@ class Client extends Model
         'source' => 'string',
         'default_hourly_rate' => 'decimal:2',
         'default_vat_rate' => 'decimal:2',
+        'default_discount_value' => 'decimal:4',
         'estimated_value' => 'decimal:2',
         'exclude_from_reminders' => 'boolean',
         'converted_at' => 'datetime',
@@ -165,6 +169,36 @@ class Client extends Model
         ]);
 
         return implode("\n", $parts);
+    }
+
+    /**
+     * Remise permanente du client, prête à être recopiée sur un document.
+     *
+     * Renvoie `null` quand il n'y a rien à appliquer, ce qui évite au reste du
+     * code d'avoir à interpréter une valeur nulle ou vide.
+     *
+     * ⚠️ Le tableau renvoyé est une **copie**, destinée à être écrite dans
+     * `invoice_discounts` ou `quote_discounts` au moment de la création. Aucun
+     * document ne doit relire cette valeur ensuite : changer la remise d'un
+     * client ne rejoue jamais son historique de facturation.
+     *
+     * @return array{label: string, type: string, value: float}|null
+     */
+    public function defaultDiscountPayload(): ?array
+    {
+        $value = (float) $this->default_discount_value;
+
+        if ($value <= 0) {
+            return null;
+        }
+
+        $type = $this->default_discount_type === 'amount' ? 'amount' : 'percent';
+
+        return [
+            'label' => $this->default_discount_label ?: __('app.client_default_discount'),
+            'type' => $type,
+            'value' => $value,
+        ];
     }
 
     /**

@@ -691,6 +691,57 @@ const submit = () => {
                     </div>
                 </div>
 
+                <!-- Remise permanente (FEAT-108) -->
+                <div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                        <div>
+                            <InputLabel for="default_discount_value">
+                                {{ t('permanent_discount') }}
+                                <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
+                            </InputLabel>
+                            <TextInput
+                                id="default_discount_value"
+                                v-model.number="form.default_discount_value"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                :max="form.default_discount_type === 'percent' ? 100 : null"
+                                class="mt-1 block w-full"
+                                placeholder="0"
+                            />
+                            <InputError :message="form.errors.default_discount_value" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <InputLabel for="default_discount_type" :value="t('discount_type')" />
+                            <select
+                                id="default_discount_type"
+                                v-model="form.default_discount_type"
+                                class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                            >
+                                <option value="percent">%</option>
+                                <option value="amount">{{ t('amount') }}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <InputLabel for="default_discount_label" :value="t('discount_label')" />
+                            <TextInput
+                                id="default_discount_label"
+                                v-model="form.default_discount_label"
+                                type="text"
+                                maxlength="255"
+                                class="mt-1 block w-full"
+                                :placeholder="t('discount_label_placeholder')"
+                            />
+                            <InputError :message="form.errors.default_discount_label" class="mt-2" />
+                        </div>
+                    </div>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                        {{ t('permanent_discount_help') }}
+                    </p>
+                </div>
+
                 <div>
                     <InputLabel for="accounting_id" :value="`${t('accounting_id')} (${t('optional')})`" />
                     <TextInput

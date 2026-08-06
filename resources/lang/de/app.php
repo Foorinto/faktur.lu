@@ -38,6 +38,14 @@ return [
     'end' => 'Ende',
     'not_configured' => 'Nicht konfiguriert',
     'default_vat_rate' => 'Standard-MwSt-Satz',
+
+    // Dauerhafter Kundenrabatt (FEAT-108)
+    'permanent_discount' => 'Dauerhafter Rabatt',
+    'permanent_discount_help' => 'Wird automatisch auf jede neue Rechnung und jedes neue Angebot dieses Kunden übernommen. Bereits erstellte Dokumente bleiben unverändert.',
+    'discount_label' => 'Bezeichnung des Rabatts',
+    'discount_label_placeholder' => 'Treuerabatt',
+    'client_default_discount' => 'Kundenrabatt',
+    'client_discount_notice' => 'Ein dauerhafter Rabatt von :discount wird auf dieses Dokument angewendet.',
     'default_hourly_rate' => 'Standard-Stundensatz',
     'contact_label' => 'Kontakt',
 

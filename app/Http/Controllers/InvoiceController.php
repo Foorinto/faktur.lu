@@ -101,7 +101,7 @@ class InvoiceController extends Controller
      */
     public function create(Request $request): Response
     {
-        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number', 'default_vat_rate', 'default_hourly_rate', 'status']);
+        $clients = Client::orderBy('name')->get(['id', 'name', 'currency', 'country_code', 'type', 'vat_number', 'default_vat_rate', 'default_hourly_rate', 'status', 'default_discount_type', 'default_discount_value', 'default_discount_label']);
 
         // Add VAT scenario to each client
         $vatService = app(VatCalculationService::class);
@@ -224,6 +224,11 @@ class InvoiceController extends Controller
                     'sort_order' => $index,
                 ]);
             }
+        } elseif ($defaultDiscount = $client->defaultDiscountPayload()) {
+            // Remise permanente du client (FEAT-108), recopiée une fois pour
+            // toutes. La clé `discounts` absente signifie « rien de précisé » ;
+            // un tableau vide signifie « pas de remise », et rien n'est créé.
+            $invoice->discounts()->create($defaultDiscount + ['sort_order' => 0]);
         }
 
         return redirect()

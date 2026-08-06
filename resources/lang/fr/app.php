@@ -46,6 +46,14 @@ return [
     'end' => 'Fin',
     'not_configured' => 'Non configuré',
     'default_vat_rate' => 'Taux de TVA par défaut',
+
+    // Remise permanente par client (FEAT-108)
+    'permanent_discount' => 'Remise permanente',
+    'permanent_discount_help' => 'Reprise automatiquement sur chaque nouvelle facture et chaque nouveau devis de ce client. Les documents déjà établis ne changent pas.',
+    'discount_label' => 'Libellé de la remise',
+    'discount_label_placeholder' => 'Remise fidélité',
+    'client_default_discount' => 'Remise client',
+    'client_discount_notice' => 'Une remise permanente de :discount sera appliquée à ce document.',
     'default_hourly_rate' => 'Taux horaire par défaut',
     'contact_label' => 'Contact',
 

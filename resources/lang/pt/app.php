@@ -46,6 +46,14 @@ return [
     'end' => 'Fim',
     'not_configured' => 'Não configurado',
     'default_vat_rate' => 'Taxa de IVA predefinida',
+
+    // Desconto permanente por cliente (FEAT-108)
+    'permanent_discount' => 'Desconto permanente',
+    'permanent_discount_help' => 'Aplicado automaticamente a cada nova fatura e a cada novo orçamento deste cliente. Os documentos já emitidos não são alterados.',
+    'discount_label' => 'Designação do desconto',
+    'discount_label_placeholder' => 'Desconto de fidelidade',
+    'client_default_discount' => 'Desconto do cliente',
+    'client_discount_notice' => 'Um desconto permanente de :discount será aplicado a este documento.',
     'default_hourly_rate' => 'Tarifa horária predefinida',
     'contact_label' => 'Contacto',
 

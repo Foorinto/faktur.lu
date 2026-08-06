@@ -101,7 +101,7 @@ class QuoteController extends Controller
         }
 
         return Inertia::render('Quotes/Create', [
-            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate', 'default_hourly_rate', 'country_code', 'type', 'vat_number', 'status']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'currency', 'default_vat_rate', 'default_hourly_rate', 'country_code', 'type', 'vat_number', 'status', 'default_discount_type', 'default_discount_value', 'default_discount_label']),
             'vatRates' => $this->getVatRates(),
             'units' => $this->getUnits(),
             'defaultClientId' => $defaultClientId,
@@ -182,6 +182,11 @@ class QuoteController extends Controller
                     'sort_order' => $index,
                 ]);
             }
+        } elseif ($defaultDiscount = $client->defaultDiscountPayload()) {
+            // Le devis reçoit la même remise permanente que la facture
+            // (FEAT-108) : sans cela, un devis remisé donnerait une facture au
+            // prix fort, et l'écart se découvrirait devant le client.
+            $quote->discounts()->create($defaultDiscount + ['sort_order' => 0]);
         }
 
         return redirect()

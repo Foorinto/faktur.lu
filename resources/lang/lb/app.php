@@ -38,6 +38,14 @@ return [
     'end' => 'Enn',
     'not_configured' => 'Net konfiguréiert',
     'default_vat_rate' => 'Standard TVA-Saz',
+
+    // Dauerhafte Clienterabatt (FEAT-108)
+    'permanent_discount' => 'Dauerhafte Rabatt',
+    'permanent_discount_help' => 'Gëtt automatesch op all nei Rechnung an all neien Devis vun dësem Client iwwerholl. Scho gemaachten Dokumenter änneren sech net.',
+    'discount_label' => 'Bezeechnung vum Rabatt',
+    'discount_label_placeholder' => 'Trei-Rabatt',
+    'client_default_discount' => 'Clienterabatt',
+    'client_discount_notice' => 'E dauerhafte Rabatt vun :discount gëtt op dëst Dokument ugewannt.',
     'default_hourly_rate' => 'Standard Stonnesaz',
     'contact_label' => 'Kontakt',
 

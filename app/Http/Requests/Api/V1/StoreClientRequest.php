@@ -39,6 +39,15 @@ class StoreClientRequest extends FormRequest
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
             'default_vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'default_hourly_rate' => ['nullable', 'numeric', 'min:0'],
+            // Remise permanente (FEAT-108). Un pourcentage se plafonne à 100 ;
+            // un montant fixe n'a pas de plafond ici, il sera écrêté au total
+            // du document par le calculateur, comme les remises de ligne.
+            'default_discount_type' => ['nullable', Rule::in(['percent', 'amount'])],
+            'default_discount_value' => [
+                'nullable', 'numeric', 'min:0',
+                Rule::when($this->input('default_discount_type') !== 'amount', ['max:100']),
+            ],
+            'default_discount_label' => ['nullable', 'string', 'max:255'],
             'accounting_id' => ['nullable', 'string', 'max:20'],
             'status' => ['nullable', Rule::in(Client::STATUSES)],
             'source' => ['nullable', Rule::in(Client::SOURCES)],

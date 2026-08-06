@@ -59,6 +59,22 @@ const clientVatScenario = computed(() => {
     return selectedClient.value?.vat_scenario || null;
 });
 
+// FEAT-108: remise permanente du client, annoncée dès la sélection.
+// Purement informatif : c'est le serveur qui la recopie sur le document, pour
+// que tous les chemins de création (interface, API, conversion d'un devis)
+// suivent la même règle. Elle reste retirable sur le brouillon.
+const clientDiscountNotice = computed(() => {
+    const value = Number(selectedClient.value?.default_discount_value ?? 0);
+
+    if (!(value > 0)) {
+        return null;
+    }
+
+    return selectedClient.value.default_discount_type === 'amount'
+        ? `${formatCurrency(value)} €`
+        : `${value} %`;
+});
+
 const form = useForm({
     client_id: props.defaultClientId || '',
     title: '',
@@ -310,6 +326,13 @@ if (form.items.length === 0) {
                             <!-- VAT Scenario indicator -->
                             <div v-if="clientVatScenario" class="mt-2">
                                 <VatScenarioIndicator :scenario="clientVatScenario" size="sm" />
+                            </div>
+                            <!-- FEAT-108: remise permanente négociée avec ce client -->
+                            <div v-if="clientDiscountNotice" class="mt-2 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm dark:border-emerald-900/40 dark:bg-emerald-900/20">
+                                <span aria-hidden="true">🏷️</span>
+                                <p class="flex-1 text-emerald-800 dark:text-emerald-200">
+                                    {{ t('client_discount_notice', { discount: clientDiscountNotice }) }}
+                                </p>
                             </div>
                             <!-- FEAT-100: notice TVA adaptée automatiquement (client à l'étranger) -->
                             <div v-if="vatAdjustedNotice" class="mt-2 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm dark:border-amber-900/40 dark:bg-amber-900/20">

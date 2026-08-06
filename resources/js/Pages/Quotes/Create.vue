@@ -39,6 +39,20 @@ const selectedClient = computed(() => {
     return props.clients?.find(c => c.id === form.client_id);
 });
 
+// FEAT-108: remise permanente du client, annoncée dès la sélection. Le serveur
+// la recopie sur le devis ; elle reste retirable tant qu'il est en brouillon.
+const clientDiscountNotice = computed(() => {
+    const value = Number(selectedClient.value?.default_discount_value ?? 0);
+
+    if (!(value > 0)) {
+        return null;
+    }
+
+    return selectedClient.value.default_discount_type === 'amount'
+        ? `${formatCurrency(value)} €`
+        : `${value} %`;
+});
+
 // Calculate effective default VAT rate based on exemption status and country
 const effectiveDefaultVatRate = computed(() => {
     if (props.isVatExempt) return 0;
@@ -247,6 +261,13 @@ if (form.items.length === 0) {
                                 </optgroup>
                             </select>
                             <InputError :message="form.errors.client_id" class="mt-2" />
+                            <!-- FEAT-108: remise permanente négociée avec ce client -->
+                            <div v-if="clientDiscountNotice" class="mt-2 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm dark:border-emerald-900/40 dark:bg-emerald-900/20">
+                                <span aria-hidden="true">🏷️</span>
+                                <p class="flex-1 text-emerald-800 dark:text-emerald-200">
+                                    {{ t('client_discount_notice', { discount: clientDiscountNotice }) }}
+                                </p>
+                            </div>
                         </div>
 
                         <div>

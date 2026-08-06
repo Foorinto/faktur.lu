@@ -46,6 +46,14 @@ return [
     'end' => 'End',
     'not_configured' => 'Not configured',
     'default_vat_rate' => 'Default VAT rate',
+
+    // Permanent per-client discount (FEAT-108)
+    'permanent_discount' => 'Permanent discount',
+    'permanent_discount_help' => 'Applied automatically to every new invoice and quote for this client. Documents already issued are left untouched.',
+    'discount_label' => 'Discount label',
+    'discount_label_placeholder' => 'Loyalty discount',
+    'client_default_discount' => 'Client discount',
+    'client_discount_notice' => 'A permanent discount of :discount will be applied to this document.',
     'default_hourly_rate' => 'Default hourly rate',
     'contact_label' => 'Contact',
 
