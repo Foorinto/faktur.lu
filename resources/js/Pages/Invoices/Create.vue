@@ -4,6 +4,7 @@ import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import PaymentMethodsInput from '@/Components/PaymentMethodsInput.vue';
 import NumberingHintBanner from '@/Components/Numbering/NumberingHintBanner.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
@@ -33,6 +34,7 @@ const props = defineProps({
     defaultVatMention: String,
     suggestedVatMention: String,
     defaultInvoiceFooter: String,
+    defaultPaymentMethods: { type: Array, default: () => [] },
     numberingHint: { type: Object, default: null },
     businessSettingsMissing: Boolean,
 });
@@ -85,6 +87,7 @@ const form = useForm({
     vat_mention: props.suggestedVatMention || '',
     custom_vat_mention: '',
     footer_message: '',
+    payment_methods: [],
     retention_guarantee_rate: null,
     retention_release_date: '',
     items: [],
@@ -562,6 +565,18 @@ if (form.items.length === 0) {
                 </div>
                 <div class="px-6 py-4 space-y-4">
                     <div>
+                        <!-- FEAT-098 : moyens de paiement propres à cette facture -->
+                        <div class="mt-4">
+                            <InputLabel :value="t('payment_methods_setting_title')" />
+                            <p class="mb-2 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('payment_methods_invoice_help') }}
+                            </p>
+                            <PaymentMethodsInput
+                                v-model="form.payment_methods"
+                                :inherited-labels="defaultPaymentMethods"
+                            />
+                        </div>
+
                         <InputLabel for="notes" :value="t('notes')" />
                         <textarea
                             id="notes"

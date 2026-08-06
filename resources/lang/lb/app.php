@@ -39,6 +39,10 @@ return [
     'not_configured' => 'Net konfiguréiert',
     'default_vat_rate' => 'Standard TVA-Saz',
 
+    // Bezuelméiglechkeeten pro Rechnung (FEAT-098)
+    'payment_methods_invoice_help' => 'Eidel loossen, fir d\'Méiglechkeeten aus Ären Astellungen ze benotzen.',
+    'payment_methods_inherited' => 'Follegt Ären Astellungen: :methods',
+
     // Erënnerung um Enn vum Test mat richtegen Zuelen (FEAT-105)
     'email_trial_your_usage_title' => 'Wat sech fir Iech géif änneren',
     'email_trial_your_usage_intro' => 'Hei sidd Dir haut, am Verglach mat de Limitte vum gratis Plang:',

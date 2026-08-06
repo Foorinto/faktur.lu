@@ -39,6 +39,10 @@ return [
     'not_configured' => 'Nicht konfiguriert',
     'default_vat_rate' => 'Standard-MwSt-Satz',
 
+    // Zahlungsarten je Rechnung (FEAT-098)
+    'payment_methods_invoice_help' => 'Leer lassen, um die in Ihren Einstellungen festgelegten Zahlungsarten zu verwenden.',
+    'payment_methods_inherited' => 'Folgt Ihren Einstellungen: :methods',
+
     // Testende-Erinnerung mit echten Zahlen (FEAT-105)
     'email_trial_your_usage_title' => 'Was sich für Sie ändern würde',
     'email_trial_your_usage_intro' => 'So sieht Ihre Nutzung heute aus, verglichen mit den Grenzen des kostenlosen Plans:',

@@ -47,6 +47,10 @@ return [
     'not_configured' => 'Non configuré',
     'default_vat_rate' => 'Taux de TVA par défaut',
 
+    // Moyens de paiement par facture (FEAT-098)
+    'payment_methods_invoice_help' => 'Laissez vide pour utiliser les moyens définis dans vos paramètres.',
+    'payment_methods_inherited' => 'Suit vos paramètres : :methods',
+
     // Rappel de fin d'essai chiffré (FEAT-105)
     'email_trial_your_usage_title' => 'Ce qui changerait pour vous',
     'email_trial_your_usage_intro' => 'Voici où vous en êtes aujourd\'hui, en regard des plafonds du plan Gratuit :',

@@ -63,6 +63,7 @@ class Invoice extends Model
         'archive_expires_at',
         'notes',
         'footer_message',
+        'payment_methods',
         'vat_mention',
         'custom_vat_mention',
         'payment_reference',
@@ -76,6 +77,7 @@ class Invoice extends Model
     protected $casts = [
         'seller_snapshot' => 'array',
         'buyer_snapshot' => 'array',
+        'payment_methods' => 'array',
         'issued_at' => 'date:Y-m-d',
         'due_at' => 'date:Y-m-d',
         'finalized_at' => 'datetime',
@@ -298,6 +300,41 @@ class Invoice extends Model
             && !$this->isCreditNote()
             && !$this->hasCreditNote()
             && $this->status !== self::STATUS_CANCELLED;
+    }
+
+    /**
+     * Moyens de paiement à imprimer sur cette facture (FEAT-098).
+     *
+     * Trois niveaux, du plus précis au plus général :
+     *   1. ce que porte la facture, quand l'utilisateur l'a précisé ;
+     *   2. à défaut, le réglage d'entreprise, figé dans l'instantané pour une
+     *      facture finalisée et lu en direct pour un brouillon ;
+     *   3. à défaut de tout, le virement, qui était la valeur codée en dur.
+     *
+     * `null` sur la facture signifie « rien de précisé », jamais « aucun
+     * moyen » : c'est ce qui garantit que les factures antérieures à cette
+     * colonne se rendent exactement comme avant.
+     *
+     * @return array<int, string>
+     */
+    public function effectivePaymentMethods(): array
+    {
+        foreach ([$this->payment_methods, $this->seller['default_payment_methods'] ?? null] as $source) {
+            if (! is_array($source)) {
+                continue;
+            }
+
+            $methods = array_values(array_filter(
+                array_map(fn ($m) => trim((string) $m), $source),
+                fn ($m) => $m !== ''
+            ));
+
+            if ($methods !== []) {
+                return $methods;
+            }
+        }
+
+        return ['transfer'];
     }
 
     /**

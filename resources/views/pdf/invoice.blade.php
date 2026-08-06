@@ -564,9 +564,10 @@
                 @endif
 
                 @php
-                    $paymentMethodKeys = (!empty($seller['default_payment_methods']) && is_array($seller['default_payment_methods']))
-                        ? $seller['default_payment_methods']
-                        : ['transfer'];
+                    // FEAT-098 : la facture peut porter ses propres moyens de
+                    // paiement ; sinon elle suit le réglage d'entreprise, puis
+                    // le virement. La cascade vit dans le modèle, pas ici.
+                    $paymentMethodKeys = $invoice->effectivePaymentMethods();
                     $paymentMethodKnown = \App\Models\BusinessSettings::PAYMENT_METHODS;
                     $paymentMethodLabels = array_map(
                         fn ($k) => in_array($k, $paymentMethodKnown, true) ? __('app.payment_methods.' . $k) : $k,

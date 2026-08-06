@@ -28,6 +28,11 @@ class StoreInvoiceRequest extends FormRequest
             'vat_mention' => ['nullable', 'string', 'max:50'],
             'custom_vat_mention' => ['nullable', 'string', 'max:500'],
             'footer_message' => ['nullable', 'string', 'max:10000'],
+            // FEAT-098 : moyens de paiement propres à cette facture.
+            // Texte libre assumé : le réglage d'entreprise l'est déjà, et le
+            // PDF affiche tel quel ce qu'il ne sait pas traduire (« Wero »).
+            'payment_methods' => ['nullable', 'array', 'max:10'],
+            'payment_methods.*' => ['string', 'max:60'],
             'items' => ['nullable', 'array'],
             'items.*.title' => ['required_with:items', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string', 'max:2000'],
@@ -55,4 +60,15 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.vat_rate.max' => 'Le taux de TVA ne peut pas dépasser 100%.',
         ];
     }
-}
+
+    /**
+     * Un tableau de moyens de paiement vide veut dire la même chose que rien du
+     * tout : « suis le réglage d'entreprise ». On le ramène à null pour n'avoir
+     * qu'une seule écriture de cette intention en base (FEAT-098).
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('payment_methods') && $this->input('payment_methods') === []) {
+            $this->merge(['payment_methods' => null]);
+        }
+    }}

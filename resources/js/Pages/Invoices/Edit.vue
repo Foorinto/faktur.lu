@@ -4,6 +4,7 @@ import BillingNav from '@/Components/BillingNav.vue';
 import InputError from '@/Components/InputError.vue';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import PaymentMethodsInput from '@/Components/PaymentMethodsInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import ProductAutocomplete from '@/Components/ProductAutocomplete.vue';
@@ -22,6 +23,7 @@ const props = defineProps({
     units: Array,
     isVatExempt: Boolean,
     defaultInvoiceFooter: String,
+    defaultPaymentMethods: { type: Array, default: () => [] },
     vatMentionOptions: Array,
     defaultVatMention: String,
     defaultCustomVatMention: String,
@@ -98,6 +100,7 @@ const form = useForm({
     due_at: formatDateForInput(props.invoice.due_at),
     notes: props.invoice.notes || '',
     footer_message: props.invoice.footer_message || '',
+    payment_methods: props.invoice.payment_methods ?? [],
     vat_mention: props.invoice.vat_mention || '',
     custom_vat_mention: props.invoice.custom_vat_mention || '',
     currency: props.invoice.currency,
@@ -563,6 +566,18 @@ const openPreview = () => {
                                     class="text-primary-500 hover:underline font-medium"
                                 >« {{ defaultInvoiceFooter }} »</button>
                             </p>
+                        </div>
+
+                        <!-- FEAT-098 : moyens de paiement propres à cette facture -->
+                        <div class="mt-4">
+                            <InputLabel :value="t('payment_methods_setting_title')" />
+                            <p class="mb-2 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('payment_methods_invoice_help') }}
+                            </p>
+                            <PaymentMethodsInput
+                                v-model="form.payment_methods"
+                                :inherited-labels="defaultPaymentMethods"
+                            />
                         </div>
 
                         <!-- Retenue de garantie -->

@@ -24,6 +24,11 @@ class UpdateInvoiceRequest extends FormRequest
             'due_at' => ['nullable', 'date'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'footer_message' => ['nullable', 'string', 'max:10000'],
+            // FEAT-098 : moyens de paiement propres à cette facture.
+            // Texte libre assumé : le réglage d'entreprise l'est déjà, et le
+            // PDF affiche tel quel ce qu'il ne sait pas traduire (« Wero »).
+            'payment_methods' => ['nullable', 'array', 'max:10'],
+            'payment_methods.*' => ['string', 'max:60'],
             'vat_mention' => ['nullable', 'string', Rule::in(['franchise', 'reverse_charge', 'intra_eu', 'export', 'none', 'other'])],
             'custom_vat_mention' => ['nullable', 'string', 'max:1000'],
             'currency' => ['sometimes', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
@@ -36,4 +41,15 @@ class UpdateInvoiceRequest extends FormRequest
     {
         return [];
     }
-}
+
+    /**
+     * Un tableau de moyens de paiement vide veut dire la même chose que rien du
+     * tout : « suis le réglage d'entreprise ». On le ramène à null pour n'avoir
+     * qu'une seule écriture de cette intention en base (FEAT-098).
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('payment_methods') && $this->input('payment_methods') === []) {
+            $this->merge(['payment_methods' => null]);
+        }
+    }}

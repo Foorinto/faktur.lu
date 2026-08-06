@@ -137,6 +137,7 @@ class InvoiceController extends Controller
             'vatMentionOptions' => BusinessSettings::getVatMentionOptions(),
             'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
             'suggestedVatMention' => $suggestedVatMention,
+            'defaultPaymentMethods' => $settings?->getEffectivePaymentMethods() ?? ['transfer'],
             'defaultInvoiceFooter' => $settings?->default_invoice_footer ?? 'Merci pour votre confiance !',
             'numberingHint' => $this->buildNumberingHint($settings),
             // Sans paramètres d'entreprise, la finalisation échouera : on prévient
@@ -191,6 +192,10 @@ class InvoiceController extends Controller
             'vat_mention' => $request->validated('vat_mention'),
             'custom_vat_mention' => $request->validated('custom_vat_mention'),
             'footer_message' => $request->validated('footer_message'),
+            // FEAT-098 : null signifie « rien de précisé », la facture suivra
+            // alors le réglage d'entreprise. Un tableau vide dit la même chose,
+            // on le ramène à null pour n'avoir qu'une seule façon de l'écrire.
+            'payment_methods' => $request->validated('payment_methods'),
             'retention_guarantee_rate' => $retentionRate,
             'retention_release_date' => $request->validated('retention_release_date'),
             'status' => Invoice::STATUS_DRAFT,
@@ -289,6 +294,7 @@ class InvoiceController extends Controller
             'vatMentionOptions' => BusinessSettings::getVatMentionOptions(),
             'defaultVatMention' => $settings?->default_vat_mention ?? ($this->isVatExempt() ? 'franchise' : 'none'),
             'defaultCustomVatMention' => $settings?->default_custom_vat_mention,
+            'defaultPaymentMethods' => $settings?->getEffectivePaymentMethods() ?? ['transfer'],
             'clientVatScenario' => $clientVatScenario,
             'suggestedVatMention' => $suggestedVatMention,
             'vatScenarios' => VatCalculationService::getAllScenarios(),
@@ -349,6 +355,9 @@ class InvoiceController extends Controller
                 'due_at' => now()->addDays(config('billing.default_payment_days', 30))->toDateString(),
                 'notes' => $invoice->notes,
                 'footer_message' => $invoice->footer_message,
+                // Dupliquer une facture doit redonner le même document : les
+                // moyens de paiement choisis en font partie (FEAT-098).
+                'payment_methods' => $invoice->payment_methods,
                 'vat_mention' => $invoice->vat_mention,
                 'custom_vat_mention' => $invoice->custom_vat_mention,
                 'retention_guarantee_rate' => $invoice->retention_guarantee_rate,

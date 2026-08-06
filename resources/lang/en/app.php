@@ -47,6 +47,10 @@ return [
     'not_configured' => 'Not configured',
     'default_vat_rate' => 'Default VAT rate',
 
+    // Per-invoice payment methods (FEAT-098)
+    'payment_methods_invoice_help' => 'Leave empty to use the methods set in your settings.',
+    'payment_methods_inherited' => 'Follows your settings: :methods',
+
     // Trial reminder with real figures (FEAT-105)
     'email_trial_your_usage_title' => 'What would change for you',
     'email_trial_your_usage_intro' => 'Here is where you stand today, against the Free plan limits:',

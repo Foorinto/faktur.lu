@@ -47,6 +47,10 @@ return [
     'not_configured' => 'Não configurado',
     'default_vat_rate' => 'Taxa de IVA predefinida',
 
+    // Meios de pagamento por fatura (FEAT-098)
+    'payment_methods_invoice_help' => 'Deixe vazio para usar os meios definidos nas suas definições.',
+    'payment_methods_inherited' => 'Segue as suas definições: :methods',
+
     // Lembrete de fim de teste com números reais (FEAT-105)
     'email_trial_your_usage_title' => 'O que mudaria para si',
     'email_trial_your_usage_intro' => 'Eis a sua situação atual, face aos limites do plano Gratuito:',
