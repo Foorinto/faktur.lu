@@ -47,6 +47,12 @@ return [
     'not_configured' => 'Não configurado',
     'default_vat_rate' => 'Taxa de IVA predefinida',
 
+    // Lembrete de fim de teste com números reais (FEAT-105)
+    'email_trial_your_usage_title' => 'O que mudaria para si',
+    'email_trial_your_usage_intro' => 'Eis a sua situação atual, face aos limites do plano Gratuito:',
+    'email_trial_usage_line' => ':used :item, o plano Gratuito permite :limit',
+    'email_trial_usage_reassurance' => 'Nada é eliminado: os seus dados continuam acessíveis e utilizáveis. Apenas a criação de novos elementos acima do limite fica suspensa.',
+
     // Tamanho do texto dos PDF (FEAT-109)
     'pdf_text_size' => 'Tamanho do texto dos documentos',
     'pdf_text_size_normal' => 'Normal',
@@ -5332,11 +5338,11 @@ return [
     'email_trial_keep_invoicing' => 'Continue a faturar com tranquilidade',
     'email_trial_choose_plan' => 'Escolha o plano que corresponde às suas necessidades:',
     'email_trial_plan_essential' => 'Essencial',
-    'email_trial_price_essential' => '4€/mês',
-    'email_trial_essential_quota' => '10 clientes, 20 faturas/mês',
+    'email_trial_price_essential' => ':price €/mês',
+    'email_trial_essential_quota' => ':clients clientes, :invoices faturas por mês',
     'email_trial_essential_tagline' => 'Ideal para começar',
     'email_trial_plan_pro' => 'Pro',
-    'email_trial_price_pro' => '9€/mês',
+    'email_trial_price_pro' => ':price €/mês',
     'email_trial_pro_features' => 'Tudo ilimitado + FAIA + arquivo',
     'email_trial_pro_tagline' => 'Para freelancers estabelecidos',
     'email_trial_cta_choose' => 'Escolher a minha subscrição',
@@ -5468,6 +5474,7 @@ return [
             'clients' => 'clientes',
             'expenses' => 'despesas',
             'projects' => 'projetos ativos',
+            'products' => 'artigos',
         ],
     ],
     'business_settings_required_notice' => 'Preencha primeiro os dados da sua empresa: sem eles não poderá finalizar esta fatura.',
@@ -5551,6 +5558,7 @@ return [
         'empty_title' => 'Ainda sem artigos',
         'empty_desc' => 'Guarde os seus produtos e serviços recorrentes para os inserir nas faturas e orçamentos com um clique.',
         'quota_used' => ':used / :limit artigos',
+        'quota_exceeded' => ':used artigos para um limite de :limit: a adição está suspensa. Os seus artigos continuam acessíveis e faturáveis.',
         'quota_unlimited' => 'Artigos ilimitados',
         'limit_reached' => 'Atingiu o limite de artigos do seu plano Gratuito. Faça upgrade para criar mais.',
         'upgrade' => 'Mudar para um plano superior',

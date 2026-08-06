@@ -47,6 +47,12 @@ return [
     'not_configured' => 'Not configured',
     'default_vat_rate' => 'Default VAT rate',
 
+    // Trial reminder with real figures (FEAT-105)
+    'email_trial_your_usage_title' => 'What would change for you',
+    'email_trial_your_usage_intro' => 'Here is where you stand today, against the Free plan limits:',
+    'email_trial_usage_line' => ':used :item, the Free plan allows :limit',
+    'email_trial_usage_reassurance' => 'Nothing is deleted: your data stays accessible and usable. Only creating new items beyond the limit is paused.',
+
     // PDF text size (FEAT-109)
     'pdf_text_size' => 'Document text size',
     'pdf_text_size_normal' => 'Normal',
@@ -5127,11 +5133,11 @@ return [
     'email_trial_keep_invoicing' => 'Keep invoicing with peace of mind',
     'email_trial_choose_plan' => 'Choose the plan that matches your needs:',
     'email_trial_plan_essential' => 'Essential',
-    'email_trial_price_essential' => '€4/month',
-    'email_trial_essential_quota' => '10 clients, 20 invoices/month',
+    'email_trial_price_essential' => '€:price/month',
+    'email_trial_essential_quota' => ':clients clients, :invoices invoices per month',
     'email_trial_essential_tagline' => 'Ideal to get started',
     'email_trial_plan_pro' => 'Pro',
-    'email_trial_price_pro' => '€9/month',
+    'email_trial_price_pro' => '€:price/month',
     'email_trial_pro_features' => 'Everything unlimited + FAIA + archiving',
     'email_trial_pro_tagline' => 'For established freelancers',
     'email_trial_cta_choose' => 'Choose my subscription',
@@ -5263,6 +5269,7 @@ return [
             'clients' => 'clients',
             'expenses' => 'expenses',
             'projects' => 'active projects',
+            'products' => 'products',
         ],
     ],
     'business_settings_required_notice' => 'Set up your company details first: without them you won\'t be able to finalize this invoice.',
@@ -5346,6 +5353,7 @@ return [
         'empty_title' => 'No items yet',
         'empty_desc' => 'Save your recurring products and services to insert them into invoices and quotes in one click.',
         'quota_used' => ':used / :limit items',
+        'quota_exceeded' => ':used products against a limit of :limit: adding new ones is paused. Your products stay accessible and can still be invoiced.',
         'quota_unlimited' => 'Unlimited items',
         'limit_reached' => 'You have reached the item limit of your Free plan. Upgrade to create more.',
         'upgrade' => 'Upgrade plan',

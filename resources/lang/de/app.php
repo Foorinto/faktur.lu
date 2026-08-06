@@ -39,6 +39,12 @@ return [
     'not_configured' => 'Nicht konfiguriert',
     'default_vat_rate' => 'Standard-MwSt-Satz',
 
+    // Testende-Erinnerung mit echten Zahlen (FEAT-105)
+    'email_trial_your_usage_title' => 'Was sich für Sie ändern würde',
+    'email_trial_your_usage_intro' => 'So sieht Ihre Nutzung heute aus, verglichen mit den Grenzen des kostenlosen Plans:',
+    'email_trial_usage_line' => ':used :item, der kostenlose Plan erlaubt :limit',
+    'email_trial_usage_reassurance' => 'Nichts wird gelöscht: Ihre Daten bleiben zugänglich und nutzbar. Nur das Anlegen neuer Einträge über der Grenze ist ausgesetzt.',
+
     // Textgröße der PDF-Dokumente (FEAT-109)
     'pdf_text_size' => 'Textgröße der Dokumente',
     'pdf_text_size_normal' => 'Normal',
@@ -5085,11 +5091,11 @@ return [
     'email_trial_keep_invoicing' => 'Rechnen Sie weiterhin sorgenfrei',
     'email_trial_choose_plan' => 'Wählen Sie den Tarif, der zu Ihren Bedürfnissen passt:',
     'email_trial_plan_essential' => 'Essenziell',
-    'email_trial_price_essential' => '4€/Monat',
-    'email_trial_essential_quota' => '10 Kunden, 20 Rechnungen/Monat',
+    'email_trial_price_essential' => ':price €/Monat',
+    'email_trial_essential_quota' => ':clients Kunden, :invoices Rechnungen pro Monat',
     'email_trial_essential_tagline' => 'Ideal für den Einstieg',
     'email_trial_plan_pro' => 'Pro',
-    'email_trial_price_pro' => '9€/Monat',
+    'email_trial_price_pro' => ':price €/Monat',
     'email_trial_pro_features' => 'Alles unbegrenzt + FAIA + Archivierung',
     'email_trial_pro_tagline' => 'Für etablierte Freelancer',
     'email_trial_cta_choose' => 'Mein Abonnement wählen',
@@ -5221,6 +5227,7 @@ return [
             'clients' => 'Kunden',
             'expenses' => 'Ausgaben',
             'projects' => 'aktive Projekte',
+            'products' => 'Artikel',
         ],
     ],
     'business_settings_required_notice' => 'Hinterlegen Sie zuerst Ihre Unternehmensdaten: ohne sie können Sie diese Rechnung nicht finalisieren.',
@@ -5304,6 +5311,7 @@ return [
         'empty_title' => 'Noch keine Artikel',
         'empty_desc' => 'Speichern Sie Ihre wiederkehrenden Produkte und Leistungen, um sie mit einem Klick in Rechnungen und Angebote einzufügen.',
         'quota_used' => ':used / :limit Artikel',
+        'quota_exceeded' => ':used Artikel bei einer Grenze von :limit: das Anlegen ist ausgesetzt. Ihre Artikel bleiben zugänglich und abrechenbar.',
         'quota_unlimited' => 'Unbegrenzte Artikel',
         'limit_reached' => 'Sie haben das Artikellimit Ihres Gratis-Tarifs erreicht. Führen Sie ein Upgrade durch, um weitere zu erstellen.',
         'upgrade' => 'Auf höheren Tarif upgraden',

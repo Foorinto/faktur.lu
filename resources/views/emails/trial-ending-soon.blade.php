@@ -12,15 +12,36 @@
 - {{ __('app.email_trial_feature_archive') }}
 - {{ __('app.email_trial_feature_reminders') }}
 
+@if (! empty($freePlanImpact))
+{{-- FEAT-105 : les chiffres du compte, pas un argumentaire. Ce bloc
+     n'apparaît que si le plan Gratuit changerait réellement quelque chose. --}}
+## {{ __('app.email_trial_your_usage_title') }}
+
+{{ __('app.email_trial_your_usage_intro') }}
+
+@foreach ($freePlanImpact as $row)
+- {{ __('app.email_trial_usage_line', [
+      'used' => $row['used'],
+      'item' => __('app.quota_alert.types.'.$row['type']),
+      'limit' => $row['limit'],
+  ]) }}
+@endforeach
+
+{{ __('app.email_trial_usage_reassurance') }}
+@endif
+
 ## {{ __('app.email_trial_keep_invoicing') }}
 
 {{ __('app.email_trial_choose_plan') }}
 
-**{{ __('app.email_trial_plan_essential') }}** - {{ __('app.email_trial_price_essential') }}
-- {{ __('app.email_trial_essential_quota') }}
+**{{ __('app.email_trial_plan_essential') }}** - {{ __('app.email_trial_price_essential', ['price' => $essentiel?->price_monthly_euros ?? 5]) }}
+- {{ __('app.email_trial_essential_quota', [
+    'clients' => $essentiel?->getLimit('max_clients') ?? 100,
+    'invoices' => $essentiel?->getLimit('max_invoices_per_month') ?? 50,
+]) }}
 - {{ __('app.email_trial_essential_tagline') }}
 
-**{{ __('app.email_trial_plan_pro') }}** - {{ __('app.email_trial_price_pro') }}
+**{{ __('app.email_trial_plan_pro') }}** - {{ __('app.email_trial_price_pro', ['price' => $pro?->price_monthly_euros ?? 15]) }}
 - {{ __('app.email_trial_pro_features') }}
 - {{ __('app.email_trial_pro_tagline') }}
 

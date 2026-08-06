@@ -39,6 +39,12 @@ return [
     'not_configured' => 'Net konfiguréiert',
     'default_vat_rate' => 'Standard TVA-Saz',
 
+    // Erënnerung um Enn vum Test mat richtegen Zuelen (FEAT-105)
+    'email_trial_your_usage_title' => 'Wat sech fir Iech géif änneren',
+    'email_trial_your_usage_intro' => 'Hei sidd Dir haut, am Verglach mat de Limitte vum gratis Plang:',
+    'email_trial_usage_line' => ':used :item, de gratis Plang erlaabt :limit',
+    'email_trial_usage_reassurance' => 'Näischt gëtt geläscht: Är Donnéeë bleiwen zougänglech an notzbar. Nëmmen d\'Uleeë vun neien Elementer iwwer der Limitt ass ausgesat.',
+
     // Textgréisst vun de PDF-Dokumenter (FEAT-109)
     'pdf_text_size' => 'Textgréisst vun den Dokumenter',
     'pdf_text_size_normal' => 'Normal',
@@ -5085,11 +5091,11 @@ return [
     'email_trial_keep_invoicing' => 'Rechnung weider mat Rou stellen',
     'email_trial_choose_plan' => 'Wielt de Plang deen zu Äre Bedierfnesser passt:',
     'email_trial_plan_essential' => 'Essentiel',
-    'email_trial_price_essential' => '4€/Mount',
-    'email_trial_essential_quota' => '10 Clienten, 20 Rechnungen/Mount',
+    'email_trial_price_essential' => ':price €/Mount',
+    'email_trial_essential_quota' => ':clients Clienten, :invoices Rechnunge pro Mount',
     'email_trial_essential_tagline' => 'Ideal fir unzefänken',
     'email_trial_plan_pro' => 'Pro',
-    'email_trial_price_pro' => '9€/Mount',
+    'email_trial_price_pro' => ':price €/Mount',
     'email_trial_pro_features' => 'Alles onlimitéiert + FAIA + Archivéierung',
     'email_trial_pro_tagline' => 'Fir etabléiert Freelanceren',
     'email_trial_cta_choose' => 'Mäin Abonnement wielen',
@@ -5221,6 +5227,7 @@ return [
             'clients' => 'Clienten',
             'expenses' => 'Ausgaben',
             'projects' => 'aktiv Projeten',
+            'products' => 'Artikelen',
         ],
     ],
     'business_settings_required_notice' => 'Fëllt fir d\'éischt Är Firmendaten aus: ouni si kënnt Dir dës Rechnung net finaliséieren.',
@@ -5304,6 +5311,7 @@ return [
         'empty_title' => 'Nach keng Artikelen',
         'empty_desc' => 'Späichert Är widderkéierend Produkter a Leeschtunge fir se mat engem Klick an Är Rechnungen an Devisen anzefügen.',
         'quota_used' => ':used / :limit Artikelen',
+        'quota_exceeded' => ':used Artikelen bei enger Limitt vun :limit: d\'Bäisetze ass ausgesat. Är Artikelen bleiwen zougänglech a fakturéierbar.',
         'quota_unlimited' => 'Onbegrenzt Artikelen',
         'limit_reached' => 'Dir hutt d\'Limit vun Ärem Gratis-Tarif erreecht. Maacht en Upgrade fir méi ze erstellen.',
         'upgrade' => 'Op e méi héijen Tarif wiesselen',

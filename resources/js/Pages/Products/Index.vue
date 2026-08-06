@@ -48,9 +48,22 @@ const typeLabel = (value) => {
 
 const unitLabel = (value) => props.units.find((u) => u.value === value)?.label ?? value;
 
+// FEAT-108/105 : un compte qui sort d'un essai peut dépasser le plafond de son
+// nouveau plan. « 50 / 10 articles » ressemblait alors à un dysfonctionnement,
+// et suggérait implicitement d'en supprimer quarante. On décrit la situation
+// telle qu'elle est : rien n'est perdu, seul l'ajout est suspendu.
+const quotaExceeded = computed(() =>
+    props.quota.limit !== null
+    && props.quota.limit !== undefined
+    && props.quota.used > props.quota.limit
+);
+
 const quotaLabel = computed(() => {
     if (props.quota.limit === null || props.quota.limit === undefined) {
         return t('products.quota_unlimited');
+    }
+    if (quotaExceeded.value) {
+        return t('products.quota_exceeded', { used: props.quota.used, limit: props.quota.limit });
     }
     return t('products.quota_used', { used: props.quota.used, limit: props.quota.limit });
 });
@@ -113,7 +126,10 @@ const destroy = (product) => {
             <div class="flex items-center justify-between gap-4">
                 <div>
                     <h1 class="text-xl font-semibold text-slate-900 dark:text-white">{{ t('products.title') }}</h1>
-                    <p class="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{{ quotaLabel }}</p>
+                    <p
+                        class="mt-0.5 text-sm"
+                        :class="quotaExceeded ? 'text-amber-700 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'"
+                    >{{ quotaLabel }}</p>
                 </div>
 
                 <div class="flex items-center gap-2">

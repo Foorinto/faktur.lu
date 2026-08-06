@@ -50,6 +50,17 @@ class TrialEndingSoon extends Mailable implements ShouldQueue
                 'user' => $this->user,
                 'daysRemaining' => $this->daysRemaining,
                 'subscriptionUrl' => route('subscription.index'),
+                // FEAT-105 : ce que le plan Gratuit changerait pour CE compte.
+                // Tableau vide si rien ne le gênerait, et le courriel n'affiche
+                // alors rien plutôt que d'inventer une contrainte.
+                'freePlanImpact' => app(\App\Services\PlanService::class)->freePlanImpact($this->user),
+                // Prix et plafonds lus dans les plans plutôt qu'écrits dans les
+                // traductions : ils y avaient dérivé sans que personne ne le
+                // voie. Le courriel annonçait 4 € et 9 € au lieu de 5 € et 15 €,
+                // et 10 clients au lieu de 100. Sous-vendre est déjà fâcheux ;
+                // afficher un prix inférieur à celui du paiement l'est plus.
+                'essentiel' => \App\Models\Plan::essentiel(),
+                'pro' => \App\Models\Plan::pro(),
             ],
         );
     }

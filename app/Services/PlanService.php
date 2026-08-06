@@ -398,6 +398,16 @@ class PlanService
                 'limit' => $plan->getLimit('max_active_projects'),
                 'unlimited' => $plan->getLimit('max_active_projects') === null,
             ],
+            // Catalogue d'articles (FEAT-105). Il manquait ici, si bien que le
+            // seul quota qu'un compte remplit vraiment pendant son essai
+            // n'apparaissait ni dans les alertes ni dans les rappels.
+            // Même comptage que canCreateProduct(), pour que l'affichage et le
+            // blocage ne puissent pas diverger.
+            'products' => [
+                'used' => $user->products()->count(),
+                'limit' => $plan->getLimit('max_products'),
+                'unlimited' => $plan->getLimit('max_products') === null,
+            ],
             'features' => $plan->features ?? [],
         ];
     }
@@ -412,6 +422,64 @@ class PlanService
      *
      * @return array<int, array{type: string, used: int, limit: int, remaining: int, reached: bool}>
      */
+    /**
+     * Ce que le plan Gratuit limiterait, pour ce compte, aujourd'hui.
+     *
+     * Sert le rappel de fin d'essai (FEAT-105). L'argumentaire commercial
+     * générique convainc mal ; la description chiffrée de sa propre situation
+     * se vérifie et n'a rien à vendre :
+     *
+     *     « Vous avez 52 articles, le plan Gratuit en autorise 10. »
+     *
+     * Ne remonte que les compteurs **réellement dépassés**. Un compte que le
+     * plan Gratuit n'entraverait pas reçoit un tableau vide, et son courriel
+     * n'affiche rien : fabriquer une contrainte inexistante se retournerait
+     * contre nous à la première vérification.
+     *
+     * @return array<int, array{type: string, used: int, limit: int}>
+     */
+    public function freePlanImpact(User $user): array
+    {
+        $free = Plan::free();
+
+        if (! $free) {
+            return [];
+        }
+
+        $stats = $this->getUsageStats($user);
+
+        // Compteur de getUsageStats() => plafond du plan => libellé partagé
+        // avec les bandeaux de quota, pour ne pas entretenir deux vocabulaires.
+        $watched = [
+            'products' => ['max_products', 'products'],
+            'clients' => ['max_clients', 'clients'],
+            'invoices_this_month' => ['max_invoices_per_month', 'invoices'],
+            'quotes_this_month' => ['max_quotes_per_month', 'quotes'],
+            'expenses_this_month' => ['max_expenses_per_month', 'expenses'],
+            'active_projects' => ['max_active_projects', 'projects'],
+        ];
+
+        $rows = [];
+
+        foreach ($watched as $statKey => [$limitKey, $type]) {
+            $limit = $free->getLimit($limitKey);
+
+            if ($limit === null) {
+                continue;
+            }
+
+            $used = (int) ($stats[$statKey]['used'] ?? 0);
+
+            if ($used <= (int) $limit) {
+                continue;
+            }
+
+            $rows[] = ['type' => $type, 'used' => $used, 'limit' => (int) $limit];
+        }
+
+        return $rows;
+    }
+
     public function getQuotaAlerts(User $user, float $threshold = 0.8): array
     {
         $stats = $this->getUsageStats($user);
@@ -422,6 +490,7 @@ class PlanService
             'clients' => 'clients',
             'expenses_this_month' => 'expenses',
             'active_projects' => 'projects',
+            'products' => 'products',
         ];
 
         $alerts = [];

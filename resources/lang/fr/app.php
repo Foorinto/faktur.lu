@@ -47,6 +47,12 @@ return [
     'not_configured' => 'Non configuré',
     'default_vat_rate' => 'Taux de TVA par défaut',
 
+    // Rappel de fin d'essai chiffré (FEAT-105)
+    'email_trial_your_usage_title' => 'Ce qui changerait pour vous',
+    'email_trial_your_usage_intro' => 'Voici où vous en êtes aujourd\'hui, en regard des plafonds du plan Gratuit :',
+    'email_trial_usage_line' => ':used :item, le plan Gratuit en autorise :limit',
+    'email_trial_usage_reassurance' => 'Rien n\'est supprimé : vos données restent accessibles et utilisables. Seule la création de nouveaux éléments au-delà du plafond est suspendue.',
+
     // Taille du texte des PDF (FEAT-109)
     'pdf_text_size' => 'Taille du texte des documents',
     'pdf_text_size_normal' => 'Normale',
@@ -5430,11 +5436,11 @@ return [
     'email_trial_keep_invoicing' => 'Continuez à facturer sereinement',
     'email_trial_choose_plan' => 'Choisissez le plan qui correspond à vos besoins :',
     'email_trial_plan_essential' => 'Essentiel',
-    'email_trial_price_essential' => '4€/mois',
-    'email_trial_essential_quota' => '10 clients, 20 factures/mois',
+    'email_trial_price_essential' => ':price €/mois',
+    'email_trial_essential_quota' => ':clients clients, :invoices factures par mois',
     'email_trial_essential_tagline' => 'Idéal pour démarrer',
     'email_trial_plan_pro' => 'Pro',
-    'email_trial_price_pro' => '9€/mois',
+    'email_trial_price_pro' => ':price €/mois',
     'email_trial_pro_features' => 'Tout illimité + FAIA + archivage',
     'email_trial_pro_tagline' => 'Pour les freelances établis',
     'email_trial_cta_choose' => 'Choisir mon abonnement',
@@ -5566,6 +5572,7 @@ return [
             'clients' => 'clients',
             'expenses' => 'dépenses',
             'projects' => 'projets actifs',
+            'products' => 'articles',
         ],
     ],
     'business_settings_required_notice' => 'Renseignez d\'abord les informations de votre entreprise : sans elles, vous ne pourrez pas finaliser cette facture.',
@@ -5649,6 +5656,7 @@ return [
         'empty_title' => 'Aucun article pour le moment',
         'empty_desc' => 'Enregistrez vos produits et prestations récurrents pour les insérer en un clic dans vos factures et devis.',
         'quota_used' => ':used / :limit articles',
+        'quota_exceeded' => ':used articles pour un plafond de :limit : l\'ajout est suspendu. Vos articles restent accessibles et facturables.',
         'quota_unlimited' => 'Articles illimités',
         'limit_reached' => 'Vous avez atteint la limite d\'articles de votre plan Gratuit. Passez à un plan supérieur pour en créer davantage.',
         'upgrade' => 'Passer à un plan supérieur',
