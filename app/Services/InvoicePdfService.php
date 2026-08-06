@@ -181,8 +181,19 @@ class InvoicePdfService
         // Get PDF color from seller snapshot or default
         $pdfColor = \App\Models\BusinessSettings::legibleColor($seller['pdf_color'] ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR);
 
-        // Show branding for free plan users
-        $showBranding = $invoice->user ? $invoice->user->isFree() : true;
+        // Mention « Créé avec faktur.lu », réservée au plan gratuit (FEAT-104).
+        //
+        // Lue dans l'instantané, jamais recalculée : une facture finalisée est
+        // un document comptable immuable. La recalculer ferait apparaître ou
+        // disparaître la mention sur tout l'historique au moindre changement
+        // d'abonnement, et deux exemplaires du même numéro différeraient.
+        //
+        // Repli pour les factures finalisées avant cette correction, dont
+        // l'instantané ne porte pas la clé : on garde l'ancien comportement.
+        // Inventer une valeur reviendrait à réécrire l'histoire qu'on protège.
+        $showBranding = array_key_exists('show_branding', $seller)
+            ? (bool) $seller['show_branding']
+            : ($invoice->user ? $invoice->user->isFree() : true);
 
         // Generate QR codes for payment (not for credit notes)
         $paymentQrCode = null;
@@ -315,7 +326,9 @@ class InvoicePdfService
         // Get PDF color from settings
         $pdfColor = \App\Models\BusinessSettings::legibleColor($settings?->getEffectivePdfColor() ?? \App\Models\BusinessSettings::DEFAULT_PDF_COLOR);
 
-        // Show branding for free plan users
+        // Un brouillon n'est pas figé : il doit montrer ce que donnera la
+        // facture avec le plan d'aujourd'hui. Rien à lire dans un instantané
+        // qui n'existe pas encore (FEAT-104).
         $showBranding = $invoice->user ? $invoice->user->isFree() : true;
 
         // Generate QR codes for draft preview

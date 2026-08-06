@@ -64,6 +64,13 @@ class FinalizeInvoiceAction
             $sellerSnapshot = $settings->toSnapshot();
             $buyerSnapshot = $invoice->client->toSnapshot();
 
+            // FEAT-104 : la mention « Créé avec faktur.lu » dépend du plan, pas
+            // des paramètres d'entreprise. Elle ne peut donc pas venir de
+            // toSnapshot() et se pose ici, au seul moment qui compte : celui où
+            // la facture devient définitive. Sans cela, un changement
+            // d'abonnement réécrirait le pied de page de tout l'historique.
+            $sellerSnapshot['show_branding'] = $invoice->user?->isFree() ?? true;
+
             $paymentDays = config('billing.default_payment_days', 30);
             $dueDate = $invoice->due_at ?? $issuedDate->copy()->addDays($paymentDays);
 
