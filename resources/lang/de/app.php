@@ -39,6 +39,13 @@ return [
     'not_configured' => 'Nicht konfiguriert',
     'default_vat_rate' => 'Standard-MwSt-Satz',
 
+    // Textgröße der PDF-Dokumente (FEAT-109)
+    'pdf_text_size' => 'Textgröße der Dokumente',
+    'pdf_text_size_normal' => 'Normal',
+    'pdf_text_size_large' => 'Groß',
+    'pdf_text_size_xlarge' => 'Sehr groß',
+    'pdf_text_size_help' => 'Gilt für neue Rechnungen und Angebote. Bereits finalisierte Dokumente behalten ihr ursprüngliches Layout. Größerer Text kann eine lange Rechnung auf eine zweite Seite schieben.',
+
     // Dauerhafter Kundenrabatt (FEAT-108)
     'permanent_discount' => 'Dauerhafter Rabatt',
     'permanent_discount_help' => 'Wird automatisch auf jede neue Rechnung und jedes neue Angebot dieses Kunden übernommen. Bereits erstellte Dokumente bleiben unverändert.',

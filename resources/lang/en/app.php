@@ -47,6 +47,13 @@ return [
     'not_configured' => 'Not configured',
     'default_vat_rate' => 'Default VAT rate',
 
+    // PDF text size (FEAT-109)
+    'pdf_text_size' => 'Document text size',
+    'pdf_text_size_normal' => 'Normal',
+    'pdf_text_size_large' => 'Large',
+    'pdf_text_size_xlarge' => 'Extra large',
+    'pdf_text_size_help' => 'Applies to new invoices and quotes. Documents already finalised keep their original layout. Larger text may push a long invoice onto a second page.',
+
     // Permanent per-client discount (FEAT-108)
     'permanent_discount' => 'Permanent discount',
     'permanent_discount_help' => 'Applied automatically to every new invoice and quote for this client. Documents already issued are left untouched.',

@@ -39,6 +39,13 @@ return [
     'not_configured' => 'Net konfiguréiert',
     'default_vat_rate' => 'Standard TVA-Saz',
 
+    // Textgréisst vun de PDF-Dokumenter (FEAT-109)
+    'pdf_text_size' => 'Textgréisst vun den Dokumenter',
+    'pdf_text_size_normal' => 'Normal',
+    'pdf_text_size_large' => 'Grouss',
+    'pdf_text_size_xlarge' => 'Ganz grouss',
+    'pdf_text_size_help' => 'Gëllt fir nei Rechnungen an nei Devisen. Scho finaliséiert Dokumenter behalen hire ursprénglechen Layout. E gréissere Text kann eng laang Rechnung op eng zweet Säit dréngen.',
+
     // Dauerhafte Clienterabatt (FEAT-108)
     'permanent_discount' => 'Dauerhafte Rabatt',
     'permanent_discount_help' => 'Gëtt automatesch op all nei Rechnung an all neien Devis vun dësem Client iwwerholl. Scho gemaachten Dokumenter änneren sech net.',

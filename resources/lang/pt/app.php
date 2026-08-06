@@ -47,6 +47,13 @@ return [
     'not_configured' => 'Não configurado',
     'default_vat_rate' => 'Taxa de IVA predefinida',
 
+    // Tamanho do texto dos PDF (FEAT-109)
+    'pdf_text_size' => 'Tamanho do texto dos documentos',
+    'pdf_text_size_normal' => 'Normal',
+    'pdf_text_size_large' => 'Grande',
+    'pdf_text_size_xlarge' => 'Muito grande',
+    'pdf_text_size_help' => 'Aplica-se a novas faturas e novos orçamentos. Os documentos já finalizados mantêm a sua disposição original. Um texto maior pode fazer passar uma fatura longa para uma segunda página.',
+
     // Desconto permanente por cliente (FEAT-108)
     'permanent_discount' => 'Desconto permanente',
     'permanent_discount_help' => 'Aplicado automaticamente a cada nova fatura e a cada novo orçamento deste cliente. Os documentos já emitidos não são alterados.',

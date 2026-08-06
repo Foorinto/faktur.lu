@@ -47,6 +47,13 @@ return [
     'not_configured' => 'Non configuré',
     'default_vat_rate' => 'Taux de TVA par défaut',
 
+    // Taille du texte des PDF (FEAT-109)
+    'pdf_text_size' => 'Taille du texte des documents',
+    'pdf_text_size_normal' => 'Normale',
+    'pdf_text_size_large' => 'Grande',
+    'pdf_text_size_xlarge' => 'Très grande',
+    'pdf_text_size_help' => "S'applique aux nouvelles factures et aux nouveaux devis. Les documents déjà finalisés conservent leur mise en page d'origine. Un texte plus grand peut faire passer une facture longue sur une deuxième page.",
+
     // Remise permanente par client (FEAT-108)
     'permanent_discount' => 'Remise permanente',
     'permanent_discount_help' => 'Reprise automatiquement sur chaque nouvelle facture et chaque nouveau devis de ce client. Les documents déjà établis ne changent pas.',

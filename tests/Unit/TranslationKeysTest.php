@@ -2,33 +2,33 @@
 
 namespace Tests\Unit;
 
+use App\Http\Middleware\HandleInertiaRequests;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 /**
- * Toute clé appelée par `t('…')` côté Vue doit exister au premier niveau.
+ * Toute clé appelée par `t('…')` côté Vue doit arriver jusqu'au navigateur.
  *
- * Le composable `useTranslations` lit `page.props.translations.app.<clé>` : une
- * clé rangée dans un sous-tableau (`app.faia.accounting_scope`) reste
- * introuvable, et l'interface affiche alors la clé brute à l'utilisateur.
+ * Le composable `useTranslations` lit `page.props.translations.app.<clé>`. Deux
+ * façons distinctes de casser ça, toutes deux déjà survenues :
  *
- * L'erreur est facile à commettre en insérant une clé par script : le point
- * d'ancrage choisi peut tomber à l'intérieur d'un sous-tableau. Elle est
- * invisible aux tests fonctionnels, qui n'inspectent pas le texte rendu.
- * D'où ce garde-fou.
+ * 1. **la clé est rangée dans un sous-tableau** (`app.faia.accounting_scope`).
+ *    Facile à provoquer en insérant une clé par script : le point d'ancrage
+ *    choisi tombe à l'intérieur d'un sous-tableau sans qu'on le voie ;
+ * 2. **la clé est filtrée par `HandleInertiaRequests`**, qui retire du paquet
+ *    envoyé au front tout ce qui commence par `email_`, `pdf_` ou
+ *    `mail_subject_`, sauf liste blanche. Une nouvelle clé `pdf_…` destinée à
+ *    l'interface disparaît donc silencieusement.
+ *
+ * Dans les deux cas l'utilisateur voit la clé brute, et aucun test fonctionnel
+ * ne s'en aperçoit : ils n'inspectent pas le texte rendu.
+ *
+ * Ce test interroge donc le middleware lui-même plutôt que le fichier de
+ * langue : c'est le seul moyen de couvrir les deux causes à la fois.
  */
 class TranslationKeysTest extends TestCase
 {
     private const LOCALES = ['fr', 'en', 'de', 'lb', 'pt'];
-
-    /**
-     * Chemins résolus depuis ce fichier plutôt que par `resource_path()` :
-     * ce test n'amorce pas l'application, donc aucun conteneur n'est disponible.
-     */
-    private static function basePath(string $relative): string
-    {
-        return dirname(__DIR__, 2).'/'.$relative;
-    }
 
     /**
      * Clés littérales appelées dans les composants Vue.
@@ -43,7 +43,7 @@ class TranslationKeysTest extends TestCase
     {
         $keys = [];
         $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(self::basePath('resources/js'))
+            new \RecursiveDirectoryIterator(resource_path('js'))
         );
 
         foreach ($files as $file) {
@@ -63,6 +63,21 @@ class TranslationKeysTest extends TestCase
         return array_keys($keys);
     }
 
+    /**
+     * Traductions telles que le middleware les transmet à Inertia, filtrage
+     * compris. Passe par la méthode réelle plutôt que d'en recopier la règle :
+     * un test qui réimplémente ce qu'il vérifie ne vérifie rien.
+     *
+     * @return array<string, mixed>
+     */
+    private function translationsSentToBrowser(string $locale): array
+    {
+        $method = new \ReflectionMethod(HandleInertiaRequests::class, 'getTranslations');
+        $method->setAccessible(true);
+
+        return $method->invoke(new HandleInertiaRequests(), $locale)['app'] ?? [];
+    }
+
     /** @return array<string, array<int, string>> */
     public static function locales(): array
     {
@@ -73,9 +88,9 @@ class TranslationKeysTest extends TestCase
     }
 
     #[DataProvider('locales')]
-    public function test_les_cles_appelees_par_le_front_existent_au_premier_niveau(string $locale): void
+    public function test_les_cles_appelees_par_le_front_lui_parviennent(string $locale): void
     {
-        $translations = require self::basePath("resources/lang/{$locale}/app.php");
+        $translations = $this->translationsSentToBrowser($locale);
 
         $missing = array_values(array_filter(
             $this->keysUsedInVue(),
@@ -83,10 +98,12 @@ class TranslationKeysTest extends TestCase
         ));
 
         $this->assertSame([], $missing, sprintf(
-            "Ces clés sont appelées par un composant Vue mais absentes du premier niveau de resources/lang/%s/app.php : %s\n".
-            "Une clé rangée dans un sous-tableau s'affiche telle quelle à l'utilisateur.",
+            "Ces clés sont appelées par un composant Vue mais n'arrivent pas au navigateur en « %s » : %s\n".
+            "Deux causes possibles : la clé est rangée dans un sous-tableau de resources/lang/%s/app.php, ".
+            "ou son préfixe la fait filtrer par HandleInertiaRequests (ajoutez-la alors à \$frontendKept).",
             $locale,
-            implode(', ', $missing)
+            implode(', ', $missing),
+            $locale
         ));
     }
 }

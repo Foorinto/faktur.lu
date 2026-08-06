@@ -183,7 +183,12 @@ class HandleInertiaRequests extends Middleware
             'email_provider', 'email_provider_tab', 'email_provider_config_title',
             'email_send_provider', 'email_send_provider_description',
             'email_unverified', 'email_verification_title', 'email_verification_message',
+            // Utilisée par la page d'acceptation d'invitation d'un collaborateur,
+            // qui affichait « Email » en dur faute de recevoir sa traduction.
+            'email_label',
             'pdf_color', 'pdf_color_help', 'pdf_a_archiving',
+            'pdf_text_size', 'pdf_text_size_normal', 'pdf_text_size_large',
+            'pdf_text_size_xlarge', 'pdf_text_size_help',
         ];
         foreach ($translations as $key => $value) {
             if (in_array($key, $frontendKept, true)) {

@@ -83,6 +83,10 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'default_vat_mention' => ['nullable', 'string', Rule::in(['franchise', 'reverse_charge', 'intra_eu', 'export', 'none', 'other'])],
             'default_custom_vat_mention' => ['nullable', 'string', 'max:1000'],
             'default_pdf_color' => ['nullable', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            // FEAT-109 : un choix fermé, pas un coefficient libre. La valeur
+            // atterrit sur un document légal ; une échelle arbitraire pourrait
+            // le rendre illisible ou le faire déborder sans prévenir.
+            'pdf_text_size' => ['nullable', Rule::in(array_keys(\App\Models\BusinessSettings::PDF_TEXT_SIZES))],
             'phone' => ['nullable', 'string', 'max:20'],
             'show_phone_on_invoice' => ['boolean'],
             'email' => ['required', 'email', 'max:255'],

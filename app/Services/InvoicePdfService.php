@@ -218,6 +218,9 @@ class InvoicePdfService
             'paymentReference' => $this->generatePaymentReference($invoice),
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
+            // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
+            // sont donc calculées ici et écrites en dur dans le gabarit.
+            'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
             'showBranding' => $showBranding,
             'locale' => $locale,
             'paymentQrCode' => $paymentQrCode,
@@ -264,6 +267,9 @@ class InvoicePdfService
             'show_email_on_invoice' => $settings->show_email_on_invoice,
             'phone' => $settings->phone,
             'show_phone_on_invoice' => $settings->show_phone_on_invoice,
+            // FEAT-109 : un brouillon suit le réglage courant. Une facture
+            // finalisée, elle, garde celui figé dans son instantané.
+            'pdf_text_size' => $settings->pdf_text_size,
             'website' => null,
         ] : [];
 
@@ -344,6 +350,9 @@ class InvoicePdfService
             'paymentReference' => 'BROUILLON',
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
+            // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
+            // sont donc calculées ici et écrites en dur dans le gabarit.
+            'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
             'showBranding' => $showBranding,
             'locale' => $locale,
             'paymentQrCode' => $paymentQrCode,

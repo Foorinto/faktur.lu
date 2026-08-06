@@ -13,7 +13,7 @@
 
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             line-height: 1.2;
             color: #333;
             margin: 0;
@@ -54,7 +54,7 @@
 
         /* Document title */
         .document-title {
-            font-size: 20pt;
+            font-size: {{ $fontSize(20) }};
             font-weight: bold;
             color: #7c3aed;
             text-decoration: underline;
@@ -62,7 +62,7 @@
         }
 
         .document-number {
-            font-size: 10pt;
+            font-size: {{ $fontSize(10) }};
             font-weight: bold;
             color: #333;
         }
@@ -89,12 +89,12 @@
 
         .company-name {
             font-weight: bold;
-            font-size: 9pt;
+            font-size: {{ $fontSize(9) }};
             margin-bottom: 1px;
         }
 
         .company-details {
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             color: #333;
             line-height: 1.3;
         }
@@ -125,7 +125,7 @@
             color: white;
             padding: 5px 4px;
             text-align: left;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             font-weight: normal;
         }
 
@@ -161,7 +161,7 @@
         .items-table td {
             padding: 6px 4px;
             border-bottom: 1px solid #e5e5e5;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             vertical-align: top;
         }
 
@@ -185,7 +185,7 @@
 
         .item-description {
             color: #666;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             margin-top: 1px;
             line-height: 1.2;
         }
@@ -217,12 +217,12 @@
 
         .condition-label {
             font-weight: bold;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #333;
         }
 
         .condition-value {
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #666;
         }
 
@@ -231,7 +231,7 @@
             display: inline-block;
             padding: 3px 8px;
             border-radius: 4px;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             font-weight: bold;
             margin-top: 5px;
         }
@@ -277,7 +277,7 @@
             font-weight: bold;
             background-color: #f8f8f8;
             width: 50%;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
         }
 
         .total-value {
@@ -286,12 +286,12 @@
             text-align: right;
             font-weight: bold;
             width: 50%;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
         }
 
         /* VAT notice */
         .vat-notice {
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #666;
             margin-top: 5px;
             font-style: italic;
@@ -304,7 +304,7 @@
         }
 
         .thanks-message {
-            font-size: 9pt;
+            font-size: {{ $fontSize(9) }};
             color: #333;
             margin-bottom: 5px;
         }
@@ -313,7 +313,7 @@
         .thanks-message a { color: {{ $pdfColor ?? '#7c3aed' }}; }
 
         .notes-content {
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #666;
             line-height: 1.2;
         }
@@ -328,7 +328,7 @@
             bottom: 10px;
             left: 25px;
             right: 25px;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #9ca3af;
         }
 

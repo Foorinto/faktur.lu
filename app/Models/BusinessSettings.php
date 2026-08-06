@@ -34,6 +34,7 @@ class BusinessSettings extends Model
         'default_vat_mention',
         'default_custom_vat_mention',
         'default_pdf_color',
+        'pdf_text_size',
         'phone',
         'show_phone_on_invoice',
         'email',
@@ -74,6 +75,27 @@ class BusinessSettings extends Model
      * Default PDF color (violet).
      */
     public const DEFAULT_PDF_COLOR = '#7c3aed';
+
+    /**
+     * Tailles de texte proposées pour les PDF, et leur facteur d'échelle.
+     *
+     * Un **facteur** appliqué à l'ensemble du gabarit, et non une liste de
+     * tailles à redéfinir une par une : le document compte une quinzaine de
+     * tailles qui forment une hiérarchie (titre, intertitre, corps, mentions).
+     * Les redéfinir séparément la casserait au premier oubli ; une échelle la
+     * conserve par construction.
+     *
+     * Les paliers restent modestes à dessein. Au delà de 1,3 une facture d'une
+     * quinzaine de lignes déborde sur une deuxième page, ce qui déplace le pied
+     * de page et les totaux.
+     */
+    public const PDF_TEXT_SIZES = [
+        'normal' => 1.0,
+        'large' => 1.15,
+        'xlarge' => 1.3,
+    ];
+
+    public const DEFAULT_PDF_TEXT_SIZE = 'normal';
 
     /**
      * Preset color options for PDF.
@@ -340,6 +362,9 @@ class BusinessSettings extends Model
             'discount_terms' => $this->discount_terms,
             'logo_path' => $this->logo_path,
             'pdf_color' => $this->getEffectivePdfColor(),
+            // Figé dans l'instantané au même titre que la couleur : réimprimer
+            // une facture émise doit redonner exactement le même document.
+            'pdf_text_size' => $this->pdf_text_size ?? self::DEFAULT_PDF_TEXT_SIZE,
         ];
     }
 
@@ -531,6 +556,28 @@ class BusinessSettings extends Model
     public function getEffectivePdfColor(): string
     {
         return $this->default_pdf_color ?? self::DEFAULT_PDF_COLOR;
+    }
+
+    /**
+     * Fonction de mise à l'échelle des tailles du gabarit PDF.
+     *
+     * Renvoie une fonction pt → chaîne CSS, à passer à la vue. dompdf ne gère
+     * pas les variables CSS : les valeurs doivent être calculées ici et écrites
+     * en dur dans le style.
+     *
+     * Une taille inconnue (réglage supprimé, instantané d'une facture émise
+     * avant cette fonctionnalité) retombe sur l'échelle 1 : le document se rend
+     * alors exactement comme avant.
+     */
+    public static function pdfFontSizer(?string $size): \Closure
+    {
+        $scale = self::PDF_TEXT_SIZES[$size] ?? self::PDF_TEXT_SIZES[self::DEFAULT_PDF_TEXT_SIZE];
+
+        return static function (float $pt) use ($scale): string {
+            // Deux décimales suffisent en typographie, et évitent d'écrire
+            // « 9.199999999999999pt » dans la feuille de style.
+            return rtrim(rtrim(number_format($pt * $scale, 2, '.', ''), '0'), '.').'pt';
+        };
     }
 
     /**

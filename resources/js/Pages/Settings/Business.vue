@@ -107,6 +107,7 @@ const form = useForm({
     default_vat_mention: props.settings?.default_vat_mention ?? 'franchise',
     default_custom_vat_mention: props.settings?.default_custom_vat_mention ?? '',
     default_pdf_color: props.settings?.default_pdf_color ?? props.defaultPdfColor,
+    pdf_text_size: props.settings?.pdf_text_size ?? 'normal',
     phone: props.settings?.phone ?? '',
     show_phone_on_invoice: props.settings?.show_phone_on_invoice ?? false,
     email: props.settings?.email ?? '',
@@ -1218,6 +1219,24 @@ const cancelPaymentQrcodeUpload = () => {
                                 />
                             </div>
                             <InputError :message="form.errors.default_pdf_color" class="mt-2" />
+                        </div>
+
+                        <!-- FEAT-109 : taille du texte des documents PDF -->
+                        <div>
+                            <InputLabel for="pdf_text_size" :value="t('pdf_text_size')" />
+                            <select
+                                id="pdf_text_size"
+                                v-model="form.pdf_text_size"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:max-w-xs"
+                            >
+                                <option value="normal">{{ t('pdf_text_size_normal') }}</option>
+                                <option value="large">{{ t('pdf_text_size_large') }}</option>
+                                <option value="xlarge">{{ t('pdf_text_size_xlarge') }}</option>
+                            </select>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('pdf_text_size_help') }}
+                            </p>
+                            <InputError :message="form.errors.pdf_text_size" class="mt-2" />
                         </div>
 
                         <!-- Footer Message -->

@@ -13,7 +13,7 @@
 
         body {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             line-height: 1.2;
             color: #333;
             margin: 0;
@@ -54,7 +54,7 @@
 
         /* Document title */
         .document-title {
-            font-size: 20pt;
+            font-size: {{ $fontSize(20) }};
             font-weight: bold;
             color: {{ $pdfColor ?? '#7c3aed' }};
             text-decoration: underline;
@@ -62,7 +62,7 @@
         }
 
         .document-number {
-            font-size: 10pt;
+            font-size: {{ $fontSize(10) }};
             font-weight: bold;
             color: #333;
         }
@@ -89,12 +89,12 @@
 
         .company-name {
             font-weight: bold;
-            font-size: 9pt;
+            font-size: {{ $fontSize(9) }};
             margin-bottom: 1px;
         }
 
         .company-details {
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             color: #333;
             line-height: 1.3;
         }
@@ -125,7 +125,7 @@
             color: white;
             padding: 5px 4px;
             text-align: left;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             font-weight: normal;
         }
 
@@ -161,7 +161,7 @@
         .items-table td {
             padding: 6px 4px;
             border-bottom: 1px solid #e5e5e5;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             vertical-align: top;
         }
 
@@ -185,7 +185,7 @@
 
         .item-description {
             color: #666;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             margin-top: 1px;
             line-height: 1.2;
         }
@@ -217,12 +217,12 @@
 
         .condition-label {
             font-weight: bold;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #333;
         }
 
         .condition-value {
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #666;
         }
 
@@ -234,14 +234,14 @@
 
         .bank-title {
             font-weight: bold;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             margin-bottom: 3px;
         }
 
         .bank-row {
             display: table;
             width: 100%;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             margin-bottom: 1px;
         }
 
@@ -278,7 +278,7 @@
         }
 
         .qr-payment-label {
-            font-size: 6pt;
+            font-size: {{ $fontSize(6) }};
             color: #666;
             margin-top: 2px;
         }
@@ -304,7 +304,7 @@
             font-weight: bold;
             background-color: #f8f8f8;
             width: 50%;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
         }
 
         .total-value {
@@ -313,12 +313,12 @@
             text-align: right;
             font-weight: bold;
             width: 50%;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
         }
 
         /* VAT notice */
         .vat-notice {
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #666;
             margin-top: 5px;
             font-style: italic;
@@ -331,7 +331,7 @@
         }
 
         .thanks-message {
-            font-size: 9pt;
+            font-size: {{ $fontSize(9) }};
             color: #333;
             margin-bottom: 5px;
         }
@@ -343,7 +343,7 @@
         .payment-instructions p { margin: 0 0 2px; }
 
         .notes-content {
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #666;
             line-height: 1.2;
         }
@@ -357,7 +357,7 @@
             background-color: #fef3c7;
             padding: 5px 10px;
             margin-bottom: 10px;
-            font-size: 8pt;
+            font-size: {{ $fontSize(8) }};
             color: #92400e;
         }
 
@@ -367,7 +367,7 @@
             bottom: 10px;
             left: 25px;
             right: 25px;
-            font-size: 7pt;
+            font-size: {{ $fontSize(7) }};
             color: #9ca3af;
         }
 
@@ -661,8 +661,8 @@
                         @endforeach
                     @endif
                     <div class="total-row" style="border-top: 2px solid #1e293b; padding-top: 8px; margin-top: 4px;">
-                        <span class="total-label" style="font-weight: 700; font-size: 11pt;">{{ __('invoice.total') }}</span>
-                        <span class="total-value" style="font-weight: 700; font-size: 11pt;">{{ number_format($invoice->total_ttc ?? 0, 2, ',', ' ') }} €</span>
+                        <span class="total-label" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ __('invoice.total') }}</span>
+                        <span class="total-value" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ number_format($invoice->total_ttc ?? 0, 2, ',', ' ') }} €</span>
                     </div>
                     @if($invoice->retention_guarantee_rate && $invoice->retention_guarantee_rate > 0)
                         <div class="total-row" style="margin-top: 8px;">
@@ -670,11 +670,11 @@
                             <span class="total-value">- {{ number_format($invoice->retention_guarantee_amount ?? 0, 2, ',', ' ') }} €</span>
                         </div>
                         <div class="total-row" style="border-top: 2px solid #1e293b; padding-top: 8px; margin-top: 4px;">
-                            <span class="total-label" style="font-weight: 700; font-size: 11pt;">{{ __('invoice.net_total') }}</span>
-                            <span class="total-value" style="font-weight: 700; font-size: 11pt;">{{ number_format(($invoice->total_ttc ?? 0) - ($invoice->retention_guarantee_amount ?? 0), 2, ',', ' ') }} €</span>
+                            <span class="total-label" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ __('invoice.net_total') }}</span>
+                            <span class="total-value" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ number_format(($invoice->total_ttc ?? 0) - ($invoice->retention_guarantee_amount ?? 0), 2, ',', ' ') }} €</span>
                         </div>
                         @if($invoice->retention_release_date)
-                            <div style="margin-top: 6px; font-size: 7.5pt; color: #64748b;">
+                            <div style="margin-top: 6px; font-size: {{ $fontSize(7.5) }}; color: #64748b;">
                                 {{ __('invoice.retention_releasable_from', ['date' => $invoice->retention_release_date->format('d/m/Y')]) }}
                             </div>
                         @endif
