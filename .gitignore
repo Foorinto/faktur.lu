@@ -39,3 +39,6 @@ database/*.sqlite
 
 # Sauvegarde locale du script de déploiement
 deploy.sh.bak
+
+# Pièces de dossiers (marque, juridique) : gardées en local, hors dépôt
+docs/*.pdf
