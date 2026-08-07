@@ -26,7 +26,7 @@ const openInNewTab = () => {
 
 const sendEmail = () => {
     sending.value = true;
-    router.post(route('invoices.send', props.invoice.id), sendForm.value, {
+    router.post(route('invoices.send-email', props.invoice.id), sendForm.value, {
         onFinish: () => {
             sending.value = false;
             showSendModal.value = false;

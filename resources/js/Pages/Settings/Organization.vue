@@ -58,14 +58,14 @@ const submitInvite = () => {
 };
 
 const resendInvitation = (invitationId) => {
-    router.post(route('settings.organization.invitation.resend', invitationId), {}, {
+    router.post(route('settings.organization.invitations.resend', invitationId), {}, {
         preserveScroll: true,
     });
 };
 
 const cancelInvitation = (invitationId) => {
     if (confirm(t('confirm_cancel_invitation'))) {
-        router.delete(route('settings.organization.invitation.cancel', invitationId), {
+        router.delete(route('settings.organization.invitations.cancel', invitationId), {
             preserveScroll: true,
         });
     }
@@ -73,7 +73,7 @@ const cancelInvitation = (invitationId) => {
 
 const removeMember = (memberId, memberName) => {
     if (confirm(t('confirm_remove_member') + ` ${memberName}`)) {
-        router.delete(route('settings.organization.member.remove', memberId), {
+        router.delete(route('settings.organization.members.remove', memberId), {
             preserveScroll: true,
         });
     }
