@@ -12,6 +12,14 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 // Track if Vue app is properly mounted
 let vueAppMounted = false;
 
+// Recharge les traductions quand la langue change. En navigation SPA la page
+// n'est pas rechargée : sans cela, l'URL passait de /fr à /en et les textes
+// restaient dans la langue précédente. Le dépôt étant réactif, l'interface se
+// remet à jour d'elle-même à l'arrivée du fichier.
+router.on('success', (event) => {
+    loadTranslations(event.detail.page.props.translationsUrl);
+});
+
 // Sync CSRF token after each Inertia navigation
 // This ensures axios always has the latest token from the server
 router.on('success', (event) => {

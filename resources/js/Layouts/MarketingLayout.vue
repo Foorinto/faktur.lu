@@ -24,10 +24,12 @@ const canRegister = page.props.canRegister ?? true;
 // Switch locale
 const switchLocale = (newLocale) => {
     langMenuOpen.value = false;
-    // Navigate to the same page but with new locale
-    router.visit(route("locale.switch", { locale: newLocale }), {
-        preserveState: false,
-    });
+    // Rechargement complet plutôt que navigation SPA. Les traductions sont
+    // servies dans un fichier à part et chargées AVANT le montage : repartir
+    // de zéro garantit que la nouvelle langue est en place au premier rendu,
+    // là où une navigation SPA afficherait brièvement la langue précédente.
+    // Changer de langue est rare, et recharger est ici le geste juste.
+    window.location.href = route("locale.switch", { locale: newLocale });
 };
 
 // Close dropdown when clicking outside
