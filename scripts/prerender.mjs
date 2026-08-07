@@ -18,7 +18,7 @@
  *   node scripts/prerender.mjs --only /fr,/fr/tarifs # explicit URLs
  */
 
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readdir, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
@@ -116,6 +116,50 @@ async function renderOne(browser, url) {
     }
 }
 
+/**
+ * Supprime les snapshots dont l'URL n'est plus au sitemap.
+ *
+ * Sans cela ils survivent indéfiniment, et le middleware ServePrerendered
+ * continue de les servir AUX ROBOTS alors que la route redirige ou n'existe
+ * plus. Un visiteur voit la redirection, Googlebot voit l'ancienne page :
+ * l'inverse de ce qu'on veut, et un signal de dissimulation.
+ *
+ * Ne touche qu'aux dossiers contenant un index.html, jamais au reste.
+ */
+async function pruneOrphans(urls) {
+    const attendus = new Set(urls.map((u) => fileForPath(new URL(u).pathname)));
+    const retires = [];
+
+    async function parcourir(dir) {
+        let entrees;
+        try {
+            entrees = await readdir(dir, { withFileTypes: true });
+        } catch {
+            return;
+        }
+
+        for (const e of entrees) {
+            const chemin = join(dir, e.name);
+            if (e.isDirectory()) {
+                await parcourir(chemin);
+                continue;
+            }
+            if (e.name === 'index.html' && !attendus.has(chemin)) {
+                await rm(dirname(chemin), { recursive: true, force: true });
+                retires.push(dirname(chemin).replace(OUT_DIR, ''));
+            }
+        }
+    }
+
+    await parcourir(OUT_DIR);
+
+    if (retires.length) {
+        console.log(`\n🧹 ${retires.length} snapshot(s) orphelin(s) supprimé(s) :`);
+        retires.forEach((r) => console.log(`   ${r}`));
+    }
+
+    return retires.length;
+}
 // Simple concurrency pool.
 async function run() {
     const urls = await collectUrls();
@@ -144,6 +188,8 @@ async function run() {
     }
     await Promise.all(Array.from({ length: Math.min(CONCURRENCY, urls.length) }, worker));
     await browser.close();
+
+    await pruneOrphans(urls);
 
     const ok = results.filter((r) => r.ok).length;
     const failed = results.filter((r) => !r.ok);
