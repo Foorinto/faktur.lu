@@ -1,8 +1,6 @@
 <script setup>
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import Link from '@tiptap/extension-link';
 import { computed, watch } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
@@ -45,6 +43,10 @@ const setLink = () => {
 
 const editor = useEditor({
     content: props.modelValue,
+    // StarterKit 3 embarque déjà `link` et `underline`. Les réenregistrer à
+    // côté produisait « Duplicate extension names found » dans la console, et
+    // TipTap prévient que deux extensions de même nom peuvent se marcher
+    // dessus. On les configure donc là où elles vivent réellement.
     extensions: [
         StarterKit.configure({
             heading: false,
@@ -52,13 +54,12 @@ const editor = useEditor({
             code: false,
             blockquote: false,
             horizontalRule: false,
-        }),
-        Underline,
-        Link.configure({
-            openOnClick: false,
-            HTMLAttributes: {
-                target: '_blank',
-                rel: 'noopener noreferrer',
+            link: {
+                openOnClick: false,
+                HTMLAttributes: {
+                    target: '_blank',
+                    rel: 'noopener noreferrer',
+                },
             },
         }),
     ],
