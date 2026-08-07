@@ -46,6 +46,13 @@ echo ""
 # (le middleware fait un pass-through si un fichier manque). Toute erreur ici
 # est un simple avertissement.
 # ---------------------------------------------------------------------------
+# État du prerendering, pour le récapitulatif final. Cette étape peut échouer
+# sans faire échouer le déploiement : le site reste servi correctement, seuls
+# les snapshots destinés aux robots restent périmés. Il faut donc le DIRE,
+# faute de quoi on croit tout terminé alors qu'une page supprimée continue
+# d'être servie à Google (constaté le 2026-08-07).
+PRERENDER_STATUS="non exécuté"
+
 prerender_and_sync() {
     echo ""
     echo -e "${YELLOW}[Prerendering] Génération des snapshots publics (robots)...${NC}"
@@ -72,6 +79,7 @@ prerender_and_sync() {
         if [ $tries -ge 120 ]; then
             echo -e "${RED}⚠️  Serveur local de prerendering non démarré (port $PORT). Snapshots NON régénérés.${NC}"
             echo -e "${YELLOW}   Voir /tmp/faktur-prerender-serve.log. Le site reste OK.${NC}"
+            PRERENDER_STATUS="ÉCHEC : serveur local non démarré (port $PORT)"
             kill $SERVE_PID 2>/dev/null
             set -e
             return 0
@@ -85,6 +93,7 @@ prerender_and_sync() {
     if [ $gen_rc -ne 0 ]; then
         echo -e "${RED}⚠️  Génération des snapshots INCOMPLÈTE (code $gen_rc). Snapshots NON synchronisés.${NC}"
         echo -e "${YELLOW}   Le site reste OK. Relance: ./deploy-staging.sh prerender-only${NC}"
+        PRERENDER_STATUS="ÉCHEC : génération incomplète (code $gen_rc)"
         set -e
         return 0
     fi
@@ -93,11 +102,27 @@ prerender_and_sync() {
         public/prerendered/ "$SSH_USER@$SSH_HOST:$REMOTE_PATH/public/prerendered/"
     if [ $? -ne 0 ]; then
         echo -e "${YELLOW}⚠️  rsync échoué. Le site reste OK ; snapshots non synchronisés.${NC}"
+        PRERENDER_STATUS="ÉCHEC : rsync des snapshots"
     else
         echo -e "${GREEN}✓ Snapshots synchronisés vers le serveur${NC}"
+        PRERENDER_STATUS="OK"
     fi
     set -e
     return 0
+}
+
+# Statut des snapshots destinés aux robots. Appelée par les deux chemins de
+# sortie : déploiement complet et mode prerender-only.
+statut_snapshots() {
+    printf "  Snapshots robots    "
+    case "$PRERENDER_STATUS" in
+        OK)             echo -e "${GREEN}OK${NC}" ;;
+        "non exécuté")  echo -e "${YELLOW}non exécuté (mode rapide ou site KO)${NC}" ;;
+        *)              echo -e "${RED}$PRERENDER_STATUS${NC}"
+                        echo ""
+                        echo -e "${YELLOW}  ⚠️  Les robots reçoivent encore les anciens snapshots.${NC}"
+                        echo -e "${YELLOW}      Rejouer :  ./deploy-staging.sh prerender-only${NC}" ;;
+    esac
 }
 
 # Mode dédié : régénère + synchronise les snapshots SANS redéployer le code.
@@ -105,8 +130,10 @@ prerender_and_sync() {
 if [ "$1" == "prerender-only" ]; then
     echo -e "${BLUE}Mode prerender-only : régénération + sync des snapshots (sans déploiement)${NC}"
     prerender_and_sync
-    echo -e "${GREEN}Terminé.${NC}"
-    exit 0
+    echo ""
+    statut_snapshots
+    echo ""
+    [ "$PRERENDER_STATUS" == "OK" ] && exit 0 || exit 1
 fi
 
 # Bandeau explicite quand on ne déploie pas main (évite un déploiement de branche oublié)
