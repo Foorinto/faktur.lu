@@ -336,14 +336,26 @@ Route::prefix('{locale}')
         Route::get('/fir-kmu', [ContactController::class, 'forSmes'])->name('for_smes.lb');
         Route::get('/para-pme', [ContactController::class, 'forSmes'])->name('for_smes.pt');
 
-        // Fiduciaires et experts-comptables : ce sont eux qui prescrivent
-        // l'outil. Page d'atterrissage des prises de contact, et point de
-        // départ des liens entrants attendus de la profession.
-        Route::get('/pour-fiduciaires', [ContactController::class, 'forAccountants'])->name('for_accountants.fr');
-        Route::get('/fuer-treuhaender', [ContactController::class, 'forAccountants'])->name('for_accountants.de');
-        Route::get('/for-accountants', [ContactController::class, 'forAccountants'])->name('for_accountants.en');
-        Route::get('/fir-fiduciairen', [ContactController::class, 'forAccountants'])->name('for_accountants.lb');
-        Route::get('/para-contabilistas', [ContactController::class, 'forAccountants'])->name('for_accountants.pt');
+        // Anciennes adresses de la page fiduciaires, fusionnée dans /partenaires.
+        //
+        // Les deux pages visaient le même public sur les mêmes mots-clés et se
+        // seraient concurrencées dans les résultats de recherche. /partenaires
+        // a été retenue : quatre mois d'indexation, un formulaire qui convertit
+        // et le programme « Partenaire Fondateur ». Ses douleurs et son appel
+        // vers le validateur FAIA y ont été transportés.
+        //
+        // Redirection permanente : ces adresses ont vécu quelques jours et ont
+        // pu être partagées.
+        foreach ([
+            'fr' => 'pour-fiduciaires',
+            'de' => 'fuer-treuhaender',
+            'en' => 'for-accountants',
+            'lb' => 'fir-fiduciairen',
+            'pt' => 'para-contabilistas',
+        ] as $ancienneLocale => $ancienChemin) {
+            Route::get('/'.$ancienChemin, fn (string $locale) => redirect()->route('partners.'.$locale, ['locale' => $locale], 301))
+                ->name('for_accountants.'.$ancienneLocale);
+        }
 
         // Glossary page (DefinedTermSet for LLM/SEO optimization)
         Route::get('/glossaire', [ContactController::class, 'glossary'])->name('glossary.fr');

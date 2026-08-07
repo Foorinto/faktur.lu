@@ -58,14 +58,6 @@ class ContactController extends Controller
     }
 
     /**
-     * Display the "For accountants" segmented landing page.
-     */
-    public function forAccountants(): Response
-    {
-        return Inertia::render('Segments/Accountants');
-    }
-
-    /**
      * Display the glossary page (DefinedTermSet for LLMs + SEO long-tail).
      */
     public function glossary(): Response

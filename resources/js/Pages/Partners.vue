@@ -36,6 +36,8 @@ const CALENDLY_URL = 'https://calendly.com/foorintodev/decouverte-faktur-lu-port
 // Note : le portail comptable est gratuit pour TOUTES les fiduciaires (clarifié
 // dans le sous-titre). La liste ci-dessous = les avantages exclusifs du programme
 // - aucun abonnement faktur offert (accompagnement + visibilité uniquement).
+const painKeys = ['formats', 'faia', 'reentry', 'access'];
+
 const founderGet = computed(() => [
     t('partners.founder.get_3'),
     t('partners.founder.get_4'),
@@ -273,6 +275,34 @@ const schemas = computed(() => [
                     <p class="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
                         {{ t('partners.subtitle') }}
                     </p>
+
+                    <!-- Le validateur FAIA est gratuit et sans inscription : c'est
+                         ce qu'on peut offrir à un cabinet sans rien lui demander,
+                         et donc le meilleur point d'entrée dans cette page. -->
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link
+                            :href="localizedRoute('faia-validator')"
+                            class="inline-flex items-center gap-2 bg-accent-rose hover:bg-pink-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
+                        >
+                            {{ t('partners.cta_faia') }}
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                        </Link>
+                    </div>
+                    <p class="mt-3 text-sm text-slate-500">{{ t('partners.cta_faia_note') }}</p>
+                </div>
+
+                <!-- Ce qui fait perdre du temps à un cabinet.
+                     Repris de l'ancienne page /pour-fiduciaires, fusionnée ici. -->
+                <div class="mb-20">
+                    <h2 class="text-2xl font-bold text-slate-900 text-center mb-10">
+                        {{ t('partners.pains.title') }}
+                    </h2>
+                    <div class="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <div v-for="key in painKeys" :key="key" class="p-6 rounded-2xl border border-gray-200 bg-white">
+                            <h3 class="font-semibold text-slate-900 mb-2">{{ t('partners.pains.' + key + '.title') }}</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">{{ t('partners.pains.' + key + '.desc') }}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Avantages -->

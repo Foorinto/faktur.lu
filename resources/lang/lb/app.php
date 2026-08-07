@@ -1216,10 +1216,8 @@ return [
             'solutions_freelances_desc' => 'Einfach, konform Fakturatioun vun 0 €',
             'solutions_smes' => 'Fir KMU',
             'solutions_smes_desc' => 'CRM, HR, Multi-Notzer, onlimitéiert',
-            'solutions_accountants' => 'Fir Fiduciairen',
-            'solutions_accountants_desc' => 'Comptabilitéitsexporter an Dossierzougang',
-            'solutions_fiduciaries' => 'Partnerprogramm',
-            'solutions_fiduciaries_desc' => 'Am Netzwierk vun de Partnerfiduciairen matmaachen',
+            'solutions_fiduciaries' => 'Fir Treihandgesellschaften',
+            'solutions_fiduciaries_desc' => 'Gratis Comptablesportal, BOB/Sage Exporter',
             'how_it_works' => 'Wéi et funktionéiert',
             'pricing' => 'Präisser',
             'faq' => 'FAQ',
@@ -2490,100 +2488,6 @@ return [
     ],
 
     // Segmentsäit fir Fiduciairen a Comptabelen
-    // ⚠️ Traduction à faire relire par un locuteur natif (convention projet).
-    'for_accountants' => [
-        'page_title' => 'Rechnungssoftware fir Fiduciairen zu Lëtzebuerg: Sage-, FEC- a FAIA-Export | faktur.lu',
-        'meta_description' => 'Är Client\'e schreiwen Rechnunge mat faktur.lu, Dir kritt benotzbar Buchungen: Export op Sage BOB 50, Sage 100, FEC a CSV, FAIA-Export scho vum gratis Plang un, direkten Zougang zum Dossier vum Client. Gratis FAIA-Validator ouni Umeldung.',
-        'breadcrumb' => 'Fir Fiduciairen',
-        'badge' => 'Fir Fiduciairen a Comptabelen',
-        'hero_title' => 'Är Clienten schreiwen hir Rechnungen. Dir kritt benotzbar Donnéeën.',
-        'hero_subtitle' => 'faktur.lu ass eng lëtzebuergesch Rechnungssoftware, déi esou gebaut ass, datt d\'Aarbecht bei Iech ukënnt fäerdeg fir gebucht ze ginn: ausgeglachen Buchungen, getrennte Journalen, Konten aus dem normaliséierte Kontenplang, an en direkten Zougang zum Dossier vun Ärem Client.',
-        'cta_primary' => 'E FAIA-Fichier gratis kontrolléieren',
-        'cta_secondary' => 'Schreift eis',
-        'cta_reassurance' => 'Ouni Umeldung, ouni Kont. Funktionéiert mat Fichieren aus all Software.',
-
-        'pains_title' => 'Wat Iech Zäit kascht',
-        'pains' => [
-            'formats' => [
-                'title' => 'All Client kënnt mat sengem eegene Format',
-                'desc' => 'Hei eng Tabell, do e PDF, anzwousch anescht en eegene Export. D\'Iwwerhuele bleift manuell, an de Feeler schleicht sech ëmmer op der selwechter Plaz eran.',
-            ],
-            'faia' => [
-                'title' => 'En ongëltege FAIA-Fichier fält ze spéit op',
-                'desc' => 'Meeschtens réischt bei der Kontroll, wa keng Zäit méi bleift fir en a Rou ze korrigéieren.',
-            ],
-            'reentry' => [
-                'title' => 'D\'Nabuchen vu Verkeef an Akeef',
-                'desc' => 'Buchungen ofzetippen, déi scho digital do sinn, ass de Posten un Zäit deen am schwéiersten ze rechtfäerdegen ass.',
-            ],
-            'access' => [
-                'title' => 'De Belege nolafen',
-                'desc' => 'E Client un d\'Rechnunge vum Trimester ze erënneren kascht méi wéi se anzeginn.',
-            ],
-        ],
-
-        'features_title' => 'Wat faktur.lu Iech bréngt',
-        'features' => [
-            'portal' => [
-                'title' => 'En direkten Zougang zum Dossier',
-                'desc' => 'Äre Client gëtt Iech den Zougang mat e puer Klicken, ouni säi Passwuert ze deelen. Ee Zougang am Plang Essentiel, dräi am Plang Pro.',
-            ],
-            'exports' => [
-                'title' => 'Sage BOB 50, Sage 100, FEC a CSV',
-                'desc' => 'Véier Exportformater, mat duebeler Buchhaltung an engem Soll-Haben-Ausgläich deen duerch d\'Konstruktioun stëmmt.',
-            ],
-            'faia' => [
-                'title' => 'FAIA-Export scho vum gratis Plang un',
-                'desc' => 'Och fir Clienten déi näischt bezuelen. Et ass e Beleg deen Dir vun all hire Benotzer ufroe kënnt.',
-            ],
-            'purchases' => [
-                'title' => 'En eegent Akeefsjournal',
-                'desc' => 'D\'Ausgabe lafen an hiert eegent Journal, mam Chargëkont aus dem normaliséierte Kontenplang an der Virsteier getrennt vun auslännescher TVA.',
-            ],
-            'validator' => [
-                'title' => 'E gratis, ëffentleche FAIA-Validator',
-                'desc' => 'Kontrolléiert e Fichier ier Dir en ofginn, ouni Kont, och wann en aus enger anerer Software wéi eiser kënnt.',
-            ],
-            'vat' => [
-                'title' => 'Déi véier lëtzebuergesch TVA-Sätz',
-                'desc' => 'Sätz a Pflichtaangaben no dem Fall vum Client: Inland, innergemeinschaftlech Ëmkéier vun der Steierschold, Ausfuer, Franchise.',
-            ],
-        ],
-
-        'plan_recommend_title' => 'De Plang deen Dir Äre Clienten ubidde sollt',
-        'plan_recommend_name' => 'Essentiel',
-        'plan_recommend_desc' => 'Vun dësem Plang un kritt Dir den Zougang zum Dossier an d\'Comptabilitéitsexporter. Drënner behält Äre Client trotzdeem de FAIA-Export.',
-        'plan_recommend_cta' => 'Tariffer kucken',
-        'plan_free_note' => 'De gratis Plang ass ouni Zäitlimitt benotzbar, mam FAIA-Export abegraff. E Client deen ufänkt bezilt näischt fir Iech e benotzbare Fichier ze ginn.',
-
-        'faq_title' => 'Dacks gestallte Froen',
-        'faq' => [
-            'q1' => [
-                'q' => 'Gëtt den Zougang fir d\'Fiduciaire extra verrechent?',
-                'a' => 'Nee. En ass am Abonnement vun Ärem Client abegraff: ee Zougang am Plang Essentiel, dräi am Plang Pro. Fir Iech fält näischt un an et ass näischt z\'installéieren.',
-            ],
-            'q2' => [
-                'q' => 'Brauch ech e Kont fir de FAIA-Validator?',
-                'a' => 'Nee. De Validator ass ëffentlech a gratis, ouni Umeldung. Hien hëlt och Fichieren aus anerer Software wéi faktur.lu un.',
-            ],
-            'q3' => [
-                'q' => 'Wéi eng Exportformater ginn et?',
-                'a' => 'Sage BOB 50, Sage 100, de FEC-Format an e generesche CSV. D\'Konte sinn astellbar: déi definitiv Zouuerdnung bleift Är Entscheedung.',
-            ],
-            'q4' => [
-                'q' => 'Kann een d\'Ausgabe vu menge Clienten exportéieren?',
-                'a' => 'Jo, an engem getrennten Akeefsjournal. All Ausgabekategorie kann e Konto aus dem normaliséierte Kontenplang droen, an d\'TVA vun engem auslännesche Fournisseur gëtt op engem eegene Konto gefouert.',
-            ],
-            'q5' => [
-                'q' => 'Kann ech faktur.lu menge Clienten recommandéieren?',
-                'a' => 'Jo, a mir géifen eis freeën. Schreift eis: mir bereeden gär eng Presentatioun fir Äert Büro vir a beäntweren Är Froen zu den Exportformater ier Dir Iech festleet.',
-            ],
-        ],
-
-        'cta_final_title' => 'Schwätze mir iwwer Är Dossieren',
-        'cta_final_subtitle' => 'Wann en Exportformat feelt oder eng Astellung Iech blockéiert, sot et eis. Et sinn d\'Réckmeldunge vu Fiduciairen déi dësen Deel vum Produit virubréngen.',
-        'cta_final_button' => 'Schreift eis',
-    ],
 
     'for_smes' => [
         'page_title' => 'Fakturatiounssoftware KMU Lëtzebuerg: CRM, HR, Multi-Notzer | faktur.lu',
@@ -2923,6 +2827,15 @@ return [
     ],
 
     'partners' => [
+        'cta_faia' => 'E FAIA-Fichier gratis kontrolléieren',
+        'cta_faia_note' => 'Ouni Umeldung. Funktionéiert mat Fichieren aus all Software.',
+        'pains' => [
+            'title' => 'Wat Iech Zäit kascht',
+            'formats' => ['title' => 'All Client kënnt mat sengem eegene Format', 'desc' => 'Hei eng Tabell, do e PDF, anzwousch anescht en eegene Export. D\'Iwwerhuele bleift manuell, an de Feeler schleicht sech ëmmer op der selwechter Plaz eran.'],
+            'faia' => ['title' => 'En ongëltege FAIA-Fichier fält ze spéit op', 'desc' => 'Meeschtens réischt bei der Kontroll, wa keng Zäit méi bleift fir en a Rou ze korrigéieren.'],
+            'reentry' => ['title' => 'D\'Nabuchen vu Verkeef an Akeef', 'desc' => 'Buchungen ofzetippen, déi scho digital do sinn, ass de Posten un Zäit deen am schwéiersten ze rechtfäerdegen ass.'],
+            'access' => ['title' => 'De Belege nolafen', 'desc' => 'E Client un d\'Rechnunge vum Trimester ze erënneren kascht méi wéi se anzeginn.'],
+        ],
         'page_title' => 'Partnerprogramm fir Treihandgesellschaften | faktur.lu',
         'meta_description' => 'Gratis Comptablesportal fir lëtzebuerger Treihandgesellschaften. Exporter Sage BOB 50, Sage 100, generescht CSV, FAIA 2.01 a Rechnungs-PDF. Clientendaten am Nur-Lies-Modus.',
         'breadcrumb' => 'Partneren',
