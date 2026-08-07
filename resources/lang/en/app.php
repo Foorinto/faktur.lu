@@ -1313,6 +1313,8 @@ return [
             'solutions_freelances_desc' => 'Simple, compliant invoicing from €0',
             'solutions_smes' => 'For SMEs',
             'solutions_smes_desc' => 'CRM, HR, multi-user, unlimited',
+            'solutions_accountants' => 'For accountants',
+            'solutions_accountants_desc' => 'Accounting exports and file access',
             'solutions_fiduciaries' => 'For fiduciaries',
             'solutions_fiduciaries_desc' => 'Free accountant portal, BOB/Sage exports',
             'how_it_works' => 'How it works',
@@ -2584,6 +2586,101 @@ return [
         ],
         'cta_final_title' => 'Ready to invoice in 5 minutes?',
         'cta_final_subtitle' => 'Start with the free plan, no credit card. Your first compliant invoice in under 5 minutes.',
+    ],
+
+    // Accountants / bookkeeping firms segment page
+    'for_accountants' => [
+        'page_title' => 'Invoicing software for Luxembourg accountants: Sage, FEC and FAIA exports | faktur.lu',
+        'meta_description' => 'Your clients invoice with faktur.lu, you receive usable entries: Sage BOB 50, Sage 100, FEC and CSV exports, FAIA export included from the free plan, direct access to your client\'s file. Free FAIA validator, no sign-up.',
+        'breadcrumb' => 'For accountants',
+        'badge' => 'For accountants and bookkeeping firms',
+        'hero_title' => 'Your clients invoice. You receive usable data.',
+        'hero_subtitle' => 'faktur.lu is a Luxembourg invoicing tool built so the work reaches you ready to be booked: balanced entries, separate journals, standard chart of accounts, and direct access to your client\'s file.',
+        'cta_primary' => 'Validate a FAIA file for free',
+        'cta_secondary' => 'Get in touch',
+        'cta_reassurance' => 'No sign-up, no account needed. Works with files produced by any software.',
+
+        'pains_title' => 'What costs you time',
+        'pains' => [
+            'formats' => [
+                'title' => 'Every client arrives with their own format',
+                'desc' => 'A spreadsheet here, a PDF there, a homemade export elsewhere. Re-entry is manual, and the mistake always creeps in at the same place.',
+            ],
+            'faia' => [
+                'title' => 'An invalid FAIA file surfaces too late',
+                'desc' => 'Usually during the audit, when there is no longer time to fix it calmly.',
+            ],
+            'reentry' => [
+                'title' => 'Re-keying sales and purchases',
+                'desc' => 'Retyping entries that already exist in digital form is the least defensible use of a firm\'s time.',
+            ],
+            'access' => [
+                'title' => 'Chasing documents',
+                'desc' => 'Chasing a client for the quarter\'s invoices costs more than entering them.',
+            ],
+        ],
+
+        'features_title' => 'What faktur.lu gives you',
+        'features' => [
+            'portal' => [
+                'title' => 'Direct access to the file',
+                'desc' => 'Your client grants you access in a few clicks, without sharing a password. One seat on the Essentiel plan, three on Pro.',
+            ],
+            'exports' => [
+                'title' => 'Sage BOB 50, Sage 100, FEC and CSV',
+                'desc' => 'Four export formats, with double-entry bookkeeping and debit-credit balance guaranteed by construction.',
+            ],
+            'faia' => [
+                'title' => 'FAIA export included from the free plan',
+                'desc' => 'Including for clients who pay nothing. It is a document you can request from any of their users.',
+            ],
+            'purchases' => [
+                'title' => 'A separate purchase journal',
+                'desc' => 'Expenses go into their own journal, with the expense account taken from the standard chart of accounts and input VAT kept apart from foreign VAT.',
+            ],
+            'validator' => [
+                'title' => 'A public, free FAIA validator',
+                'desc' => 'Check a file before handing it over, without creating an account, even if it comes from software other than ours.',
+            ],
+            'vat' => [
+                'title' => 'The four Luxembourg VAT rates',
+                'desc' => 'Rates and legal mentions applied according to the client scenario: domestic, intra-EU reverse charge, export, exemption regime.',
+            ],
+        ],
+
+        'plan_recommend_title' => 'The plan to recommend to your clients',
+        'plan_recommend_name' => 'Essentiel',
+        'plan_recommend_desc' => 'This is the plan where file access and accounting exports become available. Below it, your client still keeps the FAIA export.',
+        'plan_recommend_cta' => 'See pricing',
+        'plan_free_note' => 'The free plan can be used indefinitely, with FAIA export included. A client just starting out pays nothing to hand you a usable file.',
+
+        'faq_title' => 'Frequently asked questions',
+        'faq' => [
+            'q1' => [
+                'q' => 'Is accountant access charged separately?',
+                'a' => 'No. It is part of your client\'s subscription: one seat on the Essentiel plan, three on Pro. Nothing to pay and nothing to install on your side.',
+            ],
+            'q2' => [
+                'q' => 'Do I need an account to use the FAIA validator?',
+                'a' => 'No. The validator is public and free, with no sign-up. It accepts files produced by software other than faktur.lu.',
+            ],
+            'q3' => [
+                'q' => 'Which accounting export formats are available?',
+                'a' => 'Sage BOB 50, Sage 100, the FEC format and a generic CSV. The accounts used are configurable: the final mapping remains your decision.',
+            ],
+            'q4' => [
+                'q' => 'Can my clients\' expenses be exported?',
+                'a' => 'Yes, in a separate purchase journal. Each expense category can carry an account from the standard chart of accounts, and VAT charged by a foreign supplier is isolated on its own account.',
+            ],
+            'q5' => [
+                'q' => 'Can I recommend faktur.lu to my clients?',
+                'a' => 'Yes, and we would be glad if you did. Write to us: we can prepare a walkthrough for your firm and answer your questions about export formats before you commit.',
+            ],
+        ],
+
+        'cta_final_title' => 'Let us talk about your files',
+        'cta_final_subtitle' => 'If an export format is missing or a configuration point is blocking you, tell us. Feedback from accountants is what moves this part of the product forward.',
+        'cta_final_button' => 'Get in touch',
     ],
 
     'for_smes' => [

@@ -456,6 +456,18 @@ onUnmounted(() => {
                                             </div>
                                         </Link>
                                         <Link
+                                            :href="localizedRoute('for_accountants')"
+                                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
+                                        >
+                                            <div class="w-8 h-8 rounded-lg bg-[#f15bb5]/10 flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-4 h-4 text-[#f15bb5]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm3 1h6v4H7V5zm6 6H7v2h6v-2z" clip-rule="evenodd" /></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_accountants') }}</p>
+                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_accountants_desc') }}</p>
+                                            </div>
+                                        </Link>
+                                        <Link
                                             :href="localizedRoute('partners')"
                                             class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
                                         >
@@ -1057,6 +1069,12 @@ onUnmounted(() => {
                                 >{{ t("landing.nav.solutions_smes") }}</Link
                             >
                             <Link
+                                :href="localizedRoute('for_accountants')"
+                                @click="mobileMenuOpen = false"
+                                class="text-sm text-slate-500 hover:text-slate-900 py-1"
+                                >{{ t("landing.nav.solutions_accountants") }}</Link
+                            >
+                            <Link
                                 :href="localizedRoute('partners')"
                                 @click="mobileMenuOpen = false"
                                 class="text-sm text-slate-500 hover:text-slate-900 py-1"
@@ -1288,6 +1306,13 @@ onUnmounted(() => {
                                     :href="localizedRoute('for_smes')"
                                     class="text-slate-600 hover:text-slate-900"
                                     >{{ t("landing.nav.solutions_smes") }}</Link
+                                >
+                            </li>
+                            <li>
+                                <Link
+                                    :href="localizedRoute('for_accountants')"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t("landing.nav.solutions_accountants") }}</Link
                                 >
                             </li>
                             <li>

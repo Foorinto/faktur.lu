@@ -1216,6 +1216,8 @@ return [
             'solutions_freelances_desc' => 'Einfache, konforme Rechnungsstellung ab 0 €',
             'solutions_smes' => 'Für KMU',
             'solutions_smes_desc' => 'CRM, HR, Mehrbenutzer, unbegrenzt',
+            'solutions_accountants' => 'Für Treuhänder',
+            'solutions_accountants_desc' => 'Buchhaltungsexporte und Dossierzugang',
             'solutions_fiduciaries' => 'Für Treuhänder',
             'solutions_fiduciaries_desc' => 'Kostenloses Buchhalterportal, BOB/Sage Exporte',
             'how_it_works' => 'So funktioniert\'s',
@@ -2485,6 +2487,101 @@ return [
         ],
         'cta_final_title' => 'Bereit, in 5 Minuten Rechnungen zu stellen?',
         'cta_final_subtitle' => 'Starten Sie mit dem kostenlosen Plan, keine Kreditkarte. Erste konforme Rechnung in unter 5 Minuten.',
+    ],
+
+    // Segmentseite für Treuhänder und Steuerberater
+    'for_accountants' => [
+        'page_title' => 'Rechnungssoftware für Treuhänder in Luxemburg: Sage-, FEC- und FAIA-Export | faktur.lu',
+        'meta_description' => 'Ihre Mandanten stellen Rechnungen mit faktur.lu, Sie erhalten verwertbare Buchungen: Export nach Sage BOB 50, Sage 100, FEC und CSV, FAIA-Export bereits im kostenlosen Tarif, direkter Zugang zum Mandantendossier. Kostenloser FAIA-Validator ohne Anmeldung.',
+        'breadcrumb' => 'Für Treuhänder',
+        'badge' => 'Für Treuhänder und Steuerberater',
+        'hero_title' => 'Ihre Mandanten stellen Rechnungen. Sie erhalten verwertbare Daten.',
+        'hero_subtitle' => 'faktur.lu ist eine luxemburgische Rechnungssoftware, die so gebaut ist, dass die Arbeit buchungsfertig bei Ihnen ankommt: ausgeglichene Buchungssätze, getrennte Journale, Konten des normalisierten Kontenplans und ein direkter Zugang zum Dossier Ihres Mandanten.',
+        'cta_primary' => 'FAIA-Datei kostenlos prüfen',
+        'cta_secondary' => 'Schreiben Sie uns',
+        'cta_reassurance' => 'Ohne Anmeldung, ohne Konto. Funktioniert mit Dateien aus beliebiger Software.',
+
+        'pains_title' => 'Was Sie Zeit kostet',
+        'pains' => [
+            'formats' => [
+                'title' => 'Jeder Mandant kommt mit seinem eigenen Format',
+                'desc' => 'Hier eine Tabelle, dort ein PDF, anderswo ein selbstgebauter Export. Die Übernahme bleibt manuell, und der Fehler schleicht sich immer an derselben Stelle ein.',
+            ],
+            'faia' => [
+                'title' => 'Eine ungültige FAIA-Datei fällt zu spät auf',
+                'desc' => 'Meist erst bei der Prüfung, wenn keine Zeit mehr bleibt, sie in Ruhe zu korrigieren.',
+            ],
+            'reentry' => [
+                'title' => 'Das Nacherfassen von Verkäufen und Einkäufen',
+                'desc' => 'Buchungen abzutippen, die bereits digital vorliegen, ist der am schwersten zu rechtfertigende Zeitposten einer Kanzlei.',
+            ],
+            'access' => [
+                'title' => 'Belegen hinterherlaufen',
+                'desc' => 'Einen Mandanten an die Rechnungen des Quartals zu erinnern kostet mehr, als sie zu erfassen.',
+            ],
+        ],
+
+        'features_title' => 'Was faktur.lu Ihnen bringt',
+        'features' => [
+            'portal' => [
+                'title' => 'Direkter Zugang zum Dossier',
+                'desc' => 'Ihr Mandant gewährt Ihnen den Zugang mit wenigen Klicks, ohne sein Passwort zu teilen. Ein Zugang im Tarif Essentiel, drei im Tarif Pro.',
+            ],
+            'exports' => [
+                'title' => 'Sage BOB 50, Sage 100, FEC und CSV',
+                'desc' => 'Vier Exportformate, mit doppelter Buchführung und einem Soll-Haben-Ausgleich, der bauartbedingt stimmt.',
+            ],
+            'faia' => [
+                'title' => 'FAIA-Export bereits im kostenlosen Tarif',
+                'desc' => 'Auch für Mandanten, die nichts bezahlen. Es ist ein Beleg, den Sie von jedem ihrer Nutzer anfordern können.',
+            ],
+            'purchases' => [
+                'title' => 'Ein eigenes Einkaufsjournal',
+                'desc' => 'Ausgaben laufen in ihr eigenes Journal, mit dem Aufwandskonto aus dem normalisierten Kontenplan und der Vorsteuer getrennt von ausländischer Umsatzsteuer.',
+            ],
+            'validator' => [
+                'title' => 'Ein öffentlicher, kostenloser FAIA-Validator',
+                'desc' => 'Prüfen Sie eine Datei vor der Abgabe, ohne Konto, auch wenn sie aus einer anderen Software als unserer stammt.',
+            ],
+            'vat' => [
+                'title' => 'Die vier luxemburgischen MwSt-Sätze',
+                'desc' => 'Sätze und Pflichtangaben je nach Mandantenfall: Inland, innergemeinschaftliche Umkehr der Steuerschuld, Ausfuhr, Kleinunternehmerregelung.',
+            ],
+        ],
+
+        'plan_recommend_title' => 'Der Tarif, den Sie Ihren Mandanten empfehlen sollten',
+        'plan_recommend_name' => 'Essentiel',
+        'plan_recommend_desc' => 'Ab diesem Tarif stehen der Dossierzugang und die Buchhaltungsexporte zur Verfügung. Darunter behält Ihr Mandant dennoch den FAIA-Export.',
+        'plan_recommend_cta' => 'Tarife ansehen',
+        'plan_free_note' => 'Der kostenlose Tarif ist zeitlich unbegrenzt nutzbar, FAIA-Export inbegriffen. Ein Mandant am Anfang zahlt nichts, um Ihnen einen verwertbaren Beleg zu übergeben.',
+
+        'faq_title' => 'Häufige Fragen',
+        'faq' => [
+            'q1' => [
+                'q' => 'Wird der Treuhänderzugang zusätzlich berechnet?',
+                'a' => 'Nein. Er ist im Abonnement Ihres Mandanten enthalten: ein Zugang im Tarif Essentiel, drei im Tarif Pro. Für Sie fällt nichts an und es ist nichts zu installieren.',
+            ],
+            'q2' => [
+                'q' => 'Brauche ich ein Konto für den FAIA-Validator?',
+                'a' => 'Nein. Der Validator ist öffentlich und kostenlos, ohne Anmeldung. Er nimmt auch Dateien aus anderer Software als faktur.lu an.',
+            ],
+            'q3' => [
+                'q' => 'Welche Buchhaltungsformate stehen zur Verfügung?',
+                'a' => 'Sage BOB 50, Sage 100, das FEC-Format und ein generisches CSV. Die verwendeten Konten sind einstellbar: die endgültige Zuordnung bleibt Ihre Entscheidung.',
+            ],
+            'q4' => [
+                'q' => 'Lassen sich die Ausgaben meiner Mandanten exportieren?',
+                'a' => 'Ja, in einem getrennten Einkaufsjournal. Jede Ausgabenkategorie kann ein Konto des normalisierten Kontenplans tragen, und die von einem ausländischen Lieferanten berechnete Steuer wird auf einem eigenen Konto geführt.',
+            ],
+            'q5' => [
+                'q' => 'Darf ich faktur.lu meinen Mandanten empfehlen?',
+                'a' => 'Ja, und wir würden uns freuen. Schreiben Sie uns: wir bereiten gerne eine Vorstellung für Ihre Kanzlei vor und beantworten Ihre Fragen zu den Exportformaten, bevor Sie sich festlegen.',
+            ],
+        ],
+
+        'cta_final_title' => 'Sprechen wir über Ihre Dossiers',
+        'cta_final_subtitle' => 'Wenn ein Exportformat fehlt oder eine Einstellung Sie blockiert, sagen Sie es uns. Rückmeldungen von Treuhändern bringen genau diesen Teil des Produkts voran.',
+        'cta_final_button' => 'Schreiben Sie uns',
     ],
 
     'for_smes' => [

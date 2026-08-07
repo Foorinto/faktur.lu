@@ -1314,6 +1314,8 @@ return [
             'solutions_freelances_desc' => 'Facturation simple, conforme, dès 0€',
             'solutions_smes' => 'Pour les PME',
             'solutions_smes_desc' => 'CRM, RH, multi-utilisateurs, illimité',
+            'solutions_accountants' => 'Pour les fiduciaires',
+            'solutions_accountants_desc' => 'Exports comptables et accès au dossier',
             'solutions_fiduciaries' => 'Pour les fiduciaires',
             'solutions_fiduciaries_desc' => 'Portail comptable gratuit, exports BOB/Sage',
             'how_it_works' => 'Comment ça marche',
@@ -2814,6 +2816,101 @@ return [
         ],
         'cta_final_title' => 'Prêt à facturer en 5 minutes ?',
         'cta_final_subtitle' => 'Démarrez avec le plan gratuit, sans carte bancaire. Première facture conforme prête en moins de 5 min.',
+    ],
+
+    // Page de segment fiduciaires / experts-comptables
+    'for_accountants' => [
+        'page_title' => 'Logiciel de facturation pour fiduciaires au Luxembourg : exports Sage, FEC, FAIA | faktur.lu',
+        'meta_description' => 'Vos clients facturent avec faktur.lu, vous récupérez des écritures exploitables : exports Sage BOB 50, Sage 100, FEC et CSV, export FAIA inclus dès le plan gratuit, accès fiduciaire au dossier. Validateur FAIA gratuit, sans inscription.',
+        'breadcrumb' => 'Pour les fiduciaires',
+        'badge' => 'Pour les fiduciaires et experts-comptables',
+        'hero_title' => 'Vos clients facturent. Vous récupérez des données exploitables.',
+        'hero_subtitle' => 'faktur.lu est un logiciel de facturation luxembourgeois pensé pour que le travail arrive chez vous en état d\'être comptabilisé : écritures équilibrées, journaux séparés, comptes du plan comptable normalisé, et un accès direct au dossier de votre client.',
+        'cta_primary' => 'Valider un fichier FAIA gratuitement',
+        'cta_secondary' => 'Nous écrire',
+        'cta_reassurance' => 'Sans inscription, sans compte à créer. Fonctionne avec les fichiers produits par n\'importe quel logiciel.',
+
+        'pains_title' => 'Ce qui vous fait perdre du temps',
+        'pains' => [
+            'formats' => [
+                'title' => 'Chaque client arrive avec son format',
+                'desc' => 'Un tableur ici, un PDF là, un export maison ailleurs. La reprise est manuelle, et l\'erreur se glisse toujours au même endroit.',
+            ],
+            'faia' => [
+                'title' => 'Un fichier FAIA invalide se découvre trop tard',
+                'desc' => 'En général au moment du contrôle, quand il n\'est plus temps de le corriger sereinement.',
+            ],
+            'reentry' => [
+                'title' => 'La ressaisie des ventes et des achats',
+                'desc' => 'Retaper des écritures qui existent déjà sous forme numérique est le poste de temps le moins défendable d\'un cabinet.',
+            ],
+            'access' => [
+                'title' => 'Courir après les pièces',
+                'desc' => 'Relancer un client pour obtenir ses factures du trimestre coûte plus cher que de les saisir.',
+            ],
+        ],
+
+        'features_title' => 'Ce que faktur.lu vous apporte',
+        'features' => [
+            'portal' => [
+                'title' => 'Un accès direct au dossier',
+                'desc' => 'Votre client vous ouvre un accès en quelques clics, sans partager son mot de passe. Un accès inclus dans le plan Essentiel, trois dans le plan Pro.',
+            ],
+            'exports' => [
+                'title' => 'Sage BOB 50, Sage 100, FEC et CSV',
+                'desc' => 'Quatre formats d\'export, avec les écritures en partie double et l\'équilibre débit-crédit garanti par construction.',
+            ],
+            'faia' => [
+                'title' => 'Export FAIA inclus dès le plan gratuit',
+                'desc' => 'Y compris pour les clients qui ne paient rien. C\'est une pièce que vous pouvez demander à n\'importe lequel de leurs utilisateurs.',
+            ],
+            'purchases' => [
+                'title' => 'Un journal d\'achats séparé',
+                'desc' => 'Les dépenses partent dans leur propre journal, avec le compte de charge issu du plan comptable normalisé et la TVA en amont isolée de la TVA étrangère.',
+            ],
+            'validator' => [
+                'title' => 'Un validateur FAIA public et gratuit',
+                'desc' => 'Vérifiez un fichier avant de le remettre, sans créer de compte, y compris s\'il vient d\'un autre logiciel que le nôtre.',
+            ],
+            'vat' => [
+                'title' => 'Les quatre taux luxembourgeois',
+                'desc' => 'Taux et mentions appliqués selon le scénario du client : régime intérieur, autoliquidation intracommunautaire, exportation, franchise.',
+            ],
+        ],
+
+        'plan_recommend_title' => 'Le plan à conseiller à vos clients',
+        'plan_recommend_name' => 'Essentiel',
+        'plan_recommend_desc' => 'C\'est à partir de ce plan que vous obtenez l\'accès au dossier et les exports comptables. En dessous, votre client garde tout de même l\'export FAIA.',
+        'plan_recommend_cta' => 'Voir les tarifs',
+        'plan_free_note' => 'Le plan gratuit reste utilisable sans limite de durée, avec l\'export FAIA inclus. Un client qui démarre n\'a rien à payer pour vous remettre une pièce exploitable.',
+
+        'faq_title' => 'Questions fréquentes',
+        'faq' => [
+            'q1' => [
+                'q' => 'L\'accès fiduciaire est-il facturé en plus ?',
+                'a' => 'Non. Il est compris dans l\'abonnement de votre client : un accès avec le plan Essentiel, trois avec le plan Pro. Vous n\'avez rien à payer et rien à installer.',
+            ],
+            'q2' => [
+                'q' => 'Dois-je créer un compte pour utiliser le validateur FAIA ?',
+                'a' => 'Non. Le validateur est public et gratuit, sans inscription. Il accepte les fichiers produits par d\'autres logiciels que faktur.lu.',
+            ],
+            'q3' => [
+                'q' => 'Quels formats d\'export comptable sont disponibles ?',
+                'a' => 'Sage BOB 50, Sage 100, le format FEC et un CSV générique. Les comptes utilisés sont paramétrables : le rattachement définitif reste votre décision.',
+            ],
+            'q4' => [
+                'q' => 'Les dépenses de mes clients sont-elles exportables ?',
+                'a' => 'Oui, dans un journal d\'achats distinct. Chaque catégorie de dépense peut porter un compte du plan comptable normalisé, et la TVA facturée par un fournisseur étranger est isolée sur son propre compte.',
+            ],
+            'q5' => [
+                'q' => 'Puis-je recommander faktur.lu à mes clients ?',
+                'a' => 'Oui, et nous en serions heureux. Écrivez-nous : nous pouvons préparer une présentation pour votre cabinet et répondre à vos questions sur les formats d\'export avant que vous ne vous engagiez.',
+            ],
+        ],
+
+        'cta_final_title' => 'Discutons de vos dossiers',
+        'cta_final_subtitle' => 'Si un format d\'export vous manque ou si un point de paramétrage vous bloque, dites-le nous. Ce sont les retours de fiduciaires qui font avancer cette partie du produit.',
+        'cta_final_button' => 'Nous écrire',
     ],
 
     'for_smes' => [

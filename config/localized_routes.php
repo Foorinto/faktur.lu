@@ -67,6 +67,14 @@ return [
         'pt' => 'para-pme',
     ],
 
+    'for_accountants' => [
+        'fr' => 'pour-fiduciaires',
+        'de' => 'fuer-treuhaender',
+        'en' => 'for-accountants',
+        'lb' => 'fir-fiduciairen',
+        'pt' => 'para-contabilistas',
+    ],
+
     'glossary' => [
         'fr' => 'glossaire',
         'de' => 'glossar',

@@ -336,6 +336,15 @@ Route::prefix('{locale}')
         Route::get('/fir-kmu', [ContactController::class, 'forSmes'])->name('for_smes.lb');
         Route::get('/para-pme', [ContactController::class, 'forSmes'])->name('for_smes.pt');
 
+        // Fiduciaires et experts-comptables : ce sont eux qui prescrivent
+        // l'outil. Page d'atterrissage des prises de contact, et point de
+        // départ des liens entrants attendus de la profession.
+        Route::get('/pour-fiduciaires', [ContactController::class, 'forAccountants'])->name('for_accountants.fr');
+        Route::get('/fuer-treuhaender', [ContactController::class, 'forAccountants'])->name('for_accountants.de');
+        Route::get('/for-accountants', [ContactController::class, 'forAccountants'])->name('for_accountants.en');
+        Route::get('/fir-fiduciairen', [ContactController::class, 'forAccountants'])->name('for_accountants.lb');
+        Route::get('/para-contabilistas', [ContactController::class, 'forAccountants'])->name('for_accountants.pt');
+
         // Glossary page (DefinedTermSet for LLM/SEO optimization)
         Route::get('/glossaire', [ContactController::class, 'glossary'])->name('glossary.fr');
         Route::get('/glossar', [ContactController::class, 'glossary'])->name('glossary.de');
