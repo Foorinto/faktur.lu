@@ -99,7 +99,15 @@ class HandleInertiaRequests extends Middleware
                 'en' => 'English',
                 'lb' => 'Lëtzebuergesch',
             ]),
-            'translations' => $this->getTranslations($locale),
+            // Les traductions ne voyagent plus dans le HTML : 323 Ko bruts par
+            // page, soit plus de la moitié du document, pour une poignée de
+            // clés réellement utilisées. Elles sont servies dans un fichier à
+            // part, mis en cache par le navigateur et téléchargé une seule fois.
+            // L'empreinte dans l'URL rend ce cache sûr et auto-invalidé.
+            'translationsUrl' => route('translations.show', [
+                'locale' => $locale,
+                'v' => \App\Http\Controllers\TranslationsController::fingerprint(),
+            ]),
             'currentPath' => $request->getPathInfo(),
             'currentUrl' => $request->url(),
             // Company brand colour (PDF colour) — used e.g. to tint links in the
@@ -154,10 +162,13 @@ class HandleInertiaRequests extends Middleware
     protected static array $translationsCache = [];
 
     /**
-     * Get translations for the given locale.
-     * Filters out backend-only keys to reduce payload size sent to the frontend.
+     * Traductions destinées au front, pour une langue.
+     *
+     * Publique et statique depuis que le payload est servi dans un fichier à
+     * part (TranslationsController) : les deux doivent produire exactement le
+     * même contenu, et une seule liste blanche doit exister.
      */
-    protected function getTranslations(string $locale): array
+    public static function translationsFor(string $locale): array
     {
         if (isset(self::$translationsCache[$locale])) {
             return self::$translationsCache[$locale];

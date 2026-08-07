@@ -72,10 +72,11 @@ class TranslationKeysTest extends TestCase
      */
     private function translationsSentToBrowser(string $locale): array
     {
-        $method = new \ReflectionMethod(HandleInertiaRequests::class, 'getTranslations');
-        $method->setAccessible(true);
-
-        return $method->invoke(new HandleInertiaRequests(), $locale)['app'] ?? [];
+        // Même source que le fichier servi au navigateur : depuis que les
+        // traductions ne voyagent plus dans le HTML, `TranslationsController`
+        // et le middleware s'appuient tous deux sur cette méthode. La vérifier
+        // ici couvre donc les deux chemins.
+        return HandleInertiaRequests::translationsFor($locale)['app'] ?? [];
     }
 
     /** @return array<string, array<int, string>> */

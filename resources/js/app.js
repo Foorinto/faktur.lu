@@ -5,6 +5,7 @@ import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { loadTranslations } from './translations-store';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -153,7 +154,17 @@ window.addEventListener('focus', () => {
     setTimeout(detectJsonDisplay, 200);
 });
 
-createInertiaApp({
+// Traductions chargées AVANT le montage : rien ne s'affiche tant qu'elles ne
+// sont pas là. C'est ce qui garantit qu'un snapshot de prerendering ne peut pas
+// capturer une clé brute à la place d'un titre.
+//
+// Enveloppé dans une fonction asynchrone : le `await` de premier niveau n'est
+// pas compilable pour les navigateurs visés (chrome87, safari14…).
+async function demarrer() {
+    const pageInitiale = JSON.parse(document.getElementById('app')?.dataset.page || '{}');
+    await loadTranslations(pageInitiale?.props?.translationsUrl);
+
+    createInertiaApp({
     // N'appende le nom de l'app que si le titre ne le contient pas déjà, pour éviter
     // les redondances type "Mentions légales | faktur.lu - faktur.lu" (beaucoup de
     // page_title incluent déjà "faktur.lu").
@@ -177,7 +188,10 @@ createInertiaApp({
 
         return app;
     },
-    progress: {
-        color: '#4B5563',
-    },
-});
+        progress: {
+            color: '#4B5563',
+        },
+    });
+}
+
+demarrer();

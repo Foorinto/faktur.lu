@@ -1,8 +1,12 @@
 import { usePage } from '@inertiajs/vue3';
+import { getTranslations } from '@/translations-store';
 
 /**
- * Composable for accessing translations in Vue components.
- * Uses translations passed from Laravel via Inertia.
+ * Composable d'accès aux traductions.
+ *
+ * Elles ne viennent plus des props Inertia mais d'un dépôt alimenté une seule
+ * fois au démarrage, depuis un fichier mis en cache par le navigateur. Elles
+ * pesaient sinon 323 Ko dans le HTML de CHAQUE page.
  */
 export function useTranslations() {
     const page = usePage();
@@ -16,7 +20,7 @@ export function useTranslations() {
      * @returns {string} The translated string or the key if not found
      */
     const t = (key, params = {}) => {
-        const translations = page.props.translations || {};
+        const translations = getTranslations();
 
         // Try to get the translation
         let translation = getNestedValue(translations, key);
@@ -52,7 +56,7 @@ export function useTranslations() {
      * Check if a translation exists.
      */
     const hasTranslation = (key) => {
-        const translations = page.props.translations || {};
+        const translations = getTranslations();
         return getNestedValue(translations, key) !== undefined ||
                getNestedValue(translations, `app.${key}`) !== undefined;
     };

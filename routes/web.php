@@ -100,6 +100,13 @@ Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterContr
 |
 */
 
+// Traductions du front, servies à part plutôt qu'injectées dans chaque page.
+// L'empreinte passe en query string : elle ne sert qu'à invalider le cache du
+// navigateur, le contenu ne dépendant que de la langue.
+Route::get('/lang/{locale}.json', [\App\Http\Controllers\TranslationsController::class, 'show'])
+    ->where('locale', 'fr|de|en|lb|pt')
+    ->name('translations.show');
+
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
 Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
