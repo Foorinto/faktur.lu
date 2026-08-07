@@ -13,6 +13,7 @@ const localizedRoutes = [
     'partners.contact',
     'for_freelances',
     'for_smes',
+    'for_accountants',
     'glossary',
     'tools',
     'tools.vat_calculator',
@@ -138,6 +139,13 @@ const localizedSlugs = {
         en: 'for-smes',
         lb: 'fir-kmu',
         pt: 'para-pme',
+    },
+    'for_accountants': {
+        fr: 'pour-fiduciaires',
+        de: 'fuer-treuhaender',
+        en: 'for-accountants',
+        lb: 'fir-fiduciairen',
+        pt: 'para-contabilistas',
     },
     'glossary': {
         fr: 'glossaire',

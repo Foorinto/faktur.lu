@@ -105,6 +105,47 @@ class ZiggyRoutesTest extends TestCase
         ));
     }
 
+    /**
+     * Une route localisée vit dans QUATRE endroits, et les oublier casse
+     * différemment :
+     *
+     *   routes/web.php                          la route elle-même
+     *   resources/js/ziggy.js                   généré, versionné, lu au build
+     *   config/localized_routes.php             sitemap et liens hreflang
+     *   resources/js/Composables/useLocalizedRoute.js   DEUX tables internes
+     *
+     * L'oubli de la dernière est le plus vicieux : `localizedRoute('x')` appelle
+     * alors `route('x')` sans suffixe de langue. Ziggy ne connaît que `x.fr`,
+     * `x.de`… et lève une exception qui fait blanchir toute page utilisant le
+     * gabarit. Le serveur, lui, répond parfaitement.
+     */
+    public function test_le_composable_connait_les_memes_routes_localisees_que_la_config(): void
+    {
+        $config = array_keys(require self::basePath('config/localized_routes.php'));
+        $js = file_get_contents(self::basePath('resources/js/Composables/useLocalizedRoute.js'));
+
+        // Première table : la liste des noms qui exigent le paramètre de langue.
+        preg_match('/const localizedRoutes = \[(.*?)\];/s', $js, $liste);
+        preg_match_all("/'([a-z0-9._-]+)'/", $liste[1] ?? '', $declares);
+
+        // Seconde table : le chemin localisé de chaque route.
+        preg_match_all("/^\s{4}'([a-z0-9._-]+)':\s*\{/m", $js, $chemins);
+
+        $absentesDeLaListe = array_values(array_diff($config, $declares[1] ?? []));
+        $absentesDesChemins = array_values(array_diff($config, $chemins[1] ?? []));
+
+        $this->assertSame([], $absentesDeLaListe, sprintf(
+            "Déclarées dans config/localized_routes.php mais absentes du tableau `localizedRoutes` ".
+            "de useLocalizedRoute.js : %s\nLa page blanchira dans le navigateur.",
+            implode(', ', $absentesDeLaListe)
+        ));
+
+        $this->assertSame([], $absentesDesChemins, sprintf(
+            'Absentes de la table des chemins localisés de useLocalizedRoute.js : %s',
+            implode(', ', $absentesDesChemins)
+        ));
+    }
+
     public function test_les_routes_localisees_declarees_existent_dans_ziggy(): void
     {
         $ziggy = file_get_contents(self::basePath('resources/js/ziggy.js'));
