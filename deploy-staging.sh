@@ -57,6 +57,11 @@ prerender_and_sync() {
     # internes sont relatifs et les scripts sont strippés. Pages marketing identiques
     # à la prod (contenu statique).
     rm -f public/hot
+    # Le sitemap est mis en cache une heure (SitemapController::Cache::remember).
+    # Sans ce vidage, le prerendering lit une liste d'URL périmée : il régénère
+    # des pages supprimées, et le rsync --delete les repousse sur le serveur.
+    # Constaté le 2026-08-07 : une page fusionnée revenait pour les robots.
+    php artisan cache:clear > /dev/null 2>&1
     APP_URL="$SITE_URL" php artisan serve --port=$PORT > /tmp/faktur-prerender-serve.log 2>&1 &
     local SERVE_PID=$!
     # Attendre que le serveur local réponde (jusqu'à 60s : sur une machine chargée en
