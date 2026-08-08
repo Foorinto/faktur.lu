@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Controllers\TranslationsController;
 use App\Http\Middleware\HandleInertiaRequests;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -22,6 +23,11 @@ use Tests\TestCase;
  */
 class TranslationsEndpointTest extends TestCase
 {
+    // La page d'accueil interroge les articles de blog : sans base, elle rend
+    // une page d'erreur 500. Un test qui l'inspectait passait alors pour de
+    // mauvaises raisons, en trouvant ses propres mots dans la trace.
+    use RefreshDatabase;
+
     /** @return array<int, array<int, string>> */
     public static function locales(): array
     {
@@ -71,16 +77,36 @@ class TranslationsEndpointTest extends TestCase
     {
         $avant = TranslationsController::fingerprint();
 
-        TranslationsController::clearCache();
         touch(lang_path('fr/app.php'));
+        clearstatcache();
 
         $this->assertNotSame($avant, TranslationsController::fingerprint(),
             "L'empreinte doit changer, sans quoi les navigateurs garderaient d'anciennes traductions en cache.");
     }
 
+    public function test_une_cle_ajoutee_est_servie_sans_purge_de_cache(): void
+    {
+        // Le défaut qui a motivé ce test : l'empreinte était mise en cache
+        // « pour toujours ». Ajouter une clé de traduction ne la changeait donc
+        // plus, le navigateur gardait l'ancien fichier, et l'interface affichait
+        // la clé brute. Constaté sur `view_client` le 2026-08-08.
+        $avant = $this->get('/lang/fr.json')->json('app');
+
+        $this->assertArrayHasKey('view_client', $avant,
+            'Une clé présente dans le fichier de langue doit être servie.');
+
+        // L'URL doit elle aussi refléter le contenu, sans quoi un navigateur
+        // ayant déjà mis l'ancienne en cache ne redemanderait jamais rien.
+        $empreinte = TranslationsController::fingerprint();
+        $this->assertStringContainsString($empreinte, $this->get('/fr')->getContent());
+    }
+
     public function test_la_page_ne_transporte_plus_les_traductions(): void
     {
-        $html = $this->get('/fr')->getContent();
+        // Le statut est vérifié explicitement : sans base de données, /fr rend
+        // une page d'erreur de 998 Ko qui contient le code source du test, donc
+        // les mots qu'on y cherche. Ce test passait ainsi au vert sur une 500.
+        $html = $this->get('/fr')->assertSuccessful()->getContent();
 
         // C'était le poste le plus lourd du document. Sa réapparition ferait
         // regagner 323 Ko à chaque page sans que personne ne s'en aperçoive.

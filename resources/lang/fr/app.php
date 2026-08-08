@@ -46,6 +46,7 @@ return [
     'end' => 'Fin',
     'not_configured' => 'Non configuré',
     'default_vat_rate' => 'Taux de TVA par défaut',
+    'view_client' => 'Voir la fiche du client',
 
     // Moyens de paiement par facture (FEAT-098)
     'payment_methods_invoice_help' => 'Laissez vide pour utiliser les moyens définis dans vos paramètres.',

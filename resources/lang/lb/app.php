@@ -38,6 +38,7 @@ return [
     'end' => 'Enn',
     'not_configured' => 'Net konfiguréiert',
     'default_vat_rate' => 'Standard TVA-Saz',
+    'view_client' => 'Clientefiche kucken',
 
     // Bezuelméiglechkeeten pro Rechnung (FEAT-098)
     'payment_methods_invoice_help' => 'Eidel loossen, fir d\'Méiglechkeeten aus Ären Astellungen ze benotzen.',

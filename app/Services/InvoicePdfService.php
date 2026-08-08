@@ -232,6 +232,7 @@ class InvoicePdfService
             // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
             // sont donc calculées ici et écrites en dur dans le gabarit.
             'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
+            'pdfScale' => \App\Models\BusinessSettings::pdfScale($seller['pdf_text_size'] ?? null),
             'showBranding' => $showBranding,
             'locale' => $locale,
             'paymentQrCode' => $paymentQrCode,
@@ -366,6 +367,7 @@ class InvoicePdfService
             // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
             // sont donc calculées ici et écrites en dur dans le gabarit.
             'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
+            'pdfScale' => \App\Models\BusinessSettings::pdfScale($seller['pdf_text_size'] ?? null),
             'showBranding' => $showBranding,
             'locale' => $locale,
             'paymentQrCode' => $paymentQrCode,

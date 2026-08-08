@@ -384,7 +384,16 @@ const changeStatus = (invoice, newStatus) => {
                         <td
                             class="px-3 py-4 text-sm text-slate-600 dark:text-slate-400 max-w-[180px] truncate"
                         >
-                            {{ invoice.client?.name }}
+                            <!-- Le nom mène à la fiche du client. Demandé par un
+                                 utilisateur : depuis une facture, on veut souvent
+                                 vérifier une adresse ou un numéro de TVA. -->
+                            <Link
+                                v-if="invoice.client?.id"
+                                :href="route('clients.show', invoice.client.id)"
+                                class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                :title="t('view_client')"
+                            >{{ invoice.client.name }}</Link>
+                            <span v-else>{{ invoice.client?.name }}</span>
                         </td>
                         <td
                             class="hidden whitespace-nowrap px-3 py-4 text-sm text-slate-500 dark:text-slate-400 md:table-cell"

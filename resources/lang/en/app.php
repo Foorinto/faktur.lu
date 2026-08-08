@@ -46,6 +46,7 @@ return [
     'end' => 'End',
     'not_configured' => 'Not configured',
     'default_vat_rate' => 'Default VAT rate',
+    'view_client' => 'View client record',
 
     // Per-invoice payment methods (FEAT-098)
     'payment_methods_invoice_help' => 'Leave empty to use the methods set in your settings.',

@@ -569,9 +569,21 @@ class BusinessSettings extends Model
      * avant cette fonctionnalité) retombe sur l'échelle 1 : le document se rend
      * alors exactement comme avant.
      */
+    /**
+     * Facteur d'échelle brut du gabarit PDF.
+     *
+     * Le texte n'est pas seul concerné : agrandir les caractères de 30 % sans
+     * toucher au logo le fait paraître minuscule à côté. Un utilisateur nous
+     * l'a signalé le lendemain de la mise en ligne du réglage.
+     */
+    public static function pdfScale(?string $size): float
+    {
+        return self::PDF_TEXT_SIZES[$size] ?? self::PDF_TEXT_SIZES[self::DEFAULT_PDF_TEXT_SIZE];
+    }
+
     public static function pdfFontSizer(?string $size): \Closure
     {
-        $scale = self::PDF_TEXT_SIZES[$size] ?? self::PDF_TEXT_SIZES[self::DEFAULT_PDF_TEXT_SIZE];
+        $scale = self::pdfScale($size);
 
         return static function (float $pt) use ($scale): string {
             // Deux décimales suffisent en typographie, et évitent d'écrire

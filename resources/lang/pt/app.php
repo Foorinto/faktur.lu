@@ -46,6 +46,7 @@ return [
     'end' => 'Fim',
     'not_configured' => 'Não configurado',
     'default_vat_rate' => 'Taxa de IVA predefinida',
+    'view_client' => 'Ver a ficha do cliente',
 
     // Meios de pagamento por fatura (FEAT-098)
     'payment_methods_invoice_help' => 'Deixe vazio para usar os meios definidos nas suas definições.',

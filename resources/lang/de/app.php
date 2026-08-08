@@ -38,6 +38,7 @@ return [
     'end' => 'Ende',
     'not_configured' => 'Nicht konfiguriert',
     'default_vat_rate' => 'Standard-MwSt-Satz',
+    'view_client' => 'Kundenakte ansehen',
 
     // Zahlungsarten je Rechnung (FEAT-098)
     'payment_methods_invoice_help' => 'Leer lassen, um die in Ihren Einstellungen festgelegten Zahlungsarten zu verwenden.',

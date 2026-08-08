@@ -30,8 +30,12 @@ class TranslationsController extends Controller
             $locale = 'fr';
         }
 
-        $payload = Cache::rememberForever(
-            "translations-payload-{$locale}",
+        // La clé de cache porte l'empreinte : modifier un fichier de langue
+        // change l'empreinte, donc la clé, donc le contenu servi. Le cache
+        // s'invalide de lui-même, sans purge à penser.
+        $payload = Cache::remember(
+            "translations-payload-{$locale}-".self::fingerprint(),
+            now()->addDay(),
             fn () => \App\Http\Middleware\HandleInertiaRequests::translationsFor($locale)
         );
 
@@ -50,25 +54,17 @@ class TranslationsController extends Controller
      */
     public static function fingerprint(): string
     {
-        return Cache::rememberForever('translations-fingerprint', function () {
-            $empreintes = [];
-
-            foreach (self::LOCALES as $locale) {
-                $chemin = lang_path("{$locale}/app.php");
-                $empreintes[] = is_file($chemin) ? (string) filemtime($chemin) : '0';
-            }
-
-            return substr(md5(implode('-', $empreintes)), 0, 12);
-        });
-    }
-
-    /** Vide les caches liés, à appeler après un changement de traduction. */
-    public static function clearCache(): void
-    {
-        Cache::forget('translations-fingerprint');
+        // Volontairement PAS mise en cache. Elle l'était, et ajouter une clé de
+        // traduction ne changeait alors plus l'empreinte : le navigateur gardait
+        // l'ancien fichier et affichait la clé brute. Cinq `filemtime` par
+        // requête coûtent moins qu'une classe entière de bugs de cache.
+        $empreintes = [];
 
         foreach (self::LOCALES as $locale) {
-            Cache::forget("translations-payload-{$locale}");
+            $chemin = lang_path("{$locale}/app.php");
+            $empreintes[] = is_file($chemin) ? (string) filemtime($chemin) : '0';
         }
+
+        return substr(md5(implode('-', $empreintes)), 0, 12);
     }
 }
