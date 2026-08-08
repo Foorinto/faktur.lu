@@ -727,7 +727,20 @@ const submitCreditNote = () => {
                     </div>
                     <div class="px-6 py-4">
                         <div v-if="invoice.buyer_snapshot" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
-                            <p class="font-semibold">{{ invoice.buyer_snapshot.name }}</p>
+                            <!-- Le nom affiché reste celui figé sur la facture,
+                                 seul valable juridiquement. Le lien mène à la
+                                 fiche vivante, qu'on consulte souvent depuis une
+                                 facture pour vérifier une adresse ou un numéro
+                                 de TVA. Absent si le client a été supprimé. -->
+                            <p class="font-semibold">
+                                <Link
+                                    v-if="invoice.client?.id"
+                                    :href="route('clients.show', invoice.client.id)"
+                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    :title="t('view_client')"
+                                >{{ invoice.buyer_snapshot.name }}</Link>
+                                <span v-else>{{ invoice.buyer_snapshot.name }}</span>
+                            </p>
                             <p v-if="invoice.buyer_snapshot.company_name">{{ invoice.buyer_snapshot.company_name }}</p>
                             <p>{{ invoice.buyer_snapshot.address_line1 }}</p>
                             <p v-if="invoice.buyer_snapshot.address_line2">{{ invoice.buyer_snapshot.address_line2 }}</p>
@@ -735,6 +748,25 @@ const submitCreditNote = () => {
                             <p>{{ invoice.buyer_snapshot.country }}</p>
                             <p v-if="invoice.buyer_snapshot.vat_number" class="pt-2">
                                 <span class="text-slate-500">{{ t('vat_number_short') }}:</span> {{ invoice.buyer_snapshot.vat_number }}
+                            </p>
+                        </div>
+                        <!-- Un brouillon n'a pas encore d'instantané : ce bloc
+                             restait vide jusqu'ici. On affiche alors la fiche
+                             vivante, comme le fait déjà le devis. -->
+                        <div v-else-if="invoice.client" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                            <p class="font-semibold">
+                                <Link
+                                    :href="route('clients.show', invoice.client.id)"
+                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    :title="t('view_client')"
+                                >{{ invoice.client.name }}</Link>
+                            </p>
+                            <p v-if="invoice.client.contact_name">{{ invoice.client.contact_name }}</p>
+                            <p>{{ invoice.client.address }}</p>
+                            <p>{{ invoice.client.postal_code }} {{ invoice.client.city }}</p>
+                            <p>{{ invoice.client.country }}</p>
+                            <p v-if="invoice.client.vat_number" class="pt-2">
+                                <span class="text-slate-500">{{ t('vat_number_short') }}:</span> {{ invoice.client.vat_number }}
                             </p>
                         </div>
                     </div>

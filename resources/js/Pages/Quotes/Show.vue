@@ -280,7 +280,16 @@ const duplicateQuote = () => {
                     </div>
                     <div class="px-6 py-4">
                         <div v-if="quote.buyer_snapshot" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
-                            <p class="font-semibold">{{ quote.buyer_snapshot.company_name || quote.buyer_snapshot.name }}</p>
+                            <!-- Nom figé sur le devis, lien vers la fiche vivante. -->
+                            <p class="font-semibold">
+                                <Link
+                                    v-if="quote.client?.id"
+                                    :href="route('clients.show', quote.client.id)"
+                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    :title="t('view_client')"
+                                >{{ quote.buyer_snapshot.company_name || quote.buyer_snapshot.name }}</Link>
+                                <span v-else>{{ quote.buyer_snapshot.company_name || quote.buyer_snapshot.name }}</span>
+                            </p>
                             <p v-if="quote.buyer_snapshot.contact_name">{{ quote.buyer_snapshot.contact_name }}</p>
                             <p>{{ quote.buyer_snapshot.address }}</p>
                             <p>{{ quote.buyer_snapshot.postal_code }} {{ quote.buyer_snapshot.city }}</p>
@@ -290,7 +299,13 @@ const duplicateQuote = () => {
                             </p>
                         </div>
                         <div v-else-if="quote.client" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
-                            <p class="font-semibold">{{ quote.client.name }}</p>
+                            <p class="font-semibold">
+                                <Link
+                                    :href="route('clients.show', quote.client.id)"
+                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    :title="t('view_client')"
+                                >{{ quote.client.name }}</Link>
+                            </p>
                             <p v-if="quote.client.contact_name">{{ quote.client.contact_name }}</p>
                             <p>{{ quote.client.address }}</p>
                             <p>{{ quote.client.postal_code }} {{ quote.client.city }}</p>
