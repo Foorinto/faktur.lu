@@ -232,7 +232,7 @@ class InvoicePdfService
             // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
             // sont donc calculées ici et écrites en dur dans le gabarit.
             'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
-            'pdfScale' => \App\Models\BusinessSettings::pdfScale($seller['pdf_text_size'] ?? null),
+            'logoScale' => \App\Models\BusinessSettings::pdfLogoScale($seller['pdf_logo_size'] ?? null),
             'showBranding' => $showBranding,
             'locale' => $locale,
             'paymentQrCode' => $paymentQrCode,
@@ -282,6 +282,7 @@ class InvoicePdfService
             // FEAT-109 : un brouillon suit le réglage courant. Une facture
             // finalisée, elle, garde celui figé dans son instantané.
             'pdf_text_size' => $settings->pdf_text_size,
+            'pdf_logo_size' => $settings->pdf_logo_size,
             'website' => null,
         ] : [];
 
@@ -367,7 +368,7 @@ class InvoicePdfService
             // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
             // sont donc calculées ici et écrites en dur dans le gabarit.
             'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
-            'pdfScale' => \App\Models\BusinessSettings::pdfScale($seller['pdf_text_size'] ?? null),
+            'logoScale' => \App\Models\BusinessSettings::pdfLogoScale($seller['pdf_logo_size'] ?? null),
             'showBranding' => $showBranding,
             'locale' => $locale,
             'paymentQrCode' => $paymentQrCode,

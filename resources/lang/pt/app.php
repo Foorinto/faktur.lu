@@ -64,6 +64,9 @@ return [
     'pdf_text_size_large' => 'Grande',
     'pdf_text_size_xlarge' => 'Muito grande',
     'pdf_text_size_help' => 'Aplica-se a novas faturas e novos orçamentos. Os documentos já finalizados mantêm a sua disposição original. Um texto maior pode fazer passar uma fatura longa para uma segunda página.',
+    'pdf_logo_size' => 'Tamanho do logótipo',
+    'pdf_logo_size_small' => 'Pequeno',
+    'pdf_logo_size_help' => 'Independente do tamanho do texto. Útil se o seu logótipo contiver palavras: ganha em ser maior.',
 
     // Desconto permanente por cliente (FEAT-108)
     'permanent_discount' => 'Desconto permanente',

@@ -56,6 +56,9 @@ return [
     'pdf_text_size_large' => 'Grouss',
     'pdf_text_size_xlarge' => 'Ganz grouss',
     'pdf_text_size_help' => 'Gëllt fir nei Rechnungen an nei Devisen. Scho finaliséiert Dokumenter behalen hire ursprénglechen Layout. E gréissere Text kann eng laang Rechnung op eng zweet Säit dréngen.',
+    'pdf_logo_size' => 'Gréisst vum Logo',
+    'pdf_logo_size_small' => 'Kleng',
+    'pdf_logo_size_help' => 'Onofhängeg vun der Textgréisst. Nëtzlech wann Äre Logo Wierder enthält: da soll e méi grouss sinn.',
 
     // Dauerhafte Clienterabatt (FEAT-108)
     'permanent_discount' => 'Dauerhafte Rabatt',

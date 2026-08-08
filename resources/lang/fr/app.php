@@ -64,6 +64,9 @@ return [
     'pdf_text_size_large' => 'Grande',
     'pdf_text_size_xlarge' => 'Très grande',
     'pdf_text_size_help' => "S'applique aux nouvelles factures et aux nouveaux devis. Les documents déjà finalisés conservent leur mise en page d'origine. Un texte plus grand peut faire passer une facture longue sur une deuxième page.",
+    'pdf_logo_size' => 'Taille du logo',
+    'pdf_logo_size_small' => 'Petite',
+    'pdf_logo_size_help' => 'Indépendante de la taille du texte. Utile si votre logo contient des mots : il gagne à être plus grand.',
 
     // Remise permanente par client (FEAT-108)
     'permanent_discount' => 'Remise permanente',

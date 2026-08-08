@@ -9,6 +9,7 @@ use App\Models\InvoiceItem;
 use App\Models\User;
 use App\Services\InvoicePdfService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -205,5 +206,61 @@ class PdfTextSizeTest extends TestCase
         $this->setSize(null);
 
         $this->assertSame($normal, $this->fontSizes($this->renderDraft($invoice)));
+    }
+
+    // --- Taille du logo, réglage distinct ---------------------------------------
+
+    /** @return array<int, array<int, string|int>> */
+    public static function taillesDeLogo(): array
+    {
+        return [['small', 90], ['normal', 120], ['large', 162], ['xlarge', 204]];
+    }
+
+    #[DataProvider('taillesDeLogo')]
+    public function test_le_logo_suit_son_propre_reglage(string $taille, int $largeur): void
+    {
+        $invoice = $this->draft();
+        BusinessSettings::getInstance()->update(['pdf_logo_size' => $taille]);
+
+        $this->assertStringContainsString(
+            "max-width: {$largeur}px",
+            $this->renderDraft($invoice)
+        );
+    }
+
+    public function test_la_taille_du_logo_est_independante_de_celle_du_texte(): void
+    {
+        // Une première version faisait suivre au logo l'échelle du texte. C'est
+        // une approximation commode mais fausse : la lisibilité d'un logo tient
+        // à sa forme, pas à la police qui l'entoure.
+        $invoice = $this->draft();
+        BusinessSettings::getInstance()->update([
+            'pdf_text_size' => 'xlarge',
+            'pdf_logo_size' => 'small',
+        ]);
+
+        $rendu = $this->renderDraft($invoice);
+
+        $this->assertStringContainsString('max-width: 90px', $rendu, 'Le logo doit rester petit.');
+        $this->assertGreaterThan(20.0, max($this->fontSizes($rendu)), 'Le texte doit rester grand.');
+    }
+
+    public function test_un_compte_existant_garde_son_logo_inchange(): void
+    {
+        // Sans réglage, la taille d'origine du gabarit : aucun document
+        // existant ne doit changer d'apparence.
+        $invoice = $this->draft();
+        BusinessSettings::getInstance()->update(['pdf_logo_size' => null]);
+
+        $this->assertStringContainsString('max-width: 120px', $this->renderDraft($invoice));
+    }
+
+    public function test_une_taille_de_logo_inconnue_est_refusee(): void
+    {
+        $this->putJson(route('settings.business.update'), [
+            'legal_name' => 'Test SARL',
+            'email' => 'test@example.com',
+            'pdf_logo_size' => 'enorme',
+        ])->assertStatus(422);
     }
 }

@@ -48,12 +48,11 @@
         }
 
         .logo-section img {
-            /* Le logo suit l'échelle du texte. Sans cela, agrandir les
-               caractères de 30 % le laissait à sa taille d'origine et il
-               paraissait minuscule à côté : signalé par un utilisateur le
-               lendemain de la mise en ligne du réglage. */
-            max-width: {{ round(120 * ($pdfScale ?? 1)) }}px;
-            max-height: {{ round(60 * ($pdfScale ?? 1)) }}px;
+            /* Taille réglable indépendamment du texte : la lisibilité d'un
+               logo tient à sa forme, pas à la police qui l'entoure. De 90x45
+               à 204x102 px selon le réglage. */
+            max-width: {{ round(120 * ($logoScale ?? 1)) }}px;
+            max-height: {{ round(60 * ($logoScale ?? 1)) }}px;
         }
 
         /* Document title */

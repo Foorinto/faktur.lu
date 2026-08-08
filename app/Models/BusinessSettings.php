@@ -35,6 +35,7 @@ class BusinessSettings extends Model
         'default_custom_vat_mention',
         'default_pdf_color',
         'pdf_text_size',
+        'pdf_logo_size',
         'phone',
         'show_phone_on_invoice',
         'email',
@@ -96,6 +97,28 @@ class BusinessSettings extends Model
     ];
 
     public const DEFAULT_PDF_TEXT_SIZE = 'normal';
+
+    /**
+     * Tailles de logo proposées, et leur facteur appliqué au gabarit de base
+     * (120 x 60 px), soit de 90x45 à 204x102.
+     *
+     * Réglage distinct de celui du texte, à dessein : la lisibilité d'un logo
+     * tient à sa forme et à son niveau de détail, pas à la taille des
+     * caractères qui l'entourent. Un logotype simple reste lisible en petit ;
+     * un logo chargé de texte ne l'est pas, quelle que soit la police du reste.
+     *
+     * Les paliers sont plus larges que ceux du texte : un logo trop grand
+     * déséquilibre l'en-tête sans rien casser, là où un texte trop grand fait
+     * déborder le document sur une deuxième page.
+     */
+    public const PDF_LOGO_SIZES = [
+        'small' => 0.75,
+        'normal' => 1.0,
+        'large' => 1.35,
+        'xlarge' => 1.7,
+    ];
+
+    public const DEFAULT_PDF_LOGO_SIZE = 'normal';
 
     /**
      * Preset color options for PDF.
@@ -365,6 +388,7 @@ class BusinessSettings extends Model
             // Figé dans l'instantané au même titre que la couleur : réimprimer
             // une facture émise doit redonner exactement le même document.
             'pdf_text_size' => $this->pdf_text_size ?? self::DEFAULT_PDF_TEXT_SIZE,
+            'pdf_logo_size' => $this->pdf_logo_size ?? self::DEFAULT_PDF_LOGO_SIZE,
         ];
     }
 
@@ -569,21 +593,15 @@ class BusinessSettings extends Model
      * avant cette fonctionnalité) retombe sur l'échelle 1 : le document se rend
      * alors exactement comme avant.
      */
-    /**
-     * Facteur d'échelle brut du gabarit PDF.
-     *
-     * Le texte n'est pas seul concerné : agrandir les caractères de 30 % sans
-     * toucher au logo le fait paraître minuscule à côté. Un utilisateur nous
-     * l'a signalé le lendemain de la mise en ligne du réglage.
-     */
-    public static function pdfScale(?string $size): float
+    /** Facteur d'échelle du logo sur les documents PDF. */
+    public static function pdfLogoScale(?string $size): float
     {
-        return self::PDF_TEXT_SIZES[$size] ?? self::PDF_TEXT_SIZES[self::DEFAULT_PDF_TEXT_SIZE];
+        return self::PDF_LOGO_SIZES[$size] ?? self::PDF_LOGO_SIZES[self::DEFAULT_PDF_LOGO_SIZE];
     }
 
     public static function pdfFontSizer(?string $size): \Closure
     {
-        $scale = self::pdfScale($size);
+        $scale = self::PDF_TEXT_SIZES[$size] ?? self::PDF_TEXT_SIZES[self::DEFAULT_PDF_TEXT_SIZE];
 
         return static function (float $pt) use ($scale): string {
             // Deux décimales suffisent en typographie, et évitent d'écrire

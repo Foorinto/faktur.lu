@@ -200,6 +200,7 @@ class HandleInertiaRequests extends Middleware
             'pdf_color', 'pdf_color_help', 'pdf_a_archiving',
             'pdf_text_size', 'pdf_text_size_normal', 'pdf_text_size_large',
             'pdf_text_size_xlarge', 'pdf_text_size_help',
+            'pdf_logo_size', 'pdf_logo_size_small', 'pdf_logo_size_help',
         ];
         foreach ($translations as $key => $value) {
             if (in_array($key, $frontendKept, true)) {

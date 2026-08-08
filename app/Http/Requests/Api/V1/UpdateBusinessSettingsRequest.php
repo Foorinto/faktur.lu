@@ -87,6 +87,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             // atterrit sur un document légal ; une échelle arbitraire pourrait
             // le rendre illisible ou le faire déborder sans prévenir.
             'pdf_text_size' => ['nullable', Rule::in(array_keys(\App\Models\BusinessSettings::PDF_TEXT_SIZES))],
+            'pdf_logo_size' => ['nullable', Rule::in(array_keys(\App\Models\BusinessSettings::PDF_LOGO_SIZES))],
             'phone' => ['nullable', 'string', 'max:20'],
             'show_phone_on_invoice' => ['boolean'],
             'email' => ['required', 'email', 'max:255'],

@@ -56,6 +56,9 @@ return [
     'pdf_text_size_large' => 'Groß',
     'pdf_text_size_xlarge' => 'Sehr groß',
     'pdf_text_size_help' => 'Gilt für neue Rechnungen und Angebote. Bereits finalisierte Dokumente behalten ihr ursprüngliches Layout. Größerer Text kann eine lange Rechnung auf eine zweite Seite schieben.',
+    'pdf_logo_size' => 'Logogröße',
+    'pdf_logo_size_small' => 'Klein',
+    'pdf_logo_size_help' => 'Unabhängig von der Textgröße. Nützlich, wenn Ihr Logo Wörter enthält: dann sollte es größer sein.',
 
     // Dauerhafter Kundenrabatt (FEAT-108)
     'permanent_discount' => 'Dauerhafter Rabatt',

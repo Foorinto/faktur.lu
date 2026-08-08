@@ -64,6 +64,9 @@ return [
     'pdf_text_size_large' => 'Large',
     'pdf_text_size_xlarge' => 'Extra large',
     'pdf_text_size_help' => 'Applies to new invoices and quotes. Documents already finalised keep their original layout. Larger text may push a long invoice onto a second page.',
+    'pdf_logo_size' => 'Logo size',
+    'pdf_logo_size_small' => 'Small',
+    'pdf_logo_size_help' => 'Independent of the text size. Useful if your logo contains words: it benefits from being larger.',
 
     // Permanent per-client discount (FEAT-108)
     'permanent_discount' => 'Permanent discount',

@@ -109,6 +109,7 @@ const form = useForm({
     default_custom_vat_mention: props.settings?.default_custom_vat_mention ?? '',
     default_pdf_color: props.settings?.default_pdf_color ?? props.defaultPdfColor,
     pdf_text_size: props.settings?.pdf_text_size ?? 'normal',
+    pdf_logo_size: props.settings?.pdf_logo_size ?? 'normal',
     phone: props.settings?.phone ?? '',
     show_phone_on_invoice: props.settings?.show_phone_on_invoice ?? false,
     email: props.settings?.email ?? '',
@@ -1183,6 +1184,25 @@ const cancelPaymentQrcodeUpload = () => {
                                 {{ t('pdf_text_size_help') }}
                             </p>
                             <InputError :message="form.errors.pdf_text_size" class="mt-2" />
+                        </div>
+
+                        <!-- Taille du logo, indépendante de celle du texte -->
+                        <div>
+                            <InputLabel for="pdf_logo_size" :value="t('pdf_logo_size')" />
+                            <select
+                                id="pdf_logo_size"
+                                v-model="form.pdf_logo_size"
+                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:max-w-xs"
+                            >
+                                <option value="small">{{ t('pdf_logo_size_small') }}</option>
+                                <option value="normal">{{ t('pdf_text_size_normal') }}</option>
+                                <option value="large">{{ t('pdf_text_size_large') }}</option>
+                                <option value="xlarge">{{ t('pdf_text_size_xlarge') }}</option>
+                            </select>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('pdf_logo_size_help') }}
+                            </p>
+                            <InputError :message="form.errors.pdf_logo_size" class="mt-2" />
                         </div>
 
                         <!-- Footer Message -->

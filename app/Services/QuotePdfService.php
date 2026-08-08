@@ -116,6 +116,7 @@ class QuotePdfService
                 'logo_path' => $settings->logo_path,
                 // FEAT-109 : un devis non figé suit le réglage courant.
                 'pdf_text_size' => $settings->pdf_text_size,
+                'pdf_logo_size' => $settings->pdf_logo_size,
             ] : [];
         }
 
@@ -187,7 +188,7 @@ class QuotePdfService
             // FEAT-109 : dompdf ne gère pas les variables CSS, les tailles
             // sont donc calculées ici et écrites en dur dans le gabarit.
             'fontSize' => \App\Models\BusinessSettings::pdfFontSizer($seller['pdf_text_size'] ?? null),
-            'pdfScale' => \App\Models\BusinessSettings::pdfScale($seller['pdf_text_size'] ?? null),
+            'logoScale' => \App\Models\BusinessSettings::pdfLogoScale($seller['pdf_logo_size'] ?? null),
             'buyer' => $buyer,
             'items' => $quote->items,
             'isVatExempt' => $isVatExempt,
