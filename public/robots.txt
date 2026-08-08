@@ -73,6 +73,36 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: meta-externalfetcher
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Ai2Bot
+Allow: /
+
+User-agent: Timpibot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: omgilibot
+Allow: /
+
+User-agent: Webzio-Extended
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
 # Sitemaps
 Sitemap: https://faktur.lu/sitemap.xml
 Sitemap: https://faktur.lu/sitemap-pages.xml

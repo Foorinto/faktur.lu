@@ -27,7 +27,12 @@ class ServePrerendered
         .'facebookexternalhit|facebot|ia_archiver|linkedinbot|twitterbot|slackbot|whatsapp|telegrambot|'
         .'discordbot|pinterest|redditbot|applebot|petalbot|bytespider|'
         .'gptbot|chatgpt-user|oai-searchbot|ccbot|claudebot|claude-web|anthropic-ai|'
-        .'perplexitybot|perplexity-user|google-extended|googleother|amazonbot|cohere-ai|mistralai)/i';
+        .'perplexitybot|perplexity-user|google-extended|googleother|amazonbot|cohere-ai|mistralai|'
+        // Robots d'IA ajoutés le 2026-08-08. Ils recevaient jusque-là la coquille
+        // du SPA, donc un titre « faktur.lu » et aucun contenu : indexés pour
+        // rien. Constaté sur meta-externalagent et youbot en production.
+        .'meta-externalagent|meta-externalfetcher|duckassistbot|youbot|ai2bot|'
+        .'timpibot|diffbot|omgilibot|webzio-extended|google-cloudvertexbot)/i';
 
     public function handle(Request $request, Closure $next): Response
     {
