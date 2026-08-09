@@ -306,7 +306,26 @@ if (form.items.length === 0) {
                 <div class="px-6 py-4">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div data-tour="invoice-form-client">
-                            <InputLabel for="client_id" :value="t('client')" />
+                            <div class="flex items-center justify-between">
+                                <InputLabel for="client_id" :value="t('client')" />
+                                <!-- Ouvre la fiche du client sélectionné, dans un
+                                     nouvel onglet pour ne pas perdre la saisie en
+                                     cours. Disparaît tant qu'aucun n'est choisi. -->
+                                <a
+                                    v-if="selectedClient?.id"
+                                    :href="route('clients.show', selectedClient.id)"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="text-slate-400 hover:text-primary-600 dark:hover:text-primary-400"
+                                    :title="t('view_client')"
+                                >
+                                    <span class="sr-only">{{ t('view_client') }}</span>
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </a>
+                            </div>
                             <select
                                 id="client_id"
                                 v-model="form.client_id"
