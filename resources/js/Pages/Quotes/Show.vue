@@ -285,7 +285,7 @@ const duplicateQuote = () => {
                                 <Link
                                     v-if="quote.client?.id"
                                     :href="route('clients.show', quote.client.id)"
-                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                     :title="t('view_client')"
                                 >{{ quote.buyer_snapshot.company_name || quote.buyer_snapshot.name }}</Link>
                                 <span v-else>{{ quote.buyer_snapshot.company_name || quote.buyer_snapshot.name }}</span>
@@ -302,7 +302,7 @@ const duplicateQuote = () => {
                             <p class="font-semibold">
                                 <Link
                                     :href="route('clients.show', quote.client.id)"
-                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                     :title="t('view_client')"
                                 >{{ quote.client.name }}</Link>
                             </p>

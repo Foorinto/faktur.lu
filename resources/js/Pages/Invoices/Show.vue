@@ -736,7 +736,7 @@ const submitCreditNote = () => {
                                 <Link
                                     v-if="invoice.client?.id"
                                     :href="route('clients.show', invoice.client.id)"
-                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                     :title="t('view_client')"
                                 >{{ invoice.buyer_snapshot.name }}</Link>
                                 <span v-else>{{ invoice.buyer_snapshot.name }}</span>
@@ -757,7 +757,7 @@ const submitCreditNote = () => {
                             <p class="font-semibold">
                                 <Link
                                     :href="route('clients.show', invoice.client.id)"
-                                    class="hover:text-primary-600 hover:underline dark:hover:text-primary-400"
+                                    class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                     :title="t('view_client')"
                                 >{{ invoice.client.name }}</Link>
                             </p>
