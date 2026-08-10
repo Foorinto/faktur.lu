@@ -1475,7 +1475,7 @@ return [
                         ],
                         'peppol' => [
                             'title' => 'Peppol B2G',
-                            'description' => 'Electronic invoicing for public sector (coming soon).',
+                            'description' => 'Electronic invoicing for the public sector: XML file to upload.',
                         ],
                         'vat' => [
                             'title' => 'Automatic VAT',
@@ -1719,7 +1719,7 @@ return [
                     'project_management' => 'Project management',
                     'accountant_portal' => 'Accountant portal',
                     'accounting_exports' => 'Accounting exports',
-                    'peppol_export' => 'Peppol export',
+                    'peppol_export' => 'Peppol B2G export (XML file)',
                     'hr_module' => 'HR module',
                     'crm' => 'CRM (interactions, reminders, tags)',
                     'faia_export' => 'FAIA export (tax audit)',

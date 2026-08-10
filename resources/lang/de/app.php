@@ -1377,7 +1377,7 @@ return [
                         ],
                         'peppol' => [
                             'title' => 'Peppol B2G',
-                            'description' => 'Elektronische Rechnungsstellung für den öffentlichen Sektor (bald).',
+                            'description' => 'Elektronische Rechnungsstellung für den öffentlichen Sektor: XML-Datei zum Hochladen.',
                         ],
                         'vat' => [
                             'title' => 'Automatische MwSt',
@@ -1620,7 +1620,7 @@ return [
                     'project_management' => 'Projektverwaltung',
                     'accountant_portal' => 'Buchhalterportal',
                     'accounting_exports' => 'Buchhaltungsexporte',
-                    'peppol_export' => 'Peppol-Export',
+                    'peppol_export' => 'Peppol-B2G-Export (XML-Datei)',
                     'hr_module' => 'HR-Modul',
                     'crm' => 'CRM (Interaktionen, Erinnerungen, Tags)',
                     'faia_export' => 'FAIA-Export (Steuerprüfung)',

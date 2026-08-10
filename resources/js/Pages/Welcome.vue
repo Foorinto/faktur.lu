@@ -134,7 +134,7 @@ const featureCategories = computed(() => [
         icon: 'shield',
         items: [
             { title: t('landing.features.categories.compliance.items.faia.title'), description: t('landing.features.categories.compliance.items.faia.description'), icon: 'download', badge: 'FAIA' },
-            { title: t('landing.features.categories.compliance.items.peppol.title'), description: t('landing.features.categories.compliance.items.peppol.description'), icon: 'globe', badge: 'Bientôt' },
+            { title: t('landing.features.categories.compliance.items.peppol.title'), description: t('landing.features.categories.compliance.items.peppol.description'), icon: 'globe', badge: 'B2G' },
             { title: t('landing.features.categories.compliance.items.vat.title'), description: t('landing.features.categories.compliance.items.vat.description'), icon: 'calculator' },
             { title: t('landing.features.categories.compliance.items.archive.title'), description: t('landing.features.categories.compliance.items.archive.description'), icon: 'archive' },
             { title: t('landing.features.categories.compliance.items.audit.title'), description: t('landing.features.categories.compliance.items.audit.description'), icon: 'eye' },

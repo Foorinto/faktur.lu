@@ -1479,7 +1479,7 @@ return [
                         ],
                         'peppol' => [
                             'title' => 'Peppol B2G',
-                            'description' => 'Facturation électronique pour le secteur public (bientôt).',
+                            'description' => 'Facturation électronique pour le secteur public : fichier XML à déposer.',
                         ],
                         'vat' => [
                             'title' => 'TVA automatique',
@@ -1754,7 +1754,7 @@ return [
                     'project_management' => 'Gestion de projets',
                     'accountant_portal' => 'Portail comptable',
                     'accounting_exports' => 'Exports comptables',
-                    'peppol_export' => 'Export Peppol',
+                    'peppol_export' => 'Export Peppol B2G (fichier XML)',
                     'hr_module' => 'Module RH',
                     'crm' => 'CRM (interactions, rappels, tags)',
                     'faia_export' => 'Export FAIA (contrôle fiscal)',

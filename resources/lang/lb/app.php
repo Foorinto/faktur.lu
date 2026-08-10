@@ -1377,7 +1377,7 @@ return [
                         ],
                         'peppol' => [
                             'title' => 'Peppol B2G',
-                            'description' => 'Elektronesch Rechnungsstellung fir den ëffentleche Secteur (geschwënn).',
+                            'description' => 'Elektronesch Rechnungsstellung fir den ëffentleche Secteur: XML-Datei fir eropzelueden.',
                         ],
                         'vat' => [
                             'title' => 'Automatesch TVA',
@@ -1620,7 +1620,7 @@ return [
                     'project_management' => 'Projetsverwaltung',
                     'accountant_portal' => 'Comptablesportal',
                     'accounting_exports' => 'Buchhaltungsexporter',
-                    'peppol_export' => 'Peppol-Export',
+                    'peppol_export' => 'Peppol-B2G-Export (XML-Datei)',
                     'hr_module' => 'RH-Modul',
                     'crm' => 'CRM (Interaktiounen, Erënnerungen, Tags)',
                     'faia_export' => 'FAIA-Export (Steierprüfung)',
