@@ -1710,7 +1710,7 @@ return [
                         'Exportação FAIA (controlo fiscal)',
                         'Arquivamento PDF/A 10 anos',
                         'Factur-X / ZUGFeRD',
-                        'Exportação Peppol B2G ilimitada (ficheiro XML)', 'Envio e receção Peppol: 50 documentos/mês (1 fatura enviada ou recebida = 1 documento), previsto para 2027',
+                        'Exportação Peppol B2G ilimitada (ficheiro XML)', 'Envio e receção Peppol: 50 documentos/mês (1 fatura enviada ou recebida = 1 documento), previsto antes de 2028',
                         'Lembretes automáticos de pagamentos em atraso',
                         'Acesso multiutilizador, 3 contabilistas externos',
                         'Sem menção "faktur.lu"',
@@ -1757,7 +1757,7 @@ return [
                     'crm' => 'CRM (interações, lembretes, etiquetas)',
                     'faia_export' => 'Exportação FAIA (controlo fiscal)',
                     'factur_x' => 'Exportação Factur-X',
-                    'peppol_transmission' => 'Transmissão Peppol (2027)',
+                    'peppol_transmission' => 'Transmissão Peppol (previsto antes de 2028)',
                     'pdfa_archive' => 'Arquivamento PDF/A 10 anos',
                     'auto_reminders' => 'Lembretes automáticos',
                     'no_branding' => 'Sem menção "faktur.lu"',
@@ -2048,6 +2048,18 @@ return [
                 'format' => [
                     'question' => 'Que formato de fatura é utilizado?',
                     'answer' => 'As faturas Peppol utilizam o formato UBL 2.1, uma norma XML internacional. O faktur.lu gera este formato automaticamente a partir das suas faturas.',
+                ],
+                'export_vs_transmission' => [
+                    'question' => 'Qual é a diferença entre exportação e transmissão?',
+                    'answer' => 'A exportação produz o ficheiro XML da sua fatura. Descarrega-o e submete-o você mesmo, por exemplo no MyGuichet.lu para o setor público. Está disponível hoje, sem limite. A transmissão automática enviará a fatura diretamente ao seu cliente através da rede Peppol, sem intervenção da sua parte. Está em preparação.',
+                ],
+                'included' => [
+                    'question' => 'O que está incluído na minha subscrição?',
+                    'answer' => 'A exportação Peppol B2G está incluída sem limite nos planos Essentiel e Pro: tantos ficheiros XML quantos quiser. A transmissão automática, quando estiver disponível, será reservada ao plano Pro e incluirá 50 documentos por mês. Um documento corresponde a uma fatura enviada ou recebida na rede.',
+                ],
+                'availability' => [
+                    'question' => 'Quando estará disponível a transmissão automática?',
+                    'answer' => 'Prevemos abri-la antes do prazo de janeiro de 2028, data em que um projeto de lei luxemburguês prevê que todas as empresas devem poder receber faturas eletrónicas. Esse texto ainda não foi votado: as datas permanecem indicativas.',
                 ],
                 'facturx' => [
                     'question' => 'Qual é a diferença entre o Peppol e o Factur-X?',

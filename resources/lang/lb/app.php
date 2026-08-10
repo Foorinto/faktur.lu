@@ -1584,7 +1584,7 @@ return [
                         'Ouni faktur.lu-Branding',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['Onlimitéiert Clienten, Rechnungen an Devis (PDF an E-Mail)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-B2G-Export (XML-Datei)', 'Peppol schécken an empfänken: 50 Dokumenter/Mount (1 geschéckte oder kritt Rechnung = 1 Dokument), virgesinn fir 2027', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['Onlimitéiert Clienten, Rechnungen an Devis (PDF an E-Mail)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-B2G-Export (XML-Datei)', 'Peppol schécken an empfänken: 50 Dokumenter/Mount (1 geschéckte oder kritt Rechnung = 1 Dokument), virgesinn virun 2028', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
                 ],
             ],
             'comparison' => [
@@ -1625,7 +1625,7 @@ return [
                     'crm' => 'CRM (Interaktiounen, Erënnerungen, Tags)',
                     'faia_export' => 'FAIA-Export (Steierprüfung)',
                     'factur_x' => 'Factur-X Export',
-                    'peppol_transmission' => 'Peppol-Iwwerdroung (2027)',
+                    'peppol_transmission' => 'Peppol-Iwwerdroung (virgesinn virun 2028)',
                     'pdfa_archive' => 'PDF/A-Archivéierung 10 Joer',
                     'auto_reminders' => 'Automatesch Bezuelungserënnerungen',
                     'no_branding' => 'Ouni "faktur.lu"-Erwähnung',
@@ -1798,6 +1798,9 @@ return [
             'faqs' => [
                 'mandatory' => ['question' => 'Ass Peppol zu Letzebuerg obligatoresch?', 'answer' => 'Jo, E-Rechnung iwwer Peppol ass fir Liwwerante vum aeffentleche Secteur obligatoresch.'],
                 'format' => ['question' => 'Wéi ee Rechnungsformat gett benotzt?', 'answer' => 'Peppol-Rechnunge benotzen dat UBL 2.1 Format.'],
+                'export_vs_transmission' => ['question' => 'Wat ass den Ënnerscheed tëscht Export an Iwwerdroung?', 'answer' => 'Den Export erstellt d\'XML-Datei vun Ärer Rechnung. Dir luet se erof an deposéiert se selwer, zum Beispill op MyGuichet.lu fir den ëffentleche Secteur. Dat ass haut scho méiglech, ouni Limit. D\'automatesch Iwwerdroung schéckt d\'Rechnung direkt iwwer d\'Peppol-Netz un Äre Client, ouni datt Dir eppes maache musst. Si ass a Virbereedung.'],
+                'included' => ['question' => 'Wat ass a mengem Abonnement abegraff?', 'answer' => 'De Peppol-B2G-Export ass onlimitéiert an de Pläng Essentiel a Pro abegraff: sou vill XML-Dateien wéi Dir wëllt. D\'automatesch Iwwerdroung gëtt no hirer Aféierung dem Plang Pro virbehalen a wäert 50 Dokumenter pro Mount ëmfaassen. E Dokument entsprécht enger iwwer d\'Netz geschéckter oder kritter Rechnung.'],
+                'availability' => ['question' => 'Wéini gëtt d\'automatesch Iwwerdroung verfügbar?', 'answer' => 'Mir plangen, se virum Termin Januar 2028 opzemaachen, zu deem e Lëtzebuerger Gesetzprojet virgesäit, datt all Entreprisen elektronesch Rechnunge musse kënnen empfänken. Den Text ass nach net gestëmmt: d\'Datumer bleiwen indikativ.'],
                 'facturx' => ['question' => 'Peppol vs Factur-X?', 'answer' => 'Peppol ass en Iwwertragungsnetzwierk (B2G). Factur-X ass en hybridt PDF+XML-Format fir den B2B-Austausch an Europa. Mat faktur.lu kennt Dir Aer Rechnungen am Factur-X-Format exportéieren.'],
             ],
         ],

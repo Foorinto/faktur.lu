@@ -1683,7 +1683,7 @@ return [
                         'No faktur.lu branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned for 2027', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned before 2028', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [
@@ -1724,7 +1724,7 @@ return [
                     'crm' => 'CRM (interactions, reminders, tags)',
                     'faia_export' => 'FAIA export (tax audit)',
                     'factur_x' => 'Factur-X export',
-                    'peppol_transmission' => 'Peppol transmission (2027)',
+                    'peppol_transmission' => 'Peppol transmission (planned before 2028)',
                     'pdfa_archive' => 'PDF/A archiving 10 years',
                     'auto_reminders' => 'Automatic payment reminders',
                     'no_branding' => 'No "faktur.lu" mention',
@@ -1897,6 +1897,9 @@ return [
             'faqs' => [
                 'mandatory' => ['question' => 'Is Peppol mandatory in Luxembourg?', 'answer' => 'Yes, e-invoicing via Peppol is mandatory for Luxembourg public sector suppliers.'],
                 'format' => ['question' => 'What invoice format is used?', 'answer' => 'Peppol invoices use the UBL 2.1 format, an international XML standard.'],
+                'export_vs_transmission' => ['question' => 'What is the difference between export and transmission?', 'answer' => 'The export produces the XML file of your invoice. You download it and submit it yourself, for example to MyGuichet.lu for the public sector. This is available today, without limit. Automatic transmission will send the invoice directly to your customer over the Peppol network, with no action from you. It is being prepared.'],
+                'included' => ['question' => 'What does my subscription include?', 'answer' => 'Peppol B2G export is included without limit in the Essentiel and Pro plans: as many XML files as you want. Automatic transmission, once available, will be reserved for the Pro plan and will include 50 documents per month. One document is one invoice sent or received over the network.'],
+                'availability' => ['question' => 'When will automatic transmission be available?', 'answer' => 'We plan to open it before the January 2028 deadline, the date on which a Luxembourg draft law provides that every company must be able to receive electronic invoices. That text has not yet been voted: the dates remain indicative.'],
                 'facturx' => ['question' => 'Peppol vs Factur-X?', 'answer' => 'Peppol is a transmission network (B2G). Factur-X is a hybrid PDF+XML format used for B2B exchanges in Europe. faktur.lu lets you export your invoices in Factur-X format for partners who request it.'],
             ],
         ],

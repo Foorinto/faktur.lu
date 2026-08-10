@@ -1712,7 +1712,7 @@ return [
                         'Archivage PDF/A 10 ans',
                         'Factur-X / ZUGFeRD',
                         'Export Peppol B2G illimité (fichier XML)',
-                        'Envoi et réception Peppol : 50 documents/mois (1 facture envoyée ou reçue = 1 document), prévu 2027',
+                        'Envoi et réception Peppol : 50 documents/mois (1 facture envoyée ou reçue = 1 document), prévu avant 2028',
                         'Relances automatiques impayés',
                         'Accès multi-utilisateurs, 3 comptables externes',
                         'Sans mention "faktur.lu"',
@@ -1759,7 +1759,7 @@ return [
                     'crm' => 'CRM (interactions, rappels, tags)',
                     'faia_export' => 'Export FAIA (contrôle fiscal)',
                     'factur_x' => 'Export Factur-X',
-                    'peppol_transmission' => 'Transmission Peppol (2027)',
+                    'peppol_transmission' => 'Transmission Peppol (prévu avant 2028)',
                     'pdfa_archive' => 'Archivage PDF/A 10 ans',
                     'auto_reminders' => 'Relances automatiques impayés',
                     'no_branding' => 'Sans mention "faktur.lu"',
@@ -2050,6 +2050,18 @@ return [
                 'format' => [
                     'question' => 'Quel format de facture est utilise ?',
                     'answer' => 'Les factures Peppol utilisent le format UBL 2.1, un standard XML international. faktur.lu genere ce format automatiquement a partir de vos factures.',
+                ],
+                'export_vs_transmission' => [
+                    'question' => 'Quelle différence entre l\'export et la transmission ?',
+                    'answer' => 'L\'export produit le fichier XML de votre facture. Vous le téléchargez et le déposez vous-même, par exemple sur MyGuichet.lu pour le secteur public. C\'est disponible aujourd\'hui, sans limite. La transmission automatique enverra la facture directement à votre client via le réseau Peppol, sans intervention de votre part. Elle est en préparation.',
+                ],
+                'included' => [
+                    'question' => 'Qu\'est-ce qui est inclus dans mon abonnement ?',
+                    'answer' => 'L\'export Peppol B2G est inclus sans limite dans les plans Essentiel et Pro : autant de fichiers XML que vous voulez. La transmission automatique, quand elle sera disponible, sera réservée au plan Pro et comprendra 50 documents par mois. Un document correspond à une facture envoyée ou reçue sur le réseau.',
+                ],
+                'availability' => [
+                    'question' => 'Quand la transmission automatique sera-t-elle disponible ?',
+                    'answer' => 'Nous prévoyons de l\'ouvrir avant l\'échéance de janvier 2028, date à laquelle un projet de loi luxembourgeois prévoit que toutes les entreprises doivent pouvoir recevoir des factures électroniques. Ce texte n\'est pas encore voté : les dates restent indicatives.',
                 ],
                 'facturx' => [
                     'question' => 'Quelle est la difference entre Peppol et Factur-X ?',

@@ -1584,7 +1584,7 @@ return [
                         'Ohne faktur.lu-Branding',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['Unbegrenzt Kunden, Rechnungen und Angebote (PDF und E-Mail)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-B2G-Export (XML-Datei)', 'Peppol senden und empfangen: 50 Dokumente/Monat (1 gesendete oder empfangene Rechnung = 1 Dokument), geplant für 2027', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
+                    'features' => ['Unbegrenzt Kunden, Rechnungen und Angebote (PDF und E-Mail)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-B2G-Export (XML-Datei)', 'Peppol senden und empfangen: 50 Dokumente/Monat (1 gesendete oder empfangene Rechnung = 1 Dokument), geplant vor 2028', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
                 ],
             ],
             'comparison' => [
@@ -1625,7 +1625,7 @@ return [
                     'crm' => 'CRM (Interaktionen, Erinnerungen, Tags)',
                     'faia_export' => 'FAIA-Export (Steuerprüfung)',
                     'factur_x' => 'Factur-X Export',
-                    'peppol_transmission' => 'Peppol-Übertragung (2027)',
+                    'peppol_transmission' => 'Peppol-Übertragung (geplant vor 2028)',
                     'pdfa_archive' => 'PDF/A-Archivierung 10 Jahre',
                     'auto_reminders' => 'Automatische Zahlungserinnerungen',
                     'no_branding' => 'Ohne "faktur.lu"-Erwähnung',
@@ -1798,6 +1798,9 @@ return [
             'faqs' => [
                 'mandatory' => ['question' => 'Ist Peppol in Luxemburg verpflichtend?', 'answer' => 'Ja, E-Rechnung ueber Peppol ist fuer Lieferanten des oeffentlichen Sektors verpflichtend.'],
                 'format' => ['question' => 'Welches Rechnungsformat wird verwendet?', 'answer' => 'Peppol-Rechnungen verwenden das UBL 2.1 Format, einen internationalen XML-Standard.'],
+                'export_vs_transmission' => ['question' => 'Was ist der Unterschied zwischen Export und Übertragung?', 'answer' => 'Der Export erzeugt die XML-Datei Ihrer Rechnung. Sie laden sie herunter und reichen sie selbst ein, zum Beispiel über MyGuichet.lu für den öffentlichen Sektor. Das ist heute schon möglich, ohne Begrenzung. Die automatische Übertragung schickt die Rechnung direkt über das Peppol-Netz an Ihren Kunden, ohne Ihr Zutun. Sie ist in Vorbereitung.'],
+                'included' => ['question' => 'Was ist in meinem Abonnement enthalten?', 'answer' => 'Der Peppol-B2G-Export ist in den Plänen Essentiel und Pro unbegrenzt enthalten: so viele XML-Dateien, wie Sie möchten. Die automatische Übertragung wird nach ihrer Einführung dem Plan Pro vorbehalten sein und 50 Dokumente pro Monat umfassen. Ein Dokument entspricht einer über das Netz gesendeten oder empfangenen Rechnung.'],
+                'availability' => ['question' => 'Wann wird die automatische Übertragung verfügbar sein?', 'answer' => 'Wir planen die Freischaltung vor dem Stichtag Januar 2028, zu dem ein luxemburgischer Gesetzentwurf vorsieht, dass alle Unternehmen elektronische Rechnungen empfangen können müssen. Der Text ist noch nicht verabschiedet: Die Daten bleiben unverbindlich.'],
                 'facturx' => ['question' => 'Peppol vs Factur-X?', 'answer' => 'Peppol ist ein Uebertragungsnetzwerk (B2G). Factur-X ist ein hybrides PDF+XML-Format fuer den B2B-Austausch in Europa. Mit faktur.lu koennen Sie Ihre Rechnungen im Factur-X-Format exportieren.'],
             ],
         ],
