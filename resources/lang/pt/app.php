@@ -1696,7 +1696,7 @@ return [
                     'name' => 'Pro',
                     'description' => 'Para PME em crescimento',
                     'card_features' => [
-                        'Tudo ilimitado',
+                        'Tudo ilimitado por PDF e email',
                         'Módulo RH & CRM',
                         'Exportação FAIA & Factur-X',
                         'Lembretes automáticos',
@@ -1704,7 +1704,7 @@ return [
                         'Numeração personalizável',
                     ],
                     'features' => [
-                        'Tudo ilimitado (clientes, faturas, orçamentos)',
+                        'Clientes, faturas e orçamentos ilimitados (PDF e email)',
                         'Módulo RH completo (15 colaboradores)',
                         'CRM avançado (interações, lembretes, etiquetas)',
                         'Exportação FAIA (controlo fiscal)',
@@ -1734,7 +1734,7 @@ return [
                 ],
                 'rows' => [
                     'clients' => 'Clientes',
-                    'invoices_per_month' => 'Faturas / mês',
+                    'invoices_per_month' => 'Faturas / mês (PDF e email)',
                     'quotes_per_month' => 'Orçamentos / mês',
                     'emails_per_month' => 'Emails / mês',
                     'expenses_per_month' => 'Despesas / mês',
@@ -2815,7 +2815,7 @@ return [
         ],
         'features_title' => 'A plataforma completa para PMEs luxemburguesas',
         'features' => [
-            'unlimited' => ['title' => 'Tudo ilimitado', 'desc' => 'Faturas, orçamentos, clientes, despesas: sem limite mensal. Acesso multiutilizador, até 3 contabilistas.'],
+            'unlimited' => ['title' => 'Tudo ilimitado', 'desc' => 'Faturas, orçamentos, clientes, despesas: sem limite mensal por PDF e email. Acesso multiutilizador, até 3 contabilistas.'],
             'crm' => ['title' => 'CRM integrado', 'desc' => 'Interações com clientes, lembretes, tags, segmentos. Sem necessidade de Pipedrive ou HubSpot separados.'],
             'hr' => ['title' => 'Módulo RH (até 15 colaboradores)', 'desc' => 'Onboarding, férias, despesas, contratos, organigrama, portal do colaborador. Tudo integrado.'],
             'accountant' => ['title' => 'Portal multi-contabilista', 'desc' => 'Até 3 contabilistas externos convidados em modo só de leitura, exportações Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A.'],

@@ -1676,14 +1676,14 @@ return [
                     'name' => 'Pro',
                     'description' => 'For growing SMEs',
                     'card_features' => [
-                        'Everything unlimited',
+                        'Everything unlimited by PDF and email',
                         'HR & CRM module',
                         'FAIA & Factur-X export',
                         'Automatic reminders',
                         'No faktur.lu branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned for 2027', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned for 2027', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [
@@ -1701,7 +1701,7 @@ return [
                 ],
                 'rows' => [
                     'clients' => 'Clients',
-                    'invoices_per_month' => 'Invoices / month',
+                    'invoices_per_month' => 'Invoices / month (PDF and email)',
                     'quotes_per_month' => 'Quotes / month',
                     'emails_per_month' => 'Emails / month',
                     'expenses_per_month' => 'Expenses / month',
@@ -2610,7 +2610,7 @@ return [
         ],
         'features_title' => 'The complete platform for Luxembourg SMEs',
         'features' => [
-            'unlimited' => ['title' => 'Unlimited everything', 'desc' => 'Invoices, quotes, clients, expenses: no monthly limit. Multi-user access, up to 3 accountants.'],
+            'unlimited' => ['title' => 'Unlimited everything', 'desc' => 'Invoices, quotes, clients, expenses: no monthly limit by PDF and email. Multi-user access, up to 3 accountants.'],
             'crm' => ['title' => 'Integrated CRM', 'desc' => 'Client interactions, reminders, tags, segments. No need for a separate Pipedrive or HubSpot.'],
             'hr' => ['title' => 'HR module (up to 15 employees)', 'desc' => 'Onboarding, leave, expense reports, contracts, org chart, employee portal. Everything integrated.'],
             'accountant' => ['title' => 'Multi-accountant portal', 'desc' => 'Up to 3 external accountants invited in read-only mode, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A exports.'],

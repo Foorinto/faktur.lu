@@ -1577,14 +1577,14 @@ return [
                     'name' => 'Pro',
                     'description' => 'Für wachsende KMU',
                     'card_features' => [
-                        'Alles unbegrenzt',
+                        'Alles unbegrenzt per PDF und E-Mail',
                         'HR- & CRM-Modul',
                         'FAIA & Factur-X Export',
                         'Automatische Mahnungen',
                         'Ohne faktur.lu-Branding',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-B2G-Export (XML-Datei)', 'Peppol senden und empfangen: 50 Dokumente/Monat (1 gesendete oder empfangene Rechnung = 1 Dokument), geplant für 2027', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
+                    'features' => ['Unbegrenzt Kunden, Rechnungen und Angebote (PDF und E-Mail)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-B2G-Export (XML-Datei)', 'Peppol senden und empfangen: 50 Dokumente/Monat (1 gesendete oder empfangene Rechnung = 1 Dokument), geplant für 2027', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
                 ],
             ],
             'comparison' => [
@@ -1602,7 +1602,7 @@ return [
                 ],
                 'rows' => [
                     'clients' => 'Kunden',
-                    'invoices_per_month' => 'Rechnungen / Monat',
+                    'invoices_per_month' => 'Rechnungen / Monat (PDF und E-Mail)',
                     'quotes_per_month' => 'Angebote / Monat',
                     'emails_per_month' => 'E-Mails / Monat',
                     'expenses_per_month' => 'Ausgaben / Monat',
@@ -2511,7 +2511,7 @@ return [
         ],
         'features_title' => 'Die komplette Plattform für luxemburgische KMU',
         'features' => [
-            'unlimited' => ['title' => 'Alles unbegrenzt', 'desc' => 'Rechnungen, Angebote, Kunden, Ausgaben: kein Monatslimit. Zugang für mehrere Benutzer, bis zu 3 Buchhalter.'],
+            'unlimited' => ['title' => 'Alles unbegrenzt', 'desc' => 'Rechnungen, Angebote, Kunden, Ausgaben: kein Monatslimit per PDF und E-Mail. Zugang für mehrere Benutzer, bis zu 3 Buchhalter.'],
             'crm' => ['title' => 'Integriertes CRM', 'desc' => 'Kundeninteraktionen, Erinnerungen, Tags, Segmente. Kein separates Pipedrive oder HubSpot nötig.'],
             'hr' => ['title' => 'HR-Modul (bis 15 Mitarbeiter)', 'desc' => 'Onboarding, Urlaub, Spesenabrechnungen, Verträge, Organigramm, Mitarbeiterportal. Alles integriert.'],
             'accountant' => ['title' => 'Multi-Buchhalter-Portal', 'desc' => 'Bis zu 3 externe Buchhalter im Lesemodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A-Exporte.'],

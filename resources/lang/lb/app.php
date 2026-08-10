@@ -1577,14 +1577,14 @@ return [
                     'name' => 'Pro',
                     'description' => 'Fir wuessend KMU',
                     'card_features' => [
-                        'Alles onlimitéiert',
+                        'Alles onlimitéiert per PDF an E-Mail',
                         'RH- & CRM-Modul',
                         'FAIA & Factur-X Export',
                         'Automatesch Erënnerungen',
                         'Ouni faktur.lu-Branding',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-B2G-Export (XML-Datei)', 'Peppol schécken an empfänken: 50 Dokumenter/Mount (1 geschéckte oder kritt Rechnung = 1 Dokument), virgesinn fir 2027', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['Onlimitéiert Clienten, Rechnungen an Devis (PDF an E-Mail)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-B2G-Export (XML-Datei)', 'Peppol schécken an empfänken: 50 Dokumenter/Mount (1 geschéckte oder kritt Rechnung = 1 Dokument), virgesinn fir 2027', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
                 ],
             ],
             'comparison' => [
@@ -1602,7 +1602,7 @@ return [
                 ],
                 'rows' => [
                     'clients' => 'Clienten',
-                    'invoices_per_month' => 'Rechnungen / Mount',
+                    'invoices_per_month' => 'Rechnungen / Mount (PDF an E-Mail)',
                     'quotes_per_month' => 'Devis / Mount',
                     'emails_per_month' => 'E-Mailen / Mount',
                     'expenses_per_month' => 'Ausgaben / Mount',
@@ -2512,7 +2512,7 @@ return [
         ],
         'features_title' => 'Déi komplett Plattform fir Lëtzebuerger KMU',
         'features' => [
-            'unlimited' => ['title' => 'Alles onlimitéiert', 'desc' => 'Rechnungen, Devisen, Cliente, Spesen: kee Mountlimit. Multi-Notzer (5 Mataarbechter, 3 Comptablen).'],
+            'unlimited' => ['title' => 'Alles onlimitéiert', 'desc' => 'Rechnungen, Devisen, Cliente, Spesen: kee Mountlimit per PDF an E-Mail. Multi-Notzer (5 Mataarbechter, 3 Comptablen).'],
             'crm' => ['title' => 'Integréiert CRM', 'desc' => 'Cliente-Interaktiounen, Rappellen, Tags, Segmenter. Kee separat Pipedrive oder HubSpot néideg.'],
             'hr' => ['title' => 'HR-Modul (bis 15 Mataarbechter)', 'desc' => 'Onboarding, Vakanzen, Spesennoten, Kontrakter, Organigramm, Mataarbechter-Portal. Alles integréiert.'],
             'accountant' => ['title' => 'Multi-Comptable-Portal', 'desc' => 'Bis zu 3 extern Comptablen am Liesmodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A Exporter.'],
