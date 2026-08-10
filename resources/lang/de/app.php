@@ -1584,7 +1584,7 @@ return [
                         'Ohne faktur.lu-Branding',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-Export + Übertragung (bald)', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
+                    'features' => ['Alles unbegrenzt (Kunden, Rechnungen, Angebote)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-Export + 50 Übertragungen/Monat (bald)', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne "faktur.lu"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
                 ],
             ],
             'comparison' => [
@@ -2522,7 +2522,7 @@ return [
         ],
         'plan_recommend_title' => 'Empfohlener Plan für Sie',
         'plan_recommend_name' => 'Pro - 15 €/Monat',
-        'plan_recommend_desc' => 'Alles unbegrenzt, CRM, HR-Modul (15 Mitarbeiter), 3 externe Buchhalter, unbegrenztes Peppol, 10-Jahre PDF/A-Archiv, automatische Mahnungen, ohne Branding. Kein Aufpreis pro Nutzer.',
+        'plan_recommend_desc' => 'Alles unbegrenzt, CRM, HR-Modul (15 Mitarbeiter), 3 externe Buchhalter, 50 Peppol-Übertragungen/Monat, 10-Jahre PDF/A-Archiv, automatische Mahnungen, ohne Branding. Kein Aufpreis pro Nutzer.',
         'plan_recommend_cta' => '14 Tage kostenlos testen',
         'plan_note' => 'Mit Pro erhalten Sie alle Funktionen ohne Aufpreis pro Mitarbeiter oder Kunde. Der Preis bleibt fest, egal wie Sie wachsen.',
         'faq_title' => 'Häufige Fragen von KMU',

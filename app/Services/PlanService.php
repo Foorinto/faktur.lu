@@ -612,6 +612,10 @@ class PlanService
         $plan->limits = [
             'max_employees' => 15,
             'max_accountants' => 3,
+            // Chaque transmission Peppol se paie au point d'accès. Ce repli
+            // sert quand la table `plans` est vide : sans cette clé, il
+            // rouvrirait l'illimité que la migration vient de fermer.
+            'max_peppol_per_month' => 50,
         ];
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',

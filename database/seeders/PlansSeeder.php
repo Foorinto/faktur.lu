@@ -117,7 +117,11 @@ class PlansSeeder extends Seeder
                     'max_emails_per_month' => null,
                     'max_expenses_per_month' => null,
                     'max_active_projects' => null,
-                    'max_peppol_per_month' => null,
+                    // 50 et non « illimité » : chaque transmission se paie au
+                    // point d'accès. 15 € ÷ 0,30 € (pire tarif que nous
+                    // paierions) = 50, seuil exact où la marge s'annule.
+                    // L'export manuel du XML, lui, reste illimité.
+                    'max_peppol_per_month' => 50,
                     'max_collaborators_per_project' => 10,
                     'max_products' => null,
                     // Les deux plafonds annoncés sur les pages PME et tarifs :

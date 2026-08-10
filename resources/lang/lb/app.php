@@ -1584,7 +1584,7 @@ return [
                         'Ouni faktur.lu-Branding',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-Export + Iwwerdroung (geschwënn)', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['Alles onlimitéiert (Clienten, Rechnungen, Devis)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-Export + 50 Iwwerdroungen/Mount (geschwënn)', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni "faktur.lu"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
                 ],
             ],
             'comparison' => [
@@ -2523,7 +2523,7 @@ return [
         ],
         'plan_recommend_title' => 'Empfohlene Plang fir Iech',
         'plan_recommend_name' => 'Pro - 15 €/Mount',
-        'plan_recommend_desc' => 'Alles onlimitéiert, CRM, HR-Modul (15 Mataarbechter), 3 extern Comptablen, onlimitéiert Peppol, 10-Joer PDF/A-Archiv, automatesch Rappellen, ouni Branding. Keng Zousazkäschten pro Notzer.',
+        'plan_recommend_desc' => 'Alles onlimitéiert, CRM, HR-Modul (15 Mataarbechter), 3 extern Comptablen, 50 Peppol-Iwwerdroungen/Mount, 10-Joer PDF/A-Archiv, automatesch Rappellen, ouni Branding. Keng Zousazkäschten pro Notzer.',
         'plan_recommend_cta' => '14 Deeg gratis testen',
         'plan_note' => 'Op Pro kritt Dir all Funktiounen ouni Zousazkäschten pro Mataarbechter oder Client. De Präis bleift fix, egal wéi Dir wuesst.',
         'faq_title' => 'Heefeg Froen vu KMU',

@@ -1683,7 +1683,7 @@ return [
                         'No faktur.lu branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol export + transmission (soon)', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Everything unlimited (clients, invoices, quotes)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol export + 50 transmissions/month (soon)', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No "faktur.lu" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [
@@ -2621,7 +2621,7 @@ return [
         ],
         'plan_recommend_title' => 'Recommended plan for you',
         'plan_recommend_name' => 'Pro - €15/month',
-        'plan_recommend_desc' => 'Unlimited everything, CRM, HR module (15 employees), 3 external accountants, unlimited Peppol, 10-year PDF/A archive, automatic reminders, no branding. No per-user surcharge.',
+        'plan_recommend_desc' => 'Unlimited everything, CRM, HR module (15 employees), 3 external accountants, 50 Peppol transmissions/month, 10-year PDF/A archive, automatic reminders, no branding. No per-user surcharge.',
         'plan_recommend_cta' => 'Try 14 days free',
         'plan_note' => 'On Pro, you get all features with no per-employee or per-client surcharge. The price stays fixed regardless of your growth.',
         'faq_title' => 'Frequently asked questions from SMEs',

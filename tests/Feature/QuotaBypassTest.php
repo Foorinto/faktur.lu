@@ -221,6 +221,15 @@ class QuotaBypassTest extends TestCase
         // plan.feature:peppol_transmission, réservé à Pro. Une valeur sur
         // Essentiel ne serait donc jamais évaluée — et surtout jamais annoncée.
         $this->assertNull(Plan::essentiel()->getLimit('max_peppol_per_month'));
-        $this->assertNull(Plan::pro()->getLimit('max_peppol_per_month'));
+    }
+
+    public function test_le_plan_pro_plafonne_les_transmissions_peppol(): void
+    {
+        // Ce quota valait null, donc illimité, sur un plan à 15 EUR/mois, alors
+        // que chaque transmission se paie au point d'accès. Au tarif le plus
+        // élevé que nous paierions (0,30 EUR le document), 50 est le seuil
+        // exact où la marge s'annule : au-delà, un client qui réussit devient
+        // une perte. Ce test interdit le retour silencieux à l'illimité.
+        $this->assertSame(50, Plan::pro()->getLimit('max_peppol_per_month'));
     }
 }
