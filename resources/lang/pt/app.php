@@ -1818,7 +1818,7 @@ return [
                 ],
                 'peppol_obligatoire' => [
                     'question' => 'É obrigatório utilizar Peppol no Luxemburgo?',
-                    'answer' => 'Para a faturação B2G (para o setor público luxemburguês), o Peppol é obrigatório desde 2023. Para o B2B, a obrigação chega progressivamente com o ViDA (Vat in the Digital Age) até 2030. O Faktur.lu já gera desde já as suas faturas no formato Peppol BIS 3.0 (e UBL 2.1), conformes com o mandato B2G. A transmissão automática através de um Access Point certificado está a ser finalizada e chegará com a obrigação B2B.',
+                    'answer' => 'Para a faturação B2G (para o setor público luxemburguês), o Peppol é obrigatório desde 2023. Para o B2B doméstico, um projeto de lei apresentado em julho de 2026 prevê a receção obrigatória de faturas eletrónicas a partir de 1 de janeiro de 2028, e a emissão a partir de 1 de julho de 2028 para as médias e grandes empresas e de 1 de janeiro de 2029 para as mais pequenas. Estas datas dependem ainda da votação parlamentar. A diretiva europeia ViDA visa separadamente o B2B intracomunitário a partir de 1 de julho de 2030. O Faktur.lu já gera desde já as suas faturas no formato Peppol BIS 3.0 (e UBL 2.1), conformes com o mandato B2G. A transmissão automática através de um Access Point certificado está a ser finalizada e chegará com a obrigação B2B.',
                 ],
                 'e_facturation' => [
                     'question' => 'Como passar à faturação eletrónica no Luxemburgo?',
@@ -2819,7 +2819,7 @@ return [
             'crm' => ['title' => 'CRM integrado', 'desc' => 'Interações com clientes, lembretes, tags, segmentos. Sem necessidade de Pipedrive ou HubSpot separados.'],
             'hr' => ['title' => 'Módulo RH (até 15 colaboradores)', 'desc' => 'Onboarding, férias, despesas, contratos, organigrama, portal do colaborador. Tudo integrado.'],
             'accountant' => ['title' => 'Portal multi-contabilista', 'desc' => 'Até 3 contabilistas externos convidados em modo só de leitura, exportações Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A.'],
-            'peppol' => ['title' => 'Exportação Peppol B2G (BIS 3.0)', 'desc' => 'Geração de faturas Peppol BIS 3.0 / UBL 2.1 conformes com o mandato B2G luxemburguês. Transmissão automática via Access Point em breve (obrigação B2B 2028).'],
+            'peppol' => ['title' => 'Exportação Peppol B2G (BIS 3.0)', 'desc' => 'Geração de faturas Peppol BIS 3.0 / UBL 2.1 conformes com o mandato B2G luxemburguês. Transmissão automática via Access Point em breve (obrigação B2B prevista a partir de 2028).'],
             'archive' => ['title' => 'Arquivo PDF/A 10 anos', 'desc' => 'Conservação legal luxemburguesa (Código de Comércio art. 16) garantida. Hash SHA-256 para integridade.'],
             'reminders' => ['title' => 'Lembretes automáticos por dívidas', 'desc' => '3 níveis de escalonamento configuráveis (D+X, notificação formal, carta registada). Os clientes pagam sem o seu envolvimento.'],
             'branding' => ['title' => 'Sem menção "faktur.lu"', 'desc' => 'As suas faturas levam apenas a sua identidade. Sem logo ou menção "Made with..." no rodapé dos PDFs.'],
@@ -2835,7 +2835,7 @@ return [
             'q2' => ['q' => 'Quantos utilizadores podem trabalhar em paralelo?', 'a' => 'Plano Pro: acesso multiutilizador (administradores e colaboradores) + 3 contabilistas externos em modo de leitura. Sem custo por utilizador. Se precisar de mais, contacte-nos.'],
             'q3' => ['q' => 'O módulo RH substitui um verdadeiro HRIS?', 'a' => 'Para PMEs até 15 colaboradores, sim. Gere contratos, férias, despesas, onboarding/offboarding, organigrama e portal do colaborador. Acima de 15 colaboradores ou para necessidades muito específicas (folha de pagamento complexa, formação), complementa um HRIS dedicado.'],
             'q4' => ['q' => 'Como funciona o arquivo legal de 10 anos?', 'a' => 'Cada fatura finalizada é automaticamente convertida em PDF/A (ISO 19005, formato legal de arquivo), com hash SHA-256 para integridade. Arquivo consultável e descarregável a qualquer momento. Em conformidade com o art. 16 do Código Comercial luxemburguês.'],
-            'q5' => ['q' => 'Peppol é obrigatório para a minha PME?', 'a' => 'Sim no B2G (faturas para o Estado luxemburguês) desde 2023. A diretiva ViDA 2030 estende esta obrigação ao B2B intra-UE a partir de 2030. O faktur.lu está pronto para ambos.'],
+            'q5' => ['q' => 'Peppol é obrigatório para a minha PME?', 'a' => 'Sim no B2G (faturas para o Estado luxemburguês) desde 2023. Para o B2B luxemburguês, um projeto de lei prevê a receção obrigatória a partir de 1 de janeiro de 2028 e a emissão a partir de 1 de janeiro de 2029 para as pequenas empresas, sob reserva de votação. A diretiva ViDA visa o B2B intracomunitário a partir de 1 de julho de 2030. O faktur.lu já gera o formato exigido.'],
             'q6' => ['q' => 'E os nossos dados estão protegidos?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), DPA assinável a pedido para a sua conformidade. Sem dados transferidos para fora da UE. Backups diários 30 dias. Audit log de ações sensíveis.'],
         ],
         'cta_final_title' => 'Pronto a consolidar o seu stack?',
@@ -3113,7 +3113,7 @@ return [
             'peppol' => [
                 'name' => 'Peppol',
                 'alternate' => 'Pan-European Public Procurement OnLine',
-                'description' => 'Rede internacional de faturação eletrónica normalizada que permite enviar faturas estruturadas (UBL ou CII) entre empresas e administrações públicas. Obrigatória no Luxemburgo para o setor público (B2G) desde 2023. A diretiva ViDA prevê a sua extensão ao B2B intra-UE a partir de 2030.',
+                'description' => 'Rede internacional de faturação eletrónica normalizada que permite enviar faturas estruturadas (UBL ou CII) entre empresas e administrações públicas. Obrigatória no Luxemburgo para o setor público (B2G) desde 2023. Um projeto de lei luxemburguês de julho de 2026 prevê a sua extensão ao B2B doméstico a partir de 2028, e a diretiva ViDA ao B2B intracomunitário a partir de 1 de julho de 2030.',
             ],
             'rcs' => [
                 'name' => 'RCS',

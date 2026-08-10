@@ -1760,7 +1760,7 @@ return [
                 ],
                 'peppol_obligatoire' => [
                     'question' => 'Is using Peppol mandatory in Luxembourg?',
-                    'answer' => 'For B2G invoicing (to the Luxembourg public sector), Peppol has been mandatory since 2023. For B2B, the obligation is being introduced gradually with ViDA (VAT in the Digital Age) by 2030. Faktur.lu already generates your invoices in the Peppol BIS 3.0 (and UBL 2.1) format, compliant with the B2G mandate. Automatic transmission via a certified Access Point is being finalised and will arrive with the B2B obligation.',
+                    'answer' => 'For B2G invoicing (to the Luxembourg public sector), Peppol has been mandatory since 2023. For domestic B2B, a draft law tabled in July 2026 provides for mandatory reception of electronic invoices from 1 January 2028, then issuance from 1 July 2028 for medium and large businesses and from 1 January 2029 for smaller ones. These dates remain subject to a parliamentary vote. The European ViDA directive separately targets intra-EU B2B from 1 July 2030. Faktur.lu already generates your invoices in the Peppol BIS 3.0 (and UBL 2.1) format, compliant with the B2G mandate. Automatic transmission via a certified Access Point is being finalised and will arrive with the B2B obligation.',
                 ],
                 'e_facturation' => [
                     'question' => 'How do I switch to electronic invoicing in Luxembourg?',
@@ -2614,7 +2614,7 @@ return [
             'crm' => ['title' => 'Integrated CRM', 'desc' => 'Client interactions, reminders, tags, segments. No need for a separate Pipedrive or HubSpot.'],
             'hr' => ['title' => 'HR module (up to 15 employees)', 'desc' => 'Onboarding, leave, expense reports, contracts, org chart, employee portal. Everything integrated.'],
             'accountant' => ['title' => 'Multi-accountant portal', 'desc' => 'Up to 3 external accountants invited in read-only mode, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A exports.'],
-            'peppol' => ['title' => 'Peppol B2G export (BIS 3.0)', 'desc' => 'Generate Peppol BIS 3.0 / UBL 2.1 invoices compliant with the Luxembourg B2G mandate. Automatic transmission via Access Point coming (B2B obligation 2028).'],
+            'peppol' => ['title' => 'Peppol B2G export (BIS 3.0)', 'desc' => 'Generate Peppol BIS 3.0 / UBL 2.1 invoices compliant with the Luxembourg B2G mandate. Automatic transmission via Access Point coming (B2B obligation expected from 2028).'],
             'archive' => ['title' => '10-year PDF/A archive', 'desc' => 'Luxembourg legal retention (Commercial Code art. 16) guaranteed. SHA-256 hash for integrity.'],
             'reminders' => ['title' => 'Automatic payment reminders', 'desc' => '3 configurable escalation levels (D+X, formal notice, registered letter). Clients pay without your involvement.'],
             'branding' => ['title' => 'No "faktur.lu" branding', 'desc' => 'Your invoices carry your identity only. No logo or "Made with..." mention at the bottom of PDFs.'],
@@ -2630,7 +2630,7 @@ return [
             'q2' => ['q' => 'How many users can work in parallel?', 'a' => 'Pro plan: multi-user access (admins and collaborators) + 3 external accountants in read-only mode. No per-user surcharge. If you need more, contact us.'],
             'q3' => ['q' => 'Does the HR module replace a real HRIS?', 'a' => 'For SMEs up to 15 employees, yes. You manage contracts, leave, expense reports, onboarding/offboarding, org chart and employee portal. Above 15 employees or for very specific needs (complex payroll, training), it complements a dedicated HRIS.'],
             'q4' => ['q' => 'How does the 10-year legal archive work?', 'a' => 'Each finalized invoice is automatically converted to PDF/A (ISO 19005, legal archival format), with SHA-256 hash for integrity. Archive is consultable and downloadable anytime. Compliant with art. 16 of the Luxembourg Commercial Code.'],
-            'q5' => ['q' => 'Is Peppol mandatory for my SME?', 'a' => 'Yes for B2G (invoices to the Luxembourg State) since 2023. The ViDA 2030 directive extends this obligation to intra-EU B2B from 2030. faktur.lu is ready for both.'],
+            'q5' => ['q' => 'Is Peppol mandatory for my SME?', 'a' => 'Yes for B2G (invoices to the Luxembourg State) since 2023. For Luxembourg B2B, a draft law provides for mandatory reception from 1 January 2028 and issuance from 1 January 2029 for small businesses, subject to a vote. The ViDA directive targets intra-EU B2B from 1 July 2030. faktur.lu already generates the required format.'],
             'q6' => ['q' => 'And is our data protected?', 'a' => 'Hosted at o2switch in France (100% European Union, GDPR), DPA signable on request for your compliance. No data transferred outside EU. Daily 30-day backups. Audit log of sensitive actions.'],
         ],
         'cta_final_title' => 'Ready to consolidate your stack?',
@@ -2908,7 +2908,7 @@ return [
             'peppol' => [
                 'name' => 'Peppol',
                 'alternate' => 'Pan-European Public Procurement OnLine',
-                'description' => 'International standardised electronic invoicing network for exchanging structured invoices (UBL or CII) between businesses and public administrations. Mandatory in Luxembourg for B2G invoicing since 2023. The ViDA directive plans its extension to intra-EU B2B from 2030.',
+                'description' => 'International standardised electronic invoicing network for exchanging structured invoices (UBL or CII) between businesses and public administrations. Mandatory in Luxembourg for B2G invoicing since 2023. A Luxembourg draft law of July 2026 provides for its extension to domestic B2B from 2028, and the ViDA directive to intra-EU B2B from 1 July 2030.',
             ],
             'rcs' => [
                 'name' => 'RCS',

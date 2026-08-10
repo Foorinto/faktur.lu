@@ -1661,7 +1661,7 @@ return [
                 ],
                 'peppol_obligatoire' => [
                     'question' => 'Ass et obligatoresch Peppol zu Lëtzebuerg ze benotzen?',
-                    'answer' => 'Fir d\'B2G-Fakturatioun (un de Lëtzebuerger ëffentleche Secteur) ass Peppol zënter 2023 obligatoresch. Fir B2B kënnt d\'Verflichtung schrëttweis mat ViDA (Vat in the Digital Age) bis 2030. Faktur.lu generéiert schonn haut Är Rechnungen am Peppol-Format BIS 3.0 (an UBL 2.1), konform mam B2G-Mandat. Déi automatesch Iwwerdroung iwwer en zertifizéierten Access Point gëtt fäerdeggestallt a kënnt mat der B2B-Flicht.',
+                    'answer' => 'Fir d\'B2G-Fakturatioun (un de Lëtzebuerger ëffentleche Secteur) ass Peppol zënter 2023 obligatoresch. Fir dat inlännescht B2B gesäit e Gesetzprojet vum Juli 2026 vir, datt elektronesch Rechnungen ab dem 1. Januar 2028 mussen ugeholl ginn, ab dem 1. Juli 2028 vu mëttleren a groussen Entreprisen ausgestallt ginn an ab dem 1. Januar 2029 vun de klengeren. Dës Datumer hänken nach vum Vote am Parlament of. D\'europäesch ViDA-Direktiv betrëfft getrennt dat innergemeinschaftlecht B2B ab dem 1. Juli 2030. Faktur.lu generéiert schonn haut Är Rechnungen am Peppol-Format BIS 3.0 (an UBL 2.1), konform mam B2G-Mandat. Déi automatesch Iwwerdroung iwwer en zertifizéierten Access Point gëtt fäerdeggestallt a kënnt mat der B2B-Flicht.',
                 ],
                 'e_facturation' => [
                     'question' => 'Wéi geet een op elektronesch Fakturatioun zu Lëtzebuerg iwwer?',
@@ -2516,7 +2516,7 @@ return [
             'crm' => ['title' => 'Integréiert CRM', 'desc' => 'Cliente-Interaktiounen, Rappellen, Tags, Segmenter. Kee separat Pipedrive oder HubSpot néideg.'],
             'hr' => ['title' => 'HR-Modul (bis 15 Mataarbechter)', 'desc' => 'Onboarding, Vakanzen, Spesennoten, Kontrakter, Organigramm, Mataarbechter-Portal. Alles integréiert.'],
             'accountant' => ['title' => 'Multi-Comptable-Portal', 'desc' => 'Bis zu 3 extern Comptablen am Liesmodus, Sage BOB 50 / Sage 100 / CSV / FAIA / PDF/A Exporter.'],
-            'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Generéierung vu Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform mam Lëtzebuerger B2G-Mandat. Automatesch Iwwerdroung iwwer Access Point a Virbereedung (B2B-Flicht 2028).'],
+            'peppol' => ['title' => 'Peppol B2G Export (BIS 3.0)', 'desc' => 'Generéierung vu Peppol-BIS-3.0-/UBL-2.1-Rechnungen konform mam Lëtzebuerger B2G-Mandat. Automatesch Iwwerdroung iwwer Access Point a Virbereedung (B2B-Flicht viraussiichtlech ab 2028).'],
             'archive' => ['title' => '10-Joer PDF/A-Archiv', 'desc' => 'Lëtzebuerger gesetzlech Opbewahrung (Handelsgesetzbuch, Art. 16) ënnerstëtzt. SHA-256 fir Integritéit.'],
             'reminders' => ['title' => 'Automatesch Zuelungsrappellen', 'desc' => '3 konfiguréierbar Eskalatiounsniveauen (D+X, Mahnung, Eischreiwen). Cliente bezuele ouni Är Ariichtung.'],
             'branding' => ['title' => 'Ouni "faktur.lu"-Branding', 'desc' => 'Är Rechnungen droen nëmmen Är Identitéit. Kee Logo oder "Made with..."-Hinweis um PDF-Buedem.'],
@@ -2532,7 +2532,7 @@ return [
             'q2' => ['q' => 'Wéi vill Notzer kënne parallel schaffen?', 'a' => 'Pro-Plang: Zougang fir méi Notzer (Admins a Mataarbechter) + 3 extern Comptablen am Liesmodus. Keng Zousazkäschten pro Notzer. Wann Dir méi braucht, kontaktéiert eis.'],
             'q3' => ['q' => 'Ersetzt d\'HR-Modul e richtegt HRIS?', 'a' => 'Fir KMU bis 15 Mataarbechter, jo. Dir verwaltt Kontrakter, Vakanzen, Spesennoten, Onboarding/Offboarding, Organigramm a Mataarbechter-Portal. Iwwer 15 Mataarbechter oder fir spezifesch Bedürfnisser (komplex Pai, Schoulungen) ergänzt et éischter en dediéiert HRIS.'],
             'q4' => ['q' => 'Wéi funktionéiert d\'10-Joer-Archivéierung?', 'a' => 'All finaliséiert Rechnung gëtt automatesch a PDF/A (ISO 19005, gesetzlech Archivformat) konvertéiert, mat SHA-256-Hash fir Integritéit. Archiv jidderzäit kuckbar an erofluedbar. Konform mat Art. 16 vum Lëtzebuerger Handelsgesetzbuch.'],
-            'q5' => ['q' => 'Ass Peppol obligatoresch fir mäin KMU?', 'a' => 'Jo am B2G (Rechnungen un de Lëtzebuerger Staat) zënter 2023. D\'ViDA 2030-Richtlinn erweidert dës Pflicht ab 2030 op B2B intra-EU. faktur.lu ass fir béid prett.'],
+            'q5' => ['q' => 'Ass Peppol obligatoresch fir mäin KMU?', 'a' => 'Jo am B2G (Rechnungen un de Lëtzebuerger Staat) zënter 2023. Fir dat Lëtzebuerger B2B gesäit e Gesetzprojet d\'Flicht zur Unhuelung ab dem 1. Januar 2028 vir an d\'Ausstellung ab dem 1. Januar 2029 fir kleng Entreprisen, ënner Reserve vum Vote. D\'ViDA-Direktiv betrëfft dat innergemeinschaftlecht B2B ab dem 1. Juli 2030. faktur.lu generéiert schonn dat gefrote Format.'],
             'q6' => ['q' => 'Sinn eis Donnéeën geschützt?', 'a' => 'Gehost bei o2switch a Frankräich (100% EU, RGPD), DPA op Ufro ënnerschreiwbar. Keng Donnéeën-Transfer ausserhalb EU. Deeglech 30-Deeg-Backupen. Audit-Log vu sensibelen Aktiounen.'],
         ],
         'cta_final_title' => 'Prett fir Äre Stack ze konsolidéieren?',
@@ -2810,7 +2810,7 @@ return [
             'peppol' => [
                 'name' => 'Peppol',
                 'alternate' => 'Pan-European Public Procurement OnLine',
-                'description' => 'Internationalt standardiséiert Reseau fir elektronesch Rechnungsstellung (UBL oder CII) tëschent Entreprisen an ëffentlechen Verwaltungen. Zu Lëtzebuerg zënter 2023 obligatoresch fir B2G-Rechnungen. D\'ViDA-Direktiv plangt seng Ausweitung op innergemeinschaftleche B2B ab 2030.',
+                'description' => 'Internationalt standardiséiert Reseau fir elektronesch Rechnungsstellung (UBL oder CII) tëschent Entreprisen an ëffentlechen Verwaltungen. Zu Lëtzebuerg zënter 2023 obligatoresch fir B2G-Rechnungen. E Lëtzebuerger Gesetzprojet vum Juli 2026 gesäit seng Ausweitung op dat inlännescht B2B ab 2028 vir, an d\'ViDA-Direktiv op dat innergemeinschaftlecht B2B ab dem 1. Juli 2030.',
             ],
             'rcs' => [
                 'name' => 'RCS',
