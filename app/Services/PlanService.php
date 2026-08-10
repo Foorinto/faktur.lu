@@ -310,7 +310,39 @@ class PlanService
     }
 
     /**
-     * Check if user can export more Peppol this month.
+     * Documents Peppol consommés ce mois-ci, **dans les deux sens**.
+     *
+     * Le point d'accès facture chaque document qui transite par lui, qu'il
+     * parte ou qu'il arrive. Le quota doit donc compter les deux : n'en
+     * compter qu'un revient à ne protéger qu'une moitié du flux, et c'est
+     * la moitié la moins coûteuse — une TPE reçoit généralement plus de
+     * factures qu'elle n'en émet.
+     *
+     * La réception n'est pas encore construite (FEAT-097), le second terme
+     * vaut donc zéro aujourd'hui. **C'est ici, et nulle part ailleurs, qu'il
+     * faudra l'ajouter** : tout le reste du quota passe par cette méthode.
+     */
+    public function peppolDocumentsThisMonth(User $user): int
+    {
+        $maintenant = Carbon::now();
+
+        $emis = \App\Models\PeppolTransmission::where('user_id', $user->id)
+            ->whereMonth('created_at', $maintenant->month)
+            ->whereYear('created_at', $maintenant->year)
+            ->count();
+
+        // FEAT-097 : brancher ici le décompte des documents entrants.
+        $recus = 0;
+
+        return $emis + $recus;
+    }
+
+    /**
+     * Check if user can send another Peppol document this month.
+     *
+     * ⚠️ Seule l'émission peut être refusée. Un document entrant ne se
+     * refuse pas : le fournisseur l'envoie, il arrive, il est facturé. Le
+     * dépassement bloquera donc l'envoi tout en laissant passer la réception.
      */
     public function canExportPeppol(User $user): bool
     {
@@ -321,12 +353,7 @@ class PlanService
             return true;
         }
 
-        $count = \App\Models\PeppolTransmission::where('user_id', $user->id)
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)
-            ->count();
-
-        return $count < $limit;
+        return $this->peppolDocumentsThisMonth($user) < $limit;
     }
 
     /**

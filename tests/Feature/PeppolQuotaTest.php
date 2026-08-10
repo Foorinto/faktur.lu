@@ -138,6 +138,28 @@ class PeppolQuotaTest extends TestCase
         $this->assertTrue($this->plans->canExportPeppol($this->proUser()));
     }
 
+    // --- Le décompte passe par un point unique -----------------------------------
+
+    public function test_le_decompte_est_centralise_dans_une_seule_methode(): void
+    {
+        // Le point d'accès facture les deux sens. `peppolDocumentsThisMonth()`
+        // est l'endroit unique où la réception devra s'ajouter (FEAT-097) :
+        // si un autre appelant recomptait de son côté, la réception serait
+        // oubliée là-bas. Ce test fixe le contrat.
+        $user = $this->proUser();
+        $this->transmissions($user, 7);
+
+        $this->assertSame(7, $this->plans->peppolDocumentsThisMonth($user));
+    }
+
+    public function test_le_decompte_ignore_les_mois_precedents(): void
+    {
+        $user = $this->proUser();
+        $this->transmissions($user, 4, now()->subMonth()->toDateTimeString());
+
+        $this->assertSame(0, $this->plans->peppolDocumentsThisMonth($user));
+    }
+
     // --- Ce qui ne coûte rien reste illimité -------------------------------------
 
     public function test_l_export_manuel_n_est_pas_plafonne(): void
