@@ -3,6 +3,7 @@
 namespace App\Services\Peppol;
 
 use App\Models\Invoice;
+use App\Services\PeppolExportService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -172,7 +173,7 @@ class StorecoveService implements PeppolAccessPointInterface
         // Storecove uses different scheme identifiers
         // See: https://www.storecove.com/docs/#_peppol_identifiers
         $mapping = [
-            '9934' => 'LU:VAT',      // Luxembourg VAT
+            PeppolExportService::SCHEME_LU_VAT => 'LU:VAT', // 9938, Luxembourg
             '0208' => 'BE:EN',       // Belgium Enterprise Number
             '0009' => 'FR:SIRET',    // France SIRET
             '9930' => 'DE:VAT',      // Germany VAT

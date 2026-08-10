@@ -22,6 +22,15 @@ class PeppolExportService
     protected const TYPE_INVOICE = '380';
     protected const TYPE_CREDIT_NOTE = '381';
 
+    /**
+     * Schéma d'identifiant Peppol du numéro de TVA luxembourgeois (liste EAS).
+     *
+     * Nommé plutôt qu'écrit en clair parce que la valeur a été fausse partout :
+     * 9934 désigne la Croatie et 0184 le Danemark. Les identifiants de test
+     * publiés par l'État (9938:LU10889245-TEST) confirment celui-ci.
+     */
+    public const SCHEME_LU_VAT = '9938';
+
     // Tax exemption reasons
     protected const TAX_EXEMPTION_REASONS = [
         'K' => 'Intra-community supply',
@@ -644,12 +653,20 @@ class PeppolExportService
      */
     protected function normalizeSchemeCode(string $scheme, string $countryCode): string
     {
-        // Map incorrect/old scheme codes to correct ones
+        // Répare deux codes hérités qui n'ont jamais désigné le Luxembourg.
+        // 0184 est danois (DK:DIGST) et 9934 est croate (HR:VAT) ; l'interface
+        // a longtemps proposé le premier sous le libellé « Luxembourg VAT », et
+        // le code convertissait vers le second. Les identifiants déjà
+        // enregistrés par les utilisateurs sont donc à corriger à la volée.
+        // La conversion ne vaut que pour une partie luxembourgeoise : un vrai
+        // participant danois ou croate garde son code.
         $schemeMapping = [
-            // 0184 is Danish, not Luxembourg
-            '0184' => match($countryCode) {
-                'LU' => '9934',
-                'DK' => '0184',
+            '0184' => match ($countryCode) {
+                'LU' => self::SCHEME_LU_VAT,
+                default => '0184',
+            },
+            '9934' => match ($countryCode) {
+                'LU' => self::SCHEME_LU_VAT,
                 default => '9934',
             },
         ];
@@ -663,7 +680,7 @@ class PeppolExportService
     protected function getDefaultSchemeForCountry(string $countryCode): string
     {
         return match($countryCode) {
-            'LU' => '9934',  // LU:VAT
+            'LU' => self::SCHEME_LU_VAT,
             'BE' => '0208',  // BE:CBE
             'FR' => '0009',  // FR:SIRET
             'DE' => '9930',  // DE:VAT
@@ -681,7 +698,7 @@ class PeppolExportService
             'CZ' => '9922',  // CZ:VAT
             'GB' => '9932',  // GB:VAT (post-Brexit)
             'CH' => '9927',  // CH:VAT
-            default => '9934', // Default to LU:VAT
+            default => self::SCHEME_LU_VAT,
         };
     }
 

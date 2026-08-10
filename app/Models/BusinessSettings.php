@@ -140,7 +140,9 @@ class BusinessSettings extends Model
      * Peppol endpoint scheme codes (ISO 6523 ICD).
      */
     public const PEPPOL_SCHEMES = [
-        '0184' => 'Luxembourg VAT (LU)',
+        // 9938 et non 0184 : ce dernier est danois. Le libellé « Luxembourg VAT »
+        // porté par 0184 a conduit les utilisateurs à choisir le Danemark.
+        '9938' => 'Luxembourg VAT (LU)',
         '0009' => 'France SIRET',
         '0225' => 'France SIREN (facturation électronique)',
         '0088' => 'EAN/GLN (international)',

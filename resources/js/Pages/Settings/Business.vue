@@ -1006,7 +1006,7 @@ const cancelPaymentQrcodeUpload = () => {
                                     </option>
                                 </select>
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    Code ISO 6523 ICD. Pour Luxembourg, utilisez 0184 (TVA).
+                                    Code ISO 6523 ICD. Pour le Luxembourg, utilisez 9938 (TVA).
                                 </p>
                                 <InputError :message="form.errors.peppol_endpoint_scheme" class="mt-2" />
                             </div>
