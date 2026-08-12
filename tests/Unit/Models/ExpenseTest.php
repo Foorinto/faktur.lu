@@ -170,4 +170,219 @@ class ExpenseTest extends TestCase
         $this->assertSoftDeleted($expense);
         $this->assertNotNull(Expense::withTrashed()->find($expense->id));
     }
+
+    public function test_supplier_countries_are_listed_alphabetically(): void
+    {
+        $countries = Expense::getSupplierCountries();
+        $names = array_column($countries, 'name');
+
+        // « Hors UE » ferme la liste et ne participe pas au tri.
+        $eu = array_slice($names, 0, -1);
+        $trie = $eu;
+        sort($trie, SORT_LOCALE_STRING);
+
+        $this->assertSame('Allemagne', $eu[0], 'Le tri se fait sur le nom, pas sur le code ISO.');
+        $this->assertSame('Autriche', $eu[1]);
+        $this->assertSame(
+            Expense::COUNTRY_NON_EU,
+            end($countries)['code'],
+            'Le hors-UE reste en dernier.'
+        );
+    }
+
+    public function test_ttc_input_derives_the_net_amount(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Amazon.de',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_input_mode' => Expense::INPUT_TTC,
+            'amount_ttc' => 119,
+            'vat_rate' => 19,
+        ]);
+
+        $this->assertEquals('100.0000', $expense->amount_ht);
+        $this->assertEquals('19.0000', $expense->amount_vat);
+        $this->assertEquals('119.0000', $expense->amount_ttc);
+    }
+
+    /**
+     * Le TTC est le montant réellement débité : il doit rester intact, même
+     * quand la division ne tombe pas juste. C'est la TVA qui absorbe la
+     * fraction d'arrondi, jamais le total.
+     */
+    public function test_ttc_input_keeps_the_paid_amount_exact(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_input_mode' => Expense::INPUT_TTC,
+            'amount_ttc' => 100,
+            'vat_rate' => 17,
+        ]);
+
+        $this->assertEquals('100.0000', $expense->amount_ttc);
+        $this->assertEquals(
+            '100.0000',
+            bcadd($expense->amount_ht, $expense->amount_vat, 4),
+            'HT + TVA doit retomber exactement sur le montant payé.'
+        );
+    }
+
+    public function test_ht_remains_the_default_input_mode(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_ht' => 100,
+            'vat_rate' => 17,
+        ]);
+
+        $this->assertSame(Expense::INPUT_HT, $expense->amount_input_mode);
+        $this->assertEquals('117.0000', $expense->amount_ttc);
+    }
+
+    public function test_foreign_vat_is_never_deductible(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Amazon.fr',
+            'supplier_country' => 'FR',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 100,
+            'vat_rate' => 20,
+            'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+            // Explicitement demandée déductible : le régime doit primer.
+            'is_deductible' => true,
+        ]);
+
+        $this->assertFalse($expense->is_deductible);
+    }
+
+    public function test_foreign_vat_stays_out_of_the_deductible_total(): void
+    {
+        Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur LU',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_ht' => 100,
+            'vat_rate' => 17,
+        ]);
+
+        Expense::create([
+            'date' => now(),
+            'provider_name' => 'Amazon.de',
+            'supplier_country' => 'DE',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 100,
+            'vat_rate' => 19,
+            'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+        ]);
+
+        $this->assertEquals('17.0000', Expense::deductible()->sum('amount_vat'));
+    }
+
+    public function test_reverse_charge_clears_any_residual_rate(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur BE',
+            'supplier_country' => 'BE',
+            'category' => Expense::CATEGORY_SOFTWARE,
+            'amount_ht' => 100,
+            'vat_rate' => 21,
+            'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+        ]);
+
+        $this->assertEquals('0.00', $expense->vat_rate);
+        $this->assertEquals('0.0000', $expense->amount_vat);
+        $this->assertEquals('100.0000', $expense->amount_ttc);
+    }
+
+    /**
+     * La TVA autoliquidée se calcule au taux du pays de l'acheteur, sur la
+     * base hors taxe, et reste hors du TTC : le fournisseur n'a facturé que le
+     * hors taxe, rien de plus n'a été débité.
+     */
+    public function test_reverse_charge_self_assesses_at_the_home_rate(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur BE',
+            'supplier_country' => 'BE',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 1000,
+            'vat_rate' => 21,
+            'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+        ]);
+
+        $this->assertEquals('17.00', $expense->reverse_charge_vat_rate, 'Le taux luxembourgeois, pas le belge.');
+        $this->assertEquals('170.0000', $expense->reverse_charge_vat);
+        $this->assertEquals('1000.0000', $expense->amount_ttc, 'Le TTC ne bouge pas : rien de plus n\'a été payé.');
+    }
+
+    public function test_a_chosen_reverse_charge_rate_is_kept(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur NL',
+            'supplier_country' => 'NL',
+            'category' => Expense::CATEGORY_OTHER,
+            'amount_ht' => 1000,
+            'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+            'reverse_charge_vat_rate' => 3,
+            'vat_rate' => 0,
+        ]);
+
+        $this->assertEquals('30.0000', $expense->reverse_charge_vat);
+    }
+
+    /**
+     * Changer de régime doit effacer la TVA autoliquidée. La laisser derrière
+     * elle la ferait remonter indéfiniment dans la déclaration, sur une
+     * dépense qui n'est plus une acquisition intracommunautaire.
+     */
+    public function test_leaving_reverse_charge_clears_the_self_assessed_vat(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Fournisseur BE',
+            'supplier_country' => 'BE',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 1000,
+            'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+            'vat_rate' => 0,
+        ]);
+
+        $this->assertEquals('170.0000', $expense->reverse_charge_vat);
+
+        $expense->update([
+            'vat_regime' => Expense::REGIME_NATIONAL,
+            'vat_rate' => 17,
+        ]);
+
+        $this->assertEquals('0.0000', $expense->reverse_charge_vat);
+        $this->assertNull($expense->reverse_charge_vat_rate);
+        $this->assertEquals('170.0000', $expense->amount_vat, 'La TVA redevient celle de la facture.');
+    }
+
+    public function test_other_regimes_never_carry_self_assessed_vat(): void
+    {
+        $expense = Expense::create([
+            'date' => now(),
+            'provider_name' => 'Amazon.de',
+            'supplier_country' => 'DE',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 1000,
+            'vat_rate' => 19,
+            'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+            // Envoyé malgré tout : le régime doit primer.
+            'reverse_charge_vat_rate' => 17,
+        ]);
+
+        $this->assertEquals('0.0000', $expense->reverse_charge_vat);
+        $this->assertNull($expense->reverse_charge_vat_rate);
+    }
 }

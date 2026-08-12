@@ -137,6 +137,107 @@ class ExpenseAccountingExportTest extends TestCase
         $this->assertStringContainsString('étrangère', $entries[1]['label']);
     }
 
+    /**
+     * Le régime explicite rend la dépense non déductible — c'est voulu, la TVA
+     * allemande ne va pas dans la déclaration luxembourgeoise. Elle reste due
+     * par le fisc allemand : son compte de créance doit continuer d'être servi,
+     * sans quoi marquer correctement sa dépense la ferait moins bien traiter
+     * que de ne rien marquer du tout.
+     */
+    public function test_le_regime_etranger_prime_sur_la_deduction_par_le_taux(): void
+    {
+        $entries = $this->service()->buildExpenseEntries(
+            collect([$this->expense([
+                'supplier_country' => 'DE',
+                'vat_rate' => 19,
+                'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+            ])]),
+            $this->settings()
+        );
+
+        $this->assertCount(3, $entries, 'La TVA étrangère garde son écriture propre.');
+        $this->assertBalanced($entries);
+        $this->assertSame('421811', $entries[1]['account']);
+        $this->assertEquals(100.0, $entries[0]['debit'], 'La charge ne doit pas absorber la TVA étrangère.');
+    }
+
+    /**
+     * Un taux luxembourgeois sur une dépense que l'utilisateur a lui-même
+     * déclarée non déductible : la TVA est perdue, elle grossit la charge.
+     * C'est le seul cas où les deux notions divergent.
+     */
+    public function test_une_tva_nationale_non_deductible_reste_dans_la_charge(): void
+    {
+        $entries = $this->service()->buildExpenseEntries(
+            collect([$this->expense([
+                'vat_rate' => 17,
+                'vat_regime' => Expense::REGIME_NATIONAL,
+                'is_deductible' => false,
+            ])]),
+            $this->settings()
+        );
+
+        $this->assertCount(2, $entries);
+        $this->assertEquals(117.0, $entries[0]['debit']);
+    }
+
+    /**
+     * Achat intracommunautaire de 1 000 € : le fournisseur ne facture aucune
+     * taxe, mais l'acheteur doit inscrire la TVA des deux côtés. Quatre lignes,
+     * dont deux qui s'annulent — et le fournisseur n'est crédité que du HT.
+     */
+    public function test_une_autoliquidation_produit_quatre_lignes_equilibrees(): void
+    {
+        $entries = $this->service()->buildExpenseEntries(
+            collect([$this->expense([
+                'supplier_country' => 'BE',
+                'amount_ht' => 1000,
+                'vat_rate' => 0,
+                'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+            ])]),
+            $this->settings()
+        );
+
+        $this->assertCount(4, $entries);
+        $this->assertBalanced($entries);
+
+        $debits = array_column($entries, 'debit');
+        $credits = array_column($entries, 'credit');
+
+        $this->assertContains(1000.0, $debits, 'La charge reste au hors taxe.');
+        $this->assertContains(170.0, $debits, 'TVA déductible sur acquisition.');
+        $this->assertContains(170.0, $credits, 'TVA due sur acquisition.');
+        $this->assertContains(1000.0, $credits, 'Le fournisseur n\'est dû que du hors taxe.');
+
+        $fournisseur = collect($entries)->firstWhere('account', '44111');
+        $this->assertEquals(1000.0, $fournisseur['credit'], 'Aucune taxe ne transite par le compte fournisseur.');
+    }
+
+    /**
+     * Sans droit à déduction, la ligne de TVA déductible disparaît : la taxe
+     * due est définitivement supportée et grossit la charge.
+     */
+    public function test_une_autoliquidation_non_deductible_grossit_la_charge(): void
+    {
+        $entries = $this->service()->buildExpenseEntries(
+            collect([$this->expense([
+                'supplier_country' => 'BE',
+                'amount_ht' => 1000,
+                'vat_rate' => 0,
+                'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+                'is_deductible' => false,
+            ])]),
+            $this->settings()
+        );
+
+        $this->assertCount(3, $entries);
+        $this->assertBalanced($entries);
+        $this->assertEquals(1170.0, $entries[0]['debit'], 'La charge absorbe la TVA non récupérable.');
+
+        $fournisseur = collect($entries)->firstWhere('account', '44111');
+        $this->assertEquals(1000.0, $fournisseur['credit']);
+    }
+
     public function test_une_tva_luxembourgeoise_part_sur_la_tva_en_amont(): void
     {
         $entries = $this->service()->buildExpenseEntries(

@@ -182,10 +182,28 @@ const categoryLabels = {
                         </thead>
                         <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                             <tr v-for="(data, cat) in summary.expenses.by_category" :key="cat" class="hover:bg-slate-50 dark:hover:bg-gray-800/50">
-                                <td class="px-6 py-3 text-sm text-slate-900 dark:text-white">{{ t(categoryLabels[cat] || cat) }}</td>
+                                <!-- Le libellé vient du serveur : les
+                                     catégories sont renommables, et la liste
+                                     figée d'origine réaffichait « Fournitures
+                                     de bureau » à qui avait rebaptisé la
+                                     sienne « Loyer et charges ». -->
+                                <td class="px-6 py-3 text-sm text-slate-900 dark:text-white">{{ data.label || t(categoryLabels[cat] || cat) }}</td>
                                 <td class="px-6 py-3 text-xs text-slate-500 dark:text-slate-400">{{ data.form152_label }}</td>
                                 <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">{{ formatCurrency(data.total_ht) }}</td>
-                                <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">{{ formatCurrency(data.total_vat) }}</td>
+                                <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">
+                                    {{ formatCurrency(data.total_vat_deductible) }}
+                                    <!-- La TVA payée mais non récupérable ici
+                                         n'est pas rien : c'est elle qui fait
+                                         l'objet d'une demande de remboursement.
+                                         La taire ferait croire à une erreur de
+                                         saisie. -->
+                                    <span
+                                        v-if="data.total_vat_non_deductible > 0"
+                                        class="block text-xs font-normal text-amber-700 dark:text-amber-500"
+                                    >
+                                        {{ t('fiscal_of_which_non_deductible', { amount: formatCurrency(data.total_vat_non_deductible) }) }}
+                                    </span>
+                                </td>
                                 <td class="px-6 py-3 text-right text-sm text-slate-900 dark:text-white">{{ data.count }}</td>
                             </tr>
                             <tr v-if="Object.keys(summary.expenses.by_category).length === 0">
@@ -212,14 +230,42 @@ const categoryLabels = {
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                         <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                            <!-- Sans autoliquidation, deux lignes suffisent et
+                                 rien ne change. Dès qu'il y en a, « collectée »
+                                 devient faux — ces montants n'ont été encaissés
+                                 auprès d'aucun client — et le détail des deux
+                                 origines devient nécessaire. -->
                             <tr class="hover:bg-slate-50 dark:hover:bg-gray-800/50">
-                                <td class="px-6 py-3 text-sm text-slate-900 dark:text-white">{{ t('fiscal_vat_collected') }}</td>
+                                <td class="px-6 py-3 text-sm text-slate-900 dark:text-white">
+                                    {{ summary.vat.has_reverse_charge ? t('fiscal_vat_due') : t('fiscal_vat_collected') }}
+                                </td>
                                 <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">{{ formatCurrency(summary.vat.collected) }}</td>
                             </tr>
+                            <template v-if="summary.vat.has_reverse_charge">
+                                <tr class="bg-slate-50/50 dark:bg-gray-800/30">
+                                    <td class="py-2 pl-12 pr-6 text-xs text-slate-500 dark:text-slate-400">{{ t('fiscal_vat_on_sales') }}</td>
+                                    <td class="px-6 py-2 text-right text-xs font-mono text-slate-500 dark:text-slate-400">{{ formatCurrency(summary.vat.collected_on_sales) }}</td>
+                                </tr>
+                                <tr class="bg-slate-50/50 dark:bg-gray-800/30">
+                                    <td class="py-2 pl-12 pr-6 text-xs text-slate-500 dark:text-slate-400">{{ t('fiscal_vat_reverse_charge_line') }}</td>
+                                    <td class="px-6 py-2 text-right text-xs font-mono text-slate-500 dark:text-slate-400">{{ formatCurrency(summary.vat.reverse_charge_due) }}</td>
+                                </tr>
+                            </template>
+
                             <tr class="hover:bg-slate-50 dark:hover:bg-gray-800/50">
                                 <td class="px-6 py-3 text-sm text-slate-900 dark:text-white">{{ t('fiscal_vat_deductible') }}</td>
                                 <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">{{ formatCurrency(summary.vat.deductible) }}</td>
                             </tr>
+                            <template v-if="summary.vat.has_reverse_charge">
+                                <tr class="bg-slate-50/50 dark:bg-gray-800/30">
+                                    <td class="py-2 pl-12 pr-6 text-xs text-slate-500 dark:text-slate-400">{{ t('fiscal_vat_on_purchases') }}</td>
+                                    <td class="px-6 py-2 text-right text-xs font-mono text-slate-500 dark:text-slate-400">{{ formatCurrency(summary.vat.deductible_on_purchases) }}</td>
+                                </tr>
+                                <tr class="bg-slate-50/50 dark:bg-gray-800/30">
+                                    <td class="py-2 pl-12 pr-6 text-xs text-slate-500 dark:text-slate-400">{{ t('fiscal_vat_reverse_charge_line') }}</td>
+                                    <td class="px-6 py-2 text-right text-xs font-mono text-slate-500 dark:text-slate-400">{{ formatCurrency(summary.vat.reverse_charge_deductible) }}</td>
+                                </tr>
+                            </template>
                         </tbody>
                         <tfoot class="bg-slate-50 dark:bg-gray-800">
                             <tr>
@@ -230,6 +276,16 @@ const categoryLabels = {
                             </tr>
                         </tfoot>
                     </table>
+
+                    <!-- Le même montant des deux côtés surprend au premier
+                         coup d'œil. Une phrase ici évite d'avoir à chercher
+                         ailleurs pourquoi. -->
+                    <p
+                        v-if="summary.vat.has_reverse_charge"
+                        class="border-t border-gray-200 px-6 py-3 text-xs text-slate-500 dark:border-gray-700 dark:text-slate-400"
+                    >
+                        {{ t('fiscal_reverse_charge_explanation') }}
+                    </p>
                 </div>
 
                 <!-- VAT breakdown by rate -->

@@ -4,9 +4,10 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
+import ExpenseVatFields from '@/Components/ExpenseVatFields.vue';
 
 const { t } = useTranslations();
 const { startTour } = useTour();
@@ -16,50 +17,31 @@ onMounted(() => setTimeout(() => startTour('expenseCreate'), 600));
 const props = defineProps({
     categories: Array,
     vatRates: Array,
+    vatRatesByCountry: Object,
+    vatRegimes: Array,
+    countries: Array,
+    homeCountry: String,
+    homeStandardRate: Number,
     paymentMethods: Array,
 });
 
 const form = useForm({
     date: new Date().toISOString().split('T')[0],
     provider_name: '',
+    supplier_country: props.homeCountry || 'LU',
     category: '',
+    amount_input_mode: 'ht',
     amount_ht: '',
+    amount_ttc: '',
     vat_rate: 17,
+    vat_regime: 'national',
+    reverse_charge_vat_rate: null,
     description: '',
     is_deductible: true,
     payment_method: '',
     reference: '',
     attachment: null,
 });
-
-// Les taux luxembourgeois couvrent l'essentiel, mais un achat à l'étranger
-// porte le taux du pays du fournisseur. « Autre » ouvre une saisie libre plutôt
-// que d'obliger à arrondir sur un taux voisin.
-const standardRates = props.vatRates.map((r) => Number(r.value));
-const vatMode = ref(
-    standardRates.includes(Number(form.vat_rate)) ? String(Number(form.vat_rate)) : "custom",
-);
-
-watch(vatMode, (mode) => {
-    if (mode !== "custom") form.vat_rate = Number(mode);
-});
-
-const calculatedVat = computed(() => {
-    if (!form.amount_ht || !form.vat_rate) return 0;
-    return (parseFloat(form.amount_ht) * parseFloat(form.vat_rate) / 100).toFixed(2);
-});
-
-const calculatedTtc = computed(() => {
-    if (!form.amount_ht) return 0;
-    return (parseFloat(form.amount_ht) + parseFloat(calculatedVat.value)).toFixed(2);
-});
-
-const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-    }).format(amount);
-};
 
 const handleFileChange = (event) => {
     form.attachment = event.target.files[0];
@@ -142,79 +124,15 @@ const submit = () => {
                 </div>
             </div>
 
-            <!-- Amounts -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('calculated_amounts') }}</h2>
-                </div>
-                <div class="px-6 py-4">
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                        <div data-tour="expense-form-amount">
-                            <InputLabel for="amount_ht" :value="t('amount_ht')" />
-                            <div class="relative mt-1">
-                                <input
-                                    id="amount_ht"
-                                    v-model="form.amount_ht"
-                                    type="number"
-                                    step="0.01"
-                                    min="0.01"
-                                    class="block w-full rounded-xl border-gray-300 pr-12 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                    placeholder="0.00"
-                                    required
-                                />
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                    <span class="text-slate-500 dark:text-slate-400">EUR</span>
-                                </div>
-                            </div>
-                            <InputError :message="form.errors.amount_ht" class="mt-2" />
-                        </div>
-
-                        <div>
-                            <InputLabel for="vat_rate" :value="t('vat_rate_label')" />
-                            <select
-                                id="vat_rate"
-                                v-model="vatMode"
-                                class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                required
-                            >
-                                <option v-for="rate in vatRates" :key="rate.value" :value="String(rate.value)">
-                                    {{ rate.label }}
-                                </option>
-                                <option value="custom">{{ t("vat_rate_custom") }}</option>
-                            </select>
-                            <!-- Une facture allemande porte 19 %, une française
-                                 20 % : la TVA payée à un fournisseur étranger
-                                 n'a aucune raison de figurer dans la grille
-                                 luxembourgeoise. -->
-                            <input
-                                v-if="vatMode === 'custom'"
-                                v-model.number="form.vat_rate"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                max="100"
-                                class="mt-2 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                :placeholder="t('vat_rate_custom_placeholder')"
-                            />
-                            <InputError :message="form.errors.vat_rate" class="mt-2" />
-                        </div>
-
-                        <div>
-                            <InputLabel :value="t('calculated_amounts')" />
-                            <div class="mt-1 rounded-xl bg-slate-50 dark:bg-gray-800 px-4 py-3 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-slate-500 dark:text-slate-400">{{ t('vat') }}:</span>
-                                    <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(calculatedVat) }}</span>
-                                </div>
-                                <div class="flex justify-between mt-1">
-                                    <span class="text-slate-500 dark:text-slate-400">{{ t('ttc') }}:</span>
-                                    <span class="font-medium text-slate-900 dark:text-white">{{ formatCurrency(calculatedTtc) }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ExpenseVatFields
+                :form="form"
+                :vat-rates="vatRates"
+                :vat-rates-by-country="vatRatesByCountry"
+                :vat-regimes="vatRegimes"
+                :countries="countries"
+                :home-country="homeCountry"
+                :home-standard-rate="homeStandardRate"
+            />
 
             <!-- Additional Info -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
@@ -262,19 +180,6 @@ const submit = () => {
                             <InputError :message="form.errors.description" class="mt-2" />
                         </div>
 
-                        <div class="sm:col-span-2">
-                            <div class="flex items-center">
-                                <input
-                                    id="is_deductible"
-                                    v-model="form.is_deductible"
-                                    type="checkbox"
-                                    class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
-                                />
-                                <label for="is_deductible" class="ml-2 block text-sm text-slate-900 dark:text-white">
-                                    {{ t('expense_deductible') }}
-                                </label>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

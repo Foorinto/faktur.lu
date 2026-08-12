@@ -13,14 +13,34 @@ class StoreExpenseRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Le mode de saisie décide lequel des deux montants est obligatoire.
+     *
+     * Absent de la requête — l'API existante, par exemple — on retombe sur le
+     * HT, qui était la seule saisie possible jusqu'ici.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'amount_input_mode' => $this->input('amount_input_mode', Expense::INPUT_HT),
+        ]);
+    }
+
     public function rules(): array
     {
+        $isTtc = $this->input('amount_input_mode') === Expense::INPUT_TTC;
+
         return [
             'date' => ['required', 'date', 'before_or_equal:today'],
             'provider_name' => ['required', 'string', 'max:255'],
+            'supplier_country' => ['nullable', 'string', Rule::in(array_column(Expense::getSupplierCountries(), 'code'))],
             'category' => ['required', 'string', Rule::in(array_keys(Expense::categoryMap(activeOnly: false)))],
-            'amount_ht' => ['required', 'numeric', 'min:0.01'],
+            'amount_input_mode' => ['required', Rule::in([Expense::INPUT_HT, Expense::INPUT_TTC])],
+            'amount_ht' => [$isTtc ? 'nullable' : 'required', 'numeric', 'min:0.01'],
+            'amount_ttc' => [$isTtc ? 'required' : 'nullable', 'numeric', 'min:0.01'],
             'vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
+            'vat_regime' => ['nullable', 'string', Rule::in(array_keys(Expense::getVatRegimes()))],
+            'reverse_charge_vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'description' => ['nullable', 'string', 'max:2000'],
             'is_deductible' => ['boolean'],
             'payment_method' => ['nullable', 'string', Rule::in(array_keys(Expense::getPaymentMethods()))],
@@ -39,6 +59,8 @@ class StoreExpenseRequest extends FormRequest
             'category.in' => 'La catégorie sélectionnée n\'est pas valide.',
             'amount_ht.required' => 'Le montant HT est obligatoire.',
             'amount_ht.min' => 'Le montant HT doit être supérieur à 0.',
+            'amount_ttc.required' => 'Le montant TTC est obligatoire.',
+            'amount_ttc.min' => 'Le montant TTC doit être supérieur à 0.',
             'attachment.mimes' => 'Le fichier doit être un PDF ou une image (JPG, PNG, WebP).',
             'attachment.max' => 'Le fichier ne doit pas dépasser 10 Mo.',
         ];

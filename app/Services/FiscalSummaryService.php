@@ -123,17 +123,35 @@ class FiscalSummaryService
         // l'export, pas `loyer_a1b2`.
         $userLabels = Expense::categoryMap(activeOnly: false);
 
+        // La ventilation distingue la TVA payée de la TVA récupérable.
+        //
+        // Elle ne remontait que la première, sous un intitulé qui annonçait la
+        // seconde : une TVA étrangère de 19 € s'affichait comme déductible sur
+        // sa ligne alors que le total, lui, l'excluait. Les lignes ne
+        // s'additionnaient donc pas au total affiché juste en dessous.
         $byCategory = Expense::forYear($year)
-            ->selectRaw('category, SUM(amount_ht) as total_ht, SUM(amount_vat) as total_vat, COUNT(*) as count')
+            ->selectRaw('category, SUM(amount_ht) as total_ht, SUM(amount_vat) as total_vat, SUM(CASE WHEN is_deductible = 1 THEN amount_vat ELSE 0 END) as total_vat_deductible, COUNT(*) as count')
             ->groupBy('category')
             ->get()
             ->mapWithKeys(function ($item) use ($userLabels) {
                 $cat = $item->category;
 
+                $vat = round((float) $item->total_vat, 2);
+                $deductible = round((float) $item->total_vat_deductible, 2);
+
                 return [$cat => [
                     'total_ht' => round((float) $item->total_ht, 2),
-                    'total_vat' => round((float) $item->total_vat, 2),
+                    'total_vat' => $vat,
+                    'total_vat_deductible' => $deductible,
+                    'total_vat_non_deductible' => round($vat - $deductible, 2),
                     'count' => (int) $item->count,
+                    // Deux libellés distincts, et il faut les deux : celui que
+                    // l'utilisateur a donné à sa catégorie, et la ligne du
+                    // formulaire 152 sur laquelle elle se reporte. Une
+                    // catégorie renommée « Loyer et charges » doit s'afficher
+                    // ainsi, même si elle se déclare en « Fournitures de
+                    // bureau ».
+                    'label' => $userLabels[$cat] ?? Expense::builtInCategories()[$cat] ?? $cat,
                     'form152_label' => self::FORM152_MAP[$cat] ?? $userLabels[$cat] ?? $cat,
                 ]];
             })

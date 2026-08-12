@@ -304,10 +304,22 @@
             <tbody>
                 @forelse($summary['expenses']['by_category'] as $cat => $data)
                 <tr>
-                    <td>{{ __('app.expense_categories.' . $cat) }}</td>
+                    {{-- Le libellé de l'utilisateur, pas celui d'origine : une
+                         catégorie renommée doit se lire sous son nom. --}}
+                    <td>{{ $data['label'] ?? __('app.expense_categories.' . $cat) }}</td>
                     <td style="font-size: 7pt; color: #6b7280;">{{ $data['form152_label'] }}</td>
                     <td class="number">{{ number_format($data['total_ht'], 2, ',', ' ') }} €</td>
-                    <td class="number">{{ number_format($data['total_vat'], 2, ',', ' ') }} €</td>
+                    {{-- La colonne annonce la TVA déductible : elle doit
+                         montrer celle-là, et non la TVA payée, sinon les lignes
+                         ne s'additionnent pas au total du bas. --}}
+                    <td class="number">
+                        {{ number_format($data['total_vat_deductible'], 2, ',', ' ') }} €
+                        @if(($data['total_vat_non_deductible'] ?? 0) > 0)
+                            <div style="font-size: 7pt; color: #b45309;">
+                                {{ __('app.fiscal_of_which_non_deductible', ['amount' => number_format($data['total_vat_non_deductible'], 2, ',', ' ').' €']) }}
+                            </div>
+                        @endif
+                    </td>
                     <td class="right">{{ $data['count'] }}</td>
                 </tr>
                 @empty
@@ -334,14 +346,38 @@
         <div class="section-title">{{ __('app.pdf_vat_summary_title') }}</div>
         <table>
             <tbody>
+                {{-- Dès qu'il y a de l'autoliquidation, « TVA collectée »
+                     désigne aussi une taxe encaissée auprès de personne : le
+                     document destiné à la fiduciaire doit dire « due » et
+                     détailler les deux origines. --}}
                 <tr>
-                    <td>{{ __('app.pdf_vat_collected') }}</td>
+                    <td>{{ ($summary['vat']['has_reverse_charge'] ?? false) ? __('app.fiscal_vat_due') : __('app.pdf_vat_collected') }}</td>
                     <td class="number">{{ number_format($summary['vat']['collected'], 2, ',', ' ') }} €</td>
                 </tr>
+                @if($summary['vat']['has_reverse_charge'] ?? false)
+                <tr>
+                    <td style="padding-left: 8mm; font-size: 8pt; color: #6b7280;">{{ __('app.fiscal_vat_on_sales') }}</td>
+                    <td class="number" style="font-size: 8pt; color: #6b7280;">{{ number_format($summary['vat']['collected_on_sales'], 2, ',', ' ') }} €</td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 8mm; font-size: 8pt; color: #6b7280;">{{ __('app.fiscal_vat_reverse_charge_line') }}</td>
+                    <td class="number" style="font-size: 8pt; color: #6b7280;">{{ number_format($summary['vat']['reverse_charge_due'], 2, ',', ' ') }} €</td>
+                </tr>
+                @endif
                 <tr>
                     <td>{{ __('app.pdf_vat_deductible') }}</td>
                     <td class="number">{{ number_format($summary['vat']['deductible'], 2, ',', ' ') }} €</td>
                 </tr>
+                @if($summary['vat']['has_reverse_charge'] ?? false)
+                <tr>
+                    <td style="padding-left: 8mm; font-size: 8pt; color: #6b7280;">{{ __('app.fiscal_vat_on_purchases') }}</td>
+                    <td class="number" style="font-size: 8pt; color: #6b7280;">{{ number_format($summary['vat']['deductible_on_purchases'], 2, ',', ' ') }} €</td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 8mm; font-size: 8pt; color: #6b7280;">{{ __('app.fiscal_vat_reverse_charge_line') }}</td>
+                    <td class="number" style="font-size: 8pt; color: #6b7280;">{{ number_format($summary['vat']['reverse_charge_deductible'], 2, ',', ' ') }} €</td>
+                </tr>
+                @endif
             </tbody>
             <tfoot>
                 <tr>

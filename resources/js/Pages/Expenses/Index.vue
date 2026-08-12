@@ -346,6 +346,24 @@ const deleteExpense = (expense) => {
                             class="hidden whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400 lg:table-cell"
                         >
                             {{ formatCurrency(expense.amount_vat) }}
+                            <!-- Une TVA étrangère se lit comme les autres dans
+                                 la colonne, alors qu'elle ne rejoindra pas la
+                                 TVA déductible. Le signaler ici évite de
+                                 chercher l'écart au moment de la déclaration. -->
+                            <span
+                                v-if="expense.vat_regime === 'foreign_vat'"
+                                class="ml-1 inline-flex text-amber-600 dark:text-amber-500"
+                                :title="t('expense_foreign_vat_short')"
+                            >
+                                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                                <span class="sr-only">{{ t('expense_foreign_vat_short') }}</span>
+                            </span>
                         </td>
                         <td
                             class="whitespace-nowrap px-3 py-4 text-center text-sm"

@@ -268,6 +268,11 @@ class AccountingExportService
      * allemand ou français facture ne se déduit pas sur la déclaration
      * luxembourgeoise : elle se récupère par une autre procédure. La confondre
      * avec la TVA en amont fausserait la déclaration.
+     *
+     * Cette dernière était devinée à partir du taux, faute de mieux. La dépense
+     * porte désormais son régime : quand il est renseigné, il fait foi. La
+     * déduction par le taux reste le filet des dépenses saisies avant
+     * l'introduction du champ, toutes enregistrées « nationales » par défaut.
      */
     public function buildExpenseEntries(Collection $expenses, AccountingSetting $settings): array
     {
@@ -281,12 +286,42 @@ class AccountingExportService
             $vat = round((float) $expense->amount_vat, 2);
             $rate = (float) $expense->vat_rate;
 
-            $deductible = (bool) $expense->is_deductible && $vat > 0;
-            $foreign = $deductible && ! in_array($rate, $localRates, true);
+            $hasVat = $vat > 0;
 
-            // La charge absorbe la TVA quand celle-ci n'est pas récupérable.
-            $chargeAmount = $deductible ? $ht : round($ht + $vat, 2);
-            $total = round($chargeAmount + ($deductible ? $vat : 0), 2);
+            $foreign = $hasVat && (
+                $expense->vat_regime === Expense::REGIME_FOREIGN_VAT
+                || ((bool) $expense->is_deductible && ! in_array($rate, $localRates, true))
+            );
+
+            // Une TVA étrangère n'est pas déductible ici, mais elle reste due
+            // par l'administration du pays d'achat : elle mérite son compte de
+            // créance, pas d'être noyée dans la charge. Seule la TVA
+            // définitivement perdue grossit celle-ci.
+            $onVatAccount = $hasVat && ($foreign || (bool) $expense->is_deductible);
+
+            $chargeAmount = $onVatAccount ? $ht : round($ht + $vat, 2);
+
+            // Ce que l'on doit au fournisseur. En autoliquidation, sa facture
+            // ne porte aucune taxe : `$vat` vaut zéro et le crédit se limite
+            // au hors taxe, quoi que l'acheteur déclare par ailleurs.
+            $total = round($chargeAmount + ($onVatAccount ? $vat : 0), 2);
+
+            // Autoliquidation : l'acheteur se facture la TVA à lui-même. Elle
+            // n'a transité par aucun règlement, donc jamais par le compte
+            // fournisseur — elle s'inscrit due au crédit et déductible au
+            // débit, deux écritures qui s'annulent.
+            $reverseChargeVat = $expense->vat_regime === Expense::REGIME_REVERSE_CHARGE
+                ? round((float) $expense->reverse_charge_vat, 2)
+                : 0.0;
+            $reverseChargeRate = (float) $expense->reverse_charge_vat_rate;
+            $reverseChargeDeductible = (bool) $expense->is_deductible;
+
+            // Sans droit à déduction, la contrepartie manque : la taxe due est
+            // définitivement supportée et grossit la charge, comme toute TVA
+            // non récupérable.
+            if ($reverseChargeVat > 0 && ! $reverseChargeDeductible) {
+                $chargeAmount = round($chargeAmount + $reverseChargeVat, 2);
+            }
 
             $label = mb_substr(trim($expense->provider_name.' - '.($expense->description ?: $expense->category_label)), 0, 40);
             $piece = mb_substr((string) ($expense->reference ?: 'DEP-'.$expense->id), 0, 8);
@@ -314,7 +349,7 @@ class AccountingExportService
             ];
 
             // 2. TVA récupérable, luxembourgeoise ou étrangère
-            if ($deductible) {
+            if ($onVatAccount) {
                 $entries[] = [
                     'date' => $expense->date,
                     'journal' => $settings->purchase_journal,
@@ -326,6 +361,45 @@ class AccountingExportService
                     'label' => $foreign ? "TVA étrangère {$rate}%" : "TVA déductible {$rate}%",
                     'debit' => $vat,
                     'credit' => 0,
+                    'due_date' => null,
+                ];
+            }
+
+            // 2 bis. Autoliquidation : la TVA déductible, puis la TVA due.
+            //
+            // Les deux montants sont identiques et s'annulent. Ce n'est pas
+            // pour autant une écriture pour rien : c'est par elle que
+            // l'acquisition intracommunautaire apparaît dans la déclaration,
+            // et que l'AED peut la recouper avec ce que l'État du fournisseur
+            // a déclaré de son côté.
+            if ($reverseChargeVat > 0) {
+                if ($reverseChargeDeductible) {
+                    $entries[] = [
+                        'date' => $expense->date,
+                        'journal' => $settings->purchase_journal,
+                        'account' => $settings->vat_deductible_account,
+                        'account_label' => "TVA déductible sur acquisition {$reverseChargeRate}%",
+                        'third_party' => '',
+                        'third_party_label' => '',
+                        'piece' => $piece,
+                        'label' => "Autoliquidation - TVA déductible {$reverseChargeRate}%",
+                        'debit' => $reverseChargeVat,
+                        'credit' => 0,
+                        'due_date' => null,
+                    ];
+                }
+
+                $entries[] = [
+                    'date' => $expense->date,
+                    'journal' => $settings->purchase_journal,
+                    'account' => $settings->getVatAccount($reverseChargeRate),
+                    'account_label' => "TVA due sur acquisition {$reverseChargeRate}%",
+                    'third_party' => '',
+                    'third_party_label' => '',
+                    'piece' => $piece,
+                    'label' => "Autoliquidation - TVA due {$reverseChargeRate}%",
+                    'debit' => 0,
+                    'credit' => $reverseChargeVat,
                     'due_date' => null,
                 ];
             }

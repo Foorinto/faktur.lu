@@ -113,12 +113,13 @@ class FiscalSummaryController extends Controller
 
             // Expenses section
             fputcsv($file, ['DÉPENSES PAR CATÉGORIE'], ';');
-            fputcsv($file, ['Catégorie', 'HT (€)', 'TVA déductible (€)', 'Nb', 'Ligne Form. 152'], ';');
+            fputcsv($file, ['Catégorie', 'HT (€)', 'TVA déductible (€)', 'TVA non déductible (€)', 'Nb', 'Ligne Form. 152'], ';');
             foreach ($summary['expenses']['by_category'] as $cat => $data) {
                 fputcsv($file, [
                     $data['form152_label'],
                     number_format($data['total_ht'], 2, ',', ''),
-                    number_format($data['total_vat'], 2, ',', ''),
+                    number_format($data['total_vat_deductible'], 2, ',', ''),
+                    number_format($data['total_vat_non_deductible'], 2, ',', ''),
                     $data['count'],
                     $data['form152_label'],
                 ], ';');
@@ -132,8 +133,28 @@ class FiscalSummaryController extends Controller
 
             // VAT section
             fputcsv($file, ['TVA'], ';');
-            fputcsv($file, ['TVA collectée', number_format($summary['vat']['collected'], 2, ',', '')], ';');
+            $autoliquidation = $summary['vat']['has_reverse_charge'] ?? false;
+
+            fputcsv($file, [
+                $autoliquidation ? 'TVA due' : 'TVA collectée',
+                number_format($summary['vat']['collected'], 2, ',', ''),
+            ], ';');
+
+            // Les deux origines ne sont détaillées que si elles diffèrent :
+            // une ligne « dont autoliquidée : 0,00 € » n'apprendrait rien à la
+            // fiduciaire.
+            if ($autoliquidation) {
+                fputcsv($file, ['  dont sur ventes', number_format($summary['vat']['collected_on_sales'], 2, ',', '')], ';');
+                fputcsv($file, ['  dont autoliquidée sur acquisitions', number_format($summary['vat']['reverse_charge_due'], 2, ',', '')], ';');
+            }
+
             fputcsv($file, ['TVA déductible', number_format($summary['vat']['deductible'], 2, ',', '')], ';');
+
+            if ($autoliquidation) {
+                fputcsv($file, ['  dont sur achats', number_format($summary['vat']['deductible_on_purchases'], 2, ',', '')], ';');
+                fputcsv($file, ['  dont autoliquidée sur acquisitions', number_format($summary['vat']['reverse_charge_deductible'], 2, ',', '')], ';');
+            }
+
             fputcsv($file, ['Solde TVA', number_format($summary['vat']['balance'], 2, ',', '')], ';');
             fputcsv($file, [], ';');
 

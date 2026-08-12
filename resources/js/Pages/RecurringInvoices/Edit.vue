@@ -5,6 +5,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import BillingNav from '@/Components/BillingNav.vue';
 import ProductAutocomplete from '@/Components/ProductAutocomplete.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import PriceHtTtcFields from '@/Components/PriceHtTtcFields.vue';
 
 const { t } = useTranslations();
 
@@ -219,8 +220,14 @@ const submit = () => {
                                     <input v-model="item.quantity" type="number" step="0.01" min="0" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-medium text-slate-500 mb-1">{{ t('recurring_invoice_field_unit_price_ht') }}</label>
-                                    <input v-model="item.unit_price" type="number" step="0.01" min="0" class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500" />
+                                    <PriceHtTtcFields
+                                        v-model="item.unit_price"
+                                        :vat-rate="item.vat_rate"
+                                        :input-id="`recurring-item-${index}-unit_price`"
+                                        :input-class="'w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500'"
+                                        :label-class="'block text-xs font-medium text-slate-500 mb-1'"
+                                        compact
+                                    />
                                 </div>
                                 <div class="flex items-end gap-2">
                                     <div class="flex-1">

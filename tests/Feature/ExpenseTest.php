@@ -250,6 +250,112 @@ class ExpenseTest extends TestCase
             ->assertSessionHasErrors('vat_rate');
     }
 
+    /**
+     * Le parcours réel de la demande : une facture Amazon.de qui n'affiche
+     * qu'un total payé, saisie telle quelle.
+     */
+    public function test_une_depense_peut_etre_saisie_en_ttc(): void
+    {
+        $this->actingAs($this->user)
+            ->post(route('expenses.store'), [
+                'date' => now()->format('Y-m-d'),
+                'provider_name' => 'Amazon.de',
+                'supplier_country' => 'DE',
+                'category' => Expense::CATEGORY_HARDWARE,
+                'amount_input_mode' => 'ttc',
+                'amount_ttc' => 119,
+                'vat_rate' => 19,
+                'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('expenses.index'));
+
+        $expense = Expense::latest('id')->first();
+
+        $this->assertEquals('100.0000', $expense->amount_ht);
+        $this->assertEquals('19.0000', $expense->amount_vat);
+        $this->assertEquals('119.0000', $expense->amount_ttc);
+        $this->assertFalse($expense->is_deductible, 'La TVA allemande ne se déduit pas ici.');
+    }
+
+    public function test_la_saisie_en_ttc_exige_un_montant_ttc(): void
+    {
+        $this->actingAs($this->user)
+            ->post(route('expenses.store'), [
+                'date' => now()->format('Y-m-d'),
+                'provider_name' => 'Amazon.de',
+                'category' => Expense::CATEGORY_HARDWARE,
+                'amount_input_mode' => 'ttc',
+                'vat_rate' => 19,
+            ])
+            ->assertSessionHasErrors('amount_ttc');
+    }
+
+    /**
+     * L'API et les intégrations existantes n'envoient pas le mode de saisie.
+     * Leur comportement ne doit pas changer d'un iota.
+     */
+    public function test_une_requete_sans_mode_de_saisie_reste_en_ht(): void
+    {
+        $this->actingAs($this->user)
+            ->post(route('expenses.store'), [
+                'date' => now()->format('Y-m-d'),
+                'provider_name' => 'Fournisseur',
+                'category' => Expense::CATEGORY_OFFICE,
+                'amount_ht' => 100,
+                'vat_rate' => 17,
+            ])
+            ->assertSessionHasNoErrors();
+
+        $expense = Expense::latest('id')->first();
+
+        $this->assertSame('ht', $expense->amount_input_mode);
+        $this->assertSame('LU', $expense->supplier_country);
+        $this->assertSame(Expense::REGIME_NATIONAL, $expense->vat_regime);
+        $this->assertEquals('117.0000', $expense->amount_ttc);
+    }
+
+    public function test_le_formulaire_expose_les_pays_et_les_regimes(): void
+    {
+        $this->actingAs($this->user)
+            ->get(route('expenses.create'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Expenses/Create')
+                ->has('countries')
+                ->has('vatRegimes')
+                ->has('vatRatesByCountry.DE')
+                ->has('vatRatesByCountry.FR')
+            );
+    }
+
+    /**
+     * Achat intracommunautaire saisi de bout en bout : facture hors taxe,
+     * TVA autoliquidée au taux luxembourgeois, TTC inchangé.
+     */
+    public function test_une_acquisition_intracommunautaire_autoliquide_la_tva(): void
+    {
+        $this->actingAs($this->user)
+            ->post(route('expenses.store'), [
+                'date' => now()->format('Y-m-d'),
+                'provider_name' => 'Fournisseur BE',
+                'supplier_country' => 'BE',
+                'category' => Expense::CATEGORY_HARDWARE,
+                'amount_input_mode' => 'ht',
+                'amount_ht' => 1000,
+                'vat_rate' => 0,
+                'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+            ])
+            ->assertSessionHasNoErrors();
+
+        $expense = Expense::latest('id')->first();
+
+        $this->assertEquals('0.0000', $expense->amount_vat, 'La facture du fournisseur ne porte pas de TVA.');
+        $this->assertEquals('1000.0000', $expense->amount_ttc);
+        $this->assertEquals('170.0000', $expense->reverse_charge_vat);
+        $this->assertTrue($expense->is_deductible);
+    }
+
     public function test_date_cannot_be_in_future(): void
     {
         $this->actingAs($this->user)

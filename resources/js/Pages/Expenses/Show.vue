@@ -115,7 +115,18 @@ const deleteExpense = () => {
                     <!-- Supplier -->
                     <div class="bg-white dark:bg-surface-card px-6 py-4">
                         <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('supplier') }}</dt>
-                        <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ expense.provider_name || '-' }}</dd>
+                        <dd class="mt-1 text-sm text-slate-900 dark:text-white">
+                            {{ expense.provider_name || '-' }}
+                            <span v-if="expense.supplier_country_name" class="text-slate-500 dark:text-slate-400">
+                                ({{ expense.supplier_country_name }})
+                            </span>
+                        </dd>
+                    </div>
+
+                    <!-- Régime de TVA -->
+                    <div class="bg-white dark:bg-surface-card px-6 py-4">
+                        <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('expense_vat_regime') }}</dt>
+                        <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ expense.vat_regime_label || '-' }}</dd>
                     </div>
 
                     <!-- Payment method -->
@@ -134,6 +145,28 @@ const deleteExpense = () => {
                     <div class="bg-white dark:bg-surface-card px-6 py-4">
                         <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('vat') }} ({{ expense.vat_rate }}%)</dt>
                         <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatCurrency(expense.amount_vat) }}</dd>
+                        <!-- Rappelé sur la fiche, et pas seulement à la saisie :
+                             c'est ici qu'on revient chercher pourquoi ce montant
+                             ne figure pas dans la TVA déductible. -->
+                        <dd
+                            v-if="expense.vat_regime === 'foreign_vat'"
+                            class="mt-1 text-xs text-amber-700 dark:text-amber-500"
+                        >
+                            {{ t('expense_foreign_vat_short') }}
+                        </dd>
+                        <!-- La TVA autoliquidée n'apparaît nulle part ailleurs
+                             sur la fiche : elle ne fait partie ni du HT ni du
+                             TTC, et c'est pourtant elle qui part dans la
+                             déclaration. -->
+                        <dd
+                            v-if="expense.vat_regime === 'reverse_charge' && parseFloat(expense.reverse_charge_vat) > 0"
+                            class="mt-1 text-xs text-sky-700 dark:text-sky-400"
+                        >
+                            {{ t('expense_reverse_charge_short', {
+                                amount: formatCurrency(expense.reverse_charge_vat),
+                                rate: parseFloat(expense.reverse_charge_vat_rate),
+                            }) }}
+                        </dd>
                     </div>
 
                     <!-- Reference -->

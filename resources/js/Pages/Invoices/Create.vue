@@ -13,6 +13,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
+import PriceHtTtcFields from '@/Components/PriceHtTtcFields.vue';
 
 const { t } = useTranslations();
 const { startTour } = useTour();
@@ -480,15 +481,11 @@ if (form.items.length === 0) {
                                 </select>
                             </div>
 
-                            <div class="w-32">
-                                <InputLabel :for="`item-${index}-unit_price`" :value="t('price_ht')" />
-                                <input
-                                    :id="`item-${index}-unit_price`"
-                                    v-model.number="item.unit_price"
-                                    type="number"
-                                    step="0.01"
-                                    min="0"
-                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                            <div class="w-56">
+                                <PriceHtTtcFields
+                                    v-model="item.unit_price"
+                                    :vat-rate="item.vat_rate"
+                                    :input-id="`item-${index}-unit_price`"
                                     required
                                 />
                             </div>

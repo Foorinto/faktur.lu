@@ -71,11 +71,7 @@ class ExpenseController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Expenses/Create', [
-            'categories' => $this->getCategoriesForSelect(),
-            'vatRates' => $this->getVatRates(),
-            'paymentMethods' => $this->getPaymentMethodsForSelect(),
-        ]);
+        return Inertia::render('Expenses/Create', $this->formOptions());
     }
 
     /**
@@ -105,6 +101,8 @@ class ExpenseController extends Controller
             'expense' => array_merge($expense->toArray(), [
                 'category_label' => $expense->category_label,
                 'payment_method_label' => $expense->payment_method_label,
+                'vat_regime_label' => $expense->vat_regime_label,
+                'supplier_country_name' => $expense->supplier_country_name,
                 'attachment_url' => $expense->attachment_url,
                 'attachment_filename' => $expense->attachment_filename,
             ]),
@@ -116,15 +114,12 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense): Response
     {
-        return Inertia::render('Expenses/Edit', [
+        return Inertia::render('Expenses/Edit', array_merge($this->formOptions(), [
             'expense' => array_merge($expense->toArray(), [
                 'attachment_url' => $expense->attachment_url,
                 'attachment_filename' => $expense->attachment_filename,
             ]),
-            'categories' => $this->getCategoriesForSelect(),
-            'vatRates' => $this->getVatRates(),
-            'paymentMethods' => $this->getPaymentMethodsForSelect(),
-        ]);
+        ]));
     }
 
     /**
@@ -264,15 +259,71 @@ class ExpenseController extends Controller
         // Get country-specific VAT rates
         $countryRates = $settings?->getVatRates() ?? config('countries.LU.vat_rates', []);
 
-        $rates = [];
-        foreach ($countryRates as $rate) {
-            $rates[] = [
-                'value' => $rate['value'],
-                'label' => $rate['label'],
-                'default' => $rate['default'] ?? false,
-            ];
+        return $this->normalizeRates($countryRates);
+    }
+
+    /**
+     * Grilles de taux des pays dont la configuration en contient une.
+     *
+     * Les autres États membres ne sont pas devinés : proposer une grille
+     * approximative pour la Slovaquie serait pire que de laisser saisir le
+     * taux lu sur la facture. Le formulaire bascule alors en saisie libre.
+     *
+     * @return array<string, array<int, array<string, mixed>>>
+     */
+    private function getVatRatesByCountry(): array
+    {
+        $byCountry = [];
+
+        foreach (config('countries', []) as $code => $country) {
+            if (! empty($country['vat_rates'])) {
+                $byCountry[$code] = $this->normalizeRates($country['vat_rates']);
+            }
         }
 
-        return $rates;
+        return $byCountry;
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $rates
+     * @return array<int, array<string, mixed>>
+     */
+    private function normalizeRates(array $rates): array
+    {
+        return collect($rates)->map(fn ($rate) => [
+            'value' => $rate['value'],
+            'label' => $rate['label'],
+            'default' => $rate['default'] ?? false,
+        ])->values()->toArray();
+    }
+
+    /**
+     * Régimes de TVA pour le sélecteur.
+     */
+    private function getVatRegimesForSelect(): array
+    {
+        return collect(Expense::getVatRegimes())->map(fn ($label, $value) => [
+            'value' => $value,
+            'label' => $label,
+        ])->values()->toArray();
+    }
+
+    /**
+     * Données communes aux formulaires de création et de modification.
+     */
+    private function formOptions(): array
+    {
+        return [
+            'categories' => $this->getCategoriesForSelect(),
+            'vatRates' => $this->getVatRates(),
+            'vatRatesByCountry' => $this->getVatRatesByCountry(),
+            'vatRegimes' => $this->getVatRegimesForSelect(),
+            'countries' => Expense::getSupplierCountries(),
+            'homeCountry' => \App\Models\BusinessSettings::getInstance()?->country_code ?? 'LU',
+            // Le taux d'autoliquidation est celui du pays de l'entreprise, pas
+            // celui du fournisseur : c'est l'acheteur qui déclare.
+            'homeStandardRate' => Expense::defaultReverseChargeRate(),
+            'paymentMethods' => $this->getPaymentMethodsForSelect(),
+        ];
     }
 }

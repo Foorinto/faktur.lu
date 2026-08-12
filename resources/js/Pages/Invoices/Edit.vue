@@ -13,6 +13,7 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import axios from 'axios';
 import { useTranslations } from '@/Composables/useTranslations';
+import PriceHtTtcFields from '@/Components/PriceHtTtcFields.vue';
 
 const { t } = useTranslations();
 
@@ -694,14 +695,13 @@ const openPreview = () => {
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="w-28">
-                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('price_ht') }}</label>
-                                        <input
-                                            v-model.number="editItemForm.unit_price"
-                                            type="number"
-                                            step="0.01"
-                                            min="0"
-                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                    <div class="w-48">
+                                        <PriceHtTtcFields
+                                            v-model="editItemForm.unit_price"
+                                            :vat-rate="editItemForm.vat_rate"
+                                            :input-id="'editItemForm-unit_price'"
+                                            :input-class="'block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm'"
+                                            compact
                                             required
                                         />
                                     </div>
@@ -879,14 +879,13 @@ const openPreview = () => {
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="w-28">
-                                        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">{{ t('price_ht') }}</label>
-                                        <input
-                                            v-model.number="itemForm.unit_price"
-                                            type="number"
-                                            step="0.01"
-                                            min="0"
-                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm"
+                                    <div class="w-48">
+                                        <PriceHtTtcFields
+                                            v-model="itemForm.unit_price"
+                                            :vat-rate="itemForm.vat_rate"
+                                            :input-id="'itemForm-unit_price'"
+                                            :input-class="'block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white text-sm'"
+                                            compact
                                             required
                                         />
                                     </div>

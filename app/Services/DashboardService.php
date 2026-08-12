@@ -247,11 +247,48 @@ class DashboardService
             ->where('is_deductible', true)
             ->sum('amount_vat');
 
+        // TVA autoliquidée : elle figure DEUX FOIS dans la déclaration.
+        //
+        // Sur un achat intracommunautaire, le fournisseur facture hors taxe et
+        // c'est l'acheteur qui déclare la TVA — comme s'il se l'était facturée.
+        // Elle est due au titre de l'acquisition, et déductible au titre de
+        // l'achat professionnel. L'effet sur le solde est nul, mais les deux
+        // lignes doivent exister : c'est par elles que l'AED recoupe
+        // l'opération avec ce que l'État du fournisseur a déclaré de son côté.
+        //
+        // La part déductible suit `is_deductible` : la TVA reste due même
+        // quand la dépense n'ouvre pas droit à déduction, et le solde n'est
+        // alors plus nul.
+        $reverseChargeDue = (float) Expense::whereYear('date', $year)
+            ->where('vat_regime', Expense::REGIME_REVERSE_CHARGE)
+            ->sum('reverse_charge_vat');
+
+        $reverseChargeDeductible = (float) Expense::whereYear('date', $year)
+            ->where('vat_regime', Expense::REGIME_REVERSE_CHARGE)
+            ->where('is_deductible', true)
+            ->sum('reverse_charge_vat');
+
+        // On conserve les deux origines séparément. « TVA collectée : 1 782 €,
+        // dont 340 € autoliquidés » se lit mal : les 340 € n'ont été encaissés
+        // auprès de personne. Distinguer ce qui a été facturé à des clients de
+        // ce que l'entreprise s'est facturé à elle-même évite de faire passer
+        // le second pour du chiffre d'affaires.
+        $collectedOnSales = $vatCollected;
+        $deductibleOnPurchases = $vatDeductible;
+
+        $vatCollected += $reverseChargeDue;
+        $vatDeductible += $reverseChargeDeductible;
+
         $vatBalance = $vatCollected - $vatDeductible;
 
         return [
             'collected' => round($vatCollected, 2),
             'deductible' => round($vatDeductible, 2),
+            'collected_on_sales' => round($collectedOnSales, 2),
+            'deductible_on_purchases' => round($deductibleOnPurchases, 2),
+            'reverse_charge_due' => round($reverseChargeDue, 2),
+            'reverse_charge_deductible' => round($reverseChargeDeductible, 2),
+            'has_reverse_charge' => $reverseChargeDue > 0,
             'balance' => round($vatBalance, 2),
             'to_pay' => $vatBalance > 0 ? round($vatBalance, 2) : 0,
             'credit' => $vatBalance < 0 ? round(abs($vatBalance), 2) : 0,
