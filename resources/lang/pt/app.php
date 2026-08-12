@@ -1895,11 +1895,11 @@ return [
                 // Cluster D - Segurança & confiança
                 'hosting' => [
                     'question' => 'Os meus dados de faturação estão alojados no Luxemburgo?',
-                    'answer' => 'Os seus dados estão alojados no o2switch (alojador francês com sede em Clermont-Ferrand), 100% União Europeia. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). Cópias de segurança automáticas diárias com retenção de 30 dias. O Faktur.lu é conforme ao RGPD com um DPA disponível mediante pedido. Nenhum dado é transferido para fora da UE, nenhum acesso Cloud Act. Pode exportar ou eliminar os seus dados a qualquer momento.',
+                    'answer' => 'Os seus dados estão alojados no o2switch (alojador francês com sede em Clermont-Ferrand), 100% União Europeia. Transporte cifrado TLS 1.3. Palavras-passe em bcrypt e dados sensíveis cifrados via chave de aplicação Laravel (AES-256-CBC). Cópias de segurança automáticas diárias, cifradas antes de qualquer transferência. O Faktur.lu está em conformidade com o RGPD, com um DPA disponível mediante pedido, que lista os nossos subcontratantes e as suas localizações. Pode exportar ou eliminar os seus dados a qualquer momento.',
                 ],
                 'controle_aed' => [
                     'question' => 'O que acontece em caso de auditoria fiscal AED?',
-                    'answer' => 'O Faktur.lu prepara-o para uma auditoria AED em poucos cliques: geração do FAIA conforme à versão 2.01, exportação PDF/A das faturas com data e hora, registo completo das alterações. Todos os dados são conservados durante os 10 anos legais. A nossa equipa de suporte já acompanhou vários clientes durante auditorias com sucesso. Se necessário, podemos colocá-lo em contacto com uma fidúcia parceira.',
+                    'answer' => 'O Faktur.lu prepara-o para uma auditoria AED em poucos cliques: geração do FAIA conforme à versão 2.01, exportação PDF/A das faturas com data e hora, registo completo das alterações. Todos os dados são conservados durante os 10 anos legais. Se necessário, podemos colocá-lo em contacto com uma fidúcia parceira.',
                 ],
                 'migration' => [
                     'question' => 'Como migrar do Excel ou de outro software para o faktur.lu?',
@@ -2513,8 +2513,8 @@ return [
                 'description' => 'Gratuito para começar. 5 EUR/mês para o plano Essencial. 15 EUR/mês para o plano Pro com tudo ilimitado. Sem custos ocultos, sem custos por utilizador, sem compromisso. Cancelável a qualquer momento.',
             ],
             'experience' => [
-                'title' => 'Experiência comprovada desde 2026',
-                'description' => 'O Faktur.lu está em produção desde 2026, com milhares de faturas emitidas, auditorias AED bem-sucedidas e um produto comprovado. A maturidade de uma plataforma que cumpriu as suas promessas ao longo do tempo.',
+                'title' => 'Pensado para o Luxemburgo, não traduzido',
+                'description' => 'O Faktur.lu nasceu em 2026 de uma constatação: nenhuma solução combinava exportação FAIA nativa, as cinco línguas do país e um preço acessível. Cada funcionalidade é construída para o contexto fiscal luxemburguês, não adaptada a posteriori a partir de um produto genérico.',
             ],
         ],
         'compare' => [
@@ -2843,7 +2843,7 @@ return [
             'q2' => ['q' => 'Faturo clientes estrangeiros (intra-UE, fora UE), é gerido?', 'a' => 'Sim. Para B2B intra-UE com NIF válido (validação VIES em tempo real), "Autoliquidação, artigo 196.º da Diretiva 2006/112/CE" é adicionado automaticamente. Fora UE: isenção com menção adaptada conforme o país.'],
             'q3' => ['q' => 'Como funciona com o meu contabilista/fiduciária?', 'a' => 'Convida-o por email a partir das suas definições. Recebe um link e acede a um portal separado em modo de leitura onde recupera as suas faturas, FAIA e exportações Sage BOB/Sage 100/CSV. Sem instalação, gratuito para ele.'],
             'q4' => ['q' => 'E se apenas faço algumas faturas por mês?', 'a' => 'O plano Gratuito cobre 5 faturas/mês e 10 clientes. Para um freelancer a tempo parcial ou atividade complementar, é mais que suficiente.'],
-            'q5' => ['q' => 'Os meus dados estão seguros?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), transporte cifrado TLS 1.3, palavras-passe bcrypt, dados sensíveis cifrados AES-256-CBC. Backups diários 30 dias.'],
+            'q5' => ['q' => 'Os meus dados estão seguros?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), transporte cifrado TLS 1.3, palavras-passe bcrypt, dados sensíveis cifrados AES-256-CBC. backups diários cifrados.'],
         ],
         'cta_final_title' => 'Pronto a faturar em 5 minutos?',
         'cta_final_subtitle' => 'Comece com o plano gratuito, sem cartão de crédito. Primeira fatura conforme em menos de 5 min.',
@@ -2890,7 +2890,7 @@ return [
             'q3' => ['q' => 'O módulo RH substitui um verdadeiro HRIS?', 'a' => 'Para PMEs até 15 colaboradores, sim. Gere contratos, férias, despesas, onboarding/offboarding, organigrama e portal do colaborador. Acima de 15 colaboradores ou para necessidades muito específicas (folha de pagamento complexa, formação), complementa um HRIS dedicado.'],
             'q4' => ['q' => 'Como funciona o arquivo legal de 10 anos?', 'a' => 'Cada fatura finalizada é automaticamente convertida em PDF/A (ISO 19005, formato legal de arquivo), com hash SHA-256 para integridade. Arquivo consultável e descarregável a qualquer momento. Em conformidade com o art. 16 do Código Comercial luxemburguês.'],
             'q5' => ['q' => 'Peppol é obrigatório para a minha PME?', 'a' => 'Sim no B2G (faturas para o Estado luxemburguês) desde 2023. Para o B2B luxemburguês, um projeto de lei prevê a receção obrigatória a partir de 1 de janeiro de 2028 e a emissão a partir de 1 de janeiro de 2029 para as pequenas empresas, sob reserva de votação. A diretiva ViDA visa o B2B intracomunitário a partir de 1 de julho de 2030. O faktur.lu já gera o formato exigido.'],
-            'q6' => ['q' => 'E os nossos dados estão protegidos?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), DPA assinável a pedido para a sua conformidade. Sem dados transferidos para fora da UE. Backups diários 30 dias. Audit log de ações sensíveis.'],
+            'q6' => ['q' => 'E os nossos dados estão protegidos?', 'a' => 'Alojado no o2switch em França (100% União Europeia, RGPD), DPA assinável a pedido para a sua conformidade. Sem dados transferidos para fora da UE. backups diários cifrados. Audit log de ações sensíveis.'],
         ],
         'cta_final_title' => 'Pronto a consolidar o seu stack?',
         'cta_final_subtitle' => '14 dias de acesso Pro completo, sem cartão de crédito. Migração de dados acompanhada gratuitamente.',

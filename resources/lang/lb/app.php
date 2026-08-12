@@ -1738,11 +1738,11 @@ return [
                 // Cluster D - Sécherheet & Vertrauen
                 'hosting' => [
                     'question' => 'Sinn meng Fakturatiounsdaten zu Lëtzebuerg gehost?',
-                    'answer' => 'Är Daten ginn bei o2switch (franséischen Hoster zu Clermont-Ferrand) gehost, 100% Europäesch Unioun. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. Automatesch deeglech Backups mat 30 Deeg Retentioun. Faktur.lu ass RGPD-konform mat engem DPA op Ufro verfügbar. Keng Donnée gi bausserhalb der EU iwwerdroen, kee Cloud-Act-Zougang. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
+                    'answer' => 'Är Daten ginn bei o2switch (franséischen Hoster zu Clermont-Ferrand) gehost, 100% Europäesch Unioun. Verschlësselten Transport TLS 1.3. Passwierder mat bcrypt gehasht a sensibel Donnéeën iwwer Laravel App-Key (AES-256-CBC) verschlësselt. Automatesch deeglech Backups, verschlësselt virun all Transfert. Faktur.lu ass RGPD-konform mat engem DPA op Ufro, deen eis Ënnerveraarbechter an hir Standuerter oplëscht. Dir kënnt Är Daten zu all Moment exportéieren oder läschen.',
                 ],
                 'controle_aed' => [
                     'question' => 'Wat geschitt bei enger AED-Steierkontroll?',
-                    'answer' => 'Faktur.lu preparéiert Iech a wéinege Klicks op eng AED-Kontroll: Generatioun vum FAIA-Fichier konform mat der Versioun 2.01, PDF/A-Export vun de Rechnungen mat Zäitstempel, komplett Ännerungsjournal. All Donnée gi während den 10 gesetzlechen Joeren opbewahrt. Eis Support-Ekipp huet schonn e puer Cliente erfollegräich duerch Kontrollen begleet. Wann néideg, kënne mir Iech mat enger Partner-Fiduciaire an Verbindung setzen.',
+                    'answer' => 'Faktur.lu preparéiert Iech a wéinege Klicks op eng AED-Kontroll: Generatioun vum FAIA-Fichier konform mat der Versioun 2.01, PDF/A-Export vun de Rechnungen mat Zäitstempel, komplett Ännerungsjournal. All Donnée gi während den 10 gesetzlechen Joeren opbewahrt. Wann néideg, kënne mir Iech mat enger Partner-Fiduciaire an Verbindung setzen.',
                 ],
                 'migration' => [
                     'question' => 'Wéi migréiert ee vun Excel oder engem aneren Programm op faktur.lu?',
@@ -2200,8 +2200,8 @@ return [
                 'description' => 'Gratis fir unzefänken. 5 EUR/Mount fir den Essential-Plang. 15 EUR/Mount fir de Pro-Plang mat allem onbegrenzt. Keng verstoppte Käschten, keng Käschten pro Benotzer, keng Verbindlechkeet. Jiddwer Moment kënnegbar.',
             ],
             'experience' => [
-                'title' => 'Bewährter Erfahrung zënter 2026',
-                'description' => 'Faktur.lu ass zënter 2026 a Produktioun, mat Dausenden ausgestallten Rechnungen, erfollegräichen AED-Kontrollen an engem erprobten Produit. D\'Reife vun enger Plattform, déi hir Versprochen iwwert d\'Zäit gehalen huet.',
+                'title' => 'Fir Lëtzebuerg gebaut, net nogereecht',
+                'description' => 'Faktur.lu ass 2026 aus enger Feststellung entstanen: keng Léisung huet nativen FAIA-Export, déi fënnef Landessproochen an e bezuelbare Präis verbonnen. All Funktioun ass fir de Lëtzebuerger Steierkontext gebaut, net nogereecht vun engem generesche Produit.',
             ],
         ],
         'compare' => [

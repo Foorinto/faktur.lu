@@ -1738,11 +1738,11 @@ return [
                 // Cluster D - Sicherheit & Vertrauen
                 'hosting' => [
                     'question' => 'Werden meine Rechnungsdaten in Luxemburg gehostet?',
-                    'answer' => 'Ihre Daten werden bei o2switch (französischer Hoster mit Sitz in Clermont-Ferrand) gehostet, 100% Europäische Union. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten via Laravel-App-Key (AES-256-CBC) verschlüsselt. Tägliche automatische Sicherungen mit 30 Tagen Aufbewahrung. Faktur.lu ist DSGVO-konform mit einer auf Anfrage verfügbaren AVV. Keine Datenübertragung außerhalb der EU, kein Cloud-Act-Zugriff. Sie können Ihre Daten jederzeit exportieren oder löschen.',
+                    'answer' => 'Ihre Daten werden bei o2switch (französischer Hoster mit Sitz in Clermont-Ferrand) gehostet, 100% Europäische Union. Verschlüsselter Transport TLS 1.3. Passwörter mit bcrypt gehasht und sensible Daten via Laravel-App-Key (AES-256-CBC) verschlüsselt. Tägliche automatische Sicherungen, vor jeder Übertragung verschlüsselt. Faktur.lu ist DSGVO-konform, eine AVV ist auf Anfrage verfügbar und listet unsere Unterauftragsverarbeiter und deren Standorte. Sie können Ihre Daten jederzeit exportieren oder löschen.',
                 ],
                 'controle_aed' => [
                     'question' => 'Was passiert bei einer AED-Steuerprüfung?',
-                    'answer' => 'Faktur.lu bereitet Sie in wenigen Klicks auf eine AED-Prüfung vor: Generierung der FAIA-Datei nach Version 2.01, PDF/A-Export der Rechnungen mit Zeitstempel, vollständiges Änderungsprotokoll. Alle Daten werden während der gesetzlichen 10 Jahre aufbewahrt. Unser Support-Team hat bereits mehrere Mandanten erfolgreich durch Prüfungen begleitet. Bei Bedarf vermitteln wir Sie an einen Treuhänder-Partner.',
+                    'answer' => 'Faktur.lu bereitet Sie in wenigen Klicks auf eine AED-Prüfung vor: Generierung der FAIA-Datei nach Version 2.01, PDF/A-Export der Rechnungen mit Zeitstempel, vollständiges Änderungsprotokoll. Alle Daten werden während der gesetzlichen 10 Jahre aufbewahrt. Bei Bedarf vermitteln wir Sie an einen Treuhänder-Partner.',
                 ],
                 'migration' => [
                     'question' => 'Wie migriere ich von Excel oder einer anderen Software zu faktur.lu?',
@@ -2200,8 +2200,8 @@ return [
                 'description' => 'Kostenlos zum Starten. 5 EUR/Monat für den Essential-Plan. 15 EUR/Monat für den Pro-Plan, alles unbegrenzt. Keine versteckten Gebühren, keine Kosten pro Nutzer, keine Bindung. Jederzeit kündbar.',
             ],
             'experience' => [
-                'title' => 'Bewährte Erfahrung seit 2026',
-                'description' => 'Faktur.lu ist seit 2026 in Produktion, mit Tausenden ausgestellten Rechnungen, erfolgreichen AED-Prüfungen und einem erprobten Produkt. Die Reife einer Plattform, die ihre Versprechen langfristig gehalten hat.',
+                'title' => 'Für Luxemburg gebaut, nicht nachträglich übersetzt',
+                'description' => 'Faktur.lu entstand 2026 aus einer Feststellung: keine Lösung vereinte nativen FAIA-Export, die fünf Landessprachen und einen bezahlbaren Preis. Jede Funktion ist für den luxemburgischen Steuerkontext gebaut, nicht nachträglich aus einem generischen Produkt abgeleitet.',
             ],
         ],
         'compare' => [

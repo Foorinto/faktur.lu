@@ -1837,11 +1837,11 @@ return [
                 // Cluster D - Security & trust
                 'hosting' => [
                     'question' => 'Is my invoicing data hosted in Luxembourg?',
-                    'answer' => 'Your data is hosted at o2switch (French hosting provider based in Clermont-Ferrand), 100% European Union. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). Automatic daily backups with 30-day retention. Faktur.lu is GDPR-compliant with a DPA available on request. No data transferred outside the EU, no Cloud Act access. You can export or delete your data at any time.',
+                    'answer' => 'Your data is hosted at o2switch (French hosting provider based in Clermont-Ferrand), 100% European Union. Encrypted transport TLS 1.3. Passwords hashed with bcrypt and sensitive data encrypted via Laravel app key (AES-256-CBC). Automatic daily backups, encrypted before any transfer. Faktur.lu is GDPR compliant with a DPA available on request, listing our subprocessors and their locations. You can export or delete your data at any time.',
                 ],
                 'controle_aed' => [
                     'question' => 'What happens during an AED tax audit?',
-                    'answer' => 'Faktur.lu prepares you for an AED audit in a few clicks: generation of the 2.01-compliant FAIA file, PDF/A export of invoices with timestamping, full modification log. All data is retained for the legal 10 years. Our support team has already accompanied several clients through audits successfully. If needed, we can connect you with a partner fiduciary.',
+                    'answer' => 'Faktur.lu prepares you for an AED audit in a few clicks: generation of the 2.01-compliant FAIA file, PDF/A export of invoices with timestamping, full modification log. All data is retained for the legal 10 years. If needed, we can connect you with a partner fiduciary.',
                 ],
                 'migration' => [
                     'question' => 'How do I migrate from Excel or another software to faktur.lu?',
@@ -2299,8 +2299,8 @@ return [
                 'description' => 'Free to start. 5 EUR/month for the Essential plan. 15 EUR/month for the Pro plan with everything unlimited. No hidden fees, no per-user costs, no commitment. Cancellable at any time.',
             ],
             'experience' => [
-                'title' => 'Proven experience since 2026',
-                'description' => 'Faktur.lu has been in production since 2026, with thousands of invoices issued, successful AED audits, and a proven product. The maturity of a platform that has kept its promises over time.',
+                'title' => 'Built for Luxembourg, not translated for it',
+                'description' => 'Faktur.lu started in 2026 from one observation: no solution combined native FAIA export, the country\'s five languages and an affordable price. Every feature is built for the Luxembourg tax context rather than retrofitted from a generic product.',
             ],
         ],
         'compare' => [

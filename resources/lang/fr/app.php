@@ -1897,11 +1897,11 @@ return [
                 // Cluster D - Sécurité & confiance
                 'hosting' => [
                     'question' => 'Mes données de facturation sont-elles hébergées au Luxembourg ?',
-                    'answer' => 'Vos données sont hébergées chez o2switch (hébergeur français basé à Clermont-Ferrand), 100% Union européenne. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). Sauvegardes automatiques quotidiennes avec rétention de 30 jours. Faktur.lu est conforme RGPD avec un DPA disponible sur demande. Aucune donnée n\'est transférée hors UE, aucun accès Cloud Act. Vous pouvez exporter ou supprimer vos données à tout moment.',
+                    'answer' => 'Vos données sont hébergées chez o2switch (hébergeur français basé à Clermont-Ferrand), 100% Union européenne. Transport chiffré TLS 1.3. Mots de passe en bcrypt et données sensibles chiffrées via clé d\'application Laravel (AES-256-CBC). Sauvegardes automatiques quotidiennes, chiffrées avant tout transfert. Faktur.lu est conforme RGPD avec un DPA disponible sur demande, qui liste nos sous-traitants et leurs localisations. Vous pouvez exporter ou supprimer vos données à tout moment.',
                 ],
                 'controle_aed' => [
                     'question' => 'Que se passe-t-il en cas de contrôle fiscal AED ?',
-                    'answer' => 'Faktur.lu vous prépare à un contrôle AED en quelques clics : génération du FAIA conforme à la version 2.01, export PDF/A des factures avec horodatage, journal complet des modifications. Toutes les données sont conservées pendant les 10 ans légaux. Notre équipe support a déjà accompagné plusieurs clients pendant des contrôles avec succès. Au besoin, nous pouvons vous mettre en relation avec une fiduciaire partenaire.',
+                    'answer' => 'Faktur.lu vous prépare à un contrôle AED en quelques clics : génération du FAIA conforme à la version 2.01, export PDF/A des factures avec horodatage, journal complet des modifications. Toutes les données sont conservées pendant les 10 ans légaux. Au besoin, nous pouvons vous mettre en relation avec une fiduciaire partenaire.',
                 ],
                 'migration' => [
                     'question' => 'Comment migrer depuis Excel ou un autre logiciel vers faktur.lu ?',
@@ -2539,8 +2539,8 @@ return [
                 'description' => 'Gratuit pour démarrer. 5 EUR/mois pour le plan Essentiel. 15 EUR/mois pour le plan Pro tout illimité. Pas de frais cachés, pas de coût par utilisateur, pas d\'engagement. Annulable à tout moment.',
             ],
             'experience' => [
-                'title' => 'Expérience prouvée depuis 2026',
-                'description' => 'Faktur.lu est en production depuis 2026, avec des milliers de factures émises, des contrôles AED réussis et un produit éprouvé. La maturité d\'une plateforme qui a tenu ses promesses dans la durée.',
+                'title' => 'Pensé pour le Luxembourg, pas traduit',
+                'description' => 'Faktur.lu est né en 2026 d\'un constat : aucune solution ne combinait export FAIA natif, les cinq langues du pays et un tarif accessible. Chaque fonctionnalité est construite pour le contexte fiscal luxembourgeois, pas adaptée après coup depuis un produit générique.',
             ],
         ],
         'compare' => [
@@ -2869,7 +2869,7 @@ return [
             'q2' => ['q' => 'Je facture des clients étrangers (intra-UE, hors UE), c\'est géré ?', 'a' => 'Oui. Pour le B2B intra-UE avec numéro TVA valide (validé via VIES en temps réel), la mention "Autoliquidation, article 196 de la directive 2006/112/CE" s\'ajoute automatiquement. Hors UE : exonération avec mention adaptée selon le pays.'],
             'q3' => ['q' => 'Comment ça se passe avec mon comptable/fiduciaire ?', 'a' => 'Vous l\'invitez par email depuis vos paramètres. Elle reçoit un lien et accède à un portail séparé en lecture seule où elle récupère vos factures, FAIA et exports Sage BOB/Sage 100/CSV. Aucune installation, c\'est gratuit pour elle.'],
             'q4' => ['q' => 'Et si je ne fais que quelques factures par mois ?', 'a' => 'Le plan Gratuit couvre 5 factures/mois et 10 clients. Pour un freelance à temps partiel ou en complément d\'activité, c\'est largement suffisant.'],
-            'q5' => ['q' => 'Mes données sont-elles en sécurité ?', 'a' => 'Hébergement chez o2switch en France (100% Union européenne, RGPD), transport chiffré TLS 1.3, mots de passe bcrypt, données sensibles chiffrées AES-256-CBC. Sauvegardes quotidiennes 30 jours.'],
+            'q5' => ['q' => 'Mes données sont-elles en sécurité ?', 'a' => 'Hébergement chez o2switch en France (100% Union européenne, RGPD), transport chiffré TLS 1.3, mots de passe bcrypt, données sensibles chiffrées AES-256-CBC. sauvegardes quotidiennes chiffrées.'],
         ],
         'cta_final_title' => 'Prêt à facturer en 5 minutes ?',
         'cta_final_subtitle' => 'Démarrez avec le plan gratuit, sans carte bancaire. Première facture conforme prête en moins de 5 min.',
@@ -2916,7 +2916,7 @@ return [
             'q3' => ['q' => 'Le module RH remplace-t-il un vrai SIRH ?', 'a' => 'Pour les PME jusqu\'à 15 employés, oui. Vous y gérez les contrats, congés, notes de frais, onboarding/offboarding, organigramme et portail employé. Au-delà de 15 employés ou pour des besoins très spécifiques (paie complexe, formations), il complète plutôt un SIRH dédié.'],
             'q4' => ['q' => 'Comment se passe l\'archivage légal 10 ans ?', 'a' => 'Chaque facture finalisée est automatiquement convertie en PDF/A (norme ISO 19005, format légal d\'archivage), avec empreinte SHA-256 pour l\'intégrité. L\'archive est consultable et téléchargeable à tout moment. Conforme à l\'article 16 du Code de commerce luxembourgeois.'],
             'q5' => ['q' => 'Peppol c\'est obligatoire pour ma PME ?', 'a' => 'Oui dans le B2G (factures vers l\'État luxembourgeois) depuis 2023. Pour le B2B luxembourgeois, un projet de loi prévoit la réception obligatoire au 1er janvier 2028 et l\'émission au 1er janvier 2029 pour les petites entreprises, sous réserve du vote. La directive ViDA vise le B2B intra-UE au 1er juillet 2030. faktur.lu génère déjà le format requis.'],
-            'q6' => ['q' => 'Et nos données sont-elles protégées ?', 'a' => 'Hébergement chez o2switch en France (100% Union européenne, RGPD), DPA signable sur demande pour votre conformité. Aucune donnée transférée hors UE. Sauvegardes quotidiennes 30 jours. Audit log des actions sensibles.'],
+            'q6' => ['q' => 'Et nos données sont-elles protégées ?', 'a' => 'Hébergement chez o2switch en France (100% Union européenne, RGPD), DPA signable sur demande pour votre conformité. Aucune donnée transférée hors UE. sauvegardes quotidiennes chiffrées. Audit log des actions sensibles.'],
         ],
         'cta_final_title' => 'Prêt à consolider votre stack ?',
         'cta_final_subtitle' => '14 jours d\'accès complet aux fonctions Pro, sans carte bancaire. Migration de vos données accompagnée gratuitement.',
