@@ -104,6 +104,7 @@ class EmailVerificationTest extends TestCase
             'password' => 'Fakt#2026!Secur',
             'password_confirmation' => 'Fakt#2026!Secur',
             'terms' => true,
+            'dpa' => true,
             'homepage_url' => '',
             'form_loaded_at' => now()->subSeconds(10)->timestamp,
         ]);

@@ -609,6 +609,17 @@ return [
     'accountant_2fa_recovery_intro' => 'Keep them somewhere other than your phone.',
     'accountant_2fa_recovery_warning' => 'This page will not be shown again. Without these codes, losing your phone would lock you out of every client file. Each code works once.',
     'accountant_2fa_recovery_done' => 'I have saved my codes',
+    // DPA acceptance and profile Documents section
+    'accept_dpa_prefix' => 'I accept the ',
+    'accept_dpa_link' => 'data processing agreement (DPA)',
+    'accept_dpa_suffix' => ', which governs the processing of my own clients\' data.',
+    'profile_documents_title' => 'Documents',
+    'profile_documents_subtitle' => 'Your contractual documents, in your name, downloadable at any time.',
+    'profile_documents_dpa_name' => 'Data processing agreement (DPA)',
+    'profile_documents_dpa_accepted' => 'Accepted on :date · version :version',
+    'profile_documents_dpa_no_trace' => 'Account predates acceptance recording: the date was not kept.',
+    'profile_documents_dpa_outdated' => 'A newer version exists (:version). The downloaded document carries the one you accepted.',
+    'profile_documents_download' => 'Download',
     'expenses_totals_for' => 'Totals for:',
     'expense_categories' => [
         'hardware' => 'Computer hardware',

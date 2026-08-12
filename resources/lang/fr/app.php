@@ -609,6 +609,17 @@ return [
     'accountant_2fa_recovery_intro' => 'Conservez-les hors de votre téléphone.',
     'accountant_2fa_recovery_warning' => 'Cette page ne sera plus affichée. Sans ces codes, la perte de votre téléphone vous ferait perdre l\'accès aux dossiers de tous vos clients. Chaque code ne sert qu\'une fois.',
     'accountant_2fa_recovery_done' => 'J\'ai conservé mes codes',
+    // Acceptation du DPA et section Documents du profil
+    'accept_dpa_prefix' => 'J\'accepte l\'',
+    'accept_dpa_link' => 'accord de traitement des données (DPA)',
+    'accept_dpa_suffix' => ', qui encadre le traitement des données de mes propres clients.',
+    'profile_documents_title' => 'Documents',
+    'profile_documents_subtitle' => 'Vos documents contractuels, à votre nom, téléchargeables à tout moment.',
+    'profile_documents_dpa_name' => 'Accord de traitement des données (DPA)',
+    'profile_documents_dpa_accepted' => 'Accepté le :date · version :version',
+    'profile_documents_dpa_no_trace' => 'Compte antérieur à l\'enregistrement des acceptations : la date n\'a pas été conservée.',
+    'profile_documents_dpa_outdated' => 'Une version plus récente existe (:version). Le document téléchargé porte celle que vous avez acceptée.',
+    'profile_documents_download' => 'Télécharger',
     'expenses_totals_for' => 'Totaux pour :',
     'expense_categories' => [
         'hardware' => 'Matériel informatique',

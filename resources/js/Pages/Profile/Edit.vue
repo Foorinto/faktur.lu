@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
+import DocumentsSection from './Partials/DocumentsSection.vue';
 import TwoFactorAuthenticationForm from './Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
@@ -16,6 +17,10 @@ defineProps({
     },
     status: {
         type: String,
+    },
+    dpa: {
+        type: Object,
+        default: () => ({}),
     },
     confirmsTwoFactorAuthentication: {
         type: Boolean,
@@ -88,6 +93,12 @@ onMounted(() => {
                     <TwoFactorAuthenticationForm
                         :requires-confirmation="confirmsTwoFactorAuthentication"
                     />
+                </div>
+
+                <div
+                    class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+                >
+                    <DocumentsSection :dpa="dpa" />
                 </div>
 
                 <div

@@ -19,6 +19,7 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    dpa: false,
     homepage_url: '',
     form_loaded_at: '',
 });
@@ -123,6 +124,30 @@ const submit = () => {
                     </span>
                 </label>
                 <InputError class="mt-2" :message="form.errors.terms" />
+            </div>
+
+            <!-- Case distincte des conditions générales : l'accord de
+                 traitement des données relève de l'article 28 du RGPD, il
+                 engage l'utilisateur en tant que responsable de traitement de
+                 SES propres clients. Le fondre dans la case des CGU
+                 empêcherait de prouver qu'il a été accepté pour lui-même.
+
+                 Lien HTML ordinaire, et non un Link Inertia : le DPA est rendu
+                 par une vue Blade hors de l'application. -->
+            <div class="mt-4">
+                <label class="flex items-start">
+                    <input
+                        type="checkbox"
+                        v-model="form.dpa"
+                        class="rounded-md border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-surface-dark dark:focus:ring-primary-600 dark:focus:ring-offset-surface-dark mt-0.5"
+                    />
+                    <span class="ms-2 text-sm text-slate-600 dark:text-slate-400">
+                        {{ t('accept_dpa_prefix') }}
+                        <a :href="localizedRoute('legal.dpa')" class="text-primary-600 hover:underline dark:text-primary-400" target="_blank" rel="noopener noreferrer">{{ t('accept_dpa_link') }}</a>
+                        {{ t('accept_dpa_suffix') }}
+                    </span>
+                </label>
+                <InputError class="mt-2" :message="form.errors.dpa" />
             </div>
 
             <div class="mt-4 flex items-center justify-end">

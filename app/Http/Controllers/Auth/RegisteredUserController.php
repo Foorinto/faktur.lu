@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'terms' => 'required|accepted',
+            'dpa' => 'required|accepted',
         ]);
 
         // Champs fillable
@@ -50,9 +51,19 @@ class RegisteredUserController extends Controller
 
         // trial_ends_at et account_status retires du fillable (champs sensibles)
         // -> forceFill obligatoire
+        //
+        // L'acceptation est datée et rattachée à une version : c'est ce qui la
+        // rend opposable. Une case cochée dont il ne reste rien ne prouve rien,
+        // et le DPA lui-même prend effet « à la création du compte et à
+        // l'acceptation des CGU » — encore faut-il pouvoir en administrer la
+        // preuve.
         $user->forceFill([
             'trial_ends_at' => now()->addDays(14),
             'account_status' => 'trial',
+            'terms_accepted_at' => now(),
+            'dpa_accepted_at' => now(),
+            'dpa_version' => \App\Support\DpaDocument::VERSION,
+            'acceptance_ip' => $request->ip(),
         ])->save();
 
         event(new Registered($user));

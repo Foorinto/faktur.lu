@@ -27,6 +27,7 @@ class RegistrationTest extends TestCase
             'password' => self::PASSWORD,
             'password_confirmation' => self::PASSWORD,
             'terms' => true, // acceptation des CGU, obligatoire
+            'dpa' => true, // acceptation du DPA, obligatoire depuis la v1.1
             'homepage_url' => '',
             'form_loaded_at' => now()->subSeconds(10)->timestamp,
         ], $overrides);

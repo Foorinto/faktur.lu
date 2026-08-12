@@ -608,6 +608,17 @@ return [
     'accountant_2fa_recovery_intro' => 'Guarde-os fora do seu telemóvel.',
     'accountant_2fa_recovery_warning' => 'Esta página não voltará a ser mostrada. Sem estes códigos, perder o telemóvel deixá-lo-ia sem acesso a todos os processos dos clientes. Cada código serve uma vez.',
     'accountant_2fa_recovery_done' => 'Guardei os meus códigos',
+    // Aceitação do DPA e secção Documentos do perfil
+    'accept_dpa_prefix' => 'Aceito o ',
+    'accept_dpa_link' => 'acordo de tratamento de dados (DPA)',
+    'accept_dpa_suffix' => ', que enquadra o tratamento dos dados dos meus próprios clientes.',
+    'profile_documents_title' => 'Documentos',
+    'profile_documents_subtitle' => 'Os seus documentos contratuais, em seu nome, descarregáveis a qualquer momento.',
+    'profile_documents_dpa_name' => 'Acordo de tratamento de dados (DPA)',
+    'profile_documents_dpa_accepted' => 'Aceite a :date · versão :version',
+    'profile_documents_dpa_no_trace' => 'Conta anterior ao registo das aceitações: a data não foi conservada.',
+    'profile_documents_dpa_outdated' => 'Existe uma versão mais recente (:version). O documento descarregado tem a que aceitou.',
+    'profile_documents_download' => 'Descarregar',
     'expenses_totals_for' => 'Totais para:',
     'expense_categories' => [
         'hardware' => 'Material informático',

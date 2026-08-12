@@ -19,11 +19,29 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $user = $request->user();
+
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
             'confirmsTwoFactorAuthentication' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),
+            // Les comptes créés avant la mise en place de la trace n'ont pas de
+            // date d'acceptation : la section le dit plutôt que de laisser
+            // croire à un document non signé.
+            'dpa' => [
+                'accepted_at' => $user->dpa_accepted_at?->toIso8601String(),
+                'version' => $user->dpa_version ?: \App\Support\DpaDocument::VERSION,
+                'current_version' => \App\Support\DpaDocument::VERSION,
+            ],
         ]);
+    }
+
+    /**
+     * Exemplaire nominatif de l'accord de traitement des données.
+     */
+    public function downloadDpa(Request $request, \App\Services\DpaPdfService $service)
+    {
+        return $service->download($request->user());
     }
 
     /**

@@ -512,6 +512,17 @@ return [
     'accountant_2fa_recovery_intro' => 'Halt se ausserhalb vun Ärem Telefon op.',
     'accountant_2fa_recovery_warning' => 'Dës Säit gëtt net méi ugewisen. Ouni dës Coden géif de Verloscht vun Ärem Telefon Iech vun alle Client-Dossieren ausspären. All Code gëllt eemol.',
     'accountant_2fa_recovery_done' => 'Ech hunn meng Coden gespäichert',
+    // DPA-Zoustëmmung a Rubrik Dokumenter am Profil
+    'accept_dpa_prefix' => 'Ech akzeptéieren den ',
+    'accept_dpa_link' => 'Accord fir d\'Behandlung vun den Donnéeën (DPA)',
+    'accept_dpa_suffix' => ', deen d\'Veraarbechtung vun den Donnéeë vu menge eegene Clienten regelt.',
+    'profile_documents_title' => 'Dokumenter',
+    'profile_documents_subtitle' => 'Är Vertragsdokumenter, op Ären Numm, zu all Moment erofzelueden.',
+    'profile_documents_dpa_name' => 'Accord fir d\'Behandlung vun den Donnéeën (DPA)',
+    'profile_documents_dpa_accepted' => 'Akzeptéiert den :date · Versioun :version',
+    'profile_documents_dpa_no_trace' => 'Kont méi al wéi d\'Erfaassung vun den Zoustëmmungen: den Datum gouf net behalen.',
+    'profile_documents_dpa_outdated' => 'Et gëtt eng méi rezent Versioun (:version). Dat erofgelueden Dokument dréit déi, déi Dir akzeptéiert hutt.',
+    'profile_documents_download' => 'Eroflueden',
     'expenses_totals_for' => 'Sommen fir:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',

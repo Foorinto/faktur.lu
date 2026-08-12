@@ -512,6 +512,17 @@ return [
     'accountant_2fa_recovery_intro' => 'Bewahren Sie sie außerhalb Ihres Telefons auf.',
     'accountant_2fa_recovery_warning' => 'Diese Seite wird nicht erneut angezeigt. Ohne diese Codes würde der Verlust Ihres Telefons Sie von allen Mandantenakten aussperren. Jeder Code gilt einmal.',
     'accountant_2fa_recovery_done' => 'Ich habe meine Codes gesichert',
+    // AVV-Zustimmung und Bereich Dokumente im Profil
+    'accept_dpa_prefix' => 'Ich akzeptiere den ',
+    'accept_dpa_link' => 'Auftragsverarbeitungsvertrag (AVV)',
+    'accept_dpa_suffix' => ', der die Verarbeitung der Daten meiner eigenen Kunden regelt.',
+    'profile_documents_title' => 'Dokumente',
+    'profile_documents_subtitle' => 'Ihre Vertragsdokumente, auf Ihren Namen, jederzeit herunterladbar.',
+    'profile_documents_dpa_name' => 'Auftragsverarbeitungsvertrag (AVV)',
+    'profile_documents_dpa_accepted' => 'Akzeptiert am :date · Version :version',
+    'profile_documents_dpa_no_trace' => 'Konto älter als die Erfassung der Zustimmungen: das Datum wurde nicht aufbewahrt.',
+    'profile_documents_dpa_outdated' => 'Es gibt eine neuere Version (:version). Das heruntergeladene Dokument trägt die von Ihnen akzeptierte.',
+    'profile_documents_download' => 'Herunterladen',
     'expenses_totals_for' => 'Summen für:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',

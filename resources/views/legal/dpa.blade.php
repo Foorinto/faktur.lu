@@ -22,7 +22,7 @@
 <body>
 
 <h1>Accord de traitement des données (DPA)</h1>
-<p class="meta">Version 1.0 · Dernière mise à jour : {{ date('d/m/Y') }} · Document signable</p>
+<p class="meta">{{ \App\Support\DpaDocument::label() }} · Document signable</p>
 
 <p>Le présent Accord de traitement des données (« DPA ») est conclu en application de l'article 28 du Règlement (UE) 2016/679 (« RGPD ») entre :</p>
 
