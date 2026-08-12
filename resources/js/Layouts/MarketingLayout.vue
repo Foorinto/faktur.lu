@@ -1399,10 +1399,17 @@ onUnmounted(() => {
                                 >
                             </li>
                             <li>
-                                <Link
+                                <!-- Lien HTML ordinaire, et non un Link
+                                     Inertia : le DPA est la seule page légale
+                                     rendue par une vue Blade, parce qu'elle
+                                     doit rester imprimable hors application.
+                                     Un Link Inertia attend une réponse Inertia
+                                     en retour ; il recevait du HTML, ne savait
+                                     qu'en faire, et le clic restait sans effet. -->
+                                <a
                                     :href="localizedRoute('legal.dpa')"
                                     class="text-slate-600 hover:text-slate-900"
-                                    >{{ t("landing.footer.dpa") }}</Link
+                                    >{{ t("landing.footer.dpa") }}</a
                                 >
                             </li>
                         </ul>
