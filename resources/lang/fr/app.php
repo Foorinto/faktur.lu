@@ -447,7 +447,7 @@ return [
         'status_failed' => 'Échoué',
         'status_pending' => 'En attente',
         'about_faia' => 'À propos du FAIA',
-        'faia_description' => 'Le FAIA (Fichier d\'Audit Informatisé de l\'AED) est un standard requis par l\'Administration des contributions directes du Luxembourg lors des contrôles fiscaux. L\'export FAIA XML respecte le format SAF-T luxembourgeois.',
+        'faia_description' => 'Le FAIA (Fichier d\'Audit Informatisé AED) est le format d\'audit exigé par l\'Administration de l\'enregistrement, des domaines et de la TVA lors des contrôles. L\'export FAIA XML respecte le format SAF-T luxembourgeois.',
     ],
 
     // Common labels
@@ -584,6 +584,11 @@ return [
     'fiscal_reverse_charge_explanation' => 'L\'autoliquidation apparaît des deux côtés : vous déclarez cette TVA à la place de votre fournisseur étranger, et la déduisez aussitôt en tant qu\'acheteur. Elle n\'augmente pas le solde à payer.',
     'expense_reverse_charge_link' => 'Le mécanisme sur Guichet.lu',
     'expense_reverse_charge_scope_link' => 'Biens et services concernés',
+    // Rappels : faktur.lu calcule et exporte, il n'atteste pas
+    'notice_accounting_export' => 'Ce fichier est destiné à votre comptable ou à votre fiduciaire. Faktur.lu produit les écritures à partir de ce que vous avez saisi, mais ne les vérifie ni ne les valide.',
+    'notice_faia_export' => 'Ce fichier peut vous être demandé lors d\'un contrôle de l\'AED. Faites-le vérifier par votre comptable ou votre fiduciaire avant de le transmettre : vous restez seul responsable des données déclarées.',
+    'notice_vat_regime_choice' => 'Le régime détermine si cette TVA est récupérable. En cas de doute sur la qualification d\'un achat, demandez à votre comptable.',
+    'notice_vat_dashboard' => 'Estimation calculée sur vos factures et dépenses saisies ici. Elle ne remplace pas votre déclaration TVA : seul votre comptable tient compte de l\'ensemble de votre situation.',
     'expenses_totals_for' => 'Totaux pour :',
     'expense_categories' => [
         'hardware' => 'Matériel informatique',
@@ -1389,6 +1394,7 @@ return [
             'newsletter_button' => 'S\'inscrire',
             'newsletter_success' => 'Vérifiez votre boîte mail pour confirmer.',
             'aed_compliant' => 'Conforme aux exigences de l\'AED Luxembourg',
+            'not_an_accountant' => 'faktur.lu est un logiciel de facturation, pas un cabinet comptable ni une fiduciaire. Il ne fournit ni conseil fiscal, ni conseil juridique, ni comptable. Vous restez seul responsable de vos obligations déclaratives : consultez un professionnel pour toute question fiscale ou comptable.',
             'all_rights' => 'Tous droits réservés',
             'description' => 'Logiciel de facturation conçu pour les freelances et PME au Luxembourg.',
             'faia_compliant' => 'Conforme FAIA',

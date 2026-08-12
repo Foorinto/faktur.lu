@@ -1442,6 +1442,14 @@ onUnmounted(() => {
                         {{ t("landing.footer.all_rights") }}
                     </p>
                 </div>
+
+                <!-- Placé juste sous la mention « conforme aux exigences de
+                     l'AED » : c'est là que la promesse se fait, c'est là que sa
+                     limite doit se lire. Un outil calcule et exporte ; il
+                     n'atteste pas, et le contribuable reste seul redevable. -->
+                <p class="pt-6 text-xs leading-relaxed text-slate-500">
+                    {{ t("landing.footer.not_an_accountant") }}
+                </p>
             </div>
         </footer>
     </div>

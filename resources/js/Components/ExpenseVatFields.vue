@@ -102,6 +102,12 @@ const reverseChargeScopeUrl =
                             {{ regime.label }}
                         </option>
                     </select>
+                    <!-- Qualifier un achat, c'est une décision fiscale : elle
+                         conditionne la déductibilité et ce qui partira dans la
+                         déclaration. Faktur.lu propose, il ne tranche pas. -->
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                        {{ t('notice_vat_regime_choice') }}
+                    </p>
                     <InputError :message="form.errors.vat_regime" class="mt-2" />
                 </div>
             </div>

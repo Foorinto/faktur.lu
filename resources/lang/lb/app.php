@@ -350,7 +350,7 @@ return [
         'status_failed' => 'Gescheitert',
         'status_pending' => 'Ausstehend',
         'about_faia' => 'Iwwer FAIA',
-        'faia_description' => 'FAIA (Fichier d\'Audit Informatisé de l\'AED) ass e Standard, deen vun der Lëtzebuerger Steieradministratioun bei Steierkontrolle gefuerdert gëtt. Den XML-FAIA-Export entsprécht dem Lëtzebuerger SAF-T-Format.',
+        'faia_description' => 'FAIA (Fichier d\'Audit Informatisé AED) ass de Prüfformat, dat d\'Administratioun vun der Enregistrement, den Domainen an der MwSt. bei Kontrolle verlaangt. Den XML-FAIA-Export entsprécht dem Lëtzebuerger SAF-T-Format.',
     ],
 
     // Common labels
@@ -487,6 +487,11 @@ return [
     'fiscal_reverse_charge_explanation' => 'D\'Autoliquidatioun erschéngt op béide Säiten: Dir deklaréiert dës MwSt. amplaz vun Ärem auslännesche Fournisseur an zitt se direkt als Keefer of. De Betrag ze bezuelen klëmmt dobäi net.',
     'expense_reverse_charge_link' => 'De Mechanismus op Guichet.lu',
     'expense_reverse_charge_scope_link' => 'Bedeeleg Wueren a Servicer',
+    // Hiweiser: faktur.lu rechent an exportéiert, et bescheinegt näischt
+    'notice_accounting_export' => 'Dës Datei ass fir Äre Comptable oder Är Fiduciaire geduecht. Faktur.lu erstellt d\'Buchungen aus Ären Agaben, préift a bestätegt se awer net.',
+    'notice_faia_export' => 'D\'AED kann dës Datei bei enger Kontroll ufroen. Loosst se virum Iwwerdroen vun Ärem Comptable préiwen: Dir bleift eleng verantwortlech fir déi deklaréiert Donnéeën.',
+    'notice_vat_regime_choice' => 'De Regime bestëmmt, ob dës MwSt. erëmkritt gëtt. Am Zweiwel frot Äre Comptable.',
+    'notice_vat_dashboard' => 'Schätzung op Basis vun de hei erfaasste Rechnungen an Ausgaben. Si ersetzt Är MwSt.-Deklaratioun net: nëmmen Äre Comptable berücksichtegt Är ganz Situatioun.',
     'expenses_totals_for' => 'Sommen fir:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',
@@ -1291,6 +1296,7 @@ return [
             'newsletter_button' => 'Umellen',
             'newsletter_success' => 'Préift Ären Posteingang fir ze bestätegen.',
             'aed_compliant' => 'Konform mat den Ufuerderunge vun der AED Lëtzebuerg',
+            'not_an_accountant' => 'faktur.lu ass e Fakturatiounsprogramm, keng Comptabilitéits- oder Fiduciairesgesellschaft. En equipéiert weder Steier- nach Rechts- nach Comptabilitéitsberodung. Dir bleift eleng verantwortlech fir Är Deklaratiounspflichten: frot e Fachmann bei all Steier- oder Comptabilitéitsfro.',
             'all_rights' => 'All Rechter reservéiert',
             'description' => 'Rechnungssoftware fir Freelanceren a KMUen zu Lëtzebuerg.',
             'faia_compliant' => 'FAIA-konform',

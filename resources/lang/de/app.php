@@ -350,7 +350,7 @@ return [
         'status_failed' => 'Fehlgeschlagen',
         'status_pending' => 'Ausstehend',
         'about_faia' => 'Über FAIA',
-        'faia_description' => 'FAIA (Fichier d\'Audit Informatisé de l\'AED) ist ein Standard, der von der luxemburgischen Steuerverwaltung bei Steuerprüfungen verlangt wird. Der XML-FAIA-Export entspricht dem luxemburgischen SAF-T-Format.',
+        'faia_description' => 'FAIA (Fichier d\'Audit Informatisé AED) ist das Prüfformat, das die luxemburgische Registrierungs-, Domänen- und MwSt.-Verwaltung bei Prüfungen verlangt. Der XML-FAIA-Export entspricht dem luxemburgischen SAF-T-Format.',
     ],
 
     // Common labels
@@ -487,6 +487,11 @@ return [
     'fiscal_reverse_charge_explanation' => 'Reverse-Charge erscheint auf beiden Seiten: Sie erklären diese MwSt. anstelle Ihres ausländischen Lieferanten und ziehen sie sogleich als Käufer ab. Der Zahlbetrag steigt dadurch nicht.',
     'expense_reverse_charge_link' => 'Der Mechanismus auf Guichet.lu',
     'expense_reverse_charge_scope_link' => 'Betroffene Waren und Dienstleistungen',
+    // Hinweise: faktur.lu berechnet und exportiert, es bescheinigt nicht
+    'notice_accounting_export' => 'Diese Datei ist für Ihren Buchhalter oder Ihre Treuhandgesellschaft bestimmt. Faktur.lu erstellt die Buchungen aus Ihren Eingaben, prüft und bestätigt sie aber nicht.',
+    'notice_faia_export' => 'Die AED kann diese Datei bei einer Prüfung anfordern. Lassen Sie sie vor der Übermittlung von Ihrem Buchhalter prüfen: Für die erklärten Daten bleiben Sie allein verantwortlich.',
+    'notice_vat_regime_choice' => 'Die Behandlung entscheidet, ob diese MwSt. erstattungsfähig ist. Fragen Sie im Zweifel Ihren Buchhalter.',
+    'notice_vat_dashboard' => 'Schätzung auf Basis der hier erfassten Rechnungen und Ausgaben. Sie ersetzt Ihre MwSt.-Erklärung nicht: nur Ihr Buchhalter berücksichtigt Ihre gesamte Situation.',
     'expenses_totals_for' => 'Summen für:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',
@@ -1291,6 +1296,7 @@ return [
             'newsletter_button' => 'Anmelden',
             'newsletter_success' => 'Prüfen Sie Ihren Posteingang zur Bestätigung.',
             'aed_compliant' => 'Konform mit den Anforderungen der AED Luxemburg',
+            'not_an_accountant' => 'faktur.lu ist eine Fakturierungssoftware, keine Buchhaltungs- oder Treuhandgesellschaft. Sie bietet weder Steuer- noch Rechts- noch Buchhaltungsberatung. Für Ihre Erklärungspflichten bleiben Sie allein verantwortlich: Wenden Sie sich bei Steuer- oder Buchhaltungsfragen an einen Fachmann.',
             'all_rights' => 'Alle Rechte vorbehalten',
             'description' => 'Rechnungssoftware für Freiberufler und KMU in Luxemburg.',
             'faia_compliant' => 'FAIA-konform',

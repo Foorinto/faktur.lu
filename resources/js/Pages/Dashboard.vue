@@ -517,6 +517,14 @@ const getStatusLabel = (status) => {
                             {{ t('vat_credit') }} <span class="font-medium text-emerald-600 dark:text-emerald-400">{{ formatCurrency(kpis?.vat_summary?.credit) }}</span>
                         </div>
                     </dl>
+
+                    <!-- Ces trois lignes ressemblent à une déclaration sans en
+                         être une : elles ne connaissent que ce qui a été saisi
+                         ici, et ne tiennent pas compte des régularisations que
+                         seul un comptable identifie. -->
+                    <p class="mt-4 border-t border-gray-200 pt-3 text-xs text-slate-500 dark:border-gray-700 dark:text-slate-400">
+                        {{ t('notice_vat_dashboard') }}
+                    </p>
                 </div>
             </div>
         </div>

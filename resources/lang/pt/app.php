@@ -446,7 +446,7 @@ return [
         'status_failed' => 'Falhou',
         'status_pending' => 'Pendente',
         'about_faia' => 'Sobre o FAIA',
-        'faia_description' => 'O FAIA (Ficheiro de Auditoria Informatizado da AED) é uma norma exigida pela Administração das Contribuições Diretas do Luxemburgo durante os controlos fiscais. A exportação FAIA XML respeita o formato SAF-T luxemburguês.',
+        'faia_description' => 'O FAIA (Ficheiro de Auditoria Informatizado AED) é o formato de auditoria exigido pela Administração do Registo, dos Domínios e do IVA durante os controlos. A exportação FAIA XML respeita o formato SAF-T luxemburguês.',
     ],
 
     // Common labels
@@ -583,6 +583,11 @@ return [
     'fiscal_reverse_charge_explanation' => 'A autoliquidação aparece dos dois lados: declara este IVA em vez do seu fornecedor estrangeiro e deduz-o de imediato enquanto comprador. Não aumenta o montante a pagar.',
     'expense_reverse_charge_link' => 'O mecanismo no Guichet.lu',
     'expense_reverse_charge_scope_link' => 'Bens e serviços abrangidos',
+    // Lembretes: o faktur.lu calcula e exporta, não certifica
+    'notice_accounting_export' => 'Este ficheiro destina-se ao seu contabilista ou à sua fiduciária. O faktur.lu produz os lançamentos a partir do que introduziu, mas não os verifica nem os valida.',
+    'notice_faia_export' => 'A AED pode pedir-lhe este ficheiro num controlo. Peça ao seu contabilista que o verifique antes de o transmitir: continua a ser o único responsável pelos dados declarados.',
+    'notice_vat_regime_choice' => 'O regime determina se este IVA é recuperável. Em caso de dúvida sobre a qualificação de uma compra, pergunte ao seu contabilista.',
+    'notice_vat_dashboard' => 'Estimativa calculada a partir das faturas e despesas aqui introduzidas. Não substitui a sua declaração de IVA: só o seu contabilista tem em conta toda a sua situação.',
     'expenses_totals_for' => 'Totais para:',
     'expense_categories' => [
         'hardware' => 'Material informático',
@@ -1388,6 +1393,7 @@ return [
             'newsletter_button' => 'Subscrever',
             'newsletter_success' => 'Verifique a sua caixa de entrada para confirmar.',
             'aed_compliant' => 'Conforme com as exigências da AED Luxemburgo',
+            'not_an_accountant' => 'O faktur.lu é um software de faturação, não um gabinete de contabilidade nem uma fiduciária. Não presta aconselhamento fiscal, jurídico ou contabilístico. Continua a ser o único responsável pelas suas obrigações declarativas: consulte um profissional para qualquer questão fiscal ou contabilística.',
             'all_rights' => 'Todos os direitos reservados',
             'description' => 'Software de faturação concebido para freelancers e PME no Luxemburgo.',
             'faia_compliant' => 'Conforme FAIA',

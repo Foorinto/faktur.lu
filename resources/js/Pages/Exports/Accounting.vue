@@ -5,6 +5,7 @@ import { Head, router, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
+import ProfessionalAdviceNotice from '@/Components/ProfessionalAdviceNotice.vue';
 
 const { t } = useTranslations();
 const { startTour } = useTour();
@@ -198,6 +199,8 @@ const getStatusBadge = (status) => {
         </template>
 
         <AccountingNav class="mb-6" />
+
+        <ProfessionalAdviceNotice class="mb-6" :text="t('notice_accounting_export')" />
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

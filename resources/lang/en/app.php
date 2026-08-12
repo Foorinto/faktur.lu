@@ -447,7 +447,7 @@ return [
         'status_failed' => 'Failed',
         'status_pending' => 'Pending',
         'about_faia' => 'About FAIA',
-        'faia_description' => 'FAIA (Fichier d\'Audit Informatisé de l\'AED) is a standard required by the Luxembourg Tax Administration during tax audits. The XML FAIA export follows the Luxembourg SAF-T format.',
+        'faia_description' => 'FAIA (Fichier d\'Audit Informatisé AED) is the audit format required by Luxembourg\'s Registration Duties, Estates and VAT Authority during audits. The XML FAIA export follows the Luxembourg SAF-T format.',
     ],
 
     // Common labels
@@ -584,6 +584,11 @@ return [
     'fiscal_reverse_charge_explanation' => 'Reverse charge appears on both sides: you declare this VAT in place of your foreign supplier, then deduct it straight away as the buyer. It does not increase the amount payable.',
     'expense_reverse_charge_link' => 'How it works, on Guichet.lu',
     'expense_reverse_charge_scope_link' => 'Which goods and services',
+    // Reminders: faktur.lu computes and exports, it does not certify
+    'notice_accounting_export' => 'This file is intended for your accountant or accounting firm. Faktur.lu builds the entries from what you have entered, but neither checks nor validates them.',
+    'notice_faia_export' => 'The AED may request this file during an audit. Have your accountant check it before you submit it: you remain solely responsible for the data declared.',
+    'notice_vat_regime_choice' => 'The treatment determines whether this VAT is recoverable. If you are unsure how to classify a purchase, ask your accountant.',
+    'notice_vat_dashboard' => 'An estimate based on the invoices and expenses entered here. It does not replace your VAT return: only your accountant accounts for your full situation.',
     'expenses_totals_for' => 'Totals for:',
     'expense_categories' => [
         'hardware' => 'Computer hardware',
@@ -1388,6 +1393,7 @@ return [
             'newsletter_button' => 'Subscribe',
             'newsletter_success' => 'Check your inbox to confirm.',
             'aed_compliant' => 'Compliant with Luxembourg AED requirements',
+            'not_an_accountant' => 'faktur.lu is invoicing software, not an accounting or trust firm. It provides no tax, legal or accounting advice. You remain solely responsible for your reporting obligations: consult a professional for any tax or accounting question.',
             'all_rights' => 'All rights reserved',
             'description' => 'Invoicing software designed for freelancers and SMEs in Luxembourg.',
             'faia_compliant' => 'FAIA Compliant',
