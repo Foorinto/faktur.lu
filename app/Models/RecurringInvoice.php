@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RecurringInvoice extends Model
 {
+    use BelongsToUser;
+
     const FREQUENCY_WEEKLY = 'weekly';
     const FREQUENCY_MONTHLY = 'monthly';
     const FREQUENCY_QUARTERLY = 'quarterly';

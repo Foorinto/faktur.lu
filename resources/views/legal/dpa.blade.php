@@ -50,7 +50,7 @@
 
 <h2>1. Objet et durée</h2>
 <p>Le Sous-traitant s'engage à traiter les données à caractère personnel du Client conformément aux instructions documentées de ce dernier et au présent DPA, exclusivement dans le cadre de l'exécution du contrat de service faktur.lu (Conditions Générales d'Utilisation).</p>
-<p>Le présent DPA prend effet à la date de souscription du Client à un plan faktur.lu et reste en vigueur pendant toute la durée du contrat principal.</p>
+<p>Le présent DPA prend effet à la création du compte et à l'acceptation des Conditions Générales d'Utilisation, quel que soit le plan souscrit — y compris le plan gratuit — et reste en vigueur pendant toute la durée du contrat principal.</p>
 
 <h2>2. Nature et finalité du traitement</h2>
 <table>
@@ -59,7 +59,7 @@
     <tr><td>Finalité</td><td>Fournir le service SaaS de facturation faktur.lu : émission de factures, devis, suivi des paiements, exports FAIA et comptables, portail comptable, support utilisateur.</td></tr>
     <tr><td>Catégories de données</td><td>Données d'identification (nom, email, téléphone), données professionnelles (entreprise, TVA, RCS, IBAN), données de connexion (logs techniques, IP, user-agent), contenu utilisateur (factures, clients, devis, notes).</td></tr>
     <tr><td>Catégories de personnes concernées</td><td>Utilisateurs du compte Client, clients finaux du Client, employés et collaborateurs déclarés par le Client, fiduciaires invitées.</td></tr>
-    <tr><td>Durée du traitement</td><td>Durée du contrat principal + 10 ans (obligation légale de conservation des documents comptables au Luxembourg, art. 16 du Code de commerce).</td></tr>
+    <tr><td>Durée du traitement</td><td>Durée du contrat principal, puis 30 jours au maximum après sa résiliation, délai pendant lequel le Client peut exporter l'intégralité de ses données. Passé ce délai, elles sont supprimées. La conservation décennale des documents comptables (art. 16 du Code de commerce luxembourgeois) incombe au Client, en sa qualité de commerçant : il lui appartient de conserver ses exports.</td></tr>
 </table>
 
 <h2>3. Obligations du Sous-traitant</h2>
@@ -70,22 +70,24 @@
     <li>Mettre en œuvre les mesures techniques et organisationnelles décrites à l'annexe 1 ;</li>
     <li>Assister le Client pour répondre aux demandes des personnes concernées (droits d'accès, rectification, effacement, portabilité, opposition) ;</li>
     <li>Notifier toute violation de données à caractère personnel au Client sans retard injustifié et au plus tard 48h après en avoir pris connaissance, avec les informations requises à l'art. 33.3 RGPD ;</li>
-    <li>Supprimer ou restituer les données à l'expiration du contrat selon les instructions du Client (sauf obligation légale de conservation) ;</li>
-    <li>Mettre à disposition du Client toute information nécessaire pour démontrer le respect du présent DPA et permettre la réalisation d'audits (sur préavis raisonnable et à frais partagés).</li>
+    <li>Mettre à disposition du Client, à la résiliation, un export complet et exploitable de ses données, puis les supprimer dans un délai de 30 jours ;</li>
+    <li>Informer immédiatement le Client si une instruction reçue lui paraît constituer une violation du RGPD ou d'une autre disposition relative à la protection des données (art. 28.3 RGPD) ;</li>
+    <li>Assister le Client, compte tenu de la nature du traitement et des informations disponibles, dans le respect des obligations des articles 32 à 36 RGPD — sécurité du traitement, notification de violation, analyse d'impact et consultation préalable de l'autorité de contrôle ;</li>
+    <li>Mettre à disposition du Client toute information nécessaire pour démontrer le respect du présent DPA et permettre la réalisation d'audits, dans les conditions de l'article 7.</li>
 </ul>
 
 <h2>4. Sous-traitants ultérieurs</h2>
-<p>Le Client autorise le recours aux sous-traitants ultérieurs listés à l'annexe 2. Le Sous-traitant informera le Client de tout ajout ou remplacement avec un préavis de 30 jours et le Client pourra s'y opposer pour motif légitime.</p>
+<p>Le Client autorise le recours aux sous-traitants ultérieurs listés à l'annexe 2. Le Sous-traitant informera le Client de tout ajout ou remplacement avec un préavis de 30 jours et le Client pourra s'y opposer pour motif légitime. À défaut de solution acceptable dans les 30 jours suivant l'opposition, le Client peut résilier le contrat principal sans pénalité ni indemnité, avec remboursement au prorata de la période payée d'avance.</p>
 
 <h2>5. Transfert hors Union européenne</h2>
 <p>Le Sous-traitant s'engage à ne pas transférer les données hors de l'Union européenne sans le consentement préalable du Client et sans mise en place de garanties appropriées (Clauses Contractuelles Types de la Commission européenne, ou autres mécanismes prévus à l'art. 46 RGPD).</p>
-<p>À la date du présent DPA, l'ensemble des données est hébergé en France (Union européenne) chez l'hébergeur o2switch.</p>
+<p>À la date du présent DPA, l'hébergement de production — serveurs, base de données et fichiers — est situé en France (Union européenne) chez o2switch. Les sauvegardes de la base sont déposées chez pCloud AG (Suisse), chiffrées avant leur envoi et illisibles sans la clé, qui ne quitte pas le serveur de production. La Suisse fait l'objet d'une décision d'adéquation de la Commission européenne au sens de l'article 45 RGPD : ce transfert ne requiert pas de garantie supplémentaire.</p>
 
 <h2>6. Sécurité et confidentialité</h2>
 <p>Voir annexe 1.</p>
 
 <h2>7. Audit</h2>
-<p>Le Client peut, à ses frais et après préavis écrit raisonnable (30 jours), faire réaliser un audit du respect du présent DPA. L'audit ne peut perturber l'activité du Sous-traitant et est limité à une fois par an, sauf en cas de violation avérée.</p>
+<p>Le Client peut, à ses frais et après préavis écrit raisonnable (30 jours), faire réaliser un audit du respect du présent DPA. Si l'audit révèle un manquement imputable au Sous-traitant, ses frais sont pris en charge par ce dernier. L'audit ne peut perturber l'activité du Sous-traitant et est limité à une fois par an, sauf en cas de violation avérée.</p>
 
 <h2>8. Responsabilité</h2>
 <p>Chaque partie assume la responsabilité des dommages causés par sa propre violation du RGPD ou du présent DPA, dans les limites prévues par le contrat principal.</p>
@@ -107,20 +109,22 @@
 <ul>
     <li>Mots de passe hashés avec bcrypt (algorithme adaptatif, cost factor par défaut Laravel)</li>
     <li>Données sensibles chiffrées au niveau application via clé Laravel (AES-256-CBC) : tokens, sessions, secrets API</li>
-    <li>Hébergement sur infrastructure mutualisée o2switch (France, Clermont-Ferrand) - pas de full-disk encryption garanti par l'hébergeur</li>
+    <li>Hébergement sur infrastructure mutualisée o2switch (France, Clermont-Ferrand) : le chiffrement intégral du disque n'est pas garanti par l'hébergeur. En compensation, les données les plus sensibles sont chiffrées au niveau applicatif avant écriture — coordonnées bancaires (IBAN) en premier lieu — et restent donc illisibles hors de l'application.</li>
 </ul>
 
 <h3>Contrôle d'accès</h3>
 <ul>
-    <li>Authentification par mot de passe avec règles de complexité (minimum 8 caractères, vérification contre bases de mots de passe compromis)</li>
+    <li>Authentification par mot de passe : minimum 12 caractères, majuscule et minuscule, chiffre et caractère spécial, et refus des mots de passe figurant dans des fuites connues (vérification HaveIBeenPwned)</li>
     <li>Option 2FA (TOTP) disponible pour les comptes utilisateur</li>
     <li>Portail comptable séparé en lecture seule (URL /comptable, authentification distincte)</li>
-    <li>Principe du moindre privilège : chaque utilisateur n'accède qu'à ses propres données via isolation au niveau base (scope user_id)</li>
+    <li>Principe du moindre privilège : chaque utilisateur n'accède qu'à ses propres données. L'isolation est appliquée par une portée globale attachée aux modèles de données, et non ajoutée requête par requête — une requête ne peut donc pas l'omettre par oubli. Une suite de tests automatisés vérifie, à chaque modification du code, qu'aucun modèle concerné n'échappe à cette portée.</li>
 </ul>
 
 <h3>Disponibilité et sauvegarde</h3>
 <ul>
-    <li>Sauvegardes automatiques quotidiennes avec rétention 30 jours (o2switch standard)</li>
+    <li>Sauvegarde quotidienne automatique de la base, indépendante de l'hébergeur : le fichier est compressé puis chiffré (AES-256-CBC) avant de quitter le serveur. Conservation 7 jours en local et 30 jours sur un dépôt distant, dans un périmètre de défaillance distinct de l'hébergement.</li>
+    <li>Contrôle automatisé de la chaîne de sauvegarde (présence du dépôt distant, fraîcheur du dernier dépôt, alerte par email en cas d'échec)</li>
+    <li>Restauration vérifiée par un test automatisé exécuté à chaque modification du code : le cycle complet sauvegarde, chiffrement, déchiffrement puis restauration est rejoué, une sauvegarde jamais restaurée n'étant qu'une hypothèse</li>
     <li>Conservation des factures en PDF/A après finalisation (archivage légal)</li>
 </ul>
 
@@ -142,7 +146,8 @@
     <tr><td>o2switch SAS</td><td>Hébergement infrastructure (serveurs, base de données, fichiers)</td><td>France (UE)</td></tr>
     <tr><td>Brevo SAS (ex-Sendinblue)</td><td>Envoi d'emails transactionnels (notifications, factures par email)</td><td>France (UE)</td></tr>
     <tr><td>Stripe Payments Europe Ltd</td><td>Traitement des paiements d'abonnement (cartes bancaires)</td><td>Irlande (UE)</td></tr>
-    <tr><td>Matomo Analytics (auto-hébergé ou Matomo Cloud)</td><td>Mesure d'audience anonymisée</td><td>France / Allemagne (UE)</td></tr>
+    <tr><td>Matomo (auto-hébergé sur l'infrastructure faktur.lu)</td><td>Mesure d'audience anonymisée, sans cookie</td><td>France (UE)</td></tr>
+    <tr><td>pCloud AG</td><td>Dépôt distant des sauvegardes de la base de données, chiffrées avant envoi</td><td>Suisse — pays reconnu adéquat par décision de la Commission européenne (art. 45 RGPD)</td></tr>
 </table>
 
 <div class="signature-block">
@@ -154,9 +159,11 @@
         Signature :
     </div>
     <div>
+        {{-- Pré-rempli côté éditeur : un bloc laissé vide des deux côtés
+             donne à penser que le document n'a jamais été relu par personne. --}}
         <strong>Pour faktur.lu</strong><br>
-        Nom : ___________________________<br>
-        Fonction : _______________________<br>
+        Nom : Alexandre Beaudier<br>
+        Fonction : Exploitant<br>
         Date : __________________________<br>
         Signature :
     </div>

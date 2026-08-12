@@ -341,7 +341,16 @@ class ProductImportTest extends TestCase
 
     // --- Cloisonnement --------------------------------------------------------
 
-    public function test_une_session_d_un_autre_compte_est_refusee(): void
+    /**
+     * La session d'un autre compte n'est pas refusée, elle est introuvable.
+     *
+     * Depuis que le modèle porte la portée globale d'isolation, la résolution
+     * de route ne trouve plus la ligne : la réponse est 404 avant même
+     * d'atteindre la vérification d'accès du contrôleur, laquelle reste en
+     * place comme seconde ligne. C'est le meilleur des deux comportements —
+     * un 403 confirmerait à l'intrus que la session existe.
+     */
+    public function test_une_session_d_un_autre_compte_est_introuvable(): void
     {
         $owner = $this->proUser();
         $intruder = $this->proUser();
@@ -350,6 +359,6 @@ class ProductImportTest extends TestCase
 
         $this->actingAs($intruder)
             ->getJson(route('products.import.status', $session->id))
-            ->assertForbidden();
+            ->assertNotFound();
     }
 }

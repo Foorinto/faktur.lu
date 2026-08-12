@@ -146,6 +146,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.user' => \App\Http\Middleware\EnsureUserIsAdmin::class,
             'accountant.auth' => \App\Http\Middleware\AccountantAuthenticated::class,
             'accountant.access' => \App\Http\Middleware\VerifyAccountantAccess::class,
+            'accountant.2fa' => \App\Http\Middleware\EnsureAccountantHasTwoFactor::class,
             'collaborator' => \App\Http\Middleware\EnsureUserIsCollaborator::class,
             'employee.portal' => \App\Http\Middleware\EnsureUserIsEmployee::class,
             'org.admin' => \App\Http\Middleware\EnsureUserIsOrganizationAdmin::class,

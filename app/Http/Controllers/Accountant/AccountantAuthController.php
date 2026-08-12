@@ -36,6 +36,24 @@ class AccountantAuthController extends Controller
         ]);
 
         if (Auth::guard('accountant')->attempt($credentials, $request->boolean('remember'))) {
+            $accountant = Auth::guard('accountant')->user();
+
+            // Second facteur déjà confirmé : le mot de passe ne suffit pas à
+            // ouvrir la session. On referme aussitôt et on met l'identifiant en
+            // attente — laisser la session ouverte pendant le défi reviendrait
+            // à n'avoir qu'un facteur assorti d'une formalité.
+            if ($accountant->hasEnabledTwoFactorAuthentication()) {
+                Auth::guard('accountant')->logout();
+
+                $request->session()->put(AccountantTwoFactorController::SESSION_KEY, $accountant->id);
+                $request->session()->put('accountant.two_factor.remember', $request->boolean('remember'));
+
+                return redirect()->route('accountant.two-factor.challenge');
+            }
+
+            // Pas encore de second facteur : la session s'ouvre, mais le
+            // middleware d'enrôlement barre l'accès aux données jusqu'à ce
+            // qu'il soit confirmé.
             $request->session()->regenerate();
 
             return redirect()->intended(route('accountant.dashboard'));

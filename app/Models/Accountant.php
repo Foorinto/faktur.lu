@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class Accountant extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    // Le trait de Fortify ne dépend d'aucun guard : il n'attend que les trois
+    // colonnes two_factor_*, et fournit le secret, le QR code et les codes de
+    // secours. Rien à réécrire pour ce modèle.
+    use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     protected $fillable = [
         'email',
@@ -22,11 +26,14 @@ class Accountant extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'two_factor_confirmed_at' => 'datetime',
     ];
 
     /**

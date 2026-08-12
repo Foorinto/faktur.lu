@@ -74,7 +74,12 @@ class TrackRequestMetrics
                 'query_count' => count($queries),
                 'query_time_ms' => (int) $queryTime,
                 'status_code' => $response->getStatusCode(),
-                'user_id' => auth()->id(),
+                // Guard explicite : la colonne référence la table des
+                // utilisateurs. Le portail comptable s'authentifie sur un
+                // autre guard, dont l'identifiant n'y correspond à rien —
+                // s'en remettre au guard courant y produirait une violation
+                // de clé étrangère à chaque requête.
+                'user_id' => auth('web')->id(),
                 'created_at' => now(),
             ]);
         } catch (\Exception $e) {

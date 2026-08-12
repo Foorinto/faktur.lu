@@ -65,21 +65,26 @@ class HandleInertiaRequests extends Middleware
 
         return [
             ...parent::share($request),
+            // Guard explicite : cette charge décrit un compte utilisateur de
+            // l'application, avec son plan et son essai. Le portail comptable
+            // s'authentifie sur un autre guard, sur un modèle qui ne connaît
+            // aucune de ces notions — s'en remettre au guard par défaut ferait
+            // dépendre le rendu de l'ordre de résolution.
             'auth' => [
-                'user' => $request->user() ? array_merge(
-                    $request->user()->toArray(),
+                'user' => $request->user('web') ? array_merge(
+                    $request->user('web')->toArray(),
                     [
-                        'is_on_trial' => $request->user()->isOnGenericTrial(),
-                        'trial_days_remaining' => $request->user()->trialDaysRemaining(),
-                        'trial_ends_at' => $request->user()->trial_ends_at?->toISOString(),
-                        'is_read_only' => $request->user()->isReadOnly(),
-                        'plan_name' => $request->user()->plan,
-                        'is_collaborator' => $request->user()->isCollaborator(),
-                        'is_organization_owner' => $request->user()->isOrganizationOwner(),
-                        'is_employee' => $request->user()->isEmployee(),
-                        'is_pro' => $request->user()->isPro(),
-                        'is_essentiel' => $request->user()->isEssentiel(),
-                        'is_free' => $request->user()->isFree(),
+                        'is_on_trial' => $request->user('web')->isOnGenericTrial(),
+                        'trial_days_remaining' => $request->user('web')->trialDaysRemaining(),
+                        'trial_ends_at' => $request->user('web')->trial_ends_at?->toISOString(),
+                        'is_read_only' => $request->user('web')->isReadOnly(),
+                        'plan_name' => $request->user('web')->plan,
+                        'is_collaborator' => $request->user('web')->isCollaborator(),
+                        'is_organization_owner' => $request->user('web')->isOrganizationOwner(),
+                        'is_employee' => $request->user('web')->isEmployee(),
+                        'is_pro' => $request->user('web')->isPro(),
+                        'is_essentiel' => $request->user('web')->isEssentiel(),
+                        'is_free' => $request->user('web')->isFree(),
                     ]
                 ) : null,
             ],

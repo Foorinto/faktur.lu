@@ -2,12 +2,15 @@
 
 namespace App\Models\Import;
 
+use App\Traits\BelongsToUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ImportSession extends Model
 {
+    use BelongsToUser;
+
     protected $fillable = [
         'user_id',
         'type',
