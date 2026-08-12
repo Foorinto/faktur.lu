@@ -397,21 +397,63 @@ class BackupService
 
         // « Envoyé » doit vouloir dire « présent à destination », pas seulement
         // « rclone est sorti en 0 » : on relit le fichier sur le distant.
-        $check = Process::timeout(120)->run(
-            sprintf(
-                '%s lsf %s --include %s',
-                escapeshellarg($this->rcloneBinary()),
-                escapeshellarg($destination),
-                escapeshellarg(basename($filePath))
-            )
-        );
+        //
+        // Mais on le relit PLUSIEURS FOIS. pCloud n'indexe pas instantanément
+        // ce qu'il vient de recevoir : interrogé dans la seconde qui suit
+        // l'envoi, il répond une liste où le fichier ne figure pas encore. La
+        // vérification tombait alors en échec sur des sauvegardes pourtant bien
+        // arrivées, et le journal accusait une panne inexistante — ce qui est
+        // pire qu'un contrôle absent : une alerte qui se trompe finit par ne
+        // plus être lue, et couvre celle qui compte.
+        $delais = config('backup.cloud.verify_delays', [2, 5, 10, 20]);
 
-        if (! $check->successful() || trim($check->output()) === '') {
-            throw new RuntimeException(
-                'rclone reported success but the file is not present on the remote: '
-                .$destination.'/'.basename($filePath)
-            );
+        if ($this->remoteHasFile($destination, basename($filePath), $delais)) {
+            return;
         }
+
+        throw new RuntimeException(
+            'rclone reported success but the file is not present on the remote: '
+            .$destination.'/'.basename($filePath)
+        );
+    }
+
+    /**
+     * Le fichier est-il visible à destination ?
+     *
+     * Réessaie avec un délai croissant, pour laisser au distant le temps
+     * d'indexer. Les délais cumulés restent très en deçà de la fenêtre
+     * nocturne : mieux vaut attendre une minute que déclarer une fausse panne.
+     *
+     * @param  list<int>  $delaisSecondes  Attente avant chacune des relectures suivantes.
+     */
+    protected function remoteHasFile(string $destination, string $filename, array $delaisSecondes = [2, 5, 10, 20]): bool
+    {
+        $tentatives = count($delaisSecondes) + 1;
+
+        for ($i = 0; $i < $tentatives; $i++) {
+            if ($i > 0) {
+                sleep($delaisSecondes[$i - 1]);
+            }
+
+            $check = Process::timeout(120)->run(
+                sprintf(
+                    '%s lsf %s --include %s',
+                    escapeshellarg($this->rcloneBinary()),
+                    escapeshellarg($destination),
+                    escapeshellarg($filename)
+                )
+            );
+
+            if ($check->successful() && trim($check->output()) !== '') {
+                if ($i > 0) {
+                    Log::info("[Backup] Fichier visible sur le distant après {$i} relecture(s)");
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

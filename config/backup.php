@@ -49,6 +49,12 @@ return [
         'path' => env('BACKUP_CLOUD_PATH', '/Backups/Facturation'), // path on the remote
         'retention_days' => (int) env('BACKUP_CLOUD_RETENTION_DAYS', 30),
 
+        // Attentes, en secondes, avant chaque relecture du distant après un
+        // envoi. pCloud n'indexe pas instantanément : interrogé aussitôt, il
+        // répond une liste où le fichier ne figure pas encore, et la
+        // vérification concluait à tort à une panne.
+        'verify_delays' => [2, 5, 10, 20],
+
         // Chemin du binaire rclone.
         //
         // Sur un hébergement mutualisé, rclone est souvent installé dans

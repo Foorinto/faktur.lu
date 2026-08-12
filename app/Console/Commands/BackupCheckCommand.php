@@ -178,12 +178,57 @@ class BackupCheckCommand extends Command
             $problems[] = 'Le remote répond mais ne contient aucune sauvegarde. '
                 .'Lancer « php artisan backup:run » à la main pour voir l\'erreur réelle.';
         } else {
+            // « Il y a des fichiers » ne dit rien de la fraîcheur. Un dépôt qui
+            // a cessé d'être alimenté il y a trois semaines contient toujours
+            // des fichiers, et passait donc pour sain : c'est précisément la
+            // panne qu'on veut voir, puisqu'elle ne se signale pas autrement.
+            $plusRecent = $this->plusRecenteSauvegarde($lines);
+
+            if ($plusRecent) {
+                $ageHeures = (int) round((time() - $plusRecent) / 3600);
+                $this->line('  Plus récente distante : '.date('Y-m-d H:i', $plusRecent)." ({$ageHeures} h)");
+
+                // Deux jours : une nuit d'écart peut venir d'un décalage
+                // horaire ou d'un cron passé juste avant la lecture. Au-delà,
+                // c'est qu'une nuit entière a été manquée.
+                if ($ageHeures > 48) {
+                    $problems[] = "La copie hors-site la plus récente date de {$ageHeures} h. "
+                        .'Au moins une nuit n\'a pas été déposée : lancer « php artisan backup:run » '
+                        .'à la main pour voir l\'erreur réelle.';
+                }
+            }
+
             foreach (array_slice($lines, -3) as $line) {
                 $this->line('    '.trim($line));
             }
         }
 
         return $this->verdict($problems);
+    }
+
+    /**
+     * Horodatage de la sauvegarde distante la plus récente.
+     *
+     * `rclone lsl` produit « taille AAAA-MM-JJ HH:MM:SS.nnnnnnnnn nom ». Les
+     * lignes sont lues sans se fier à leur ordre : rclone ne garantit pas un
+     * classement chronologique, et le dépôt peut mêler d'anciens dépôts.
+     *
+     * @param  list<string>  $lines
+     */
+    private function plusRecenteSauvegarde(array $lines): ?int
+    {
+        $horodatages = [];
+
+        foreach ($lines as $line) {
+            if (preg_match('/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/', $line, $m)) {
+                $t = strtotime($m[1]);
+                if ($t !== false) {
+                    $horodatages[] = $t;
+                }
+            }
+        }
+
+        return $horodatages ? max($horodatages) : null;
     }
 
     private function yn(bool $value): string
