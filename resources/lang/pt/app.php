@@ -1899,11 +1899,11 @@ return [
                 ],
                 'controle_aed' => [
                     'question' => 'O que acontece em caso de auditoria fiscal AED?',
-                    'answer' => 'O Faktur.lu prepara-o para uma auditoria AED em poucos cliques: geração do FAIA conforme à versão 2.01, exportação PDF/A das faturas com data e hora, registo completo das alterações. Todos os dados são conservados durante os 10 anos legais. Se necessário, podemos colocá-lo em contacto com uma fidúcia parceira.',
+                    'answer' => 'O Faktur.lu prepara-o para uma auditoria AED em poucos cliques: geração do FAIA conforme à versão 2.01, exportação PDF/A das faturas com data e hora, registo completo das alterações. As suas faturas finalizadas estão bloqueadas: não são editáveis nem elimináveis. A conservação decenal continua a ser a sua obrigação: guarde uma cópia das suas exportações. Se necessário, podemos colocá-lo em contacto com uma fidúcia parceira.',
                 ],
                 'migration' => [
                     'question' => 'Como migrar do Excel ou de outro software para o faktur.lu?',
-                    'answer' => 'O Faktur.lu propõe uma importação CSV/Excel para os seus clientes e um guia de migração a partir das ferramentas mais comuns (Sage, Cegid, Zervant, Excel). Para as contas Pro, a nossa equipa acompanha-o gratuitamente durante a migração: continuação da sua numeração existente, configuração das taxas de IVA específicas, formação da sua equipa. Conte 1 a 3 horas para uma migração completa. Mantém o acesso à sua antiga ferramenta durante a transição.',
+                    'answer' => 'O Faktur.lu propõe uma importação CSV/Excel para os seus clientes e artigos. A sua numeração existente retoma-se nas definições, para que as suas faturas mantenham a sequência sem rutura. Nada o obriga a mudar de uma só vez: mantém o acesso à sua ferramenta anterior durante a transição. Uma questão sobre o seu caso? Escreva ao suporte, ele responde-lhe diretamente.',
                 ],
                 'free_trial' => [
                     'question' => 'Posso experimentar o faktur.lu gratuitamente?',
@@ -2392,10 +2392,10 @@ return [
             'faia' => 'Exportação nativa AED',
         ],
         'team' => [
-            'title' => 'A equipa por trás do faktur.lu',
-            'subtitle' => 'Uma equipa à escala humana, baseada no Luxemburgo, que conhece o terreno.',
+            'title' => 'Por trás do faktur.lu',
+            'subtitle' => 'Um projeto independente, concebido e operado a partir do Luxemburgo, perto do terreno.',
             'founder_name' => 'Foorinto',
-            'founder_role' => 'Fundador & Programador Principal',
+            'founder_role' => 'Conceção e desenvolvimento',
             'founder_bio' => 'Como empresário baseado no Luxemburgo, criei o faktur.lu em 2026 após constatar que nenhuma solução no mercado combinava conformidade FAIA nativa, suporte das 5 línguas do país e um preço acessível. A minha missão: oferecer às PME e trabalhadores independentes luxemburgueses uma ferramenta moderna, simples e verdadeiramente adaptada ao contexto fiscal local.',
             'tag_luxembourg' => 'Baseado no Luxemburgo',
             'tag_compliance' => 'Especialista FAIA & Peppol',
@@ -2407,21 +2407,21 @@ return [
                 'title' => 'Lançamento do faktur.lu',
                 'description' => 'Entrada em produção com as funcionalidades essenciais: faturação luxemburguesa conforme, exportação FAIA 2.01, numeração sequencial, 4 línguas (FR, DE, EN, LB).',
             ],
-            '2026_q3' => [
+            '2026_q2' => [
                 'title' => 'Peppol e Factur-X',
-                'description' => 'Integração Peppol via Access Point certificado para a faturação eletrónica B2G obrigatória no Luxemburgo, e exportação Factur-X / ZUGFeRD para as trocas com a Alemanha e a França.',
+                'description' => 'Geração das faturas no formato Peppol BIS 3.0 e UBL 2.1, conforme ao mandato B2G luxemburguês, e exportação Factur-X / ZUGFeRD para as trocas com a Alemanha e a França. A transmissão automática via Access Point segue-se.',
             ],
-            '2026_q1' => [
+            '2026_q3' => [
                 'title' => 'Portal de contabilista e CRM',
                 'description' => 'Lançamento do portal dedicado às fidúcias luxemburguesas e do módulo CRM integrado. Módulo RH adicionado para a gestão dos colaboradores.',
             ],
-            '2026_q2' => [
+            '2026_q4' => [
                 'title' => '5.ª língua: português',
-                'description' => 'Adição do português (PT-PT) para servir a comunidade lusófona do Luxemburgo. O faktur.lu torna-se a primeira solução de faturação 100% disponível nas 5 línguas do país.',
+                'description' => 'Adição do português (PT-PT) para servir a comunidade lusófona do Luxemburgo. O faktur.lu passa a cobrir as cinco línguas do país.',
             ],
         ],
         'location' => [
-            'title' => 'Uma equipa luxemburguesa',
+            'title' => 'Enraizado no Luxemburgo',
             'text' => 'O Faktur.lu é concebido e operado a partir do Luxemburgo. Compreendemos as particularidades do Grão-Ducado, da AED às fidúcias da praça, e falamos as línguas da sua clientela.',
             'address' => 'Cidade do Luxemburgo, Luxemburgo',
             'email' => 'contact@faktur.lu',
@@ -2460,7 +2460,7 @@ return [
         'breadcrumb' => 'Contacto',
         'badge' => 'Contacte-nos',
         'title' => 'Tem uma questão? Falemos sobre ela.',
-        'subtitle' => 'Quer queira saber mais sobre o faktur.lu, obter uma demonstração ou simplesmente colocar uma questão, a nossa equipa está aqui para si.',
+        'subtitle' => 'Quer queira saber mais sobre o faktur.lu, obter uma demonstração ou simplesmente colocar uma questão, o suporte responde-lhe diretamente.',
         'info' => [
             'email_title' => 'Email',
             'response_title' => 'Tempo de resposta',

@@ -1901,11 +1901,11 @@ return [
                 ],
                 'controle_aed' => [
                     'question' => 'Que se passe-t-il en cas de contrôle fiscal AED ?',
-                    'answer' => 'Faktur.lu vous prépare à un contrôle AED en quelques clics : génération du FAIA conforme à la version 2.01, export PDF/A des factures avec horodatage, journal complet des modifications. Toutes les données sont conservées pendant les 10 ans légaux. Au besoin, nous pouvons vous mettre en relation avec une fiduciaire partenaire.',
+                    'answer' => 'Faktur.lu vous prépare à un contrôle AED en quelques clics : génération du FAIA conforme à la version 2.01, export PDF/A des factures avec horodatage, journal complet des modifications. Vos factures finalisées sont verrouillées : ni modifiables, ni supprimables. La conservation décennale reste votre obligation : gardez une copie de vos exports. Au besoin, nous pouvons vous mettre en relation avec une fiduciaire partenaire.',
                 ],
                 'migration' => [
                     'question' => 'Comment migrer depuis Excel ou un autre logiciel vers faktur.lu ?',
-                    'answer' => 'Faktur.lu propose un import CSV/Excel pour vos clients et un guide de migration depuis les outils les plus courants (Sage, Cegid, Zervant, Excel). Pour les comptes Pro, notre équipe vous accompagne gratuitement pendant la migration : reprise de votre numérotation existante, paramétrage des taux de TVA spécifiques, formation de votre équipe. Comptez 1 à 3 heures pour une migration complète. Vous gardez accès à votre ancien outil pendant la transition.',
+                    'answer' => 'Faktur.lu propose un import CSV/Excel pour vos clients et vos articles. Votre numérotation existante se reprend dans les paramètres, pour que vos factures gardent leur suite sans rupture. Rien ne vous oblige à basculer d\'un coup : vous gardez accès à votre ancien outil pendant la transition. Une question sur votre cas précis ? Écrivez au support, il vous répond directement.',
                 ],
                 'free_trial' => [
                     'question' => 'Puis-je essayer faktur.lu gratuitement ?',
@@ -2418,10 +2418,10 @@ return [
             'faia' => 'Export natif AED',
         ],
         'team' => [
-            'title' => 'L\'équipe derrière faktur.lu',
-            'subtitle' => 'Une équipe à taille humaine, basée au Luxembourg, qui connaît le terrain.',
+            'title' => 'Derrière faktur.lu',
+            'subtitle' => 'Un projet indépendant, conçu et opéré depuis le Luxembourg, au contact du terrain.',
             'founder_name' => 'Foorinto',
-            'founder_role' => 'Fondateur & Développeur Principal',
+            'founder_role' => 'Conception et développement',
             'founder_bio' => 'Entrepreneur basé au Luxembourg, j\'ai créé faktur.lu en 2026 après avoir constaté qu\'aucune solution sur le marché ne combinait conformité FAIA native, support des 5 langues du pays et tarif accessible. Ma mission : offrir aux PME et indépendants luxembourgeois un outil moderne, simple, et vraiment adapté au contexte fiscal local.',
             'tag_luxembourg' => 'Basé au Luxembourg',
             'tag_compliance' => 'Expert FAIA & Peppol',
@@ -2433,21 +2433,21 @@ return [
                 'title' => 'Lancement de faktur.lu',
                 'description' => 'Mise en production avec les fonctionnalités cœur : facturation luxembourgeoise conforme, export FAIA 2.01, numérotation séquentielle, 4 langues (FR, DE, EN, LB).',
             ],
-            '2026_q3' => [
+            '2026_q2' => [
                 'title' => 'Peppol et Factur-X',
-                'description' => 'Intégration Peppol via Access Point certifié pour la facturation électronique B2G obligatoire au Luxembourg, et export Factur-X / ZUGFeRD pour les échanges avec l\'Allemagne et la France.',
+                'description' => 'Génération des factures au format Peppol BIS 3.0 et UBL 2.1, conforme au mandat B2G luxembourgeois, et export Factur-X / ZUGFeRD pour les échanges avec l\'Allemagne et la France. La transmission automatique via Access Point suit.',
             ],
-            '2026_q1' => [
+            '2026_q3' => [
                 'title' => 'Portail comptable et CRM',
                 'description' => 'Lancement du portail dédié aux fiduciaires luxembourgeoises et du module CRM intégré. Module RH ajouté pour la gestion des collaborateurs.',
             ],
-            '2026_q2' => [
+            '2026_q4' => [
                 'title' => '5e langue : portugais',
-                'description' => 'Ajout du portugais (PT-PT) pour servir la communauté lusophone du Luxembourg. faktur.lu devient la première solution de facturation 100% disponible dans les 5 langues du pays.',
+                'description' => 'Ajout du portugais (PT-PT) pour servir la communauté lusophone du Luxembourg. faktur.lu couvre désormais les cinq langues du pays.',
             ],
         ],
         'location' => [
-            'title' => 'Une équipe luxembourgeoise',
+            'title' => 'Un ancrage luxembourgeois',
             'text' => 'Faktur.lu est conçu et opéré depuis le Luxembourg. Nous comprenons les particularités du Grand-Duché, de l\'AED aux fiduciaires de la place, et nous parlons les langues de votre clientèle.',
             'address' => 'Luxembourg-Ville, Luxembourg',
             'email' => 'contact@faktur.lu',
@@ -2486,7 +2486,7 @@ return [
         'breadcrumb' => 'Contact',
         'badge' => 'Contactez-nous',
         'title' => 'Une question ? Parlons-en.',
-        'subtitle' => 'Que vous souhaitiez en savoir plus sur faktur.lu, obtenir une demonstration ou simplement poser une question, notre equipe est la pour vous.',
+        'subtitle' => 'Que vous souhaitiez en savoir plus sur faktur.lu, obtenir une demonstration ou simplement poser une question, le support vous repond directement.',
         'info' => [
             'email_title' => 'Email',
             'response_title' => 'Delai de reponse',
@@ -2532,7 +2532,7 @@ return [
             ],
             'local' => [
                 'title' => 'Support local et expertise terrain',
-                'description' => 'Une équipe basée au Luxembourg, qui connaît l\'AED, les fiduciaires de la place, les particularités du Grand-Duché. Réponse en moins de 24h ouvrées, en français ou allemand.',
+                'description' => 'Un support basé au Luxembourg, qui connaît l\'AED, les fiduciaires de la place et les particularités du Grand-Duché. Réponse en moins de 24h ouvrées, en français ou en allemand.',
             ],
             'transparency' => [
                 'title' => 'Tarifs transparents, sans surprise',

@@ -1742,11 +1742,11 @@ return [
                 ],
                 'controle_aed' => [
                     'question' => 'Wat geschitt bei enger AED-Steierkontroll?',
-                    'answer' => 'Faktur.lu preparéiert Iech a wéinege Klicks op eng AED-Kontroll: Generatioun vum FAIA-Fichier konform mat der Versioun 2.01, PDF/A-Export vun de Rechnungen mat Zäitstempel, komplett Ännerungsjournal. All Donnée gi während den 10 gesetzlechen Joeren opbewahrt. Wann néideg, kënne mir Iech mat enger Partner-Fiduciaire an Verbindung setzen.',
+                    'answer' => 'Faktur.lu preparéiert Iech a wéinege Klicks op eng AED-Kontroll: Generatioun vum FAIA-Fichier konform mat der Versioun 2.01, PDF/A-Export vun de Rechnungen mat Zäitstempel, komplett Ännerungsjournal. Är finaliséiert Rechnunge sinn gespaart: weder ännerbar nach läschbar. D\'zéngjäreg Opbewahrungspflicht bleift Är: haalt eng Kopie vun Ären Exporten. Wann néideg, kënne mir Iech mat enger Partner-Fiduciaire an Verbindung setzen.',
                 ],
                 'migration' => [
                     'question' => 'Wéi migréiert ee vun Excel oder engem aneren Programm op faktur.lu?',
-                    'answer' => 'Faktur.lu bitt en CSV/Excel-Import fir Är Cliente an e Migratiounsguide vun de gängegsten Tools (Sage, Cegid, Zervant, Excel). Fir Pro-Konten begleet eis Ekipp Iech gratis bei der Migratioun: Iwwerhuelung vun Ärer existenter Nummeréierung, Konfiguratioun vu spezifeschen TVA-Sätz, Formation vun Ärer Ekipp. Rechent mat 1 bis 3 Stonnen fir eng komplett Migratioun. Dir behalt Zougang zu Ärem ale Tool während dem Iwwergang.',
+                    'answer' => 'Faktur.lu bitt en CSV/Excel-Import fir Är Clienten an Är Artikelen. Är bestoend Nummeréierung iwwerhuelt Dir an den Astellungen, sou datt Är Rechnungen hir Suite ouni Ënnerbriechung behalen. Näischt zwéngt Iech, op eng Kéier ze wiesselen: Dir behaalt während dem Iwwergank Zougang zu Ärem fréiere Programm. Eng Fro zu Ärem Fall? Schreift dem Support, en äntwert Iech direkt.',
                 ],
                 'free_trial' => [
                     'question' => 'Kann ech faktur.lu gratis testen?',
@@ -2079,10 +2079,10 @@ return [
             'faia' => 'Nativen AED-Export',
         ],
         'team' => [
-            'title' => 'D\'Ekipp hannert faktur.lu',
-            'subtitle' => 'Eng mënschlech Ekipp, baséiert zu Lëtzebuerg, déi d\'Feld kennt.',
+            'title' => 'Hannert faktur.lu',
+            'subtitle' => 'En onofhängege Projet, zu Lëtzebuerg entwéckelt a bedriwwen, no beim Terrain.',
             'founder_name' => 'Foorinto',
-            'founder_role' => 'Grënner & Haaptentwéckler',
+            'founder_role' => 'Konzeptioun an Entwécklung',
             'founder_bio' => 'Als Entrepreneur baséiert zu Lëtzebuerg hunn ech faktur.lu am 2026 grënnt, nodeems ech festgestallt hunn, datt keng Léisung um Maart native FAIA-Konformitéit, Ënnerstëtzung vun de 5 Landessproochen an en accessibele Präis kombinéiert huet. Meng Missioun: Lëtzebuerger PME a Selbstännegen e modernen, einfachen an wierklech un de lokale Steierkontext upassbaren Tool ze bidden.',
             'tag_luxembourg' => 'Baséiert zu Lëtzebuerg',
             'tag_compliance' => 'FAIA- & Peppol-Expert',
@@ -2094,21 +2094,21 @@ return [
                 'title' => 'Lancement vu faktur.lu',
                 'description' => 'Inbetriebnam mat de Kärfunktiounen: Lëtzebuerg-konform Rechnungsstellung, FAIA-2.01-Export, sequentiell Nummeréierung, 4 Sproochen (FR, DE, EN, LB).',
             ],
-            '2026_q3' => [
+            '2026_q2' => [
                 'title' => 'Peppol a Factur-X',
-                'description' => 'Peppol-Integratioun iwwer zertifizéierten Access Point fir déi zu Lëtzebuerg obligatoresch elektronesch B2G-Fakturatioun, an Factur-X / ZUGFeRD-Export fir den Austausch mat Däitschland a Frankräich.',
+                'description' => 'Generatioun vun de Rechnungen am Peppol-Format BIS 3.0 an UBL 2.1, konform mam Lëtzebuerger B2G-Mandat, an Export Factur-X / ZUGFeRD fir den Austausch mat Däitschland a Frankräich. Déi automatesch Iwwerdroung iwwer Access Point kënnt duerno.',
             ],
-            '2026_q1' => [
+            '2026_q3' => [
                 'title' => 'Comptablë-Portal a CRM',
                 'description' => 'Lancement vum dediéierte Portal fir Lëtzebuerger Fiduciairen an dem integréierten CRM-Modul. RH-Modul derbäigesat fir d\'Verwaltung vun de Mataarbechter.',
             ],
-            '2026_q2' => [
+            '2026_q4' => [
                 'title' => '5. Sprooch: Portugisesch',
-                'description' => 'Derbäisetzen vu Portugisesch (PT-PT) fir d\'lusophon Communautéit zu Lëtzebuerg ze déngen. faktur.lu gëtt déi éischt Fakturatiounsléisung, déi 100% an alle 5 Landessproochen verfügbar ass.',
+                'description' => 'Derbäisetzen vu Portugisesch (PT-PT) fir d\'lusophon Communautéit zu Lëtzebuerg ze déngen. faktur.lu deckt elo all fënnef Landessproochen of.',
             ],
         ],
         'location' => [
-            'title' => 'Eng Lëtzebuerger Ekipp',
+            'title' => 'Zu Lëtzebuerg verwuerzelt',
             'text' => 'Faktur.lu gëtt vu Lëtzebuerg aus konzipéiert a betriewen. Mir verstinn d\'Besonderheete vum Groussherzogtum, vun der AED bis zu de Fiduciaire vun der Plaz, a mir schwätzen d\'Sproochen vun Ärer Clientel.',
             'address' => 'Lëtzebuerg-Stad, Lëtzebuerg',
             'email' => 'contact@faktur.lu',
@@ -2147,7 +2147,7 @@ return [
         'breadcrumb' => 'Kontakt',
         'badge' => 'Kontaktéiert eis',
         'title' => 'Eng Fro? Schwätze mer driwwer.',
-        'subtitle' => 'Ob Dir méi iwwer faktur.lu gewuer ginn wollt, eng Demo kritt oder einfach eng Fro stelle wëllt, eist Team ass fir Iech do.',
+        'subtitle' => 'Ob Dir méi iwwer faktur.lu gewuer ginn wollt, eng Demo kritt oder einfach eng Fro stelle wëllt, de Support äntwert Iech direkt.',
         'info' => [
             'email_title' => 'E-Mail',
             'response_title' => 'Äntwertzeit',

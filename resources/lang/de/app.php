@@ -1742,11 +1742,11 @@ return [
                 ],
                 'controle_aed' => [
                     'question' => 'Was passiert bei einer AED-Steuerprüfung?',
-                    'answer' => 'Faktur.lu bereitet Sie in wenigen Klicks auf eine AED-Prüfung vor: Generierung der FAIA-Datei nach Version 2.01, PDF/A-Export der Rechnungen mit Zeitstempel, vollständiges Änderungsprotokoll. Alle Daten werden während der gesetzlichen 10 Jahre aufbewahrt. Bei Bedarf vermitteln wir Sie an einen Treuhänder-Partner.',
+                    'answer' => 'Faktur.lu bereitet Sie in wenigen Klicks auf eine AED-Prüfung vor: Generierung der FAIA-Datei nach Version 2.01, PDF/A-Export der Rechnungen mit Zeitstempel, vollständiges Änderungsprotokoll. Ihre finalisierten Rechnungen sind gesperrt: weder änderbar noch löschbar. Die zehnjährige Aufbewahrungspflicht bleibt Ihre: Bewahren Sie eine Kopie Ihrer Exporte auf. Bei Bedarf vermitteln wir Sie an einen Treuhänder-Partner.',
                 ],
                 'migration' => [
                     'question' => 'Wie migriere ich von Excel oder einer anderen Software zu faktur.lu?',
-                    'answer' => 'Faktur.lu bietet einen CSV/Excel-Import für Ihre Kunden und einen Migrationsleitfaden für die gängigsten Tools (Sage, Cegid, Zervant, Excel). Für Pro-Konten begleitet Sie unser Team kostenlos bei der Migration: Übernahme Ihrer bestehenden Nummerierung, Konfiguration spezifischer MwSt-Sätze, Schulung Ihres Teams. Rechnen Sie mit 1 bis 3 Stunden für eine vollständige Migration. Ihr altes Tool bleibt während des Übergangs zugänglich.',
+                    'answer' => 'Faktur.lu bietet einen CSV/Excel-Import für Ihre Kunden und Artikel. Ihre bestehende Nummerierung übernehmen Sie in den Einstellungen, damit Ihre Rechnungen ihre Reihenfolge lückenlos behalten. Nichts zwingt Sie zu einem Wechsel auf einen Schlag: Sie behalten während des Übergangs Zugriff auf Ihr bisheriges Werkzeug. Eine Frage zu Ihrem Fall? Schreiben Sie an den Support, er antwortet Ihnen direkt.',
                 ],
                 'free_trial' => [
                     'question' => 'Kann ich faktur.lu kostenlos testen?',
@@ -2079,10 +2079,10 @@ return [
             'faia' => 'Nativer AED-Export',
         ],
         'team' => [
-            'title' => 'Das Team hinter faktur.lu',
-            'subtitle' => 'Ein Team in menschlicher Größe, mit Sitz in Luxemburg, das das Feld kennt.',
+            'title' => 'Hinter faktur.lu',
+            'subtitle' => 'Ein unabhängiges Projekt, aus Luxemburg heraus entwickelt und betrieben, nah an der Praxis.',
             'founder_name' => 'Foorinto',
-            'founder_role' => 'Gründer & Hauptentwickler',
+            'founder_role' => 'Konzeption und Entwicklung',
             'founder_bio' => 'Als Unternehmer mit Sitz in Luxemburg habe ich faktur.lu 2026 gegründet, nachdem ich festgestellt hatte, dass keine Lösung am Markt native FAIA-Konformität, Unterstützung der 5 Landessprachen und einen erschwinglichen Preis kombinierte. Meine Mission: luxemburgischen KMU und Selbstständigen ein modernes, einfaches und wirklich an den lokalen Steuerkontext angepasstes Werkzeug zu bieten.',
             'tag_luxembourg' => 'Sitz in Luxemburg',
             'tag_compliance' => 'FAIA- & Peppol-Experte',
@@ -2094,21 +2094,21 @@ return [
                 'title' => 'Start von faktur.lu',
                 'description' => 'Inbetriebnahme mit den Kernfunktionen: luxemburgisch konforme Rechnungsstellung, FAIA-2.01-Export, fortlaufende Nummerierung, 4 Sprachen (FR, DE, EN, LB).',
             ],
-            '2026_q3' => [
+            '2026_q2' => [
                 'title' => 'Peppol und Factur-X',
-                'description' => 'Peppol-Integration über zertifizierten Access Point für die in Luxemburg obligatorische elektronische B2G-Rechnungsstellung und Factur-X / ZUGFeRD-Export für den Austausch mit Deutschland und Frankreich.',
+                'description' => 'Rechnungserstellung im Peppol-Format BIS 3.0 und UBL 2.1, konform zum luxemburgischen B2G-Mandat, sowie Factur-X-/ZUGFeRD-Export für den Austausch mit Deutschland und Frankreich. Die automatische Übermittlung über einen Access Point folgt.',
             ],
-            '2026_q1' => [
+            '2026_q3' => [
                 'title' => 'Buchhalterportal und CRM',
                 'description' => 'Start des dedizierten Portals für luxemburgische Treuhänder und des integrierten CRM-Moduls. Hinzufügung des HR-Moduls für die Mitarbeiterverwaltung.',
             ],
-            '2026_q2' => [
+            '2026_q4' => [
                 'title' => '5. Sprache: Portugiesisch',
-                'description' => 'Hinzufügung von Portugiesisch (PT-PT) für die portugiesischsprachige Gemeinschaft Luxemburgs. faktur.lu wird die erste Rechnungslösung, die in allen 5 Landessprachen zu 100% verfügbar ist.',
+                'description' => 'Hinzufügung von Portugiesisch (PT-PT) für die portugiesischsprachige Gemeinschaft Luxemburgs. faktur.lu deckt nun alle fünf Landessprachen ab.',
             ],
         ],
         'location' => [
-            'title' => 'Ein luxemburgisches Team',
+            'title' => 'In Luxemburg verwurzelt',
             'text' => 'Faktur.lu wird in Luxemburg konzipiert und betrieben. Wir verstehen die Besonderheiten des Großherzogtums, von der AED bis zu den Treuhändern des Platzes, und wir sprechen die Sprachen Ihrer Kundschaft.',
             'address' => 'Luxemburg-Stadt, Luxemburg',
             'email' => 'contact@faktur.lu',
@@ -2147,7 +2147,7 @@ return [
         'breadcrumb' => 'Kontakt',
         'badge' => 'Kontaktieren Sie uns',
         'title' => 'Eine Frage? Sprechen wir darueber.',
-        'subtitle' => 'Ob Sie mehr ueber faktur.lu erfahren, eine Demo erhalten oder einfach eine Frage stellen moechten, unser Team ist fuer Sie da.',
+        'subtitle' => 'Ob Sie mehr ueber faktur.lu erfahren, eine Demo erhalten oder einfach eine Frage stellen moechten, der Support antwortet Ihnen direkt.',
         'info' => [
             'email_title' => 'E-Mail',
             'response_title' => 'Antwortzeit',

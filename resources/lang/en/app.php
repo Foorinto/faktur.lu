@@ -1841,11 +1841,11 @@ return [
                 ],
                 'controle_aed' => [
                     'question' => 'What happens during an AED tax audit?',
-                    'answer' => 'Faktur.lu prepares you for an AED audit in a few clicks: generation of the 2.01-compliant FAIA file, PDF/A export of invoices with timestamping, full modification log. All data is retained for the legal 10 years. If needed, we can connect you with a partner fiduciary.',
+                    'answer' => 'Faktur.lu prepares you for an AED audit in a few clicks: generation of the 2.01-compliant FAIA file, PDF/A export of invoices with timestamping, full modification log. Your finalised invoices are locked: neither editable nor deletable. The ten-year retention duty remains yours: keep a copy of your exports. If needed, we can connect you with a partner fiduciary.',
                 ],
                 'migration' => [
                     'question' => 'How do I migrate from Excel or another software to faktur.lu?',
-                    'answer' => 'Faktur.lu offers CSV/Excel import for your clients and a migration guide from the most common tools (Sage, Cegid, Zervant, Excel). For Pro accounts, our team supports you free of charge during migration: continuation of your existing numbering, configuration of specific VAT rates, training of your team. Allow 1 to 3 hours for a complete migration. You keep access to your old tool during the transition.',
+                    'answer' => 'Faktur.lu offers a CSV/Excel import for your clients and catalogue items. Your existing numbering can be carried over in the settings, so your invoices keep their sequence unbroken. Nothing forces you to switch all at once: you keep access to your previous tool during the transition. A question about your own case? Write to the support, it answers you directly.',
                 ],
                 'free_trial' => [
                     'question' => 'Can I try faktur.lu for free?',
@@ -2178,10 +2178,10 @@ return [
             'faia' => 'Native AED export',
         ],
         'team' => [
-            'title' => 'The team behind faktur.lu',
-            'subtitle' => 'A human-sized team, based in Luxembourg, that knows the field.',
+            'title' => 'Behind faktur.lu',
+            'subtitle' => 'An independent project, designed and run from Luxembourg, close to the ground.',
             'founder_name' => 'Foorinto',
-            'founder_role' => 'Founder & Lead Developer',
+            'founder_role' => 'Design and development',
             'founder_bio' => 'As an entrepreneur based in Luxembourg, I created faktur.lu in 2026 after observing that no solution on the market combined native FAIA compliance, support for the country\'s 5 languages, and an accessible price. My mission: to offer Luxembourg SMEs and freelancers a modern, simple tool genuinely adapted to the local tax context.',
             'tag_luxembourg' => 'Based in Luxembourg',
             'tag_compliance' => 'FAIA & Peppol expert',
@@ -2193,21 +2193,21 @@ return [
                 'title' => 'Launch of faktur.lu',
                 'description' => 'Production launch with core features: Luxembourg-compliant invoicing, FAIA 2.01 export, sequential numbering, 4 languages (FR, DE, EN, LB).',
             ],
-            '2026_q3' => [
+            '2026_q2' => [
                 'title' => 'Peppol and Factur-X',
-                'description' => 'Peppol integration via certified Access Point for mandatory B2G e-invoicing in Luxembourg, and Factur-X / ZUGFeRD export for exchanges with Germany and France.',
+                'description' => 'Invoice generation in Peppol BIS 3.0 and UBL 2.1 format, compliant with the Luxembourg B2G mandate, plus Factur-X / ZUGFeRD export for exchanges with Germany and France. Automatic transmission via Access Point follows.',
             ],
-            '2026_q1' => [
+            '2026_q3' => [
                 'title' => 'Accountant portal and CRM',
                 'description' => 'Launch of the dedicated portal for Luxembourg fiduciaries and the integrated CRM module. HR module added for staff management.',
             ],
-            '2026_q2' => [
+            '2026_q4' => [
                 'title' => '5th language: Portuguese',
-                'description' => 'Addition of Portuguese (PT-PT) to serve the Lusophone community in Luxembourg. faktur.lu becomes the first invoicing solution 100% available in all 5 of the country\'s languages.',
+                'description' => 'Addition of Portuguese (PT-PT) to serve the Lusophone community in Luxembourg. faktur.lu now covers all five of the country\'s languages.',
             ],
         ],
         'location' => [
-            'title' => 'A Luxembourg team',
+            'title' => 'Rooted in Luxembourg',
             'text' => 'Faktur.lu is designed and operated from Luxembourg. We understand the specifics of the Grand Duchy, from the AED to the local fiduciaries, and we speak the languages of your clientele.',
             'address' => 'Luxembourg City, Luxembourg',
             'email' => 'contact@faktur.lu',
@@ -2246,7 +2246,7 @@ return [
         'breadcrumb' => 'Contact',
         'badge' => 'Get in touch',
         'title' => 'Have a question? Let\'s talk.',
-        'subtitle' => 'Whether you want to learn more about faktur.lu, get a demo or simply ask a question, our team is here for you.',
+        'subtitle' => 'Whether you want to learn more about faktur.lu, get a demo or simply ask a question, the support answers you directly.',
         'info' => [
             'email_title' => 'Email',
             'response_title' => 'Response time',
