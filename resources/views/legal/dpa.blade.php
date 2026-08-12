@@ -69,7 +69,7 @@
     <li>Garantir que les personnes autorisées à traiter les données sont soumises à une obligation de confidentialité ;</li>
     <li>Mettre en œuvre les mesures techniques et organisationnelles décrites à l'annexe 1 ;</li>
     <li>Assister le Client pour répondre aux demandes des personnes concernées (droits d'accès, rectification, effacement, portabilité, opposition) ;</li>
-    <li>Notifier toute violation de données à caractère personnel au Client sans retard injustifié et au plus tard 48h après en avoir pris connaissance, avec les informations requises à l'art. 33.3 RGPD ;</li>
+    <li>Notifier toute violation de données à caractère personnel au Client sans retard injustifié après en avoir pris connaissance, avec les informations requises à l'art. 33.3 RGPD ;</li>
     <li>Mettre à disposition du Client, à la résiliation, un export complet et exploitable de ses données, puis les supprimer dans un délai de 30 jours ;</li>
     <li>Informer immédiatement le Client si une instruction reçue lui paraît constituer une violation du RGPD ou d'une autre disposition relative à la protection des données (art. 28.3 RGPD) ;</li>
     <li>Assister le Client, compte tenu de la nature du traitement et des informations disponibles, dans le respect des obligations des articles 32 à 36 RGPD — sécurité du traitement, notification de violation, analyse d'impact et consultation préalable de l'autorité de contrôle ;</li>
@@ -136,7 +136,7 @@
 
 <h3>Gestion des incidents</h3>
 <ul>
-    <li>Procédure de notification au Client sous 48h en cas de violation de données</li>
+    <li>Procédure de notification au Client sans retard injustifié en cas de violation de données</li>
     <li>Contact dédié : <a href="mailto:contact@faktur.lu">contact@faktur.lu</a></li>
 </ul>
 

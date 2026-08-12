@@ -201,6 +201,22 @@ class BackupCheckCommand extends Command
             foreach (array_slice($lines, -3) as $line) {
                 $this->line('    '.trim($line));
             }
+
+            // Une copie du .env qu'on ne voit pas est une copie qu'on n'a pas :
+            // c'est elle qui porte APP_KEY, sans laquelle les colonnes
+            // chiffrées ne se relisent plus après restauration.
+            $copiesEnv = array_filter($lines, fn ($l) => str_contains($l, '.env'));
+
+            $this->line('  Copie du .env         : '.(
+                $copiesEnv ? count($copiesEnv).' présente(s)' : 'AUCUNE'
+            ));
+
+            if (! $copiesEnv && config('backup.include_env', true)) {
+                $problems[] = 'Aucune copie du .env sur le dépôt distant. Sans APP_KEY, une '
+                    .'restauration rendrait les IBAN et la configuration de messagerie '
+                    .'définitivement illisibles. Vérifier que BACKUP_ENCRYPTION_KEY est bien '
+                    .'renseignée : sans elle, la copie est volontairement omise.';
+            }
         }
 
         return $this->verdict($problems);

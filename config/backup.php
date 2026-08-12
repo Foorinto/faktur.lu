@@ -37,6 +37,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Copie du fichier .env
+    |--------------------------------------------------------------------------
+    | Le dump ne contient que la base. Sans APP_KEY, qui vit dans .env, les
+    | colonnes chiffrées au repos (IBAN, configuration de messagerie) restent
+    | illisibles après restauration.
+    |
+    | La copie n'est JAMAIS déposée en clair : sans BACKUP_ENCRYPTION_KEY, elle
+    | est purement et simplement omise.
+    */
+    'include_env' => env('BACKUP_INCLUDE_ENV', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Cloud Storage (via rclone)
     |--------------------------------------------------------------------------
     | rclone must be installed and configured with the named remote.

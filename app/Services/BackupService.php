@@ -31,6 +31,8 @@ class BackupService
             'encrypted' => false,
             'cloud_uploaded' => false,
             'cloud_error' => null,
+            'env_backed_up' => false,
+            'env_error' => null,
             'local_cleaned' => 0,
             'cloud_cleaned' => 0,
             'duration_seconds' => 0,
@@ -75,6 +77,33 @@ class BackupService
             } catch (\Throwable $e) {
                 $result['cloud_error'] = $e->getMessage();
                 Log::error("[Backup] Cloud upload failed: {$e->getMessage()}");
+            }
+        }
+
+        // 4 bis. Copie du fichier .env
+        //
+        // Le dump ne contient que la base. Or les champs chiffrés au repos —
+        // IBAN, configuration de messagerie — ne se relisent qu'avec APP_KEY,
+        // qui vit dans .env et nulle part ailleurs. Restaurer une base sans
+        // cette clé rendait donc ces colonnes définitivement illisibles : le
+        // seul endroit qui détenait la clé était précisément celui contre la
+        // perte duquel on sauvegarde.
+        if (config('backup.include_env', true)) {
+            try {
+                $envPath = $this->backupEnvFile($timestamp);
+
+                if ($envPath) {
+                    $result['env_backed_up'] = true;
+
+                    if (config('backup.cloud.enabled')) {
+                        $this->uploadToCloud($envPath);
+                    }
+
+                    Log::info('[Backup] Fichier .env sauvegardé et chiffré');
+                }
+            } catch (\Throwable $e) {
+                $result['env_error'] = $e->getMessage();
+                Log::error("[Backup] Sauvegarde du .env impossible : {$e->getMessage()}");
             }
         }
 
@@ -507,6 +536,48 @@ class BackupService
         }
 
         return $cleaned;
+    }
+
+    /**
+     * Copie chiffrée du fichier .env, à côté du dump.
+     *
+     * Nommée « backup_{horodatage}.env.enc » : le préfixe la fait ramasser par
+     * les purges de rétention, locale comme distante, tandis que le suffixe la
+     * tient hors de `listLocal()`, qui n'énumère que les dumps restaurables.
+     * Elle ne doit jamais apparaître dans la liste des sauvegardes à restaurer.
+     *
+     * @return string|null Chemin du fichier chiffré, ou null si rien n'a été fait.
+     */
+    protected function backupEnvFile(string $timestamp): ?string
+    {
+        $envPath = base_path('.env');
+
+        if (! file_exists($envPath)) {
+            return null;
+        }
+
+        // Refus catégorique en l'absence de clé de chiffrement. Le .env porte
+        // TOUS les secrets : mot de passe de base, clés Stripe, identifiants de
+        // messagerie. Le déposer en clair chez un tiers serait strictement pire
+        // que de ne pas le sauvegarder du tout.
+        if (! config('backup.encryption_key')) {
+            Log::warning(
+                '[Backup] .env non sauvegardé : BACKUP_ENCRYPTION_KEY absente. '
+                .'Un .env en clair sur un dépôt distant exposerait tous les secrets.'
+            );
+
+            return null;
+        }
+
+        $copie = "{$this->localPath}/backup_{$timestamp}.env";
+        copy($envPath, $copie);
+        chmod($copie, 0600);
+
+        $chiffre = $this->encrypt($copie);
+        @unlink($copie);
+        chmod($chiffre, 0600);
+
+        return $chiffre;
     }
 
     protected function ensureDirectory(string $path): void
