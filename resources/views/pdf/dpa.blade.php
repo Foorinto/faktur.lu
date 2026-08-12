@@ -157,8 +157,13 @@
         <strong>Pour le Client</strong><br>
         {{ $client['raison_sociale'] }}<br>
         Représenté par : {{ $client['contact'] }}<br>
-        <span class="accept">Accepté par voie électronique le {{ $acceptation['date'] }}</span><br>
-        <span class="meta">Depuis l'adresse {{ $acceptation['ip'] }} · Version {{ $acceptation['version'] }} du document</span>
+        @if($acceptation['par_renvoi'])
+            <span class="accept">Accepté le {{ $acceptation['date'] }} par acceptation des conditions générales</span><br>
+            <span class="meta">Article 10.5 des CGU : « en acceptant les CGU, l'Utilisateur accepte également le DPA dans sa version en vigueur ». Version {{ $acceptation['version'] }} du document.</span>
+        @else
+            <span class="accept">Accepté par voie électronique le {{ $acceptation['date'] }}</span><br>
+            <span class="meta">@if($acceptation['ip'])Depuis l'adresse {{ $acceptation['ip'] }} · @endif Version {{ $acceptation['version'] }} du document</span>
+        @endif
     </div>
     <div>
         <strong>Pour faktur.lu</strong><br>

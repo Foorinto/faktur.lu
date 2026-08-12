@@ -28,6 +28,11 @@ const dateAcceptation = computed(() => {
 // Un compte antérieur à la mise en place de la trace n'a pas de date. Le taire
 // laisserait croire à un document non accepté ; le dire permet de comprendre.
 const traceManquante = computed(() => !props.dpa.accepted_at);
+
+// Acceptation par renvoi : l'utilisateur a coché les conditions générales, dont
+// l'article 10.5 intègre le DPA. La distinction se lit sur le document, elle
+// doit se lire ici aussi.
+const parRenvoi = computed(() => props.dpa.method === 'terms');
 </script>
 
 <template>
@@ -49,7 +54,11 @@ const traceManquante = computed(() => !props.dpa.accepted_at);
                     {{ t('profile_documents_dpa_name') }}
                 </p>
                 <p v-if="dateAcceptation" class="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
-                    {{ t('profile_documents_dpa_accepted', { date: dateAcceptation, version: dpa.version }) }}
+                    {{
+                        parRenvoi
+                            ? t('profile_documents_dpa_accepted_via_terms', { date: dateAcceptation, version: dpa.version })
+                            : t('profile_documents_dpa_accepted', { date: dateAcceptation, version: dpa.version })
+                    }}
                 </p>
                 <p v-else class="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
                     {{ t('profile_documents_dpa_no_trace') }}

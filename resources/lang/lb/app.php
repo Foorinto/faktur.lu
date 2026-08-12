@@ -523,6 +523,7 @@ return [
     'profile_documents_dpa_no_trace' => 'Kont méi al wéi d\'Erfaassung vun den Zoustëmmungen: den Datum gouf net behalen.',
     'profile_documents_dpa_outdated' => 'Et gëtt eng méi rezent Versioun (:version). Dat erofgelueden Dokument dréit déi, déi Dir akzeptéiert hutt.',
     'profile_documents_download' => 'Eroflueden',
+    'profile_documents_dpa_accepted_via_terms' => 'Akzeptéiert den :date zesumme mat den AGB (Art. 10.5) · Versioun :version',
     'expenses_totals_for' => 'Sommen fir:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',

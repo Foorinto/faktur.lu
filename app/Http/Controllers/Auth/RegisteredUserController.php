@@ -63,6 +63,7 @@ class RegisteredUserController extends Controller
             'terms_accepted_at' => now(),
             'dpa_accepted_at' => now(),
             'dpa_version' => \App\Support\DpaDocument::VERSION,
+            'dpa_acceptance_method' => 'explicit',
             'acceptance_ip' => $request->ip(),
         ])->save();
 

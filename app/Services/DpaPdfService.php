@@ -39,11 +39,15 @@ class DpaPdfService
                 'email' => $user->email,
             ],
             'acceptation' => [
-                // Un compte antérieur à la mise en place de la trace n'a pas de
-                // date : on ne l'invente pas, on le dit.
                 'date' => $user->dpa_accepted_at?->format('d/m/Y à H:i') ?? 'non enregistrée',
-                'ip' => $user->acceptance_ip ?: 'non enregistrée',
                 'version' => $user->dpa_version ?: DpaDocument::VERSION,
+                // Une case cochée en connaissance de cause et une acceptation
+                // par renvoi des conditions générales n'ont pas la même portée :
+                // le document dit laquelle des deux a eu lieu.
+                'par_renvoi' => $user->dpa_acceptance_method === 'terms',
+                // L'adresse n'a jamais été relevée pour les acceptations par
+                // renvoi. On le dit, on n'en invente pas.
+                'ip' => $user->acceptance_ip,
             ],
             'genereLe' => now()->format('d/m/Y'),
         ])

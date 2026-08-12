@@ -55,6 +55,16 @@ class DpaAcceptanceTest extends TestCase
         return $user->fresh();
     }
 
+    /**
+     * Rejoue la migration de reprise. `artisan migrate` la tiendrait pour déjà
+     * passée — la base de test l'a exécutée au démarrage — alors qu'on veut
+     * précisément éprouver son effet sur une ligne ancienne.
+     */
+    private function rejouerLaReprise(): void
+    {
+        (require base_path('database/migrations/2026_08_12_210000_backfill_acceptance_trace_for_existing_users.php'))->up();
+    }
+
     public function test_no_account_is_created_without_accepting_the_dpa(): void
     {
         $this->post('/register', $this->inscription(['dpa' => false]))
@@ -95,6 +105,28 @@ class DpaAcceptanceTest extends TestCase
         $this->assertNotNull($user->terms_accepted_at, 'La case des CGU laissait jusqu\'ici la table intacte.');
         $this->assertSame(DpaDocument::VERSION, $user->dpa_version);
         $this->assertNotNull($user->acceptance_ip);
+
+        // La date doit être celle de l'acceptation, pas une valeur par défaut
+        // héritée de la colonne : on vérifie qu'elle vient d'être posée.
+        $this->assertTrue(
+            $user->dpa_accepted_at->diffInMinutes(now()) < 1,
+            'L\'horodatage doit être celui de l\'acceptation.'
+        );
+
+        // Et elle doit être exploitable comme une date, pas comme une chaîne.
+        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $user->dpa_accepted_at);
+
+        // La colonne porte bien une valeur en base, pas seulement en mémoire.
+        $this->assertDatabaseHas('users', [
+            'email' => 'jean@example.test',
+            'dpa_version' => DpaDocument::VERSION,
+        ]);
+        $this->assertNotNull(
+            \Illuminate\Support\Facades\DB::table('users')
+                ->where('email', 'jean@example.test')
+                ->value('dpa_accepted_at'),
+            'La date doit être écrite en base, pas seulement portée par le modèle.'
+        );
     }
 
     public function test_the_profile_shows_the_acceptance(): void
@@ -133,6 +165,56 @@ class DpaAcceptanceTest extends TestCase
     public function test_a_visitor_cannot_download_someone_elses_copy(): void
     {
         $this->get(route('profile.dpa'))->assertRedirect(route('login'));
+    }
+
+    /**
+     * La date reprise pour les comptes existants n'est pas une reconstitution
+     * de confort : la case des CGU était déjà obligatoire, et leur article 10.5
+     * dispose qu'« en acceptant les CGU, l'Utilisateur accepte également le DPA
+     * dans sa version en vigueur ». L'acceptation a bien eu lieu ce jour-là.
+     */
+    public function test_an_older_account_carries_its_creation_date(): void
+    {
+        $ancien = User::factory()->create([
+            'created_at' => '2026-02-14 16:00:25',
+            'dpa_accepted_at' => null,
+            'terms_accepted_at' => null,
+            'dpa_version' => null,
+            'dpa_acceptance_method' => null,
+        ]);
+
+        $this->rejouerLaReprise();
+
+        $ancien->refresh();
+
+        $this->assertSame('2026-02-14 16:00:25', $ancien->dpa_accepted_at->format('Y-m-d H:i:s'));
+        $this->assertSame('2026-02-14 16:00:25', $ancien->terms_accepted_at->format('Y-m-d H:i:s'));
+        $this->assertSame('terms', $ancien->dpa_acceptance_method, 'La voie d\'acceptation doit rester distincte.');
+        $this->assertSame('1.0', $ancien->dpa_version, 'C\'est la version qu\'il a lue, pas la version courante.');
+    }
+
+    /**
+     * L'adresse n'a jamais été relevée pour ces comptes. En inventer une
+     * retirerait toute valeur à celles qui sont vraies.
+     */
+    public function test_no_ip_address_is_invented_for_older_accounts(): void
+    {
+        $ancien = User::factory()->create([
+            'created_at' => '2026-02-14 16:00:25',
+            'dpa_accepted_at' => null,
+            'acceptance_ip' => null,
+        ]);
+
+        $this->rejouerLaReprise();
+
+        $this->assertNull($ancien->fresh()->acceptance_ip);
+    }
+
+    public function test_a_new_signup_is_marked_as_an_explicit_acceptance(): void
+    {
+        $user = $this->inscrit();
+
+        $this->assertSame('explicit', $user->dpa_acceptance_method);
     }
 
     /**

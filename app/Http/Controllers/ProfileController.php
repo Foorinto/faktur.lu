@@ -32,6 +32,7 @@ class ProfileController extends Controller
                 'accepted_at' => $user->dpa_accepted_at?->toIso8601String(),
                 'version' => $user->dpa_version ?: \App\Support\DpaDocument::VERSION,
                 'current_version' => \App\Support\DpaDocument::VERSION,
+                'method' => $user->dpa_acceptance_method,
             ],
         ]);
     }

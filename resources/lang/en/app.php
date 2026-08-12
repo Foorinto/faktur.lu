@@ -620,6 +620,7 @@ return [
     'profile_documents_dpa_no_trace' => 'Account predates acceptance recording: the date was not kept.',
     'profile_documents_dpa_outdated' => 'A newer version exists (:version). The downloaded document carries the one you accepted.',
     'profile_documents_download' => 'Download',
+    'profile_documents_dpa_accepted_via_terms' => 'Accepted on :date together with the terms of service (art. 10.5) · version :version',
     'expenses_totals_for' => 'Totals for:',
     'expense_categories' => [
         'hardware' => 'Computer hardware',

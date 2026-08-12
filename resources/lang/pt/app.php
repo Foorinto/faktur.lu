@@ -619,6 +619,7 @@ return [
     'profile_documents_dpa_no_trace' => 'Conta anterior ao registo das aceitações: a data não foi conservada.',
     'profile_documents_dpa_outdated' => 'Existe uma versão mais recente (:version). O documento descarregado tem a que aceitou.',
     'profile_documents_download' => 'Descarregar',
+    'profile_documents_dpa_accepted_via_terms' => 'Aceite a :date juntamente com as condições gerais (art. 10.5) · versão :version',
     'expenses_totals_for' => 'Totais para:',
     'expense_categories' => [
         'hardware' => 'Material informático',

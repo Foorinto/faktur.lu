@@ -620,6 +620,7 @@ return [
     'profile_documents_dpa_no_trace' => 'Compte antérieur à l\'enregistrement des acceptations : la date n\'a pas été conservée.',
     'profile_documents_dpa_outdated' => 'Une version plus récente existe (:version). Le document téléchargé porte celle que vous avez acceptée.',
     'profile_documents_download' => 'Télécharger',
+    'profile_documents_dpa_accepted_via_terms' => 'Accepté le :date avec les conditions générales (art. 10.5) · version :version',
     'expenses_totals_for' => 'Totaux pour :',
     'expense_categories' => [
         'hardware' => 'Matériel informatique',
