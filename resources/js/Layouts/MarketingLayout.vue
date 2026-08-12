@@ -1272,6 +1272,18 @@ onUnmounted(() => {
                                     >{{ t("landing.nav.features") }}</Link
                                 >
                             </li>
+                            <!-- La page existait en cinq langues, était
+                                 préchargée, référencée dans le sitemap en
+                                 priorité 0.9 et citée dans llms.txt — mais
+                                 aucun lien n'y menait. Une page que seuls les
+                                 moteurs savent atteindre ne sert personne. -->
+                            <li>
+                                <Link
+                                    :href="localizedRoute('why_faktur')"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t("why_faktur.breadcrumb") }}</Link
+                                >
+                            </li>
                             <li>
                                 <Link
                                     :href="localizedRoute('pricing')"
