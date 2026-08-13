@@ -52,6 +52,18 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Contrôle horaire de la clé de chiffrement.
+        //
+        // Toutes les heures, et non une fois par jour : un changement d'APP_KEY
+        // passé inaperçu ne coûte pas la même chose selon qu'on s'en aperçoit
+        // dans l'heure ou trois semaines plus tard, quand des centaines
+        // d'enregistrements ont déjà été écrits sous la nouvelle clé — et que
+        // rétablir l'ancienne ne suffit plus à tout relire.
+        $schedule->command('encryption:check')
+            ->hourly()
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Send HR event reminders (J-1 and J0) daily at 7:00 AM
         $schedule->command('hr:send-event-reminders')
             ->dailyAt('07:00')
