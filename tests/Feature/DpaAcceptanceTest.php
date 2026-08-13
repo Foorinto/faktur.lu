@@ -104,7 +104,6 @@ class DpaAcceptanceTest extends TestCase
         $this->assertNotNull($user->dpa_accepted_at);
         $this->assertNotNull($user->terms_accepted_at, 'La case des CGU laissait jusqu\'ici la table intacte.');
         $this->assertSame(DpaDocument::VERSION, $user->dpa_version);
-        $this->assertNotNull($user->acceptance_ip);
 
         // La date doit être celle de l'acceptation, pas une valeur par défaut
         // héritée de la colonne : on vérifie qu'elle vient d'être posée.
@@ -191,23 +190,6 @@ class DpaAcceptanceTest extends TestCase
         $this->assertSame('2026-02-14 16:00:25', $ancien->terms_accepted_at->format('Y-m-d H:i:s'));
         $this->assertSame('terms', $ancien->dpa_acceptance_method, 'La voie d\'acceptation doit rester distincte.');
         $this->assertSame('1.0', $ancien->dpa_version, 'C\'est la version qu\'il a lue, pas la version courante.');
-    }
-
-    /**
-     * L'adresse n'a jamais été relevée pour ces comptes. En inventer une
-     * retirerait toute valeur à celles qui sont vraies.
-     */
-    public function test_no_ip_address_is_invented_for_older_accounts(): void
-    {
-        $ancien = User::factory()->create([
-            'created_at' => '2026-02-14 16:00:25',
-            'dpa_accepted_at' => null,
-            'acceptance_ip' => null,
-        ]);
-
-        $this->rejouerLaReprise();
-
-        $this->assertNull($ancien->fresh()->acceptance_ip);
     }
 
     public function test_a_new_signup_is_marked_as_an_explicit_acceptance(): void

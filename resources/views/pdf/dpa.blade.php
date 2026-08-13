@@ -162,7 +162,7 @@
             <span class="meta">Article 10.5 des CGU : « en acceptant les CGU, l'Utilisateur accepte également le DPA dans sa version en vigueur ». Version {{ $acceptation['version'] }} du document.</span>
         @else
             <span class="accept">Accepté par voie électronique le {{ $acceptation['date'] }}</span><br>
-            <span class="meta">@if($acceptation['ip'])Depuis l'adresse {{ $acceptation['ip'] }} · @endif Version {{ $acceptation['version'] }} du document</span>
+            <span class="meta">Version {{ $acceptation['version'] }} du document</span>
         @endif
     </div>
     <div>

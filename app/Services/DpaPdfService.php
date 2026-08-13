@@ -45,9 +45,6 @@ class DpaPdfService
                 // par renvoi des conditions générales n'ont pas la même portée :
                 // le document dit laquelle des deux a eu lieu.
                 'par_renvoi' => $user->dpa_acceptance_method === 'terms',
-                // L'adresse n'a jamais été relevée pour les acceptations par
-                // renvoi. On le dit, on n'en invente pas.
-                'ip' => $user->acceptance_ip,
             ],
             'genereLe' => now()->format('d/m/Y'),
         ])
