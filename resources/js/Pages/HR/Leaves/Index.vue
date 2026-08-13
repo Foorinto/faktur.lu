@@ -7,6 +7,13 @@ import { useTranslations } from "@/Composables/useTranslations";
 import { useAvatarColor } from "@/Composables/useAvatarColor";
 import { useTour } from "@/Composables/useTour";
 
+// Portraits dont le fichier a disparu du disque : un ensemble, pour qu'une
+// photo manquante n'en masque pas d'autres dans la liste.
+const portraitsIndisponibles = ref(new Set());
+const portraitPerdu = (id) => { portraitsIndisponibles.value = new Set(portraitsIndisponibles.value).add(id); };
+const portraitVisible = (e) => Boolean(e?.photo_path) && ! portraitsIndisponibles.value.has(e.id);
+
+
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 const { startTour } = useTour();
@@ -427,7 +434,7 @@ const submitNew = () => {
                             <div class="flex items-center">
                                 <div class="h-8 w-8 flex-shrink-0">
                                     <img
-                                        v-if="lr.employee?.photo_path"
+                                        v-if="portraitVisible(lr.employee)"
                                         :src="route('files.employee-photo', lr.employee.id)"
                                         :alt="
                                             lr.employee?.first_name +
@@ -435,6 +442,7 @@ const submitNew = () => {
                                             lr.employee?.last_name
                                         "
                                         class="h-8 w-8 rounded-lg object-cover"
+                                        @error="portraitPerdu(lr.employee.id)"
                                     />
                                     <div
                                         v-else

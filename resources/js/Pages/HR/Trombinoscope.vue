@@ -8,6 +8,16 @@ import debounce from 'lodash/debounce';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 
+// Portraits dont le fichier a disparu du disque.
+//
+// Un ensemble, et non un drapeau : dans une liste, un drapeau unique masquerait
+// toutes les photos dès la première défaillante. Un chemin enregistré ne
+// garantit pas que le fichier soit encore là.
+const portraitsIndisponibles = ref(new Set());
+const portraitPerdu = (id) => { portraitsIndisponibles.value = new Set(portraitsIndisponibles.value).add(id); };
+const portraitVisible = (e) => Boolean(e?.photo_path) && ! portraitsIndisponibles.value.has(e.id);
+
+
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 
@@ -162,10 +172,11 @@ const orgTree = computed(() => {
                             <!-- Photo or initials -->
                             <div class="mx-auto mb-3 h-20 w-20">
                                 <img
-                                    v-if="employee.photo_path"
+                                    v-if="portraitVisible(employee)"
                                     :src="route('files.employee-photo', employee.id)"
                                     :alt="employee.full_name"
                                     class="h-20 w-20 rounded-full object-cover ring-2 ring-slate-100 dark:ring-gray-700"
+                                    @error="portraitPerdu(employee.id)"
                                 />
                                 <div v-else :class="['flex h-20 w-20 items-center justify-center rounded-full ring-2 ring-white/50 dark:ring-gray-700/50', getAvatarClasses(employee.first_name + ' ' + employee.last_name)]">
                                     <span class="text-lg font-bold">

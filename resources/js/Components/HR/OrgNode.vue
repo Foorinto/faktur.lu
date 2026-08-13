@@ -1,5 +1,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+// Un chemin enregistré ne garantit pas que le fichier soit encore sur le
+// disque : sans repli, on n'a ni portrait ni initiales.
+const photoIndisponible = ref(false);
 
 defineProps({
     node: { type: Object, required: true },
@@ -18,11 +23,12 @@ defineProps({
             <!-- Photo or initials -->
             <div class="mx-auto mb-2" :class="depth === 0 ? 'h-16 w-16' : 'h-12 w-12'">
                 <img
-                    v-if="node.photo_path"
+                    v-if="node.photo_path && ! photoIndisponible"
                     :src="route('files.employee-photo', node.id)"
                     :alt="node.full_name"
                     class="rounded-full object-cover ring-2 ring-slate-100 dark:ring-gray-700"
                     :class="depth === 0 ? 'h-16 w-16' : 'h-12 w-12'"
+                    @error="photoIndisponible = true"
                 />
                 <div
                     v-else

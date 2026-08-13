@@ -7,6 +7,16 @@ import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 
+// Portraits dont le fichier a disparu du disque.
+//
+// Un ensemble, et non un drapeau : dans une liste, un drapeau unique masquerait
+// toutes les photos dès la première défaillante. Un chemin enregistré ne
+// garantit pas que le fichier soit encore là.
+const portraitsIndisponibles = ref(new Set());
+const portraitPerdu = (id) => { portraitsIndisponibles.value = new Set(portraitsIndisponibles.value).add(id); };
+const portraitVisible = (e) => Boolean(e?.photo_path) && ! portraitsIndisponibles.value.has(e.id);
+
+
 const { t } = useTranslations();
 const { getAvatarClasses } = useAvatarColor();
 
@@ -246,10 +256,11 @@ const applyTemplate = () => {
                 </Link>
                 <div class="h-10 w-10 flex-shrink-0">
                     <img
-                        v-if="employee.photo_path"
+                        v-if="portraitVisible(employee)"
                         :src="route('files.employee-photo', employee.id)"
                         :alt="employee.full_name"
                         class="h-10 w-10 rounded-xl object-cover"
+                        @error="portraitPerdu(employee.id)"
                     />
                     <div v-else :class="['flex h-10 w-10 items-center justify-center rounded-xl', getAvatarClasses(employee.first_name + ' ' + employee.last_name)]">
                         <span class="text-sm font-bold">
