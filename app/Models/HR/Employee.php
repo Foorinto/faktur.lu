@@ -62,9 +62,27 @@ class Employee extends Model
         'trial_end_date' => 'date:Y-m-d',
         'termination_date' => 'date:Y-m-d',
         'salary_gross' => 'decimal:2',
-        'bank_iban' => 'encrypted', // chiffré au repos (RGPD) ; déchiffrement transparent à la lecture
-        'benefits' => 'array',
-        'emergency_contact' => 'array',
+
+        // Chiffrés au repos, déchiffrement transparent à la lecture.
+        //
+        // L'hébergement mutualisé ne garantit pas le chiffrement du disque, et
+        // ces colonnes portent de quoi reconstituer une identité complète — sur
+        // des personnes qui ne sont pas clientes du service et n'ont rien signé.
+        //
+        // ⚠️ Aucun de ces champs ne doit servir de critère SQL. Le chiffrement
+        // emploie un vecteur d'initialisation aléatoire : deux fois la même
+        // valeur donne deux chiffrés différents, donc plus de `where`, plus de
+        // `like`, plus d'index, plus de tri en base. Filtrer dessus après
+        // chargement, ou ne pas les chiffrer.
+        'bank_iban' => 'encrypted',
+        'nationality' => 'encrypted',
+        'phone_perso' => 'encrypted',
+        'email_perso' => 'encrypted',
+        'address' => 'encrypted',
+        'city' => 'encrypted',
+        'postal_code' => 'encrypted',
+        'benefits' => 'encrypted:array',
+        'emergency_contact' => 'encrypted:array',
         'portal_activated_at' => 'datetime',
         'hide_leaves_from_team' => 'boolean',
     ];
