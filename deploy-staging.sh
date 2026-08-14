@@ -217,8 +217,7 @@ cd $REMOTE_PATH &&
 DB_NAME=\$(grep DB_DATABASE .env | head -1 | cut -d '=' -f 2) &&
 DB_USER=\$(grep DB_USERNAME .env | head -1 | cut -d '=' -f 2) &&
 DB_PASS=\$(grep DB_PASSWORD .env | head -1 | cut -d '=' -f 2) &&
-umask 077 &&
-mysqldump -u\$DB_USER -p\$DB_PASS \$DB_NAME | gzip -6 > $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz &&
+(umask 077 && mysqldump -u\$DB_USER -p\$DB_PASS \$DB_NAME | gzip -6 > $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz) &&
 chmod 600 $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz &&
 echo \"Backup sauvegardé: $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz\" &&
 echo \"Taille: \$(du -h $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz | cut -f1)\" &&
