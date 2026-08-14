@@ -524,6 +524,7 @@ return [
     'profile_documents_dpa_outdated' => 'Et gëtt eng méi rezent Versioun (:version). Dat erofgelueden Dokument dréit déi, déi Dir akzeptéiert hutt.',
     'profile_documents_download' => 'Eroflueden',
     'profile_documents_dpa_accepted_via_terms' => 'Akzeptéiert den :date zesumme mat den AGB (Art. 10.5) · Versioun :version',
+    'business_settings_country_locked' => 'faktur.lu ass fir Betriber konzipéiert, déi zu Lëtzebuerg etabléiert sinn. Fakturéieren, akafen an autoliquidéieren bleift an der ganzer EU méiglech.',
     'expenses_totals_for' => 'Sommen fir:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',

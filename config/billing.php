@@ -48,7 +48,14 @@ return [
     |
     */
 
-    'supported_countries' => ['LU', 'FR', 'BE', 'DE'],
+    // Pays d'ÉTABLISSEMENT possibles pour l'entreprise utilisatrice.
+    //
+    // À ne pas confondre avec config/countries.php, qui décrit toujours quatre
+    // pays : ces grilles-là servent aux achats, pour retrouver le taux d'un
+    // fournisseur étranger. Facturer, acheter et autoliquider à l'étranger
+    // restent possibles ; c'est déclarer sa propre entreprise hors du
+    // Luxembourg qui ne l'est plus.
+    'supported_countries' => ['LU'],
 
     /*
     |--------------------------------------------------------------------------

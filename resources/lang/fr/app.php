@@ -621,6 +621,7 @@ return [
     'profile_documents_dpa_outdated' => 'Une version plus récente existe (:version). Le document téléchargé porte celle que vous avez acceptée.',
     'profile_documents_download' => 'Télécharger',
     'profile_documents_dpa_accepted_via_terms' => 'Accepté le :date avec les conditions générales (art. 10.5) · version :version',
+    'business_settings_country_locked' => 'faktur.lu est conçu pour les entreprises établies au Luxembourg. Vous pouvez facturer, acheter et autoliquider dans toute l\'Union européenne.',
     'expenses_totals_for' => 'Totaux pour :',
     'expense_categories' => [
         'hardware' => 'Matériel informatique',

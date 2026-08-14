@@ -22,7 +22,11 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'address' => ['required', 'string', 'max:500'],
             'postal_code' => ['required', 'string', 'max:10'],
             'city' => ['required', 'string', 'max:255'],
-            'country_code' => ['required', 'string', 'size:2', Rule::in(config('billing.supported_countries', ['LU', 'FR', 'BE', 'DE']))],
+            // Même source que le formulaire : un POST direct ne doit pas
+            // pouvoir déclarer une entreprise ailleurs qu'au Luxembourg.
+            'country_code' => ['required', 'string', 'size:2', Rule::in(
+                array_column(\App\Models\BusinessSettings::getSupportedCountries(), 'value')
+            )],
             'activity_type' => ['nullable', 'string', Rule::in(['services', 'goods', 'mixed'])],
             'vat_number' => [
                 Rule::requiredIf($this->input('vat_regime') === 'assujetti'),

@@ -179,7 +179,14 @@ const paymentQrcodePreview = ref(props.settings?.payment_qrcode_url ?? null);
 
 const isVatRequired = computed(() => form.vat_regime === 'assujetti');
 
-// Show activity type selector for France (different thresholds for services vs goods)
+// Pays d'établissement, servi par le serveur : la liste n'en contient qu'un.
+const paysEtablissement = computed(
+    () => props.countries?.[0] ?? { value: 'LU', label: 'Luxembourg', flag: '🇱🇺' },
+);
+
+// Le type d'activité ne distingue les seuils que pour la France, qui n'est plus
+// un pays d'établissement possible. La branche est conservée — elle ne coûte
+// rien et resservirait telle quelle si la liste était rouverte.
 const showActivityType = computed(() => form.country_code === 'FR');
 
 // Get the current country configuration
@@ -580,22 +587,23 @@ const cancelPaymentQrcodeUpload = () => {
                                 <InputError :message="form.errors.city" class="mt-2" />
                             </div>
 
+                            <!-- Champ figé plutôt que supprimé : le pays
+                                 d'établissement reste une information utile à
+                                 lire, elle n'est simplement plus un choix.
+                                 faktur.lu est un outil luxembourgeois — ce qui
+                                 n'empêche ni de facturer, ni d'acheter, ni
+                                 d'autoliquider à l'étranger. -->
                             <div>
                                 <InputLabel for="country_code" :value="t('country')" />
-                                <select
+                                <div
                                     id="country_code"
-                                    v-model="form.country_code"
-                                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                                    required
+                                    class="mt-1 block w-full cursor-not-allowed rounded-xl border border-gray-200 bg-slate-50 px-3 py-2 text-slate-600 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-400"
                                 >
-                                    <option
-                                        v-for="country in countries"
-                                        :key="country.value"
-                                        :value="country.value"
-                                    >
-                                        {{ country.flag }} {{ country.label }}
-                                    </option>
-                                </select>
+                                    {{ paysEtablissement.flag }} {{ paysEtablissement.label }}
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                    {{ t('business_settings_country_locked') }}
+                                </p>
                                 <InputError :message="form.errors.country_code" class="mt-2" />
                             </div>
 

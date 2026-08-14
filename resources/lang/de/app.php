@@ -524,6 +524,7 @@ return [
     'profile_documents_dpa_outdated' => 'Es gibt eine neuere Version (:version). Das heruntergeladene Dokument trägt die von Ihnen akzeptierte.',
     'profile_documents_download' => 'Herunterladen',
     'profile_documents_dpa_accepted_via_terms' => 'Akzeptiert am :date zusammen mit den AGB (Art. 10.5) · Version :version',
+    'business_settings_country_locked' => 'faktur.lu ist für in Luxemburg ansässige Unternehmen konzipiert. Fakturieren, einkaufen und Reverse-Charge bleiben EU-weit möglich.',
     'expenses_totals_for' => 'Summen für:',
     'expense_categories' => [
         'hardware' => 'Computerhardware',

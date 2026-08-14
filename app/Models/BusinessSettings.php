@@ -752,22 +752,33 @@ class BusinessSettings extends Model
     }
 
     /**
-     * Get the list of supported countries for forms.
+     * Pays d'établissement proposés à la saisie : le Luxembourg, et lui seul.
+     *
+     * `config/countries.php` décrit toujours quatre pays, et ce n'est pas une
+     * incohérence : ces grilles servent aux ACHATS, pour retrouver le taux d'un
+     * fournisseur allemand ou français. Ce qui est fermé ici, c'est la
+     * possibilité de déclarer sa PROPRE entreprise ailleurs qu'au Luxembourg.
+     *
+     * La distinction est le cœur du sujet. Facturer un client belge, acheter
+     * chez Amazon.de, autoliquider une acquisition intracommunautaire : tout
+     * cela reste, parce que c'est le quotidien d'une entreprise luxembourgeoise.
+     * Ce qui disparaît, c'est de faire passer faktur.lu pour un outil belge ou
+     * allemand — une promesse que le code ne tenait pas, faute d'export TVA
+     * pour ces administrations.
+     *
+     * Rouvrir revient à rétablir cette liste : rien n'a été supprimé ailleurs.
      */
+    public const PAYS_ETABLISSEMENT = 'LU';
+
     public static function getSupportedCountries(): array
     {
-        $countries = config('countries', []);
-        $options = [];
+        $code = self::PAYS_ETABLISSEMENT;
 
-        foreach ($countries as $code => $config) {
-            $options[] = [
-                'value' => $code,
-                'label' => $config['name'],
-                'flag' => self::getCountryFlag($code),
-            ];
-        }
-
-        return $options;
+        return [[
+            'value' => $code,
+            'label' => config("countries.{$code}.name", 'Luxembourg'),
+            'flag' => self::getCountryFlag($code),
+        ]];
     }
 
     /**

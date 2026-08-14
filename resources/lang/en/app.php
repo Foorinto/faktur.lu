@@ -621,6 +621,7 @@ return [
     'profile_documents_dpa_outdated' => 'A newer version exists (:version). The downloaded document carries the one you accepted.',
     'profile_documents_download' => 'Download',
     'profile_documents_dpa_accepted_via_terms' => 'Accepted on :date together with the terms of service (art. 10.5) · version :version',
+    'business_settings_country_locked' => 'faktur.lu is built for companies established in Luxembourg. You can still invoice, purchase and reverse-charge anywhere in the European Union.',
     'expenses_totals_for' => 'Totals for:',
     'expense_categories' => [
         'hardware' => 'Computer hardware',
