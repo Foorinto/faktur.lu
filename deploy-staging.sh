@@ -217,9 +217,14 @@ cd $REMOTE_PATH &&
 DB_NAME=\$(grep DB_DATABASE .env | head -1 | cut -d '=' -f 2) &&
 DB_USER=\$(grep DB_USERNAME .env | head -1 | cut -d '=' -f 2) &&
 DB_PASS=\$(grep DB_PASSWORD .env | head -1 | cut -d '=' -f 2) &&
-mysqldump -u\$DB_USER -p\$DB_PASS \$DB_NAME > $BACKUP_DIR/backup_\${TIMESTAMP}.sql &&
-echo \"Backup sauvegardé: $BACKUP_DIR/backup_\${TIMESTAMP}.sql\" &&
-echo \"Taille: \$(du -h $BACKUP_DIR/backup_\${TIMESTAMP}.sql | cut -f1)\" &&
+umask 077 &&
+mysqldump -u\$DB_USER -p\$DB_PASS \$DB_NAME | gzip -6 > $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz &&
+chmod 600 $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz &&
+echo \"Backup sauvegardé: $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz\" &&
+echo \"Taille: \$(du -h $BACKUP_DIR/backup_\${TIMESTAMP}.sql.gz | cut -f1)\" &&
+echo '--- Purge des sauvegardes de déploiement de plus de 30 jours ---' &&
+find $BACKUP_DIR -maxdepth 1 -name 'backup_*.sql*' -type f -mtime +30 -delete &&
+echo \"Reste: \$(ls -1 $BACKUP_DIR/backup_*.sql* 2>/dev/null | wc -l) fichier(s), \$(du -sh $BACKUP_DIR | cut -f1)\" &&
 echo ''
 "
 
