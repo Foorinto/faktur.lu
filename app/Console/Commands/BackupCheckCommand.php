@@ -97,7 +97,15 @@ class BackupCheckCommand extends Command
         $this->line('');
         $this->info('── Sauvegardes locales ──');
         $path = config('backup.local.path');
-        $files = is_dir($path) ? glob($path.'/backup_*') : [];
+        // Dumps et copies du .env sont comptés séparément.
+        //
+        // Un simple « backup_* » ramassait les deux, et la fraîcheur pouvait
+        // alors être satisfaite par une copie du .env alors qu'aucun dump
+        // n'était plus produit. C'est le faux vert qu'on cherche justement à
+        // éviter : un contrôle qui rassure sur la foi du mauvais fichier.
+        $tous = is_dir($path) ? glob($path.'/backup_*') : [];
+        $files = array_values(array_filter($tous, fn ($f) => ! str_contains(basename($f), '.env')));
+        $copiesEnvLocales = count($tous) - count($files);
 
         if (empty($files)) {
             $this->line('  Aucune sauvegarde locale trouvée dans '.$path);
@@ -110,8 +118,9 @@ class BackupCheckCommand extends Command
             // âge négatif ferait passer le contrôle « plus de 48 h » à côté.
             $age = (int) abs(now()->diffInHours(\Carbon\Carbon::createFromTimestamp(filemtime($last))));
 
-            $this->line('  Nombre de fichiers    : '.count($files));
-            $this->line('  Plus récent           : '.basename($last));
+            $this->line('  Dumps                 : '.count($files));
+            $this->line('  Copies du .env        : '.$copiesEnvLocales);
+            $this->line('  Dump le plus récent   : '.basename($last));
             $this->line('  Date                  : '.date('Y-m-d H:i', filemtime($last))." ({$age} h)");
 
             if ($age > 48) {
@@ -170,9 +179,15 @@ class BackupCheckCommand extends Command
             return $this->verdict($problems);
         }
 
-        $lines = array_filter(explode("\n", trim($listing->output())));
+        $toutes = array_filter(explode("\n", trim($listing->output())));
 
-        $this->line('  Fichiers sur '.$destination.' : '.count($lines));
+        // Même séparation que côté local : la fraîcheur doit se mesurer sur les
+        // DUMPS. Une copie du .env déposée cette nuit satisferait sinon le
+        // contrôle alors que plus aucune base ne part.
+        $lines = array_values(array_filter($toutes, fn ($l) => ! str_contains($l, '.env')));
+        $copiesEnv = array_values(array_filter($toutes, fn ($l) => str_contains($l, '.env')));
+
+        $this->line('  Dumps sur '.$destination.' : '.count($lines));
 
         if (empty($lines)) {
             $problems[] = 'Le remote répond mais ne contient aucune sauvegarde. '
@@ -205,8 +220,6 @@ class BackupCheckCommand extends Command
             // Une copie du .env qu'on ne voit pas est une copie qu'on n'a pas :
             // c'est elle qui porte APP_KEY, sans laquelle les colonnes
             // chiffrées ne se relisent plus après restauration.
-            $copiesEnv = array_filter($lines, fn ($l) => str_contains($l, '.env'));
-
             $this->line('  Copie du .env         : '.(
                 $copiesEnv ? count($copiesEnv).' présente(s)' : 'AUCUNE'
             ));
