@@ -12,6 +12,7 @@ import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { computed, watch, ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
+import UnsavedChangesBar from '@/Components/UnsavedChangesBar.vue';
 
 const { startTour } = useTour();
 
@@ -601,9 +602,6 @@ const cancelPaymentQrcodeUpload = () => {
                                 >
                                     {{ paysEtablissement.flag }} {{ paysEtablissement.label }}
                                 </div>
-                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    {{ t('business_settings_country_locked') }}
-                                </p>
                                 <InputError :message="form.errors.country_code" class="mt-2" />
                             </div>
 
@@ -1317,6 +1315,8 @@ const cancelPaymentQrcodeUpload = () => {
                         <span v-else>{{ t('save') }}</span>
                     </PrimaryButton>
                 </div>
+                        <UnsavedChangesBar :form="form" @submit="submit" />
+
             </form>
         </div>
     </AppLayout>

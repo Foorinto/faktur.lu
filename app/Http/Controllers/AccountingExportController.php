@@ -57,7 +57,13 @@ class AccountingExportController extends Controller
 
         $settings = AccountingSetting::getForUser($user);
 
-        // Le FEC est un export spécifiquement français → ne le proposer qu'aux vendeurs FR.
+        // Le FEC est un export spécifiquement français → ne le proposer qu'aux
+        // vendeurs FR.
+        //
+        // Depuis que le pays d'établissement est figé sur LU, cette condition
+        // est toujours vraie et le format n'apparaît donc jamais. Le formateur
+        // est conservé volontairement : il fonctionne, et rouvrir la France
+        // suffirait à le remettre en service sans rien réécrire.
         $formats = AccountingExport::FORMATS;
         if ((\App\Models\BusinessSettings::getInstance()?->country_code ?? 'LU') !== 'FR') {
             unset($formats[AccountingExport::FORMAT_FEC]);

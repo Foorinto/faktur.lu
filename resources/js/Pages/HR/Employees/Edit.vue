@@ -4,6 +4,7 @@ import HRNav from '@/Components/HRNav.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import UnsavedChangesBar from '@/Components/UnsavedChangesBar.vue';
 
 const { t } = useTranslations();
 
@@ -329,6 +330,8 @@ const submit = () => {
                         {{ t('save') }}
                     </button>
                 </div>
+                        <UnsavedChangesBar :form="form" @submit="submit" />
+
             </form>
         </div>
     </AppLayout>

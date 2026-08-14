@@ -620,7 +620,8 @@ return [
     'profile_documents_dpa_outdated' => 'Existe uma versão mais recente (:version). O documento descarregado tem a que aceitou.',
     'profile_documents_download' => 'Descarregar',
     'profile_documents_dpa_accepted_via_terms' => 'Aceite a :date juntamente com as condições gerais (art. 10.5) · versão :version',
-    'business_settings_country_locked' => 'O faktur.lu foi concebido para empresas estabelecidas no Luxemburgo. Pode faturar, comprar e autoliquidar em toda a União Europeia.',
+    'unsaved_changes' => 'Alterações não guardadas',
+    'discard_changes' => 'Descartar',
     'expenses_totals_for' => 'Totais para:',
     'expense_categories' => [
         'hardware' => 'Material informático',

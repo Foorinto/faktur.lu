@@ -5,6 +5,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
+import UnsavedChangesBar from '@/Components/UnsavedChangesBar.vue';
 
 const { t } = useTranslations();
 const { startTour } = useTour();
@@ -311,6 +312,8 @@ const submit = () => {
                         {{ t('hr.create_employee') }}
                     </button>
                 </div>
+                        <UnsavedChangesBar :form="form" @submit="submit" />
+
             </form>
         </div>
     </AppLayout>
