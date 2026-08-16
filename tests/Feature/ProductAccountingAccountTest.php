@@ -234,6 +234,91 @@ class ProductAccountingAccountTest extends TestCase
         $this->assertSame('702000', explode(';', $lignes->first())[8]);
     }
 
+    /**
+     * Le cas relevé sur un export réel : une facture à plusieurs taux n'affichait
+     * que le dominant, avec le total de sa TVA en face. La ligne ne se recoupait
+     * pas, et toute la TVA partait sur le compte du taux dominant.
+     */
+    public function test_the_generic_csv_splits_a_mixed_rate_invoice(): void
+    {
+        // F-2026-10000 : 5 020 € à 17 % et 50 € à 0 % donnaient une seule ligne
+        // « 5 070,00 / 853,40 / 17 % », dont 17 % font 861,90.
+        $facture = $this->factureAvecLignes([
+            ['Prestation', 5020, null],
+            ['Débours', 50, null],
+        ]);
+        $facture->items()->where('title', 'Débours')->update(['vat_rate' => 0]);
+        app(\App\Actions\CalculateInvoiceTotalsAction::class)->execute($facture);
+        $facture = $facture->fresh(['items', 'client', 'discounts']);
+
+        $lignes = $this->csv($facture);
+
+        $this->assertCount(2, $lignes, 'Deux taux, deux lignes.');
+
+        foreach ($lignes as $ligne) {
+            [$ht, $tva, $ttc, $taux] = [
+                $this->montant($ligne, 4), $this->montant($ligne, 5),
+                $this->montant($ligne, 6), (float) rtrim(explode(';', $ligne)[7], '%'),
+            ];
+
+            $this->assertEqualsWithDelta($ht * $taux / 100, $tva, 0.01,
+                "La ligne à {$taux}% annonce {$tva} de TVA sur {$ht} de base.");
+            $this->assertEqualsWithDelta($ht + $tva, $ttc, 0.01);
+        }
+
+        // Le document reste le document.
+        $this->assertEqualsWithDelta(5070, collect($lignes)->sum(fn ($l) => $this->montant($l, 4)), 0.01);
+        $this->assertEqualsWithDelta(853.40, collect($lignes)->sum(fn ($l) => $this->montant($l, 5)), 0.01);
+    }
+
+    /**
+     * Les deux ventilations se composent : deux taux et deux comptes de ventes
+     * font quatre lignes, et le total du document est conservé.
+     */
+    public function test_rate_and_account_ventilations_compose(): void
+    {
+        $facture = $this->factureAvecLignes([
+            ['Prestation', 1000, null],
+            ['Frais de déplacement', 200, '708'],
+        ]);
+        $facture->items()->where('title', 'Frais de déplacement')->update(['vat_rate' => 3]);
+        app(\App\Actions\CalculateInvoiceTotalsAction::class)->execute($facture);
+        $facture = $facture->fresh(['items', 'client', 'discounts']);
+
+        $lignes = $this->csv($facture);
+        $this->assertCount(2, $lignes);
+
+        $parCompte = collect($lignes)->keyBy(fn ($l) => explode(';', $l)[8]);
+        $this->assertEqualsWithDelta(170, $this->montant($parCompte['702000'], 5), 0.01);
+        $this->assertEqualsWithDelta(6, $this->montant($parCompte['708'], 5), 0.01);
+
+        // Chacune sur le compte de TVA de son taux : c'est là que la version
+        // précédente se trompait, en versant les 176 € sur le seul 461100.
+        $this->assertNotSame(
+            explode(';', $parCompte['702000'])[9],
+            explode(';', $parCompte['708'])[9],
+            'Deux taux distincts appellent deux comptes de TVA distincts.'
+        );
+    }
+
+    /** Lignes du CSV concernant la facture, en-tête et dépenses exclus. */
+    private function csv(Invoice $facture): array
+    {
+        $csv = (new \App\Services\Accounting\GenericCsvFormatter())->format(
+            collect([$facture]),
+            AccountingSetting::getForUser($this->user)
+        );
+
+        return collect(explode("\r\n", $csv))
+            ->filter(fn ($l) => str_contains($l, $facture->number))
+            ->values()->all();
+    }
+
+    private function montant(string $ligne, int $colonne): float
+    {
+        return (float) str_replace(',', '.', explode(';', $ligne)[$colonne]);
+    }
+
     private function creerArticle(?string $compte): \Illuminate\Testing\TestResponse
     {
         return $this->post(route('products.store'), [
