@@ -23,6 +23,10 @@ const props = defineProps({
 });
 
 const form = useForm({
+    // Inertia n'usurpe la méthode que si `_method` fait partie des DONNÉES.
+    // Placé dans les options de visite, il était purement et simplement ignoré
+    // et la requête partait en POST — que la route refuse.
+    _method: 'PUT',
     date: props.expense.date,
     provider_name: props.expense.provider_name,
     supplier_country: props.expense.supplier_country || props.homeCountry || 'LU',
@@ -59,7 +63,6 @@ const removeAttachment = () => {
 const submit = () => {
     form.post(route('expenses.update', props.expense.id), {
         forceFormData: true,
-        _method: 'PUT',
     });
 };
 </script>

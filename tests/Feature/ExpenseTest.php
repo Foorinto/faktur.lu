@@ -157,6 +157,36 @@ class ExpenseTest extends TestCase
         ]);
     }
 
+    /**
+     * Le chemin réellement emprunté par le navigateur.
+     *
+     * Le formulaire porte une pièce jointe : Inertia envoie donc un POST avec
+     * `_method=PUT` plutôt qu'un vrai PUT. Le test précédent appelait `put()`
+     * directement et court-circuitait cette usurpation — c'est pourquoi il est
+     * resté vert alors que la modification échouait en 405 dans le navigateur.
+     */
+    public function test_the_browser_path_with_method_spoofing_works(): void
+    {
+        $expense = Expense::factory()->create(['provider_name' => 'Ancien']);
+
+        $this->actingAs($this->user)
+            ->post(route('expenses.update', $expense), [
+                '_method' => 'PUT',
+                'date' => $expense->date->format('Y-m-d'),
+                'provider_name' => 'Nouveau',
+                'category' => $expense->category,
+                'amount_input_mode' => 'ht',
+                'amount_ht' => 100,
+                'vat_rate' => 17,
+            ])
+            ->assertRedirect(route('expenses.index'));
+
+        $this->assertDatabaseHas('expenses', [
+            'id' => $expense->id,
+            'provider_name' => 'Nouveau',
+        ]);
+    }
+
     public function test_user_can_delete_expense(): void
     {
         $expense = Expense::factory()->create();
