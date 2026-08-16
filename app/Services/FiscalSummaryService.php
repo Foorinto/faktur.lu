@@ -44,12 +44,72 @@ class FiscalSummaryService
             'revenue' => $revenue,
             'expenses' => $expenses,
             'vat' => $vat,
+            'foreign_vat' => $this->getForeignVatSummary($year),
             'net_profit' => round($revenue['total_ht'] - $expenses['total_ht'], 2),
             'business' => [
                 'company_name' => $settings?->company_name,
                 'matricule' => $settings?->matricule,
                 'vat_number' => $settings?->vat_number,
             ],
+        ];
+    }
+
+    /**
+     * TVA étrangère récupérable, ventilée par pays.
+     *
+     * Une TVA facturée par un fournisseur d'un autre État membre ne se déduit
+     * pas au Luxembourg — faktur.lu l'écarte donc de la TVA déductible, et le
+     * montant disparaissait de la vue de l'utilisateur. Elle n'est pourtant pas
+     * perdue : elle se récupère par la procédure de remboursement de la
+     * directive 2008/9/CE.
+     *
+     * Encore faut-il savoir combien, et auprès de qui. La demande se dépose
+     * PAR PAYS DE REMBOURSEMENT : on ne réclame pas une somme à l'Union, mais
+     * un montant à l'Allemagne et un autre à la France. D'où cette ventilation,
+     * qui n'est pas une présentation mais la forme même du formulaire.
+     *
+     * Le seuil décide de l'opportunité. En dessous de 50 € pour une année
+     * complète, l'État de remboursement n'examine pas la demande : afficher le
+     * montant sans dire s'il est atteignable laisserait entreprendre une
+     * démarche vouée au refus.
+     */
+    protected function getForeignVatSummary(int $year): array
+    {
+        /** Minimum pour une demande portant sur une année civile complète (art. 17 de la directive 2008/9/CE). */
+        $seuilAnnuel = 50;
+
+        $lignes = Expense::forYear($year)
+            ->where('vat_regime', Expense::REGIME_FOREIGN_VAT)
+            ->selectRaw('supplier_country, SUM(amount_vat) as tva, COUNT(*) as achats')
+            ->groupBy('supplier_country')
+            ->get();
+
+        $noms = collect(Expense::getSupplierCountries())->keyBy('code');
+
+        $parPays = $lignes
+            ->map(fn ($l) => [
+                'code' => $l->supplier_country,
+                'pays' => $noms[$l->supplier_country]['name'] ?? $l->supplier_country,
+                'tva' => round((float) $l->tva, 2),
+                'achats' => (int) $l->achats,
+                'recuperable' => round((float) $l->tva, 2) >= $seuilAnnuel,
+            ])
+            ->sortByDesc('tva')
+            ->values()
+            ->all();
+
+        $recuperable = collect($parPays)->where('recuperable', true)->sum('tva');
+
+        return [
+            'par_pays' => $parPays,
+            'total' => round(collect($parPays)->sum('tva'), 2),
+            'total_recuperable' => round($recuperable, 2),
+            'seuil_annuel' => $seuilAnnuel,
+            // La demande se dépose au plus tard le 30 septembre de l'année
+            // suivant la période : sans cette date, le montant ne dit pas quand
+            // agir, et une créance qu'on oublie de réclamer est une créance
+            // perdue.
+            'date_limite' => sprintf('30/09/%d', $year + 1),
         ];
     }
 

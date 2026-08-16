@@ -288,6 +288,73 @@ const categoryLabels = {
                     </p>
                 </div>
 
+                <!-- TVA étrangère récupérable.
+                     Ce montant a été écarté de la TVA déductible, à raison :
+                     il ne se déduit pas au Luxembourg. Mais il n'est pas perdu
+                     pour autant, et sans ce tableau il disparaissait de la vue.
+                     La ventilation par pays n'est pas une présentation : c'est
+                     la forme de la demande de remboursement, qui se dépose
+                     auprès de chaque État séparément. -->
+                <div
+                    v-if="summary.foreign_vat && summary.foreign_vat.par_pays.length > 0"
+                    class="border-t border-gray-200 px-6 py-4 dark:border-gray-700"
+                >
+                    <h3 class="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                        {{ t('fiscal_foreign_vat_title') }}
+                    </h3>
+                    <p class="mb-3 text-xs text-slate-500 dark:text-slate-400">
+                        {{ t('fiscal_foreign_vat_intro') }}
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                            <thead class="bg-slate-50 dark:bg-gray-800">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_foreign_vat_country') }}</th>
+                                    <th class="px-4 py-2 text-right text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_foreign_vat_amount') }}</th>
+                                    <th class="px-4 py-2 text-right text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_foreign_vat_purchases') }}</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                                <tr v-for="ligne in summary.foreign_vat.par_pays" :key="ligne.code">
+                                    <td class="px-4 py-2 text-sm text-slate-900 dark:text-white">{{ ligne.pays }}</td>
+                                    <td class="px-4 py-2 text-right text-sm font-mono text-slate-900 dark:text-white">{{ formatCurrency(ligne.tva) }}</td>
+                                    <td class="px-4 py-2 text-right text-sm text-slate-500 dark:text-slate-400">{{ ligne.achats }}</td>
+                                    <td class="px-4 py-2 text-xs">
+                                        <span v-if="ligne.recuperable" class="text-emerald-700 dark:text-emerald-400">
+                                            {{ t('fiscal_foreign_vat_claimable') }}
+                                        </span>
+                                        <!-- Sous le seuil, l'État de remboursement n'examine pas
+                                             la demande : le dire évite une démarche vouée au refus. -->
+                                        <span v-else class="text-slate-500 dark:text-slate-400">
+                                            {{ t('fiscal_foreign_vat_below_threshold', { amount: formatCurrency(summary.foreign_vat.seuil_annuel) }) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p
+                        v-if="summary.foreign_vat.total_recuperable > 0"
+                        class="mt-3 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-200"
+                    >
+                        {{ t('fiscal_foreign_vat_action', {
+                            amount: formatCurrency(summary.foreign_vat.total_recuperable),
+                            date: summary.foreign_vat.date_limite,
+                        }) }}
+                        <a
+                            href="https://guichet.public.lu/fr/entreprises/fiscalite/impots-benefices/tva/declarations/operations-intracommunautaires.html"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="font-medium underline underline-offset-2 hover:no-underline"
+                        >
+                            {{ t('fiscal_foreign_vat_link') }}
+                        </a>
+                    </p>
+                </div>
+
                 <!-- VAT breakdown by rate -->
                 <div v-if="summary.revenue.vat_breakdown && summary.revenue.vat_breakdown.length > 0" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
                     <h3 class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">{{ t('fiscal_vat_breakdown') }}</h3>

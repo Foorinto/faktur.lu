@@ -294,6 +294,113 @@ class FiscalSummaryServiceTest extends TestCase
         $this->assertEquals($avant + 170, $vat['balance']);
     }
 
+    /**
+     * Écartée de la TVA déductible — à raison — cette TVA disparaissait de la
+     * vue. Elle n'est pourtant pas perdue : elle se récupère par une demande
+     * de remboursement, déposée pays par pays.
+     */
+    private function achatEtranger(string $pays, float $ht, float $taux): void
+    {
+        Expense::create([
+            'user_id' => $this->user->id,
+            'date' => now()->toDateString(),
+            'provider_name' => 'Fournisseur '.$pays,
+            'supplier_country' => $pays,
+            'category' => 'hardware',
+            'amount_ht' => $ht,
+            'vat_rate' => $taux,
+            'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+        ]);
+    }
+
+    public function test_foreign_vat_is_broken_down_by_country(): void
+    {
+        $this->achatEtranger('DE', 1000, 19);   // 190 €
+        $this->achatEtranger('DE', 500, 19);    // 95 €
+        $this->achatEtranger('FR', 1000, 20);   // 200 €
+
+        $etranger = $this->service->getSummary(now()->year)['foreign_vat'];
+
+        $this->assertCount(2, $etranger['par_pays']);
+
+        // Trié par montant décroissant : c'est le pays qui pèse le plus qu'on
+        // veut voir en premier.
+        $this->assertSame('DE', $etranger['par_pays'][0]['code']);
+        $this->assertEquals(285, $etranger['par_pays'][0]['tva']);
+        $this->assertSame(2, $etranger['par_pays'][0]['achats']);
+        $this->assertEquals(200, $etranger['par_pays'][1]['tva']);
+        $this->assertEquals(485, $etranger['total']);
+    }
+
+    /**
+     * Le seuil ne change pas le montant, il change la décision : en dessous de
+     * 50 € sur une année, l'État de remboursement n'examine pas la demande.
+     */
+    public function test_an_amount_below_the_threshold_is_flagged_as_not_worth_claiming(): void
+    {
+        $this->achatEtranger('BE', 100, 21);    // 21 € — sous le seuil
+        $this->achatEtranger('DE', 1000, 19);   // 190 € — au-dessus
+
+        $etranger = $this->service->getSummary(now()->year)['foreign_vat'];
+
+        $parPays = collect($etranger['par_pays'])->keyBy('code');
+
+        $this->assertTrue($parPays['DE']['recuperable']);
+        $this->assertFalse($parPays['BE']['recuperable'], 'Sous 50 €, la demande ne serait pas examinée.');
+
+        // Le total récupérable ne retient que ce qui l'est réellement.
+        $this->assertEquals(190, $etranger['total_recuperable']);
+        $this->assertEquals(211, $etranger['total'], 'Le montant payé reste affiché en entier.');
+    }
+
+    /**
+     * Une créance qu'on oublie de réclamer est une créance perdue : la date
+     * limite fait partie de l'information.
+     */
+    public function test_the_deadline_is_the_september_after_the_year(): void
+    {
+        $etranger = $this->service->getSummary(2026)['foreign_vat'];
+
+        $this->assertSame('30/09/2027', $etranger['date_limite']);
+    }
+
+    /**
+     * Seule la TVA étrangère est concernée. Une TVA luxembourgeoise se déduit
+     * normalement, une acquisition autoliquidée n'a rien à réclamer.
+     */
+    public function test_only_foreign_vat_appears_in_the_claim(): void
+    {
+        $this->recordExpense(1000);            // TVA luxembourgeoise déductible
+        $this->achatEtranger('DE', 1000, 19);
+
+        Expense::create([
+            'user_id' => $this->user->id,
+            'date' => now()->toDateString(),
+            'provider_name' => 'Fournisseur BE',
+            'supplier_country' => 'BE',
+            'category' => 'software',
+            'amount_ht' => 2000,
+            'vat_rate' => 0,
+            'vat_regime' => Expense::REGIME_REVERSE_CHARGE,
+        ]);
+
+        $etranger = $this->service->getSummary(now()->year)['foreign_vat'];
+
+        $this->assertCount(1, $etranger['par_pays']);
+        $this->assertSame('DE', $etranger['par_pays'][0]['code']);
+        $this->assertEquals(190, $etranger['total']);
+    }
+
+    public function test_a_year_without_foreign_purchases_shows_nothing(): void
+    {
+        $this->recordExpense(1000);
+
+        $etranger = $this->service->getSummary(now()->year)['foreign_vat'];
+
+        $this->assertSame([], $etranger['par_pays']);
+        $this->assertEquals(0, $etranger['total']);
+    }
+
     public function test_each_expense_category_carries_its_form_152_label(): void
     {
         $this->recordExpense(1000, 'office');

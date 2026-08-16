@@ -156,6 +156,28 @@ class FiscalSummaryController extends Controller
             }
 
             fputcsv($file, ['Solde TVA', number_format($summary['vat']['balance'], 2, ',', '')], ';');
+
+            // TVA étrangère : la fiduciaire dépose souvent la demande de
+            // remboursement, autant qu'elle ait les montants par pays.
+            if (! empty($summary['foreign_vat']['par_pays'])) {
+                fputcsv($file, [], ';');
+                fputcsv($file, ['TVA ÉTRANGÈRE RÉCUPÉRABLE'], ';');
+                fputcsv($file, ['Pays', 'TVA payée (€)', 'Achats', 'Récupérable'], ';');
+                foreach ($summary['foreign_vat']['par_pays'] as $ligne) {
+                    fputcsv($file, [
+                        $ligne['pays'],
+                        number_format($ligne['tva'], 2, ',', ''),
+                        $ligne['achats'],
+                        $ligne['recuperable'] ? 'oui' : 'non (sous le seuil)',
+                    ], ';');
+                }
+                fputcsv($file, [
+                    'TOTAL RÉCUPÉRABLE',
+                    number_format($summary['foreign_vat']['total_recuperable'], 2, ',', ''),
+                    '',
+                    'à déposer avant le '.$summary['foreign_vat']['date_limite'],
+                ], ';');
+            }
             fputcsv($file, [], ';');
 
             // Net profit

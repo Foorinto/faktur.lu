@@ -389,6 +389,45 @@
             </tfoot>
         </table>
 
+        {{-- TVA étrangère récupérable : écartée de la TVA déductible à raison,
+             mais récupérable par une demande déposée pays par pays. La
+             fiduciaire doit la voir, c'est souvent elle qui dépose. --}}
+        @if(!empty($summary['foreign_vat']['par_pays']))
+        <div class="section-title">{{ __('app.fiscal_foreign_vat_title') }}</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>{{ __('app.fiscal_foreign_vat_country') }}</th>
+                    <th class="right">{{ __('app.fiscal_foreign_vat_amount') }}</th>
+                    <th class="right">{{ __('app.fiscal_foreign_vat_purchases') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($summary['foreign_vat']['par_pays'] as $ligne)
+                <tr>
+                    <td>{{ $ligne['pays'] }}</td>
+                    <td class="number">{{ number_format($ligne['tva'], 2, ',', ' ') }} €</td>
+                    <td class="right">{{ $ligne['achats'] }}</td>
+                    <td style="font-size: 8pt; color: {{ $ligne['recuperable'] ? '#047857' : '#6b7280' }};">
+                        {{ $ligne['recuperable']
+                            ? __('app.fiscal_foreign_vat_claimable')
+                            : __('app.fiscal_foreign_vat_below_threshold', ['amount' => $summary['foreign_vat']['seuil_annuel'].' €']) }}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @if($summary['foreign_vat']['total_recuperable'] > 0)
+        <p style="font-size: 9pt; color: #047857;">
+            {{ __('app.fiscal_foreign_vat_action', [
+                'amount' => number_format($summary['foreign_vat']['total_recuperable'], 2, ',', ' ').' €',
+                'date' => $summary['foreign_vat']['date_limite'],
+            ]) }}
+        </p>
+        @endif
+        @endif
+
         @if(count($summary['revenue']['vat_breakdown']) > 0)
         <div class="section-title">{{ __('app.pdf_vat_breakdown_by_rate') }}</div>
         <table>
