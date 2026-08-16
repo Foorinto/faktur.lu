@@ -239,6 +239,8 @@ class AccountingExportService
             // on conserve le total pour que l'écriture reste équilibrée.
             if ($parCompte->isEmpty()) {
                 $parCompte = collect([$settings->sales_account => round((float) $invoice->total_ht, 2)]);
+            } else {
+                $parCompte = $this->ventilerRemisesGlobales($parCompte, (float) $invoice->total_ht);
             }
 
             foreach ($parCompte as $compte => $montantHt) {
@@ -261,6 +263,48 @@ class AccountingExportService
         }
 
         return $entries;
+    }
+
+    /**
+     * Répartit l'écart entre le brut des lignes et le net de la facture.
+     *
+     * Une remise globale ne s'attache à aucune ligne : elle se pose sur le pied
+     * du document. Tant qu'une seule écriture de vente portait le total de la
+     * facture, la question ne se posait pas. Dès lors qu'on répartit par compte,
+     * sommer les lignes revient à ignorer la remise — et le crédit dépasse alors
+     * le débit d'autant. Une écriture déséquilibrée n'est pas une écriture
+     * approximative : elle est refusée à l'import.
+     *
+     * La remise se ventile donc au prorata, comme le fait déjà le calcul des
+     * totaux pour la TVA. Le reliquat d'arrondi va au plus gros compte, seul
+     * endroit où un centime ne change pas la lecture.
+     *
+     * @param  \Illuminate\Support\Collection<string, float>  $parCompte  Montants bruts par compte.
+     * @param  float  $netFacture  Total HT du document, remises déduites.
+     * @return \Illuminate\Support\Collection<string, float>
+     */
+    protected function ventilerRemisesGlobales(Collection $parCompte, float $netFacture): Collection
+    {
+        $brut = round($parCompte->sum(), 2);
+        $net = round($netFacture, 2);
+
+        // Pas de remise, ou rien à répartir : on ne touche à rien plutôt que de
+        // faire tourner des arrondis sur des montants déjà justes.
+        if (abs($brut - $net) < 0.01 || abs($brut) < 0.01) {
+            return $parCompte;
+        }
+
+        $ventile = $parCompte->map(fn ($montant) => round($montant * $net / $brut, 2));
+
+        // Le prorata ne retombe pas toujours sur le net au centime près.
+        $reliquat = round($net - $ventile->sum(), 2);
+
+        if (abs($reliquat) >= 0.01) {
+            $principal = $ventile->sortByDesc(fn ($m) => abs($m))->keys()->first();
+            $ventile[$principal] = round($ventile[$principal] + $reliquat, 2);
+        }
+
+        return $ventile->filter(fn ($montant) => abs($montant) > 0.001);
     }
 
     /**

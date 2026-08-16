@@ -144,6 +144,96 @@ class ProductAccountingAccountTest extends TestCase
         $this->assertEquals(1000, $ventes->first()['credit']);
     }
 
+    /**
+     * Une remise globale ne s'attache à aucune ligne. Répartir les ventes par
+     * compte en sommant les lignes revenait donc à l'ignorer : le crédit
+     * dépassait le débit du montant de la remise, et l'écriture aurait été
+     * refusée à l'import chez le comptable.
+     */
+    public function test_a_global_discount_keeps_the_entry_balanced(): void
+    {
+        $facture = $this->factureAvecLignes([
+            ['Prestation', 1000, null],
+            ['Frais de déplacement', 200, '708'],
+        ]);
+
+        \App\Models\InvoiceDiscount::create([
+            'invoice_id' => $facture->id,
+            'label' => 'Geste commercial',
+            'type' => 'percentage',
+            'value' => 10,
+        ]);
+
+        $facture = $facture->fresh(['items', 'client', 'discounts']);
+        $ecritures = $this->ecritures($facture);
+
+        $debit = round(array_sum(array_column($ecritures, 'debit')), 2);
+        $credit = round(array_sum(array_column($ecritures, 'credit')), 2);
+        $this->assertSame($debit, $credit, "Écriture déséquilibrée : {$debit} au débit contre {$credit} au crédit.");
+
+        // La remise se ventile au prorata : 10 % de moins sur chaque compte.
+        $ventes = collect($ecritures)->filter(fn ($e) => $e['credit'] > 0 && $e['account'] !== '411000')->keyBy('account');
+        $this->assertEquals(900, $ventes['702000']['credit']);
+        $this->assertEquals(180, $ventes['708']['credit']);
+    }
+
+    /**
+     * Le CSV générique s'écrit document par document, pas écriture par écriture :
+     * il ne passe pas par `buildEntries()`. Sa colonne « Compte Ventes » portait
+     * donc le compte du paramétrage quoi qu'il arrive — la ventilation était
+     * invisible dans le seul format que l'utilisateur ouvre lui-même.
+     */
+    public function test_the_generic_csv_splits_the_invoice_per_account(): void
+    {
+        $facture = $this->factureAvecLignes([
+            ['Prestation', 1000, null],
+            ['Frais de déplacement', 200, '708'],
+        ]);
+
+        $csv = (new \App\Services\Accounting\GenericCsvFormatter())->format(
+            collect([$facture]),
+            AccountingSetting::getForUser($this->user)
+        );
+
+        $lignes = collect(explode("\r\n", $csv))
+            ->filter(fn ($l) => str_contains($l, 'F-2026-001'))
+            ->values();
+
+        $this->assertCount(2, $lignes, 'Deux comptes de ventes, deux lignes.');
+
+        // `sort()` comparerait ces comptes comme des nombres — 708 avant 702000.
+        $comptes = $lignes->map(fn ($l) => explode(';', $l)[8])
+            ->sort(fn ($x, $y) => strcmp($x, $y))->values()->all();
+        $this->assertSame(['702000', '708'], $comptes);
+
+        // La somme des lignes doit faire le total du document, sinon le fichier
+        // se contredit lui-même sous les yeux du comptable.
+        $sommeHt = $lignes->sum(fn ($l) => (float) str_replace(',', '.', explode(';', $l)[4]));
+        $this->assertEquals(1200.0, round($sommeHt, 2));
+    }
+
+    /**
+     * Une facture antérieure — aucun compte sur ses lignes — doit sortir sur une
+     * seule ligne, exactement comme avant.
+     */
+    public function test_the_generic_csv_is_unchanged_for_older_invoices(): void
+    {
+        $facture = $this->factureAvecLignes([
+            ['Prestation A', 600, null],
+            ['Prestation B', 400, null],
+        ]);
+
+        $csv = (new \App\Services\Accounting\GenericCsvFormatter())->format(
+            collect([$facture]),
+            AccountingSetting::getForUser($this->user)
+        );
+
+        $lignes = collect(explode("\r\n", $csv))->filter(fn ($l) => str_contains($l, 'F-2026-001'));
+
+        $this->assertCount(1, $lignes);
+        $this->assertSame('702000', explode(';', $lignes->first())[8]);
+    }
+
     private function creerArticle(?string $compte): \Illuminate\Testing\TestResponse
     {
         return $this->post(route('products.store'), [
