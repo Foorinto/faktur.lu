@@ -5411,6 +5411,8 @@ return [
         'unit_price_ht' => 'Preis (netto)',
         'vat_rate' => 'MwSt.',
         'vat_custom' => 'Andere',
+        'pcn_account' => 'Buchhaltungskonto',
+        'pcn_account_hint' => 'Optional. Trennt, was kein Umsatz ist, etwa weiterberechnete Kosten (708).',
         'unit' => 'Einheit',
         'is_active' => 'Artikel aktiv',
         'inactive' => 'Inaktiv',

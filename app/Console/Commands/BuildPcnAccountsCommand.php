@@ -26,15 +26,27 @@ class BuildPcnAccountsCommand extends Command
 {
     protected $signature = 'pcn:build
                             {--file= : Chemin du classeur CNC (.xlsx)}
-                            {--out= : Fichier de sortie (défaut : resources/data/pcn-class6.json)}';
+                            {--out= : Fichier de sortie (défaut : resources/data/pcn-class<classe>.json)}
+                            {--class=6 : Classe du plan à extraire (6 = charges, 7 = produits)}';
 
-    protected $description = 'Génère resources/data/pcn-class6.json depuis le classeur du plan comptable de la CNC';
+    protected $description = 'Génère resources/data/pcn-class{$classe}.json depuis le classeur du plan comptable de la CNC';
 
     /** Colonne « Regroupement (R) ou Imputation (I) » de la feuille PCN2020. */
     private const COL_RI = 4;
 
     public function handle(): int
     {
+        // La classe est un paramètre depuis que les articles portent un compte
+        // de produits : le catalogue livré ne couvrait que les charges, et
+        // aucun compte de la classe 7 n'était donc vérifiable.
+        $classe = (string) $this->option('class');
+
+        if (! in_array($classe, ['6', '7'], true)) {
+            $this->error('La classe doit valoir 6 (charges) ou 7 (produits).');
+
+            return self::FAILURE;
+        }
+
         $source = $this->option('file');
 
         if (! $source || ! is_readable($source)) {
@@ -77,7 +89,7 @@ class BuildPcnAccountsCommand extends Command
 
         foreach ($rows as $row) {
             $ref = trim((string) ($row[0] ?? ''));
-            if ($ref !== '' && ctype_digit($ref) && str_starts_with($ref, '6')) {
+            if ($ref !== '' && ctype_digit($ref) && str_starts_with($ref, $classe)) {
                 $labels[$ref] = trim((string) ($row[1] ?? ''));
             }
         }
@@ -88,7 +100,7 @@ class BuildPcnAccountsCommand extends Command
         foreach ($rows as $row) {
             $ref = trim((string) ($row[0] ?? ''));
 
-            if ($ref === '' || ! ctype_digit($ref) || ! str_starts_with($ref, '6')) {
+            if ($ref === '' || ! ctype_digit($ref) || ! str_starts_with($ref, $classe)) {
                 continue;
             }
 

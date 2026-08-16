@@ -137,7 +137,7 @@ class ProductController extends Controller
             })
             ->orderBy('designation')
             ->limit(50)
-            ->get(['id', 'designation', 'description', 'reference', 'type', 'unit_price_ht', 'vat_rate', 'unit']);
+            ->get(['id', 'designation', 'description', 'reference', 'type', 'unit_price_ht', 'vat_rate', 'unit', 'pcn_account']);
 
         return response()->json(['products' => $products]);
     }

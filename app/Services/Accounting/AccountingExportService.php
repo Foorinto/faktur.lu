@@ -156,6 +156,11 @@ class AccountingExportService
     public function buildEntries(Collection $invoices, AccountingSetting $settings): array
     {
         $entries = [];
+        // Un compte doit porter son intitulé officiel : 708 s'appelle « Produits
+        // des activités annexes », quel que soit le nom que l'utilisateur donne
+        // à son article.
+        $pcn = app(\App\Services\Accounting\PcnAccountService::class);
+        $locale = app()->getLocale();
 
         foreach ($invoices as $invoice) {
             $isCreditNote = $invoice->type === Invoice::TYPE_CREDIT_NOTE;
@@ -213,20 +218,46 @@ class AccountingExportService
                 ];
             }
 
-            // 3. Sales line (HT) - Credit for invoices, Debit for credit notes
-            $entries[] = [
-                'date' => $date,
-                'journal' => $settings->sales_journal,
-                'account' => $settings->sales_account,
-                'account_label' => 'Ventes',
-                'third_party' => '',
-                'third_party_label' => '',
-                'piece' => $invoice->number,
-                'label' => $label,
-                'debit' => $isCreditNote ? round(abs($invoice->total_ht), 2) : 0,
-                'credit' => $isCreditNote ? 0 : round($invoice->total_ht, 2),
-                'due_date' => null,
-            ];
+            // 3. Ventes (HT), ventilées par compte de produits.
+            //
+            // Une seule ligne partait auparavant sur le compte générique. Un
+            // utilisateur qui refacture des frais de déplacement voyait donc
+            // son chiffre d'affaires gonflé d'un montant qui n'en est pas un :
+            // le 708 se confondait avec le 706. Chaque ligne de facture porte
+            // désormais son compte, et les lignes qui le partagent sont
+            // regroupées — une écriture par compte, pas une par article.
+            //
+            // Les lignes sans compte retombent sur celui du paramétrage : rien
+            // n'est perdu pour les factures antérieures, ni pour les articles
+            // que l'utilisateur n'a pas classés.
+            $parCompte = $invoice->items
+                ->groupBy(fn ($item) => $item->pcn_account ?: $settings->sales_account)
+                ->map(fn ($lignes) => round((float) $lignes->sum('total_ht'), 2))
+                ->filter(fn ($montant) => abs($montant) > 0.001);
+
+            // Facture sans ligne — un montant saisi directement, ou une reprise :
+            // on conserve le total pour que l'écriture reste équilibrée.
+            if ($parCompte->isEmpty()) {
+                $parCompte = collect([$settings->sales_account => round((float) $invoice->total_ht, 2)]);
+            }
+
+            foreach ($parCompte as $compte => $montantHt) {
+                $intitule = $pcn->find((string) $compte, $locale)['label'] ?? 'Ventes';
+
+                $entries[] = [
+                    'date' => $date,
+                    'journal' => $settings->sales_journal,
+                    'account' => $compte,
+                    'account_label' => $intitule,
+                    'third_party' => '',
+                    'third_party_label' => '',
+                    'piece' => $invoice->number,
+                    'label' => $label,
+                    'debit' => $isCreditNote ? round(abs($montantHt), 2) : 0,
+                    'credit' => $isCreditNote ? 0 : $montantHt,
+                    'due_date' => null,
+                ];
+            }
         }
 
         return $entries;

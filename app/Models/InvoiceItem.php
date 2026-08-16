@@ -29,6 +29,7 @@ class InvoiceItem extends Model
         'discount_type',
         'discount_value',
         'vat_rate',
+        'pcn_account',
         'total_ht',
         'total_vat',
         'total_ttc',

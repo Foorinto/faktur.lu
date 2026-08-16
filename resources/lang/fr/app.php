@@ -5766,6 +5766,8 @@ return [
         'unit_price_ht' => 'Prix HT',
         'vat_rate' => 'TVA',
         'vat_custom' => 'Autre',
+        'pcn_account' => 'Compte comptable',
+        'pcn_account_hint' => 'Facultatif. Sert à distinguer ce qui n\'est pas du chiffre d\'affaires, par exemple des frais refacturés (708).',
         'unit' => 'Unité',
         'is_active' => 'Article actif',
         'inactive' => 'Inactif',

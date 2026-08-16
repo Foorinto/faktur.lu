@@ -5412,6 +5412,8 @@ return [
         'unit_price_ht' => 'Präis (netto)',
         'vat_rate' => 'TVA',
         'vat_custom' => 'Aner',
+        'pcn_account' => 'Comptabilitéitskont',
+        'pcn_account_hint' => 'Fakultativ. Ënnerscheet, wat kee Chiffre d\'affaires ass, z.B. weiderfakturéiert Käschten (708).',
         'unit' => 'Eenheet',
         'is_active' => 'Artikel aktiv',
         'inactive' => 'Inaktiv',

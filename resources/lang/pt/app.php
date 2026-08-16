@@ -5667,6 +5667,8 @@ return [
         'unit_price_ht' => 'Preço s/ IVA',
         'vat_rate' => 'IVA',
         'vat_custom' => 'Outro',
+        'pcn_account' => 'Conta contabilística',
+        'pcn_account_hint' => 'Opcional. Separa o que não é volume de negócios, como despesas refaturadas (708).',
         'unit' => 'Unidade',
         'is_active' => 'Artigo ativo',
         'inactive' => 'Inativo',

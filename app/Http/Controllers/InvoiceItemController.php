@@ -28,6 +28,7 @@ class InvoiceItemController extends Controller
             'discount_type' => $request->validated('discount_type') ?? 'percent',
             'discount_value' => $request->validated('discount_value') ?? 0,
             'vat_rate' => $request->validated('vat_rate'),
+            'pcn_account' => $request->validated('pcn_account'),
             'sort_order' => $request->validated('sort_order') ?? ($maxOrder + 1),
         ]);
 

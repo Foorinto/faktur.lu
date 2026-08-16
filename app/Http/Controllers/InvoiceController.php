@@ -214,6 +214,7 @@ class InvoiceController extends Controller
                     'discount_type' => $itemData['discount_type'] ?? 'percent',
                     'discount_value' => $itemData['discount_value'] ?? 0,
                     'vat_rate' => $itemData['vat_rate'],
+                    'pcn_account' => $itemData['pcn_account'] ?? null,
                     'sort_order' => $index,
                 ]);
             }

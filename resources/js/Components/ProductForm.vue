@@ -146,6 +146,32 @@ watch(vatMode, (mode) => {
                 <InputError :message="form.errors.vat_rate" class="mt-2" />
             </div>
 
+            <!-- Compte comptable.
+                 Facultatif : sans lui, la vente part sur le compte de produits
+                 du paramétrage. Il sert à distinguer ce qui n'est pas du
+                 chiffre d'affaires — des frais refacturés relèvent du 708 et
+                 non du 706, faute de quoi ils le gonflent artificiellement. -->
+            <div>
+                <InputLabel for="pcn_account" :value="t('products.pcn_account')" />
+                <!-- Champ libre, et non le sélecteur de comptes : celui-ci
+                     interroge un catalogue qui ne couvre que la classe 6, les
+                     charges. Un compte de produits — 706, 708 — n'y figure pas
+                     et la recherche ne renverrait rien. -->
+                <TextInput
+                    id="pcn_account"
+                    v-model="form.pcn_account"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="8"
+                    class="mt-1 block w-full"
+                    placeholder="706"
+                />
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {{ t('products.pcn_account_hint') }}
+                </p>
+                <InputError :message="form.errors.pcn_account" class="mt-2" />
+            </div>
+
             <!-- Unité -->
             <div>
                 <InputLabel for="unit" :value="t('products.unit')" />

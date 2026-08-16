@@ -26,6 +26,10 @@ class StoreInvoiceItemRequest extends FormRequest
             'discount_type' => ['nullable', Rule::in(['percent', 'amount'])],
             'discount_value' => ['nullable', 'numeric', 'min:0'],
             'vat_rate' => ['required', 'numeric', Rule::in([0, 3, 8, 14, 17]), new SalesVatRateAllowed],
+            // Compte du plan comptable normalisé, vérifié contre le catalogue :
+            // un compte inventé ne se manifesterait qu'à l'export, chez la
+            // fiduciaire, sur des écritures déjà émises.
+            'pcn_account' => ['nullable', 'string', 'max:10', new \App\Rules\PcnAccountExists],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ];
     }

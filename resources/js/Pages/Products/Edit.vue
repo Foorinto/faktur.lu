@@ -19,6 +19,7 @@ const form = useForm({
     description: props.product.description ?? '',
     unit_price_ht: props.product.unit_price_ht ?? 0,
     vat_rate: Number(props.product.vat_rate ?? 17),
+    pcn_account: props.product.pcn_account ?? '',
     unit: props.product.unit ?? 'piece',
     is_active: Boolean(props.product.is_active),
 });
