@@ -287,13 +287,9 @@ const submit = () => {
     form.put(route('settings.business.update'), {
         preserveScroll: true,
         preserveState: true,
-        onError: () => {
-            // Scroll to first error for better UX
-            const firstError = document.querySelector('.text-red-600, .text-pink-600');
-            if (firstError) {
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        },
+        // Le défilement vers le champ refusé est global (voir Support/formErrors) :
+        // celui qui vivait ici cherchait `.text-red-600` quand InputError rend
+        // `.text-rose-600`, et ne trouvait donc jamais rien.
     });
 };
 
