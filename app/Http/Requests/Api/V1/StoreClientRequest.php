@@ -13,6 +13,21 @@ class StoreClientRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        // Un schéma Peppol reçu en nombre — 9938 arrive ainsi de tout client qui
+        // ne le met pas entre guillemets — est ramené à une chaîne avant d'être
+        // confronté à la règle `string`.
+        if ($this->has('peppol_endpoint_scheme')) {
+            $this->merge([
+                'peppol_endpoint_scheme' => \App\Models\BusinessSettings::normalizePeppolScheme(
+                    $this->input('peppol_endpoint_scheme')
+                ),
+            ]);
+        }
+
+    }
+
     public function rules(): array
     {
         return [

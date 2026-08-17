@@ -417,12 +417,35 @@ class BusinessSettings extends Model
     /**
      * Get the list of Peppol scheme options for forms.
      */
+    /**
+     * Ramène un code de schéma à une chaîne, ou null s'il est vide.
+     *
+     * Un client d'API peut légitimement envoyer 9938 en nombre JSON, et rien ne
+     * l'en empêche : ce sont bien quatre chiffres. Le refuser pour sa forme
+     * serait aussi arbitraire que le bug qu'on vient de corriger.
+     */
+    public static function normalizePeppolScheme(mixed $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return is_scalar($value) ? (string) $value : null;
+    }
+
     public static function getPeppolSchemeOptions(): array
     {
         $options = [];
         foreach (self::PEPPOL_SCHEMES as $code => $label) {
             $options[] = [
-                'value' => $code,
+                // (string) n'est pas cosmétique : PHP convertit en ENTIER toute
+                // clé de tableau qui ressemble à un nombre. « 9938 » y passe,
+                // « 0009 » et « 0208 » non — leur zéro initial les protège. Le
+                // seul schéma luxembourgeois partait donc vers l'interface, puis
+                // vers le serveur, sous forme de nombre, et la validation le
+                // refusait : « peppol endpoint scheme must be a string ».
+                // Personne au Luxembourg ne pouvait enregistrer son identifiant.
+                'value' => (string) $code,
                 'label' => "{$code} - {$label}",
             ];
         }
