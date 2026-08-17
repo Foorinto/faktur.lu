@@ -5453,6 +5453,8 @@ return [
         'unit_price_ht' => 'Net price',
         'vat_rate' => 'VAT',
         'vat_custom' => 'Other',
+        'pcn_account' => 'Accounting account',
+        'pcn_account_hint' => 'Optional. Used to separate what is not revenue, such as rebilled expenses (708).',
         'unit' => 'Unit',
         'is_active' => 'Active item',
         'inactive' => 'Inactive',

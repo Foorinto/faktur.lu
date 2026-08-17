@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { usePage } from '@inertiajs/vue3';
+import { FORM_ERRORS_EVENT } from '@/Support/formErrors';
 
 const page = usePage();
 
@@ -23,6 +24,26 @@ watch(() => page.props.flash, (flash) => {
     if (flash.error) addToast('error', flash.error);
     if (flash.info) addToast('info', flash.info);
 }, { immediate: true, deep: true });
+
+/**
+ * Une validation refusée n'écrit rien dans `flash` : le message vit à côté du
+ * champ concerné, donc hors de l'écran dès que le formulaire est long. On
+ * annonce ici le premier motif — le défilement, lui, amène jusqu'au champ.
+ */
+const annoncerErreursDeFormulaire = (evenement) => {
+    const messages = evenement.detail?.messages ?? [];
+
+    if (messages.length === 0) return;
+
+    const reste = messages.length - 1;
+
+    addToast('error', reste > 0
+        ? `${messages[0]} (+${reste})`
+        : messages[0]);
+};
+
+onMounted(() => window.addEventListener(FORM_ERRORS_EVENT, annoncerErreursDeFormulaire));
+onBeforeUnmount(() => window.removeEventListener(FORM_ERRORS_EVENT, annoncerErreursDeFormulaire));
 
 const typeConfig = {
     success: {

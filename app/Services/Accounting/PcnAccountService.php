@@ -5,7 +5,10 @@ namespace App\Services\Accounting;
 use Illuminate\Support\Collection;
 
 /**
- * Comptes de charges du plan comptable normalisé luxembourgeois.
+ * Comptes du plan comptable normalisé luxembourgeois.
+ *
+ * Deux classes sont embarquées : la 6, les charges, pour les dépenses ; la 7,
+ * les produits, depuis que chaque article vendu peut porter son compte.
  *
  * La liste est fixée par règlement grand-ducal et ne bouge qu'à chaque refonte
  * — une seule en dix ans. Elle est donc embarquée dans le dépôt
@@ -83,24 +86,42 @@ class PcnAccountService
     ];
 
     /** @var Collection<int, array{ref: string, parent: string, fr: string, de: string, en: string}>|null */
-    private ?Collection $accounts = null;
+    /** Catalogues chargés, indexés par classe. */
+    private array $accounts = [];
 
     /**
+     * Classes embarquées : les charges pour les dépenses, les produits pour les
+     * articles vendus. Les autres classes du plan (bilan, résultat) ne sont
+     * jamais imputées depuis faktur.lu — les générer serait du poids mort.
+     */
+    public const CLASSES = ['6', '7'];
+
+    /**
+     * Comptes d'une classe, ou de toutes.
+     *
+     * La classe 6 reste la valeur par défaut : c'est celle qu'interrogeaient
+     * les dépenses avant que les articles n'aient un compte, et leur recherche
+     * ne doit pas se mettre à proposer des comptes de ventes.
+     *
      * @return Collection<int, array<string, string>>
      */
-    public function all(): Collection
+    public function all(?string $classe = '6'): Collection
     {
-        if ($this->accounts !== null) {
-            return $this->accounts;
+        if ($classe === null) {
+            return collect(self::CLASSES)->flatMap(fn ($c) => $this->all($c))->values();
         }
 
-        $path = resource_path('data/pcn-class6.json');
+        if (isset($this->accounts[$classe])) {
+            return $this->accounts[$classe];
+        }
+
+        $path = resource_path("data/pcn-class{$classe}.json");
 
         if (! is_readable($path)) {
-            return $this->accounts = collect();
+            return $this->accounts[$classe] = collect();
         }
 
-        return $this->accounts = collect(json_decode((string) file_get_contents($path), true) ?: []);
+        return $this->accounts[$classe] = collect(json_decode((string) file_get_contents($path), true) ?: []);
     }
 
     /**
@@ -111,12 +132,12 @@ class PcnAccountService
      *
      * @return array<int, array<string, string>>
      */
-    public function search(string $term, string $locale = 'fr', int $limit = 25): array
+    public function search(string $term, string $locale = 'fr', int $limit = 25, ?string $classe = '6'): array
     {
         $term = trim($term);
         $needle = $this->normalize($term);
 
-        $results = $this->all()
+        $results = $this->all($classe)
             ->map(fn (array $a) => $a + ['label' => $this->label($a, $locale)])
             ->filter(function (array $a) use ($term, $needle) {
                 if ($needle === '') {
@@ -174,12 +195,12 @@ class PcnAccountService
      */
     public function exists(string $ref): bool
     {
-        return $this->all()->contains(fn (array $a) => $a['ref'] === $ref);
+        return $this->all(null)->contains(fn (array $a) => $a['ref'] === $ref);
     }
 
     public function find(string $ref, string $locale = 'fr'): ?array
     {
-        $account = $this->all()->firstWhere('ref', $ref);
+        $account = $this->all(null)->firstWhere('ref', $ref);
 
         return $account ? $account + ['label' => $this->label($account, $locale)] : null;
     }

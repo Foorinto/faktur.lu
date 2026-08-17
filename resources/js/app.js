@@ -6,6 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { loadTranslations } from './translations-store';
+import { traiterErreursDeValidation } from './Support/formErrors';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -33,6 +34,13 @@ router.on('success', (event) => {
         // Update axios default header
         window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
     }
+});
+
+// Une validation refusée doit se voir. Le message était bien rendu, mais à la
+// position du champ concerné — souvent hors de l'écran sur un formulaire long,
+// où l'utilisateur ne voyait donc rien se produire en cliquant « Enregistrer ».
+router.on('error', (event) => {
+    traiterErreursDeValidation(event.detail.errors);
 });
 
 // Handle Inertia invalid responses (non-Inertia response received)

@@ -24,6 +24,7 @@ const form = useForm({
     description: '',
     unit_price_ht: null,
     vat_rate: defaultVatRate,
+    pcn_account: '',
     unit: 'piece',
     is_active: true,
 });

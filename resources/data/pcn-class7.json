@@ -1,0 +1,1108 @@
+[
+    {
+        "ref": "7021",
+        "parent": "Ventes de produits",
+        "fr": "Ventes de produits finis",
+        "de": "Verkäufe von fertigen Erzeugnissen",
+        "en": "Sales of finished goods"
+    },
+    {
+        "ref": "7022",
+        "parent": "Ventes de produits",
+        "fr": "Ventes de produits intermédiaires",
+        "de": "Verkäufe von Zwischenprodukten",
+        "en": "Sales of semi-finished goods"
+    },
+    {
+        "ref": "7023",
+        "parent": "Ventes de produits",
+        "fr": "Ventes de produits résiduels",
+        "de": "Verkäufe von Restprodukten",
+        "en": "Sales of residual products"
+    },
+    {
+        "ref": "7029",
+        "parent": "Ventes de produits",
+        "fr": "Ventes de produits en cours de fabrication",
+        "de": "Verkäufe von unfertigen Erzeugnissen",
+        "en": "Sales of work in progress"
+    },
+    {
+        "ref": "70311",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Concessions",
+        "de": "Konzessionen",
+        "en": "Concessions"
+    },
+    {
+        "ref": "70312",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Brevets",
+        "de": "Patente",
+        "en": "Patents"
+    },
+    {
+        "ref": "70313",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Licences informatiques",
+        "de": "Software- und Softwarepaketlizenzen",
+        "en": "Software licences"
+    },
+    {
+        "ref": "70314",
+        "parent": "Redevances pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Marques et franchises",
+        "de": "Warenzeichen und Franchising (Verkaufskonzession/Alleinverkaufsrecht)",
+        "en": "Trademarks and franchises"
+    },
+    {
+        "ref": "703151",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Droits d'auteur et de reproduction",
+        "de": "Urheber- und Vervielfältigungsrechte",
+        "en": "Copyrights and reproduction rights"
+    },
+    {
+        "ref": "703158",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Autres droits et valeurs similaires",
+        "de": "Sonstige vergleichbare Rechte und Werte",
+        "en": "Other similar rights and assets"
+    },
+    {
+        "ref": "70321",
+        "parent": "Revenus de location",
+        "fr": "Revenus de location immobilière",
+        "de": "Mieterträge aus Immobilien",
+        "en": "Rental income from real property"
+    },
+    {
+        "ref": "70322",
+        "parent": "Revenus de location",
+        "fr": "Revenus de location mobilière",
+        "de": "Mieterträge aus beweglichem Vermögen",
+        "en": "Rental income from movable property"
+    },
+    {
+        "ref": "7033",
+        "parent": "Prestations de services",
+        "fr": "Prestations de services non visées ci-dessus",
+        "de": "Dienstleistungen welche nicht oben erwähnt wurden",
+        "en": "Sales of services not mentioned above"
+    },
+    {
+        "ref": "7039",
+        "parent": "Prestations de services",
+        "fr": "Prestations de services en cours de réalisation",
+        "de": "Nicht ausgeführte Dienstleistungen",
+        "en": "Sales of services in the course of completion"
+    },
+    {
+        "ref": "704",
+        "parent": "Montant net du chiffre d'affaires",
+        "fr": "Ventes d'emballages",
+        "de": "Verkäufe von Verpackungen",
+        "en": "Sales of packaging"
+    },
+    {
+        "ref": "705",
+        "parent": "Montant net du chiffre d'affaires",
+        "fr": "Commissions et courtages obtenus",
+        "de": "Kommissionen und Courtagen",
+        "en": "Commissions and brokerage fees"
+    },
+    {
+        "ref": "7061",
+        "parent": "Ventes de marchandises et d'autres biens destinés à la revente",
+        "fr": "Ventes de marchandises",
+        "de": "Verkäufe von Waren",
+        "en": "Sales of merchandise"
+    },
+    {
+        "ref": "7062",
+        "parent": "Ventes de marchandises et d'autres biens destinés à la revente",
+        "fr": "Ventes de terrains destinés à la revente",
+        "de": "Verkäufe von zum Verkauf bestimmten Grundstücken",
+        "en": "Sales of land resale"
+    },
+    {
+        "ref": "7063",
+        "parent": "Ventes de marchandises et d'autres biens destinés à la revente",
+        "fr": "Ventes d'immeubles destinés à la revente",
+        "de": "Verkäufe von zum Verkauf bestimmten Bauten/Gebäuden",
+        "en": "Sales of buildings for resale"
+    },
+    {
+        "ref": "708",
+        "parent": "Montant net du chiffre d'affaires",
+        "fr": "Autres éléments du chiffre d'affaires",
+        "de": "Sonstige Umsatzerlöse",
+        "en": "Other components of turnover"
+    },
+    {
+        "ref": "7092",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR sur ventes de produits",
+        "de": "RPR auf Verkäufe von Erzeugnissen",
+        "en": "RDR on sales of goods"
+    },
+    {
+        "ref": "7093",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR sur prestations de services",
+        "de": "RPR auf Verkäufe von Dienstleistungen",
+        "en": "RDR on sales of services"
+    },
+    {
+        "ref": "7094",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR sur ventes d'emballages",
+        "de": "RPR auf Verkäufe von Verpackungen",
+        "en": "RDR on sales of packages"
+    },
+    {
+        "ref": "7095",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR sur commissions et courtages",
+        "de": "RPR auf Kommissionen und Courtagen",
+        "en": "RDR on commissions and brokerage fees"
+    },
+    {
+        "ref": "7096",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR sur ventes de marchandises et d'autres biens destinés à la revente",
+        "de": "RPR auf Verkäufe von Waren und zum Verkauf bestimmten Gütern/Vermögensgegenständen",
+        "en": "RDR on sales of merchandise and other goods  for resale"
+    },
+    {
+        "ref": "7098",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR sur autres éléments du chiffre d'affaires",
+        "de": "RPR auf sonstige Umsatzerlöse",
+        "en": "RDR on other components of turnover"
+    },
+    {
+        "ref": "7099",
+        "parent": "Rabais, remises et ristournes (RRR) accordés et non directement déduits des ventes",
+        "fr": "RRR non affectés",
+        "de": "Nicht zugeordnete RPR",
+        "en": "Not allocated rebates, discounts and refunds"
+    },
+    {
+        "ref": "7111",
+        "parent": "Variation des stocks de produits en cours de fabrication et de commandes en cours",
+        "fr": "Variation des stocks de produits en cours de fabrication",
+        "de": "Bestandsveränderung von unfertigen Erzeugnissen",
+        "en": "Change in inventories of work in progress"
+    },
+    {
+        "ref": "7112",
+        "parent": "Variation des stocks de produits en cours de fabrication et de commandes en cours",
+        "fr": "Variation des stocks : commandes en cours – produits",
+        "de": "Bestandsveränderung von in Arbeit befindlichen Aufträgen - Erzeugnisse",
+        "en": "Change in inventories: contracts in progress - goods"
+    },
+    {
+        "ref": "7113",
+        "parent": "Variation des stocks de produits en cours de fabrication et de commandes en cours",
+        "fr": "Variation des stocks : commandes en cours – prestations de services",
+        "de": "Bestandsveränderung von in Arbeit befindlichen Aufträgen - Dienstleistungen",
+        "en": "Change in inventories: contracts in progress - services"
+    },
+    {
+        "ref": "7114",
+        "parent": "Variation des stocks de produits en cours de fabrication et de commandes en cours",
+        "fr": "Variation des stocks : immeubles en construction",
+        "de": "Bestandsveränderung von im Bau befindlichen Bauten",
+        "en": "Change in inventories: buildings under construction"
+    },
+    {
+        "ref": "7121",
+        "parent": "Variation des stocks de produits",
+        "fr": "Variation des stocks de produits finis",
+        "de": "Bestandsveränderung von fertigen Erzeugnissen",
+        "en": "Change in inventories of finished goods"
+    },
+    {
+        "ref": "7122",
+        "parent": "Variation des stocks de produits",
+        "fr": "Variation des stocks de produits intermédiaires",
+        "de": "Bestandsveränderung von Zwischenprodukten",
+        "en": "Change in inventories of semi-finished goods"
+    },
+    {
+        "ref": "7123",
+        "parent": "Variation des stocks de produits",
+        "fr": "Variation des stocks de produits résiduels",
+        "de": "Bestandsveränderung von Restprodukten",
+        "en": "Change in inventories of residual goods"
+    },
+    {
+        "ref": "7211",
+        "parent": "Immobilisations incorporelles",
+        "fr": "Frais de développement",
+        "de": "Entwicklungskosten",
+        "en": "Development costs"
+    },
+    {
+        "ref": "72121",
+        "parent": "Concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Concessions",
+        "de": "Konzessionen",
+        "en": "Concessions"
+    },
+    {
+        "ref": "72122",
+        "parent": "Concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Brevets",
+        "de": "Patente",
+        "en": "Patents"
+    },
+    {
+        "ref": "72123",
+        "parent": "Concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Licences informatiques",
+        "de": "Software- und Softwarepaketlizenzen",
+        "en": "Software licences"
+    },
+    {
+        "ref": "72124",
+        "parent": "Concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Marques et franchises",
+        "de": "Warenzeichen und Franchising (Verkaufskonzession/Alleinverkaufsrecht)",
+        "en": "Trademarks and franchises"
+    },
+    {
+        "ref": "721251",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Droits d'auteur et de reproduction",
+        "de": "Urheberrechte und Vervielfältigungsrechte",
+        "en": "Copyrights and reproduction rights"
+    },
+    {
+        "ref": "721258",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Autres droits et valeurs similaires",
+        "de": "Sonstige vergleichbare Rechte und Werte",
+        "en": "Other similar rights and assets"
+    },
+    {
+        "ref": "7221",
+        "parent": "Immobilisations corporelles",
+        "fr": "Terrains, aménagements et constructions",
+        "de": "Grundstücke, Erschließungen, Einrichtungen und Bauten",
+        "en": "Land, fittings and buildings"
+    },
+    {
+        "ref": "7222",
+        "parent": "Immobilisations corporelles",
+        "fr": "Installations techniques et machines",
+        "de": "Technische Anlagen und Maschinen",
+        "en": "Plant and machinery"
+    },
+    {
+        "ref": "7223",
+        "parent": "Immobilisations corporelles",
+        "fr": "Autres installations, outillage et mobilier (y compris matériel roulant)",
+        "de": "Sonstige Anlagen, Betriebs- und Geschäftsausstattung (Fuhrpark inbegriffen)",
+        "en": "Other fixtures and fittings, tools and equipment (included motor vehicles)"
+    },
+    {
+        "ref": "7321",
+        "parent": "RCV sur immobilisations incorporelles",
+        "fr": "RCV sur frais de développement",
+        "de": "Wertaufholungen von Entwicklungskosten",
+        "en": "RVA on development costs"
+    },
+    {
+        "ref": "7322",
+        "parent": "RCV sur immobilisations incorporelles",
+        "fr": "RCV sur concessions, brevets, licences, marques ainsi que droits et valeurs similaires",
+        "de": "Wertaufholungen von Konzessionen, Patenten, Lizenzen, Warenzeichen und ähnlichen Rechten und Werten",
+        "en": "RVA on concessions, patents, licences, trademarks and similar rights and assets"
+    },
+    {
+        "ref": "7324",
+        "parent": "RCV sur immobilisations incorporelles",
+        "fr": "RCV sur acomptes versés et immobilisations incorporelles en cours",
+        "de": "Wertaufholungen von geleisteten Anzahlungen und immateriellen Vermögensgegenständen in Entwicklung",
+        "en": "RVA on down payments and intangible fixed assets under development"
+    },
+    {
+        "ref": "73311",
+        "parent": "RCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "RCV sur terrains",
+        "de": "Wertaufholungen von Grundstücken, Erschließungen, Einrichtungen und Bauten",
+        "en": "RVA on land"
+    },
+    {
+        "ref": "73312",
+        "parent": "RCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "RCV sur agencements et aménagements de terrains",
+        "de": "Wertaufholungen von Erschließungen von Grundstücken",
+        "en": "RVA on fixtures and fittings-out of land"
+    },
+    {
+        "ref": "73313",
+        "parent": "RCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "RCV sur constructions / bâtiments",
+        "de": "Wertaufholungen von Bauten",
+        "en": "RVA on buildings"
+    },
+    {
+        "ref": "73314",
+        "parent": "RCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "RCV sur agencements et aménagements de constructions / bâtiments",
+        "de": "Wertaufholungen von Einrichtungen von Bauten/Gebäuden",
+        "en": "RVA on fixtures and fittings-out of buildings"
+    },
+    {
+        "ref": "73315",
+        "parent": "RCV sur terrains, aménagements et constructions et AJV sur immeubles de placement",
+        "fr": "AJV sur immeubles de placement",
+        "de": "AFV von Anlageimmobilien",
+        "en": "FVA on investment properties"
+    },
+    {
+        "ref": "7332",
+        "parent": "RCV sur immobilisations corporelles et AJV sur immeubles de placement",
+        "fr": "RCV sur installations techniques et machines",
+        "de": "Wertaufholungen von technischen Anlagen und Maschinen",
+        "en": "RVA on plant and machinery"
+    },
+    {
+        "ref": "7333",
+        "parent": "RCV sur immobilisations corporelles et AJV sur immeubles de placement",
+        "fr": "RCV sur autres installations, outillage et mobilier (y compris matériel roulant)",
+        "de": "Wertaufholungen von sonstigen Anlagen, Betriebs- und Geschäftsausstattung (Fuhrpark inbegriffen)",
+        "en": "Other fixtures and fittings, tools and equipment (included motor vehicles)"
+    },
+    {
+        "ref": "7334",
+        "parent": "RCV sur immobilisations corporelles et AJV sur immeubles de placement",
+        "fr": "RCV sur acomptes versés et immobilisations corporelles en cours",
+        "de": "Wertaufholungen von geleisteten Anzahlungen und Anlagen im Bau",
+        "en": "RVA on down payments and tangible fixed assets under development"
+    },
+    {
+        "ref": "7341",
+        "parent": "RCV sur stocks",
+        "fr": "RCV sur stocks de matières premières et consommables",
+        "de": "Wertaufholungen von Roh-, Hilfs- und Betriebsstoffen",
+        "en": "RVA on inventories of raw materials and consumables"
+    },
+    {
+        "ref": "7342",
+        "parent": "RCV sur stocks",
+        "fr": "RCV sur stocks de produits en cours de fabrication et commandes en cours",
+        "de": "Wertaufholungen von unfertigen Erzeugnisse und sich in Arbeit befindlichen Aufträgen",
+        "en": "RVA on inventories of work and contracts in progress"
+    },
+    {
+        "ref": "7343",
+        "parent": "RCV sur stocks",
+        "fr": "RCV sur stocks de produits",
+        "de": "Erzeugnisse",
+        "en": "RVA on inventories of goods"
+    },
+    {
+        "ref": "7344",
+        "parent": "RCV sur stocks",
+        "fr": "RCV sur stocks de marchandises et autres biens destinés à la revente",
+        "de": "Waren und sonstige zum Verkauf bestimmte Güter/Vermögensgegenstände",
+        "en": "RVA on inventories of merchandise and other goods for resale"
+    },
+    {
+        "ref": "7345",
+        "parent": "RCV sur stocks",
+        "fr": "RCV sur acomptes versés sur stocks",
+        "de": "Geleistete Anzahlungen auf Vorräte",
+        "en": "RVA on down payments on inventories"
+    },
+    {
+        "ref": "7351",
+        "parent": "RCV et AJV sur créances de l'actif circulant",
+        "fr": "RCV sur créances résultant de ventes et prestations de services",
+        "de": "Forderungen aus Lieferungen und Leistungen",
+        "en": "RVA on trade receivables"
+    },
+    {
+        "ref": "7352",
+        "parent": "RCV et AJV sur créances de l'actif circulant",
+        "fr": "RCV sur créances sur des entreprises liées et sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Forderungen gegen verbundene Unternehmen und gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "RVA on amounts owed by affiliated undertakings and undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "7353",
+        "parent": "RCV et AJV sur créances de l'actif circulant",
+        "fr": "RCV sur autres créances",
+        "de": "Sonstige Forderungen",
+        "en": "RVA on other receivables"
+    },
+    {
+        "ref": "7354",
+        "parent": "RCV et AJV sur créances de l'actif circulant",
+        "fr": "AJV sur créances de l'actif circulant",
+        "de": "Fair Value Anpassungen auf Forderungen des Umlaufvermögens",
+        "en": "FVA on receivables from current assets"
+    },
+    {
+        "ref": "7411",
+        "parent": "Redevances, perçues à titre accessoire, pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Concessions",
+        "de": "Konzessionen",
+        "en": "Concessions"
+    },
+    {
+        "ref": "7412",
+        "parent": "Redevances, perçues à titre accessoire, pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Brevets",
+        "de": "Patente",
+        "en": "Patents"
+    },
+    {
+        "ref": "7413",
+        "parent": "Redevances, perçues à titre accessoire, pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Licences informatiques",
+        "de": "Software- und Softwarepaketlizenzen",
+        "en": "Software licences"
+    },
+    {
+        "ref": "7414",
+        "parent": "Redevances, perçues à titre accessoire, pour concessions, brevets, licences, marques, droits et valeurs similaires",
+        "fr": "Marques et franchises",
+        "de": "Warenzeichen und Franchising (Verkaufskonzession/Alleinverkaufsrecht)",
+        "en": "Trademarks and franchises"
+    },
+    {
+        "ref": "74151",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Droits d'auteur et de reproduction",
+        "de": "Urheber- und Vervielfältigungsrechte",
+        "en": "Copyrights and reproduction rights"
+    },
+    {
+        "ref": "74158",
+        "parent": "Droits et valeurs similaires",
+        "fr": "Autres droits et valeurs similaires",
+        "de": "Sonstige vergleichbare Rechte und Werte",
+        "en": "Other similar rights and assets"
+    },
+    {
+        "ref": "7421",
+        "parent": "Revenus de location à titre accessoire",
+        "fr": "Revenus de location immobilière",
+        "de": "Mieterträge aus Immobilien",
+        "en": "Rental income on real property"
+    },
+    {
+        "ref": "7422",
+        "parent": "Revenus de location à titre accessoire",
+        "fr": "Revenus de location mobilière",
+        "de": "Mieterträge aus beweglichem Vermögen",
+        "en": "Rental income on movable property"
+    },
+    {
+        "ref": "743",
+        "parent": "Autres produits d'exploitation",
+        "fr": "Jetons de présence, tantièmes et rémunérations assimilées",
+        "de": "Sitzungsgeld, Tantiemen und vergleichbare Erträge",
+        "en": "Attendance fees, director's fees and similar remunerations"
+    },
+    {
+        "ref": "74411",
+        "parent": "Plus-values de cession d'immobilisations incorporelles",
+        "fr": "Valeur comptable d'immobilisations incorporelles cédées",
+        "de": "Buchwert der verkauften immateriellen Anlagewerte",
+        "en": "Book value of yielded intangible fixed assets"
+    },
+    {
+        "ref": "74412",
+        "parent": "Plus-values de cession d'immobilisations incorporelles",
+        "fr": "Produits de cession d'immobilisations incorporelles",
+        "de": "Veräußerungswert von immateriellen Anlagewerten",
+        "en": "Disposal proceeds of intangible fixed assets"
+    },
+    {
+        "ref": "74421",
+        "parent": "Plus-values de cession d'immobilisations corporelles",
+        "fr": "Valeur comptable d'immobilisations corporelles cédées",
+        "de": "Buchwert der verkauften materiellen Anlagewerte",
+        "en": "Book value of yielded tangible fixed assets"
+    },
+    {
+        "ref": "74422",
+        "parent": "Plus-values de cession d'immobilisations corporelles",
+        "fr": "Produits de cession d'immobilisations corporelles",
+        "de": "Veräußerungswert von materiellen Anlagewerten",
+        "en": "Disposal proceeds of tangible fixed assets"
+    },
+    {
+        "ref": "7451",
+        "parent": "Subventions d'exploitation",
+        "fr": "Subventions sur produits",
+        "de": "Produktzuschüsse",
+        "en": "Product subsidies"
+    },
+    {
+        "ref": "7452",
+        "parent": "Subventions d'exploitation",
+        "fr": "Bonifications d'intérêt",
+        "de": "Zinszuschüsse",
+        "en": "Interest subsidies"
+    },
+    {
+        "ref": "7453",
+        "parent": "Subventions d'exploitation",
+        "fr": "Indemnités compensatoires",
+        "de": "Ausgleichszahlungen",
+        "en": "Compensatory allowances"
+    },
+    {
+        "ref": "7454",
+        "parent": "Subventions d'exploitation",
+        "fr": "Subventions destinées à promouvoir l'emploi",
+        "de": "Zuschüsse zur Beschäftigungsförderung",
+        "en": "Subsidies in favour of employment development"
+    },
+    {
+        "ref": "7458",
+        "parent": "Subventions d'exploitation",
+        "fr": "Autres subventions d'exploitation",
+        "de": "Sonstige Zuschüsse für die laufende Geschäftstätigkeit",
+        "en": "Other subsidies for operating activities"
+    },
+    {
+        "ref": "746",
+        "parent": "Autres produits d'exploitation",
+        "fr": "Avantages en nature",
+        "de": "Sachleistungen",
+        "en": "Benefits in kind"
+    },
+    {
+        "ref": "7471",
+        "parent": "Reprises de plus-values immunisées et de subventions d'investissement en capital",
+        "fr": "Plus-values immunisées non réinvesties",
+        "de": "Sonderposten mit Rücklageanteil, nicht wiederangelegt",
+        "en": "Temporarily not taxable capital gains not reinvested"
+    },
+    {
+        "ref": "7472",
+        "parent": "Reprises de plus-values immunisées et de subventions d'investissement en capital",
+        "fr": "Plus-values immunisées réinvesties",
+        "de": "Sonderposten mit Rücklageanteil, wiederangelegt",
+        "en": "Temporarily not taxable capital gains reinvested"
+    },
+    {
+        "ref": "7473",
+        "parent": "Reprises de plus-values immunisées et de subventions d'investissement en capital",
+        "fr": "Subventions d'investissement en capital",
+        "de": "Investitionszuschüsse",
+        "en": "Capital investment subsidies"
+    },
+    {
+        "ref": "7481",
+        "parent": "Autres produits d'exploitation divers",
+        "fr": "Indemnités d'assurance",
+        "de": "Versicherungsentschädigungen",
+        "en": "Insurance indemnities"
+    },
+    {
+        "ref": "7488",
+        "parent": "Autres produits d'exploitation divers",
+        "fr": "Produits d'exploitation divers",
+        "de": "Andere betriebliche Erträge",
+        "en": "Miscellaneous operating income"
+    },
+    {
+        "ref": "7491",
+        "parent": "Reprises de provisions",
+        "fr": "Reprises de provisions pour impôts",
+        "de": "Wertaufholungen von Steuerrückstellungen",
+        "en": "Reversals of provisions for taxes"
+    },
+    {
+        "ref": "7492",
+        "parent": "Reprises de provisions",
+        "fr": "Reprises de provisions d'exploitation",
+        "de": "Wertaufholungen von betrieblichen Rückstellungen",
+        "en": "Reversals of operating provisions"
+    },
+    {
+        "ref": "75111",
+        "parent": "RCV sur immobilisations financières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Wertaufholungen von Anteilen an verbundenen Unternehmen",
+        "en": "RVA on shares in affiliated undertakings"
+    },
+    {
+        "ref": "75112",
+        "parent": "RCV sur immobilisations financières",
+        "fr": "Créances sur des entreprises liées",
+        "de": "Wertaufholungen von Forderungen gegen verbundene Unternehmen",
+        "en": "RVA on amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "75113",
+        "parent": "RCV sur immobilisations financières",
+        "fr": "Participations",
+        "de": "Wertaufholungen von Anteilen an verbundenen Unternehmen",
+        "en": "RVA on participating interests"
+    },
+    {
+        "ref": "75114",
+        "parent": "RCV sur immobilisations financières",
+        "fr": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Wertaufholungen von Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "RVA on amounts owed by undertakings with which the company is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75115",
+        "parent": "RCV sur immobilisations financières",
+        "fr": "Titres ayant le caractère d'immobilisations",
+        "de": "Wertaufholungen von Wertpapieren des Anlagevermögens",
+        "en": "RVA on securities held as fixed assets"
+    },
+    {
+        "ref": "75116",
+        "parent": "RCV sur immobilisations financières",
+        "fr": "Prêts, dépôts et créances immobilisés",
+        "de": "Wertaufholungen von Ausleihungen, geleistete Hinterlegungen und Forderungen des Anlagevermögens",
+        "en": "RVA on loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "7512",
+        "parent": "Reprises de corrections de valeur (RCV) et ajustements de juste valeur (AJV) sur immobilisations financières",
+        "fr": "AJV sur immobilisations financières",
+        "de": "AFV der Finanzanlagen",
+        "en": "FVA on financial fixed assets"
+    },
+    {
+        "ref": "75211",
+        "parent": "Revenus des immobilisations financières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Beteiligungen an verbundenen Unternehmen",
+        "en": "Shares in affiliated undertakings"
+    },
+    {
+        "ref": "75212",
+        "parent": "Revenus des immobilisations financières",
+        "fr": "Créances sur des entreprises liées",
+        "de": "Forderungen gegen verbundenen Unternehmen",
+        "en": "Amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "75213",
+        "parent": "Revenus des immobilisations financières",
+        "fr": "Participations",
+        "de": "Beteiligungen",
+        "en": "Participating interests"
+    },
+    {
+        "ref": "75214",
+        "parent": "Revenus des immobilisations financières",
+        "fr": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75215",
+        "parent": "Revenus des immobilisations financières",
+        "fr": "Titres ayant le caractère d'immobilisations",
+        "de": "Wertpapiere des Anlagevermögens",
+        "en": "Securities held as fixed assets"
+    },
+    {
+        "ref": "75216",
+        "parent": "Revenus des immobilisations financières",
+        "fr": "Prêts, dépôts et créances immobilisés",
+        "de": "Ausleihungen, geleistete Hinterlegungen und Forderungen des Anlagevermögens",
+        "en": "Loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "752211",
+        "parent": "Parts dans des entreprises liées",
+        "fr": "Valeur comptable de parts cédées dans des entreprises liées",
+        "de": "Buchwert der verkauften Beteiligungen an verbundenen Unternehmen",
+        "en": "Book value of yielded shares in affiliated undertakings"
+    },
+    {
+        "ref": "752212",
+        "parent": "Parts dans des entreprises liées",
+        "fr": "Produits de cession de parts dans des entreprises liées",
+        "de": "Veräußerungswert von Beteiligungen an verbundenen Unternehmen",
+        "en": "Disposal proceeds of shares in affiliated undertakings"
+    },
+    {
+        "ref": "752221",
+        "parent": "Créances sur des entreprises liées",
+        "fr": "Valeur comptable de créances cédées sur des entreprises liées",
+        "de": "Buchwert der verkauften Forderungen gegen verbundene Unternehmen",
+        "en": "Book value of yielded amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "752222",
+        "parent": "Créances sur des entreprises liées",
+        "fr": "Produits de cession de créances sur des entreprises liées",
+        "de": "Veräußerungswert der Forderungen gegen verbundene Unternehmen",
+        "en": "Disposal proceeds of amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "752231",
+        "parent": "Participations",
+        "fr": "Valeur comptable de participations cédées",
+        "de": "Buchwert der verkauften Beteiligungen",
+        "en": "Book value of yielded participating interests"
+    },
+    {
+        "ref": "752232",
+        "parent": "Participations",
+        "fr": "Produits de cession de participations",
+        "de": "Veräußerungswert der Beteiligungen",
+        "en": "Disposal proceeds of participating interests"
+    },
+    {
+        "ref": "752241",
+        "parent": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Valeur comptable de créances cédées sur participations",
+        "de": "Buchwert der verkauften Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Book value of yielded amounts owed by undertakings with which the undertaking is linked by virtue of participating \ninterests"
+    },
+    {
+        "ref": "752242",
+        "parent": "Créances sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Produits de cession de créances sur participations",
+        "de": "Veräußerungswert der Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Disposal proceeds of amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "752251",
+        "parent": "Titres ayant le caractère d'immobilisations",
+        "fr": "Valeur comptable de titres cédés ayant le caractère d'immobilisations",
+        "de": "Buchwert der verkauften Wertpapiere des Anlagevermögens",
+        "en": "Book value of yielded securities held as fixed assets"
+    },
+    {
+        "ref": "752252",
+        "parent": "Titres ayant le caractère d'immobilisations",
+        "fr": "Produits de cession de titres ayant le caractère d'immobilisations",
+        "de": "Veräußerungswert der Wertpapiere des Anlagevermögens",
+        "en": "Disposal proceeds of securities held as fixed assets"
+    },
+    {
+        "ref": "752261",
+        "parent": "Prêts, dépôts et créances immobilisés",
+        "fr": "Valeur comptable de prêts, dépôts et créances immobilisés cédés",
+        "de": "Buchwert der verkauften Ausleihungen, geleisteten Hinterlegungen und Forderungen des Anlagevermögens",
+        "en": "Book value of yielded loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "752262",
+        "parent": "Prêts, dépôts et créances immobilisés",
+        "fr": "Produits de cession de prêts, dépôts et créances immobilisés",
+        "de": "Veräußerungswert der Ausleihungen, der geleistete Hinterlegungen und der Forderungen des Anlagevermögens",
+        "en": "Disposal proceed of loans, deposits and claims held as fixed assets"
+    },
+    {
+        "ref": "75311",
+        "parent": "RCV sur valeurs mobilières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Wertaufholungen von Anteilen an verbundenen Unternehmen",
+        "en": "RVA on shares in affiliated undertakings"
+    },
+    {
+        "ref": "75312",
+        "parent": "RCV sur valeurs mobilières",
+        "fr": "Actions propres ou parts propres",
+        "de": "Wertaufholungen von eigenen Aktien oder Anteilen",
+        "en": "RVA on own shares or corporate units"
+    },
+    {
+        "ref": "75313",
+        "parent": "RCV sur valeurs mobilières",
+        "fr": "Parts dans des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Wertaufholungen von Anteilen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "RVA on shares in undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75318",
+        "parent": "RCV sur valeurs mobilières",
+        "fr": "Autres valeurs mobilières",
+        "de": "Wertaufholungen von sonstigen Wertpapieren",
+        "en": "RVA on other transferable securities"
+    },
+    {
+        "ref": "7532",
+        "parent": "Reprises de corrections de valeur (RCV) et ajustements de juste valeur (AJV) sur valeurs mobilières",
+        "fr": "AJV sur valeurs mobilières",
+        "de": "AFV der Wertpapiere",
+        "en": "FVA on transferable securities"
+    },
+    {
+        "ref": "75411",
+        "parent": "Plus-values de cession de créances de l'actif circulant",
+        "fr": "sur des entreprises liées",
+        "de": "Forderungen gegen verbundene Unternehmen",
+        "en": "on affiliated undertakings"
+    },
+    {
+        "ref": "75412",
+        "parent": "Plus-values de cession de créances de l'actif circulant",
+        "fr": "sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "on undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75413",
+        "parent": "Plus-values de cession de créances de l'actif circulant",
+        "fr": "sur autres créances de l'actif circulant",
+        "de": "Sonstige Forderungen des Umlaufvermögens",
+        "en": "on other current receivables"
+    },
+    {
+        "ref": "75421",
+        "parent": "Plus-values de cession de valeurs mobilières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Anteile an verbundenen Unternehmen",
+        "en": "Shares in affiliated undertakings"
+    },
+    {
+        "ref": "75422",
+        "parent": "Plus-values de cession de valeurs mobilières",
+        "fr": "Actions propres ou parts propres",
+        "de": "Eigene Aktien oder Anteile",
+        "en": "Own shares or corporate units"
+    },
+    {
+        "ref": "75423",
+        "parent": "Plus-values de cession de valeurs mobilières",
+        "fr": "Parts dans des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Anteile an Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Shares in undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75428",
+        "parent": "Plus-values de cession de valeurs mobilières",
+        "fr": "Autres valeurs mobilières",
+        "de": "Sonstige Wertpapiere",
+        "en": "Other transferable securities"
+    },
+    {
+        "ref": "75481",
+        "parent": "Autres produits de valeurs mobilières",
+        "fr": "Parts dans des entreprises liées",
+        "de": "Anteile an verbundenen Unternehmen",
+        "en": "Shares in affiliated undertakings"
+    },
+    {
+        "ref": "75482",
+        "parent": "Autres produits de valeurs mobilières",
+        "fr": "Actions propres ou parts propres",
+        "de": "Eigene Aktien oder Anteile",
+        "en": "Own shares or corporate units"
+    },
+    {
+        "ref": "75483",
+        "parent": "Autres produits de valeurs mobilières",
+        "fr": "Parts dans des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Anteile an Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Shares in undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75488",
+        "parent": "Autres produits de valeurs mobilières",
+        "fr": "Autres valeurs mobilières",
+        "de": "Sonstige Wertpapiere",
+        "en": "Other transferable securities"
+    },
+    {
+        "ref": "75521",
+        "parent": "Intérêts bancaires et assimilés",
+        "fr": "Intérêts sur comptes bancaires",
+        "de": "Kontozinsen",
+        "en": "Interest on bank  accounts"
+    },
+    {
+        "ref": "755231",
+        "parent": "Intérêts sur leasings financiers",
+        "fr": "Intérêts sur leasings financiers - entreprises liées",
+        "de": "von verbundenen Unternehmen",
+        "en": "from affiliated undertakings"
+    },
+    {
+        "ref": "755232",
+        "parent": "Intérêts sur leasings financiers",
+        "fr": "Intérêts sur leasings financiers - autres",
+        "de": "von sonstigen",
+        "en": "from other"
+    },
+    {
+        "ref": "7553",
+        "parent": "Autres intérêts de l'actif circulant et escomptes",
+        "fr": "Intérêts sur créances commerciales",
+        "de": "Zinsen auf Handelsforderungen",
+        "en": "Interest on trade receivables"
+    },
+    {
+        "ref": "75541",
+        "parent": "Intérêts sur des entreprises liées et sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Intérêts sur des entreprises liées",
+        "de": "Zinsen auf Forderungen gegen verbundene Unternehmen",
+        "en": "Interest on amounts owed by affiliated undertakings"
+    },
+    {
+        "ref": "75542",
+        "parent": "Intérêts sur des entreprises liées et sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "fr": "Intérêts sur des entreprises avec lesquelles l'entreprise a un lien de participation",
+        "de": "Zinsen auf Forderungen gegen Unternehmen, mit denen ein Beteiligungsverhältnis besteht",
+        "en": "Interest on amounts owed by undertakings with which the undertaking is linked by virtue of participating interests"
+    },
+    {
+        "ref": "75551",
+        "parent": "Escomptes d'effets de commerce",
+        "fr": "Escomptes d'effets de commerce - entreprises liées",
+        "de": "Diskonte auf Handelswechsel - verbundene Unternehmen",
+        "en": "Discounts on bills of exchange - affiliated undertakings"
+    },
+    {
+        "ref": "75552",
+        "parent": "Escomptes d'effets de commerce",
+        "fr": "Escomptes d'effets de commerce - autres",
+        "de": "Diskonte auf Handelswechsel - sonstige",
+        "en": "Discounts on bills of exchange - other"
+    },
+    {
+        "ref": "75561",
+        "parent": "Escomptes obtenus",
+        "fr": "Escomptes obtenus - entreprises liées",
+        "de": "Erhaltene Diskonten - verbundene Unternehmen",
+        "en": "Discounts received - affiliated undertakings"
+    },
+    {
+        "ref": "75562",
+        "parent": "Escomptes obtenus",
+        "fr": "Escomptes obtenus - autres",
+        "de": "Erhaltene Diskonten - sonstige",
+        "en": "Discounts received - other"
+    },
+    {
+        "ref": "75581",
+        "parent": "Intérêts sur autres créances",
+        "fr": "Intérêts sur autres créances - entreprises liées",
+        "de": "Zinsen auf sonstigen Forderungen - verbundene Unternehmen",
+        "en": "Interest on other amounts receivable - affiliated undertakings"
+    },
+    {
+        "ref": "75582",
+        "parent": "Intérêts sur autres créances",
+        "fr": "Intérêts sur autres créances - autres",
+        "de": "Zinsen auf sonstigen Forderungen - sonstige",
+        "en": "Interest on other amounts receivable - other"
+    },
+    {
+        "ref": "7561",
+        "parent": "Gains de change",
+        "fr": "Gains de change - entreprises liées",
+        "de": "Wechselkursgewinne - verbundene Unternehmen",
+        "en": "Foreign currency exchange gains - affiliated undertakings"
+    },
+    {
+        "ref": "7562",
+        "parent": "Gains de change",
+        "fr": "Gains de change - autres",
+        "de": "Wechselkursgewinne - sonstige",
+        "en": "Foreign currency exchange gains - other"
+    },
+    {
+        "ref": "757",
+        "parent": "Produits financiers",
+        "fr": "Quote-part de bénéfice dans les entreprises mises en équivalence",
+        "de": "Gewinnanteil aus Unternehmungen (andere als Kapitalgesellschaften)",
+        "en": "Share of profit from undertakings accounted for under the equity method"
+    },
+    {
+        "ref": "7581",
+        "parent": "Autres produits financiers",
+        "fr": "Autres produits financiers - entreprises liées",
+        "de": "Sonstige finanzielle Erträge - verbundene Unternehmen",
+        "en": "Other financial income - affiliated undertakings"
+    },
+    {
+        "ref": "7582",
+        "parent": "Autres produits financiers",
+        "fr": "Autres produits financiers - autres",
+        "de": "Sonstige finanzielle Erträge - sonstige",
+        "en": "Other financial income - other"
+    },
+    {
+        "ref": "7591",
+        "parent": "Reprises de provisions financières",
+        "fr": "Reprises de provisions financières - entreprises liées",
+        "de": "Wertaufholungen von finanziellen Rückstellungen - verbundene Unternehmen",
+        "en": "Reversals of financial provisions - affiliated undertakings"
+    },
+    {
+        "ref": "7592",
+        "parent": "Reprises de provisions financières",
+        "fr": "Reprises de provisions financières - autres",
+        "de": "Wertaufholungen von finanziellen Rückstellungen - sonstige",
+        "en": "Reversals of financial provisions - other"
+    },
+    {
+        "ref": "771",
+        "parent": "Régularisations d'impôts sur le résultat",
+        "fr": "Régularisations d'impôt sur le revenu des collectivités (IRC)",
+        "de": "Erstattung der Körperschaftssteuer",
+        "en": "Adjustments of corporate income tax (CIT)"
+    },
+    {
+        "ref": "772",
+        "parent": "Régularisations d'impôts sur le résultat",
+        "fr": "Régularisations d'impôt commercial communal (ICC)",
+        "de": "Erstattung der Gewerbesteuer",
+        "en": "Adjustments of municipal business tax (MBT)"
+    },
+    {
+        "ref": "773",
+        "parent": "Régularisations d'impôts sur le résultat",
+        "fr": "Régularisations d'impôts étrangers sur le résultat",
+        "de": "Erstattung der ausländischen Ertragssteuern",
+        "en": "Adjustments of foreign income taxes"
+    },
+    {
+        "ref": "779",
+        "parent": "Régularisations d'impôts sur le résultat",
+        "fr": "Reprises de provisions pour impôts différés",
+        "de": "Auflösungen von Rückstellungen für Ertragssteuern",
+        "en": "Reversals of provisions for deferred taxes"
+    },
+    {
+        "ref": "781",
+        "parent": "Régularisations d'autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Régularisations d'impôt sur la fortune (IF)",
+        "de": "Erstattung der Vermögenssteuer",
+        "en": "Adjustments of net wealth tax (NWT)"
+    },
+    {
+        "ref": "782",
+        "parent": "Régularisations d'autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Régularisations de taxe d'abonnement",
+        "de": "Erstattung der Abgeltungssteuer",
+        "en": "Adjustments of subscription tax"
+    },
+    {
+        "ref": "783",
+        "parent": "Régularisations d'autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Régularisations d'impôts étrangers",
+        "de": "Erstattung der ausländischen Steuern",
+        "en": "Adjustments of foreign taxes"
+    },
+    {
+        "ref": "788",
+        "parent": "Régularisations d'autres impôts ne figurant pas sous les postes ci-dessus",
+        "fr": "Régularisations d'autres impôts",
+        "de": "Erstattung sonstiger Steuern",
+        "en": "Adjustments of other taxes"
+    }
+]

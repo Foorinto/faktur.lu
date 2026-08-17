@@ -1,6 +1,7 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
+import PcnAccountPicker from '@/Components/PcnAccountPicker.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link } from '@inertiajs/vue3';
@@ -144,6 +145,29 @@ watch(vatMode, (mode) => {
                     :placeholder="t('products.vat_rate')"
                 />
                 <InputError :message="form.errors.vat_rate" class="mt-2" />
+            </div>
+
+            <!-- Compte comptable.
+                 Facultatif : sans lui, la vente part sur le compte de produits
+                 du paramétrage. Il sert à distinguer ce qui n'est pas du
+                 chiffre d'affaires — des frais refacturés relèvent du 708 et
+                 non du 706, faute de quoi ils le gonflent artificiellement. -->
+            <div>
+                <InputLabel for="pcn_account" :value="t('products.pcn_account')" />
+                <!-- Le catalogue embarque désormais la classe 7 : on cherche
+                     « déplacement » ou « 708 », on choisit dans la liste. La
+                     saisie directe reste possible — un plan comptable se
+                     subdivise en sous-comptes que le PCN ne liste pas. -->
+                <PcnAccountPicker
+                    id="pcn_account"
+                    v-model="form.pcn_account"
+                    classe="7"
+                    class="mt-1"
+                />
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {{ t('products.pcn_account_hint') }}
+                </p>
+                <InputError :message="form.errors.pcn_account" class="mt-2" />
             </div>
 
             <!-- Unité -->

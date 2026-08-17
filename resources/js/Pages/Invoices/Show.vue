@@ -865,8 +865,20 @@ const submitCreditNote = () => {
                         </thead>
                         <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
                             <tr v-for="item in invoice.items" :key="item.id">
+                                <!-- Désignation puis description, comme sur le PDF.
+                                     Seule la description était affichée : un
+                                     article sans description — « Frais de
+                                     déplacement », par exemple — donnait une
+                                     ligne vide à l'écran alors que le document
+                                     imprimé, lui, portait bien son intitulé. -->
                                 <td class="py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white whitespace-pre-wrap break-words">
-                                    {{ item.description }}
+                                    <div v-if="item.title" class="font-medium">{{ item.title }}</div>
+                                    <div
+                                        v-if="item.description"
+                                        :class="item.title ? 'mt-0.5 text-xs text-slate-500 dark:text-slate-400' : ''"
+                                    >
+                                        {{ item.description }}
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
                                     {{ item.quantity }}

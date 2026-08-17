@@ -43,6 +43,10 @@ class StoreInvoiceRequest extends FormRequest
             'items.*.discount_value' => ['nullable', 'numeric', 'min:0'],
             // Allow any valid VAT rate (0-100%) - country-specific rates are validated at display level
             'items.*.vat_rate' => ['required_with:items', 'numeric', 'min:0', 'max:100', new SalesVatRateAllowed],
+            // Compte du plan comptable normalisé. Vérifié contre le
+            // catalogue : un compte inventé ferait échouer l'export
+            // bien plus tard, chez la fiduciaire.
+            'items.*.pcn_account' => ['nullable', 'string', 'max:10', new \App\Rules\PcnAccountExists],
             'retention_guarantee_rate' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'retention_release_date' => ['nullable', 'date'],
             'discounts' => ['nullable', 'array'],

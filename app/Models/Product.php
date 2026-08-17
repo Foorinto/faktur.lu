@@ -29,6 +29,7 @@ class Product extends Model
         'type',
         'unit_price_ht',
         'vat_rate',
+        'pcn_account',
         'unit',
         'is_active',
     ];

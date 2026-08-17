@@ -143,6 +143,10 @@ const applyProduct = (index, product) => {
         item.description = product.description;
     }
     item.unit_price = Number(product.unit_price_ht);
+    // Le compte suit l'article : c'est lui qui distingue un frais
+    // refacturé d'une vente, et il doit être figé sur la ligne — reclasser
+    // l'article plus tard ne doit pas réécrire une facture déjà émise.
+    item.pcn_account = product.pcn_account ?? null;
     if (product.unit) {
         item.unit = product.unit;
     }
