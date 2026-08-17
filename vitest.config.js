@@ -22,7 +22,11 @@ export default defineConfig({
         },
     },
     test: {
-        environment: 'happy-dom',
+        // jsdom et non happy-dom : ce dernier laissait passer une balise
+        // `script` à travers DOMPurify. Le test aurait alors constaté une
+        // absence de nettoyage sans que le code soit en cause — et, écrit dans
+        // l'autre sens, il aurait pu certifier un nettoyage inexistant.
+        environment: 'jsdom',
         include: ['resources/js/**/*.test.js'],
         globals: true,
     },
