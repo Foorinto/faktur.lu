@@ -1,7 +1,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import DOMPurify from 'dompurify';
+import { sanitizeArticle } from '@/Support/sanitizeHtml';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
@@ -26,9 +26,7 @@ const wordCount = computed(() => stripHtml(props.post.content).split(' ').filter
 // Profil HTML = preserve toute la mise en forme (tables, blockquotes, divs,
 // classes Tailwind, liens target/rel) tout en supprimant script, iframe,
 // gestionnaires on* et SVG/MathML. Le contenu legitime reste inchange.
-const sanitizedContent = computed(() =>
-    DOMPurify.sanitize(props.post.content || '', { USE_PROFILES: { html: true } })
-);
+const sanitizedContent = computed(() => sanitizeArticle(props.post.content));
 
 const breadcrumbSchema = computed(() => ({
     '@context': 'https://schema.org',
