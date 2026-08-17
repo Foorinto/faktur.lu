@@ -67,8 +67,17 @@ class PurchaseCategoryController extends Controller
             return response()->json(['suggestion' => $ref ? $pcn->find($ref, $locale) : null]);
         }
 
+        // La classe restreint la recherche : les dépenses cherchent des charges,
+        // les articles vendus des produits. Mélanger les deux mettrait un compte
+        // de ventes dans la liste d'une facture d'achat.
+        $classe = (string) $request->query('class', '6');
+
+        if (! in_array($classe, PcnAccountService::CLASSES, true)) {
+            $classe = '6';
+        }
+
         return response()->json([
-            'accounts' => $pcn->search((string) $request->query('q', ''), $locale),
+            'accounts' => $pcn->search((string) $request->query('q', ''), $locale, 25, $classe),
         ]);
     }
 

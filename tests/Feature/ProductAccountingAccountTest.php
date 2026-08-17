@@ -319,6 +319,54 @@ class ProductAccountingAccountTest extends TestCase
         return (float) str_replace(',', '.', explode(';', $ligne)[$colonne]);
     }
 
+    /**
+     * Le sélecteur doit trouver les comptes de produits — et surtout ne pas
+     * proposer de comptes de charges sur un article vendu.
+     */
+    public function test_the_picker_searches_the_revenue_class(): void
+    {
+        $reponse = $this->getJson(route('settings.pcn-accounts', ['q' => '708', 'class' => '7']));
+
+        $reponse->assertOk();
+        $comptes = collect($reponse->json('accounts'));
+
+        $this->assertTrue($comptes->contains('ref', '708'), 'Le 708 doit être proposé.');
+        $this->assertTrue(
+            $comptes->every(fn ($c) => str_starts_with($c['ref'], '7')),
+            'Une recherche en classe 7 ne doit renvoyer que des comptes de produits.'
+        );
+    }
+
+    /**
+     * Et réciproquement : les dépenses cherchaient dans la classe 6 avant que
+     * les articles n'aient un compte, elles doivent continuer.
+     */
+    public function test_the_picker_still_defaults_to_the_expense_class(): void
+    {
+        $comptes = collect($this->getJson(route('settings.pcn-accounts', ['q' => '61']))->json('accounts'));
+
+        $this->assertNotEmpty($comptes);
+        $this->assertTrue(
+            $comptes->every(fn ($c) => str_starts_with($c['ref'], '6')),
+            'Sans classe précisée, la recherche reste celle des charges.'
+        );
+    }
+
+    /**
+     * Les deux catalogues doivent être lisibles et distincts : une commande dont
+     * le fichier de sortie était codé en dur a un jour écrasé l'un par l'autre.
+     */
+    public function test_both_account_catalogues_are_loaded(): void
+    {
+        $pcn = app(\App\Services\Accounting\PcnAccountService::class);
+
+        $this->assertTrue($pcn->exists('61112'), 'Un compte de charges doit exister.');
+        $this->assertTrue($pcn->exists('708'), 'Un compte de produits doit exister.');
+
+        $this->assertTrue($pcn->all('6')->every(fn ($c) => str_starts_with($c['ref'], '6')));
+        $this->assertTrue($pcn->all('7')->every(fn ($c) => str_starts_with($c['ref'], '7')));
+    }
+
     private function creerArticle(?string $compte): \Illuminate\Testing\TestResponse
     {
         return $this->post(route('products.store'), [
@@ -349,9 +397,9 @@ class ProductAccountingAccountTest extends TestCase
     }
 
     /**
-     * En classe 7, il n'existe pas — le catalogue ne couvre que les charges.
-     * Opposer son absence reviendrait à interdire la fonctionnalité : on s'en
-     * tient à la forme, en attendant `pcn:build --class=7`.
+     * En classe 7, la vérification s'arrête à la forme : le PCN normalise les
+     * comptes mais une comptabilité les subdivise — 702000, notre propre compte
+     * de ventes par défaut, ne figure pas au plan.
      */
     public function test_a_revenue_account_is_accepted_on_its_form_alone(): void
     {

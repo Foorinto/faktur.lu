@@ -9,18 +9,20 @@ use Illuminate\Contracts\Validation\ValidationRule;
 /**
  * Le compte saisi doit être un compte du plan comptable normalisé.
  *
- * Le contrôle est en DEUX TEMPS, et la raison tient au catalogue : celui-ci ne
- * couvre que la classe 6, les charges, parce qu'il a été généré pour les
- * catégories d'achat (`resources/data/pcn-class6.json`, cf. `pcn:build`). Les
- * comptes de produits — la classe 7, celle qui nous intéresse pour un article —
- * n'y figurent pas.
+ * Le contrôle est en DEUX TEMPS, et ce n'est plus faute de catalogue : les deux
+ * classes utiles sont embarquées, les charges et les produits.
  *
- * On vérifie donc l'existence quand on peut, la forme sinon. Refuser un compte
- * de produits au motif qu'il manque à un catalogue de charges reviendrait à
- * interdire la fonctionnalité qu'on vient d'écrire.
+ * La raison est que le PCN fixe des comptes NORMALISÉS, quand une comptabilité
+ * réelle les subdivise. Le plan connaît « 7021 Ventes de produits finis » ; il
+ * ne connaît pas 702000, qui est pourtant le compte de ventes par défaut de
+ * faktur.lu, ni les sous-comptes qu'un comptable ouvre par client ou par
+ * activité. Exiger l'appartenance à la liste ferait rejeter notre propre
+ * paramétrage.
  *
- * ⚠️ Le jour où `pcn:build --class=7` aura été lancé, ce repli devient inutile :
- * la vérification d'existence couvrira les deux classes.
+ * En classe 6 la vérification reste stricte : elle porte sur les catégories de
+ * dépenses, dont les comptes sont proposés par le sélecteur et n'ont jamais eu
+ * à être subdivisés. Ailleurs, on s'en tient à la forme — c'est le sélecteur,
+ * et non le validateur, qui guide vers le bon compte.
  */
 class PcnAccountExists implements ValidationRule
 {
@@ -42,8 +44,8 @@ class PcnAccountExists implements ValidationRule
 
         $catalogue = app(PcnAccountService::class);
 
-        // Le catalogue ne connaît que les charges : hors classe 6, on s'en tient
-        // à la forme plutôt que d'opposer une absence qui ne prouve rien.
+        // Hors classe 6, on s'en tient à la forme : l'absence d'un compte de la
+        // liste ne prouve pas qu'il est faux, seulement qu'il est subdivisé.
         if (str_starts_with($compte, '6') && ! $catalogue->exists($compte)) {
             $fail('Le compte :input ne figure pas au plan comptable normalisé.');
         }

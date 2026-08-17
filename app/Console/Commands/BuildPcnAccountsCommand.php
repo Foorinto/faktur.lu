@@ -124,7 +124,10 @@ class BuildPcnAccountsCommand extends Command
 
         usort($accounts, fn ($a, $b) => strcmp($a['ref'], $b['ref']));
 
-        $out = $this->option('out') ?: resource_path('data/pcn-class6.json');
+        // Le nom suit la classe demandée. Il était codé en dur sur la classe 6 :
+        // lancer la commande avec --class=7 écrasait donc le catalogue des
+        // charges par celui des produits, silencieusement.
+        $out = $this->option('out') ?: resource_path("data/pcn-class{$classe}.json");
         @mkdir(dirname($out), 0755, true);
         file_put_contents($out, json_encode($accounts, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)."\n");
 

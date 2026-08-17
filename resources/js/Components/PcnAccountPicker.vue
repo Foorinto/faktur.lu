@@ -9,6 +9,11 @@ const props = defineProps({
     // Libellé de la catégorie : sert à proposer un compte sans rien chercher.
     suggestFrom: { type: String, default: '' },
     id: { type: String, default: 'pcn-account' },
+    // Classe du plan à interroger : 6 pour les charges (dépenses), 7 pour les
+    // produits (articles vendus). Sans cela, un article se verrait proposer des
+    // comptes d'achat.
+    classe: { type: String, default: '6' },
+    placeholder: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -25,7 +30,7 @@ watch(
 );
 
 const fetchResults = async (term) => {
-    const response = await fetch(route('settings.pcn-accounts', { q: term }), {
+    const response = await fetch(route('settings.pcn-accounts', { q: term, class: props.classe }), {
         headers: { Accept: 'application/json' },
     });
     if (!response.ok) return;
@@ -88,7 +93,7 @@ defineExpose({ suggest });
             type="text"
             inputmode="numeric"
             autocomplete="off"
-            placeholder="6111"
+            :placeholder="placeholder || (classe === '7' ? '7033' : '6111')"
             @input="onInput"
             @focus="open = true; fetchResults(query)"
             @blur="closeSoon"

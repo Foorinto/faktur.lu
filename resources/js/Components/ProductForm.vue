@@ -1,6 +1,7 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
+import PcnAccountPicker from '@/Components/PcnAccountPicker.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link } from '@inertiajs/vue3';
@@ -153,18 +154,15 @@ watch(vatMode, (mode) => {
                  non du 706, faute de quoi ils le gonflent artificiellement. -->
             <div>
                 <InputLabel for="pcn_account" :value="t('products.pcn_account')" />
-                <!-- Champ libre, et non le sélecteur de comptes : celui-ci
-                     interroge un catalogue qui ne couvre que la classe 6, les
-                     charges. Un compte de produits — 706, 708 — n'y figure pas
-                     et la recherche ne renverrait rien. -->
-                <TextInput
+                <!-- Le catalogue embarque désormais la classe 7 : on cherche
+                     « déplacement » ou « 708 », on choisit dans la liste. La
+                     saisie directe reste possible — un plan comptable se
+                     subdivise en sous-comptes que le PCN ne liste pas. -->
+                <PcnAccountPicker
                     id="pcn_account"
                     v-model="form.pcn_account"
-                    type="text"
-                    inputmode="numeric"
-                    maxlength="8"
-                    class="mt-1 block w-full"
-                    placeholder="706"
+                    classe="7"
+                    class="mt-1"
                 />
                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     {{ t('products.pcn_account_hint') }}
