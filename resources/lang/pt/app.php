@@ -321,7 +321,18 @@ return [
     'email_hr_event_reminder_tomorrow_body' => 'Pequeno lembrete: o seu evento é amanhã.',
     'email_closing' => 'Cumprimentos,',
     'blog_category_meta_description' => 'Artigos da categoria :name sobre faturação no Luxemburgo.',
+    // Noms des catégories du blog. Ils vivaient en base, en français, et
+    // s'affichaient tels quels dans les cinq langues : cinq pages portaient
+    // donc le même titre, ce que Bing signalait comme doublon.
+    'blog_categories' => [
+        'guides' => 'Guias práticos',
+        'reglementation' => 'Regulamentação',
+        'freelances' => 'Freelancers',
+        'actualites' => 'Atualidades',
+        'guide-creation-entreprise' => 'Criar uma empresa',
+    ],
     'blog_tag_meta_description' => 'Artigos com a tag :name sobre faturação no Luxemburgo.',
+    'blog_tagged_articles' => 'Artigos com a etiqueta «:name»',
     'finalize' => 'Finalizar',
     'duplicate' => 'Duplicar',
     'archive_action' => 'Arquivar',

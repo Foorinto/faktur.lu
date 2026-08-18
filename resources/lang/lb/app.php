@@ -251,7 +251,18 @@ return [
     'email_hr_event_reminder_tomorrow_body' => 'Kuerz Erënnerung: Äert Evenement ass muer.',
     'email_closing' => 'Mat frëndleche Gréiss,',
     'blog_category_meta_description' => 'Artikelen an der Kategorie :name iwwer Fakturatioun zu Lëtzebuerg.',
+    // Noms des catégories du blog. Ils vivaient en base, en français, et
+    // s'affichaient tels quels dans les cinq langues : cinq pages portaient
+    // donc le même titre, ce que Bing signalait comme doublon.
+    'blog_categories' => [
+        'guides' => 'Praktesch Guiden',
+        'reglementation' => 'Reglementatioun',
+        'freelances' => 'Freelanceren',
+        'actualites' => 'Aktuellt',
+        'guide-creation-entreprise' => 'Entreprise grënnen',
+    ],
     'blog_tag_meta_description' => 'Artikelen mam Tag :name iwwer Fakturatioun zu Lëtzebuerg.',
+    'blog_tagged_articles' => 'Artikelen mam Schlagwuert „:name“',
     'finalize' => 'Ofschléissen',
     'duplicate' => 'Duplizéieren',
     'archive_action' => 'Archivéieren',

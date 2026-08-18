@@ -322,7 +322,18 @@ return [
     'email_hr_event_reminder_tomorrow_body' => 'Petit rappel : votre événement a lieu demain.',
     'email_closing' => 'Cordialement,',
     'blog_category_meta_description' => 'Articles de la catégorie :name sur la facturation au Luxembourg.',
+    // Noms des catégories du blog. Ils vivaient en base, en français, et
+    // s'affichaient tels quels dans les cinq langues : cinq pages portaient
+    // donc le même titre, ce que Bing signalait comme doublon.
+    'blog_categories' => [
+        'guides' => 'Guides pratiques',
+        'reglementation' => 'Réglementation',
+        'freelances' => 'Freelances',
+        'actualites' => 'Actualités',
+        'guide-creation-entreprise' => 'Guide création entreprise',
+    ],
     'blog_tag_meta_description' => 'Articles tagués :name sur la facturation au Luxembourg.',
+    'blog_tagged_articles' => 'Articles tagués « :name »',
     'finalize' => 'Finaliser',
     'duplicate' => 'Dupliquer',
     'archive_action' => 'Archiver',

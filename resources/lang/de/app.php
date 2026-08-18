@@ -251,7 +251,18 @@ return [
     'email_hr_event_reminder_tomorrow_body' => 'Kurze Erinnerung: Ihr Ereignis findet morgen statt.',
     'email_closing' => 'Mit freundlichen Grüßen,',
     'blog_category_meta_description' => 'Artikel in der Kategorie :name über Rechnungsstellung in Luxemburg.',
+    // Noms des catégories du blog. Ils vivaient en base, en français, et
+    // s'affichaient tels quels dans les cinq langues : cinq pages portaient
+    // donc le même titre, ce que Bing signalait comme doublon.
+    'blog_categories' => [
+        'guides' => 'Praktische Leitfäden',
+        'reglementation' => 'Regelwerk',
+        'freelances' => 'Freiberufler',
+        'actualites' => 'Aktuelles',
+        'guide-creation-entreprise' => 'Unternehmensgründung',
+    ],
     'blog_tag_meta_description' => 'Artikel mit dem Tag :name über Rechnungsstellung in Luxemburg.',
+    'blog_tagged_articles' => 'Artikel mit dem Schlagwort „:name“',
     'finalize' => 'Abschließen',
     'duplicate' => 'Duplizieren',
     'archive_action' => 'Archivieren',
