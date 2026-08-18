@@ -90,8 +90,22 @@ const isCurrentRoute = (routeName) => {
                 </ul>
             </nav>
 
-            <!-- Logout button -->
-            <div class="absolute bottom-0 left-0 right-0 border-t border-gray-700 p-4">
+            <!-- Retour à l'application, et déconnexion.
+                 Depuis que la connexion mène directement ici, un administrateur
+                 n'a plus de chemin évident vers son propre tableau de bord — et
+                 l'URL du panneau n'apparaissant plus côté client, il ne peut pas
+                 non plus revenir en arrière à la main. -->
+            <div class="absolute bottom-0 left-0 right-0 border-t border-gray-700 p-4 space-y-1">
+                <Link
+                    :href="route('dashboard')"
+                    class="flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-gray-800 hover:text-white"
+                >
+                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Retour à l'application
+                </Link>
+
                 <button
                     @click="logout"
                     class="flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-gray-800 hover:text-white"

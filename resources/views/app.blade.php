@@ -67,7 +67,9 @@
         <noscript><link href="https://fonts.bunny.net/css?family=inter:400,500,600&family=dosis:600&display=swap" rel="stylesheet"></noscript>
 
         <!-- Scripts -->
-        @routes
+        {{-- Les routes d'administration ne sont publiées qu'aux administrateurs :
+             elles emportent avec elles le préfixe du panneau. Voir config/ziggy.php. --}}
+        @routes(auth()->user()?->is_admin ? 'admin' : null)
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
 

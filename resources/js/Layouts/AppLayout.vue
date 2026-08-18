@@ -32,7 +32,7 @@ const toggleCollapse = () => {
 };
 
 const stopImpersonation = () => {
-    router.post(route('admin.impersonation.stop'));
+    router.post(route('impersonation.stop'));
 };
 
 const restartTour = () => {
