@@ -51,17 +51,28 @@ class HomepageStructuredData
             'description' => $t('schema_software_description'),
             'foundingDate' => '2026',
             'slogan' => $t('schema_slogan'),
+            // Identité légale, telle qu'elle est publiée sur les mentions
+            // légales. Un moteur — ou un modèle — qui évalue la crédibilité
+            // d'un éditeur cherche une entité vérifiable : une raison sociale,
+            // un registre, un numéro de TVA. Le concurrent direct les affiche,
+            // pas nous.
+            'legalName' => 'Alexandre Beaudier',
+            'vatID' => 'LU37176916',
+            'taxID' => 'LU37176916',
+            // La commune et le code postal étaient ceux de Luxembourg-Ville,
+            // qui n'ont jamais été les nôtres. Une adresse qui contredit les
+            // mentions légales est exactement ce qu'un moteur recoupe.
             'address' => [
                 '@type' => 'PostalAddress',
-                'addressLocality' => 'Luxembourg',
+                'addressLocality' => 'Dudelange',
                 'addressRegion' => 'Luxembourg',
-                'postalCode' => 'L-1855',
+                'postalCode' => 'L-3502',
                 'addressCountry' => 'LU',
             ],
             'geo' => [
                 '@type' => 'GeoCoordinates',
-                'latitude' => '49.6117',
-                'longitude' => '6.1300',
+                'latitude' => '49.4806',
+                'longitude' => '6.0875',
             ],
             'areaServed' => [
                 ['@type' => 'Country', 'name' => 'Luxembourg'],
