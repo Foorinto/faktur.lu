@@ -21,6 +21,13 @@ class BlogPostObserver
 
     public function saved(BlogPost $post): void
     {
+        // Voir `indexnow.notify_from_console` : une migration ou une commande
+        // qui réécrit les articles en lot ne doit pas déclencher deux cents
+        // appels HTTP synchrones au milieu d'un déploiement.
+        if (app()->runningInConsole() && ! config('indexnow.notify_from_console')) {
+            return;
+        }
+
         if (! $this->estPublic($post)) {
             return;
         }

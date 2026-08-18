@@ -53,4 +53,22 @@ return [
     */
     'batch_size' => 500,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Notifier depuis la console
+    |--------------------------------------------------------------------------
+    |
+    | Quarante migrations touchent au blog, et `blog:optimize-links` réécrit les
+    | articles en lot : chacune déclencherait autant d'appels HTTP synchrones, à
+    | dix secondes de délai chacun. Un déploiement s'en trouverait suspendu, et
+    | les moteurs recevraient deux cents notifications pour un seul changement
+    | de maillage interne.
+    |
+    | La publication se faisant depuis l'administration, donc en HTTP, couper la
+    | console ne retire rien d'utile. Pour un envoi en masse délibéré,
+    | `indexnow:submit` existe.
+    |
+    */
+    'notify_from_console' => env('INDEXNOW_NOTIFY_FROM_CONSOLE', false),
+
 ];

@@ -24,7 +24,7 @@ class IndexNowTest extends TestCase
     {
         parent::setUp();
 
-        config(['indexnow.enabled' => true, 'app.url' => 'https://faktur.lu']);
+        config(['indexnow.enabled' => true, 'app.url' => 'https://faktur.lu', 'indexnow.notify_from_console' => true]);
         Http::preventStrayRequests();
         Http::fake(['api.indexnow.org/*' => Http::response('', 200)]);
     }
@@ -102,6 +102,36 @@ class IndexNowTest extends TestCase
         $this->article(['locale' => 'de', 'slug' => 'mein-artikel', 'status' => 'published', 'published_at' => now()->subMinute()]);
 
         Http::assertSent(fn ($r) => $r->data()['urlList'] === ['https://faktur.lu/de/blog/mein-artikel']);
+    }
+
+    /**
+     * Consulter un article l'enregistre — `incrementViews()` est appelé à
+     * chaque affichage. Sans ce filtre, chaque visite déclencherait un appel
+     * HTTP et signalerait aux moteurs un changement qui n'en est pas un.
+     */
+    public function test_reading_an_article_notifies_nothing(): void
+    {
+        $post = $this->article();
+        Http::fake(['api.indexnow.org/*' => Http::response('', 200)]);
+
+        for ($i = 0; $i < 5; $i++) {
+            $post->incrementViews();
+        }
+
+        Http::assertNothingSent();
+    }
+
+    /**
+     * Une migration ou une commande qui réécrit les articles en lot ne doit pas
+     * suspendre un déploiement sous deux cents appels HTTP.
+     */
+    public function test_a_console_run_notifies_nothing_by_default(): void
+    {
+        config(['indexnow.notify_from_console' => false]);
+
+        $this->article(['slug' => 'reecrit-par-une-migration']);
+
+        Http::assertNothingSent();
     }
 
     public function test_a_draft_notifies_nothing(): void
