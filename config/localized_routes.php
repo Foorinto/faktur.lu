@@ -75,12 +75,17 @@ return [
         'pt' => 'glossario',
     ],
 
+    // Le portugais annonçait « contacto », mais aucune route ne l'a jamais
+    // servi : la page de contact est `{locale}/contact` dans les cinq langues,
+    // sans variante localisée — contrairement aux tarifs, qui ont bien leur
+    // route `precos`. Le sitemap publiait donc une URL en 404, et Search Console
+    // la comptait parmi ses « Introuvable ». Constaté le 2026-08-18.
     'contact' => [
         'fr' => 'contact',
         'de' => 'contact',
         'en' => 'contact',
         'lb' => 'contact',
-        'pt' => 'contacto',
+        'pt' => 'contact',
     ],
 
     'pricing' => [

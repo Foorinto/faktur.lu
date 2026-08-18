@@ -37,6 +37,35 @@ return [
     */
     'groups' => [
         'admin' => ['*'],
+
+        /*
+         * Routes publiées à un VISITEUR ANONYME.
+         *
+         * Sur 547 routes et 65 Ko, 390 routes et 45 Ko relèvent de
+         * l'application : personne qui lit la page tarifs n'a besoin de la
+         * gestion RH, du portail comptable ou de la facturation. Ce poids part
+         * pourtant dans chaque page, et dans chacun des 430 snapshots servis
+         * aux robots.
+         *
+         * ⚠️ C'est une liste BLANCHE : une famille oubliée fait lever une
+         * exception Ziggy, et la page blanchit sans erreur serveur. Elle a donc
+         * été construite par COMPLÉMENT des espaces de noms applicatifs, jamais
+         * à la main.
+         *
+         * Elle ne s'applique qu'aux visiteurs anonymes. Un utilisateur connecté
+         * reçoit le filtre par défaut ci-dessus, un administrateur tout.
+         */
+        'public' => [
+            'about.*', 'alternatives.*', 'blog.*', 'contact', 'contact.*',
+            'drip.*', 'faia-validator.*', 'features.*', 'for_accountants.*',
+            'for_freelances.*', 'for_smes.*', 'glossary.*', 'home', 'home.*',
+            'impersonation.*', 'indexnow.*', 'legal.*', 'locale.*', 'login',
+            'logout', 'newsletter.*', 'partners.*', 'pricing.*', 'register',
+            'sanctum.*', 'sitemap.*', 'storage.*', 'survey.*', 'tools.*',
+            'translations.*', 'verification.*', 'why_faktur.*',
+            // Parcours d'authentification : mot de passe oublié, défi 2FA.
+            'password.*', 'two-factor.login', 'two-factor.login.*',
+        ],
     ],
 
 ];

@@ -69,7 +69,7 @@
         <!-- Scripts -->
         {{-- Les routes d'administration ne sont publiées qu'aux administrateurs :
              elles emportent avec elles le préfixe du panneau. Voir config/ziggy.php. --}}
-        @routes(auth()->user()?->is_admin ? 'admin' : null)
+        @routes(auth()->check() ? (auth()->user()->is_admin ? 'admin' : null) : 'public')
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
 
