@@ -23,10 +23,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route accessible meme quand on impersonifie un utilisateur (pas de middleware admin.user)
+/*
+ * Arrêt d'usurpation — HORS du préfixe et du nom « admin. », délibérément.
+ *
+ * C'est l'utilisateur usurpé qui l'appelle, depuis AppLayout et
+ * AuthenticatedLayout : il n'est pas administrateur. Tant que cette route
+ * s'appelait `admin.impersonation.stop` et vivait sous le préfixe secret, deux
+ * conséquences s'ensuivaient. Impossible de retirer les routes `admin.*` de la
+ * table publiée sans casser le bouton ; et l'URL publiait le préfixe à elle
+ * seule, ce qui rendait vaine toute tentative de le garder discret.
+ *
+ * Le contrôle d'accès ne repose pas sur l'URL : `stopImpersonation` ne fait
+ * quelque chose que si une usurpation est en cours dans la session.
+ */
 Route::middleware(['auth'])
-    ->post(config('admin.url_prefix', 'admin') . '/impersonation/stop', [AdminUserController::class, 'stopImpersonation'])
-    ->name('admin.impersonation.stop');
+    ->post('/impersonation/stop', [AdminUserController::class, 'stopImpersonation'])
+    ->name('impersonation.stop');
 
 Route::prefix(config('admin.url_prefix', 'admin'))
     ->name('admin.')

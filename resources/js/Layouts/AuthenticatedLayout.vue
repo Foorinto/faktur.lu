@@ -11,7 +11,7 @@ const page = usePage();
 const showingNavigationDropdown = ref(false);
 
 const stopImpersonation = () => {
-    router.post(route('admin.impersonation.stop'));
+    router.post(route('impersonation.stop'));
 };
 </script>
 
