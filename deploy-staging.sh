@@ -60,8 +60,11 @@ prerender_and_sync() {
     local PORT=8129
     # Génère contre une instance LOCALE : o2switch/LiteSpeed rate-limite la rafale
     # d'assets du headless (HTTP 429) → le SPA ne se monte pas. En local, pas de
-    # rate-limit. APP_URL=$SITE_URL → canonical/hreflang/og corrects ; les liens
-    # internes sont relatifs et les scripts sont strippés. Pages marketing identiques
+    # rate-limit. APP_URL ne vaut qu'en console : en HTTP, Laravel construit ses
+    # URL absolues depuis l'hôte de la REQUÊTE. Les liens et les feuilles de style
+    # se retrouvaient donc figés sur 127.0.0.1 dans les snapshots — 424 sur 430,
+    # près de 11 000 références mortes, constaté le 2026-08-18. D'où PUBLIC_URL,
+    # que le script substitue à l'hôte local avant d'écrire chaque fichier. Pages marketing identiques
     # à la prod (contenu statique).
     rm -f public/hot
     # Le sitemap est mis en cache une heure (SitemapController::Cache::remember).
@@ -87,9 +90,26 @@ prerender_and_sync() {
         sleep 0.5
     done
     echo -e "${BLUE}   Serveur local prêt, génération...${NC}"
-    BASE_URL="http://127.0.0.1:$PORT" PRERENDER_CONCURRENCY=4 npm run prerender
+    BASE_URL="http://127.0.0.1:$PORT" PUBLIC_URL="$SITE_URL" PRERENDER_CONCURRENCY=4 npm run prerender
     local gen_rc=$?
     kill $SERVE_PID 2>/dev/null
+
+    # Aucun snapshot ne doit porter l'hôte local. Le défaut a vécu des mois sans
+    # que rien ne le signale : les robots recevaient des liens et des feuilles de
+    # style pointant sur 127.0.0.1 — 424 fichiers sur 430 — pendant que le site
+    # restait normal pour les humains.
+    #
+    # On refuse le TRANSFERT, pas le déploiement : les snapshots en place valent
+    # mieux que des snapshots faux, et le code, lui, n'est pas en cause.
+    local FUITES
+    FUITES=$(grep -rl "127\.0\.0\.1" public/prerendered --include=index.html 2>/dev/null | wc -l | tr -d " ")
+    if [ "$FUITES" != "0" ]; then
+        echo -e "${RED}⚠️  $FUITES snapshot(s) portent l'hôte local 127.0.0.1 — transfert ANNULÉ.${NC}"
+        echo -e "${YELLOW}   PUBLIC_URL n'a pas été appliqué. Voir normaliserHote() dans scripts/prerender.mjs.${NC}"
+        PRERENDER_STATUS="ÉCHEC : $FUITES snapshot(s) avec l'hôte local"
+        set -e
+        return 0
+    fi
     if [ $gen_rc -ne 0 ]; then
         echo -e "${RED}⚠️  Génération des snapshots INCOMPLÈTE (code $gen_rc). Snapshots NON synchronisés.${NC}"
         echo -e "${YELLOW}   Le site reste OK. Relance: ./deploy-staging.sh prerender-only${NC}"

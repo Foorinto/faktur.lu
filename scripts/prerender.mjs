@@ -33,6 +33,20 @@ const CHROME_PATH =
     '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const CONCURRENCY = Number(process.env.PRERENDER_CONCURRENCY || 4);
 
+/**
+ * Adresse publique du site, telle qu'elle doit apparaître dans les snapshots.
+ *
+ * Le rendu se fait contre une instance LOCALE (BASE_URL), et Laravel construit
+ * ses URL absolues depuis l'hôte de la REQUÊTE, pas depuis APP_URL — cette
+ * dernière ne vaut qu'en console. Les liens et les feuilles de style se
+ * retrouvaient donc figés sur http://127.0.0.1:<port> dans le HTML servi aux
+ * robots : 424 snapshots sur 430, près de 11 000 références mortes.
+ *
+ * Constaté le 2026-08-18. Le commentaire de deploy.sh affirmait que « les liens
+ * internes sont relatifs » — ils ne le sont pas.
+ */
+const PUBLIC_URL = (process.env.PUBLIC_URL || 'https://faktur.lu').replace(/\/$/, '');
+
 // --- CLI args ------------------------------------------------------------
 const args = process.argv.slice(2);
 const limitArg = args.indexOf('--limit');
@@ -72,7 +86,7 @@ async function collectUrls() {
  * full rendered body — content stays equivalent to the live page (no cloaking).
  */
 function stripForBots(html) {
-    return html
+    return normaliserHote(html)
         // data-page="{…}" — inner quotes are HTML-escaped (&quot;), so the attribute
         // value contains no literal " until its closing delimiter.
         .replace(/\sdata-page="[^"]*"/, ' data-page=""')
@@ -80,6 +94,24 @@ function stripForBots(html) {
         .replace(/<script\b[^>]*\btype="module"[^>]*><\/script>/g, '')
         // modulepreload / preload links for JS chunks.
         .replace(/<link\b[^>]*\brel="modulepreload"[^>]*>/g, '');
+}
+
+/**
+ * Remplace l'hôte local par l'adresse publique, partout.
+ *
+ * Y compris dans les scripts restants : la configuration Ziggy y déclare son
+ * `url`, et un moteur qui exécute le JavaScript reconstruirait sinon des liens
+ * vers 127.0.0.1. La chaîne échappée (\/) est traitée aussi, JSON obligeant.
+ */
+function normaliserHote(html) {
+    if (BASE_URL === PUBLIC_URL) return html;
+
+    const echappe = (u) => u.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const localEchappeJson = BASE_URL.replace(/\//g, '\\/');
+
+    return html
+        .replaceAll(BASE_URL, PUBLIC_URL)
+        .replace(new RegExp(echappe(localEchappeJson), 'g'), PUBLIC_URL.replace(/\//g, '\\/'));
 }
 
 // Map a URL path to its snapshot file: /fr/tarifs → public/prerendered/fr/tarifs/index.html
