@@ -186,7 +186,19 @@ return Application::configure(basePath: dirname(__DIR__))
                 || $e instanceof \Illuminate\Validation\ValidationException
                 || $e instanceof \Illuminate\Auth\AuthenticationException
                 || $e instanceof \Illuminate\Auth\Access\AuthorizationException
-                || $e instanceof \Illuminate\Session\TokenMismatchException) {
+                || $e instanceof \Illuminate\Session\TokenMismatchException
+                // HttpResponseException n'est pas une erreur : c'est le moyen par
+                // lequel Laravel remonte une réponse DÉJÀ CONSTRUITE à travers la
+                // pile. La limitation de débit s'en sert dès qu'un limiteur
+                // définit sa propre réponse — et nos limiteurs en définissent
+                // tous une.
+                //
+                // Faute de l'exclure, « Trop de tentatives d'inscription. » était
+                // remplacé par « Une erreur inattendue s'est produite… code
+                // XXXX-YYYY ». Le message soigneusement écrit n'atteignait
+                // personne, et l'utilisateur contactait le support pour une
+                // limite volontaire. Constaté sur l'inscription le 2026-08-18.
+                || $e instanceof \Illuminate\Http\Exceptions\HttpResponseException) {
                 return null; // domain messages + 401/403/404/419/422... handled normally
             }
 
