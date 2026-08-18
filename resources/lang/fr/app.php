@@ -2404,7 +2404,7 @@ return [
             'short_description' => 'Définissez librement le format de vos numéros de facture, avoir et devis. Idéal pour migrer depuis un autre logiciel sans perdre votre continuité.',
             'page_title' => 'Numérotation personnalisable Luxembourg | Migration logiciel | faktur.lu',
             'meta_description' => 'Personnalisez vos numéros de facture, avoir et devis. Choisissez votre format, votre préfixe et continuez votre numérotation depuis un autre logiciel sans repartir à 1.',
-            'hero_description' => 'Contrairement aux autres outils de facturation, faktur.lu vous laisse définir 100 % le format de vos numéros : prefixe, année, mois, compteur, nom du client. Et si vous migrez depuis un autre logiciel en milieu d\'année, vous pouvez démarrer la séquence là où vous vous êtes arrêté - sans trou, conforme à l\'Article 63 LIVA.',
+            'hero_description' => 'Contrairement aux autres outils de facturation, faktur.lu vous laisse définir 100 % le format de vos numéros : préfixe, année, mois, compteur, nom du client. Et si vous migrez depuis un autre logiciel en milieu d\'année, vous pouvez démarrer la séquence là où vous vous êtes arrêté - sans trou, conforme à l\'Article 63 LIVA.',
             'details_title' => 'Toute la souplesse, zéro casse-tête fiscal',
             'items' => [
                 'free_format' => ['title' => 'Format libre', 'description' => 'Combinez les placeholders comme vous le souhaitez : {prefix}-{year}-{number}, {year}/{number}-{client_name}, {yy}{month}-{number}, etc.'],

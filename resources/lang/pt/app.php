@@ -2152,6 +2152,28 @@ return [
                 ],
             ],
         ],
+        'custom-numbering' => [
+            'title' => 'Numeração personalizável',
+            'short_description' => 'Defina livremente o formato dos números das suas faturas, notas de crédito e orçamentos. Ideal para migrar de outro programa sem quebrar a sua sequência.',
+            'page_title' => 'Numeração de Faturas Personalizável Luxemburgo | Migração | faktur.lu',
+            'meta_description' => 'Personalize os números das suas faturas, notas de crédito e orçamentos. Escolha o formato e o prefixo e continue a numeração vinda de outro programa sem recomeçar em 1.',
+            'hero_description' => 'Ao contrário de outras ferramentas de faturação, o faktur.lu deixa-o definir totalmente o formato dos seus números: prefixo, ano, mês, contador, nome do cliente. E se migrar de outro programa a meio do ano, pode retomar a sequência exatamente onde parou - sem falhas, em conformidade com o Artigo 63.º da LIVA.',
+            'details_title' => 'Toda a flexibilidade, zero dores de cabeça fiscais',
+            'items' => [
+                'free_format' => ['title' => 'Formato livre', 'description' => 'Combine os marcadores como quiser: {prefix}-{year}-{number}, {year}/{number}-{client_name}, {yy}{month}-{number}, e assim por diante.'],
+                'placeholders' => ['title' => '7 marcadores disponíveis', 'description' => 'Prefixo, ano (2026 ou 26), mês, dia, contador, nome do cliente (slug) e até um prefixo diferente por tipo de documento.'],
+                'migration' => ['title' => 'Migração sem dores', 'description' => 'Estava em FACT-2026-047 no Excel ou noutro programa? Defina o número inicial e continue em FACT-2026-048. Sem falhas na sequência.'],
+                'compliance' => ['title' => 'Conforme o Artigo 63.º da LIVA', 'description' => 'O formato é bloqueado automaticamente assim que a primeira fatura é finalizada, para garantir a continuidade legal da sequência.'],
+                'per_document' => ['title' => 'Prefixos individuais', 'description' => 'Faturas, notas de crédito e orçamentos podem ter prefixos diferentes (F, AV, DEV por omissão) partilhando a mesma estrutura de formato.'],
+                'free_plan' => ['title' => 'Incluído no plano Gratuito', 'description' => 'Uma funcionalidade tão importante não deveria ser paga. Disponível em todos os planos, incluindo o Gratuito.'],
+            ],
+            'faqs' => [
+                'how' => ['question' => 'Como configuro o meu formato?', 'answer' => 'Vá a Definições > Empresa > Numeração. Introduza o seu formato com os marcadores pretendidos, escolha os prefixos e, se estiver a migrar, um número inicial. Uma pré-visualização em direto mostra-lhe o resultado.'],
+                'migrate' => ['question' => 'Estou a migrar de outro programa a meio do ano - como continuo a minha numeração?', 'answer' => 'Indique o último número emitido no campo "Número inicial". A sua primeira fatura no faktur.lu retoma nesse número + 1, em vez de recomeçar em 1. Indispensável para a conformidade com o Artigo 61.º.'],
+                'lock' => ['question' => 'Posso alterar o formato durante o ano?', 'answer' => 'Não. A partir do momento em que finaliza pelo menos uma fatura de um determinado ano, o formato fica bloqueado para esse ano, para garantir a continuidade legal. Poderá alterá-lo novamente a partir de 1 de janeiro.'],
+                'plan' => ['question' => 'Em que plano está disponível?', 'answer' => 'Em todos os planos, incluindo o Gratuito. É uma funcionalidade essencial que não deveria estar reservada aos planos pagos.'],
+            ],
+        ],
 
         'projects' => [
             'title' => 'Gestão de projetos',
@@ -2362,6 +2384,7 @@ return [
             'details_title' => 'Exportações adaptadas ao Luxemburgo',
             'items' => [
                 'sage' => ['title' => 'Exportação Sage BOB', 'description' => 'Gere ficheiros de lançamentos compatíveis com o Sage BOB, o software mais utilizado pelas fiduciárias no Luxemburgo.'],
+                'sage100' => ['title' => 'Exportação Sage 100', 'description' => 'Exportação CSV no formato Sage 100 para fiduciárias que utilizam esta suite.'],
                 'portal' => ['title' => 'Portal do contabilista', 'description' => 'Conceda um acesso só de leitura ao seu contabilista para que possa consultar os seus dados em tempo real.'],
                 'revenue' => ['title' => 'Livro de receitas', 'description' => 'Gere automaticamente o seu livro de receitas conforme às exigências luxemburguesas.'],
                 'csv' => ['title' => 'Exportação CSV/Excel', 'description' => 'Exporte os seus dados em formato CSV ou Excel para qualquer tratamento personalizado.'],

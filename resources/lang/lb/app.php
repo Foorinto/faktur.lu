@@ -1,6 +1,32 @@
 <?php
 
 return [
+    // Essai et abonnement, ajoutés le 2026-08-18 : ces clés n'existaient qu'en
+    // français, les utilisateurs luxembourgophones voyaient donc le nom de la clé.
+    'trial_expired_message' => 'Är Testphase ass ofgelaf. Wielt en Abonnement fir faktur.lu weider ze notzen.',
+    'trial_days_remaining' => ':days Deeg iwwreg an Ärer gratis Testphase',
+    'trial_banner_cta' => 'En Abonnement wielen',
+    'read_only_mode' => 'Är Testphase ass ofgelaf. Äre Kont ass just nach liesbar.',
+    'subscribe_now' => 'Elo abonnéieren',
+    'no_credit_card' => 'Ouni Kreditkaart',
+    'try_free' => '14 Deeg gratis probéieren',
+    'new_task' => 'Nei Aufgab',
+    'edit_task' => 'Aufgab änneren',
+    'project_details' => 'Projet-Detailer',
+    'quick_add_task' => 'Séier bäisetzen',
+    'task_priority' => [
+        'low' => 'Niddereg',
+        'normal' => 'Normal',
+        'high' => 'Héich',
+    ],
+    'estimated_hours' => 'Geschate Stonnen',
+    'unarchive' => 'Aus dem Archiv huelen',
+    'project_archived' => 'Projet archivéiert',
+    'project_unarchived' => 'Projet restauréiert',
+    'mark_complete' => 'Als fäerdeg markéieren',
+    'mark_incomplete' => 'Als net fäerdeg markéieren',
+    'all_priorities' => 'All Prioritéiten',
+    'vs_estimated' => 'vs. geschat',
     // Navigation
     'dashboard' => 'Dashboard',
     'invoices' => 'Rechnungen',
@@ -1889,6 +1915,28 @@ return [
                 'facturx' => ['question' => 'Peppol vs Factur-X?', 'answer' => 'Peppol ass en Iwwertragungsnetzwierk (B2G). Factur-X ass en hybridt PDF+XML-Format fir den B2B-Austausch an Europa. Mat faktur.lu kennt Dir Aer Rechnungen am Factur-X-Format exportéieren.'],
             ],
         ],
+        'custom-numbering' => [
+            'title' => 'Personaliséierbar Nummeréierung',
+            'short_description' => 'Bestëmmt fräi de Format vun Ären Rechnungs-, Gutschrëft- an Offertnummeren. Ideal fir vun engem anere Programm ze wiesselen, ouni Är Reiefolleg ze briechen.',
+            'page_title' => 'Personaliséierbar Rechnungsnummeréierung Lëtzebuerg | Programmwiessel | faktur.lu',
+            'meta_description' => 'Passt Är Rechnungs-, Gutschrëft- an Offertnummeren un. Wielt Äre Format an Äre Präfix a féiert Är Nummeréierung vun engem anere Programm weider, ouni erëm bei 1 unzefänken.',
+            'hero_description' => 'Am Géigesaz zu anere Fakturatiounsprogrammer léisst faktur.lu Iech de Format vun Ären Nummeren komplett bestëmmen: Präfix, Joer, Mount, Zieler, Client. A wann Dir mëtten am Joer vun engem anere Programm wiesselt, kënnt Dir d\'Reiefolleg genee do weiderféieren, wou Dir opgehalen hutt - ouni Lücke, konform mam Artikel 63 LIVA.',
+            'details_title' => 'All Flexibilitéit, kee steierleche Kappzerbriechen',
+            'items' => [
+                'free_format' => ['title' => 'Fräie Format', 'description' => 'Kombinéiert d\'Platzhalter wéi Dir wëllt: {prefix}-{year}-{number}, {year}/{number}-{client_name}, {yy}{month}-{number}, asw.'],
+                'placeholders' => ['title' => '7 Platzhalter verfügbar', 'description' => 'Präfix, Joer (2026 oder 26), Mount, Dag, Zieler, Client (Slug), a souguer e verschiddene Präfix pro Dokumentaart.'],
+                'migration' => ['title' => 'Wiessel ouni Péng', 'description' => 'Waart Dir bei FACT-2026-047 an Excel oder engem anere Programm? Setzt d\'Startnummer a maacht bei FACT-2026-048 weider. Keng Lücke an der Reiefolleg.'],
+                'compliance' => ['title' => 'Konform mam Artikel 63 LIVA', 'description' => 'De Format gëtt automatesch gespaart, soubal déi éischt Rechnung finaliséiert ass, fir déi gesetzlech Kontinuitéit vun der Reiefolleg ze garantéieren.'],
+                'per_document' => ['title' => 'Eege Präfixen', 'description' => 'Rechnungen, Gutschrëften an Offerten kënne verschidde Präfixen hunn (F, AV, DEV par défaut) a gläichzäiteg dee selwechte Format deelen.'],
+                'free_plan' => ['title' => 'Am Gratis-Plang abegraff', 'description' => 'Esou eng wichteg Funktioun sollt näischt kaschten. An alle Pläng verfügbar, och am Gratis-Plang.'],
+            ],
+            'faqs' => [
+                'how' => ['question' => 'Wéi stellen ech mäi Format an?', 'answer' => 'Gitt op Astellungen > Entreprise > Nummeréierung. Gitt Äre Format mat de gewënschte Platzhalter an, wielt Är Präfixen an, wann Dir wiesselt, eng Startnummer. Eng Live-Virschau weist Iech d\'Resultat.'],
+                'migrate' => ['question' => 'Ech wiessele mëtten am Joer vun engem anere Programm - wéi féieren ech meng Nummeréierung weider?', 'answer' => 'Gitt Är lescht ausgestallten Nummer am Feld "Startnummer" un. Är éischt Rechnung op faktur.lu féiert bei dëser Nummer + 1 weider, amplaz erëm bei 1 unzefänken. Onerlässlech fir d\'Konformitéit mam Artikel 61.'],
+                'lock' => ['question' => 'Kann ech mäi Format am lafende Joer änneren?', 'answer' => 'Nee. Soubal Dir fir e Joer op mannst eng Rechnung finaliséiert hutt, ass de Format fir dat Joer gespaart, fir déi gesetzlech Kontinuitéit ze garantéieren. Vum 1. Januar u kënnt Dir en erëm änneren.'],
+                'plan' => ['question' => 'An wéi engem Plang ass dat abegraff?', 'answer' => 'An alle Pläng, och am Gratis-Plang. Eng esou wesentlech Funktioun sollt net de bezuelte Pläng virbehale sinn.'],
+            ],
+        ],
         'projects' => [
             'title' => 'Projektverwaltung',
             'short_description' => 'Organiséiert Aer Projeten, Aufgaben a verfolgt Aert Stonnebudget.',
@@ -2049,6 +2097,7 @@ return [
             'details_title' => 'Exporter ugepasst un Lëtzebuerg',
             'items' => [
                 'sage' => ['title' => 'Sage BOB Export', 'description' => 'Generéiert Buchungsdateien kompatibel mat Sage BOB, der meeschtbenotzter Software vu lëtzebuergeschen Treuhandgesellschaften.'],
+                'sage100' => ['title' => 'Sage 100-Export', 'description' => 'CSV-Export am Sage 100-Format fir Fiduciairen, déi dës Suite notzen.'],
                 'portal' => ['title' => 'Comptablesportal', 'description' => 'Gitt Ärem Comptable Liesezougang fir Är Donnéeën an Echtzäit anzegesinn.'],
                 'revenue' => ['title' => 'Akommessbuch', 'description' => 'Generéiert automatesch Äert Akommessbuch konform mat de lëtzebuergeschen Ufuerderungen.'],
                 'csv' => ['title' => 'CSV/Excel Export', 'description' => 'Exportéiert Är Donnéeën am CSV oder Excel Format fir individuell Veraarbechtung.'],
