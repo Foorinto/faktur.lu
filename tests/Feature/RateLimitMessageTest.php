@@ -34,6 +34,15 @@ class RateLimitMessageTest extends TestCase
      */
     private const CODE_DE_REFERENCE = '/\b[A-Z0-9]{4}-[A-Z0-9]{4}\b/';
 
+    /** Nombre d'inscriptions autorisées par heure, lu sur le limiteur lui-même. */
+    private function quotaInscription(): int
+    {
+        $limite = app(\Illuminate\Cache\RateLimiter::class)
+            ->limiter('register')(\Illuminate\Http\Request::create('/register', 'POST'));
+
+        return $limite->maxAttempts;
+    }
+
     private function inscrire(string $email): \Illuminate\Testing\TestResponse
     {
         return $this->post('/register', [
@@ -53,12 +62,17 @@ class RateLimitMessageTest extends TestCase
         // APP_DEBUG=false : c'est la condition d'activation du filet global.
         config(['app.debug' => false]);
 
-        // Le limiteur autorise trois inscriptions par heure et par IP.
-        for ($i = 1; $i <= 3; $i++) {
+        // On épuise le quota, quel qu'il soit : le test porte sur le MESSAGE,
+        // pas sur le chiffre. Le figer ici obligerait à le corriger à chaque
+        // ajustement de la limite, et un test qu'on corrige machinalement finit
+        // par ne plus rien vérifier.
+        $quota = $this->quotaInscription();
+
+        for ($i = 1; $i <= $quota; $i++) {
             $this->inscrire("essai{$i}@exemple.lu");
         }
 
-        $reponse = $this->inscrire('quatrieme@exemple.lu');
+        $reponse = $this->inscrire('une-de-trop@exemple.lu');
 
         $reponse->assertStatus(429);
         $reponse->assertSee("Trop de tentatives d'inscription.", false);
