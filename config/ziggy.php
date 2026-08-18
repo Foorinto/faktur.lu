@@ -65,6 +65,12 @@ return [
             'translations.*', 'verification.*', 'why_faktur.*',
             // Parcours d'authentification : mot de passe oublié, défi 2FA.
             'password.*', 'two-factor.login', 'two-factor.login.*',
+            // Le layout public lie le tableau de bord derrière un `v-if` sur
+            // l'utilisateur connecté. Vue n'évalue donc pas l'expression pour un
+            // anonyme — mais faire reposer la survie du site public sur ce
+            // détail serait imprudent : déplacer ce lien hors du `v-if`
+            // blanchirait toutes les pages.
+            'dashboard',
         ],
     ],
 
