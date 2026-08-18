@@ -24,7 +24,14 @@ const formatDate = (date) => {
 </script>
 
 <template>
+    <!-- Hors index, mais les liens restent suivis.
+         Ces pages sont trente et une, toutes sous 350 mots, avec un titre
+         identique dans les cinq langues, et elles n'ont jamais amené un clic.
+         Elles consommaient du budget d'exploration — celui-là même qui laisse
+         193 pages jamais chargées par Google — sans rien rapporter. `follow`
+         préserve en revanche le maillage vers les articles qu'elles desservent. -->
     <SeoHead
+        robots="noindex, follow"
         :title="`#${tag.name} - Blog | faktur.lu`"
         :description="t('blog_tag_meta_description', { name: tag.name })"
         :canonical-path="`/blog/tag/${tag.slug}`"
@@ -54,7 +61,7 @@ const formatDate = (date) => {
                         #{{ tag.name }}
                     </div>
                     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        Articles tagués "{{ tag.name }}"
+                        {{ t('blog_tagged_articles', { name: tag.name }) }}
                     </h1>
                 </div>
 

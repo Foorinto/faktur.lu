@@ -42,6 +42,13 @@ class BlogController extends Controller
             ->orderBy('sort_order')
             ->get()
             ->filter(fn ($category) => $category->posts_count > 0)
+            // Le modèle sérialisé porterait le nom stocké en base, donc le
+            // français quelle que soit la langue de la page.
+            ->map(fn ($category) => [
+                'name' => $category->translatedName(),
+                'slug' => $category->slug,
+                'posts_count' => $category->posts_count,
+            ])
             ->values();
 
         $recentPosts = BlogPost::published()
@@ -116,7 +123,7 @@ class BlogController extends Controller
                 'views_count' => $post->views_count,
                 'available_locales' => $availableLocales,
                 'category' => $post->category ? [
-                    'name' => $post->category->name,
+                    'name' => $post->category->translatedName(),
                     'slug' => $post->category->slug,
                 ] : null,
                 'author' => $post->author ? [
@@ -133,7 +140,7 @@ class BlogController extends Controller
                 'excerpt' => $p->excerpt,
                 'cover_image_url' => $p->cover_image_url,
                 'published_at' => $p->published_at->toISOString(),
-                'category' => $p->category?->name,
+                'category' => $p->category?->translatedName(),
             ]),
         ]);
     }
@@ -163,11 +170,18 @@ class BlogController extends Controller
             ->orderBy('sort_order')
             ->get()
             ->filter(fn ($category) => $category->posts_count > 0)
+            // Le modèle sérialisé porterait le nom stocké en base, donc le
+            // français quelle que soit la langue de la page.
+            ->map(fn ($category) => [
+                'name' => $category->translatedName(),
+                'slug' => $category->slug,
+                'posts_count' => $category->posts_count,
+            ])
             ->values();
 
         return Inertia::render('Blog/Category', [
             'category' => [
-                'name' => $category->name,
+                'name' => $category->translatedName(),
                 'slug' => $category->slug,
                 'description' => $category->description,
             ],

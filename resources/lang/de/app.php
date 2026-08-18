@@ -1,6 +1,32 @@
 <?php
 
 return [
+    // Essai et abonnement, ajoutés le 2026-08-18 : ces clés n'existaient qu'en
+    // français, les utilisateurs germanophones voyaient donc le nom de la clé.
+    'trial_expired_message' => 'Ihre Testphase ist abgelaufen. Wählen Sie ein Abonnement, um faktur.lu weiter zu nutzen.',
+    'trial_days_remaining' => ':days Tage in Ihrer kostenlosen Testphase verbleibend',
+    'trial_banner_cta' => 'Abonnement wählen',
+    'read_only_mode' => 'Ihre Testphase ist abgelaufen. Ihr Konto ist schreibgeschützt.',
+    'subscribe_now' => 'Jetzt abonnieren',
+    'no_credit_card' => 'Ohne Kreditkarte',
+    'try_free' => '14 Tage kostenlos testen',
+    'new_task' => 'Neue Aufgabe',
+    'edit_task' => 'Aufgabe bearbeiten',
+    'project_details' => 'Projektdetails',
+    'quick_add_task' => 'Schnell hinzufügen',
+    'task_priority' => [
+        'low' => 'Niedrig',
+        'normal' => 'Normal',
+        'high' => 'Hoch',
+    ],
+    'estimated_hours' => 'Geschätzte Stunden',
+    'unarchive' => 'Dearchivieren',
+    'project_archived' => 'Projekt archiviert',
+    'project_unarchived' => 'Projekt wiederhergestellt',
+    'mark_complete' => 'Als erledigt markieren',
+    'mark_incomplete' => 'Als offen markieren',
+    'all_priorities' => 'Alle Prioritäten',
+    'vs_estimated' => 'vs. geschätzt',
     // Navigation
     'dashboard' => 'Dashboard',
     'invoices' => 'Rechnungen',
@@ -225,7 +251,18 @@ return [
     'email_hr_event_reminder_tomorrow_body' => 'Kurze Erinnerung: Ihr Ereignis findet morgen statt.',
     'email_closing' => 'Mit freundlichen Grüßen,',
     'blog_category_meta_description' => 'Artikel in der Kategorie :name über Rechnungsstellung in Luxemburg.',
+    // Noms des catégories du blog. Ils vivaient en base, en français, et
+    // s'affichaient tels quels dans les cinq langues : cinq pages portaient
+    // donc le même titre, ce que Bing signalait comme doublon.
+    'blog_categories' => [
+        'guides' => 'Praktische Leitfäden',
+        'reglementation' => 'Regelwerk',
+        'freelances' => 'Freiberufler',
+        'actualites' => 'Aktuelles',
+        'guide-creation-entreprise' => 'Unternehmensgründung',
+    ],
     'blog_tag_meta_description' => 'Artikel mit dem Tag :name über Rechnungsstellung in Luxemburg.',
+    'blog_tagged_articles' => 'Artikel mit dem Schlagwort „:name“',
     'finalize' => 'Abschließen',
     'duplicate' => 'Duplizieren',
     'archive_action' => 'Archivieren',
@@ -1889,6 +1926,28 @@ return [
                 'facturx' => ['question' => 'Peppol vs Factur-X?', 'answer' => 'Peppol ist ein Uebertragungsnetzwerk (B2G). Factur-X ist ein hybrides PDF+XML-Format fuer den B2B-Austausch in Europa. Mit faktur.lu koennen Sie Ihre Rechnungen im Factur-X-Format exportieren.'],
             ],
         ],
+        'custom-numbering' => [
+            'title' => 'Anpassbare Nummerierung',
+            'short_description' => 'Bestimmen Sie das Format Ihrer Rechnungs-, Gutschrift- und Angebotsnummern frei. Ideal für den Wechsel von einer anderen Software, ohne Ihre Nummernfolge zu unterbrechen.',
+            'page_title' => 'Anpassbare Rechnungsnummerierung Luxemburg | Softwarewechsel | faktur.lu',
+            'meta_description' => 'Passen Sie Ihre Rechnungs-, Gutschrift- und Angebotsnummern an. Wählen Sie Format und Präfix und führen Sie Ihre Nummerierung aus einer anderen Software fort, ohne wieder bei 1 zu beginnen.',
+            'hero_description' => 'Anders als andere Rechnungsprogramme lässt faktur.lu Sie das Format Ihrer Nummern vollständig bestimmen: Präfix, Jahr, Monat, Zähler, Kundenname. Und wenn Sie mitten im Jahr von einer anderen Software wechseln, setzen Sie die Nummernfolge genau dort fort, wo Sie aufgehört haben - ohne Lücke, konform mit Artikel 63 LIVA.',
+            'details_title' => 'Volle Flexibilität, kein steuerlicher Kopfzerbrechen',
+            'items' => [
+                'free_format' => ['title' => 'Freies Format', 'description' => 'Kombinieren Sie die Platzhalter nach Belieben: {prefix}-{year}-{number}, {year}/{number}-{client_name}, {yy}{month}-{number} und so weiter.'],
+                'placeholders' => ['title' => '7 verfügbare Platzhalter', 'description' => 'Präfix, Jahr (2026 oder 26), Monat, Tag, Zähler, Kundenname (Slug) und sogar ein eigenes Präfix je Belegart.'],
+                'migration' => ['title' => 'Schmerzloser Wechsel', 'description' => 'Sie waren bei FACT-2026-047 in Excel oder einer anderen Software? Legen Sie die Startnummer fest und machen Sie bei FACT-2026-048 weiter. Keine Lücke in der Nummernfolge.'],
+                'compliance' => ['title' => 'Konform mit Artikel 63 LIVA', 'description' => 'Das Format wird automatisch gesperrt, sobald die erste Rechnung finalisiert ist, um die gesetzliche Kontinuität der Nummernfolge zu gewährleisten.'],
+                'per_document' => ['title' => 'Eigene Präfixe', 'description' => 'Rechnungen, Gutschriften und Angebote können unterschiedliche Präfixe verwenden (standardmäßig F, AV, DEV) und dabei dasselbe Formatgerüst teilen.'],
+                'free_plan' => ['title' => 'Im Gratis-Tarif enthalten', 'description' => 'Eine so wichtige Funktion sollte nichts kosten. In allen Tarifen verfügbar, auch im Gratis-Tarif.'],
+            ],
+            'faqs' => [
+                'how' => ['question' => 'Wie richte ich mein Format ein?', 'answer' => 'Gehen Sie zu Einstellungen > Unternehmen > Nummerierung. Geben Sie Ihr Format mit den gewünschten Platzhaltern ein, wählen Sie Ihre Präfixe und bei einem Wechsel eine Startnummer. Eine Live-Vorschau zeigt Ihnen das Ergebnis.'],
+                'migrate' => ['question' => 'Ich wechsle mitten im Jahr von einer anderen Software - wie führe ich meine Nummerierung fort?', 'answer' => 'Tragen Sie Ihre zuletzt vergebene Nummer im Feld "Startnummer" ein. Ihre erste Rechnung bei faktur.lu setzt bei dieser Nummer + 1 fort, statt wieder bei 1 zu beginnen. Unerlässlich für die Konformität mit Artikel 61.'],
+                'lock' => ['question' => 'Kann ich mein Format im laufenden Jahr ändern?', 'answer' => 'Nein. Sobald Sie für ein Jahr mindestens eine Rechnung finalisiert haben, ist das Format für dieses Jahr gesperrt, um die gesetzliche Kontinuität zu gewährleisten. Ab dem 1. Januar können Sie es wieder ändern.'],
+                'plan' => ['question' => 'In welchem Tarif ist das enthalten?', 'answer' => 'In allen Tarifen, auch im Gratis-Tarif. Eine wesentliche Funktion sollte nicht den kostenpflichtigen Tarifen vorbehalten sein.'],
+            ],
+        ],
         'projects' => [
             'title' => 'Projektverwaltung',
             'short_description' => 'Organisieren Sie Ihre Projekte, Aufgaben und verfolgen Sie Ihr Stundenbudget.',
@@ -2049,6 +2108,7 @@ return [
             'details_title' => 'Exporte angepasst an Luxemburg',
             'items' => [
                 'sage' => ['title' => 'Sage BOB Export', 'description' => 'Generieren Sie Buchungsdateien kompatibel mit Sage BOB, der am häufigsten von luxemburgischen Treuhandgesellschaften verwendeten Software.'],
+                'sage100' => ['title' => 'Sage 100-Export', 'description' => 'CSV-Export im Sage 100-Format für Treuhänder, die diese Suite nutzen.'],
                 'portal' => ['title' => 'Buchhalterportal', 'description' => 'Geben Sie Ihrem Buchhalter Lesezugriff, um Ihre Daten in Echtzeit einzusehen.'],
                 'revenue' => ['title' => 'Einnahmenbuch', 'description' => 'Erstellen Sie automatisch Ihr Einnahmenbuch gemäß den luxemburgischen Anforderungen.'],
                 'csv' => ['title' => 'CSV/Excel Export', 'description' => 'Exportieren Sie Ihre Daten im CSV- oder Excel-Format für individuelle Verarbeitung.'],

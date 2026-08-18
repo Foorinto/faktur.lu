@@ -32,7 +32,13 @@ class ServePrerendered
         // du SPA, donc un titre « faktur.lu » et aucun contenu : indexés pour
         // rien. Constaté sur meta-externalagent et youbot en production.
         .'meta-externalagent|meta-externalfetcher|duckassistbot|youbot|ai2bot|'
-        .'timpibot|diffbot|omgilibot|webzio-extended|google-cloudvertexbot)/i';
+        .'timpibot|diffbot|omgilibot|webzio-extended|google-cloudvertexbot|'
+        // Outils Google secondaires, ajoutés le 2026-08-18. Google-InspectionTool
+        // est l'agent de l'inspection d'URL de Search Console : il recevait la
+        // coquille du SPA, si bien que tester une page y montrait une page vide
+        // quand Googlebot, lui, recevait le contenu. Le diagnostic contredisait
+        // la réalité — de quoi conclure à une panne qui n'existait pas.
+        .'google-inspectiontool|googleproducer)/i';
 
     public function handle(Request $request, Closure $next): Response
     {

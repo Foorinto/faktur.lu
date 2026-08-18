@@ -322,7 +322,18 @@ return [
     'email_hr_event_reminder_tomorrow_body' => 'Quick reminder: your event takes place tomorrow.',
     'email_closing' => 'Best regards,',
     'blog_category_meta_description' => 'Articles in the :name category about invoicing in Luxembourg.',
+    // Noms des catégories du blog. Ils vivaient en base, en français, et
+    // s'affichaient tels quels dans les cinq langues : cinq pages portaient
+    // donc le même titre, ce que Bing signalait comme doublon.
+    'blog_categories' => [
+        'guides' => 'Practical guides',
+        'reglementation' => 'Regulation',
+        'freelances' => 'Freelancers',
+        'actualites' => 'News',
+        'guide-creation-entreprise' => 'Starting a business',
+    ],
     'blog_tag_meta_description' => 'Articles tagged :name about invoicing in Luxembourg.',
+    'blog_tagged_articles' => 'Articles tagged :name',
     'finalize' => 'Finalize',
     'duplicate' => 'Duplicate',
     'archive_action' => 'Archive',
@@ -1988,6 +1999,28 @@ return [
                 'facturx' => ['question' => 'Peppol vs Factur-X?', 'answer' => 'Peppol is a transmission network (B2G). Factur-X is a hybrid PDF+XML format used for B2B exchanges in Europe. faktur.lu lets you export your invoices in Factur-X format for partners who request it.'],
             ],
         ],
+        'custom-numbering' => [
+            'title' => 'Custom numbering',
+            'short_description' => 'Define the format of your invoice, credit note and quote numbers however you like. Ideal for migrating from another tool without breaking your sequence.',
+            'page_title' => 'Custom Invoice Numbering Luxembourg | Software Migration | faktur.lu',
+            'meta_description' => 'Customise your invoice, credit note and quote numbers. Choose your format and prefix, and carry on your numbering from another tool without restarting at 1.',
+            'hero_description' => 'Unlike other invoicing tools, faktur.lu lets you define your number format entirely: prefix, year, month, counter, client name. And if you migrate from another tool mid-year, you can resume the sequence exactly where you left off - no gap, compliant with Article 63 LIVA.',
+            'details_title' => 'Full flexibility, no tax headache',
+            'items' => [
+                'free_format' => ['title' => 'Free-form format', 'description' => 'Combine the placeholders however you wish: {prefix}-{year}-{number}, {year}/{number}-{client_name}, {yy}{month}-{number}, and so on.'],
+                'placeholders' => ['title' => '7 placeholders available', 'description' => 'Prefix, year (2026 or 26), month, day, counter, client name (slug), and even a different prefix per document type.'],
+                'migration' => ['title' => 'Painless migration', 'description' => 'Were you at FACT-2026-047 in Excel or another tool? Set the starting number and carry on at FACT-2026-048. No gap in the sequence.'],
+                'compliance' => ['title' => 'Article 63 LIVA compliant', 'description' => 'The format locks automatically as soon as the first invoice is finalised, guaranteeing the legal continuity of the sequence.'],
+                'per_document' => ['title' => 'Individual prefixes', 'description' => 'Invoices, credit notes and quotes can use different prefixes (F, AV, DEV by default) while sharing the same format skeleton.'],
+                'free_plan' => ['title' => 'Included on the Free plan', 'description' => 'No feature this important should sit behind a paywall. Available on every plan, including Free.'],
+            ],
+            'faqs' => [
+                'how' => ['question' => 'How do I set up my format?', 'answer' => 'Go to Settings > Company > Numbering. Enter your format with the placeholders you want, choose your prefixes and a starting number if you are migrating from another tool. A live preview shows you the result.'],
+                'migrate' => ['question' => 'I am migrating from another tool mid-year - how do I continue my numbering?', 'answer' => 'Enter your last issued number in the "Starting number" field. Your first invoice on faktur.lu will resume at that number + 1 rather than restarting at 1. Essential for Article 61 compliance.'],
+                'lock' => ['question' => 'Can I change my format during the year?', 'answer' => 'No. Once you have finalised at least one invoice for a given year, the format is locked for that year to guarantee legal continuity. You will be able to change it again from 1 January onwards.'],
+                'plan' => ['question' => 'Which plan includes this?', 'answer' => 'Every plan, including Free. This is an essential feature that should not be reserved for paid plans.'],
+            ],
+        ],
         'projects' => [
             'title' => 'Project management',
             'short_description' => 'Organise your projects, tasks and track your hours budget in real-time.',
@@ -2148,6 +2181,7 @@ return [
             'details_title' => 'Exports tailored for Luxembourg',
             'items' => [
                 'sage' => ['title' => 'Sage BOB export', 'description' => 'Generate journal entry files compatible with Sage BOB, the most widely used software by Luxembourg fiduciaries.'],
+                'sage100' => ['title' => 'Sage 100 export', 'description' => 'CSV export in Sage 100 format for accounting firms using that suite.'],
                 'portal' => ['title' => 'Accountant portal', 'description' => 'Give your accountant read-only access to consult your data in real time.'],
                 'revenue' => ['title' => 'Revenue book', 'description' => 'Automatically generate your revenue book compliant with Luxembourg requirements.'],
                 'csv' => ['title' => 'CSV/Excel export', 'description' => 'Export your data in CSV or Excel format for any custom processing.'],

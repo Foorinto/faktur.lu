@@ -28,6 +28,18 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    /**
+     * Directive `robots` explicite, prioritaire sur `noindex`.
+     *
+     * `noindex` seul émet « noindex, nofollow », ce qui convient à une page
+     * privée mais pas à une page d'index : retirer une page de tags de l'index
+     * tout en interdisant d'en suivre les liens reviendrait à couper le maillage
+     * vers les articles qu'elle dessert. D'où « noindex, follow ».
+     */
+    robots: {
+        type: String,
+        default: null,
+    },
     routeName: {
         type: String,
         default: null,
@@ -137,7 +149,7 @@ const ogImage = computed(() => {
         <!-- Basic meta tags -->
         <meta v-if="description" name="description" :content="description" />
         <meta v-if="keywords" name="keywords" :content="keywords" />
-        <meta v-if="noindex" name="robots" content="noindex, nofollow" />
+        <meta v-if="robots || noindex" name="robots" :content="robots || 'noindex, nofollow'" />
 
         <!-- Canonical URL is emitted server-side in app.blade.php (single source of truth,
              visible to Googlebot without JS). Emitting it here too produced TWO canonical
