@@ -26,6 +26,16 @@ class IndexNowTest extends TestCase
 
         config(['indexnow.enabled' => true, 'app.url' => 'https://faktur.lu', 'indexnow.notify_from_console' => true]);
         Http::preventStrayRequests();
+
+        // Aucune réponse par défaut : les stubs de Http::fake sont évalués dans
+        // leur ordre d'enregistrement, si bien qu'un stub posé ici l'emporterait
+        // sur celui qu'un test veut lui substituer.
+        $this->accepte();
+    }
+
+    /** L'API accepte tout. */
+    private function accepte(): void
+    {
         Http::fake(['api.indexnow.org/*' => Http::response('', 200)]);
     }
 
@@ -85,6 +95,32 @@ class IndexNowTest extends TestCase
         ]);
 
         Http::assertSent(fn ($r) => $r->data()['urlList'] === ['https://faktur.lu/fr/tarifs']);
+    }
+
+    /**
+     * Un échec doit se lire à l'écran. La première version renvoyait un simple
+     * booléen et renvoyait l'utilisateur au journal : impossible de distinguer
+     * une clé refusée d'une connexion sortante coupée — deux causes qui
+     * n'appellent pas la même correction.
+     */
+    public function test_a_refusal_states_its_reason(): void
+    {
+        Http::swap(new \Illuminate\Http\Client\Factory);
+        Http::fake(['api.indexnow.org/*' => Http::response('Invalid key', 403)]);
+        $service = app(IndexNowService::class);
+
+        $this->assertFalse($service->submit(['https://faktur.lu/fr']));
+        $this->assertStringContainsString('403', (string) $service->dernierMotif());
+    }
+
+    public function test_an_unreachable_network_states_its_reason(): void
+    {
+        Http::swap(new \Illuminate\Http\Client\Factory);
+        Http::fake(['api.indexnow.org/*' => fn () => throw new \RuntimeException('Connection refused')]);
+        $service = app(IndexNowService::class);
+
+        $this->assertFalse($service->submit(['https://faktur.lu/fr']));
+        $this->assertStringContainsString('Connexion sortante', (string) $service->dernierMotif());
     }
 
     public function test_nothing_is_sent_when_disabled(): void

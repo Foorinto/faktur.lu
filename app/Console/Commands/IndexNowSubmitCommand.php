@@ -57,7 +57,7 @@ class IndexNowSubmitCommand extends Command
         }
 
         if (! $indexNow->submit($urls)) {
-            $this->error('  Envoi refusé ou impossible — voir le journal.');
+            $this->error('  '.($indexNow->dernierMotif() ?? 'Envoi refusé ou impossible — voir le journal.'));
 
             return self::FAILURE;
         }

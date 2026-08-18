@@ -24,6 +24,20 @@ use Illuminate\Support\Facades\Log;
 class IndexNowService
 {
     /**
+     * Motif du dernier échec, à l'usage de la commande.
+     *
+     * Renvoyer un simple booléen obligeait à aller fouiller le journal pour
+     * savoir si l'API avait refusé la clé ou si la connexion sortante était
+     * coupée — deux causes qui n'appellent pas la même correction.
+     */
+    private ?string $dernierMotif = null;
+
+    public function dernierMotif(): ?string
+    {
+        return $this->dernierMotif;
+    }
+
+    /**
      * Signale une ou plusieurs URL comme modifiées.
      *
      * @param  array<int, string>  $urls  URL absolues, sur le domaine du site.
@@ -31,14 +45,19 @@ class IndexNowService
      */
     public function submit(array $urls): bool
     {
+        $this->dernierMotif = null;
+
         if (! config('indexnow.enabled')) {
+            $this->dernierMotif = 'IndexNow est désactivé sur cet environnement.';
+
             return false;
         }
 
         $hote = parse_url(config('app.url'), PHP_URL_HOST);
 
         if (! $hote) {
-            Log::warning('IndexNow : APP_URL ne contient pas d\'hôte exploitable.');
+            $this->dernierMotif = 'APP_URL ne contient pas d\'hôte exploitable : '.config('app.url');
+            Log::warning('IndexNow : '.$this->dernierMotif);
 
             return false;
         }
@@ -51,6 +70,11 @@ class IndexNowService
         )));
 
         if ($urls === []) {
+            $this->dernierMotif = sprintf(
+                'Aucune URL ne correspond à l\'hôte %s — les autres domaines sont écartés pour ne pas faire rejeter le lot entier.',
+                $hote
+            );
+
             return false;
         }
 
@@ -82,6 +106,9 @@ class IndexNowService
                 'urlList' => $urls,
             ]);
         } catch (\Throwable $e) {
+            // Sur mutualisé, les connexions sortantes sont parfois filtrées :
+            // c'est ici que ça se voit, et nulle part ailleurs.
+            $this->dernierMotif = 'Connexion sortante impossible — '.$e->getMessage();
             Log::warning('IndexNow : envoi impossible.', ['erreur' => $e->getMessage(), 'urls' => count($urls)]);
 
             return false;
@@ -96,6 +123,7 @@ class IndexNowService
         // 403 = clé introuvable ou invalide à l'adresse annoncée ; 422 = URL
         // hors du domaine déclaré. Les deux méritent d'être lisibles au journal,
         // parce qu'aucun des deux ne se voit autrement.
+        $this->dernierMotif = sprintf('Refus du moteur : HTTP %d %s', $reponse->status(), mb_substr($reponse->body(), 0, 200));
         Log::warning('IndexNow : refus du moteur.', [
             'statut' => $reponse->status(),
             'corps' => mb_substr($reponse->body(), 0, 300),
