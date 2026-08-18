@@ -12,6 +12,16 @@ return [
     |
     */
 
+    /*
+     * ⚠️ Changer cette valeur en production ne suffit PAS à changer l'URL.
+     *
+     * `deploy.sh` lance `php artisan route:cache`, et cette compilation résout
+     * le préfixe une fois pour toutes : les URI sont figées dans le fichier de
+     * cache. `config:clear` ne le reconstruit pas — la nouvelle adresse répond
+     * alors 404 pendant que l'ancienne continue de servir.
+     *
+     * Après modification :  php artisan route:clear && php artisan route:cache
+     */
     'url_prefix' => env('ADMIN_URL_PREFIX', 'admin-secret-' . md5(env('APP_KEY', 'default'))),
 
     /*
