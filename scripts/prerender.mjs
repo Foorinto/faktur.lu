@@ -106,13 +106,26 @@ function stripForBots(html) {
 function normaliserHote(html) {
     if (BASE_URL === PUBLIC_URL) return html;
 
-    const echappe = (u) => u.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const localEchappeJson = BASE_URL.replace(/\//g, '\\/');
+    const echappe = (v) => v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return html
-        .replaceAll(BASE_URL, PUBLIC_URL)
-        .replace(new RegExp(echappe(localEchappeJson), 'g'), PUBLIC_URL.replace(/\//g, '\\/'));
+    // L'adresse apparaît à trois niveaux d'échappement : telle quelle dans les
+    // href, échappée une fois dans la configuration Ziggy (JSON), et deux fois
+    // dans le manifeste de préchargement de Vite (JSON dans une chaîne JS).
+    // Plutôt que d'énumérer les trois, on capture les barres obliques quelles
+    // qu'elles soient et on les restitue à l'identique.
+    const schemaLocal = BASE_URL.replace(/:\/\/.*$/, '');           // http
+    const hoteLocal = BASE_URL.replace(/^[a-z]+:\/\//, '');          // 127.0.0.1:8129
+    const schemaPublic = PUBLIC_URL.replace(/:\/\/.*$/, '');         // https
+    const hotePublic = PUBLIC_URL.replace(/^[a-z]+:\/\//, '');       // faktur.lu
+
+    const motif = new RegExp(
+        `${echappe(schemaLocal)}:((?:\\\\*/){2})${echappe(hoteLocal)}`,
+        'g'
+    );
+
+    return html.replace(motif, (_, barres) => `${schemaPublic}:${barres}${hotePublic}`);
 }
+
 
 // Map a URL path to its snapshot file: /fr/tarifs → public/prerendered/fr/tarifs/index.html
 function fileForPath(pathname) {
