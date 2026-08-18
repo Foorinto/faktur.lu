@@ -65,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
 
         // FEAT-081: auto-remove terminated employees from all their active projects
         Employee::observe(EmployeeObserver::class);
+        \App\Models\BlogPost::observe(\App\Observers\BlogPostObserver::class);
 
         // Configure rate limiters
         $this->configureRateLimiting();

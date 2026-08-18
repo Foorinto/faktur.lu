@@ -107,6 +107,15 @@ Route::get('/lang/{locale}.json', [\App\Http\Controllers\TranslationsController:
     ->where('locale', 'fr|de|en|lb|pt')
     ->name('translations.show');
 
+// Fichier de vérification IndexNow. La clé doit être servie en clair à cette
+// adresse : c'est elle qui prouve aux moteurs qu'on contrôle le domaine. Ce
+// n'est pas un secret, le protocole la veut publique.
+Route::get('/{cle}.txt', function (string $cle) {
+    abort_unless(hash_equals((string) config('indexnow.key'), $cle), 404);
+
+    return response(config('indexnow.key'), 200, ['Content-Type' => 'text/plain']);
+})->where('cle', '[A-Za-z0-9\-]{8,128}')->name('indexnow.key');
+
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
 Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
