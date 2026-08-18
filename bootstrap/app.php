@@ -138,6 +138,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // bot request with an existing snapshot short-circuits before the Inertia stack.
         // Pure pass-through for real users — no effect on the app's behaviour.
         $middleware->web(prepend: [
+            // Avant tout le reste : inutile de rendre une page pour la jeter.
+            \App\Http\Middleware\RedirectToHttps::class,
             \App\Http\Middleware\ServePrerendered::class,
         ]);
 
