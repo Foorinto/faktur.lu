@@ -150,9 +150,29 @@ class AppServiceProvider extends ServiceProvider
                 });
         });
 
-        // Inscription - 3/heure par IP uniquement
+        /*
+         * Inscription — 10/heure par IP.
+         *
+         * C'était 3, et ce chiffre gênait surtout ceux qu'il ne visait pas. Le
+         * Luxembourg est un pays de NAT partagé : une PME, un espace de
+         * coworking, une fiduciaire qui crée les comptes de plusieurs clients
+         * sortent tous sous une seule adresse publique — les abonnés mobiles
+         * aussi, via le CGNAT de leur opérateur.
+         *
+         * Le risque couvert est mince. Un compte non vérifié ne peut rien faire,
+         * toute l'application étant derrière `verified` ; la seule valeur d'une
+         * inscription en masse est de faire partir des emails depuis notre
+         * domaine. Et deux barrières la précèdent déjà : le pot de miel vérifie
+         * un champ piège ET le temps écoulé depuis l'affichage du formulaire.
+         *
+         * Un script naïf ne passe pas le pot de miel. Un script sérieux change
+         * d'adresse IP : la limite ne l'arrête pas davantage à 3 qu'à 10.
+         *
+         * Pour mémoire, la connexion tolère 5 tentatives par MINUTE — là où se
+         * joue le bourrage d'identifiants, une menace autrement plus concrète.
+         */
         RateLimiter::for('register', function (Request $request) {
-            return Limit::perHour(3)
+            return Limit::perHour(10)
                 ->by($request->ip())
                 ->response(function (Request $request, array $headers) {
                     return $this->rateLimitResponse($headers, 'Trop de tentatives d\'inscription.');

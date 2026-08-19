@@ -20,6 +20,14 @@ class RateLimitingTest extends TestCase
         RateLimiter::clear('password-reset');
     }
 
+    /** Nombre de tentatives autorisées par un limiteur, lu sur sa définition. */
+    private function quotaDe(string $limiteur): int
+    {
+        return app(\Illuminate\Cache\RateLimiter::class)
+            ->limiter($limiteur)(\Illuminate\Http\Request::create('/', 'POST'))
+            ->maxAttempts;
+    }
+
     public function test_login_rate_limit_allows_up_to_5_attempts(): void
     {
         $email = 'test@example.com';
@@ -63,9 +71,20 @@ class RateLimitingTest extends TestCase
         $response->assertHeader('Retry-After');
     }
 
-    public function test_register_rate_limit_allows_up_to_3_attempts_per_hour(): void
+    /**
+     * Le quota est lu sur le limiteur plutôt qu'écrit ici.
+     *
+     * La valeur est passée de 3 à 10 le 2026-08-18 : sous NAT partagé — une
+     * PME, un espace de coworking, un opérateur mobile — trois inscriptions par
+     * heure bloquaient des utilisateurs légitimes. Figer le chiffre dans le test
+     * obligerait à le corriger à chaque ajustement, et un test qu'on corrige
+     * machinalement finit par ne plus rien vérifier.
+     */
+    public function test_register_rate_limit_blocks_beyond_its_quota(): void
     {
-        for ($i = 0; $i < 3; $i++) {
+        $quota = $this->quotaDe('register');
+
+        for ($i = 0; $i < $quota; $i++) {
             $response = $this->post('/register', [
                 'name' => 'Test User ' . $i,
                 'email' => "test{$i}@example.com",
@@ -77,10 +96,10 @@ class RateLimitingTest extends TestCase
             $this->assertNotEquals(429, $response->status());
         }
 
-        // 4th attempt should be rate limited
+        // La tentative suivante doit être refusée.
         $response = $this->post('/register', [
-            'name' => 'Test User 4',
-            'email' => 'test4@example.com',
+            'name' => 'Une de trop',
+            'email' => 'une-de-trop@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
