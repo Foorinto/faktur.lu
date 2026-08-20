@@ -9,6 +9,7 @@ const props = defineProps({
     userGrowthChart: Array,
     revenueChart: Array,
     recentUsers: Array,
+    sectorStats: Object,
     topUsers: Array,
 });
 
@@ -116,6 +117,39 @@ const formatDate = (date) => {
         </div>
 
         <!-- Charts & Tables -->
+        <!-- Répartition par secteur d'activité.
+             Raison d'être de l'écran de sélection à l'inscription : décider
+             quel pack métier mérite d'être construit, sur des comptes plutôt
+             que sur des intuitions. -->
+        <div class="mb-6 rounded-2xl border border-gray-700 bg-gray-800 p-6">
+            <div class="flex items-baseline justify-between">
+                <h2 class="text-lg font-semibold text-white">Secteurs d'activité</h2>
+                <p class="text-xs text-slate-400">
+                    {{ sectorStats?.repondants ?? 0 }} réponse(s),
+                    {{ sectorStats?.sans_reponse ?? 0 }} compte(s) jamais interrogé(s)
+                </p>
+            </div>
+
+            <div v-if="sectorStats?.par_secteur?.length" class="mt-4 space-y-2">
+                <div v-for="ligne in sectorStats.par_secteur" :key="ligne.secteur" class="flex items-center gap-3">
+                    <span class="w-44 shrink-0 text-sm text-slate-300">
+                        {{ ligne.libelle }}
+                    </span>
+                    <div class="h-2 flex-1 overflow-hidden rounded-full bg-gray-700">
+                        <div
+                            class="h-full bg-primary-500"
+                            :style="{ width: (100 * ligne.total / Math.max(sectorStats.repondants, 1)) + '%' }"
+                        />
+                    </div>
+                    <span class="w-10 shrink-0 text-right text-sm font-medium text-white">{{ ligne.total }}</span>
+                </div>
+            </div>
+
+            <p v-else class="mt-4 text-sm text-slate-500">
+                Aucune réponse pour l'instant. Les comptes créés avant août 2026 n'ont jamais vu la question.
+            </p>
+        </div>
+
         <div class="grid gap-6 lg:grid-cols-2">
             <!-- Recent Users -->
             <div class="rounded-xl bg-slate-800 p-6">

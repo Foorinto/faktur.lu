@@ -20,6 +20,7 @@ class AdminDashboardController extends Controller
     {
         return Inertia::render('Admin/Dashboard', [
             'userStats' => $this->statsService->getUserStats(),
+            'sectorStats' => $this->statsService->getSectorStats(),
             'invoiceStats' => $this->statsService->getInvoiceStats(),
             'revenueStats' => $this->statsService->getRevenueStats(),
             'userGrowthChart' => $this->statsService->getUserGrowthChart(12),

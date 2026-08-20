@@ -535,6 +535,7 @@ Route::middleware(['auth', 'verified'])->prefix('fichiers')->name('files.')->gro
 Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
     // Onboarding wizard
     Route::get('/onboarding', [\App\Http\Controllers\OnboardingController::class, 'show'])->name('onboarding.show');
+    Route::post('/onboarding/sector', [\App\Http\Controllers\OnboardingController::class, 'saveSector'])->name('onboarding.sector');
     Route::post('/onboarding/company', [\App\Http\Controllers\OnboardingController::class, 'saveCompany'])->name('onboarding.company');
     Route::post('/onboarding/numbering', [\App\Http\Controllers\OnboardingController::class, 'saveNumbering'])->name('onboarding.numbering');
     Route::post('/onboarding/branding', [\App\Http\Controllers\OnboardingController::class, 'saveBranding'])->name('onboarding.branding');

@@ -4131,7 +4131,25 @@ return [
         'new_badge' => 'Neu',
     ],
 
+    // Secteurs proposés à l'inscription. Les clés sont stables : les
+    // renommer rendrait incomparables les mesures d'avant et d'après.
+    'business_sector' => 'Branche',
+    'business_sector_none' => 'Nicht angegeben',
+    'business_sectors' => [
+        'construction' => ['label' => 'Bau und Handwerk', 'hint' => 'Bau, Renovierung, handwerkliche Berufe'],
+        'freelance' => ['label' => 'Freiberufler und Beratung', 'hint' => 'IT, Design, Marketing, Schulung'],
+        'health' => ['label' => 'Gesundheitsberufe', 'hint' => 'Pflegekraft, Physiotherapeut, Hebamme'],
+        'real_estate' => ['label' => 'Immobilien', 'hint' => 'Agentur, Hausverwaltung, Vermietung'],
+        'retail' => ['label' => 'Handel', 'hint' => 'Verkauf, Ladengeschäft, E-Commerce'],
+        'hospitality' => ['label' => 'Gastronomie', 'hint' => 'Restaurant, Catering, Café'],
+        'other' => ['label' => 'Sonstige', 'hint' => 'Standardkonfiguration'],
+    ],
     'onboarding_wizard' => [
+        'sector' => [
+            'title' => 'In welcher Branche sind Sie tätig?',
+            'subtitle' => 'Eine einzige Frage, damit faktur.lu zu Ihrem Beruf passt.',
+            'changeable' => 'Sie können dies jederzeit in Ihren Einstellungen ändern.',
+        ],
         'head_title' => 'Willkommen bei faktur.lu',
         'numbering' => [
             'title' => 'Nummerierung Ihrer Dokumente',

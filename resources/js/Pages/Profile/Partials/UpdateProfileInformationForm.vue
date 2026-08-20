@@ -24,7 +24,17 @@ const form = useForm({
     name: user.name,
     email: user.email,
     locale: user.locale ?? 'fr',
+    business_sector: user.business_sector ?? '',
 });
+
+/**
+ * Secteurs proposés, dans l'ordre de l'écran d'inscription.
+ *
+ * La liste est recopiée ici plutôt que transmise : sept clés stables, que le
+ * test `BusinessSectorTest` confronte à celles du modèle. Les faire transiter
+ * par les props de chaque page aurait coûté plus que ce que ça protège.
+ */
+const secteurs = ['construction', 'freelance', 'health', 'real_estate', 'retail', 'hospitality', 'other'];
 </script>
 
 <template>
@@ -92,6 +102,21 @@ const form = useForm({
                 </p>
 
                 <InputError class="mt-2" :message="form.errors.locale" />
+            </div>
+
+            <div>
+                <InputLabel for="business_sector" :value="t('business_sector')" />
+                <select
+                    id="business_sector"
+                    v-model="form.business_sector"
+                    class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                >
+                    <option value="">{{ t('business_sector_none') }}</option>
+                    <option v-for="s in secteurs" :key="s" :value="s">
+                        {{ t('business_sectors.' + s + '.label') }}
+                    </option>
+                </select>
+                <InputError class="mt-2" :message="form.errors.business_sector" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

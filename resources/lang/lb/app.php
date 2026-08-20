@@ -4132,7 +4132,25 @@ return [
         'new_badge' => 'Nei',
     ],
 
+    // Secteurs proposés à l'inscription. Les clés sont stables : les
+    // renommer rendrait incomparables les mesures d'avant et d'après.
+    'business_sector' => 'Beräich',
+    'business_sector_none' => 'Net uginn',
+    'business_sectors' => [
+        'construction' => ['label' => 'Bau an Handwierk', 'hint' => 'Bau, Renovatioun, handwierklech Beruffer'],
+        'freelance' => ['label' => 'Freelance a Beroodung', 'hint' => 'IT, Design, Marketing, Formatioun'],
+        'health' => ['label' => 'Gesondheetsberuffer', 'hint' => 'Infirmier, Kinesitherapeut, Hiewan'],
+        'real_estate' => ['label' => 'Immobilien', 'hint' => 'Agence, Syndic, Locatiounsverwaltung'],
+        'retail' => ['label' => 'Handel', 'hint' => 'Verkaf, Buttek, E-Commerce'],
+        'hospitality' => ['label' => 'Restauratioun', 'hint' => 'Restaurant, Traiteur, Café'],
+        'other' => ['label' => 'Anerer', 'hint' => 'Standardastellung'],
+    ],
     'onboarding_wizard' => [
+        'sector' => [
+            'title' => 'A wéi engem Beräich schafft Dir?',
+            'subtitle' => 'Eng eenzeg Fro, fir datt faktur.lu zu Ärem Beruff passt.',
+            'changeable' => 'Dir kënnt dat zu all Moment an Ären Astellungen änneren.',
+        ],
         'head_title' => 'Wëllkomm bei faktur.lu',
         'numbering' => [
             'title' => 'Nummeréierung vun Äre Dokumenter',
