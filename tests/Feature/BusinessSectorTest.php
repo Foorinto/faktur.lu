@@ -29,6 +29,34 @@ class BusinessSectorTest extends TestCase
         return User::factory()->create(['onboarding_step' => 'sector']);
     }
 
+    /**
+     * Un compte fraîchement créé doit arriver sur la question.
+     *
+     * L'inscription écrivait `onboarding_step = 'company'` en dur : l'écran
+     * était donc purement sauté, et le repli `?? 'sector'` du contrôleur ne
+     * s'appliquait jamais. Rien ne le signalait — le parcours restait
+     * parfaitement fonctionnel, simplement amputé de sa première étape.
+     */
+    public function test_a_new_account_starts_on_the_sector_question(): void
+    {
+        $this->post('/register', [
+            'name' => 'Nouvelle inscrite',
+            'email' => 'nouvelle@exemple.lu',
+            'password' => 'Alex1234$$$$',
+            'password_confirmation' => 'Alex1234$$$$',
+            'terms' => true,
+            'dpa' => true,
+            'homepage_url' => '',
+            'form_loaded_at' => microtime(true) - 30,
+        ])->assertRedirect();
+
+        $this->assertSame(
+            'sector',
+            User::where('email', 'nouvelle@exemple.lu')->value('onboarding_step'),
+            "Le parcours doit commencer par la question du secteur."
+        );
+    }
+
     public function test_a_sector_is_recorded_with_its_date(): void
     {
         $utilisateur = $this->utilisateur();
