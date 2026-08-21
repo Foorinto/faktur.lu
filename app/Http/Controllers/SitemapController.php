@@ -154,6 +154,48 @@ class SitemapController extends Controller
             $xml .= '</url>';
         }
 
+        // Pages sectorielles, dans les cinq langues. Les chemins viennent du
+        // contrôleur, y compris les slugs traduits : déclarer ici une URL qui
+        // n'existe pas nous a déjà valu onze pages « Introuvable » dans
+        // Search Console.
+        // Chaque page déclare ses quatre équivalents. Sans ces alternates, cinq
+        // pages disant la même chose dans cinq langues se concurrencent au lieu
+        // de se déclarer équivalentes, et Google en choisit une seule.
+        // `generateLocalizedUrlEntry` ne convient pas ici : elle suppose un
+        // chemin de la forme `/{langue}/{slug}`, alors que le métier est
+        // enchâssé au milieu du nôtre.
+        $secteurs = \App\Http\Controllers\SectorPageController::class;
+
+        foreach ($secteurs::pageKeys() as $cle) {
+            foreach ($this->locales as $locale) {
+                $chemin = $secteurs::pathFor($cle, $locale);
+
+                if ($chemin === null) {
+                    continue;
+                }
+
+                $xml .= '<url>';
+                $xml .= '<loc>' . $baseUrl . $chemin . '</loc>';
+                $xml .= '<changefreq>monthly</changefreq>';
+                $xml .= '<priority>0.8</priority>';
+
+                foreach ($this->locales as $autreLocale) {
+                    $autreChemin = $secteurs::pathFor($cle, $autreLocale);
+
+                    if ($autreChemin === null) {
+                        continue;
+                    }
+
+                    $xml .= '<xhtml:link rel="alternate" hreflang="' . $autreLocale . '" ';
+                    $xml .= 'href="' . $baseUrl . $autreChemin . '" />';
+                }
+
+                $xml .= '<xhtml:link rel="alternate" hreflang="x-default" ';
+                $xml .= 'href="' . $baseUrl . $secteurs::pathFor($cle, 'fr') . '" />';
+                $xml .= '</url>';
+            }
+        }
+
         $xml .= '</urlset>';
 
         return $xml;

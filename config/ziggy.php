@@ -61,7 +61,8 @@ return [
             'for_freelances.*', 'for_smes.*', 'glossary.*', 'home', 'home.*',
             'impersonation.*', 'indexnow.*', 'legal.*', 'locale.*', 'login',
             'logout', 'newsletter.*', 'partners.*', 'pricing.*', 'register',
-            'sanctum.*', 'sitemap.*', 'storage.*', 'survey.*', 'tools.*',
+            'sanctum.*', 'sectors.*', 'sector-lead.*', 'sitemap.*', 'storage.*',
+            'survey.*', 'tools.*',
             'translations.*', 'verification.*', 'why_faktur.*',
             // Parcours d'authentification : mot de passe oublié, défi 2FA.
             'password.*', 'two-factor.login', 'two-factor.login.*',

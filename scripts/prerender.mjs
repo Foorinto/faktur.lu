@@ -172,6 +172,20 @@ async function renderOne(browser, url) {
  * Ne touche qu'aux dossiers contenant un index.html, jamais au reste.
  */
 async function pruneOrphans(urls) {
+    // JAMAIS avec --only ni --limit.
+    //
+    // La purge compare le dossier à la liste des URL rendues. Avec un rendu
+    // partiel, cette liste ne compte que les quelques pages demandées : tout le
+    // reste passe pour orphelin et disparaît. Constaté deux fois — les 430
+    // snapshots effacés pour en régénérer un seul.
+    //
+    // Le nettoyage n'a de sens qu'après un rendu COMPLET, seul cas où l'absence
+    // d'une page du sitemap signifie vraiment qu'elle a été supprimée.
+    if (ONLY || LIMIT) {
+        console.log('\n(purge ignorée : rendu partiel)');
+        return;
+    }
+
     const attendus = new Set(urls.map((u) => fileForPath(new URL(u).pathname)));
     const retires = [];
 

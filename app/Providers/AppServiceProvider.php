@@ -179,6 +179,21 @@ class AppServiceProvider extends ServiceProvider
                 });
         });
 
+        /*
+         * Manifestations d'intérêt sectorielles — 5/heure par IP.
+         *
+         * Plus permissif que l'inscription : le formulaire ne crée aucun compte
+         * et n'envoie aucun email. Assez serré pour qu'un script n'inonde pas
+         * une mesure dont la valeur tient au fait qu'elle soit honnête.
+         */
+        RateLimiter::for('sector-lead', function (Request $request) {
+            return Limit::perHour(5)
+                ->by($request->ip())
+                ->response(function (Request $request, array $headers) {
+                    return $this->rateLimitResponse($headers, __('app.sector_lead.too_many'));
+                });
+        });
+
         // Password reset - 3/heure par IP
         RateLimiter::for('password-reset', function (Request $request) {
             return Limit::perHour(3)

@@ -116,6 +116,13 @@ Route::get('/{cle}.txt', function (string $cle) {
     return response(config('indexnow.key'), 200, ['Content-Type' => 'text/plain']);
 })->where('cle', '[A-Za-z0-9\-]{8,128}')->name('indexnow.key');
 
+// Manifestations d'intérêt déposées sur les pages sectorielles. Mêmes
+// protections que les autres formulaires publics : pot de miel et limitation de
+// débit.
+Route::post('/secteur/interet', [\App\Http\Controllers\SectorLeadController::class, 'store'])
+    ->middleware(['honeypot', 'throttle:sector-lead'])
+    ->name('sector-lead.store');
+
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
 Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
@@ -317,6 +324,16 @@ Route::prefix('{locale}')
         Route::get('/about', [ContactController::class, 'about'])->name('about.en');
         Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
         Route::get('/sobre', [ContactController::class, 'about'])->name('about.pt');
+
+        // Pages sectorielles : instruments de mesure avant d'être du contenu.
+        // Un chemin par langue, métier compris — voir SectorPageController,
+        // qui tient les motifs et les slugs. La boucle évite que la route et
+        // le sitemap divergent, comme cela s'est déjà produit.
+        foreach (\App\Http\Controllers\SectorPageController::URL_PATTERNS as $langueSecteur => $motifSecteur) {
+            Route::get('/'.$motifSecteur, [\App\Http\Controllers\SectorPageController::class, 'show'])
+                ->where('locale', $langueSecteur)
+                ->name('sectors.show.'.$langueSecteur);
+        }
 
         // "Alternative à X" comparison pages (FR only for now, high buyer intent SEO)
         Route::get('/alternative-{competitor}-luxembourg', [AlternativeController::class, 'show'])

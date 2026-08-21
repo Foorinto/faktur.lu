@@ -48,6 +48,12 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         // Dashboard
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+        // Manifestations d'intérêt sectorielles — l'export d'abord, sinon la
+        // route de détail capturerait « export » comme identifiant.
+        Route::get('secteurs/export', [\App\Http\Controllers\Admin\AdminSectorLeadController::class, 'export'])->name('sector-leads.export');
+        Route::get('secteurs', [\App\Http\Controllers\Admin\AdminSectorLeadController::class, 'index'])->name('sector-leads.index');
+        Route::delete('secteurs/{lead}', [\App\Http\Controllers\Admin\AdminSectorLeadController::class, 'destroy'])->name('sector-leads.destroy');
+
         // Users management
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
         Route::get('users/{user}', [AdminUserController::class, 'show'])->name('users.show');

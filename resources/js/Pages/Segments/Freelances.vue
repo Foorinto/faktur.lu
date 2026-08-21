@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import SectorInterestForm from '@/Components/SectorInterestForm.vue';
 import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
@@ -183,6 +184,12 @@ const schemas = computed(() => [
                 </section>
 
             </div>
+        </div>
+        <!-- Page témoin de l'expérience sectorielle.
+             Le même formulaire que sur les pages métier : sans instrument
+             identique, comparer les réponses n'aurait aucun sens. -->
+        <div class="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+            <SectorInterestForm sector="freelance" />
         </div>
     </MarketingLayout>
 </template>
