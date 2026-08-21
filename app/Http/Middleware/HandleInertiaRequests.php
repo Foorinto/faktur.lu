@@ -28,12 +28,47 @@ class HandleInertiaRequests extends Middleware
         // This ensures version changes on every deployment
         $manifestPath = public_path('build/manifest.json');
 
-        if (file_exists($manifestPath)) {
-            return md5_file($manifestPath);
+        $base = file_exists($manifestPath)
+            ? md5_file($manifestPath)
+            // Fallback to parent (which uses mix-manifest.json or null)
+            : (string) parent::version($request);
+
+        // Le groupe de routes Ziggy fait partie de la version.
+        //
+        // `@routes` grave la liste des routes dans le HTML, et cette liste
+        // dépend du profil : un visiteur anonyme n'en reçoit qu'une trentaine
+        // de familles, un administrateur les reçoit toutes. Or Inertia ne
+        // recharge pas le HTML lors d'une visite : après une connexion, le
+        // navigateur gardait la liste ANONYME et le premier `route('…')` du
+        // tableau de bord levait « route is not in the route list ». La page
+        // restait blanche jusqu'à un rechargement manuel.
+        //
+        // En intégrant le groupe à la version, tout changement de profil —
+        // connexion, déconnexion, 2FA, usurpation d'identité — provoque un
+        // écart de version, et Inertia fait de lui-même un rechargement
+        // complet. C'est exactement ce pour quoi ce mécanisme existe.
+        return md5($base.'|'.(self::ziggyGroup() ?? 'auth'));
+    }
+
+    /**
+     * Groupe de routes Ziggy à publier pour le profil courant.
+     *
+     * Source unique : `resources/views/app.blade.php` appelle cette méthode, et
+     * `version()` s'en sert aussi. Les deux DOIVENT rester d'accord — si la vue
+     * publiait un groupe et la version en supposait un autre, le rechargement
+     * ne se déclencherait pas au bon moment, et la panne reviendrait sans que
+     * rien ne le signale.
+     *
+     * `null` désigne le groupe par défaut de Ziggy : toutes les routes, moins
+     * celles exclues globalement.
+     */
+    public static function ziggyGroup(): ?string
+    {
+        if (! auth()->check()) {
+            return 'public';
         }
 
-        // Fallback to parent (which uses mix-manifest.json or null)
-        return parent::version($request);
+        return auth()->user()->is_admin ? 'admin' : null;
     }
 
     /**
