@@ -192,16 +192,30 @@ class SectorPageController extends Controller
         return array_map(fn (array $page) => $page['slugs'], (new self())->pages);
     }
 
-    public function show(string $locale, string $metier): Response
+    /**
+     * Clé canonique correspondant à un chemin, s'il s'agit d'une page métier.
+     *
+     * Sert au changement de langue : `/de/rechnungssoftware-krankenpfleger-luxemburg`
+     * doit mener à `/fr/logiciel-facturation-infirmier-luxembourg`, et non au
+     * même chemin sous un autre préfixe — qui n'existe pas.
+     *
+     * @param  string  $chemin  Chemin SANS le préfixe de langue.
+     */
+    public static function keyFromPath(string $locale, string $chemin): ?string
     {
-        $cle = $this->cleDepuisSlug($locale, $metier);
+        $motif = self::URL_PATTERNS[$locale] ?? null;
 
-        abort_if($cle === null, 404);
+        if ($motif === null) {
+            return null;
+        }
 
-        return Inertia::render('Sectors/Show', [
-            'metier' => $cle,
-            'sector' => $this->pages[$cle]['sector'],
-        ]);
+        $regex = '#^'.str_replace(preg_quote('{metier}', '#'), '([a-z]+)', preg_quote($motif, '#')).'$#';
+
+        if (! preg_match($regex, trim($chemin, '/'), $trouve)) {
+            return null;
+        }
+
+        return self::keyFromSlug($locale, $trouve[1]);
     }
 
     /**
@@ -211,9 +225,9 @@ class SectorPageController extends Controller
      * `/de/rechnungssoftware-infirmier-luxemburg` répondrait 200 et créerait
      * un doublon de contenu sous une adresse que personne n'a publiée.
      */
-    protected function cleDepuisSlug(string $locale, string $slug): ?string
+    public static function keyFromSlug(string $locale, string $slug): ?string
     {
-        foreach ($this->pages as $cle => $page) {
+        foreach ((new self())->pages as $cle => $page) {
             if (($page['slugs'][$locale] ?? null) === $slug) {
                 return $cle;
             }
@@ -221,4 +235,17 @@ class SectorPageController extends Controller
 
         return null;
     }
+
+    public function show(string $locale, string $metier): Response
+    {
+        $cle = self::keyFromSlug($locale, $metier);
+
+        abort_if($cle === null, 404);
+
+        return Inertia::render('Sectors/Show', [
+            'metier' => $cle,
+            'sector' => $this->pages[$cle]['sector'],
+        ]);
+    }
+
 }

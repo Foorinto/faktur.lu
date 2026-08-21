@@ -109,6 +109,16 @@ class LocaleController extends Controller
                 ->cookie('locale', $locale, 60 * 24 * 365);
         }
 
+        // Pages sectorielles : le chemin est un motif, pas un slug fixe, donc
+        // LOCALIZED_SLUGS ne peut rien pour lui. Sans ce cas, changer de langue
+        // depuis /de/rechnungssoftware-krankenpfleger-luxemburg menait à
+        // /fr/rechnungssoftware-krankenpfleger-luxemburg, qui n'existe pas.
+        $cheminSectoriel = $this->findSectorTranslationPath($path, $locale, $supportedLocales);
+        if ($cheminSectoriel !== null) {
+            return redirect()->to($cheminSectoriel)
+                ->cookie('locale', $locale, 60 * 24 * 365);
+        }
+
         // Replace locale in path or add it
         $newPath = $this->replaceLocaleInPath($path, $locale, $supportedLocales);
 
@@ -118,8 +128,59 @@ class LocaleController extends Controller
             $newPath = '/' . $locale . '/blog';
         }
 
+        // Filet : certaines pages n'existent que dans une langue — les
+        // comparatifs « alternative à », par exemple. Leur chemin sous un autre
+        // préfixe ne correspond à aucune route, et le lecteur qui change de
+        // langue tombait sur un 404. La page d'accueil de la langue demandée
+        // est une mauvaise réponse, mais moins mauvaise qu'une impasse.
+        if (! $this->cheminResoud($newPath)) {
+            $newPath = '/' . $locale;
+        }
+
         return redirect()->to($newPath)
             ->cookie('locale', $locale, 60 * 24 * 365); // 1 year
+    }
+
+    /**
+     * Le chemin traduit correspond-il à une route ?
+     *
+     * Fiable parce que l'application ne déclare aucune route fourre-tout : si
+     * un `Route::fallback` apparaissait, tout chemin correspondrait et ce filet
+     * cesserait silencieusement de protéger quoi que ce soit.
+     */
+    private function cheminResoud(string $chemin): bool
+    {
+        try {
+            app('router')->getRoutes()->match(Request::create($chemin, 'GET'));
+
+            return true;
+        } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException|\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Si le chemin est une page sectorielle, renvoie son équivalent traduit.
+     *
+     * Les slugs diffèrent d'une langue à l'autre — « krankenpfleger » et
+     * « infirmier » désignent la même page — donc un simple échange de préfixe
+     * ne suffit pas.
+     */
+    private function findSectorTranslationPath(string $path, string $newLocale, array $supportedLocales): ?string
+    {
+        $segments = explode('/', trim($path, '/'));
+
+        if (count($segments) !== 2 || ! in_array($segments[0], $supportedLocales)) {
+            return null;
+        }
+
+        $cle = \App\Http\Controllers\SectorPageController::keyFromPath($segments[0], $segments[1]);
+
+        if ($cle === null) {
+            return null;
+        }
+
+        return \App\Http\Controllers\SectorPageController::pathFor($cle, $newLocale);
     }
 
     /**
