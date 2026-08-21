@@ -1,26 +1,27 @@
 <script setup>
-import { ref } from 'vue';
-import { Link, router, usePage } from '@inertiajs/vue3';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { ref } from "vue";
+import { Link, router, usePage } from "@inertiajs/vue3";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import ToastNotification from "@/Components/ToastNotification.vue";
 
 const page = usePage();
 
 const navigation = [
-    { name: 'Dashboard', href: 'admin.dashboard', icon: 'chart-bar' },
-    { name: 'Utilisateurs', href: 'admin.users.index', icon: 'users' },
-    { name: 'Newsletter', href: 'admin.newsletter.index', icon: 'mail' },
-    { name: 'Blog', href: 'admin.blog.index', icon: 'blog' },
-    { name: 'Support', href: 'admin.support.index', icon: 'support' },
-    { name: 'Sondages', href: 'admin.surveys.index', icon: 'chart-bar' },
-    { name: 'Secteurs', href: 'admin.sector-leads.index', icon: 'chart-bar' },
-    { name: 'Monitoring', href: 'admin.monitoring', icon: 'monitoring' },
-    { name: 'Maintenance', href: 'admin.maintenance', icon: 'cog' },
+    { name: "Dashboard", href: "admin.dashboard", icon: "chart-bar" },
+    { name: "Utilisateurs", href: "admin.users.index", icon: "users" },
+    { name: "Newsletter", href: "admin.newsletter.index", icon: "mail" },
+    { name: "Blog", href: "admin.blog.index", icon: "blog" },
+    { name: "Support", href: "admin.support.index", icon: "support" },
+    { name: "Sondages", href: "admin.surveys.index", icon: "chart-bar" },
+    { name: "Secteurs", href: "admin.sector-leads.index", icon: "chart-bar" },
+    { name: "Monitoring", href: "admin.monitoring", icon: "monitoring" },
+    { name: "Maintenance", href: "admin.maintenance", icon: "cog" },
 ];
 
 const sidebarOpen = ref(false);
 
 const logout = () => {
-    router.post(route('logout'));
+    router.post(route("logout"));
 };
 
 const isCurrentRoute = (routeName) => {
@@ -45,7 +46,9 @@ const isCurrentRoute = (routeName) => {
             ]"
         >
             <!-- Logo -->
-            <div class="flex h-16 items-center justify-center border-b border-gray-700 px-4">
+            <div
+                class="flex h-16 items-center justify-center border-b border-gray-700 px-4"
+            >
                 <ApplicationLogo size="sm" />
             </div>
 
@@ -63,27 +66,109 @@ const isCurrentRoute = (routeName) => {
                             ]"
                         >
                             <!-- Icons -->
-                            <svg v-if="item.icon === 'chart-bar'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            <svg
+                                v-if="item.icon === 'chart-bar'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                />
                             </svg>
-                            <svg v-else-if="item.icon === 'users'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            <svg
+                                v-else-if="item.icon === 'users'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                                />
                             </svg>
-                            <svg v-else-if="item.icon === 'blog'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            <svg
+                                v-else-if="item.icon === 'blog'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                                />
                             </svg>
-                            <svg v-else-if="item.icon === 'mail'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <svg
+                                v-else-if="item.icon === 'mail'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                />
                             </svg>
-                            <svg v-else-if="item.icon === 'support'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            <svg
+                                v-else-if="item.icon === 'support'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                                />
                             </svg>
-                            <svg v-else-if="item.icon === 'monitoring'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            <svg
+                                v-else-if="item.icon === 'monitoring'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                />
                             </svg>
-                            <svg v-else-if="item.icon === 'cog'" class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <svg
+                                v-else-if="item.icon === 'cog'"
+                                class="mr-3 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                />
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
                             </svg>
                             {{ item.name }}
                         </Link>
@@ -96,13 +181,25 @@ const isCurrentRoute = (routeName) => {
                  n'a plus de chemin évident vers son propre tableau de bord — et
                  l'URL du panneau n'apparaissant plus côté client, il ne peut pas
                  non plus revenir en arrière à la main. -->
-            <div class="absolute bottom-0 left-0 right-0 border-t border-gray-700 p-4 space-y-1">
+            <div
+                class="absolute bottom-0 left-0 right-0 border-t border-gray-700 p-4 space-y-1"
+            >
                 <Link
                     :href="route('dashboard')"
                     class="flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-gray-800 hover:text-white"
                 >
-                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    <svg
+                        class="mr-3 h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                        />
                     </svg>
                     Retour à l'application
                 </Link>
@@ -111,8 +208,18 @@ const isCurrentRoute = (routeName) => {
                     @click="logout"
                     class="flex w-full items-center rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition-colors hover:bg-gray-800 hover:text-white"
                 >
-                    <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    <svg
+                        class="mr-3 h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
                     </svg>
                     Déconnexion
                 </button>
@@ -122,15 +229,27 @@ const isCurrentRoute = (routeName) => {
         <!-- Main content -->
         <div class="lg:pl-64">
             <!-- Top bar -->
-            <header class="sticky top-0 z-30 border-b border-gray-700 bg-surface-dark px-4 lg:px-6">
+            <header
+                class="sticky top-0 z-30 border-b border-gray-700 bg-surface-dark px-4 lg:px-6"
+            >
                 <div class="flex flex-wrap items-center">
                     <!-- Mobile menu button -->
                     <button
                         @click="sidebarOpen = true"
                         class="order-1 flex h-16 items-center pr-3 text-slate-400 hover:text-white lg:hidden"
                     >
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <svg
+                            class="h-6 w-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
                         </svg>
                     </button>
 
@@ -150,13 +269,24 @@ const isCurrentRoute = (routeName) => {
                     </div>
 
                     <!-- Admin badge -->
-                    <div class="order-3 flex h-16 items-center flex-shrink-0 ml-4 sm:order-4">
-                        <span class="rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white">
+                    <div
+                        class="order-3 flex h-16 items-center flex-shrink-0 ml-4 sm:order-4"
+                    >
+                        <span
+                            class="rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white"
+                        >
                             Admin
                         </span>
                     </div>
                 </div>
             </header>
+
+            <!-- Les contrôleurs d'administration redirigent depuis toujours avec
+                 `->with('success', …)`, mais rien n'affichait ces messages : le
+                 toast n'était monté que dans les gabarits applicatif,
+                 collaborateur et employé. « Ticket supprimé. » ne s'est jamais
+                 vu. -->
+            <ToastNotification />
 
             <!-- Page content -->
             <main class="p-4 lg:p-6">

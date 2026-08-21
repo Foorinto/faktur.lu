@@ -52,6 +52,7 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         // route de détail capturerait « export » comme identifiant.
         Route::get('secteurs/export', [\App\Http\Controllers\Admin\AdminSectorLeadController::class, 'export'])->name('sector-leads.export');
         Route::get('secteurs', [\App\Http\Controllers\Admin\AdminSectorLeadController::class, 'index'])->name('sector-leads.index');
+        Route::delete('secteurs/{lead}', [\App\Http\Controllers\Admin\AdminSectorLeadController::class, 'destroy'])->name('sector-leads.destroy');
 
         // Users management
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');

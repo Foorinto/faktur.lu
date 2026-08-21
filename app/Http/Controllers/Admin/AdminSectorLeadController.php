@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SectorLead;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -45,6 +46,27 @@ class AdminSectorLeadController extends Controller
                     'date' => $l->created_at?->format('d/m/Y H:i'),
                 ]),
         ]);
+    }
+
+    /**
+     * Supprime une réponse.
+     *
+     * Utile pour le spam qui passe le pot de miel, et nécessaire pour honorer
+     * une demande d'effacement : l'adresse est une donnée personnelle, donnée
+     * pour être recontacté, et rien n'oblige la personne à le rester.
+     *
+     * La suppression est définitive et ne concerne que cette table. Une
+     * inscription à l'infolettre, si elle existe, vit ailleurs et survit : les
+     * deux consentements ont été donnés pour des raisons différentes, et
+     * l'effacement de l'un ne vaut pas retrait de l'autre.
+     */
+    public function destroy(SectorLead $lead): RedirectResponse
+    {
+        $lead->delete();
+
+        return redirect()
+            ->route('admin.sector-leads.index')
+            ->with('success', 'Réponse supprimée.');
     }
 
     public function export(): StreamedResponse
