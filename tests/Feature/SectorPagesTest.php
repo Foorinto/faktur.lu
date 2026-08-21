@@ -192,6 +192,38 @@ class SectorPagesTest extends TestCase
     }
 
     /**
+     * Ces pages n'existent qu'en français, et doivent le rester tant qu'elles
+     * ne sont pas traduites.
+     *
+     * `sector_pages` n'a de clés qu'en français. Ouvrir la route aux autres
+     * langues ne produirait pas une page en allemand : elle afficherait les
+     * clés brutes, `sector_pages.infirmier.h1` en guise de titre, et le
+     * formulaire enregistrerait quand même des réponses. Un 404 est préférable
+     * à une page cassée qui a l'air de fonctionner.
+     *
+     * Le jour où la traduction arrive, ce test échoue — et c'est le signal
+     * qu'il faut aussi montrer la colonne « Par métier » dans le pied de page.
+     */
+    public function test_the_pages_stay_french_until_translated(): void
+    {
+        foreach (['de', 'en', 'lb', 'pt'] as $langue) {
+            foreach (SectorPageController::pageSlugs() as $slug) {
+                $this->get("/{$langue}/logiciel-facturation-{$slug}-luxembourg")
+                    ->assertNotFound();
+            }
+
+            // Troisième argument à `false` : sans lui, `Lang::has` retombe sur
+            // la langue de repli et répond « oui » pour l'allemand en lisant le
+            // français. Le test aurait alors certifié une traduction inexistante.
+            $this->assertFalse(
+                \Illuminate\Support\Facades\Lang::has('app.sector_pages.'.SectorPageController::pageSlugs()[0].'.h1', $langue, false),
+                "Les pages sectorielles sont traduites en {$langue} : ouvrez la route, "
+                ."et affichez la colonne « Par métier » du pied de page dans cette langue."
+            );
+        }
+    }
+
+    /**
      * Le but de la page doit se lire avant le formulaire.
      *
      * Sans ce cadrage, la page s'ouvrait comme une page produit — un titre qui
