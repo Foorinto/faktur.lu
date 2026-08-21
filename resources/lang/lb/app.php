@@ -4136,6 +4136,19 @@ return [
     // renommer rendrait incomparables les mesures d'avant et d'après.
     'business_sector' => 'Beräich',
     'business_sector_none' => 'Net uginn',
+    'sector_lead' => [
+        'title' => 'Maacht Dir dëse Beruff?',
+        'intro' => 'Eng Fro — Är Äntwert bestëmmt, wat mir als Nächstes bauen.',
+        'question' => 'Wat kascht Iech bei der Fakturatioun am meeschte Zäit?',
+        'question_placeholder' => 'Zum Beispill: déiselwecht Positiounen ofschreiwen, eng Referenz sichen, d\'Ënnerlage fir de Comptabel virbereeden…',
+        'email' => 'Är E-Mail-Adress (fakultativ)',
+        'email_help' => 'Nëmme fir Iech ze äntweren. Loosst d\'Feld eidel, wann Dir anonym bleiwe wëllt.',
+        'newsletter' => 'Ech wëll och d\'Neiegkeeten vu faktur.lu kréien.',
+        'submit' => 'Schécken',
+        'thanks' => 'Merci, Är Äntwert ass gespäichert.',
+        'empty' => 'Schreift eng Äntwert oder loosst eng E-Mail-Adress — soss gëtt et näischt ze schécken.',
+        'too_many' => 'Ze vill Ufroe vun dëser Verbindung. Probéiert w.e.g. an engem Moment nach eng Kéier.',
+    ],
     'business_sectors' => [
         'construction' => ['label' => 'Bau an Handwierk', 'hint' => 'Bau, Renovatioun, handwierklech Beruffer'],
         'freelance' => ['label' => 'Freelance a Beroodung', 'hint' => 'IT, Design, Marketing, Formatioun'],

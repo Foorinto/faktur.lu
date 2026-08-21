@@ -4365,6 +4365,19 @@ return [
     // renommer rendrait incomparables les mesures d'avant et d'après.
     'business_sector' => 'Setor de atividade',
     'business_sector_none' => 'Não especificado',
+    'sector_lead' => [
+        'title' => 'Exerce esta profissão?',
+        'intro' => 'Uma pergunta — a sua resposta orienta o que construímos a seguir.',
+        'question' => 'O que lhe consome mais tempo na faturação?',
+        'question_placeholder' => 'Por exemplo: repetir os mesmos itens, encontrar uma referência, preparar o que o contabilista pede…',
+        'email' => 'O seu email (opcional)',
+        'email_help' => 'Apenas para lhe responder. Deixe em branco se preferir manter-se anónimo.',
+        'newsletter' => 'Também quero receber as novidades do faktur.lu.',
+        'submit' => 'Enviar',
+        'thanks' => 'Obrigado, a sua resposta foi registada.',
+        'empty' => 'Escreva uma resposta ou deixe um email — caso contrário não há nada a enviar.',
+        'too_many' => 'Demasiados envios a partir desta ligação. Tente novamente daqui a pouco.',
+    ],
     'business_sectors' => [
         'construction' => ['label' => 'Construção e ofícios', 'hint' => 'Construção, renovação, ofícios manuais'],
         'freelance' => ['label' => 'Freelance e consultoria', 'hint' => 'Informática, design, marketing, formação'],

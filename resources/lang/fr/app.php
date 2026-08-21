@@ -4441,6 +4441,47 @@ return [
     // renommer rendrait incomparables les mesures d'avant et d'après.
     'business_sector' => 'Secteur d\'activité',
     'business_sector_none' => 'Non précisé',
+    // Pages sectorielles, en français uniquement — voir SectorPageController.
+    // Chaque page dit explicitement ce qui n'existe PAS encore : laisser
+    // espérer un pack métier ferait venir des gens déçus, et fausserait la
+    // mesure qu'on cherche justement à obtenir.
+    'sector_pages' => [
+        'cta_generic' => 'Vous pouvez déjà essayer faktur.lu gratuitement, sans carte bancaire :',
+        'cta_link' => 'créer un compte',
+        'infirmier' => [
+            'page_title' => 'Logiciel de facturation pour infirmiers au Luxembourg | faktur.lu',
+            'meta_description' => 'Facturation conforme au Luxembourg pour infirmiers et professions libérales de santé : TVA luxembourgeoise, archivage légal, export pour votre fiduciaire.',
+            'h1' => 'Facturation pour infirmiers indépendants au Luxembourg',
+            'intro' => 'Vous exercez en libéral et vous facturez encore sur tableur ? faktur.lu est conçu pour le cadre luxembourgeois, et vos documents restent conformes sans que vous ayez à y penser.',
+            'point_1' => 'Numérotation séquentielle continue, conforme à l\'article 63 LIVA — vos documents tiennent devant un contrôle.',
+            'point_2' => 'Archivage légal et export pour votre fiduciaire, sans ressaisie ni allers-retours par email.',
+            'point_3' => 'Vos dépenses professionnelles suivies avec leur TVA, y compris les achats à l\'étranger qui ne se déduisent pas au Luxembourg.',
+            'honesty' => 'Soyons clairs : faktur.lu ne connaît pas encore la nomenclature CNS ni les mémoires d\'honoraires. C\'est précisément ce que nous cherchons à savoir — dites-nous ce qui vous ferait gagner du temps, et cela orientera ce que nous construirons.',
+        ],
+        'artisan' => [
+            'page_title' => 'Logiciel de facturation pour artisans au Luxembourg | faktur.lu',
+            'meta_description' => 'Facturation et devis conformes au Luxembourg pour artisans du bâtiment : TVA luxembourgeoise, archivage légal, export comptable.',
+            'h1' => 'Facturation pour artisans et entreprises du bâtiment au Luxembourg',
+            'intro' => 'Devis, factures, acomptes : faktur.lu produit des documents conformes au cadre luxembourgeois, et votre comptabilité suit sans ressaisie.',
+            'point_1' => 'Devis convertis en facture en un geste, avec la numérotation continue qu\'exige l\'article 63 LIVA.',
+            'point_2' => 'Les quatre taux de TVA luxembourgeois, y compris le taux réduit applicable à certains travaux de logement.',
+            'point_3' => 'Export comptable direct vers votre fiduciaire, et archivage légal de chaque document finalisé.',
+            'honesty' => 'Soyons clairs : faktur.lu ne gère pas encore les situations de chantier ni les retenues de garantie. C\'est ce que nous cherchons à savoir — dites-nous ce qui vous prend le plus de temps, et cela orientera ce que nous construirons.',
+        ],
+    ],
+    'sector_lead' => [
+        'title' => 'Vous exercez ce métier ?',
+        'intro' => 'Une question, et votre réponse oriente ce que nous construisons ensuite.',
+        'question' => 'Qu\'est-ce qui vous prend le plus de temps dans votre facturation ?',
+        'question_placeholder' => 'Par exemple : recopier les mêmes actes, retrouver une référence, préparer ce que demande mon comptable…',
+        'email' => 'Votre email (facultatif)',
+        'email_help' => 'Uniquement pour vous répondre. Laissez vide si vous préférez rester anonyme.',
+        'newsletter' => 'Je souhaite aussi recevoir les actualités de faktur.lu.',
+        'submit' => 'Envoyer',
+        'thanks' => 'Merci, votre réponse est bien enregistrée.',
+        'empty' => 'Écrivez une réponse ou laissez une adresse email, sinon il n\'y a rien à envoyer.',
+        'too_many' => 'Trop d\'envois depuis cette connexion. Réessayez dans un moment.',
+    ],
     'business_sectors' => [
         'construction' => ['label' => 'Bâtiment et artisanat', 'hint' => 'Construction, rénovation, métiers manuels'],
         'freelance' => ['label' => 'Freelance et conseil', 'hint' => 'Informatique, design, marketing, formation'],

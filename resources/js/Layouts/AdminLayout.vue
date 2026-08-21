@@ -12,6 +12,7 @@ const navigation = [
     { name: 'Blog', href: 'admin.blog.index', icon: 'blog' },
     { name: 'Support', href: 'admin.support.index', icon: 'support' },
     { name: 'Sondages', href: 'admin.surveys.index', icon: 'chart-bar' },
+    { name: 'Secteurs', href: 'admin.sector-leads.index', icon: 'chart-bar' },
     { name: 'Monitoring', href: 'admin.monitoring', icon: 'monitoring' },
     { name: 'Maintenance', href: 'admin.maintenance', icon: 'cog' },
 ];

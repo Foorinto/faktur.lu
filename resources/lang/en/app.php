@@ -4151,6 +4151,19 @@ return [
     // renommer rendrait incomparables les mesures d'avant et d'après.
     'business_sector' => 'Line of business',
     'business_sector_none' => 'Not specified',
+    'sector_lead' => [
+        'title' => 'Is this your line of work?',
+        'intro' => 'One question — your answer shapes what we build next.',
+        'question' => 'What takes you the most time when invoicing?',
+        'question_placeholder' => 'For example: retyping the same items, tracking down a reference, preparing what my accountant asks for…',
+        'email' => 'Your email (optional)',
+        'email_help' => 'Only to reply to you. Leave it blank if you would rather stay anonymous.',
+        'newsletter' => 'I would also like to receive faktur.lu news.',
+        'submit' => 'Send',
+        'thanks' => 'Thank you, your answer has been recorded.',
+        'empty' => 'Write an answer or leave an email address — otherwise there is nothing to send.',
+        'too_many' => 'Too many submissions from this connection. Please try again shortly.',
+    ],
     'business_sectors' => [
         'construction' => ['label' => 'Construction and trades', 'hint' => 'Building, renovation, skilled trades'],
         'freelance' => ['label' => 'Freelance and consulting', 'hint' => 'IT, design, marketing, training'],

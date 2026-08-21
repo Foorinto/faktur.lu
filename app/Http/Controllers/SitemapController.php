@@ -154,6 +154,17 @@ class SitemapController extends Controller
             $xml .= '</url>';
         }
 
+        // Pages sectorielles, françaises elles aussi. La liste vient du
+        // contrôleur : déclarer ici une URL qui n'existe pas nous a déjà valu
+        // onze pages « Introuvable » dans Search Console.
+        foreach (\App\Http\Controllers\SectorPageController::pageSlugs() as $slug) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . $baseUrl . '/fr/logiciel-facturation-' . $slug . '-luxembourg</loc>';
+            $xml .= '<changefreq>monthly</changefreq>';
+            $xml .= '<priority>0.8</priority>';
+            $xml .= '</url>';
+        }
+
         $xml .= '</urlset>';
 
         return $xml;

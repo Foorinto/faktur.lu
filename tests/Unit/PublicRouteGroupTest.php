@@ -30,6 +30,11 @@ class PublicRouteGroupTest extends TestCase
         'Pages/Welcome.vue', 'Pages/Pricing.vue', 'Pages/Contact.vue', 'Pages/About.vue',
         'Pages/FaiaValidator.vue', 'Pages/Glossary.vue', 'Pages/Partners.vue', 'Pages/WhyFaktur.vue',
         'Pages/Auth', 'Pages/Tools', 'Pages/Survey', 'Pages/Blog', 'Pages/Legal', 'Pages/Features',
+        // Ajoutés le 2026-08-21 : les pages sectorielles et les pages de
+        // segment appellent `sector-lead.store` depuis un formulaire public.
+        // Leur absence ici a failli laisser passer un blanchiment — cette liste
+        // est tenue à la main, et c'est sa faiblesse.
+        'Pages/Sectors', 'Pages/Segments',
         'Layouts/MarketingLayout.vue', 'Layouts/GuestLayout.vue',
     ];
 

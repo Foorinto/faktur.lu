@@ -39,7 +39,14 @@ class TranslationParityTest extends TestCase
      *
      * @var array<int, string>
      */
-    private const EXCEPTIONS = ['alternatives.'];
+    private const EXCEPTIONS = [
+        // Pages « alternative à » : publiées en français seulement.
+        'alternatives.',
+        // Pages sectorielles : mêmes raisons, et ce sont des instruments de
+        // mesure avant d'être du contenu. Les traduire avant de savoir si le
+        // marché existe reviendrait à investir sur une supposition.
+        'sector_pages.',
+    ];
 
     /** Aplatit le tableau de traductions en clés pointées. */
     private function clesPlates(array $traductions, string $prefixe = ''): array

@@ -4135,6 +4135,19 @@ return [
     // renommer rendrait incomparables les mesures d'avant et d'après.
     'business_sector' => 'Branche',
     'business_sector_none' => 'Nicht angegeben',
+    'sector_lead' => [
+        'title' => 'Üben Sie diesen Beruf aus?',
+        'intro' => 'Eine Frage — Ihre Antwort bestimmt, was wir als Nächstes bauen.',
+        'question' => 'Was kostet Sie bei der Rechnungsstellung am meisten Zeit?',
+        'question_placeholder' => 'Zum Beispiel: dieselben Positionen abtippen, eine Referenz suchen, die Unterlagen für den Treuhänder vorbereiten…',
+        'email' => 'Ihre E-Mail-Adresse (optional)',
+        'email_help' => 'Nur um Ihnen zu antworten. Lassen Sie das Feld leer, wenn Sie anonym bleiben möchten.',
+        'newsletter' => 'Ich möchte auch Neuigkeiten von faktur.lu erhalten.',
+        'submit' => 'Senden',
+        'thanks' => 'Vielen Dank, Ihre Antwort wurde gespeichert.',
+        'empty' => 'Schreiben Sie eine Antwort oder hinterlassen Sie eine E-Mail-Adresse — sonst gibt es nichts zu senden.',
+        'too_many' => 'Zu viele Einsendungen von dieser Verbindung. Bitte versuchen Sie es später erneut.',
+    ],
     'business_sectors' => [
         'construction' => ['label' => 'Bau und Handwerk', 'hint' => 'Bau, Renovierung, handwerkliche Berufe'],
         'freelance' => ['label' => 'Freiberufler und Beratung', 'hint' => 'IT, Design, Marketing, Schulung'],
