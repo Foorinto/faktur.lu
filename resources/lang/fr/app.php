@@ -4437,7 +4437,25 @@ return [
         'new_badge' => 'Nouveau',
     ],
 
+    // Secteurs proposés à l'inscription. Les clés sont stables : les
+    // renommer rendrait incomparables les mesures d'avant et d'après.
+    'business_sector' => 'Secteur d\'activité',
+    'business_sector_none' => 'Non précisé',
+    'business_sectors' => [
+        'construction' => ['label' => 'Bâtiment et artisanat', 'hint' => 'Construction, rénovation, métiers manuels'],
+        'freelance' => ['label' => 'Freelance et conseil', 'hint' => 'Informatique, design, marketing, formation'],
+        'health' => ['label' => 'Professions de santé', 'hint' => 'Infirmier, kinésithérapeute, sage-femme'],
+        'real_estate' => ['label' => 'Immobilier', 'hint' => 'Agence, syndic, gestion locative'],
+        'retail' => ['label' => 'Commerce', 'hint' => 'Vente, boutique, e-commerce'],
+        'hospitality' => ['label' => 'Restauration', 'hint' => 'Restaurant, traiteur, café'],
+        'other' => ['label' => 'Autre', 'hint' => 'Configuration standard'],
+    ],
     'onboarding_wizard' => [
+        'sector' => [
+            'title' => 'Quel est votre secteur d\'activité ?',
+            'subtitle' => 'Une seule question, pour adapter faktur.lu à votre métier.',
+            'changeable' => 'Vous pourrez le modifier à tout moment dans vos paramètres.',
+        ],
         'head_title' => 'Bienvenue chez faktur.lu',
         'skip_all' => 'Passer pour le moment',
         'skip_all_confirm' => 'Êtes-vous sûr de vouloir passer l\'onboarding ? Vous pourrez configurer votre entreprise plus tard depuis les paramètres.',

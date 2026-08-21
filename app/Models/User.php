@@ -42,6 +42,29 @@ class User extends Authenticatable implements MustVerifyEmail
         'onboarding_completed_at',
         'onboarding_skipped',
         'onboarding_checklist_dismissed',
+        'business_sector',
+    ];
+
+    /**
+     * Secteurs d'activité proposés à l'inscription.
+     *
+     * L'ordre est celui de l'écran. Les clés sont neutres et stables : les
+     * libellés vivent dans les fichiers de langue, et une clé qui changerait
+     * rendrait incomparables les mesures d'avant et d'après.
+     *
+     * ⚠️ À ne pas confondre avec `BusinessSettings::$activity_type`, qui vaut
+     * services / goods / mixed et ne sert qu'aux seuils français.
+     *
+     * @var array<int, string>
+     */
+    public const BUSINESS_SECTORS = [
+        'construction',   // BTP, artisanat
+        'freelance',      // conseil, informatique, création
+        'health',         // professions libérales de santé
+        'real_estate',    // gestion locative, syndic, agence
+        'retail',         // commerce, e-commerce
+        'hospitality',    // restauration, traiteur
+        'other',
     ];
 
     /**
@@ -92,6 +115,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
+            'business_sector_set_at' => 'datetime',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',

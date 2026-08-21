@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\NewUserRegisteredNotification;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use App\Support\UserError;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,10 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'onboarding_step' => 'company',
+            // Première étape : le secteur d'activité. Écrire 'company' ici
+            // sautait purement et simplement l'écran, le repli `?? 'sector'` du
+            // contrôleur d'onboarding ne s'appliquant qu'à une valeur absente.
+            'onboarding_step' => 'sector',
             'locale' => session('locale', config('app.locale')),
         ]);
 
@@ -66,12 +70,33 @@ class RegisteredUserController extends Controller
             'dpa_acceptance_method' => 'explicit',
         ])->save();
 
-        event(new Registered($user));
+        /*
+         * Un envoi qui échoue ne doit pas faire échouer l'inscription.
+         *
+         * Le compte existe déjà à ce stade. Laisser remonter l'exception
+         * laissait l'utilisateur devant une erreur, non connecté, et avec une
+         * adresse désormais prise : il ne pouvait même pas réessayer. Un relais
+         * SMTP indisponible quelques minutes suffisait.
+         *
+         * L'email de vérification se redemande depuis la page qui suit, et la
+         * notification d'administration n'a jamais eu à bloquer qui que ce
+         * soit : être prévenu de l'arrivée d'un client est notre affaire, pas
+         * la sienne.
+         */
+        try {
+            event(new Registered($user));
+        } catch (\Throwable $e) {
+            UserError::report($e, 'registration.verification_email');
+        }
 
-        // Send notification email to admin
         $adminEmail = config('admin.support_email');
+
         if ($adminEmail) {
-            Mail::to($adminEmail)->send(new NewUserRegisteredNotification($user));
+            try {
+                Mail::to($adminEmail)->send(new NewUserRegisteredNotification($user));
+            } catch (\Throwable $e) {
+                UserError::report($e, 'registration.admin_notification');
+            }
         }
 
         Auth::login($user);

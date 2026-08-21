@@ -26,6 +26,10 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
             'locale' => ['sometimes', 'string', Rule::in(['fr', 'de', 'en', 'lb', 'pt'])],
+            // Secteur d'activité, modifiable après coup — l'écran d'inscription
+            // le promet. `sometimes` parce que le formulaire de profil ne le
+            // porte pas toujours : l'omettre ne doit pas l'effacer.
+            'business_sector' => ['sometimes', 'nullable', 'string', Rule::in(\App\Models\User::BUSINESS_SECTORS)],
         ];
     }
 }

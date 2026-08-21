@@ -9,11 +9,13 @@ const { t } = useTranslations();
 const { onboarding } = useMatomo();
 
 const props = defineProps({
-    currentStep: { type: String, default: 'company' },
+    currentStep: { type: String, default: 'sector' },
     business: { type: Object, default: null },
+    businessSector: { type: String, default: null },
+    businessSectors: { type: Array, default: () => [] },
 });
 
-const stepOrder = ['company', 'numbering', 'branding', 'client', 'invoice', 'success'];
+const stepOrder = ['sector', 'company', 'numbering', 'branding', 'client', 'invoice', 'success'];
 const step = ref(props.currentStep);
 
 onMounted(() => {
@@ -159,6 +161,23 @@ const submitBranding = async () => {
     }
 };
 
+/**
+ * Le secteur se valide au clic : une question à un seul geste n'a pas besoin
+ * d'un bouton « suivant » qui la ferait ressembler à un formulaire.
+ */
+const selectedSector = ref(props.businessSector);
+
+const submitSector = async (secteur) => {
+    selectedSector.value = secteur;
+
+    const data = await apiCall(route('onboarding.sector'), { business_sector: secteur });
+
+    if (data) {
+        onboarding.stepCompleted('sector');
+        step.value = 'company';
+    }
+};
+
 const submitClient = async () => {
     const data = await apiCall(route('onboarding.client'), clientForm.value);
     if (data) {
@@ -261,6 +280,44 @@ const goToInvoice = () => router.visit(route('invoices.edit', lastInvoiceId.valu
             <div class="max-w-2xl mx-auto px-4 sm:px-6">
 
                 <!-- ÉTAPE 1 : ENTREPRISE -->
+                <!-- Étape 0 : le secteur d'activité.
+                     Une question, un clic, avant tout le reste. Elle ne
+                     configure rien aujourd'hui : elle mesure qui s'inscrit,
+                     pour décider quel pack métier mérite d'être construit. -->
+                <div v-if="step === 'sector'" class="bg-white dark:bg-surface-card rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
+                        {{ t('onboarding_wizard.sector.title') }}
+                    </h2>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                        {{ t('onboarding_wizard.sector.subtitle') }}
+                    </p>
+
+                    <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        <button
+                            v-for="secteur in businessSectors"
+                            :key="secteur"
+                            type="button"
+                            :aria-pressed="selectedSector === secteur"
+                            class="flex flex-col items-start rounded-2xl border-2 p-4 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            :class="selectedSector === secteur
+                                ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                                : 'border-gray-200 hover:border-primary-300 dark:border-gray-700 dark:hover:border-primary-700'"
+                            @click="submitSector(secteur)"
+                        >
+                            <span class="text-sm font-semibold text-slate-900 dark:text-white">
+                                {{ t('business_sectors.' + secteur + '.label') }}
+                            </span>
+                            <span class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t('business_sectors.' + secteur + '.hint') }}
+                            </span>
+                        </button>
+                    </div>
+
+                    <p class="mt-6 text-xs text-slate-500 dark:text-slate-400">
+                        {{ t('onboarding_wizard.sector.changeable') }}
+                    </p>
+                </div>
+
                 <div v-if="step === 'company'" class="bg-white dark:bg-surface-card rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
                     <div class="text-center mb-8">
                         <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-500/10 mb-4">

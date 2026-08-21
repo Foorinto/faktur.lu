@@ -4147,7 +4147,25 @@ return [
         'new_badge' => 'New',
     ],
 
+    // Secteurs proposés à l'inscription. Les clés sont stables : les
+    // renommer rendrait incomparables les mesures d'avant et d'après.
+    'business_sector' => 'Line of business',
+    'business_sector_none' => 'Not specified',
+    'business_sectors' => [
+        'construction' => ['label' => 'Construction and trades', 'hint' => 'Building, renovation, skilled trades'],
+        'freelance' => ['label' => 'Freelance and consulting', 'hint' => 'IT, design, marketing, training'],
+        'health' => ['label' => 'Healthcare professions', 'hint' => 'Nurse, physiotherapist, midwife'],
+        'real_estate' => ['label' => 'Real estate', 'hint' => 'Agency, property management, letting'],
+        'retail' => ['label' => 'Retail', 'hint' => 'Shop, sales, e-commerce'],
+        'hospitality' => ['label' => 'Hospitality', 'hint' => 'Restaurant, catering, café'],
+        'other' => ['label' => 'Other', 'hint' => 'Standard setup'],
+    ],
     'onboarding_wizard' => [
+        'sector' => [
+            'title' => 'What is your line of business?',
+            'subtitle' => 'One question, so we can tailor faktur.lu to your trade.',
+            'changeable' => 'You can change this at any time in your settings.',
+        ],
         'head_title' => 'Welcome to faktur.lu',
         'numbering' => [
             'title' => 'Document numbering',

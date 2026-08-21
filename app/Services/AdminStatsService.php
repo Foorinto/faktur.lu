@@ -28,6 +28,43 @@ class AdminStatsService
     }
 
     /**
+     * Répartition des inscrits par secteur d'activité.
+     *
+     * C'est la raison d'être de l'écran de sélection : décider quel pack métier
+     * mérite d'être construit, sur des comptes plutôt que sur des intuitions.
+     *
+     * Les comptes sans réponse sont comptés à part et jamais fondus dans
+     * « Autre » : les uns n'ont pas été interrogés — tous ceux d'avant août
+     * 2026 — les autres ont répondu. Les additionner ferait paraître le secteur
+     * générique majoritaire alors qu'il ne l'est pas.
+     *
+     * @return array{par_secteur: array<int, array{secteur: string, libelle: string, total: int}>, sans_reponse: int, repondants: int}
+     */
+    public function getSectorStats(): array
+    {
+        $parSecteur = User::query()
+            ->whereNotNull('business_sector')
+            ->selectRaw('business_sector, COUNT(*) as total')
+            ->groupBy('business_sector')
+            ->orderByDesc('total')
+            ->get()
+            // Le libellé est résolu ici : le panneau d'administration est servi
+            // en français et ne charge pas le dictionnaire du front.
+            ->map(fn ($l) => [
+                'secteur' => $l->business_sector,
+                'libelle' => __("app.business_sectors.{$l->business_sector}.label", [], 'fr'),
+                'total' => (int) $l->total,
+            ])
+            ->all();
+
+        return [
+            'par_secteur' => $parSecteur,
+            'sans_reponse' => User::whereNull('business_sector')->count(),
+            'repondants' => array_sum(array_column($parSecteur, 'total')),
+        ];
+    }
+
+    /**
      * Get invoice statistics.
      */
     public function getInvoiceStats(): array

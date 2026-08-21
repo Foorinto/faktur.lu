@@ -6,9 +6,11 @@ use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\User;
 use App\Rules\SalesVatRateAllowed;
 use App\Services\DocumentNumberFormatter;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class OnboardingController extends Controller
@@ -22,9 +24,38 @@ class OnboardingController extends Controller
         $business = BusinessSettings::where('user_id', $user->id)->first();
 
         return Inertia::render('Onboarding/Wizard', [
-            'currentStep' => $user->onboarding_step ?? 'company',
+            'currentStep' => $user->onboarding_step ?? 'sector',
+            'businessSector' => $user->business_sector,
+            'businessSectors' => \App\Models\User::BUSINESS_SECTORS,
             'business' => $business,
         ]);
+    }
+
+    /**
+     * Étape 0 : le secteur d'activité.
+     *
+     * Une question, un clic, posée avant tout le reste. Elle ne configure rien
+     * aujourd'hui : elle MESURE. Avant d'engager treize jours sur un pack
+     * métier — celui de la santé, par exemple — on veut savoir qui s'inscrit
+     * réellement, plutôt que de le supposer.
+     *
+     * La date de réponse est conservée à part : elle permettra de comparer les
+     * cohortes, et de distinguer une inscription d'un changement ultérieur
+     * depuis les paramètres.
+     */
+    public function saveSector(Request $request)
+    {
+        $data = $request->validate([
+            'business_sector' => ['required', 'string', Rule::in(User::BUSINESS_SECTORS)],
+        ]);
+
+        $request->user()->forceFill([
+            'business_sector' => $data['business_sector'],
+            'business_sector_set_at' => now(),
+            'onboarding_step' => 'company',
+        ])->save();
+
+        return response()->json(['success' => true, 'next_step' => 'company']);
     }
 
     /**
