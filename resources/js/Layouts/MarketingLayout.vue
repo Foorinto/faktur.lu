@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { Link, usePage, router, useForm } from "@inertiajs/vue3";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import HoneypotFields from "@/Components/HoneypotFields.vue";
@@ -16,7 +16,18 @@ const { localizedRoute, currentLocale, availableLocales } = useLocalizedRoute();
  * pages publiques, et leur faire porter cette liste à chacune coûterait plus
  * que ce que ça protège. Un test confronte cette liste à celle du contrôleur.
  */
-const metiersPublies = ['infirmier', 'artisan', 'immobilier', 'commerce', 'restaurant'];
+const metiersPublies = [
+    "infirmier",
+    "artisan",
+    "immobilier",
+    "commerce",
+    "restaurant",
+];
+
+// Les pages sectorielles n'existent qu'en français. La condition sert deux
+// fois — afficher la colonne, et compter les colonnes de la grille — et les
+// deux doivent bouger ensemble le jour où une traduction arrive.
+const afficherMetiers = computed(() => currentLocale() === "fr");
 const { t } = useTranslations();
 
 const mobileMenuOpen = ref(false);
@@ -420,13 +431,21 @@ onUnmounted(() => {
                                 {{ t("landing.nav.solutions") }}
                                 <svg
                                     class="w-3.5 h-3.5 transition-transform"
-                                    :class="solutionsDropdownOpen ? 'rotate-180' : ''"
+                                    :class="
+                                        solutionsDropdownOpen
+                                            ? 'rotate-180'
+                                            : ''
+                                    "
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                     stroke-width="2"
                                 >
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M19 9l-7 7-7-7"
+                                    />
                                 </svg>
                             </button>
                             <Transition
@@ -441,42 +460,127 @@ onUnmounted(() => {
                                     v-if="solutionsDropdownOpen"
                                     class="absolute left-1/2 -translate-x-1/2 top-full pt-2 z-50"
                                 >
-                                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 py-2 w-72">
+                                    <div
+                                        class="bg-white rounded-xl shadow-lg border border-gray-200 py-2 w-72"
+                                    >
                                         <Link
-                                            :href="localizedRoute('for_freelances')"
+                                            :href="
+                                                localizedRoute('for_freelances')
+                                            "
                                             class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
                                         >
-                                            <div class="w-8 h-8 rounded-lg bg-[#00f5d4]/10 flex items-center justify-center flex-shrink-0">
-                                                <svg class="w-4 h-4 text-[#00a896]" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" /></svg>
+                                            <div
+                                                class="w-8 h-8 rounded-lg bg-[#00f5d4]/10 flex items-center justify-center flex-shrink-0"
+                                            >
+                                                <svg
+                                                    class="w-4 h-4 text-[#00a896]"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <path
+                                                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                    />
+                                                </svg>
                                             </div>
                                             <div>
-                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_freelances') }}</p>
-                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_freelances_desc') }}</p>
+                                                <p
+                                                    class="text-sm font-medium text-slate-900"
+                                                >
+                                                    {{
+                                                        t(
+                                                            "landing.nav.solutions_freelances",
+                                                        )
+                                                    }}
+                                                </p>
+                                                <p
+                                                    class="text-xs text-slate-500"
+                                                >
+                                                    {{
+                                                        t(
+                                                            "landing.nav.solutions_freelances_desc",
+                                                        )
+                                                    }}
+                                                </p>
                                             </div>
                                         </Link>
                                         <Link
                                             :href="localizedRoute('for_smes')"
                                             class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
                                         >
-                                            <div class="w-8 h-8 rounded-lg bg-[#00bbf9]/10 flex items-center justify-center flex-shrink-0">
-                                                <svg class="w-4 h-4 text-[#00bbf9]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                                            <div
+                                                class="w-8 h-8 rounded-lg bg-[#00bbf9]/10 flex items-center justify-center flex-shrink-0"
+                                            >
+                                                <svg
+                                                    class="w-4 h-4 text-[#00bbf9]"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 20 20"
+                                                >
+                                                    <path
+                                                        d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+                                                    />
+                                                </svg>
                                             </div>
                                             <div>
-                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_smes') }}</p>
-                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_smes_desc') }}</p>
+                                                <p
+                                                    class="text-sm font-medium text-slate-900"
+                                                >
+                                                    {{
+                                                        t(
+                                                            "landing.nav.solutions_smes",
+                                                        )
+                                                    }}
+                                                </p>
+                                                <p
+                                                    class="text-xs text-slate-500"
+                                                >
+                                                    {{
+                                                        t(
+                                                            "landing.nav.solutions_smes_desc",
+                                                        )
+                                                    }}
+                                                </p>
                                             </div>
-
                                         </Link>
                                         <Link
                                             :href="localizedRoute('partners')"
                                             class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 transition-colors"
                                         >
-                                            <div class="w-8 h-8 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center flex-shrink-0">
-                                                <svg class="w-4 h-4 text-[#9b5de5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                            <div
+                                                class="w-8 h-8 rounded-lg bg-[#9b5de5]/10 flex items-center justify-center flex-shrink-0"
+                                            >
+                                                <svg
+                                                    class="w-4 h-4 text-[#9b5de5]"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                                                    />
+                                                </svg>
                                             </div>
                                             <div>
-                                                <p class="text-sm font-medium text-slate-900">{{ t('landing.nav.solutions_fiduciaries') }}</p>
-                                                <p class="text-xs text-slate-500">{{ t('landing.nav.solutions_fiduciaries_desc') }}</p>
+                                                <p
+                                                    class="text-sm font-medium text-slate-900"
+                                                >
+                                                    {{
+                                                        t(
+                                                            "landing.nav.solutions_fiduciaries",
+                                                        )
+                                                    }}
+                                                </p>
+                                                <p
+                                                    class="text-xs text-slate-500"
+                                                >
+                                                    {{
+                                                        t(
+                                                            "landing.nav.solutions_fiduciaries_desc",
+                                                        )
+                                                    }}
+                                                </p>
                                             </div>
                                         </Link>
                                     </div>
@@ -1054,13 +1158,17 @@ onUnmounted(() => {
                                 >{{ t("features.time-tracking.title") }}</Link
                             >
                         </div>
-                        <div class="text-sm font-medium text-slate-600 py-2">{{ t("landing.nav.solutions") }}</div>
+                        <div class="text-sm font-medium text-slate-600 py-2">
+                            {{ t("landing.nav.solutions") }}
+                        </div>
                         <div class="pl-4 flex flex-col space-y-1">
                             <Link
                                 :href="localizedRoute('for_freelances')"
                                 @click="mobileMenuOpen = false"
                                 class="text-sm text-slate-500 hover:text-slate-900 py-1"
-                                >{{ t("landing.nav.solutions_freelances") }}</Link
+                                >{{
+                                    t("landing.nav.solutions_freelances")
+                                }}</Link
                             >
                             <Link
                                 :href="localizedRoute('for_smes')"
@@ -1072,7 +1180,9 @@ onUnmounted(() => {
                                 :href="localizedRoute('partners')"
                                 @click="mobileMenuOpen = false"
                                 class="text-sm text-slate-500 hover:text-slate-900 py-1"
-                                >{{ t("landing.nav.solutions_fiduciaries") }}</Link
+                                >{{
+                                    t("landing.nav.solutions_fiduciaries")
+                                }}</Link
                             >
                         </div>
                         <Link
@@ -1197,7 +1307,12 @@ onUnmounted(() => {
         <!-- Footer -->
         <footer class="border-t border-gray-200 py-12 bg-white">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div class="grid md:grid-cols-5 gap-8 mb-8">
+                <div
+                    class="grid gap-8 mb-8"
+                    :class="
+                        afficherMetiers ? 'md:grid-cols-5' : 'md:grid-cols-4'
+                    "
+                >
                     <div class="md:col-span-2">
                         <Link
                             :href="localizedRoute('home')"
@@ -1304,7 +1419,9 @@ onUnmounted(() => {
                                 <Link
                                     :href="localizedRoute('for_freelances')"
                                     class="text-slate-600 hover:text-slate-900"
-                                    >{{ t("landing.nav.solutions_freelances") }}</Link
+                                    >{{
+                                        t("landing.nav.solutions_freelances")
+                                    }}</Link
                                 >
                             </li>
                             <li>
@@ -1381,7 +1498,7 @@ onUnmounted(() => {
                          orpheline reste « détectée, non indexée ».
 
                          En français uniquement, comme les pages elles-mêmes. -->
-                    <div v-if="currentLocale() === 'fr'">
+                    <div v-if="afficherMetiers">
                         <h4 class="font-semibold text-slate-900 mb-4">
                             {{ t("sector_pages.footer_title") }}
                         </h4>
@@ -1390,65 +1507,60 @@ onUnmounted(() => {
                                 <Link
                                     :href="`/fr/logiciel-facturation-${metier}-luxembourg`"
                                     class="text-slate-600 hover:text-slate-900"
-                                    >{{ t(`sector_pages.${metier}.footer_label`) }}</Link
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-slate-900 mb-4">
-                            {{ t("landing.footer.legal") }}
-                        </h4>
-                        <ul class="space-y-2 text-sm">
-                            <li>
-                                <Link
-                                    :href="localizedRoute('legal.mentions')"
-                                    class="text-slate-600 hover:text-slate-900"
                                     >{{
-                                        t("landing.footer.legal_notice")
+                                        t(`sector_pages.${metier}.footer_label`)
                                     }}</Link
-                                >
-                            </li>
-                            <li>
-                                <Link
-                                    :href="localizedRoute('legal.privacy')"
-                                    class="text-slate-600 hover:text-slate-900"
-                                    >{{ t("landing.footer.privacy") }}</Link
-                                >
-                            </li>
-                            <li>
-                                <Link
-                                    :href="localizedRoute('legal.terms')"
-                                    class="text-slate-600 hover:text-slate-900"
-                                    >{{ t("landing.footer.terms") }}</Link
-                                >
-                            </li>
-                            <li>
-                                <Link
-                                    :href="localizedRoute('legal.cookies')"
-                                    class="text-slate-600 hover:text-slate-900"
-                                    >{{ t("landing.footer.cookies") }}</Link
-                                >
-                            </li>
-                            <li>
-                                <!-- Lien HTML ordinaire, et non un Link
-                                     Inertia : le DPA est la seule page légale
-                                     rendue par une vue Blade, parce qu'elle
-                                     doit rester imprimable hors application.
-                                     Un Link Inertia attend une réponse Inertia
-                                     en retour ; il recevait du HTML, ne savait
-                                     qu'en faire, et le clic restait sans effet. -->
-                                <a
-                                    :href="localizedRoute('legal.dpa')"
-                                    class="text-slate-600 hover:text-slate-900"
-                                    >{{ t("landing.footer.dpa") }}</a
                                 >
                             </li>
                         </ul>
                     </div>
                 </div>
+                <!-- Les liens légaux sur une ligne, et non en colonne.
+                     L'ajout de « Par métier » portait la grille à six
+                     colonnes pour cinq places : « Légal » retombait seule
+                     sur une deuxième ligne, et seulement en français — ce
+                     qui rendait le défaut invisible dans les quatre autres
+                     langues. Une ligne de liens légaux est de toute façon
+                     la convention, et elle ne consomme plus de colonne. -->
+                <nav
+                    :aria-label="t('landing.footer.legal')"
+                    class="flex flex-wrap items-center gap-x-6 gap-y-2 pt-8 border-t border-gray-200 text-sm"
+                >
+                    <Link
+                        :href="localizedRoute('legal.mentions')"
+                        class="text-slate-500 hover:text-slate-900 transition-colors"
+                        >{{ t("landing.footer.legal_notice") }}</Link
+                    >
+                    <Link
+                        :href="localizedRoute('legal.privacy')"
+                        class="text-slate-500 hover:text-slate-900 transition-colors"
+                        >{{ t("landing.footer.privacy") }}</Link
+                    >
+                    <Link
+                        :href="localizedRoute('legal.terms')"
+                        class="text-slate-500 hover:text-slate-900 transition-colors"
+                        >{{ t("landing.footer.terms") }}</Link
+                    >
+                    <Link
+                        :href="localizedRoute('legal.cookies')"
+                        class="text-slate-500 hover:text-slate-900 transition-colors"
+                        >{{ t("landing.footer.cookies") }}</Link
+                    >
+                    <!-- Lien HTML ordinaire, et non un Link
+                        Inertia : le DPA est la seule page légale
+                        rendue par une vue Blade, parce qu'elle
+                        doit rester imprimable hors application.
+                        Un Link Inertia attend une réponse Inertia
+                        en retour ; il recevait du HTML, ne savait
+                        qu'en faire, et le clic restait sans effet. -->
+                    <a
+                        :href="localizedRoute('legal.dpa')"
+                        class="text-slate-500 hover:text-slate-900 transition-colors"
+                        >{{ t("landing.footer.dpa") }}</a
+                    >
+                </nav>
                 <div
-                    class="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4"
+                    class="pt-6 flex flex-col md:flex-row items-center justify-between gap-4"
                 >
                     <div class="flex items-center gap-2 text-sm text-slate-600">
                         <span

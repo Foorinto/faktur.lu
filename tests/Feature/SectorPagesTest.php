@@ -78,7 +78,10 @@ class SectorPagesTest extends TestCase
 
         $this->assertNotEmpty($trouve, 'La liste du pied de page est introuvable dans MarketingLayout.');
 
-        preg_match_all("/'([a-z]+)'/", $trouve[1], $liens);
+        // Les deux styles de guillemets : prettier normalise le fichier en
+        // guillemets doubles, et une reformulation automatique ne doit pas
+        // faire dire au test que plus aucune page n'est reliée.
+        preg_match_all('/[\'"]([a-z]+)[\'"]/', $trouve[1], $liens);
 
         $manquants = array_diff(SectorPageController::pageSlugs(), $liens[1]);
 
@@ -93,7 +96,10 @@ class SectorPagesTest extends TestCase
     {
         $layout = file_get_contents(resource_path('js/Layouts/MarketingLayout.vue'));
         preg_match("/const metiersPublies = \[(.*?)\];/s", $layout, $trouve);
-        preg_match_all("/'([a-z]+)'/", $trouve[1], $liens);
+        // Les deux styles de guillemets : prettier normalise le fichier en
+        // guillemets doubles, et une reformulation automatique ne doit pas
+        // faire dire au test que plus aucune page n'est reliée.
+        preg_match_all('/[\'"]([a-z]+)[\'"]/', $trouve[1], $liens);
 
         $fantomes = array_diff($liens[1], SectorPageController::pageSlugs());
 
