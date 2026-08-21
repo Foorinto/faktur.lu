@@ -1792,7 +1792,7 @@ return [
                 // Cluster B - Vergleiche & Preise
                 'meilleure_solution' => [
                     'question' => 'Welches ist die beste Rechnungssoftware für KMU in Luxemburg?',
-                    'answer' => 'Faktur.lu ist eine Rechnungsplattform für Einzelunternehmer und KMU in Luxemburg. Im Gegensatz zu generischen internationalen Lösungen ist faktur.lu speziell für den luxemburgischen Kontext konzipiert: native FAIA-Konformität, vorkonfigurierte MwSt-Sätze, Peppol-Integration über lokalen Access Point, Unterstützung in 5 Sprachen (FR, DE, EN, LB, PT), dediziertes Treuhänderportal und DSGVO-Konformität mit europäischem Hosting. 14 Tage kostenlos testen, ohne Kreditkarte.',
+                    'answer' => 'Faktur.lu ist eine Rechnungsplattform für Einzelunternehmer und KMU in Luxemburg. Im Gegensatz zu generischen internationalen Lösungen ist faktur.lu speziell für den luxemburgischen Kontext konzipiert: native FAIA-Konformität, vorkonfigurierte MwSt-Sätze, Erstellung von Peppol-BIS-3.0-Dateien, Unterstützung in 5 Sprachen (FR, DE, EN, LB, PT), dediziertes Treuhänderportal und DSGVO-Konformität mit europäischem Hosting. 14 Tage kostenlos testen, ohne Kreditkarte.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wie viel kostet eine Rechnungssoftware in Luxemburg?',
@@ -1912,7 +1912,7 @@ return [
             'items' => [
                 'b2g' => ['title' => 'Konformes Luxemburger B2G', 'description' => 'Pflicht-E-Rechnung fuer den luxemburgischen oeffentlichen Sektor.'],
                 'ubl' => ['title' => 'UBL 2.1 Format', 'description' => 'Automatische Rechnungserstellung im UBL 2.1 Format.'],
-                'access_point' => ['title' => 'Zertifizierter Access Point', 'description' => 'Ihre Rechnungen werden im zertifizierten Peppol-Format erstellt, bereit fuer die Uebertragung ueber einen Access Point (in Kuerze).'],
+                'access_point' => ['title' => 'Zertifiziertes Peppol-Format', 'description' => 'Ihre Rechnungen werden im zertifizierten Peppol-Format erstellt, bereit fuer die Uebertragung ueber einen Access Point (in Kuerze).'],
                 'belgium' => ['title' => 'Europaeisches Peppol-Netzwerk', 'description' => 'Ihre Rechnungen koennen ueber das europaeische Peppol-Netzwerk Ihre Kunden in der gesamten EU erreichen.'],
                 'facturx' => ['title' => 'Factur-X / ZUGFeRD Export', 'description' => 'Hybrides PDF+XML-Format als Export fuer Ihren B2B-Austausch mit europaeischen Partnern.'],
                 'tracking' => ['title' => 'Uebertragungsverfolgung (in Kuerze)', 'description' => 'Sobald die automatische Uebertragung verfuegbar ist, verfolgen Sie den Status Ihrer Peppol-Rechnungen in Echtzeit.'],
@@ -2316,7 +2316,7 @@ return [
             'partial' => 'Teilweise',
             'disclaimer' => 'Vergleich basierend auf öffentlichen Funktionen zum Zeitpunkt der Erstellung. Generische Lösungen bezeichnet internationale Tools, die nicht auf Luxemburg spezialisiert sind.',
             'faia' => 'Native FAIA-2.01-konforme Ausfuhr',
-            'peppol' => 'Peppol BIS 3.0 über lokalen Access Point',
+            'peppol' => 'Erstellung von Peppol-BIS-3.0-Dateien',
             'languages' => '5 Sprachen: FR, DE, EN, LB, PT',
             'local_support' => 'Support auf Französisch und Deutsch in Luxemburg',
             'fiduciary_portal' => 'Dediziertes Portal für Treuhänder',
@@ -2327,7 +2327,7 @@ return [
         'story' => [
             'title' => 'Die Geschichte von faktur.lu',
             'paragraph_1' => 'Faktur.lu entstand aus einer einfachen Feststellung: Keine in Luxemburg verfügbare Rechnungslösung kombinierte gleichzeitig native FAIA-Konformität, Unterstützung der 5 Landessprachen und einen für Selbstständige erschwinglichen Preis. Die internationalen Tools waren teuer, schlecht übersetzt und ignorierten die luxemburgischen Steuerbesonderheiten.',
-            'paragraph_2' => '2026 haben wir faktur.lu eingeführt, um diese Lücke zu schließen. Eine Plattform, die aus Luxemburg für Luxemburg konzipiert wurde: MwSt-Engine vorkonfiguriert mit den Sätzen 17/14/8/3%, FAIA-Export validiert gegen die AED-Spezifikation, Peppol-Integration über lokalen Access Point und ein Buchhalterportal, das für die Treuhänder des Platzes konzipiert wurde.',
+            'paragraph_2' => '2026 haben wir faktur.lu eingeführt, um diese Lücke zu schließen. Eine Plattform, die aus Luxemburg für Luxemburg konzipiert wurde: MwSt-Engine vorkonfiguriert mit den Sätzen 17/14/8/3%, FAIA-Export validiert gegen die AED-Spezifikation, Erstellung von Peppol-BIS-3.0-Dateien und ein Buchhalterportal, das für die Treuhänder des Platzes konzipiert wurde.',
             'paragraph_3' => 'Heute nutzen Hunderte luxemburgischer Unternehmen - Selbstständige, KMU, Treuhänder - faktur.lu täglich. Unser Engagement bleibt das gleiche: die Referenz-Rechnungslösung in Luxemburg zu sein, dabei zugänglich, konform und nahe an den lokalen Unternehmern.',
         ],
         'cta' => [

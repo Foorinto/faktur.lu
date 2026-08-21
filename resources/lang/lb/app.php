@@ -1792,7 +1792,7 @@ return [
                 // Cluster B - Verglächer & Präisser
                 'meilleure_solution' => [
                     'question' => 'Wat ass déi bescht Fakturatiounsléisung fir PME zu Lëtzebuerg?',
-                    'answer' => 'Faktur.lu ass eng Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg. Am Géigesaz zu generesche internationalen Léisunge gouf faktur.lu speziell fir de Lëtzebuerger Kontext entwéckelt: native FAIA-Konformitéit, virkonfiguréiert TVA-Sätz, Peppol-Integratioun iwwer lokalen Access Point, Ënnerstëtzung an 5 Sproochen (FR, DE, EN, LB, PT), dediéiert Portal fir Fiduciaire, an RGPD-Konformitéit mat europäesche Hosting. 14 Deeg gratis testen, ouni Kreditkaart.',
+                    'answer' => 'Faktur.lu ass eng Fakturatiounsplattform fir Eenzelentreprisen a PME zu Lëtzebuerg. Am Géigesaz zu generesche internationalen Léisunge gouf faktur.lu speziell fir de Lëtzebuerger Kontext entwéckelt: native FAIA-Konformitéit, virkonfiguréiert TVA-Sätz, Generéierung vu Peppol-BIS-3.0-Fichieren, Ënnerstëtzung an 5 Sproochen (FR, DE, EN, LB, PT), dediéiert Portal fir Fiduciaire, an RGPD-Konformitéit mat europäesche Hosting. 14 Deeg gratis testen, ouni Kreditkaart.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'Wat kascht e Fakturatiounsprogramm zu Lëtzebuerg?',
@@ -1912,7 +1912,7 @@ return [
             'items' => [
                 'b2g' => ['title' => 'Konformt Letzebuerger B2G', 'description' => 'Pflicht-E-Rechnung fir de letzebuergeschen aeffentleche Secteur.'],
                 'ubl' => ['title' => 'UBL 2.1 Format', 'description' => 'Automatesch Rechnungserstellung am UBL 2.1 Format.'],
-                'access_point' => ['title' => 'Zertifiéierten Access Point', 'description' => 'Är Rechnungen ginn am zertifiéierten Peppol-Format generéiert, prett fir d\'Iwwerdroung iwwer en Access Point (geschwënn).'],
+                'access_point' => ['title' => 'Zertifiéiert Peppol-Format', 'description' => 'Är Rechnungen ginn am zertifiéierten Peppol-Format generéiert, prett fir d\'Iwwerdroung iwwer en Access Point (geschwënn).'],
                 'belgium' => ['title' => 'Europaesch Peppol-Netzwierk', 'description' => 'Aer Rechnunge kennen iwwert dat europaesch Peppol-Netzwierk Aer Cliente an der ganzer EU erreechen.'],
                 'facturx' => ['title' => 'Factur-X / ZUGFeRD Export', 'description' => 'Hybridt PDF+XML-Format als Export fir Aeren B2B-Austausch mat europaesche Partner.'],
                 'tracking' => ['title' => 'Iwwertragungsverfolgung (geschwënn)', 'description' => 'Soubal déi automatesch Iwwerdroung disponibel ass, verfolgt de Statut vun Aere Peppol-Rechnungen an Echtzait.'],
@@ -2316,7 +2316,7 @@ return [
             'partial' => 'Deelweis',
             'disclaimer' => 'Verglach baséierend op den ëffentleche Funktiounen zum Zäitpunkt vum Schreiwen. Generesch Léisungen bezeechnen international Tools, déi net op Lëtzebuerg spezialiséiert sinn.',
             'faia' => 'Native FAIA-2.01-konform Export',
-            'peppol' => 'Peppol BIS 3.0 iwwer lokalen Access Point',
+            'peppol' => 'Generéierung vu Peppol-BIS-3.0-Fichieren',
             'languages' => '5 Sproochen: FR, DE, EN, LB, PT',
             'local_support' => 'Support op Franséisch an Däitsch zu Lëtzebuerg',
             'fiduciary_portal' => 'Dediéiert Portal fir Fiduciaire',
@@ -2327,7 +2327,7 @@ return [
         'story' => [
             'title' => 'D\'Geschicht vu faktur.lu',
             'paragraph_1' => 'Faktur.lu ass aus enger einfacher Beobachtung entstanen: Keng Fakturatiounsléisung, déi zu Lëtzebuerg verfügbar war, kombinéiert gläichzäiteg native FAIA-Konformitéit, Ënnerstëtzung vun de 5 Landessproochen, an e fir Selbstänneg accessibele Präis. Déi international Tools waren deier, schlecht iwwersat an hunn d\'Lëtzebuerger Steierbesonderheeten ignoréiert.',
-            'paragraph_2' => '2026 hu mir faktur.lu agefouert, fir dës Lück ze schléissen. Eng Plattform, konzipéiert vu Lëtzebuerg aus, fir Lëtzebuerg: TVA-Engine virkonfiguréiert mat de Sätz 17/14/8/3%, FAIA-Export validéiert géint d\'AED-Spezifikatioun, Peppol-Integratioun iwwer lokalen Access Point, an e Comptablë-Portal entworf fir d\'Fiduciaire vun der Plaz.',
+            'paragraph_2' => '2026 hu mir faktur.lu agefouert, fir dës Lück ze schléissen. Eng Plattform, konzipéiert vu Lëtzebuerg aus, fir Lëtzebuerg: TVA-Engine virkonfiguréiert mat de Sätz 17/14/8/3%, FAIA-Export validéiert géint d\'AED-Spezifikatioun, Generéierung vu Peppol-BIS-3.0-Fichieren, an e Comptablë-Portal entworf fir d\'Fiduciaire vun der Plaz.',
             'paragraph_3' => 'Haut benotzen Honnerten Lëtzebuerger Entreprisen - Selbstänneg, PME, Fiduciaire - faktur.lu deeglech. Eis Engagement bleift datselwecht: déi Referenz-Fakturatiounsléisung zu Lëtzebuerg ze sinn, dobäi accessibel, konform an no bei de lokalen Entrepreneuren.',
         ],
         'cta' => [

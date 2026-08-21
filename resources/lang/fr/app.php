@@ -1925,7 +1925,7 @@ return [
                 // Cluster B - Comparaisons & tarifs
                 'meilleure_solution' => [
                     'question' => 'Quelle est la meilleure solution de facturation pour PME au Luxembourg ?',
-                    'answer' => 'Faktur.lu est une plateforme de facturation pensée pour les entreprises individuelles et PME au Luxembourg. À la différence des solutions internationales génériques, faktur.lu est conçu spécifiquement pour le contexte luxembourgeois : conformité FAIA native, taux de TVA pré-configurés, intégration Peppol via Access Point local, support en 5 langues (FR, DE, EN, LB, PT), portail dédié pour fiduciaires, et conformité RGPD avec hébergement européen. Essai gratuit 14 jours, sans carte bancaire.',
+                    'answer' => 'Faktur.lu est une plateforme de facturation pensée pour les entreprises individuelles et PME au Luxembourg. À la différence des solutions internationales génériques, faktur.lu est conçu spécifiquement pour le contexte luxembourgeois : conformité FAIA native, taux de TVA pré-configurés, génération au format Peppol BIS 3.0, support en 5 langues (FR, DE, EN, LB, PT), portail dédié pour fiduciaires, et conformité RGPD avec hébergement européen. Essai gratuit 14 jours, sans carte bancaire.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'Combien coûte un logiciel de facturation au Luxembourg ?',
@@ -2109,7 +2109,7 @@ return [
             'title' => 'Facturation Peppol',
             'short_description' => 'Facturation electronique structuree pour le secteur public et les entreprises.',
             'page_title' => 'Peppol Luxembourg | Facturation electronique B2G | faktur.lu',
-            'meta_description' => 'Facturation electronique Peppol pour les marches publics luxembourgeois. Generation B2G conforme, format UBL 2.1, Access Point certifie. Integration native.',
+            'meta_description' => 'Facturation electronique Peppol pour les marches publics luxembourgeois. Generation B2G conforme, format UBL 2.1 et Peppol BIS 3.0 certifie. Transmission via Access Point a venir.',
             'hero_description' => 'Generez vos factures au format Peppol BIS 3.0 / UBL 2.1, conformes au mandat B2G luxembourgeois. La transmission automatique via Access Point certifie arrive avec l\'obligation B2B.',
             'details_title' => 'Facturation electronique Peppol integree',
             'items' => [
@@ -2122,7 +2122,7 @@ return [
                     'description' => 'Generation automatique de factures au format UBL 2.1, le standard international pour la facturation electronique.',
                 ],
                 'access_point' => [
-                    'title' => 'Access Point certifie',
+                    'title' => 'Format Peppol certifie',
                     'description' => 'Vos factures sont generees au format Peppol certifie, pretes pour la transmission via un Access Point (a venir).',
                 ],
                 'belgium' => [
@@ -2606,7 +2606,7 @@ return [
             'partial' => 'Partiel',
             'disclaimer' => 'Comparaison établie sur la base des fonctionnalités publiques au moment de la rédaction. Les solutions génériques désignent les outils internationaux non spécialisés sur le Luxembourg.',
             'faia' => 'Export FAIA 2.01 conforme natif',
-            'peppol' => 'Peppol BIS 3.0 via Access Point local',
+            'peppol' => 'Génération au format Peppol BIS 3.0',
             'languages' => '5 langues : FR, DE, EN, LB, PT',
             'local_support' => 'Support en français et allemand au Luxembourg',
             'fiduciary_portal' => 'Portail dédié pour fiduciaires',
@@ -2617,7 +2617,7 @@ return [
         'story' => [
             'title' => 'L\'histoire de faktur.lu',
             'paragraph_1' => 'Faktur.lu est né d\'un constat simple : aucune solution de facturation disponible au Luxembourg ne combinait à la fois la conformité FAIA native, le support des 5 langues du pays, et un tarif accessible aux indépendants. Les outils internationaux étaient chers, mal traduits, et ignoraient les spécificités fiscales luxembourgeoises.',
-            'paragraph_2' => 'En 2026, nous avons lancé faktur.lu pour combler cette lacune. Une plateforme conçue depuis le Luxembourg, pour le Luxembourg : moteur de TVA pré-configuré avec les taux 17/14/8/3%, export FAIA validé contre la spec AED, intégration Peppol via Access Point local, et un portail comptable pensé pour les fiduciaires de la place.',
+            'paragraph_2' => 'En 2026, nous avons lancé faktur.lu pour combler cette lacune. Une plateforme conçue depuis le Luxembourg, pour le Luxembourg : moteur de TVA pré-configuré avec les taux 17/14/8/3%, export FAIA validé contre la spec AED, génération au format Peppol BIS 3.0, et un portail comptable pensé pour les fiduciaires de la place.',
             'paragraph_3' => 'Aujourd\'hui, des centaines d\'entreprises luxembourgeoises - indépendants, PME, fiduciaires - utilisent faktur.lu au quotidien. Notre engagement reste le même : être la solution de facturation de référence au Luxembourg, en restant accessible, conforme et à l\'écoute des entrepreneurs locaux.',
         ],
         'cta' => [
@@ -3008,10 +3008,10 @@ return [
             'competitor_note' => 'Solution internationale généraliste',
             'comparison_title' => 'Le comparatif, critère par critère',
             'comparison_subtitle' => 'Ce qui compte vraiment quand on facture au Luxembourg.',
-            'table_disclaimer' => 'Comparaison indicative établie sur des critères de conformité luxembourgeoise. Les fonctionnalités des autres solutions varient selon leur offre et leur pays ; vérifiez toujours auprès de l\'éditeur.',
+            'table_disclaimer' => 'Comparaison établie en août 2026, sur des critères de conformité luxembourgeoise. Les fonctionnalités des autres solutions varient selon leur offre et leur pays ; vérifiez toujours auprès de l\'éditeur.',
             'criteria' => [
                 ['label' => 'Export FAIA 2.01 (contrôle AED)', 'faktur' => 'Natif et conforme à la spécification de l\'AED', 'competitor' => 'Non spécifique au Luxembourg ; à vérifier selon l\'offre'],
-                ['label' => 'Peppol / e-facturation B2G', 'faktur' => 'Access Point, format conforme au mandat luxembourgeois', 'competitor' => 'Support variable selon le pays'],
+                ['label' => 'Peppol / e-facturation B2G', 'faktur' => 'Format Peppol BIS 3.0, conforme au mandat B2G luxembourgeois', 'competitor' => 'Support variable selon le pays'],
                 ['label' => 'Les 5 langues du Luxembourg', 'faktur' => 'FR, DE, EN, LB et PT (interface et factures)', 'competitor' => 'Généralement FR/EN, rarement LB/PT'],
                 ['label' => 'Conçu pour le droit luxembourgeois', 'faktur' => 'Mentions art. 63, taux 17/14/8/3 %, numérotation', 'competitor' => 'Solution internationale, non spécialisée LU'],
                 ['label' => 'Support en français', 'faktur' => 'Oui, support local', 'competitor' => 'Selon l\'offre et la région'],

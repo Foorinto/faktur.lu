@@ -1865,7 +1865,7 @@ return [
                 // Cluster B - Comparisons & pricing
                 'meilleure_solution' => [
                     'question' => 'What is the best invoicing software for SMEs in Luxembourg?',
-                    'answer' => 'Faktur.lu is an invoicing platform built for sole traders and SMEs in Luxembourg. Unlike generic international solutions, faktur.lu is built specifically for the Luxembourg context: native FAIA compliance, pre-configured VAT rates, Peppol integration via local Access Point, support in 5 languages (FR, DE, EN, LB, PT), dedicated portal for accountants, and GDPR compliance with European hosting. 14-day free trial, no credit card required.',
+                    'answer' => 'Faktur.lu is an invoicing platform built for sole traders and SMEs in Luxembourg. Unlike generic international solutions, faktur.lu is built specifically for the Luxembourg context: native FAIA compliance, pre-configured VAT rates, Peppol BIS 3.0 file generation, support in 5 languages (FR, DE, EN, LB, PT), dedicated portal for accountants, and GDPR compliance with European hosting. 14-day free trial, no credit card required.',
                 ],
                 'cout_logiciel' => [
                     'question' => 'How much does invoicing software cost in Luxembourg?',
@@ -1979,13 +1979,13 @@ return [
             'title' => 'Peppol e-invoicing',
             'short_description' => 'Structured electronic invoicing for the public sector and businesses.',
             'page_title' => 'Peppol Luxembourg | B2G Electronic Invoicing | faktur.lu',
-            'meta_description' => 'Peppol electronic invoicing for Luxembourg public procurement. Compliant B2G generation, UBL 2.1 format, certified Access Point.',
+            'meta_description' => 'Peppol electronic invoicing for Luxembourg public procurement. Compliant B2G generation, certified UBL 2.1 and Peppol BIS 3.0 format. Access Point transmission coming.',
             'hero_description' => 'Generate your invoices in the Peppol BIS 3.0 / UBL 2.1 format, compliant with the Luxembourg B2G mandate. Automatic transmission via a certified Access Point is coming with the B2B obligation.',
             'details_title' => 'Integrated Peppol e-invoicing',
             'items' => [
                 'b2g' => ['title' => 'Compliant Luxembourg B2G', 'description' => 'Mandatory electronic invoicing for the Luxembourg public sector via Peppol.'],
                 'ubl' => ['title' => 'UBL 2.1 format', 'description' => 'Automatic invoice generation in UBL 2.1 format, the international standard.'],
-                'access_point' => ['title' => 'Certified Access Point', 'description' => 'Your invoices are generated in the certified Peppol format, ready for transmission via an Access Point (coming soon).'],
+                'access_point' => ['title' => 'Certified Peppol format', 'description' => 'Your invoices are generated in the certified Peppol format, ready for transmission via an Access Point (coming soon).'],
                 'belgium' => ['title' => 'European Peppol network', 'description' => 'Your invoices can transit through the European Peppol network to reach your clients across the EU.'],
                 'facturx' => ['title' => 'Factur-X / ZUGFeRD export', 'description' => 'Hybrid PDF+XML format available as export for your B2B exchanges with European partners.'],
                 'tracking' => ['title' => 'Transmission tracking (soon)', 'description' => 'Once automatic transmission is available, track your Peppol invoice status in real time.'],
@@ -2389,7 +2389,7 @@ return [
             'partial' => 'Partial',
             'disclaimer' => 'Comparison based on public features at the time of writing. Generic solutions refers to international tools not specialised in Luxembourg.',
             'faia' => 'Native compliant FAIA 2.01 export',
-            'peppol' => 'Peppol BIS 3.0 via local Access Point',
+            'peppol' => 'Peppol BIS 3.0 file generation',
             'languages' => '5 languages: FR, DE, EN, LB, PT',
             'local_support' => 'Support in French and German in Luxembourg',
             'fiduciary_portal' => 'Dedicated portal for fiduciaries',
@@ -2400,7 +2400,7 @@ return [
         'story' => [
             'title' => 'The story of faktur.lu',
             'paragraph_1' => 'Faktur.lu was born from a simple observation: no invoicing solution available in Luxembourg combined native FAIA compliance, support for the country\'s 5 languages, and a price accessible to freelancers. International tools were expensive, poorly translated, and ignored Luxembourg tax specifics.',
-            'paragraph_2' => 'In 2026, we launched faktur.lu to fill this gap. A platform designed from Luxembourg, for Luxembourg: VAT engine pre-configured with the 17/14/8/3% rates, FAIA export validated against the AED spec, Peppol integration via local Access Point, and an accountant portal designed for local fiduciaries.',
+            'paragraph_2' => 'In 2026, we launched faktur.lu to fill this gap. A platform designed from Luxembourg, for Luxembourg: VAT engine pre-configured with the 17/14/8/3% rates, FAIA export validated against the AED spec, Peppol BIS 3.0 file generation, and an accountant portal designed for local fiduciaries.',
             'paragraph_3' => 'Today, hundreds of Luxembourg businesses - freelancers, SMEs, fiduciaries - use faktur.lu daily. Our commitment remains the same: to be the reference invoicing solution in Luxembourg, while staying accessible, compliant and close to local entrepreneurs.',
         ],
         'cta' => [
