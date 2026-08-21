@@ -93,6 +93,37 @@ class InertiaVersionMatchesRouteGroupTest extends TestCase
     }
 
     /**
+     * Le portail comptable, authentifié sur un autre garde.
+     *
+     * `auth()->check()` interroge le garde par défaut : un comptable connecté y
+     * passe pour anonyme. Il recevait donc la liste publique, dépourvue des
+     * `accountant.*` que son gabarit appelle — et, le groupe ne changeant pas
+     * entre sa page de connexion et son tableau de bord, la version restait
+     * identique : aucun rechargement ne venait le sauver.
+     */
+    public function test_an_accountant_is_not_treated_as_anonymous(): void
+    {
+        $anonyme = $this->version();
+
+        // Créé à la main : le modèle Accountant n'a pas de fabrique.
+        $comptable = \App\Models\Accountant::create([
+            'email' => 'comptable-test@exemple.lu',
+            'name' => 'Cabinet de test',
+            'password' => bcrypt('peu-importe'),
+            'email_verified_at' => now(),
+        ]);
+        \Illuminate\Support\Facades\Auth::guard('accountant')->login($comptable);
+
+        $this->assertNull(HandleInertiaRequests::ziggyGroup(),
+            'Un comptable connecté doit recevoir le groupe par défaut, pas la liste publique.'
+        );
+
+        $this->assertNotSame($anonyme, $this->version(),
+            'Sans écart de version, le portail comptable reste sur une page blanche après connexion.'
+        );
+    }
+
+    /**
      * Le comportement observable : une visite Inertia portant la version d'un
      * anonyme reçoit un 409, que le client transforme en rechargement complet.
      */

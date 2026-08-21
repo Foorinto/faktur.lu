@@ -64,6 +64,20 @@ class HandleInertiaRequests extends Middleware
      */
     public static function ziggyGroup(): ?string
     {
+        // Le comptable est authentifié sur un AUTRE garde. `auth()->check()`
+        // interroge le garde par défaut et le tient pour anonyme : son portail
+        // recevait donc la liste publique, dépourvue des routes `accountant.*`
+        // que son gabarit appelle. Et comme le groupe ne changeait pas entre sa
+        // page de connexion et son tableau de bord, la version restait
+        // identique : le rechargement salvateur ne se déclenchait pas.
+        //
+        // Il reçoit le groupe par défaut, comme tout utilisateur connecté. Le
+        // surcoût de charge utile ne concerne pas les pages publiques, seules
+        // visées par l'allègement.
+        if (auth()->guard('accountant')->check()) {
+            return null;
+        }
+
         if (! auth()->check()) {
             return 'public';
         }
