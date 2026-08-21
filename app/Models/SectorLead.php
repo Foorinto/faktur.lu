@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\Model;
  * Quelques réponses écrites de la main d'un infirmier valent mieux qu'une
  * intuition.
  *
+ * La colonne `email` reste nullable en base bien que le formulaire l'exige : une
+ * contrainte de validation se change sans migration, et rien ne dit qu'un futur
+ * canal de recueil aura la même règle.
+ *
  * ⚠️ Aucun scope de cloisonnement : ces enregistrements n'appartiennent à
  * personne — ils sont déposés par des visiteurs anonymes et lus uniquement
  * depuis l'administration.

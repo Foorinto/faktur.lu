@@ -42,7 +42,28 @@ const arguments_ = ['point_1', 'point_2', 'point_3'];
                 {{ t(cle('intro')) }}
             </p>
 
-            <ul class="mt-8 space-y-4">
+            <!-- Ce qui n'existe pas encore, dit haut et tôt.
+                 Placé juste sous l'accroche plutôt qu'en bas de page : une
+                 page métier laisse espérer un outil taillé pour le métier, et
+                 laisser lire trois arguments avant de détromper serait une
+                 façon de tromper quand même. -->
+            <p class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
+                {{ t(cle('honesty')) }}
+            </p>
+
+            <!-- Le formulaire est la raison d'être de la page : il vient donc
+                 avant les arguments, pas après. Un visiteur qui repart sans
+                 avoir lu la liste des fonctionnalités n'a rien coûté ; un
+                 visiteur qui repart sans avoir répondu, si. -->
+            <div class="mt-8">
+                <SectorInterestForm :sector="sector" />
+            </div>
+
+            <h2 class="mt-12 text-xl font-semibold text-slate-900 dark:text-white">
+                {{ t('sector_pages.what_exists') }}
+            </h2>
+
+            <ul class="mt-4 space-y-4">
                 <li v-for="point in arguments_" :key="point" class="flex gap-3">
                     <svg class="mt-0.5 h-5 w-5 shrink-0 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -50,18 +71,6 @@ const arguments_ = ['point_1', 'point_2', 'point_3'];
                     <span class="text-slate-700 dark:text-slate-300">{{ t(cle(point)) }}</span>
                 </li>
             </ul>
-
-            <!-- Dire ce qui n'existe pas encore.
-                 Une page métier laisse espérer un outil taillé pour le métier.
-                 Le laisser croire ferait venir des gens déçus, et fausserait la
-                 mesure qu'on cherche précisément à obtenir. -->
-            <p class="mt-8 rounded-2xl bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-900/20 dark:text-amber-200">
-                {{ t(cle('honesty')) }}
-            </p>
-
-            <div class="mt-10">
-                <SectorInterestForm :sector="sector" />
-            </div>
 
             <p class="mt-8 text-sm text-slate-500 dark:text-slate-400">
                 {{ t('sector_pages.cta_generic') }}

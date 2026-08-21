@@ -31,9 +31,21 @@ class SectorPageController extends Controller
      *
      * @var array<string, array{sector: string}>
      */
+    /**
+     * ⚠️ Les slugs doivent tenir en UN SEUL MOT, sans tiret.
+     *
+     * L'URL est `logiciel-facturation-{metier}-luxembourg`, et Symfony compile
+     * le paramètre en `[^/]++` — un quantificateur POSSESSIF, qui ne revient
+     * jamais en arrière. Un slug contenant un tiret avale donc le `-luxembourg`
+     * final, et la route cesse de correspondre. « agence-immobiliere » a échoué
+     * pour cette seule raison, quand « artisan » passait.
+     */
     protected array $pages = [
         'infirmier' => ['sector' => 'health'],
         'artisan' => ['sector' => 'construction'],
+        'immobilier' => ['sector' => 'real_estate'],
+        'commerce' => ['sector' => 'retail'],
+        'restaurant' => ['sector' => 'hospitality'],
     ];
 
     /**

@@ -22,22 +22,22 @@ class SectorLeadController extends Controller
     {
         $donnees = $request->validate([
             'sector' => ['required', 'string', Rule::in(User::BUSINESS_SECTORS)],
-            // L'email est facultatif : quelqu'un peut décrire sa situation sans
-            // vouloir être recontacté, et cette réponse compte autant.
-            'email' => ['nullable', 'email', 'max:255'],
+            // L'email est OBLIGATOIRE.
+            //
+            // Il était facultatif au motif qu'une réponse anonyme comptait
+            // autant pour la mesure. C'était faux : le volume se mesure déjà
+            // par les impressions de recherche. Ce que ce formulaire apporte de
+            // spécifique, c'est un contact dans un secteur où nous n'en avons
+            // aucun — et de quoi prévenir la personne le jour où le pack
+            // qu'elle a réclamé existe.
+            'email' => ['required', 'email', 'max:255'],
             'message' => ['nullable', 'string', 'max:2000'],
             'wants_newsletter' => ['boolean'],
         ]);
 
-        // Un formulaire entièrement vide n'apprend rien et n'a pas à encombrer
-        // la table : c'est un clic distrait, pas une réponse.
-        if (blank($donnees['email'] ?? null) && blank($donnees['message'] ?? null)) {
-            return back()->with('error', __('app.sector_lead.empty'));
-        }
-
         SectorLead::create([
             'sector' => $donnees['sector'],
-            'email' => $donnees['email'] ?? null,
+            'email' => $donnees['email'],
             'message' => $donnees['message'] ?? null,
             'locale' => app()->getLocale(),
             'wants_newsletter' => (bool) ($donnees['wants_newsletter'] ?? false),

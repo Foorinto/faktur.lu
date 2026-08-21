@@ -50,11 +50,14 @@ const submit = () => {
 </script>
 
 <template>
-    <section class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-surface-card sm:p-8">
-        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
+    <!-- Bordure et fond appuyés : ce bloc est la raison d'être de la page, pas
+         un encadré de bas de page. Sur la version précédente il se confondait
+         avec le reste du texte. -->
+    <section class="rounded-2xl border-2 border-primary-200 bg-primary-50/50 p-6 dark:border-primary-800 dark:bg-primary-900/10 sm:p-8">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
             {{ t('sector_lead.title') }}
         </h2>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+        <p class="mt-2 text-base text-slate-600 dark:text-slate-300">
             {{ t('sector_lead.intro') }}
         </p>
 

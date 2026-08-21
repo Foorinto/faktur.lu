@@ -44,6 +44,22 @@ class SectorPagesTest extends TestCase
         }
     }
 
+    /**
+     * Un slug à tiret casse la route sans que rien ne l'explique.
+     *
+     * L'URL est `logiciel-facturation-{metier}-luxembourg`, et Symfony compile
+     * le paramètre en `[^/]++`, possessif : il ne revient jamais en arrière. Un
+     * slug contenant un tiret avale donc le `-luxembourg` final. « artisan »
+     * passait, « agence-immobiliere » renvoyait 404.
+     */
+    public function test_no_published_slug_contains_a_hyphen(): void
+    {
+        foreach (SectorPageController::pageSlugs() as $slug) {
+            $this->assertStringNotContainsString('-', $slug,
+                "Le slug « {$slug} » contient un tiret : la route ne correspondra plus.");
+        }
+    }
+
     public function test_an_unknown_trade_is_not_found(): void
     {
         $this->get('/fr/logiciel-facturation-astrologue-luxembourg')->assertNotFound();
@@ -76,21 +92,19 @@ class SectorPagesTest extends TestCase
         $this->assertFalse($lead->wants_newsletter, "Le consentement newsletter doit être explicite.");
     }
 
-    /** Une réponse sans email compte autant : elle dit ce qui prend du temps. */
-    public function test_an_answer_without_an_email_is_kept(): void
+    /**
+     * L'email est exigé.
+     *
+     * Il était facultatif au motif qu'une réponse anonyme comptait autant pour
+     * la mesure. C'était faux : le volume se mesure déjà par les impressions de
+     * recherche. Ce que ce formulaire apporte de spécifique, c'est un contact
+     * dans un secteur où nous n'en avons aucun, et de quoi prévenir la personne
+     * le jour où le pack qu'elle a réclamé existe.
+     */
+    public function test_an_answer_without_an_email_is_refused(): void
     {
         $this->post(route('sector-lead.store'), $this->reponse(['email' => null]))
-            ->assertRedirect();
-
-        $this->assertSame(1, SectorLead::count());
-        $this->assertNull(SectorLead::first()->email);
-    }
-
-    /** Un formulaire entièrement vide est un clic distrait, pas une réponse. */
-    public function test_an_empty_form_records_nothing(): void
-    {
-        $this->post(route('sector-lead.store'), $this->reponse(['email' => null, 'message' => null]))
-            ->assertRedirect();
+            ->assertSessionHasErrors('email');
 
         $this->assertSame(0, SectorLead::count());
     }
