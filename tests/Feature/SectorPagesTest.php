@@ -190,4 +190,104 @@ class SectorPagesTest extends TestCase
             );
         }
     }
+
+    /**
+     * Le but de la page doit se lire avant le formulaire.
+     *
+     * Sans ce cadrage, la page s'ouvrait comme une page produit — un titre qui
+     * promet un logiciel, puis un formulaire sans explication — et le visiteur
+     * devait deviner qu'on lui demandait son avis. Une page qui ne dit pas
+     * pourquoi elle pose une question n'obtient pas de réponse.
+     *
+     * Le contrôle porte sur le gabarit et non sur la réponse HTTP : la page est
+     * rendue par Inertia, ses textes arrivent côté client, et le HTML servi ne
+     * contient aucune des phrases qu'on voudrait vérifier.
+     */
+    public function test_each_page_explains_why_it_asks(): void
+    {
+        $gabarit = file_get_contents(resource_path('js/Pages/Sectors/Show.vue'));
+
+        // `sector_pages.purpose` et non `purpose_title` : on cherche le
+        // paragraphe, pas son titre. Les guillemets ne sont pas dans l'ancre,
+        // prettier normalisant le fichier en guillemets doubles.
+        $but = mb_strpos($gabarit, 'sector_pages.purpose"');
+        $formulaire = mb_strpos($gabarit, '<SectorInterestForm');
+
+        $this->assertNotFalse($but, "La page doit dire pourquoi elle existe.");
+        $this->assertNotFalse($formulaire, 'Le formulaire a disparu de la page.');
+
+        $this->assertLessThan($formulaire, $but,
+            'Le but doit être énoncé avant le formulaire, pas après.'
+        );
+
+        // L'argumentaire produit vient après le formulaire : un visiteur qui
+        // repart sans avoir lu la liste des fonctionnalités n'a rien coûté ;
+        // un visiteur qui repart sans avoir répondu, si.
+        $this->assertGreaterThan($formulaire, mb_strpos($gabarit, "sector_pages.what_exists"),
+            "L'argumentaire doit rester après le formulaire."
+        );
+    }
+
+    /**
+     * Chaque métier porte trois particularités qui lui sont propres.
+     *
+     * C'est ce qui distingue cinq pages sectorielles de cinq variantes du même
+     * argumentaire. Un moteur de recherche traite les secondes comme des
+     * doublons, et un lecteur aussi — il n'apprend rien qu'il ne pouvait lire
+     * sur la page d'accueil.
+     */
+    public function test_each_page_carries_content_specific_to_its_trade(): void
+    {
+        $vus = [];
+
+        foreach (SectorPageController::pageSlugs() as $slug) {
+            foreach (['context_1', 'context_2', 'context_3'] as $rang) {
+                $cle = "app.sector_pages.{$slug}.{$rang}";
+
+                $this->assertTrue(
+                    \Illuminate\Support\Facades\Lang::has($cle, 'fr'),
+                    "La page {$slug} doit porter une particularité luxembourgeoise en {$rang}."
+                );
+
+                $texte = trim(__($cle, [], 'fr'));
+
+                $this->assertGreaterThan(80, mb_strlen($texte),
+                    "{$slug}.{$rang} est trop court pour apprendre quoi que ce soit."
+                );
+
+                $this->assertArrayNotHasKey($texte, $vus, sprintf(
+                    'Texte identique entre %s et %s : ce sont alors deux fois la même page.',
+                    $vus[$texte] ?? '?', "{$slug}.{$rang}"
+                ));
+
+                $vus[$texte] = "{$slug}.{$rang}";
+            }
+        }
+    }
+
+    /**
+     * L'accroche nomme le métier, et le nom doit exister.
+     *
+     * `kicker` interpole `:metier` ; sans `kicker_label`, la page afficherait
+     * le marqueur brut au premier écran.
+     */
+    public function test_each_page_names_its_trade_in_the_kicker(): void
+    {
+        foreach (SectorPageController::pageSlugs() as $slug) {
+            $this->assertTrue(
+                \Illuminate\Support\Facades\Lang::has("app.sector_pages.{$slug}.kicker_label", 'fr'),
+                "La page {$slug} doit nommer son métier dans l'accroche."
+            );
+        }
+
+        // `kicker` ne dit rien tout seul : il faut que le gabarit lui passe
+        // le nom du métier, sans quoi « :metier » s'affiche tel quel.
+        $gabarit = file_get_contents(resource_path('js/Pages/Sectors/Show.vue'));
+
+        $this->assertMatchesRegularExpression(
+            '/sector_pages\.kicker[\'"],\s*\{\s*metier:/',
+            $gabarit,
+            "L'accroche doit recevoir le nom du métier en paramètre."
+        );
+    }
 }
