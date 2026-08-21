@@ -60,6 +60,47 @@ class SectorPagesTest extends TestCase
         }
     }
 
+    /**
+     * Chaque page doit être reliée depuis le site, pas seulement déclarée au
+     * sitemap.
+     *
+     * Les cinq pages « alternative à », publiées de la même façon depuis des
+     * mois et jamais reliées à rien, n'ont pas reçu UNE SEULE impression sur la
+     * période mesurée. Google découvre par les liens autant que par les
+     * sitemaps : une page orpheline reste « détectée, actuellement non
+     * indexée », et l'expérience qu'elle devait servir ne mesure alors rien.
+     */
+    public function test_every_page_is_linked_from_the_public_site(): void
+    {
+        $layout = file_get_contents(resource_path('js/Layouts/MarketingLayout.vue'));
+
+        preg_match("/const metiersPublies = \[(.*?)\];/s", $layout, $trouve);
+
+        $this->assertNotEmpty($trouve, 'La liste du pied de page est introuvable dans MarketingLayout.');
+
+        preg_match_all("/'([a-z]+)'/", $trouve[1], $liens);
+
+        $manquants = array_diff(SectorPageController::pageSlugs(), $liens[1]);
+
+        $this->assertSame([], array_values($manquants), sprintf(
+            "Ces pages ne sont reliées depuis nulle part : elles resteront « détectée, non indexée ».\n  - %s\n",
+            implode("\n  - ", $manquants)
+        ));
+    }
+
+    /** Et l'inverse : un lien vers une page qui n'existe plus serait un 404. */
+    public function test_the_footer_links_no_page_that_does_not_exist(): void
+    {
+        $layout = file_get_contents(resource_path('js/Layouts/MarketingLayout.vue'));
+        preg_match("/const metiersPublies = \[(.*?)\];/s", $layout, $trouve);
+        preg_match_all("/'([a-z]+)'/", $trouve[1], $liens);
+
+        $fantomes = array_diff($liens[1], SectorPageController::pageSlugs());
+
+        $this->assertSame([], array_values($fantomes),
+            'Le pied de page renvoie vers une page sectorielle inexistante : '.implode(', ', $fantomes));
+    }
+
     public function test_an_unknown_trade_is_not_found(): void
     {
         $this->get('/fr/logiciel-facturation-astrologue-luxembourg')->assertNotFound();

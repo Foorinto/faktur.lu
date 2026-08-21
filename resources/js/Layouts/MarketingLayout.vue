@@ -8,6 +8,15 @@ import { useLocalizedRoute } from "@/Composables/useLocalizedRoute";
 import { useTranslations } from "@/Composables/useTranslations";
 
 const { localizedRoute, currentLocale, availableLocales } = useLocalizedRoute();
+
+/**
+ * Pages sectorielles publiées, dans l'ordre du pied de page.
+ *
+ * Recopiées ici plutôt que transmises en props : ce layout habille toutes les
+ * pages publiques, et leur faire porter cette liste à chacune coûterait plus
+ * que ce que ça protège. Un test confronte cette liste à celle du contrôleur.
+ */
+const metiersPublies = ['infirmier', 'artisan', 'immobilier', 'commerce', 'restaurant'];
 const { t } = useTranslations();
 
 const mobileMenuOpen = ref(false);
@@ -1359,6 +1368,29 @@ onUnmounted(() => {
                                     :href="localizedRoute('legal.privacy')"
                                     class="text-slate-600 hover:text-slate-900"
                                     >{{ t("landing.footer.gdpr") }}</Link
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Par métier.
+                         Ces pages n'étaient reliées à rien : elles ne vivaient
+                         que dans le sitemap. Les cinq pages « alternative à »,
+                         publiées de la même façon depuis des mois, n'ont jamais
+                         reçu une seule impression — Google découvre par les
+                         liens autant que par les sitemaps, et une page
+                         orpheline reste « détectée, non indexée ».
+
+                         En français uniquement, comme les pages elles-mêmes. -->
+                    <div v-if="currentLocale() === 'fr'">
+                        <h4 class="font-semibold text-slate-900 mb-4">
+                            {{ t("sector_pages.footer_title") }}
+                        </h4>
+                        <ul class="space-y-2 text-sm">
+                            <li v-for="metier in metiersPublies" :key="metier">
+                                <Link
+                                    :href="`/fr/logiciel-facturation-${metier}-luxembourg`"
+                                    class="text-slate-600 hover:text-slate-900"
+                                    >{{ t(`sector_pages.${metier}.footer_label`) }}</Link
                                 >
                             </li>
                         </ul>

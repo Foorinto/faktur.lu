@@ -4446,10 +4446,12 @@ return [
     // espérer un pack métier ferait venir des gens déçus, et fausserait la
     // mesure qu'on cherche justement à obtenir.
     'sector_pages' => [
+        'footer_title' => 'Par métier',
         'what_exists' => 'Ce que faktur.lu fait déjà pour vous',
         'cta_generic' => 'Vous pouvez déjà essayer faktur.lu gratuitement, sans carte bancaire :',
         'cta_link' => 'créer un compte',
         'infirmier' => [
+            'footer_label' => 'Infirmiers',
             'page_title' => 'Logiciel de facturation pour infirmiers au Luxembourg | faktur.lu',
             'meta_description' => 'Facturation conforme au Luxembourg pour infirmiers et professions libérales de santé : TVA luxembourgeoise, archivage légal, export pour votre fiduciaire.',
             'h1' => 'Facturation pour infirmiers indépendants au Luxembourg',
@@ -4460,6 +4462,7 @@ return [
             'honesty' => 'Soyons clairs : faktur.lu ne connaît pas encore la nomenclature CNS ni les mémoires d\'honoraires. C\'est précisément ce que nous cherchons à savoir. Dites-nous ce qui vous ferait gagner du temps : cela orientera ce que nous construirons.',
         ],
         'artisan' => [
+            'footer_label' => 'Artisans du bâtiment',
             'page_title' => 'Logiciel de facturation pour artisans au Luxembourg | faktur.lu',
             'meta_description' => 'Facturation et devis conformes au Luxembourg pour artisans du bâtiment : TVA luxembourgeoise, archivage légal, export comptable.',
             'h1' => 'Facturation pour artisans et entreprises du bâtiment au Luxembourg',
@@ -4470,6 +4473,7 @@ return [
             'honesty' => 'Soyons clairs : faktur.lu ne gère pas encore les situations de chantier ni les retenues de garantie. C\'est ce que nous cherchons à savoir. Dites-nous ce qui vous prend le plus de temps : cela orientera ce que nous construirons.',
         ],
         'immobilier' => [
+            'footer_label' => 'Agences immobilières',
             'page_title' => 'Logiciel de facturation pour agences immobilières au Luxembourg | faktur.lu',
             'meta_description' => 'Facturation conforme au Luxembourg pour agences immobilières et syndics : honoraires, TVA luxembourgeoise, export comptable pour votre fiduciaire.',
             'h1' => 'Facturation pour agences immobilières et syndics au Luxembourg',
@@ -4480,6 +4484,7 @@ return [
             'honesty' => 'Soyons clairs : faktur.lu ne gère ni les mandats de gestion, ni les appels de fonds de copropriété. C\'est ce que nous cherchons à savoir. Dites-nous ce qui vous prend le plus de temps : cela orientera ce que nous construirons.',
         ],
         'commerce' => [
+            'footer_label' => 'Commerçants',
             'page_title' => 'Logiciel de facturation pour commerçants au Luxembourg | faktur.lu',
             'meta_description' => 'Facturation conforme au Luxembourg pour commerces et e-commerce : quatre taux de TVA, catalogue d\'articles, export comptable.',
             'h1' => 'Facturation pour commerçants au Luxembourg',
@@ -4490,6 +4495,7 @@ return [
             'honesty' => 'Soyons clairs : faktur.lu n\'est pas une caisse enregistreuse et ne gère pas les stocks. C\'est ce que nous cherchons à savoir. Dites-nous ce qui vous prend le plus de temps : cela orientera ce que nous construirons.',
         ],
         'restaurant' => [
+            'footer_label' => 'Restaurateurs',
             'page_title' => 'Logiciel de facturation pour restaurateurs au Luxembourg | faktur.lu',
             'meta_description' => 'Facturation conforme au Luxembourg pour restaurants et traiteurs : taux de TVA applicables, notes de frais, export comptable.',
             'h1' => 'Facturation pour restaurateurs et traiteurs au Luxembourg',
