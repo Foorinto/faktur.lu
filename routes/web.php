@@ -325,11 +325,15 @@ Route::prefix('{locale}')
         Route::get('/iwwer-eis', [ContactController::class, 'about'])->name('about.lb');
         Route::get('/sobre', [ContactController::class, 'about'])->name('about.pt');
 
-        // Pages sectorielles (FR seulement) : instruments de mesure avant d'être
-        // du contenu. Voir SectorPageController.
-        Route::get('/logiciel-facturation-{metier}-luxembourg', [\App\Http\Controllers\SectorPageController::class, 'show'])
-            ->where('locale', 'fr')
-            ->name('sectors.show.fr');
+        // Pages sectorielles : instruments de mesure avant d'être du contenu.
+        // Un chemin par langue, métier compris — voir SectorPageController,
+        // qui tient les motifs et les slugs. La boucle évite que la route et
+        // le sitemap divergent, comme cela s'est déjà produit.
+        foreach (\App\Http\Controllers\SectorPageController::URL_PATTERNS as $langueSecteur => $motifSecteur) {
+            Route::get('/'.$motifSecteur, [\App\Http\Controllers\SectorPageController::class, 'show'])
+                ->where('locale', $langueSecteur)
+                ->name('sectors.show.'.$langueSecteur);
+        }
 
         // "Alternative à X" comparison pages (FR only for now, high buyer intent SEO)
         Route::get('/alternative-{competitor}-luxembourg', [AlternativeController::class, 'show'])

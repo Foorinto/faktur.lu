@@ -38,10 +38,15 @@ class SectorPagesTest extends TestCase
 
     public function test_every_sector_page_is_reachable(): void
     {
-        foreach (SectorPageController::pageSlugs() as $slug) {
-            $this->get("/fr/logiciel-facturation-{$slug}-luxembourg")
-                ->assertOk();
+        foreach (SectorPageController::allPaths() as $chemin) {
+            $this->get($chemin)->assertOk();
         }
+
+        // Un slug d'une autre langue sous ce chemin doit être refusé, sinon la
+        // même page existerait à plusieurs adresses non publiées — un doublon
+        // de contenu fabriqué par la route elle-même.
+        $this->get('/de/rechnungssoftware-infirmier-luxemburg')->assertNotFound();
+        $this->get('/fr/logiciel-facturation-krankenpfleger-luxembourg')->assertNotFound();
     }
 
     /**
@@ -54,9 +59,29 @@ class SectorPagesTest extends TestCase
      */
     public function test_no_published_slug_contains_a_hyphen(): void
     {
-        foreach (SectorPageController::pageSlugs() as $slug) {
-            $this->assertStringNotContainsString('-', $slug,
-                "Le slug « {$slug} » contient un tiret : la route ne correspondra plus.");
+        foreach (SectorPageController::slugTable() as $cle => $slugs) {
+            $this->assertSame(
+                array_keys(SectorPageController::URL_PATTERNS),
+                array_keys($slugs),
+                "Le métier « {$cle} » n'a pas de slug dans toutes les langues."
+            );
+
+            foreach ($slugs as $langue => $slug) {
+                $this->assertStringNotContainsString('-', $slug,
+                    "Le slug « {$slug} » ({$langue}) contient un tiret : la route ne correspondra plus.");
+
+                $this->assertMatchesRegularExpression('/^[a-z]+$/', $slug,
+                    "Le slug « {$slug} » ({$langue}) doit être un seul mot sans accent ni majuscule.");
+            }
+        }
+
+        // Deux métiers qui partageraient un slug dans une même langue
+        // rendraient l'une des deux pages inatteignable.
+        foreach (array_keys(SectorPageController::URL_PATTERNS) as $langue) {
+            $slugs = array_map(fn (array $s) => $s[$langue], SectorPageController::slugTable());
+
+            $this->assertSame(array_unique($slugs), $slugs,
+                "Deux métiers partagent un slug en {$langue}.");
         }
     }
 
@@ -172,8 +197,14 @@ class SectorPagesTest extends TestCase
     {
         $xml = $this->get('/sitemap-pages.xml')->assertOk()->getContent();
 
-        foreach (SectorPageController::pageSlugs() as $slug) {
-            $this->assertStringContainsString("/fr/logiciel-facturation-{$slug}-luxembourg", $xml);
+        foreach (SectorPageController::allPaths() as $chemin) {
+            // Le chemin seul : l'hôte vient d'APP_URL et diffère entre les
+            // tests et la production.
+            $this->assertStringContainsString("{$chemin}</loc>", $xml,
+                "Le sitemap ne déclare pas {$chemin}.");
+
+            $this->assertStringContainsString('hreflang="x-default"', $xml,
+                'Les pages sectorielles doivent déclarer leurs équivalents.');
         }
     }
 
@@ -192,35 +223,101 @@ class SectorPagesTest extends TestCase
     }
 
     /**
-     * Ces pages n'existent qu'en français, et doivent le rester tant qu'elles
-     * ne sont pas traduites.
+     * Chaque page est traduite en entier, dans les cinq langues.
      *
-     * `sector_pages` n'a de clés qu'en français. Ouvrir la route aux autres
-     * langues ne produirait pas une page en allemand : elle afficherait les
-     * clés brutes, `sector_pages.infirmier.h1` en guise de titre, et le
-     * formulaire enregistrerait quand même des réponses. Un 404 est préférable
-     * à une page cassée qui a l'air de fonctionner.
-     *
-     * Le jour où la traduction arrive, ce test échoue — et c'est le signal
-     * qu'il faut aussi montrer la colonne « Par métier » dans le pied de page.
+     * `Lang::has()` reçoit `false` en troisième argument. Sans lui, il retombe
+     * sur la langue de repli et répond « oui » pour l'allemand en lisant le
+     * français : le test certifierait des traductions inexistantes, et la page
+     * afficherait du français à un lecteur allemand sans que rien n'échoue.
      */
-    public function test_the_pages_stay_french_until_translated(): void
+    public function test_every_page_is_fully_translated(): void
     {
-        foreach (['de', 'en', 'lb', 'pt'] as $langue) {
-            foreach (SectorPageController::pageSlugs() as $slug) {
-                $this->get("/{$langue}/logiciel-facturation-{$slug}-luxembourg")
-                    ->assertNotFound();
+        $clesParMetier = [
+            'footer_label', 'page_title', 'meta_description', 'h1', 'intro',
+            'point_1', 'point_2', 'point_3', 'honesty', 'kicker_label',
+            'context_1', 'context_2', 'context_3',
+        ];
+
+        $clesGeneriques = [
+            'footer_title', 'what_exists', 'cta_generic', 'cta_link', 'kicker',
+            'purpose_title', 'purpose', 'purpose_effort', 'not_yet', 'context_title',
+        ];
+
+        $manquantes = [];
+
+        foreach (array_keys(SectorPageController::URL_PATTERNS) as $langue) {
+            foreach ($clesGeneriques as $cle) {
+                if (! \Illuminate\Support\Facades\Lang::has("app.sector_pages.{$cle}", $langue, false)) {
+                    $manquantes[] = "{$langue} : sector_pages.{$cle}";
+                }
             }
 
-            // Troisième argument à `false` : sans lui, `Lang::has` retombe sur
-            // la langue de repli et répond « oui » pour l'allemand en lisant le
-            // français. Le test aurait alors certifié une traduction inexistante.
-            $this->assertFalse(
-                \Illuminate\Support\Facades\Lang::has('app.sector_pages.'.SectorPageController::pageSlugs()[0].'.h1', $langue, false),
-                "Les pages sectorielles sont traduites en {$langue} : ouvrez la route, "
-                ."et affichez la colonne « Par métier » du pied de page dans cette langue."
-            );
+            foreach (SectorPageController::pageKeys() as $metier) {
+                foreach ($clesParMetier as $cle) {
+                    if (! \Illuminate\Support\Facades\Lang::has("app.sector_pages.{$metier}.{$cle}", $langue, false)) {
+                        $manquantes[] = "{$langue} : sector_pages.{$metier}.{$cle}";
+                    }
+                }
+            }
         }
+
+        $this->assertSame([], $manquantes,
+            "Traductions manquantes — la page servirait du français sous une autre langue :\n  - "
+            .implode("\n  - ", $manquantes)."\n"
+        );
+    }
+
+    /**
+     * Le JavaScript et le PHP tiennent la même table de slugs.
+     *
+     * `useLocalizedRoute.js` duplique la table du contrôleur, parce que le pied
+     * de page doit construire ces liens sans aller-retour serveur. La
+     * duplication est assumée ; sa dérive ne l'est pas. Elle serait silencieuse
+     * dans les deux sens : un lien de pied de page vers une URL qui n'existe
+     * pas, ou une page publiée que plus rien ne relie.
+     */
+    public function test_the_javascript_slug_table_matches_the_controller(): void
+    {
+        $source = file_get_contents(resource_path('js/Composables/useLocalizedRoute.js'));
+
+        preg_match('/export const SECTOR_SLUGS = \{(.*?)\n\};/s', $source, $bloc);
+
+        $this->assertNotEmpty($bloc, 'SECTOR_SLUGS introuvable — le composable a été restructuré.');
+
+        $jsSlugs = [];
+
+        foreach (explode("\n", $bloc[1]) as $ligne) {
+            if (! preg_match('/^\s*([a-z_]+):\s*\{(.*)\},?\s*$/', $ligne, $m)) {
+                continue;
+            }
+
+            preg_match_all('/([a-z]{2}):\s*[\'"]([a-z]+)[\'"]/', $m[2], $paires, PREG_SET_ORDER);
+
+            foreach ($paires as $paire) {
+                $jsSlugs[$m[1]][$paire[1]] = $paire[2];
+            }
+        }
+
+        $this->assertSame(SectorPageController::slugTable(), $jsSlugs,
+            'La table de useLocalizedRoute.js a dérivé de SectorPageController.'
+        );
+
+        // Les motifs d'URL, eux aussi dupliqués.
+        preg_match('/export const SECTOR_URL_PATTERNS = \{(.*?)\n\};/s', $source, $motifs);
+
+        $this->assertNotEmpty($motifs, 'SECTOR_URL_PATTERNS introuvable.');
+
+        preg_match_all('/([a-z]{2}):\s*[\'"]([^\'"]+)[\'"]/', $motifs[1], $paires, PREG_SET_ORDER);
+
+        $jsMotifs = [];
+
+        foreach ($paires as $paire) {
+            $jsMotifs[$paire[1]] = $paire[2];
+        }
+
+        $this->assertSame(SectorPageController::URL_PATTERNS, $jsMotifs,
+            'Les motifs d\'URL du JavaScript ont dérivé de ceux du contrôleur.'
+        );
     }
 
     /**

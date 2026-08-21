@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { Link, usePage, router, useForm } from "@inertiajs/vue3";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import HoneypotFields from "@/Components/HoneypotFields.vue";
@@ -24,10 +24,9 @@ const metiersPublies = [
     "restaurant",
 ];
 
-// Les pages sectorielles n'existent qu'en français. La condition sert deux
-// fois — afficher la colonne, et compter les colonnes de la grille — et les
-// deux doivent bouger ensemble le jour où une traduction arrive.
-const afficherMetiers = computed(() => currentLocale() === "fr");
+// Les pages sectorielles existent désormais dans les cinq langues, avec une
+// URL traduite de bout en bout. La colonne s'affiche donc partout, et la
+// grille compte cinq colonnes en toutes langues.
 const { t } = useTranslations();
 
 const mobileMenuOpen = ref(false);
@@ -1307,12 +1306,7 @@ onUnmounted(() => {
         <!-- Footer -->
         <footer class="border-t border-gray-200 py-12 bg-white">
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
-                <div
-                    class="grid gap-8 mb-8"
-                    :class="
-                        afficherMetiers ? 'md:grid-cols-5' : 'md:grid-cols-4'
-                    "
-                >
+                <div class="grid gap-8 mb-8 md:grid-cols-5">
                     <div class="md:col-span-2">
                         <Link
                             :href="localizedRoute('home')"
@@ -1498,14 +1492,18 @@ onUnmounted(() => {
                          orpheline reste « détectée, non indexée ».
 
                          En français uniquement, comme les pages elles-mêmes. -->
-                    <div v-if="afficherMetiers">
+                    <div>
                         <h4 class="font-semibold text-slate-900 mb-4">
                             {{ t("sector_pages.footer_title") }}
                         </h4>
                         <ul class="space-y-2 text-sm">
                             <li v-for="metier in metiersPublies" :key="metier">
                                 <Link
-                                    :href="`/fr/logiciel-facturation-${metier}-luxembourg`"
+                                    :href="
+                                        localizedRoute('sectors.show', {
+                                            metier,
+                                        })
+                                    "
                                     class="text-slate-600 hover:text-slate-900"
                                     >{{
                                         t(`sector_pages.${metier}.footer_label`)

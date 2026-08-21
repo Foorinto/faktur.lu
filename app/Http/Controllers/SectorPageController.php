@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 /**
- * Pages sectorielles — en français uniquement, comme les pages « alternative à ».
+ * Pages sectorielles, dans les cinq langues.
  *
  * Ces pages sont des INSTRUMENTS DE MESURE avant d'être du contenu. Elles
  * doivent dire si quelqu'un cherche une solution de facturation pour son métier
@@ -24,50 +24,201 @@ use Inertia\Response;
 class SectorPageController extends Controller
 {
     /**
-     * Pages publiées, indexées par slug d'URL.
+     * Chemin de la page dans chaque langue.
      *
-     * La clé `sector` doit figurer dans `User::BUSINESS_SECTORS` : c'est elle
-     * qui relie une réponse de formulaire au secteur choisi à l'inscription.
+     * L'URL est traduite en entier, métier compris : une page allemande servie
+     * sous une adresse française se classe mal sur ce que les gens tapent
+     * réellement, et l'adresse est l'un des rares signaux qu'un moteur lit
+     * avant même d'avoir rendu la page. Même choix que `/a-propos`,
+     * `/ueber-uns`, `/about`.
      *
-     * @var array<string, array{sector: string}>
+     * @var array<string, string>
      */
-    /**
-     * ⚠️ Les slugs doivent tenir en UN SEUL MOT, sans tiret.
-     *
-     * L'URL est `logiciel-facturation-{metier}-luxembourg`, et Symfony compile
-     * le paramètre en `[^/]++` — un quantificateur POSSESSIF, qui ne revient
-     * jamais en arrière. Un slug contenant un tiret avale donc le `-luxembourg`
-     * final, et la route cesse de correspondre. « agence-immobiliere » a échoué
-     * pour cette seule raison, quand « artisan » passait.
-     */
-    protected array $pages = [
-        'infirmier' => ['sector' => 'health'],
-        'artisan' => ['sector' => 'construction'],
-        'immobilier' => ['sector' => 'real_estate'],
-        'commerce' => ['sector' => 'retail'],
-        'restaurant' => ['sector' => 'hospitality'],
+    public const URL_PATTERNS = [
+        'fr' => 'logiciel-facturation-{metier}-luxembourg',
+        'de' => 'rechnungssoftware-{metier}-luxemburg',
+        'en' => 'invoicing-software-{metier}-luxembourg',
+        'lb' => 'rechnungssoftware-{metier}-letzebuerg',
+        'pt' => 'software-faturacao-{metier}-luxemburgo',
     ];
 
     /**
-     * Slugs publiés — source unique partagée avec le sitemap, pour qu'il ne
-     * puisse pas déclarer une URL qui n'existe pas. Le portugais annonçait
-     * `/pt/contacto` sans route correspondante ; la leçon a coûté onze pages
-     * introuvables dans Search Console.
+     * Pages publiées, indexées par leur clé canonique.
+     *
+     * La clé sert deux fois : elle relie la page à ses traductions, sous
+     * `sector_pages.<cle>`, et son `sector` doit figurer dans
+     * `User::BUSINESS_SECTORS`, qui relie une réponse de formulaire au secteur
+     * choisi à l'inscription.
+     *
+     * ⚠️ Les slugs doivent tenir en UN SEUL MOT, sans tiret, dans TOUTES les
+     * langues.
+     *
+     * Le chemin est `…-{metier}-…`, et Symfony compile le paramètre en
+     * `[^/]++` — un quantificateur POSSESSIF, qui ne revient jamais en arrière.
+     * Un slug contenant un tiret avale donc le suffixe, et la route cesse de
+     * correspondre. « agence-immobiliere » a échoué pour cette seule raison,
+     * quand « artisan » passait. Le piège se reproduit à l'identique dans
+     * chaque langue : « einzelhandel » passe, « einzel-handel » non.
+     *
+     * @var array<string, array{sector: string, slugs: array<string, string>}>
+     */
+    protected array $pages = [
+        'infirmier' => [
+            'sector' => 'health',
+            'slugs' => [
+                'fr' => 'infirmier',
+                'de' => 'krankenpfleger',
+                'en' => 'nurses',
+                'lb' => 'fleegepersonal',
+                'pt' => 'enfermeiro',
+            ],
+        ],
+        'artisan' => [
+            'sector' => 'construction',
+            'slugs' => [
+                'fr' => 'artisan',
+                'de' => 'handwerker',
+                'en' => 'tradesmen',
+                'lb' => 'handwierker',
+                'pt' => 'construcao',
+            ],
+        ],
+        'immobilier' => [
+            'sector' => 'real_estate',
+            'slugs' => [
+                'fr' => 'immobilier',
+                'de' => 'immobilienmakler',
+                'en' => 'realtors',
+                'lb' => 'immobilien',
+                'pt' => 'imobiliaria',
+            ],
+        ],
+        'commerce' => [
+            'sector' => 'retail',
+            'slugs' => [
+                'fr' => 'commerce',
+                'de' => 'einzelhandel',
+                'en' => 'retailers',
+                'lb' => 'handel',
+                'pt' => 'comercio',
+            ],
+        ],
+        'restaurant' => [
+            'sector' => 'hospitality',
+            'slugs' => [
+                'fr' => 'restaurant',
+                'de' => 'gastronomie',
+                'en' => 'restaurants',
+                'lb' => 'restaurant',
+                'pt' => 'restaurante',
+            ],
+        ],
+    ];
+
+    /**
+     * Clés canoniques des pages publiées.
+     *
+     * Source unique partagée avec le sitemap, le pied de page et les tests,
+     * pour qu'aucun ne puisse déclarer une URL qui n'existe pas. Le portugais
+     * annonçait `/pt/contacto` sans route correspondante ; la leçon a coûté
+     * onze pages introuvables dans Search Console.
      *
      * @return array<int, string>
      */
-    public static function pageSlugs(): array
+    public static function pageKeys(): array
     {
         return array_keys((new self())->pages);
     }
 
+    /**
+     * Conservé sous son ancien nom : le sitemap et plusieurs tests l'appellent.
+     *
+     * @return array<int, string>
+     *
+     * @deprecated Utiliser pageKeys(), qui dit ce que la valeur est réellement.
+     */
+    public static function pageSlugs(): array
+    {
+        return self::pageKeys();
+    }
+
+    /**
+     * Slug d'URL d'un métier dans une langue donnée.
+     */
+    public static function slugFor(string $cle, string $locale): ?string
+    {
+        return (new self())->pages[$cle]['slugs'][$locale] ?? null;
+    }
+
+    /**
+     * Chemin complet, langue comprise, tel qu'il apparaît dans le sitemap.
+     */
+    public static function pathFor(string $cle, string $locale): ?string
+    {
+        $slug = self::slugFor($cle, $locale);
+
+        if ($slug === null || ! isset(self::URL_PATTERNS[$locale])) {
+            return null;
+        }
+
+        return '/'.$locale.'/'.str_replace('{metier}', $slug, self::URL_PATTERNS[$locale]);
+    }
+
+    /**
+     * Toutes les URL publiées, pour le sitemap et pour les tests.
+     *
+     * @return array<int, string>
+     */
+    public static function allPaths(): array
+    {
+        $chemins = [];
+
+        foreach (array_keys(self::URL_PATTERNS) as $locale) {
+            foreach (self::pageKeys() as $cle) {
+                $chemins[] = self::pathFor($cle, $locale);
+            }
+        }
+
+        return $chemins;
+    }
+
+    /**
+     * Table des slugs, pour la comparer à celle que tient le JavaScript.
+     *
+     * @return array<string, array<string, string>>
+     */
+    public static function slugTable(): array
+    {
+        return array_map(fn (array $page) => $page['slugs'], (new self())->pages);
+    }
+
     public function show(string $locale, string $metier): Response
     {
-        abort_unless(isset($this->pages[$metier]), 404);
+        $cle = $this->cleDepuisSlug($locale, $metier);
+
+        abort_if($cle === null, 404);
 
         return Inertia::render('Sectors/Show', [
-            'metier' => $metier,
-            'sector' => $this->pages[$metier]['sector'],
+            'metier' => $cle,
+            'sector' => $this->pages[$cle]['sector'],
         ]);
+    }
+
+    /**
+     * Retrouve la clé canonique à partir du slug rencontré dans l'URL.
+     *
+     * Le slug est comparé dans la langue de l'URL SEULEMENT : sans cela,
+     * `/de/rechnungssoftware-infirmier-luxemburg` répondrait 200 et créerait
+     * un doublon de contenu sous une adresse que personne n'a publiée.
+     */
+    protected function cleDepuisSlug(string $locale, string $slug): ?string
+    {
+        foreach ($this->pages as $cle => $page) {
+            if (($page['slugs'][$locale] ?? null) === $slug) {
+                return $cle;
+            }
+        }
+
+        return null;
     }
 }

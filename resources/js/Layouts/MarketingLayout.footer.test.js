@@ -34,13 +34,11 @@ const SOURCE = readFileSync(
  * et vitest annoncerait « no tests » sans nommer la cause.
  */
 function grilleDuPied() {
-    const debut = SOURCE.indexOf('class="grid gap-8 mb-8"');
+    const debut = SOURCE.indexOf('class="grid gap-8 mb-8');
 
     if (debut === -1) {
         throw new Error(
-            "Grille du pied de page introuvable : soit le bloc a été renommé, " +
-                "soit le nombre de colonnes est revenu en dur dans `class` " +
-                "au lieu de dépendre de la langue.",
+            "Grille du pied de page introuvable : le bloc a été renommé.",
         );
     }
 
@@ -67,10 +65,7 @@ function grilleDuPied() {
         }
     }
 
-    return {
-        entete: SOURCE.slice(ouverture, debut + 400),
-        enfants,
-    };
+    return { entete: SOURCE.slice(ouverture, debut + 200), enfants };
 }
 
 /** Somme des largeurs, une colonne par défaut, deux si `md:col-span-2`. */
@@ -84,26 +79,27 @@ function largeur(enfants) {
 describe("grille du pied de page", () => {
     const { entete, enfants } = grilleDuPied();
 
-    it("remplit exactement ses cinq colonnes en français", () => {
-        // Le nombre est lié à la langue : la grille ne peut pas être figée,
-        // puisque la colonne « Par métier » n'existe qu'en français.
-        expect(entete).toContain("'md:grid-cols-5'");
-        expect(entete).not.toMatch(/class="grid[^"]*grid-cols/);
+    it("remplit exactement ses cinq colonnes", () => {
+        expect(entete).toContain("md:grid-cols-5");
         expect(largeur(enfants)).toBe(5);
     });
 
-    it("remplit exactement ses quatre colonnes dans les autres langues", () => {
-        expect(entete).toContain("'md:grid-cols-4'");
+    it("ne conditionne plus aucune colonne à la langue", () => {
+        // Les pages sectorielles existent dans les cinq langues depuis que les
+        // URL sont traduites. Une colonne masquée selon la langue déséquilibrerait
+        // à nouveau la grille, et seulement dans certaines langues — le défaut
+        // le plus difficile à voir.
+        for (const enfant of enfants) {
+            expect(enfant).not.toMatch(/v-if="[^"]*[Ll]ocale/);
+            expect(enfant).not.toContain("afficherMetiers");
+        }
+    });
 
-        // Hors français, la colonne « Par métier » disparaît : les pages
-        // sectorielles n'existent pas dans ces langues, et y renvoyer
-        // fabriquerait des liens morts.
-        const sansMetiers = enfants.filter(
-            (e) => !e.includes('v-if="afficherMetiers"'),
-        );
-
-        expect(sansMetiers).toHaveLength(enfants.length - 1);
-        expect(largeur(sansMetiers)).toBe(4);
+    it("construit les liens métier avec le slug de la langue courante", () => {
+        // Une URL française codée en dur renverrait un lecteur allemand vers
+        // une adresse qui répond 404 dans sa langue.
+        expect(SOURCE).not.toMatch(/\/fr\/logiciel-facturation-\$\{/);
+        expect(SOURCE).toMatch(/localizedRoute\(\s*["']sectors\.show["']/);
     });
 
     it("garde les cinq liens légaux, hors de la grille", () => {
@@ -119,7 +115,9 @@ describe("grille du pied de page", () => {
 
         // Le DPA est rendu par une vue Blade : un Link Inertia attendrait une
         // réponse Inertia, recevrait du HTML et resterait sans effet au clic.
-        expect(nav[0]).toMatch(/<a\s+:href="localizedRoute\('legal\.dpa'\)"/);
+        expect(nav[0]).toMatch(
+            /<a\s+:href="localizedRoute\(["']legal\.dpa["']\)"/,
+        );
 
         expect(enfants.some((e) => e.includes("legal.terms"))).toBe(false);
     });

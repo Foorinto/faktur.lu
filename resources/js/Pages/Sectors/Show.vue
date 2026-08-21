@@ -30,9 +30,14 @@ const contexte = ["context_1", "context_2", "context_3"];
 </script>
 
 <template>
+    <!-- `routeName` et `routeParams` alimentent les balises hreflang : sans
+         elles, cinq pages disant la même chose dans cinq langues se
+         concurrencent au lieu de se déclarer équivalentes. -->
     <SeoHead
         :title="t(cle('page_title'))"
         :description="t(cle('meta_description'))"
+        route-name="sectors.show"
+        :route-params="{ metier }"
     />
 
     <MarketingLayout>

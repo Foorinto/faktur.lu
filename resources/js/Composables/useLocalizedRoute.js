@@ -40,6 +40,47 @@ const localizedRoutes = [
  * Localized route slugs for SEO-friendly URLs.
  * Maps route names to their localized slugs per language.
  */
+/**
+ * Pages sectorielles : chemin complet par langue, et slug du métier par langue.
+ *
+ * Ces deux tables dupliquent `SectorPageController::URL_PATTERNS` et sa table
+ * de slugs. La duplication est assumée — le pied de page doit construire ces
+ * liens sans aller-retour serveur — mais elle est surveillée : un test PHP
+ * compare les deux, et échoue si l'une dérive de l'autre.
+ *
+ * ⚠️ Chaque slug tient en UN SEUL MOT, sans tiret, dans toutes les langues.
+ * Le chemin est `…-{metier}-…` et Symfony compile le paramètre en `[^/]++`,
+ * possessif : un tiret dans le slug avale le suffixe et la route ne
+ * correspond plus.
+ */
+export const SECTOR_URL_PATTERNS = {
+    fr: 'logiciel-facturation-{metier}-luxembourg',
+    de: 'rechnungssoftware-{metier}-luxemburg',
+    en: 'invoicing-software-{metier}-luxembourg',
+    lb: 'rechnungssoftware-{metier}-letzebuerg',
+    pt: 'software-faturacao-{metier}-luxemburgo',
+};
+
+export const SECTOR_SLUGS = {
+    infirmier: { fr: 'infirmier', de: 'krankenpfleger', en: 'nurses', lb: 'fleegepersonal', pt: 'enfermeiro' },
+    artisan: { fr: 'artisan', de: 'handwerker', en: 'tradesmen', lb: 'handwierker', pt: 'construcao' },
+    immobilier: { fr: 'immobilier', de: 'immobilienmakler', en: 'realtors', lb: 'immobilien', pt: 'imobiliaria' },
+    commerce: { fr: 'commerce', de: 'einzelhandel', en: 'retailers', lb: 'handel', pt: 'comercio' },
+    restaurant: { fr: 'restaurant', de: 'gastronomie', en: 'restaurants', lb: 'restaurant', pt: 'restaurante' },
+};
+
+/** Chemin d'une page sectorielle, langue comprise. `null` si le métier est inconnu. */
+export function sectorPagePath(metier, locale) {
+    const slug = SECTOR_SLUGS[metier]?.[locale];
+    const motif = SECTOR_URL_PATTERNS[locale];
+
+    if (!slug || !motif) {
+        return null;
+    }
+
+    return `/${locale}/${motif.replace('{metier}', slug)}`;
+}
+
 const localizedSlugs = {
     'features.index': {
         fr: 'fonctionnalites',
@@ -277,6 +318,16 @@ export function useLocalizedRoute() {
      */
     const localizedRoute = (name, params = {}, locale = null) => {
         const targetLocale = locale || currentLocale();
+
+        // Les pages sectorielles ne suivent pas la forme `/{langue}/{slug}` :
+        // le métier est enchâssé au milieu du chemin. Traité ici plutôt qu'en
+        // cas particulier plus bas, pour que `getAlternateUrls` en profite et
+        // que les balises hreflang soient justes sans code supplémentaire.
+        if (name === 'sectors.show') {
+            const metier = typeof params === 'string' ? params : params?.metier;
+
+            return sectorPagePath(metier, targetLocale) ?? `/${targetLocale}`;
+        }
 
         // Check if this route has localized slugs
         const localizedSlug = getLocalizedSlug(name, targetLocale);
