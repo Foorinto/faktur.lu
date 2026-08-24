@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewsletterConfirmation;
+use App\Models\NewsletterSubscriber;
 use App\Models\SectorLead;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 /**
@@ -42,16 +46,66 @@ class SectorLeadController extends Controller
             'source' => ['nullable', 'string', 'max:200'],
         ]);
 
+        $veutInfolettre = (bool) ($donnees['wants_newsletter'] ?? false);
+
+        // La réponse d'abord, l'infolettre ensuite.
+        //
+        // C'est la réponse qui a de la valeur : elle vient d'un secteur où nous
+        // n'avons aucun contact. Un abonnement raté ne doit en aucun cas
+        // l'emporter avec lui.
         SectorLead::create([
             'sector' => $donnees['sector'],
             'source' => $this->sourceNettoyee($donnees['source'] ?? null),
             'email' => $donnees['email'],
             'message' => $donnees['message'] ?? null,
             'locale' => app()->getLocale(),
-            'wants_newsletter' => (bool) ($donnees['wants_newsletter'] ?? false),
+            'wants_newsletter' => $veutInfolettre,
         ]);
 
+        if ($veutInfolettre) {
+            $this->abonnerAInfolettre($donnees['email'], $donnees['sector']);
+        }
+
         return back()->with('success', __('app.sector_lead.thanks'));
+    }
+
+    /**
+     * Abonne réellement à l'infolettre.
+     *
+     * La case cochée n'abonnait personne : elle posait un booléen sur la
+     * réponse, et l'administration affichait « newsletter acceptée » pour des
+     * gens qui n'auraient jamais rien reçu. Un consentement recueilli et non
+     * honoré ne vaut pas mieux qu'un consentement non demandé.
+     *
+     * Même chemin que le formulaire du pied de page : double opt-in, avec un
+     * courriel de confirmation. Deux portes vers la même liste avec deux
+     * niveaux de consentement seraient ingérables le jour d'un contrôle.
+     *
+     * L'échec d'envoi est journalisé et avalé. La réponse sectorielle est déjà
+     * enregistrée à ce stade ; faire échouer la requête ferait perdre le
+     * contact pour sauver l'abonnement, exactement à l'envers de leur valeur
+     * respective.
+     */
+    protected function abonnerAInfolettre(string $email, string $secteur): void
+    {
+        try {
+            $abonne = NewsletterSubscriber::subscribe(
+                $email,
+                app()->getLocale(),
+                // Trace l'origine dans la liste elle-même : ces abonnés
+                // viennent d'une page métier, pas du pied de page.
+                'secteur-'.$secteur,
+            );
+
+            if (! $abonne->isConfirmed()) {
+                Mail::to($email)->send(new NewsletterConfirmation($abonne));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Abonnement infolettre depuis une page métier : échec.', [
+                'secteur' => $secteur,
+                'exception' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

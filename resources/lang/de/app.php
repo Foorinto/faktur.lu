@@ -4143,6 +4143,7 @@ return [
         'email' => 'Ihre E-Mail-Adresse',
         'email_help' => 'Damit wir Sie benachrichtigen können, sobald es das Gewünschte gibt.',
         'newsletter' => 'Ich möchte auch Neuigkeiten von faktur.lu erhalten.',
+        'newsletter_confirm_hint' => 'Sie erhalten eine E-Mail, um Ihre Anmeldung zu bestätigen.',
         'submit' => 'Senden',
         'thanks' => 'Vielen Dank, Ihre Antwort wurde gespeichert.',
         'too_many' => 'Zu viele Einsendungen von dieser Verbindung. Bitte versuchen Sie es später erneut.',
