@@ -33,10 +33,18 @@ class SectorLeadController extends Controller
             'email' => ['required', 'email', 'max:255'],
             'message' => ['nullable', 'string', 'max:2000'],
             'wants_newsletter' => ['boolean'],
+            // La source n'est PAS validée strictement, elle est nettoyée.
+            //
+            // Elle vient d'un paramètre d'URL que n'importe qui peut tordre.
+            // Refuser la réponse entière parce qu'un `utm_source` est bizarre
+            // reviendrait à perdre le contact pour sauver une étiquette : on
+            // garde la réponse et on jette l'étiquette.
+            'source' => ['nullable', 'string', 'max:200'],
         ]);
 
         SectorLead::create([
             'sector' => $donnees['sector'],
+            'source' => $this->sourceNettoyee($donnees['source'] ?? null),
             'email' => $donnees['email'],
             'message' => $donnees['message'] ?? null,
             'locale' => app()->getLocale(),
@@ -44,5 +52,22 @@ class SectorLeadController extends Controller
         ]);
 
         return back()->with('success', __('app.sector_lead.thanks'));
+    }
+
+    /**
+     * Ne retient qu'une étiquette de canal plausible.
+     *
+     * Ni accents, ni espaces, ni chemin : de quoi nommer une fédération, un
+     * réseau ou un cabinet. Tout le reste est écarté sans faire échouer l'envoi.
+     */
+    protected function sourceNettoyee(?string $brute): ?string
+    {
+        $source = trim((string) $brute);
+
+        if ($source === '' || ! preg_match('/^[a-zA-Z0-9._-]{1,60}$/', $source)) {
+            return null;
+        }
+
+        return mb_strtolower($source);
     }
 }

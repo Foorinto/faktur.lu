@@ -27,6 +27,7 @@ class SectorLead extends Model
 
     protected $fillable = [
         'sector',
+        'source',
         'email',
         'message',
         'locale',

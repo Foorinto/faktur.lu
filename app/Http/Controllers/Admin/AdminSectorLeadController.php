@@ -33,6 +33,20 @@ class AdminSectorLeadController extends Controller
                     'avec_email' => (int) $l->avec_email,
                 ]),
 
+            // La question que cette page doit trancher n'est pas seulement
+            // « quel métier », mais « quel canal ». Un secteur qui remonte
+            // parce qu'on a écrit à sa fédération ne dit rien du marché : il
+            // dit qu'on a écrit à sa fédération.
+            'parSource' => SectorLead::query()
+                ->selectRaw('source, COUNT(*) as total')
+                ->groupBy('source')
+                ->orderByDesc('total')
+                ->get()
+                ->map(fn ($l) => [
+                    'source' => $l->source ?: 'inconnue',
+                    'total' => (int) $l->total,
+                ]),
+
             'reponses' => SectorLead::query()
                 ->latest()
                 ->limit(200)
@@ -40,6 +54,7 @@ class AdminSectorLeadController extends Controller
                 ->map(fn (SectorLead $l) => [
                     'id' => $l->id,
                     'secteur' => $l->sectorLabel(),
+                    'source' => $l->source,
                     'email' => $l->email,
                     'message' => $l->message,
                     'newsletter' => $l->wants_newsletter,
@@ -76,12 +91,13 @@ class AdminSectorLeadController extends Controller
         return response()->streamDownload(function () {
             $sortie = fopen('php://output', 'w');
             fwrite($sortie, "\xEF\xBB\xBF"); // BOM UTF-8, pour Excel
-            fputcsv($sortie, ['secteur', 'email', 'reponse', 'newsletter', 'langue', 'date']);
+            fputcsv($sortie, ['secteur', 'source', 'email', 'reponse', 'newsletter', 'langue', 'date']);
 
             SectorLead::query()->latest()->chunk(500, function ($lots) use ($sortie) {
                 foreach ($lots as $l) {
                     fputcsv($sortie, [
                         $l->sectorLabel(),
+                        $l->source,
                         $l->email,
                         $l->message,
                         $l->wants_newsletter ? 'oui' : 'non',

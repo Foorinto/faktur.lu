@@ -6,6 +6,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { sourceDeLaVisite } from '@/Support/sourceVisite';
 
 const { t } = useTranslations();
 
@@ -23,8 +24,13 @@ const page = usePage();
  * « Comment facturez-vous ? » dirait contre quoi se battre — utile au
  * commercial, mais ce n'est pas la question que cette page doit trancher.
  *
- * L'email est facultatif : quelqu'un peut décrire sa situation sans vouloir
- * être recontacté, et cette réponse compte autant pour la mesure.
+ * L'email est exigé : sans lui, on ne peut prévenir personne le jour où ce
+ * qu'elle demande existe, et une manifestation d'intérêt qu'on ne peut pas
+ * rappeler ne sert qu'à compter.
+ *
+ * `source` accompagne la réponse pour qu'on sache quel canal l'a produite.
+ * Sans elle, lancer quatre canaux donne douze réponses et aucune idée de
+ * celui qu'il faut recommencer.
  */
 const form = useForm({
     sector: props.sector,
@@ -33,6 +39,7 @@ const form = useForm({
     wants_newsletter: false,
     homepage_url: '',
     form_loaded_at: Math.floor(Date.now() / 1000),
+    source: sourceDeLaVisite(),
 });
 
 const envoye = ref(false);
