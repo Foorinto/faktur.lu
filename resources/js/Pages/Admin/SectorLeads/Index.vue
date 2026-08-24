@@ -4,6 +4,7 @@ import { Head, Link, router } from "@inertiajs/vue3";
 
 defineProps({
     parSecteur: { type: Array, default: () => [] },
+    parSource: { type: Array, default: () => [] },
     reponses: { type: Array, default: () => [] },
 });
 
@@ -91,6 +92,36 @@ const supprimerReponse = (reponse) => {
         <!-- Les réponses écrites : pourquoi.
              Même présentation que la section Support, pour qu'on s'y retrouve
              sans réapprendre une mise en page. -->
+        <!-- Décompte par canal : lequel a produit ces réponses.
+             Sans ce tableau, un secteur qui remonte parce qu'on a écrit à sa
+             fédération ressemble à un signal de marché. Ce n'en est pas un :
+             c'est la mesure de l'effort fourni, pas de la demande. -->
+        <div class="mb-6 rounded-2xl border border-gray-700 bg-gray-800 p-6">
+            <h2 class="text-lg font-semibold text-white">Par canal</h2>
+            <p class="mt-1 text-sm text-slate-400">
+                Rapprochez ces nombres des visites de Matomo : c'est le taux de
+                conversion par canal qui dit lequel recommencer.
+            </p>
+
+            <div v-if="parSource.length" class="mt-4 space-y-2">
+                <div
+                    v-for="ligne in parSource"
+                    :key="ligne.source"
+                    class="flex items-center gap-3"
+                >
+                    <span class="w-44 shrink-0 text-sm text-slate-300">{{
+                        ligne.source
+                    }}</span>
+                    <span class="text-sm font-semibold text-white">{{
+                        ligne.total
+                    }}</span>
+                </div>
+            </div>
+            <p v-else class="mt-4 text-sm text-slate-400">
+                Aucune réponse encore.
+            </p>
+        </div>
+
         <h2 class="mb-3 text-lg font-semibold text-white">
             Dernières réponses
             <span class="text-sm font-normal text-slate-400"
@@ -109,6 +140,12 @@ const supprimerReponse = (reponse) => {
                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6"
                         >
                             Secteur
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                        >
+                            Canal
                         </th>
                         <th
                             scope="col"
@@ -139,7 +176,7 @@ const supprimerReponse = (reponse) => {
                 <tbody class="divide-y divide-slate-700">
                     <tr v-if="reponses.length === 0">
                         <td
-                            colspan="5"
+                            colspan="6"
                             class="py-10 text-center text-sm text-slate-400"
                         >
                             Rien encore. Les pages métier doivent d'abord être
@@ -159,6 +196,14 @@ const supprimerReponse = (reponse) => {
                             >
                                 {{ r.secteur }}
                             </span>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm">
+                            <span
+                                v-if="r.source"
+                                class="rounded bg-slate-700 px-2 py-0.5 text-xs text-slate-200"
+                                >{{ r.source }}</span
+                            >
+                            <span v-else class="text-xs text-slate-500">-</span>
                         </td>
                         <td class="px-3 py-4 text-sm">
                             <a

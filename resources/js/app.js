@@ -1,51 +1,54 @@
-import '../css/app.css';
-import './bootstrap';
+import "../css/app.css";
+import "./bootstrap";
 
-import { createInertiaApp, router } from '@inertiajs/vue3';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createApp, h } from 'vue';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import { loadTranslations } from './translations-store';
-import { traiterErreursDeValidation } from './Support/formErrors';
+import { createInertiaApp, router } from "@inertiajs/vue3";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import { createApp, h } from "vue";
+import { ZiggyVue } from "../../vendor/tightenco/ziggy";
+import { loadTranslations } from "./translations-store";
+import { traiterErreursDeValidation } from "./Support/formErrors";
+import { installerSuiviMatomo } from "./Support/matomoSpa";
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 // Track if Vue app is properly mounted
 let vueAppMounted = false;
+
+installerSuiviMatomo(router);
 
 // Recharge les traductions quand la langue change. En navigation SPA la page
 // n'est pas rechargée : sans cela, l'URL passait de /fr à /en et les textes
 // restaient dans la langue précédente. Le dépôt étant réactif, l'interface se
 // remet à jour d'elle-même à l'arrivée du fichier.
-router.on('success', (event) => {
+router.on("success", (event) => {
     loadTranslations(event.detail.page.props.translationsUrl);
 });
 
 // Sync CSRF token after each Inertia navigation
 // This ensures axios always has the latest token from the server
-router.on('success', (event) => {
+router.on("success", (event) => {
     const csrfToken = event.detail.page.props.csrf_token;
     if (csrfToken) {
         // Update meta tag
         const metaTag = document.querySelector('meta[name="csrf-token"]');
         if (metaTag) {
-            metaTag.setAttribute('content', csrfToken);
+            metaTag.setAttribute("content", csrfToken);
         }
         // Update axios default header
-        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+        window.axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
     }
 });
 
 // Une validation refusée doit se voir. Le message était bien rendu, mais à la
 // position du champ concerné — souvent hors de l'écran sur un formulaire long,
 // où l'utilisateur ne voyait donc rien se produire en cliquant « Enregistrer ».
-router.on('error', (event) => {
+router.on("error", (event) => {
     traiterErreursDeValidation(event.detail.errors);
 });
 
 // Handle Inertia invalid responses (non-Inertia response received)
 // This can happen when session expires or server returns HTML error page
-router.on('invalid', (event) => {
+router.on("invalid", (event) => {
     const response = event.detail.response;
 
     // Prevent default and force reload for any invalid response
@@ -53,7 +56,11 @@ router.on('invalid', (event) => {
     event.preventDefault();
 
     // If it's an auth error or any other issue, reload the page
-    if (response?.status === 401 || response?.status === 419 || response?.status === 409) {
+    if (
+        response?.status === 401 ||
+        response?.status === 419 ||
+        response?.status === 409
+    ) {
         window.location.reload();
     } else {
         // For other cases, navigate to the current URL to get fresh HTML
@@ -62,11 +69,11 @@ router.on('invalid', (event) => {
 });
 
 // Handle Inertia exceptions (network errors, etc.)
-router.on('exception', (event) => {
+router.on("exception", (event) => {
     // For most exceptions, let the browser handle it naturally
     // by reloading the page
     if (event.detail.exception) {
-        console.error('Inertia exception:', event.detail.exception);
+        console.error("Inertia exception:", event.detail.exception);
         // Force reload on exception to recover
         window.location.reload();
     }
@@ -77,7 +84,7 @@ router.on('exception', (event) => {
 const detectJsonDisplay = () => {
     // If Vue app is mounted and running, everything is fine
     if (vueAppMounted) {
-        const app = document.getElementById('app');
+        const app = document.getElementById("app");
         if (app && app.children.length > 0) {
             return false;
         }
@@ -87,15 +94,17 @@ const detectJsonDisplay = () => {
     if (!body) return false;
 
     // Check if the page content looks like raw JSON
-    const bodyText = body.innerText?.trim() || body.textContent?.trim() || '';
+    const bodyText = body.innerText?.trim() || body.textContent?.trim() || "";
 
     // Quick check: if body starts with { and contains "component", it's likely Inertia JSON
-    if (bodyText.startsWith('{') && bodyText.includes('"component"')) {
+    if (bodyText.startsWith("{") && bodyText.includes('"component"')) {
         try {
             const parsed = JSON.parse(bodyText);
             // Check if this looks like an Inertia response
             if (parsed.component && parsed.props && parsed.url) {
-                console.warn('Detected raw Inertia JSON response, reloading page...');
+                console.warn(
+                    "Detected raw Inertia JSON response, reloading page...",
+                );
                 window.location.reload();
                 return true;
             }
@@ -105,14 +114,16 @@ const detectJsonDisplay = () => {
     }
 
     // Also check for pre tag containing JSON (some browsers wrap it)
-    const pre = body.querySelector('pre');
+    const pre = body.querySelector("pre");
     if (pre) {
-        const preText = pre.textContent?.trim() || '';
-        if (preText.startsWith('{') && preText.includes('"component"')) {
+        const preText = pre.textContent?.trim() || "";
+        if (preText.startsWith("{") && preText.includes('"component"')) {
             try {
                 const parsed = JSON.parse(preText);
                 if (parsed.component && parsed.props) {
-                    console.warn('Detected raw Inertia JSON in <pre> tag, reloading page...');
+                    console.warn(
+                        "Detected raw Inertia JSON in <pre> tag, reloading page...",
+                    );
                     window.location.reload();
                     return true;
                 }
@@ -126,7 +137,7 @@ const detectJsonDisplay = () => {
 };
 
 // Check for JSON display on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // Delay slightly to allow Vue to mount
     setTimeout(() => {
         if (!vueAppMounted) {
@@ -136,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Handle page restored from bfcache (back-forward cache)
-window.addEventListener('pageshow', (event) => {
+window.addEventListener("pageshow", (event) => {
     if (event.persisted) {
         // Page was restored from bfcache - check state and potentially reload
         setTimeout(detectJsonDisplay, 100);
@@ -145,20 +156,22 @@ window.addEventListener('pageshow', (event) => {
 
 // Check when tab becomes visible again after being hidden
 let lastHiddenTime = null;
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
         lastHiddenTime = Date.now();
-    } else if (document.visibilityState === 'visible') {
+    } else if (document.visibilityState === "visible") {
         // Check for JSON display
         setTimeout(detectJsonDisplay, 100);
 
         // If tab was hidden for more than 5 minutes, do a soft refresh
         // This helps keep the page state fresh
-        if (lastHiddenTime && (Date.now() - lastHiddenTime) > 5 * 60 * 1000) {
+        if (lastHiddenTime && Date.now() - lastHiddenTime > 5 * 60 * 1000) {
             // Check if the page state seems stale or broken
-            const app = document.getElementById('app');
+            const app = document.getElementById("app");
             if (!app || app.children.length === 0 || !vueAppMounted) {
-                console.warn('Page state appears stale after long inactivity, reloading...');
+                console.warn(
+                    "Page state appears stale after long inactivity, reloading...",
+                );
                 window.location.reload();
             }
         }
@@ -166,7 +179,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // Also handle focus event as backup
-window.addEventListener('focus', () => {
+window.addEventListener("focus", () => {
     setTimeout(detectJsonDisplay, 200);
 });
 
@@ -177,35 +190,39 @@ window.addEventListener('focus', () => {
 // Enveloppé dans une fonction asynchrone : le `await` de premier niveau n'est
 // pas compilable pour les navigateurs visés (chrome87, safari14…).
 async function demarrer() {
-    const pageInitiale = JSON.parse(document.getElementById('app')?.dataset.page || '{}');
+    const pageInitiale = JSON.parse(
+        document.getElementById("app")?.dataset.page || "{}",
+    );
     await loadTranslations(pageInitiale?.props?.translationsUrl);
 
     createInertiaApp({
-    // N'appende le nom de l'app que si le titre ne le contient pas déjà, pour éviter
-    // les redondances type "Mentions légales | faktur.lu - faktur.lu" (beaucoup de
-    // page_title incluent déjà "faktur.lu").
-    title: (title) => {
-        if (!title) return appName;
-        return title.toLowerCase().includes(appName.toLowerCase()) ? title : `${title} - ${appName}`;
-    },
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob('./Pages/**/*.vue'),
-        ),
-    setup({ el, App, props, plugin }) {
-        const app = createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
+        // N'appende le nom de l'app que si le titre ne le contient pas déjà, pour éviter
+        // les redondances type "Mentions légales | faktur.lu - faktur.lu" (beaucoup de
+        // page_title incluent déjà "faktur.lu").
+        title: (title) => {
+            if (!title) return appName;
+            return title.toLowerCase().includes(appName.toLowerCase())
+                ? title
+                : `${title} - ${appName}`;
+        },
+        resolve: (name) =>
+            resolvePageComponent(
+                `./Pages/${name}.vue`,
+                import.meta.glob("./Pages/**/*.vue"),
+            ),
+        setup({ el, App, props, plugin }) {
+            const app = createApp({ render: () => h(App, props) })
+                .use(plugin)
+                .use(ZiggyVue)
+                .mount(el);
 
-        // Mark Vue app as successfully mounted
-        vueAppMounted = true;
+            // Mark Vue app as successfully mounted
+            vueAppMounted = true;
 
-        return app;
-    },
+            return app;
+        },
         progress: {
-            color: '#4B5563',
+            color: "#4B5563",
         },
     });
 }

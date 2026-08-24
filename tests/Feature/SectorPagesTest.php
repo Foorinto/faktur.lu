@@ -223,6 +223,81 @@ class SectorPagesTest extends TestCase
     }
 
     /**
+     * La source du canal accompagne la réponse.
+     *
+     * Matomo compte les visites par canal ; cette colonne retient le canal
+     * jusqu'à la réponse. Sans elle, lancer quatre canaux donne douze réponses
+     * et aucune idée de celui qu'il faut recommencer.
+     */
+    public function test_the_channel_is_recorded_with_the_answer(): void
+    {
+        $this->post('/secteur/interet', [
+            'sector' => 'health',
+            'email' => 'infirmier@exemple.lu',
+            'message' => 'Recopier les mêmes actes.',
+            'source' => 'HORESCA',
+            'form_loaded_at' => now()->subSeconds(30)->timestamp,
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('sector_leads', [
+            'email' => 'infirmier@exemple.lu',
+            // Ramenée en minuscules : « HORESCA » et « horesca » sont le même
+            // canal, et deux lignes dans le décompte diraient le contraire.
+            'source' => 'horesca',
+        ]);
+    }
+
+    /**
+     * Une source difforme est jetée, pas la réponse.
+     *
+     * Elle vient d'un paramètre d'URL que n'importe qui peut tordre. Refuser la
+     * réponse entière reviendrait à perdre un contact pour sauver une étiquette.
+     */
+    public function test_a_malformed_channel_does_not_cost_the_answer(): void
+    {
+        foreach (['<script>alert(1)</script>', str_repeat('a', 120), 'avec espace'] as $i => $sale) {
+            $this->post('/secteur/interet', [
+                'sector' => 'construction',
+                'email' => "artisan{$i}@exemple.lu",
+                'message' => 'Les devis.',
+                'source' => $sale,
+                'form_loaded_at' => now()->subSeconds(30)->timestamp,
+            ])->assertRedirect();
+
+            $this->assertDatabaseHas('sector_leads', [
+                'email' => "artisan{$i}@exemple.lu",
+                'source' => null,
+            ]);
+        }
+    }
+
+    /**
+     * L'administration montre le canal, et le décompte par canal.
+     */
+    public function test_the_admin_shows_the_channel(): void
+    {
+        \App\Models\SectorLead::create([
+            'sector' => 'retail', 'source' => 'linkedin.com',
+            'email' => 'a@exemple.lu', 'message' => 'x', 'locale' => 'fr',
+        ]);
+
+        $admin = \App\Models\User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+
+        $this->actingAs($admin)
+            ->get('/'.config('admin.url_prefix').'/secteurs')
+            ->assertOk()
+            ->assertSee('linkedin.com')
+            ->assertSee('parSource');
+
+        $csv = $this->actingAs($admin)
+            ->get('/'.config('admin.url_prefix').'/secteurs/export')
+            ->streamedContent();
+
+        $this->assertStringContainsString('source', $csv, "L'export doit porter la colonne source.");
+        $this->assertStringContainsString('linkedin.com', $csv);
+    }
+
+    /**
      * Chaque page est traduite en entier, dans les cinq langues.
      *
      * `Lang::has()` reçoit `false` en troisième argument. Sans lui, il retombe
