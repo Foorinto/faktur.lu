@@ -674,6 +674,7 @@ return [
     'vat_check_title' => 'Check the VAT mention',
     'vat_check_eu' => 'Note: this client is in the EU. Under the franchise scheme, check whether a reverse-charge mention should apply (confirm with your accountant).',
     'vat_check_foreign' => 'Note: this client is outside the EU. Under the franchise scheme, check whether an export mention should apply (confirm with your accountant).',
+    'payments_edit' => 'Edit',
     'payments_title' => 'Payments received',
     'payments_add' => 'Record a payment',
     'payments_total_due' => 'Invoice total',
@@ -4284,6 +4285,8 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'payment_updated' => 'Payment updated.',
 
         'error_payment_locked' => 'This invoice is settled: its payments can no longer be deleted.',
 

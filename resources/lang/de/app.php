@@ -603,6 +603,7 @@ return [
     'vat_check_title' => 'MwSt.-Hinweis prüfen',
     'vat_check_eu' => 'Achtung: Dieser Kunde ist in der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Reverse-Charge-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
     'vat_check_foreign' => 'Achtung: Dieser Kunde ist außerhalb der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Ausfuhr-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
+    'payments_edit' => 'Bearbeiten',
     'payments_title' => 'Zahlungseingänge',
     'payments_add' => 'Zahlungseingang erfassen',
     'payments_total_due' => 'Rechnungsbetrag',
@@ -4268,6 +4269,8 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'payment_updated' => 'Zahlungseingang aktualisiert.',
 
         'error_payment_locked' => 'Diese Rechnung ist beglichen: Ihre Zahlungseingänge können nicht mehr gelöscht werden.',
 

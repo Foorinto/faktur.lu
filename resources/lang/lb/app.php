@@ -603,6 +603,7 @@ return [
     'vat_check_title' => 'TVA-Mentioun iwwerpréifen',
     'vat_check_eu' => 'Opgepasst: dëse Client ass an der EU. Am Franchise-Regime, iwwerpréift ob eng Autoliquidatioun-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
     'vat_check_foreign' => 'Opgepasst: dëse Client ass ausserhalb vun der EU. Am Franchise-Regime, iwwerpréift ob eng Export-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
+    'payments_edit' => 'Änneren',
     'payments_title' => 'Zuelungsagäng',
     'payments_add' => 'E Zuelungsagang androen',
     'payments_total_due' => 'Rechnungsbetrag',
@@ -4269,6 +4270,8 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'payment_updated' => 'Zuelungsagang aktualiséiert.',
 
         'error_payment_locked' => 'Dës Rechnung ass bezuelt: hir Zuelungsagäng kënnen net méi geläscht ginn.',
 

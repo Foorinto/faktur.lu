@@ -755,6 +755,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         // différents. Le statut « payée » se dérive de leur somme.
         Route::post('/invoices/{invoice}/payments', [InvoiceController::class, 'storePayment'])
             ->name('invoices.payments.store');
+        Route::patch('/invoices/{invoice}/payments/{payment}', [InvoiceController::class, 'updatePayment'])
+            ->name('invoices.payments.update');
         Route::delete('/invoices/{invoice}/payments/{payment}', [InvoiceController::class, 'destroyPayment'])
             ->name('invoices.payments.destroy');
         Route::post('/invoices/{invoice}/credit-note', [InvoiceController::class, 'createCreditNote'])->name('invoices.credit-note');

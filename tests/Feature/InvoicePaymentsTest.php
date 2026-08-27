@@ -207,6 +207,69 @@ class InvoicePaymentsTest extends TestCase
     }
 
     /**
+     * Le moyen se corrige même sur une facture soldée.
+     *
+     * C'est le rattrapage du chemin « marquer payée » depuis la LISTE, qui
+     * n'envoie ni date ni moyen : l'encaissement naissait « non renseigné »
+     * et se verrouillait aussitôt. L'information cherchée était perdue.
+     *
+     * Corriger le moyen ne touche ni au statut ni aux montants : le garde
+     * d'immuabilité n'est pas concerné.
+     */
+    public function test_the_method_can_be_corrected_after_settlement(): void
+    {
+        $facture = $this->factureFinalisee(400);
+
+        // Marquage depuis la liste : aucun moyen transmis.
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/mark-paid", []);
+
+        $facture->refresh();
+        $encaissement = $facture->payments()->first();
+
+        $this->assertTrue($facture->isPaid());
+        $this->assertNull($encaissement->method);
+
+        $this->actingAs($this->user)->patch(
+            "/invoices/{$facture->id}/payments/{$encaissement->id}",
+            [
+                'paid_at' => now()->subDay()->toDateString(),
+                'method' => 'cash',
+                'reference' => 'Caisse du 26',
+            ]
+        )->assertRedirect();
+
+        $encaissement->refresh();
+
+        $this->assertSame('cash', $encaissement->method);
+        $this->assertSame('Caisse du 26', $encaissement->reference);
+
+        // Le statut et les montants n'ont pas bougé.
+        $facture->refresh();
+        $this->assertTrue($facture->isPaid());
+        $this->assertSame(400.0, $facture->amountPaid());
+    }
+
+    /**
+     * Corriger la date du dernier encaissement met à jour celle de la facture.
+     */
+    public function test_correcting_the_date_updates_the_invoice(): void
+    {
+        $facture = $this->factureFinalisee(100);
+
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/mark-paid", []);
+        $encaissement = $facture->refresh()->payments()->first();
+
+        $nouvelle = now()->subDays(5)->toDateString();
+
+        $this->actingAs($this->user)->patch(
+            "/invoices/{$facture->id}/payments/{$encaissement->id}",
+            ['paid_at' => $nouvelle, 'method' => 'transfer']
+        );
+
+        $this->assertSame($nouvelle, $facture->refresh()->paid_at->format('Y-m-d'));
+    }
+
+    /**
      * Wero figure parmi les moyens, à la demande du client — et Payconiq reste,
      * le temps de l'absorption européenne.
      */

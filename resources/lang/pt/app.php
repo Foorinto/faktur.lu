@@ -673,6 +673,7 @@ return [
     'vat_check_title' => 'Verifique a menção de IVA',
     'vat_check_eu' => 'Atenção: este cliente está na UE. No regime de franquia, verifique se deve aplicar-se uma menção de autoliquidação (confirme com o seu contabilista).',
     'vat_check_foreign' => 'Atenção: este cliente está fora da UE. No regime de franquia, verifique se deve aplicar-se uma menção de exportação (confirme com o seu contabilista).',
+    'payments_edit' => 'Editar',
     'payments_title' => 'Recebimentos',
     'payments_add' => 'Registar um recebimento',
     'payments_total_due' => 'Total da fatura',
@@ -4498,6 +4499,8 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'payment_updated' => 'Recebimento atualizado.',
 
         'error_payment_locked' => 'Esta fatura está liquidada: os seus recebimentos já não podem ser eliminados.',
 

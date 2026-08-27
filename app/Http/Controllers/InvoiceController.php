@@ -511,6 +511,44 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Corrige le moyen, la date ou la référence d'un encaissement.
+     *
+     * Toujours autorisé, même sur une facture soldée — et c'est le point
+     * important. Aucun de ces trois champs ne touche au statut ni aux montants
+     * de la facture : le garde d'immuabilité n'est pas concerné.
+     *
+     * Sans cette correction, marquer une facture payée depuis la LISTE créait
+     * un encaissement sans moyen, aussitôt verrouillé : l'information que
+     * l'utilisateur cherche à collecter était perdue définitivement.
+     *
+     * Le montant, lui, n'est pas modifiable ici : le changer pourrait faire
+     * repasser la facture sous son total, donc de « payée » à « envoyée » —
+     * transition que le modèle interdit. Tant que la facture n'est pas soldée,
+     * l'encaissement se supprime et se resaisit.
+     */
+    public function updatePayment(Request $request, Invoice $invoice, InvoicePayment $payment): RedirectResponse
+    {
+        abort_unless($payment->invoice_id === $invoice->id, 404);
+
+        $donnees = $request->validate([
+            'paid_at' => ['required', 'date', 'before_or_equal:today'],
+            'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
+            'reference' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $payment->update($donnees);
+
+        // La date la plus récente peut avoir changé : `paid_at` de la facture
+        // en dépend. Le statut, lui, ne bouge pas — la somme est inchangée.
+        if ($invoice->isPaid()) {
+            $dernier = $invoice->payments()->orderByDesc('paid_at')->first();
+            $invoice->update(['paid_at' => $dernier?->paid_at]);
+        }
+
+        return back()->with('success', __('app.invoices_flash.payment_updated'));
+    }
+
+    /**
      * Supprime un encaissement saisi par erreur.
      *
      * ⚠️ Impossible une fois la facture soldée. Le garde d'immuabilité du

@@ -674,6 +674,7 @@ return [
     'vat_check_title' => 'Vérifiez la mention de TVA',
     'vat_check_eu' => 'Attention : ce client est dans l\'Union européenne. En franchise, vérifiez si une mention d\'autoliquidation doit s\'appliquer (à confirmer avec votre fiduciaire).',
     'vat_check_foreign' => 'Attention : ce client est hors Union européenne. En franchise, vérifiez si une mention d\'exportation doit s\'appliquer (à confirmer avec votre fiduciaire).',
+    'payments_edit' => 'Modifier',
     'payments_title' => 'Encaissements',
     'payments_add' => 'Enregistrer un encaissement',
     'payments_total_due' => 'Total de la facture',
@@ -4665,6 +4666,8 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'payment_updated' => 'Encaissement mis à jour.',
 
         'error_payment_locked' => 'Cette facture est soldée : ses encaissements ne peuvent plus être supprimés.',
 

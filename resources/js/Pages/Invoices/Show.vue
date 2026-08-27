@@ -61,6 +61,35 @@ const enregistrerEncaissement = () => {
     });
 };
 
+/**
+ * Correction d'un encaissement.
+ *
+ * Toujours possible, même sur une facture soldée : changer le moyen, la date
+ * ou la référence ne touche ni au statut ni aux montants. C'est ce qui rattrape
+ * le cas où l'on marque une facture payée depuis la liste, sans moyen.
+ */
+const encaissementEnEdition = ref(null);
+const formCorrection = useForm({ paid_at: "", method: null, reference: "" });
+
+const ouvrirCorrection = (encaissement) => {
+    encaissementEnEdition.value = encaissement.id;
+    formCorrection.paid_at = encaissement.paid_at;
+    formCorrection.method = encaissement.method;
+    formCorrection.reference = encaissement.reference || "";
+};
+
+const enregistrerCorrection = (encaissement) => {
+    formCorrection.patch(
+        route("invoices.payments.update", [props.invoice.id, encaissement.id]),
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                encaissementEnEdition.value = null;
+            },
+        },
+    );
+};
+
 const supprimerEncaissement = (encaissement) => {
     if (
         !confirm(
@@ -1711,57 +1740,172 @@ const submitCreditNote = () => {
                             class="divide-y divide-gray-100 dark:divide-gray-800"
                         >
                             <tr v-for="p in payments" :key="p.id">
-                                <td
-                                    class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400"
-                                >
-                                    {{ p.paid_at }}
-                                </td>
-                                <td class="px-3 py-3 text-sm">
-                                    <span
-                                        class="rounded-full px-2 py-0.5 text-xs"
-                                        :class="
-                                            p.method
-                                                ? 'bg-slate-100 text-slate-700 dark:bg-gray-700 dark:text-slate-200'
-                                                : 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
-                                        "
-                                        >{{ p.method_label }}</span
-                                    >
-                                </td>
-                                <td
-                                    class="px-3 py-3 text-sm text-slate-500 dark:text-slate-400"
-                                >
-                                    {{ p.reference || "-" }}
-                                </td>
-                                <td
-                                    class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white"
-                                >
-                                    {{ formatMontant(p.amount) }}
-                                </td>
-                                <td class="px-6 py-3 text-right">
-                                    <button
-                                        v-if="!paymentSummary.locked"
-                                        type="button"
-                                        @click="supprimerEncaissement(p)"
-                                        class="rounded-lg p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
-                                        :title="t('payments_delete')"
-                                    >
-                                        <svg
-                                            class="h-4 w-4"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            aria-hidden="true"
+                                <template v-if="encaissementEnEdition === p.id">
+                                    <td colspan="5" class="px-6 py-4">
+                                        <form
+                                            @submit.prevent="
+                                                enregistrerCorrection(p)
+                                            "
+                                            class="grid items-end gap-3 sm:grid-cols-4"
                                         >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4z"
-                                                clip-rule="evenodd"
-                                            />
-                                        </svg>
-                                        <span class="sr-only">{{
-                                            t("payments_delete")
-                                        }}</span>
-                                    </button>
-                                </td>
+                                            <div>
+                                                <label
+                                                    class="block text-xs font-medium text-slate-600 dark:text-slate-400"
+                                                    >{{
+                                                        t("payments_date")
+                                                    }}</label
+                                                >
+                                                <input
+                                                    v-model="
+                                                        formCorrection.paid_at
+                                                    "
+                                                    type="date"
+                                                    required
+                                                    class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-xs font-medium text-slate-600 dark:text-slate-400"
+                                                    >{{
+                                                        t("payments_method")
+                                                    }}</label
+                                                >
+                                                <select
+                                                    v-model="
+                                                        formCorrection.method
+                                                    "
+                                                    class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                                >
+                                                    <option :value="null">
+                                                        {{
+                                                            t(
+                                                                "payments_method_unknown",
+                                                            )
+                                                        }}
+                                                    </option>
+                                                    <option
+                                                        v-for="m in paymentMethods"
+                                                        :key="m.value"
+                                                        :value="m.value"
+                                                    >
+                                                        {{ m.label }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-xs font-medium text-slate-600 dark:text-slate-400"
+                                                    >{{
+                                                        t("payments_reference")
+                                                    }}</label
+                                                >
+                                                <input
+                                                    v-model="
+                                                        formCorrection.reference
+                                                    "
+                                                    type="text"
+                                                    maxlength="255"
+                                                    class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                                />
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button
+                                                    type="submit"
+                                                    :disabled="
+                                                        formCorrection.processing
+                                                    "
+                                                    class="rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-50"
+                                                >
+                                                    {{ t("save") }}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    @click="
+                                                        encaissementEnEdition =
+                                                            null
+                                                    "
+                                                    class="rounded-xl border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:text-slate-300"
+                                                >
+                                                    {{ t("cancel") }}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </template>
+                                <template v-else>
+                                    <td
+                                        class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400"
+                                    >
+                                        {{ p.paid_at }}
+                                    </td>
+                                    <td class="px-3 py-3 text-sm">
+                                        <span
+                                            class="rounded-full px-2 py-0.5 text-xs"
+                                            :class="
+                                                p.method
+                                                    ? 'bg-slate-100 text-slate-700 dark:bg-gray-700 dark:text-slate-200'
+                                                    : 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                                            "
+                                            >{{ p.method_label }}</span
+                                        >
+                                    </td>
+                                    <td
+                                        class="px-3 py-3 text-sm text-slate-500 dark:text-slate-400"
+                                    >
+                                        {{ p.reference || "-" }}
+                                    </td>
+                                    <td
+                                        class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white"
+                                    >
+                                        {{ formatMontant(p.amount) }}
+                                    </td>
+                                    <td class="px-6 py-3 text-right">
+                                        <button
+                                            type="button"
+                                            @click="ouvrirCorrection(p)"
+                                            class="mr-1 rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-gray-700"
+                                            :title="t('payments_edit')"
+                                        >
+                                            <svg
+                                                class="h-4 w-4"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z"
+                                                />
+                                            </svg>
+                                            <span class="sr-only">{{
+                                                t("payments_edit")
+                                            }}</span>
+                                        </button>
+                                        <button
+                                            v-if="!paymentSummary.locked"
+                                            type="button"
+                                            @click="supprimerEncaissement(p)"
+                                            class="rounded-lg p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                            :title="t('payments_delete')"
+                                        >
+                                            <svg
+                                                class="h-4 w-4"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4z"
+                                                    clip-rule="evenodd"
+                                                />
+                                            </svg>
+                                            <span class="sr-only">{{
+                                                t("payments_delete")
+                                            }}</span>
+                                        </button>
+                                    </td>
+                                </template>
                             </tr>
                         </tbody>
                     </table>
