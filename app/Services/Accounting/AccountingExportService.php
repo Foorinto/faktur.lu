@@ -132,7 +132,10 @@ class AccountingExportService
         $query = $user->userInvoices()
             ->whereIn('status', [Invoice::STATUS_FINALIZED, Invoice::STATUS_SENT, Invoice::STATUS_PAID])
             ->whereBetween('issued_at', [$start->startOfDay(), $end->endOfDay()])
-            ->with(['client', 'items'])
+            // `payments` : l'export porte un tableau des encaissements (FEAT-114).
+            // Sans le chargement anticipé, chaque facture déclencherait sa
+            // propre requête au moment du formatage.
+            ->with(['client', 'items', 'payments'])
             ->orderBy('issued_at')
             ->orderBy('number');
 

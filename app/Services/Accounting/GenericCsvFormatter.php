@@ -97,6 +97,8 @@ class GenericCsvFormatter
             }
         }
 
+        $lines = array_merge($lines, $this->lignesEncaissements($invoices));
+
         return $bom . implode("\r\n", $lines);
     }
 
@@ -127,6 +129,66 @@ class GenericCsvFormatter
      *
      * @return list<array{ht: float, tva: float, ttc: float, taux: float, compte: string}>
      */
+    /**
+     * Troisième tableau : les encaissements (FEAT-114).
+     *
+     * Ils ne peuvent pas être une colonne du journal des ventes. Une facture
+     * réglée moitié espèces moitié virement porterait alors deux moyens sur une
+     * même ligne — ou un seul, faux. Et la date d'encaissement diffère de la
+     * date d'émission, qui est celle du journal des ventes.
+     *
+     * C'est ce tableau qui permet à la fiduciaire de rapprocher la banque et la
+     * caisse : une ligne par mouvement d'argent, à sa date réelle.
+     *
+     * Le moyen absent s'écrit « Non renseigné ». Les encaissements repris de
+     * l'ancien fonctionnement n'en ont pas, et les ranger sous « Virement »
+     * fabriquerait une écriture qui n'a jamais existé.
+     *
+     * @param  Collection<int, Invoice>  $invoices
+     * @return array<int, string>
+     */
+    protected function lignesEncaissements(Collection $invoices): array
+    {
+        $encaissements = $invoices
+            ->flatMap(fn (Invoice $invoice) => $invoice->payments->map(fn ($p) => [
+                'date' => $p->paid_at,
+                'facture' => $invoice->number,
+                'client' => $invoice->client?->name ?? 'N/A',
+                'montant' => (float) $p->amount,
+                'moyen' => $p->methodLabel(),
+                'reference' => (string) ($p->reference ?? ''),
+            ]))
+            ->sortBy('date')
+            ->values();
+
+        if ($encaissements->isEmpty()) {
+            return [];
+        }
+
+        $lines = [''];
+        $lines[] = implode(';', [
+            'Date encaissement',
+            'N° Facture',
+            'Client',
+            'Montant',
+            'Moyen de paiement',
+            'Référence',
+        ]);
+
+        foreach ($encaissements as $e) {
+            $lines[] = implode(';', [
+                $e['date']?->format('d/m/Y') ?? '',
+                $e['facture'],
+                $this->escapeCsvField($e['client']),
+                $this->formatAmount($e['montant']),
+                $this->escapeCsvField($e['moyen']),
+                $this->escapeCsvField($e['reference']),
+            ]);
+        }
+
+        return $lines;
+    }
+
     protected function ventiler(Invoice $invoice, AccountingSetting $settings): array
     {
         if (! $invoice->relationLoaded('items')) {
