@@ -1751,8 +1751,38 @@ const submitCreditNote = () => {
                                             @submit.prevent="
                                                 enregistrerCorrection(p)
                                             "
-                                            class="grid items-end gap-3 sm:grid-cols-4"
+                                            class="grid items-end gap-3 sm:grid-cols-5"
                                         >
+                                            <div>
+                                                <label
+                                                    class="block text-xs font-medium text-slate-600 dark:text-slate-400"
+                                                    >{{
+                                                        t("payments_amount")
+                                                    }}</label
+                                                >
+                                                <input
+                                                    v-model="
+                                                        formCorrection.amount
+                                                    "
+                                                    type="number"
+                                                    step="0.01"
+                                                    min="0.01"
+                                                    required
+                                                    class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                                />
+                                                <p
+                                                    v-if="
+                                                        formCorrection.errors
+                                                            .amount
+                                                    "
+                                                    class="mt-1 text-xs text-red-600"
+                                                >
+                                                    {{
+                                                        formCorrection.errors
+                                                            .amount
+                                                    }}
+                                                </p>
+                                            </div>
                                             <div>
                                                 <label
                                                     class="block text-xs font-medium text-slate-600 dark:text-slate-400"
@@ -1887,7 +1917,6 @@ const submitCreditNote = () => {
                                             }}</span>
                                         </button>
                                         <button
-                                            v-if="!paymentSummary.locked"
                                             type="button"
                                             @click="supprimerEncaissement(p)"
                                             class="rounded-lg p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
