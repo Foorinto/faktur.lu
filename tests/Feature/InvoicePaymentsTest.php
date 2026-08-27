@@ -118,24 +118,20 @@ class InvoicePaymentsTest extends TestCase
     }
 
     /**
-     * Une facture soldée verrouille ses encaissements.
+     * Supprimer un encaissement rouvre la facture, même soldée.
      *
-     * ⚠️ Ce n'est pas un choix de confort : le garde d'immuabilité du modèle
-     * fait de « payée » un statut terminal — `finalized → sent|paid|cancelled`
-     * et `sent → paid|cancelled`, rien n'en sort. Autoriser la suppression
-     * laisserait une facture marquée payée sans montant pour l'appuyer.
-     *
-     * La contrepartie est réelle : une erreur de saisie sur le dernier
-     * encaissement n'est plus corrigeable. Voir FEAT-114.
+     * C'est le cas du chèque revenu impayé, du virement rejeté, de la carte
+     * contestée. `paid` n'est pas terminal : le garde d'immuabilité protège le
+     * DOCUMENT — lignes, montants, numérotation — pas l'état de la créance.
      */
-    public function test_a_settled_invoice_locks_its_payments(): void
+    public function test_deleting_a_payment_reopens_a_settled_invoice(): void
     {
         $facture = $this->factureFinalisee(500);
 
         $this->actingAs($this->user)->post("/invoices/{$facture->id}/payments", [
             'amount' => 500,
             'paid_at' => now()->toDateString(),
-            'method' => 'card',
+            'method' => 'check',
         ]);
 
         $this->assertTrue($facture->refresh()->isPaid());
@@ -144,10 +140,50 @@ class InvoicePaymentsTest extends TestCase
 
         $this->actingAs($this->user)
             ->delete("/invoices/{$facture->id}/payments/{$encaissement->id}")
-            ->assertSessionHas('error');
+            ->assertRedirect();
 
-        $this->assertCount(1, $facture->refresh()->payments);
-        $this->assertTrue($facture->isPaid());
+        $facture->refresh();
+
+        $this->assertFalse($facture->isPaid());
+        $this->assertSame(Invoice::STATUS_SENT, $facture->status);
+        $this->assertNull($facture->paid_at);
+        $this->assertSame(500.0, $facture->amountDue());
+    }
+
+    /**
+     * Réduire un montant fait redevenir la facture due.
+     *
+     * Le cas du paiement en trois fois dont une échéance a été mal saisie.
+     */
+    public function test_reducing_an_amount_reopens_the_invoice(): void
+    {
+        $facture = $this->factureFinalisee(900);
+
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/payments", [
+            'amount' => 900,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+        ]);
+
+        $this->assertTrue($facture->refresh()->isPaid());
+
+        $encaissement = $facture->payments()->first();
+
+        $this->actingAs($this->user)->patch(
+            "/invoices/{$facture->id}/payments/{$encaissement->id}",
+            [
+                'amount' => 300,
+                'paid_at' => now()->toDateString(),
+                'method' => 'transfer',
+            ]
+        )->assertRedirect();
+
+        $facture->refresh();
+
+        $this->assertFalse($facture->isPaid());
+        $this->assertTrue($facture->isPartiallyPaid());
+        $this->assertSame(300.0, $facture->amountPaid());
+        $this->assertSame(600.0, $facture->amountDue());
     }
 
     /**
@@ -232,6 +268,7 @@ class InvoicePaymentsTest extends TestCase
         $this->actingAs($this->user)->patch(
             "/invoices/{$facture->id}/payments/{$encaissement->id}",
             [
+                'amount' => 400,
                 'paid_at' => now()->subDay()->toDateString(),
                 'method' => 'cash',
                 'reference' => 'Caisse du 26',
@@ -263,7 +300,7 @@ class InvoicePaymentsTest extends TestCase
 
         $this->actingAs($this->user)->patch(
             "/invoices/{$facture->id}/payments/{$encaissement->id}",
-            ['paid_at' => $nouvelle, 'method' => 'transfer']
+            ['amount' => 100, 'paid_at' => $nouvelle, 'method' => 'transfer']
         );
 
         $this->assertSame($nouvelle, $facture->refresh()->paid_at->format('Y-m-d'));

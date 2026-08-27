@@ -675,6 +675,7 @@ return [
     'vat_check_eu' => 'Note: this client is in the EU. Under the franchise scheme, check whether a reverse-charge mention should apply (confirm with your accountant).',
     'vat_check_foreign' => 'Note: this client is outside the EU. Under the franchise scheme, check whether an export mention should apply (confirm with your accountant).',
     'payments_edit' => 'Edit',
+    'payments_settled_hint' => 'This invoice is settled. Removing or correcting a payment will make it outstanding again.',
     'payments_title' => 'Payments received',
     'payments_add' => 'Record a payment',
     'payments_total_due' => 'Invoice total',

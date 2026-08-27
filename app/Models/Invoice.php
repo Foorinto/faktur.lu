@@ -104,9 +104,25 @@ class Invoice extends Model
             $originalStatus = $invoice->getOriginal('status');
 
             // Allow status transitions for non-draft invoices
+            //
+            // `paid` n'est pas terminal (FEAT-114). Ce garde protège le
+            // DOCUMENT légal — lignes, montants, client, numérotation — comme
+            // l'exige l'article 63 LIVA. Le statut de paiement, lui, est une
+            // information de gestion SUR le document : le PDF ne le mentionne
+            // nulle part, et `paid_at` est déjà modifiable après règlement.
+            //
+            // Une facture peut donc redevenir due : chèque impayé, virement
+            // rejeté, carte contestée, ou simple erreur de saisie sur un
+            // paiement en plusieurs fois. Refuser ces cas obligeait à mentir
+            // sur l'état réel de la créance.
+            //
+            // Aucune interface n'expose de bouton « dé-encaisser » : le seul
+            // chemin passe par la suppression ou la correction d'un
+            // encaissement, donc par un acte comptable explicite.
             $allowedStatusTransitions = [
                 'finalized' => ['sent', 'paid', 'cancelled'],
                 'sent' => ['paid', 'cancelled'],
+                'paid' => ['sent', 'cancelled'],
             ];
 
             // If invoice was already finalized and trying to change more than just status
@@ -254,15 +270,18 @@ class Invoice extends Model
             return;
         }
 
-        // ⚠️ Pas de retour en arrière depuis « payée ».
+        // Retour en arrière : la somme est redescendue sous le total — un
+        // encaissement supprimé, un montant corrigé, un chèque revenu impayé.
+        // La facture redevient due.
         //
-        // Le garde d'immuabilité de ce modèle fait de `paid` un statut
-        // terminal : les transitions autorisées sont `finalized → sent|paid|
-        // cancelled` et `sent → paid|cancelled`. Rien n'en sort.
-        //
-        // On ne contourne pas cette règle ici. La conséquence est assumée et
-        // portée par `destroyPayment()` : un encaissement ne se supprime plus
-        // une fois la facture soldée. Voir FEAT-114 pour la discussion.
+        // On ne touche qu'à ce cas : une facture annulée ou en brouillon garde
+        // son statut, et une facture jamais encaissée n'a rien à changer.
+        if ($this->status === self::STATUS_PAID) {
+            $this->update([
+                'status' => self::STATUS_SENT,
+                'paid_at' => null,
+            ]);
+        }
     }
 
     /**

@@ -521,16 +521,16 @@ class InvoiceController extends Controller
      * un encaissement sans moyen, aussitôt verrouillé : l'information que
      * l'utilisateur cherche à collecter était perdue définitivement.
      *
-     * Le montant, lui, n'est pas modifiable ici : le changer pourrait faire
-     * repasser la facture sous son total, donc de « payée » à « envoyée » —
-     * transition que le modèle interdit. Tant que la facture n'est pas soldée,
-     * l'encaissement se supprime et se resaisit.
+     * Le montant est modifiable lui aussi : le réduire fait redescendre la
+     * somme sous le total et la facture redevient due, ce que le modèle
+     * autorise depuis FEAT-114.
      */
     public function updatePayment(Request $request, Invoice $invoice, InvoicePayment $payment): RedirectResponse
     {
         abort_unless($payment->invoice_id === $invoice->id, 404);
 
         $donnees = $request->validate([
+            'amount' => ['required', 'numeric', 'min:0.01'],
             'paid_at' => ['required', 'date', 'before_or_equal:today'],
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
             'reference' => ['nullable', 'string', 'max:255'],
@@ -538,33 +538,24 @@ class InvoiceController extends Controller
 
         $payment->update($donnees);
 
-        // La date la plus récente peut avoir changé : `paid_at` de la facture
-        // en dépend. Le statut, lui, ne bouge pas — la somme est inchangée.
-        if ($invoice->isPaid()) {
-            $dernier = $invoice->payments()->orderByDesc('paid_at')->first();
-            $invoice->update(['paid_at' => $dernier?->paid_at]);
-        }
+        // Le montant a pu changer : le statut et `paid_at` en dérivent tous
+        // les deux, et la facture peut redevenir due.
+        $invoice->refresh()->refreshPaymentStatus();
 
         return back()->with('success', __('app.invoices_flash.payment_updated'));
     }
 
     /**
-     * Supprime un encaissement saisi par erreur.
+     * Supprime un encaissement.
      *
-     * ⚠️ Impossible une fois la facture soldée. Le garde d'immuabilité du
-     * modèle fait de « payée » un statut terminal — aucune transition n'en
-     * sort. Supprimer l'encaissement laisserait donc une facture marquée payée
-     * sans montant pour l'appuyer, ce qui est pire que de refuser.
-     *
-     * Un encaissement partiel, lui, se corrige librement.
+     * Possible même sur une facture soldée : la suppression fait redescendre la
+     * somme sous le total, et la facture redevient due. C'est ce qui permet de
+     * traiter un chèque revenu impayé, un virement rejeté ou une saisie
+     * erronée sur un paiement en plusieurs fois.
      */
     public function destroyPayment(Invoice $invoice, InvoicePayment $payment): RedirectResponse
     {
         abort_unless($payment->invoice_id === $invoice->id, 404);
-
-        if ($invoice->isPaid()) {
-            return back()->with('error', __('app.invoices_flash.error_payment_locked'));
-        }
 
         $payment->delete();
         $invoice->refresh()->refreshPaymentStatus();

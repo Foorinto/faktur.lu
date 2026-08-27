@@ -69,10 +69,16 @@ const enregistrerEncaissement = () => {
  * le cas où l'on marque une facture payée depuis la liste, sans moyen.
  */
 const encaissementEnEdition = ref(null);
-const formCorrection = useForm({ paid_at: "", method: null, reference: "" });
+const formCorrection = useForm({
+    amount: null,
+    paid_at: "",
+    method: null,
+    reference: "",
+});
 
 const ouvrirCorrection = (encaissement) => {
     encaissementEnEdition.value = encaissement.id;
+    formCorrection.amount = encaissement.amount;
     formCorrection.paid_at = encaissement.paid_at;
     formCorrection.method = encaissement.method;
     formCorrection.reference = encaissement.reference || "";
@@ -1576,7 +1582,6 @@ const submitCreditNote = () => {
                         {{ t("payments_title") }}
                     </h2>
                     <button
-                        v-if="!paymentSummary.locked"
                         type="button"
                         @click="ouvrirSaisie"
                         class="rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-700"

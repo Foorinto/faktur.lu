@@ -674,6 +674,7 @@ return [
     'vat_check_eu' => 'Atenção: este cliente está na UE. No regime de franquia, verifique se deve aplicar-se uma menção de autoliquidação (confirme com o seu contabilista).',
     'vat_check_foreign' => 'Atenção: este cliente está fora da UE. No regime de franquia, verifique se deve aplicar-se uma menção de exportação (confirme com o seu contabilista).',
     'payments_edit' => 'Editar',
+    'payments_settled_hint' => 'Esta fatura está liquidada. Remover ou corrigir um recebimento voltará a torná-la em dívida.',
     'payments_title' => 'Recebimentos',
     'payments_add' => 'Registar um recebimento',
     'payments_total_due' => 'Total da fatura',
