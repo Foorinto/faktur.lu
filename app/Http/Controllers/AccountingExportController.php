@@ -111,7 +111,7 @@ class AccountingExportController extends Controller
         $validated = $request->validate([
             'period_start' => 'required|date',
             'period_end' => 'required|date|after_or_equal:period_start',
-            'format' => 'required|in:sage_bob,sage_100,generic,fec',
+            'format' => 'required|in:sage_bob,sage_100,generic,fec,xlsx',
             'include_credit_notes' => 'boolean',
             'scope' => 'nullable|in:sales,purchases,both',
         ]);
@@ -163,6 +163,7 @@ class AccountingExportController extends Controller
         $mimeType = match ($export->format) {
             AccountingExport::FORMAT_SAGE_BOB => 'text/plain',
             AccountingExport::FORMAT_FEC => 'text/plain',
+            AccountingExport::FORMAT_XLSX => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             default => 'text/csv',
         };
 

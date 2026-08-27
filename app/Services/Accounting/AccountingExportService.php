@@ -540,6 +540,8 @@ class AccountingExportService
             // Le CSV générique se lit ligne par document, pas par écriture : il
             // reçoit donc les objets et non les entrées comptables.
             AccountingExport::FORMAT_GENERIC => (new GenericCsvFormatter())->format($invoices, $settings, $expenses ?? collect()),
+            // Même contenu que le CSV générique, réparti sur trois onglets.
+            AccountingExport::FORMAT_XLSX => (new XlsxFormatter())->format($invoices, $settings, $expenses ?? collect()),
             default => throw new \InvalidArgumentException("Format non supporté: {$format}"),
         };
     }
@@ -577,6 +579,7 @@ class AccountingExportService
             AccountingExport::FORMAT_SAGE_BOB => 'txt',
             AccountingExport::FORMAT_SAGE_100 => 'csv',
             AccountingExport::FORMAT_GENERIC => 'csv',
+            AccountingExport::FORMAT_XLSX => 'xlsx',
             AccountingExport::FORMAT_FEC => 'txt',
             default => 'txt',
         };
@@ -585,6 +588,7 @@ class AccountingExportService
             AccountingExport::FORMAT_SAGE_BOB => 'sage_bob',
             AccountingExport::FORMAT_SAGE_100 => 'sage_100',
             AccountingExport::FORMAT_GENERIC => 'export_comptable',
+            AccountingExport::FORMAT_XLSX => 'export_comptable',
             AccountingExport::FORMAT_FEC => 'fec',
             default => 'export',
         };
