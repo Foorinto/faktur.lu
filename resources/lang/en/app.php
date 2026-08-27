@@ -4159,6 +4159,7 @@ return [
         'email' => 'Your email',
         'email_help' => 'So we can tell you the day the thing you asked for exists.',
         'newsletter' => 'I would also like to receive faktur.lu news.',
+        'newsletter_confirm_hint' => 'You will receive an email to confirm your subscription.',
         'submit' => 'Send',
         'thanks' => 'Thank you, your answer has been recorded.',
         'too_many' => 'Too many submissions from this connection. Please try again shortly.',

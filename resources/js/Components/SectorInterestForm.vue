@@ -1,12 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
-import HoneypotFields from '@/Components/HoneypotFields.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { useTranslations } from '@/Composables/useTranslations';
-import { sourceDeLaVisite } from '@/Support/sourceVisite';
+import { computed, ref } from "vue";
+import { useForm, usePage } from "@inertiajs/vue3";
+import HoneypotFields from "@/Components/HoneypotFields.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { useTranslations } from "@/Composables/useTranslations";
+import { sourceDeLaVisite } from "@/Support/sourceVisite";
 
 const { t } = useTranslations();
 
@@ -34,10 +34,10 @@ const page = usePage();
  */
 const form = useForm({
     sector: props.sector,
-    email: '',
-    message: '',
+    email: "",
+    message: "",
     wants_newsletter: false,
-    homepage_url: '',
+    homepage_url: "",
     form_loaded_at: Math.floor(Date.now() / 1000),
     source: sourceDeLaVisite(),
 });
@@ -46,11 +46,11 @@ const envoye = ref(false);
 const flash = computed(() => page.props.flash ?? {});
 
 const submit = () => {
-    form.post(route('sector-lead.store'), {
+    form.post(route("sector-lead.store"), {
         preserveScroll: true,
         onSuccess: () => {
             envoye.value = true;
-            form.reset('email', 'message', 'wants_newsletter');
+            form.reset("email", "message", "wants_newsletter");
         },
     });
 };
@@ -60,19 +60,21 @@ const submit = () => {
     <!-- Bordure et fond appuyés : ce bloc est la raison d'être de la page, pas
          un encadré de bas de page. Sur la version précédente il se confondait
          avec le reste du texte. -->
-    <section class="rounded-2xl border-2 border-primary-200 bg-primary-50/50 p-6 dark:border-primary-800 dark:bg-primary-900/10 sm:p-8">
+    <section
+        class="rounded-2xl border-2 border-primary-200 bg-primary-50/50 p-6 dark:border-primary-800 dark:bg-primary-900/10 sm:p-8"
+    >
         <h2 class="text-2xl font-bold text-slate-900 dark:text-white">
-            {{ t('sector_lead.title') }}
+            {{ t("sector_lead.title") }}
         </h2>
         <p class="mt-2 text-base text-slate-600 dark:text-slate-300">
-            {{ t('sector_lead.intro') }}
+            {{ t("sector_lead.intro") }}
         </p>
 
         <div
             v-if="envoye || flash.success"
             class="mt-4 rounded-xl bg-emerald-50 p-4 text-sm text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200"
         >
-            {{ flash.success || t('sector_lead.thanks') }}
+            {{ flash.success || t("sector_lead.thanks") }}
         </div>
 
         <form v-else class="mt-5 space-y-4" @submit.prevent="submit">
@@ -82,7 +84,10 @@ const submit = () => {
             />
 
             <div>
-                <InputLabel for="sector_message" :value="t('sector_lead.question')" />
+                <InputLabel
+                    for="sector_message"
+                    :value="t('sector_lead.question')"
+                />
                 <textarea
                     id="sector_message"
                     v-model="form.message"
@@ -95,7 +100,10 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="sector_email" :value="t('sector_lead.email')" />
+                <InputLabel
+                    for="sector_email"
+                    :value="t('sector_lead.email')"
+                />
                 <input
                     id="sector_email"
                     v-model="form.email"
@@ -103,20 +111,34 @@ const submit = () => {
                     autocomplete="email"
                     class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                 />
-                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('sector_lead.email_help') }}</p>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {{ t("sector_lead.email_help") }}
+                </p>
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <!-- Consentement distinct : répondre à une question n'est pas
                  s'abonner à une lettre d'information. -->
-            <label class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
+            <label
+                class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400"
+            >
                 <input
                     v-model="form.wants_newsletter"
                     type="checkbox"
                     class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                 />
-                <span>{{ t('sector_lead.newsletter') }}</span>
+                <span>{{ t("sector_lead.newsletter") }}</span>
             </label>
+
+            <!-- Cocher déclenche un courriel de confirmation : autant le dire.
+                 Un message inattendu dans une boîte se lit comme du spam, même
+                 quand on vient de le demander. -->
+            <p
+                v-if="form.wants_newsletter"
+                class="ml-6 text-xs text-slate-500 dark:text-slate-400"
+            >
+                {{ t("sector_lead.newsletter_confirm_hint") }}
+            </p>
 
             <div
                 v-if="flash.error"
@@ -126,7 +148,7 @@ const submit = () => {
             </div>
 
             <PrimaryButton :disabled="form.processing">
-                {{ form.processing ? t('sending') : t('sector_lead.submit') }}
+                {{ form.processing ? t("sending") : t("sector_lead.submit") }}
             </PrimaryButton>
         </form>
     </section>

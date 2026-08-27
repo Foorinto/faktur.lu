@@ -4144,6 +4144,7 @@ return [
         'email' => 'Är E-Mail-Adress',
         'email_help' => 'Nëmme fir Iech ze äntweren. Loosst d\'Feld eidel, wann Dir anonym bleiwe wëllt.',
         'newsletter' => 'Ech wëll och d\'Neiegkeeten vu faktur.lu kréien.',
+        'newsletter_confirm_hint' => 'Dir kritt eng E-Mail, fir Är Umeldung ze bestätegen.',
         'submit' => 'Schécken',
         'thanks' => 'Merci, Är Äntwert ass gespäichert.',
         'too_many' => 'Ze vill Ufroe vun dëser Verbindung. Probéiert w.e.g. an engem Moment nach eng Kéier.',

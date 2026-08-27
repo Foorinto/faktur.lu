@@ -4540,6 +4540,7 @@ return [
         'email' => 'Votre email',
         'email_help' => 'Pour vous prévenir le jour où ce que vous demandez existe.',
         'newsletter' => 'Je souhaite aussi recevoir les actualités de faktur.lu.',
+        'newsletter_confirm_hint' => 'Vous recevrez un courriel pour confirmer votre inscription.',
         'submit' => 'Envoyer',
         'thanks' => 'Merci, votre réponse est bien enregistrée.',
         'too_many' => 'Trop d\'envois depuis cette connexion. Réessayez dans un moment.',

@@ -4373,6 +4373,7 @@ return [
         'email' => 'O seu email',
         'email_help' => 'Para o avisarmos no dia em que existir o que pediu.',
         'newsletter' => 'Também quero receber as novidades do faktur.lu.',
+        'newsletter_confirm_hint' => 'Receberá um email para confirmar a sua inscrição.',
         'submit' => 'Enviar',
         'thanks' => 'Obrigado, a sua resposta foi registada.',
         'too_many' => 'Demasiados envios a partir desta ligação. Tente novamente daqui a pouco.',
