@@ -610,6 +610,7 @@ return [
     'payments_by_method_hint' => 'Berechnet aus den Zahlungseingängen zu ihrem tatsächlichen Datum: eine in mehreren Raten beglichene Rechnung verteilt sich auf die betroffenen Zeiträume.',
     'payments_count' => 'Anzahl',
     'payments_share' => 'Anteil',
+    'all_payment_methods' => 'Alle Zahlungsarten',
     'payments_title' => 'Zahlungseingänge',
     'payments_add' => 'Zahlungseingang erfassen',
     'payments_total_due' => 'Rechnungsbetrag',

@@ -610,6 +610,7 @@ return [
     'payments_by_method_hint' => 'Berechent aus den Zuelungsagäng, op hirem richtegen Datum: eng Rechnung déi a méi Kéiere bezuelt gouf verdeelt sech op déi betraffe Perioden.',
     'payments_count' => 'Unzuel',
     'payments_share' => 'Undeel',
+    'all_payment_methods' => 'All Zuelungsaarten',
     'payments_title' => 'Zuelungsagäng',
     'payments_add' => 'E Zuelungsagang androen',
     'payments_total_due' => 'Rechnungsbetrag',

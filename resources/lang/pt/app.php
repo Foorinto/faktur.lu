@@ -680,6 +680,7 @@ return [
     'payments_by_method_hint' => 'Calculado a partir dos recebimentos, na sua data real: uma fatura liquidada em várias vezes reparte-se pelos períodos em causa.',
     'payments_count' => 'Número',
     'payments_share' => 'Parte',
+    'all_payment_methods' => 'Todos os meios',
     'payments_title' => 'Recebimentos',
     'payments_add' => 'Registar um recebimento',
     'payments_total_due' => 'Total da fatura',

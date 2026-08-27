@@ -681,6 +681,7 @@ return [
     'payments_by_method_hint' => 'Calculé à partir des encaissements, à leur date réelle : une facture réglée en plusieurs fois se répartit sur les périodes concernées.',
     'payments_count' => 'Nombre',
     'payments_share' => 'Part',
+    'all_payment_methods' => 'Tous les moyens',
     'payments_title' => 'Encaissements',
     'payments_add' => 'Enregistrer un encaissement',
     'payments_total_due' => 'Total de la facture',

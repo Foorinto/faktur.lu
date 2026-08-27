@@ -59,10 +59,37 @@ class InvoiceController extends Controller
             $query->where('type', $request->input('type'));
         }
 
+        // Filtre par moyen d'encaissement (FEAT-114).
+        //
+        // On retient les factures qui portent AU MOINS un encaissement de ce
+        // moyen — une facture réglée moitié espèces moitié virement apparaît
+        // donc dans les deux filtres, ce qui est exact.
+        $moyen = $request->input('payment_method');
+
+        if ($moyen === 'unknown') {
+            // « Non renseigné » est une valeur à part entière : les
+            // encaissements repris de l'ancien fonctionnement n'ont pas de
+            // moyen, et pouvoir les retrouver est précisément ce qui permet de
+            // les compléter.
+            $query->whereHas('payments', fn ($q) => $q->whereNull('method'));
+        } elseif (in_array($moyen, InvoicePayment::METHODS, true)) {
+            $query->whereHas('payments', fn ($q) => $q->where('method', $moyen));
+        } else {
+            $moyen = null;
+        }
+
         $invoices = $query
             // Somme des encaissements en une seule requête agrégée : charger
             // la relation pour quinze factures en produirait quinze de plus.
             ->withSum('payments as encaisse', 'amount')
+            // Et, quand un moyen est filtré, la part qui lui revient : c'est
+            // elle qui intéresse l'utilisateur, pas le total encaissé.
+            ->when($moyen, fn ($q) => $q->withSum(
+                ['payments as encaisse_moyen' => fn ($p) => $moyen === 'unknown'
+                    ? $p->whereNull('method')
+                    : $p->where('method', $moyen)],
+                'amount'
+            ))
             ->orderByRaw("CASE WHEN status = 'draft' THEN 0 ELSE 1 END")
             ->orderByDesc('issued_at')
             ->orderByDesc('created_at')
@@ -88,6 +115,7 @@ class InvoiceController extends Controller
                 'year' => $request->input('year'),
                 'client_id' => $request->input('client_id'),
                 'type' => $request->input('type'),
+                'payment_method' => $moyen,
             ],
             'statuses' => [
                 ['value' => 'draft', 'label' => __('app.draft')],
@@ -98,6 +126,14 @@ class InvoiceController extends Controller
             ],
             'years' => $years,
             'clients' => Client::orderBy('name')->get(['id', 'name']),
+
+            // Moyens proposés au filtre. « Non renseigné » y figure : c'est ce
+            // qui permet de retrouver les encaissements repris et de les
+            // compléter.
+            'paymentMethods' => collect(InvoicePayment::METHODS)
+                ->map(fn ($m) => ['value' => $m, 'label' => __("app.payment_methods.{$m}")])
+                ->push(['value' => 'unknown', 'label' => __('app.payment_methods.unknown')])
+                ->values(),
         ]);
     }
 

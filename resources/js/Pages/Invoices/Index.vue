@@ -20,11 +20,13 @@ const props = defineProps({
     statuses: Array,
     years: Array,
     clients: Array,
+    paymentMethods: { type: Array, default: () => [] },
 });
 
 const statusFilter = ref(props.filters.status || "");
 const yearFilter = ref(props.filters.year || "");
 const clientFilter = ref(props.filters.client_id || "");
+const paymentMethodFilter = ref(props.filters.payment_method || "");
 
 // Preview modal state
 const showPreviewModal = ref(false);
@@ -101,6 +103,7 @@ const updateFilters = () => {
             status: statusFilter.value || undefined,
             year: yearFilter.value || undefined,
             client_id: clientFilter.value || undefined,
+            payment_method: paymentMethodFilter.value || undefined,
         },
         {
             preserveState: true,
@@ -109,7 +112,19 @@ const updateFilters = () => {
     );
 };
 
-watch([statusFilter, yearFilter, clientFilter], updateFilters);
+watch(
+    [statusFilter, yearFilter, clientFilter, paymentMethodFilter],
+    updateFilters,
+);
+
+/**
+ * Libellé du moyen filtré, pour l'afficher sur chaque ligne.
+ */
+const libelleMoyenFiltre = computed(
+    () =>
+        props.paymentMethods.find((m) => m.value === paymentMethodFilter.value)
+            ?.label || "",
+);
 
 const getStatusBadgeClass = (status) => {
     const classes = {
@@ -289,6 +304,21 @@ const changeStatus = (invoice, newStatus) => {
                 <option value="">{{ t("all_years") }}</option>
                 <option v-for="year in years" :key="year" :value="year">
                     {{ year }}
+                </option>
+            </select>
+
+            <!-- Filtre par moyen d'encaissement (FEAT-114) -->
+            <select
+                v-model="paymentMethodFilter"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
+            >
+                <option value="">{{ t("all_payment_methods") }}</option>
+                <option
+                    v-for="methode in paymentMethods"
+                    :key="methode.value"
+                    :value="methode.value"
+                >
+                    {{ methode.label }}
                 </option>
             </select>
 
@@ -485,6 +515,20 @@ const changeStatus = (invoice, newStatus) => {
                                     invoice.currency,
                                 )
                             }}
+                            <!-- Un moyen est filtré : c'est la part qui lui
+                                 revient qui intéresse, pas le total encaissé. -->
+                            <span
+                                v-if="invoice.encaisse_moyen !== undefined"
+                                class="mt-0.5 block text-xs font-normal text-emerald-600 dark:text-emerald-400"
+                            >
+                                {{ libelleMoyenFiltre }} :
+                                {{
+                                    formatCurrency(
+                                        invoice.encaisse_moyen,
+                                        invoice.currency,
+                                    )
+                                }}
+                            </span>
                             <!-- Encaissement partiel : le total seul laisserait
                                  croire que rien n'est rentré. On montre ce qui
                                  reste dû, qui est l'information utile. -->

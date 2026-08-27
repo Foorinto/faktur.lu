@@ -681,6 +681,7 @@ return [
     'payments_by_method_hint' => 'Computed from the payments themselves, at their actual date: an invoice settled in instalments is spread across the periods concerned.',
     'payments_count' => 'Count',
     'payments_share' => 'Share',
+    'all_payment_methods' => 'All payment methods',
     'payments_title' => 'Payments received',
     'payments_add' => 'Record a payment',
     'payments_total_due' => 'Invoice total',
