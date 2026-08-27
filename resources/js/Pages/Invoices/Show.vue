@@ -84,6 +84,23 @@ const ouvrirCorrection = (encaissement) => {
     formCorrection.reference = encaissement.reference || "";
 };
 
+/**
+ * Plafond de correction : le reste dû, augmenté du montant de l'encaissement
+ * en cours d'édition — sinon repasser 500 € à 500 € sur une facture soldée
+ * serait refusé par son propre montant.
+ */
+const plafondCorrection = computed(() => {
+    const encaissement = props.payments.find(
+        (p) => p.id === encaissementEnEdition.value,
+    );
+
+    return (
+        Math.round(
+            (props.paymentSummary.due + (encaissement?.amount || 0)) * 100,
+        ) / 100
+    );
+});
+
 const enregistrerCorrection = (encaissement) => {
     formCorrection.patch(
         route("invoices.payments.update", [props.invoice.id, encaissement.id]),
@@ -1653,6 +1670,7 @@ const submitCreditNote = () => {
                                 type="number"
                                 step="0.01"
                                 min="0.01"
+                                :max="paymentSummary.due"
                                 required
                                 class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                             />
@@ -1767,6 +1785,7 @@ const submitCreditNote = () => {
                                                     type="number"
                                                     step="0.01"
                                                     min="0.01"
+                                                    :max="plafondCorrection"
                                                     required
                                                     class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                                                 />

@@ -4501,6 +4501,8 @@ return [
 
     'invoices_flash' => [
 
+        'error_payment_exceeds' => 'O montante excede o valor em dívida (:amount €).',
+
         'payment_updated' => 'Recebimento atualizado.',
 
         'error_payment_locked' => 'Esta fatura está liquidada: os seus recebimentos já não podem ser eliminados.',

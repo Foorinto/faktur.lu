@@ -4668,6 +4668,8 @@ return [
 
     'invoices_flash' => [
 
+        'error_payment_exceeds' => 'Le montant dépasse le reste dû (:amount €).',
+
         'payment_updated' => 'Encaissement mis à jour.',
 
         'error_payment_locked' => 'Cette facture est soldée : ses encaissements ne peuvent plus être supprimés.',

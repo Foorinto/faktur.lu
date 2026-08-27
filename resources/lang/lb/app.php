@@ -4272,6 +4272,8 @@ return [
 
     'invoices_flash' => [
 
+        'error_payment_exceeds' => 'De Betrag ass méi héich wéi dat wat nach ze bezuelen ass (:amount €).',
+
         'payment_updated' => 'Zuelungsagang aktualiséiert.',
 
         'error_payment_locked' => 'Dës Rechnung ass bezuelt: hir Zuelungsagäng kënnen net méi geläscht ginn.',

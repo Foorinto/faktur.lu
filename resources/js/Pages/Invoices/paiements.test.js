@@ -52,6 +52,17 @@ describe('bloc encaissements', () => {
         expect(SOURCE).not.toContain('v-if="!paymentSummary.locked"');
     });
 
+    /**
+     * Le montant est plafonné au reste dû, des deux côtés.
+     *
+     * Le serveur refuse déjà, mais un champ sans `max` laisse l'utilisateur
+     * saisir puis se faire rejeter — on l'en empêche avant.
+     */
+    it('plafonne le montant au reste dû', () => {
+        expect(SOURCE).toContain(':max="paymentSummary.due"');
+        expect(SOURCE).toContain(':max="plafondCorrection"');
+    });
+
     it('affiche l’encaissé et le reste dû', () => {
         expect(SOURCE).toContain('paymentSummary.paid');
         expect(SOURCE).toContain('paymentSummary.due');

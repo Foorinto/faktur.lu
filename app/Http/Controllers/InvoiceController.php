@@ -497,11 +497,19 @@ class InvoiceController extends Controller
             return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
         }
 
+        // Plafonné au reste dû. Le trop-perçu existe — un client qui règle un
+        // montant rond en espèces — mais la faute de frappe est bien plus
+        // fréquente, et une facture encaissée au-delà de son total est presque
+        // toujours une erreur de saisie.
         $donnees = $request->validate([
-            'amount' => ['required', 'numeric', 'min:0.01'],
+            'amount' => ['required', 'numeric', 'min:0.01', 'max:'.$invoice->amountDue()],
             'paid_at' => ['required', 'date', 'before_or_equal:today'],
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
             'reference' => ['nullable', 'string', 'max:255'],
+        ], [
+            'amount.max' => __('app.invoices_flash.error_payment_exceeds', [
+                'amount' => number_format($invoice->amountDue(), 2, ',', ' '),
+            ]),
         ]);
 
         $invoice->payments()->create($donnees);
@@ -529,11 +537,19 @@ class InvoiceController extends Controller
     {
         abort_unless($payment->invoice_id === $invoice->id, 404);
 
+        // Le plafond exclut l'encaissement en cours de correction : sans cela,
+        // repasser 500 € à 500 € serait refusé sur une facture soldée.
+        $plafond = round((float) $invoice->total_ttc - $invoice->amountPaid() + (float) $payment->amount, 2);
+
         $donnees = $request->validate([
-            'amount' => ['required', 'numeric', 'min:0.01'],
+            'amount' => ['required', 'numeric', 'min:0.01', 'max:'.$plafond],
             'paid_at' => ['required', 'date', 'before_or_equal:today'],
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
             'reference' => ['nullable', 'string', 'max:255'],
+        ], [
+            'amount.max' => __('app.invoices_flash.error_payment_exceeds', [
+                'amount' => number_format($plafond, 2, ',', ' '),
+            ]),
         ]);
 
         $payment->update($donnees);

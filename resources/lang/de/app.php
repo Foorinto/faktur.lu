@@ -4271,6 +4271,8 @@ return [
 
     'invoices_flash' => [
 
+        'error_payment_exceeds' => 'Der Betrag übersteigt den offenen Betrag (:amount €).',
+
         'payment_updated' => 'Zahlungseingang aktualisiert.',
 
         'error_payment_locked' => 'Diese Rechnung ist beglichen: Ihre Zahlungseingänge können nicht mehr gelöscht werden.',

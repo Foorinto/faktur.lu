@@ -4287,6 +4287,8 @@ return [
 
     'invoices_flash' => [
 
+        'error_payment_exceeds' => 'The amount exceeds the outstanding balance (:amount €).',
+
         'payment_updated' => 'Payment updated.',
 
         'error_payment_locked' => 'This invoice is settled: its payments can no longer be deleted.',

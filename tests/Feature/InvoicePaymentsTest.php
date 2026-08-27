@@ -187,9 +187,14 @@ class InvoicePaymentsTest extends TestCase
     }
 
     /**
-     * Un trop-perçu s'enregistre, mais le reste dû ne devient pas négatif.
+     * Un montant supérieur au reste dû est refusé.
+     *
+     * Le trop-perçu réel existe — un client qui règle un montant rond en
+     * espèces — mais la faute de frappe est bien plus fréquente, et une
+     * facture encaissée au-delà de son total est presque toujours une erreur
+     * de saisie. Décision produit du 2026-08-27.
      */
-    public function test_an_overpayment_does_not_produce_a_negative_balance(): void
+    public function test_an_amount_above_the_balance_is_refused(): void
     {
         $facture = $this->factureFinalisee(100);
 
@@ -197,13 +202,70 @@ class InvoicePaymentsTest extends TestCase
             'amount' => 150,
             'paid_at' => now()->toDateString(),
             'method' => 'transfer',
+        ])->assertSessionHasErrors('amount');
+
+        $this->assertCount(0, $facture->refresh()->payments);
+    }
+
+    /**
+     * Le plafond tient compte de ce qui est déjà encaissé.
+     */
+    public function test_the_cap_follows_the_remaining_balance(): void
+    {
+        $facture = $this->factureFinalisee(1000);
+
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/payments", [
+            'amount' => 400,
+            'paid_at' => now()->toDateString(),
+            'method' => 'cash',
         ]);
 
-        $facture->refresh();
+        // 700 dépasse les 600 qui restent.
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/payments", [
+            'amount' => 700,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+        ])->assertSessionHasErrors('amount');
 
-        $this->assertSame(150.0, $facture->amountPaid());
-        $this->assertSame(0.0, $facture->amountDue());
-        $this->assertTrue($facture->isPaid());
+        // 600 passe.
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/payments", [
+            'amount' => 600,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertTrue($facture->refresh()->isPaid());
+    }
+
+    /**
+     * Corriger un encaissement sans changer son montant reste possible.
+     *
+     * Le plafond doit exclure l'encaissement lui-même : sinon, repasser 500 €
+     * à 500 € sur une facture soldée serait refusé.
+     */
+    public function test_correcting_a_payment_without_changing_its_amount(): void
+    {
+        $facture = $this->factureFinalisee(500);
+
+        $this->actingAs($this->user)->post("/invoices/{$facture->id}/payments", [
+            'amount' => 500,
+            'paid_at' => now()->toDateString(),
+            'method' => 'cash',
+        ]);
+
+        $encaissement = $facture->refresh()->payments()->first();
+
+        $this->actingAs($this->user)->patch(
+            "/invoices/{$facture->id}/payments/{$encaissement->id}",
+            [
+                'amount' => 500,
+                'paid_at' => now()->toDateString(),
+                'method' => 'transfer',
+            ]
+        )->assertSessionHasNoErrors();
+
+        $this->assertSame('transfer', $encaissement->refresh()->method);
+        $this->assertTrue($facture->refresh()->isPaid());
     }
 
     /**
