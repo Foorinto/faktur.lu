@@ -60,6 +60,9 @@ class InvoiceController extends Controller
         }
 
         $invoices = $query
+            // Somme des encaissements en une seule requête agrégée : charger
+            // la relation pour quinze factures en produirait quinze de plus.
+            ->withSum('payments as encaisse', 'amount')
             ->orderByRaw("CASE WHEN status = 'draft' THEN 0 ELSE 1 END")
             ->orderByDesc('issued_at')
             ->orderByDesc('created_at')
