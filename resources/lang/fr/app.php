@@ -676,6 +676,7 @@ return [
     'vat_check_foreign' => 'Attention : ce client est hors Union européenne. En franchise, vérifiez si une mention d\'exportation doit s\'appliquer (à confirmer avec votre fiduciaire).',
     'payments_edit' => 'Modifier',
     'payments_settled_hint' => 'Cette facture est soldée. Retirer ou corriger un encaissement la fera redevenir due.',
+    'payments_settle_shortcut' => 'Solder la facture',
     'payments_title' => 'Encaissements',
     'payments_add' => 'Enregistrer un encaissement',
     'payments_total_due' => 'Total de la facture',

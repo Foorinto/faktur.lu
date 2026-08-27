@@ -605,6 +605,7 @@ return [
     'vat_check_foreign' => 'Opgepasst: dëse Client ass ausserhalb vun der EU. Am Franchise-Regime, iwwerpréift ob eng Export-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
     'payments_edit' => 'Änneren',
     'payments_settled_hint' => 'Dës Rechnung ass bezuelt. Wann e Zuelungsagang ewechgeholl oder korrigéiert gëtt, gëtt se erëm oppen.',
+    'payments_settle_shortcut' => 'D\'Rechnung ausgläichen',
     'payments_title' => 'Zuelungsagäng',
     'payments_add' => 'E Zuelungsagang androen',
     'payments_total_due' => 'Rechnungsbetrag',

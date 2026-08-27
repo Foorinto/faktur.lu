@@ -676,6 +676,7 @@ return [
     'vat_check_foreign' => 'Note: this client is outside the EU. Under the franchise scheme, check whether an export mention should apply (confirm with your accountant).',
     'payments_edit' => 'Edit',
     'payments_settled_hint' => 'This invoice is settled. Removing or correcting a payment will make it outstanding again.',
+    'payments_settle_shortcut' => 'Settle the invoice',
     'payments_title' => 'Payments received',
     'payments_add' => 'Record a payment',
     'payments_total_due' => 'Invoice total',

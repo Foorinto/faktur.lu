@@ -44,12 +44,27 @@ const formEncaissement = useForm({
 
 const saisieOuverte = ref(false);
 
+/**
+ * Le montant reste VIDE à l'ouverture.
+ *
+ * Il était pré-rempli avec le reste dû : ouvrir la saisie et valider
+ * enregistrait alors la totalité, et la facture passait à « payée » sans
+ * qu'on l'ait voulu. Un acompte est un cas courant — il doit être le geste
+ * naturel, pas celui qui demande de corriger un champ.
+ *
+ * Le reste dû reste proposé, mais par un bouton explicite.
+ */
 const ouvrirSaisie = () => {
-    formEncaissement.amount = props.paymentSummary.due || null;
+    formEncaissement.amount = null;
     formEncaissement.paid_at = todayLocal();
     formEncaissement.method = null;
     formEncaissement.reference = "";
     saisieOuverte.value = true;
+};
+
+/** Raccourci : solder la facture en un clic, quand c'est bien l'intention. */
+const solderLaFacture = () => {
+    formEncaissement.amount = props.paymentSummary.due;
 };
 
 const enregistrerEncaissement = () => {
@@ -1671,9 +1686,17 @@ const submitCreditNote = () => {
                                 step="0.01"
                                 min="0.01"
                                 :max="paymentSummary.due"
+                                :placeholder="formatMontant(paymentSummary.due)"
                                 required
                                 class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                             />
+                            <button
+                                type="button"
+                                @click="solderLaFacture"
+                                class="mt-1 text-xs text-primary-600 hover:underline dark:text-primary-400"
+                            >
+                                {{ t("payments_settle_shortcut") }}
+                            </button>
                             <p
                                 v-if="formEncaissement.errors.amount"
                                 class="mt-1 text-xs text-red-600"

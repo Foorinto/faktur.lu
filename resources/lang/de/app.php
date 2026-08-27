@@ -605,6 +605,7 @@ return [
     'vat_check_foreign' => 'Achtung: Dieser Kunde ist außerhalb der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Ausfuhr-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
     'payments_edit' => 'Bearbeiten',
     'payments_settled_hint' => 'Diese Rechnung ist beglichen. Wird ein Zahlungseingang entfernt oder korrigiert, wird sie wieder offen.',
+    'payments_settle_shortcut' => 'Rechnung ausgleichen',
     'payments_title' => 'Zahlungseingänge',
     'payments_add' => 'Zahlungseingang erfassen',
     'payments_total_due' => 'Rechnungsbetrag',

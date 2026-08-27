@@ -63,6 +63,29 @@ describe('bloc encaissements', () => {
         expect(SOURCE).toContain(':max="plafondCorrection"');
     });
 
+    /**
+     * Le montant ne doit pas être pré-rempli avec le reste dû.
+     *
+     * Il l'était : ouvrir la saisie et valider enregistrait la totalité, et la
+     * facture passait à « payée » sans qu'on l'ait voulu. Un acompte est un cas
+     * courant, il doit être le geste naturel.
+     */
+    it('n’impose pas le montant total à l’ouverture', () => {
+        // On lit le corps de `ouvrirSaisie` seul : la même affectation existe
+        // légitimement dans `solderLaFacture`, qui est le raccourci choisi.
+        const corps = SOURCE.slice(
+            SOURCE.indexOf('const ouvrirSaisie'),
+            SOURCE.indexOf('const solderLaFacture'),
+        );
+
+        expect(corps).toContain('formEncaissement.amount = null;');
+        expect(corps).not.toContain('paymentSummary.due');
+
+        // Le raccourci reste disponible, mais il se déclenche à la demande.
+        expect(SOURCE).toContain('solderLaFacture');
+        expect(SOURCE).toContain('@click="solderLaFacture"');
+    });
+
     it('affiche l’encaissé et le reste dû', () => {
         expect(SOURCE).toContain('paymentSummary.paid');
         expect(SOURCE).toContain('paymentSummary.due');
