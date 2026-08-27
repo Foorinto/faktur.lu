@@ -674,7 +674,22 @@ return [
     'vat_check_title' => 'Vérifiez la mention de TVA',
     'vat_check_eu' => 'Attention : ce client est dans l\'Union européenne. En franchise, vérifiez si une mention d\'autoliquidation doit s\'appliquer (à confirmer avec votre fiduciaire).',
     'vat_check_foreign' => 'Attention : ce client est hors Union européenne. En franchise, vérifiez si une mention d\'exportation doit s\'appliquer (à confirmer avec votre fiduciaire).',
+    'payments_title' => 'Encaissements',
+    'payments_add' => 'Enregistrer un encaissement',
+    'payments_total_due' => 'Total de la facture',
+    'payments_received' => 'Encaissé',
+    'payments_remaining' => 'Reste dû',
+    'payments_amount' => 'Montant',
+    'payments_date' => 'Date',
+    'payments_method' => 'Moyen',
+    'payments_method_unknown' => 'Non renseigné',
+    'payments_reference' => 'Référence',
+    'payments_delete' => 'Supprimer cet encaissement',
+    'payments_confirm_delete' => 'Supprimer cet encaissement de :amount ?',
+    'payments_locked_hint' => 'Cette facture est soldée : ses encaissements ne peuvent plus être modifiés.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Non renseigné',
         'card' => 'Carte bancaire',
         'transfer' => 'Virement bancaire',
         'cash' => 'Espèces',
@@ -4650,6 +4665,12 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_locked' => 'Cette facture est soldée : ses encaissements ne peuvent plus être supprimés.',
+
+        'payment_recorded' => 'Encaissement enregistré.',
+
+        'payment_deleted' => 'Encaissement supprimé.',
         'created' => 'Brouillon de facture créé.',
         'updated' => 'Facture mise à jour.',
         'deleted' => 'Brouillon supprimé.',

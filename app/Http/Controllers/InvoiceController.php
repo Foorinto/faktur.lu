@@ -13,6 +13,7 @@ use App\Mail\InvoiceMail;
 use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\InvoicePayment;
 use App\Models\InvoiceItem;
 use App\Models\PeppolTransmission;
 use App\Services\FacturXService;
@@ -21,6 +22,7 @@ use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -247,12 +249,33 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): Response
     {
-        $invoice->load(['client', 'items', 'discounts', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission']);
+        $invoice->load(['client', 'items', 'discounts', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission', 'payments']);
 
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
             'creditNoteReasons' => Invoice::CREDIT_NOTE_REASONS,
             'peppolEnabled' => config('peppol.enabled', false),
+
+            // Encaissements (FEAT-114). Les montants sont calculés côté
+            // serveur : le modèle connaît la règle du trop-perçu et la
+            // comparaison au centime près, l'interface n'a pas à la refaire.
+            'payments' => $invoice->payments->map(fn ($p) => [
+                'id' => $p->id,
+                'amount' => (float) $p->amount,
+                'paid_at' => $p->paid_at?->format('Y-m-d'),
+                'method' => $p->method,
+                'method_label' => $p->methodLabel(),
+                'reference' => $p->reference,
+            ]),
+            'paymentSummary' => [
+                'paid' => $invoice->amountPaid(),
+                'due' => $invoice->amountDue(),
+                'is_partial' => $invoice->isPartiallyPaid(),
+                'locked' => $invoice->isPaid(),
+            ],
+            'paymentMethods' => collect(InvoicePayment::METHODS)
+                ->map(fn ($m) => ['value' => $m, 'label' => __("app.payment_methods.{$m}")])
+                ->values(),
         ]);
     }
 
@@ -432,6 +455,13 @@ class InvoiceController extends Controller
     /**
      * Mark the invoice as paid.
      */
+    /**
+     * Marquer la facture comme réglée en totalité, en un seul encaissement.
+     *
+     * Conservé pour le cas courant — le client paie tout, d'un coup. Mais le
+     * chemin passe désormais par un encaissement : sans lui, la facture serait
+     * « payée » sans qu'aucun montant ne figure au récapitulatif par moyen.
+     */
     public function markAsPaid(Request $request, Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isFinalized() || $invoice->isPaid()) {
@@ -440,14 +470,68 @@ class InvoiceController extends Controller
 
         $validated = $request->validate([
             'paid_at' => 'nullable|date|before_or_equal:today',
+            'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
         ]);
 
-        $invoice->update([
-            'status' => Invoice::STATUS_PAID,
-            'paid_at' => $validated['paid_at'] ?? now(),
+        $invoice->payments()->create([
+            'amount' => $invoice->amountDue(),
+            'paid_at' => $validated['paid_at'] ?? now()->toDateString(),
+            'method' => $validated['method'] ?? null,
         ]);
+
+        $invoice->refresh()->refreshPaymentStatus();
 
         return back()->with('success', __('app.invoices_flash.marked_paid'));
+    }
+
+    /**
+     * Enregistre un encaissement partiel (FEAT-114).
+     *
+     * Le montant n'est pas plafonné au reste dû : un trop-perçu arrive, et le
+     * refuser obligerait l'utilisateur à mentir sur ce qu'il a réellement reçu.
+     * Le reste dû, lui, ne descend jamais sous zéro.
+     */
+    public function storePayment(Request $request, Invoice $invoice): RedirectResponse
+    {
+        if (! $invoice->isFinalized()) {
+            return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
+        }
+
+        $donnees = $request->validate([
+            'amount' => ['required', 'numeric', 'min:0.01'],
+            'paid_at' => ['required', 'date', 'before_or_equal:today'],
+            'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
+            'reference' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $invoice->payments()->create($donnees);
+        $invoice->refresh()->refreshPaymentStatus();
+
+        return back()->with('success', __('app.invoices_flash.payment_recorded'));
+    }
+
+    /**
+     * Supprime un encaissement saisi par erreur.
+     *
+     * ⚠️ Impossible une fois la facture soldée. Le garde d'immuabilité du
+     * modèle fait de « payée » un statut terminal — aucune transition n'en
+     * sort. Supprimer l'encaissement laisserait donc une facture marquée payée
+     * sans montant pour l'appuyer, ce qui est pire que de refuser.
+     *
+     * Un encaissement partiel, lui, se corrige librement.
+     */
+    public function destroyPayment(Invoice $invoice, InvoicePayment $payment): RedirectResponse
+    {
+        abort_unless($payment->invoice_id === $invoice->id, 404);
+
+        if ($invoice->isPaid()) {
+            return back()->with('error', __('app.invoices_flash.error_payment_locked'));
+        }
+
+        $payment->delete();
+        $invoice->refresh()->refreshPaymentStatus();
+
+        return back()->with('success', __('app.invoices_flash.payment_deleted'));
     }
 
     /**

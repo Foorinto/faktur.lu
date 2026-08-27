@@ -603,7 +603,22 @@ return [
     'vat_check_title' => 'TVA-Mentioun iwwerpréifen',
     'vat_check_eu' => 'Opgepasst: dëse Client ass an der EU. Am Franchise-Regime, iwwerpréift ob eng Autoliquidatioun-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
     'vat_check_foreign' => 'Opgepasst: dëse Client ass ausserhalb vun der EU. Am Franchise-Regime, iwwerpréift ob eng Export-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
+    'payments_title' => 'Zuelungsagäng',
+    'payments_add' => 'E Zuelungsagang androen',
+    'payments_total_due' => 'Rechnungsbetrag',
+    'payments_received' => 'Kritt',
+    'payments_remaining' => 'Nach ze bezuelen',
+    'payments_amount' => 'Betrag',
+    'payments_date' => 'Datum',
+    'payments_method' => 'Zuelungsaart',
+    'payments_method_unknown' => 'Net uginn',
+    'payments_reference' => 'Referenz',
+    'payments_delete' => 'Dëse Zuelungsagang läschen',
+    'payments_confirm_delete' => 'Dëse Zuelungsagang vun :amount läschen?',
+    'payments_locked_hint' => 'Dës Rechnung ass bezuelt: hir Zuelungsagäng kënnen net méi geännert ginn.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Net uginn',
         'card' => 'Kreditkaart',
         'transfer' => 'Iwwerweisung',
         'cash' => 'Boergeld',
@@ -4254,6 +4269,12 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_locked' => 'Dës Rechnung ass bezuelt: hir Zuelungsagäng kënnen net méi geläscht ginn.',
+
+        'payment_recorded' => 'Zuelungsagang agedroen.',
+
+        'payment_deleted' => 'Zuelungsagang geläscht.',
         'created' => 'Brouillon vun der Rechnung erstallt.',
         'updated' => 'Rechnung aktualiséiert.',
         'deleted' => 'Brouillon geläscht.',

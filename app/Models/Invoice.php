@@ -190,6 +190,82 @@ class Invoice extends Model
     }
 
     /**
+     * Encaissements reçus sur cette facture (FEAT-114).
+     *
+     * Plusieurs sont possibles, de moyens différents : « des fois un paiement
+     * en espèces pour une partie et le reste par virement ».
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(InvoicePayment::class)->orderBy('paid_at');
+    }
+
+    /**
+     * Somme encaissée à ce jour.
+     */
+    public function amountPaid(): float
+    {
+        return round((float) $this->payments()->sum('amount'), 2);
+    }
+
+    /**
+     * Reste dû. Jamais négatif : un trop-perçu se lit dans les encaissements,
+     * il ne se soustrait pas d'un solde qui deviendrait absurde.
+     */
+    public function amountDue(): float
+    {
+        return max(0.0, round((float) $this->total_ttc - $this->amountPaid(), 2));
+    }
+
+    /**
+     * Partiellement réglée : quelque chose est arrivé, mais pas tout.
+     *
+     * ⚠️ Ce n'est PAS un statut. Le statut de la facture reste la source de
+     * vérité pour « payée » — treize fichiers en dépendent, des exports
+     * comptables au portail comptable en passant par l'archivage PDF. Ajouter
+     * un sixième statut aurait obligé à tous les relire pour un gain nul :
+     * une facture partiellement réglée reste une facture due.
+     */
+    public function isPartiallyPaid(): bool
+    {
+        return ! $this->isPaid() && $this->amountPaid() > 0;
+    }
+
+    /**
+     * Recalcule le statut à partir des encaissements.
+     *
+     * Appelé après chaque ajout ou suppression d'encaissement. La comparaison
+     * se fait au centime près : `total_ttc` est un décimal et une addition de
+     * flottants peut manquer l'égalité de quelques millièmes.
+     */
+    public function refreshPaymentStatus(): void
+    {
+        $encaisse = $this->amountPaid();
+        $du = round((float) $this->total_ttc, 2);
+
+        if ($encaisse >= $du - 0.001 && $du > 0) {
+            $dernier = $this->payments()->orderByDesc('paid_at')->first();
+
+            $this->update([
+                'status' => self::STATUS_PAID,
+                'paid_at' => $dernier?->paid_at ?? now(),
+            ]);
+
+            return;
+        }
+
+        // ⚠️ Pas de retour en arrière depuis « payée ».
+        //
+        // Le garde d'immuabilité de ce modèle fait de `paid` un statut
+        // terminal : les transitions autorisées sont `finalized → sent|paid|
+        // cancelled` et `sent → paid|cancelled`. Rien n'en sort.
+        //
+        // On ne contourne pas cette règle ici. La conséquence est assumée et
+        // portée par `destroyPayment()` : un encaissement ne se supprime plus
+        // une fois la facture soldée. Voir FEAT-114 pour la discussion.
+    }
+
+    /**
      * Get all emails sent for this invoice.
      */
     public function emails(): HasMany

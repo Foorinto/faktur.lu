@@ -1,12 +1,12 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import BillingNav from '@/Components/BillingNav.vue';
-import FlagIcon from '@/Components/FlagIcon.vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
-import axios from 'axios';
-import { useTranslations } from '@/Composables/useTranslations';
-import { usePlanFeatures } from '@/Composables/usePlanFeatures';
+import AppLayout from "@/Layouts/AppLayout.vue";
+import BillingNav from "@/Components/BillingNav.vue";
+import FlagIcon from "@/Components/FlagIcon.vue";
+import { Head, Link, router, useForm } from "@inertiajs/vue3";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import axios from "axios";
+import { useTranslations } from "@/Composables/useTranslations";
+import { usePlanFeatures } from "@/Composables/usePlanFeatures";
 
 const { t } = useTranslations();
 const { hasFeature: hasPlanFeature } = usePlanFeatures();
@@ -17,40 +17,111 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    // Encaissements (FEAT-114)
+    payments: { type: Array, default: () => [] },
+    paymentSummary: {
+        type: Object,
+        default: () => ({ paid: 0, due: 0, is_partial: false, locked: false }),
+    },
+    paymentMethods: { type: Array, default: () => [] },
 });
+
+/**
+ * Saisie d'un encaissement.
+ *
+ * Le montant est pré-rempli avec le reste dû : c'est le cas courant, et
+ * l'utilisateur n'a qu'à le corriger quand il encaisse une partie.
+ */
+// `paid_at` est laissée vide ici : `todayLocal()` est défini plus bas dans ce
+// fichier et n'existe pas encore au moment où le formulaire s'initialise.
+// `ouvrirSaisie()` la renseigne, et elle s'exécute après le montage.
+const formEncaissement = useForm({
+    amount: null,
+    paid_at: "",
+    method: null,
+    reference: "",
+});
+
+const saisieOuverte = ref(false);
+
+const ouvrirSaisie = () => {
+    formEncaissement.amount = props.paymentSummary.due || null;
+    formEncaissement.paid_at = todayLocal();
+    formEncaissement.method = null;
+    formEncaissement.reference = "";
+    saisieOuverte.value = true;
+};
+
+const enregistrerEncaissement = () => {
+    formEncaissement.post(route("invoices.payments.store", props.invoice.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+            saisieOuverte.value = false;
+        },
+    });
+};
+
+const supprimerEncaissement = (encaissement) => {
+    if (
+        !confirm(
+            t("payments_confirm_delete", {
+                amount: formatMontant(encaissement.amount),
+            }),
+        )
+    )
+        return;
+
+    router.delete(
+        route("invoices.payments.destroy", [props.invoice.id, encaissement.id]),
+        {
+            preserveScroll: true,
+        },
+    );
+};
+
+const formatMontant = (v) =>
+    new Intl.NumberFormat("fr-LU", {
+        style: "currency",
+        currency: "EUR",
+    }).format(parseFloat(v) || 0);
 
 // Global discounts display helpers
 const subtotalHt = computed(() =>
-    (props.invoice.items || []).reduce((sum, i) => sum + (parseFloat(i.total_ht) || 0), 0)
+    (props.invoice.items || []).reduce(
+        (sum, i) => sum + (parseFloat(i.total_ht) || 0),
+        0,
+    ),
 );
 const discountEuro = (discount) => {
     const value = parseFloat(discount.value) || 0;
-    return discount.type === 'amount' ? value : subtotalHt.value * value / 100;
+    return discount.type === "amount"
+        ? value
+        : (subtotalHt.value * value) / 100;
 };
 
 const processing = ref(false);
 const showCreditNoteModal = ref(false);
-const creditNoteType = ref('full'); // 'full' or 'partial'
+const creditNoteType = ref("full"); // 'full' or 'partial'
 const selectedItemIds = ref([]);
 
 // Preview modal state
 const showPreviewModal = ref(false);
-const previewHtml = ref('');
+const previewHtml = ref("");
 const loadingPreview = ref(false);
 
 // PDF language selection
-const pdfLocale = ref(props.invoice.buyer_snapshot?.locale || 'fr');
+const pdfLocale = ref(props.invoice.buyer_snapshot?.locale || "fr");
 
 const pdfLanguages = [
-    { value: 'fr', label: 'Français' },
-    { value: 'de', label: 'Deutsch' },
-    { value: 'en', label: 'English' },
-    { value: 'lb', label: 'Lëtzebuergesch' },
-    { value: 'pt', label: 'Português' },
+    { value: "fr", label: "Français" },
+    { value: "de", label: "Deutsch" },
+    { value: "en", label: "English" },
+    { value: "lb", label: "Lëtzebuergesch" },
+    { value: "pt", label: "Português" },
 ];
 
 const pdfUrl = computed(() => {
-    const baseUrl = route('invoices.pdf.stream', props.invoice.id);
+    const baseUrl = route("invoices.pdf.stream", props.invoice.id);
     return `${baseUrl}?locale=${pdfLocale.value}`;
 });
 
@@ -58,12 +129,14 @@ const pdfUrl = computed(() => {
 const loadPreview = async () => {
     loadingPreview.value = true;
     try {
-        const url = route('invoices.preview-html', props.invoice.id) + `?locale=${pdfLocale.value}`;
+        const url =
+            route("invoices.preview-html", props.invoice.id) +
+            `?locale=${pdfLocale.value}`;
         const response = await axios.get(url);
         previewHtml.value = response.data.html;
     } catch (error) {
-        console.error('Error loading preview:', error);
-        previewHtml.value = `<p style="color: red; padding: 20px;">${t('error_loading_preview')}</p>`;
+        console.error("Error loading preview:", error);
+        previewHtml.value = `<p style="color: red; padding: 20px;">${t("error_loading_preview")}</p>`;
     } finally {
         loadingPreview.value = false;
     }
@@ -83,16 +156,16 @@ const openPreview = () => {
 };
 
 const creditNoteForm = useForm({
-    reason: 'cancellation',
+    reason: "cancellation",
     item_ids: null,
 });
 
 // Email sending state
 const showEmailModal = ref(false);
 const emailForm = useForm({
-    recipient_email: props.invoice.buyer_snapshot?.email || '',
-    subject: `${props.invoice.type === 'credit_note' ? 'Avoir' : 'Facture'} ${props.invoice.number}`,
-    message: '',
+    recipient_email: props.invoice.buyer_snapshot?.email || "",
+    subject: `${props.invoice.type === "credit_note" ? "Avoir" : "Facture"} ${props.invoice.number}`,
+    message: "",
     send_copy_to_self: false,
 });
 
@@ -101,9 +174,9 @@ const showReminderModal = ref(false);
 const reminderLevel = ref(1);
 const reminderForm = useForm({
     level: 1,
-    recipient_email: props.invoice.buyer_snapshot?.email || '',
-    subject: '',
-    message: '',
+    recipient_email: props.invoice.buyer_snapshot?.email || "",
+    subject: "",
+    message: "",
 });
 
 // Email history
@@ -112,19 +185,24 @@ const emailHistory = ref([]);
 const loadingHistory = ref(false);
 
 const canSendEmail = computed(() => {
-    return props.invoice.status !== 'draft';
+    return props.invoice.status !== "draft";
 });
 
 const canSendReminder = computed(() => {
-    return ['finalized', 'sent'].includes(props.invoice.status) && props.invoice.type !== 'credit_note';
+    return (
+        ["finalized", "sent"].includes(props.invoice.status) &&
+        props.invoice.type !== "credit_note"
+    );
 });
 
 const canExportPeppol = computed(() => {
-    return props.invoice.status !== 'draft'
-        && props.invoice.seller_snapshot?.peppol_endpoint_id
-        && props.invoice.seller_snapshot?.peppol_endpoint_scheme
-        && props.invoice.buyer_snapshot?.peppol_endpoint_id
-        && props.invoice.buyer_snapshot?.peppol_endpoint_scheme;
+    return (
+        props.invoice.status !== "draft" &&
+        props.invoice.seller_snapshot?.peppol_endpoint_id &&
+        props.invoice.seller_snapshot?.peppol_endpoint_scheme &&
+        props.invoice.buyer_snapshot?.peppol_endpoint_id &&
+        props.invoice.buyer_snapshot?.peppol_endpoint_scheme
+    );
 });
 
 // FEAT-096 : la transmission Peppol automatique n'est pas encore active en production
@@ -132,10 +210,13 @@ const canExportPeppol = computed(() => {
 const peppolTransmissionAvailable = false;
 
 const canSendPeppol = computed(() => {
-    return peppolTransmissionAvailable
-        && props.peppolEnabled
-        && canExportPeppol.value
-        && (!props.invoice.peppol_transmission || props.invoice.peppol_transmission.status === 'failed');
+    return (
+        peppolTransmissionAvailable &&
+        props.peppolEnabled &&
+        canExportPeppol.value &&
+        (!props.invoice.peppol_transmission ||
+            props.invoice.peppol_transmission.status === "failed")
+    );
 });
 
 const peppolTransmission = computed(() => props.invoice.peppol_transmission);
@@ -146,25 +227,33 @@ const POLL_INTERVAL_MS = 5000; // 5 seconds
 
 const shouldPollPeppolStatus = computed(() => {
     const transmission = peppolTransmission.value;
-    return transmission && ['pending', 'processing'].includes(transmission.status);
+    return (
+        transmission && ["pending", "processing"].includes(transmission.status)
+    );
 });
 
 const pollPeppolStatus = async () => {
     if (!peppolTransmission.value) return;
 
     try {
-        const response = await axios.get(route('invoices.peppol-status', props.invoice.id));
+        const response = await axios.get(
+            route("invoices.peppol-status", props.invoice.id),
+        );
         if (response.data.transmission) {
             // Update the local transmission data
             props.invoice.peppol_transmission = response.data.transmission;
 
             // Stop polling if status is final
-            if (!['pending', 'processing'].includes(response.data.transmission.status)) {
+            if (
+                !["pending", "processing"].includes(
+                    response.data.transmission.status,
+                )
+            ) {
                 stopPolling();
             }
         }
     } catch (error) {
-        console.error('Error polling Peppol status:', error);
+        console.error("Error polling Peppol status:", error);
     }
 };
 
@@ -181,13 +270,17 @@ const stopPolling = () => {
 };
 
 // Start/stop polling based on transmission status
-watch(shouldPollPeppolStatus, (shouldPoll) => {
-    if (shouldPoll) {
-        startPolling();
-    } else {
-        stopPolling();
-    }
-}, { immediate: true });
+watch(
+    shouldPollPeppolStatus,
+    (shouldPoll) => {
+        if (shouldPoll) {
+            startPolling();
+        } else {
+            stopPolling();
+        }
+    },
+    { immediate: true },
+);
 
 onMounted(() => {
     if (shouldPollPeppolStatus.value) {
@@ -201,29 +294,35 @@ onUnmounted(() => {
 
 const getPeppolStatusBadgeClass = (status) => {
     const classes = {
-        pending: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
-        processing: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
-        sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
-        delivered: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
-        failed: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300',
+        pending:
+            "bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300",
+        processing:
+            "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300",
+        sent: "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300",
+        delivered:
+            "bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300",
+        failed: "bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300",
     };
     return classes[status] || classes.pending;
 };
 
 const getPeppolStatusLabel = (status) => {
     const labels = {
-        pending: 'En attente',
-        processing: 'En cours',
-        sent: 'Envoyé',
-        delivered: 'Livré',
-        failed: 'Échoué',
+        pending: "En attente",
+        processing: "En cours",
+        sent: "Envoyé",
+        delivered: "Livré",
+        failed: "Échoué",
     };
     return labels[status] || status;
 };
 
 const isOverdue = computed(() => {
     if (!props.invoice.due_at) return false;
-    return new Date(props.invoice.due_at) < new Date() && !['paid', 'cancelled'].includes(props.invoice.status);
+    return (
+        new Date(props.invoice.due_at) < new Date() &&
+        !["paid", "cancelled"].includes(props.invoice.status)
+    );
 });
 
 const daysOverdue = computed(() => {
@@ -234,15 +333,15 @@ const daysOverdue = computed(() => {
 });
 
 const openEmailModal = () => {
-    emailForm.recipient_email = props.invoice.buyer_snapshot?.email || '';
-    emailForm.subject = `${props.invoice.type === 'credit_note' ? 'Avoir' : 'Facture'} ${props.invoice.number}`;
-    emailForm.message = '';
+    emailForm.recipient_email = props.invoice.buyer_snapshot?.email || "";
+    emailForm.subject = `${props.invoice.type === "credit_note" ? "Avoir" : "Facture"} ${props.invoice.number}`;
+    emailForm.message = "";
     emailForm.send_copy_to_self = false;
     showEmailModal.value = true;
 };
 
 const sendEmail = () => {
-    emailForm.post(route('invoices.send-email', props.invoice.id), {
+    emailForm.post(route("invoices.send-email", props.invoice.id), {
         preserveScroll: true,
         onSuccess: () => {
             showEmailModal.value = false;
@@ -254,13 +353,16 @@ const sendEmail = () => {
 const openReminderModal = (level = 1) => {
     reminderLevel.value = level;
     reminderForm.level = level;
-    reminderForm.recipient_email = props.invoice.buyer_snapshot?.email || '';
+    reminderForm.recipient_email = props.invoice.buyer_snapshot?.email || "";
 
     // Set default subject and message based on level
-    const clientName = props.invoice.buyer_snapshot?.name || 'Client';
-    const amount = formatCurrency(props.invoice.total_ttc, props.invoice.currency);
+    const clientName = props.invoice.buyer_snapshot?.name || "Client";
+    const amount = formatCurrency(
+        props.invoice.total_ttc,
+        props.invoice.currency,
+    );
     const dueDate = formatDate(props.invoice.due_at);
-    const companyName = props.invoice.seller_snapshot?.company_name || '';
+    const companyName = props.invoice.seller_snapshot?.company_name || "";
 
     if (level === 1) {
         reminderForm.subject = `Rappel : Facture ${props.invoice.number} en attente de paiement`;
@@ -277,7 +379,7 @@ const openReminderModal = (level = 1) => {
 };
 
 const sendReminder = () => {
-    reminderForm.post(route('invoices.send-reminder', props.invoice.id), {
+    reminderForm.post(route("invoices.send-reminder", props.invoice.id), {
         preserveScroll: true,
         onSuccess: () => {
             showReminderModal.value = false;
@@ -289,10 +391,12 @@ const sendReminder = () => {
 const loadEmailHistory = async () => {
     loadingHistory.value = true;
     try {
-        const response = await axios.get(route('invoices.emails', props.invoice.id));
+        const response = await axios.get(
+            route("invoices.emails", props.invoice.id),
+        );
         emailHistory.value = response.data.emails;
     } catch (error) {
-        console.error('Error loading email history:', error);
+        console.error("Error loading email history:", error);
     } finally {
         loadingHistory.value = false;
     }
@@ -304,22 +408,26 @@ const openEmailHistory = () => {
 };
 
 const toggleReminders = () => {
-    router.post(route('invoices.toggle-reminders', props.invoice.id), {}, {
-        preserveScroll: true,
-    });
+    router.post(
+        route("invoices.toggle-reminders", props.invoice.id),
+        {},
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const creditNoteReasons = computed(() => ({
-    billing_error: t('billing_error'),
-    return: t('return_merchandise'),
-    commercial_discount: t('commercial_discount'),
-    cancellation: t('invoice_cancellation'),
-    other: t('other'),
+    billing_error: t("billing_error"),
+    return: t("return_merchandise"),
+    commercial_discount: t("commercial_discount"),
+    cancellation: t("invoice_cancellation"),
+    other: t("other"),
 }));
 
 // Compute if form can be submitted
 const canSubmitCreditNote = computed(() => {
-    if (creditNoteType.value === 'partial') {
+    if (creditNoteType.value === "partial") {
         return selectedItemIds.value.length > 0;
     }
     return true;
@@ -329,57 +437,62 @@ const canSubmitCreditNote = computed(() => {
 const partialTotal = computed(() => {
     if (!props.invoice.items) return 0;
     return props.invoice.items
-        .filter(item => selectedItemIds.value.includes(item.id))
+        .filter((item) => selectedItemIds.value.includes(item.id))
         .reduce((sum, item) => sum + parseFloat(item.total_ttc || 0), 0);
 });
 
 const getStatusBadgeClass = (status) => {
     const classes = {
-        draft: 'bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300',
-        finalized: 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300',
-        sent: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
-        paid: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
-        cancelled: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300',
+        draft: "bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-slate-300",
+        finalized: "bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300",
+        sent: "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300",
+        paid: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300",
+        cancelled:
+            "bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300",
     };
     return classes[status] || classes.draft;
 };
 
 const getStatusLabel = (status) => {
     const labels = {
-        draft: t('draft'),
-        finalized: t('finalized'),
-        sent: t('sent'),
-        paid: t('paid'),
-        cancelled: t('cancelled'),
+        draft: t("draft"),
+        finalized: t("finalized"),
+        sent: t("sent"),
+        paid: t("paid"),
+        cancelled: t("cancelled"),
     };
     return labels[status] || status;
 };
 
-const formatCurrency = (amount, currency = 'EUR') => {
-    return new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
+const formatCurrency = (amount, currency = "EUR") => {
+    return new Intl.NumberFormat("fr-FR", {
+        style: "currency",
         currency: currency,
     }).format(amount);
 };
 
 const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleDateString('fr-FR');
+    if (!date) return "-";
+    return new Date(date).toLocaleDateString("fr-FR");
 };
 
 const markAsSent = () => {
     if (processing.value) return;
     processing.value = true;
-    router.post(route('invoices.mark-sent', props.invoice.id), {}, {
-        preserveScroll: true,
-        onFinish: () => processing.value = false,
-    });
+    router.post(
+        route("invoices.mark-sent", props.invoice.id),
+        {},
+        {
+            preserveScroll: true,
+            onFinish: () => (processing.value = false),
+        },
+    );
 };
 
 const showPaidModal = ref(false);
 const todayLocal = () => {
     const d = new Date();
-    const pad = (n) => String(n).padStart(2, '0');
+    const pad = (n) => String(n).padStart(2, "0");
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 const paidAtForm = ref(todayLocal());
@@ -392,57 +505,84 @@ const openPaidModal = () => {
 const markAsPaid = () => {
     if (processing.value) return;
     processing.value = true;
-    router.post(route('invoices.mark-paid', props.invoice.id), {
-        paid_at: paidAtForm.value,
-    }, {
-        preserveScroll: true,
-        onSuccess: () => { showPaidModal.value = false; },
-        onFinish: () => processing.value = false,
-    });
+    router.post(
+        route("invoices.mark-paid", props.invoice.id),
+        {
+            paid_at: paidAtForm.value,
+        },
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                showPaidModal.value = false;
+            },
+            onFinish: () => (processing.value = false),
+        },
+    );
 };
 
 const showEditPaidModal = ref(false);
-const editPaidAtForm = ref('');
+const editPaidAtForm = ref("");
 
 const openEditPaidModal = () => {
-    editPaidAtForm.value = props.invoice.paid_at ? props.invoice.paid_at.split('T')[0] : todayLocal();
+    editPaidAtForm.value = props.invoice.paid_at
+        ? props.invoice.paid_at.split("T")[0]
+        : todayLocal();
     showEditPaidModal.value = true;
 };
 
 const updatePaidAt = () => {
     if (processing.value) return;
     processing.value = true;
-    router.post(route('invoices.update-paid-at', props.invoice.id), {
-        paid_at: editPaidAtForm.value,
-    }, {
-        preserveScroll: true,
-        onSuccess: () => { showEditPaidModal.value = false; },
-        onFinish: () => processing.value = false,
-    });
+    router.post(
+        route("invoices.update-paid-at", props.invoice.id),
+        {
+            paid_at: editPaidAtForm.value,
+        },
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                showEditPaidModal.value = false;
+            },
+            onFinish: () => (processing.value = false),
+        },
+    );
 };
 
 const sendViaPeppol = () => {
     if (processing.value) return;
     processing.value = true;
-    router.post(route('invoices.send-peppol', props.invoice.id), {}, {
-        preserveScroll: true,
-        onFinish: () => processing.value = false,
-    });
+    router.post(
+        route("invoices.send-peppol", props.invoice.id),
+        {},
+        {
+            preserveScroll: true,
+            onFinish: () => (processing.value = false),
+        },
+    );
 };
 
 const duplicateInvoice = () => {
     if (processing.value) return;
-    if (!confirm('Dupliquer cette facture en nouveau brouillon ? Vous pourrez ensuite l\'éditer avant de la finaliser.')) return;
+    if (
+        !confirm(
+            "Dupliquer cette facture en nouveau brouillon ? Vous pourrez ensuite l'éditer avant de la finaliser.",
+        )
+    )
+        return;
     processing.value = true;
-    router.post(route('invoices.duplicate', props.invoice.id), {}, {
-        onFinish: () => processing.value = false,
-    });
+    router.post(
+        route("invoices.duplicate", props.invoice.id),
+        {},
+        {
+            onFinish: () => (processing.value = false),
+        },
+    );
 };
 
 const openCreditNoteModal = () => {
-    creditNoteType.value = 'full';
+    creditNoteType.value = "full";
     selectedItemIds.value = [];
-    creditNoteForm.reason = 'cancellation';
+    creditNoteForm.reason = "cancellation";
     creditNoteForm.item_ids = null;
     showCreditNoteModal.value = true;
 };
@@ -464,13 +604,13 @@ const submitCreditNote = () => {
     if (!canSubmitCreditNote.value) return;
 
     // Set item_ids based on type
-    if (creditNoteType.value === 'partial') {
+    if (creditNoteType.value === "partial") {
         creditNoteForm.item_ids = selectedItemIds.value;
     } else {
         creditNoteForm.item_ids = null;
     }
 
-    creditNoteForm.post(route('invoices.credit-note', props.invoice.id), {
+    creditNoteForm.post(route("invoices.credit-note", props.invoice.id), {
         preserveScroll: true,
         onSuccess: () => {
             showCreditNoteModal.value = false;
@@ -489,12 +629,26 @@ const submitCreditNote = () => {
                     :href="route('invoices.index')"
                     class="text-slate-400 hover:text-slate-500 dark:text-slate-500 dark:hover:text-slate-400"
                 >
-                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+                    <svg
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z"
+                            clip-rule="evenodd"
+                        />
                     </svg>
                 </Link>
-                <h1 class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
-                    <span v-if="invoice.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">{{ t('credit_note') }} </span>
+                <h1
+                    class="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white"
+                >
+                    <span
+                        v-if="invoice.type === 'credit_note'"
+                        class="text-pink-600 dark:text-pink-400"
+                        >{{ t("credit_note") }}
+                    </span>
                     {{ invoice.number }}
                 </h1>
                 <span
@@ -513,11 +667,19 @@ const submitCreditNote = () => {
                 @click="openPreview"
                 class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
             >
-                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                <svg
+                    class="h-4 w-4 mr-1.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
                     <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                    <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                    <path
+                        fill-rule="evenodd"
+                        d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
-                {{ t('preview') }}
+                {{ t("preview") }}
             </button>
 
             <!-- Mark as Sent -->
@@ -527,11 +689,19 @@ const submitCreditNote = () => {
                 :disabled="processing"
                 class="inline-flex items-center rounded-xl bg-amber-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-600 disabled:opacity-50"
             >
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                    <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                <svg
+                    class="-ml-0.5 mr-1.5 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z"
+                    />
+                    <path
+                        d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z"
+                    />
                 </svg>
-                {{ t('mark_as_sent') }}
+                {{ t("mark_as_sent") }}
             </button>
 
             <!-- Mark as Paid -->
@@ -541,10 +711,18 @@ const submitCreditNote = () => {
                 :disabled="processing"
                 class="inline-flex items-center rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 disabled:opacity-50"
             >
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                <svg
+                    class="-ml-0.5 mr-1.5 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
-                {{ t('mark_as_paid') }}
+                {{ t("mark_as_paid") }}
             </button>
 
             <!-- Send Email Button -->
@@ -554,24 +732,43 @@ const submitCreditNote = () => {
                 :disabled="processing"
                 class="inline-flex items-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50"
             >
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
-                    <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                <svg
+                    class="-ml-0.5 mr-1.5 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z"
+                    />
+                    <path
+                        d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z"
+                    />
                 </svg>
-                {{ t('send_by_email') }}
+                {{ t("send_by_email") }}
             </button>
 
             <!-- Reminder Dropdown -->
-            <div v-if="canSendReminder && isOverdue" class="relative inline-block text-left">
+            <div
+                v-if="canSendReminder && isOverdue"
+                class="relative inline-block text-left"
+            >
                 <button
                     type="button"
                     @click="openReminderModal(1)"
                     class="inline-flex items-center rounded-xl bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600"
                 >
-                    <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 2a6 6 0 00-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 00.515 1.076 32.91 32.91 0 003.256.508 3.5 3.5 0 006.972 0 32.903 32.903 0 003.256-.508.75.75 0 00.515-1.076A11.448 11.448 0 0116 8a6 6 0 00-6-6zM8.05 14.943a33.54 33.54 0 003.9 0 2 2 0 01-3.9 0z" clip-rule="evenodd" />
+                    <svg
+                        class="-ml-0.5 mr-1.5 h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M10 2a6 6 0 00-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 00.515 1.076 32.91 32.91 0 003.256.508 3.5 3.5 0 006.972 0 32.903 32.903 0 003.256-.508.75.75 0 00.515-1.076A11.448 11.448 0 0116 8a6 6 0 00-6-6zM8.05 14.943a33.54 33.54 0 003.9 0 2 2 0 01-3.9 0z"
+                            clip-rule="evenodd"
+                        />
                     </svg>
-                    {{ t('send_reminder') }}
+                    {{ t("send_reminder") }}
                 </button>
             </div>
 
@@ -584,7 +781,11 @@ const submitCreditNote = () => {
                 :title="t('email_history')"
             >
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" />
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
             </button>
 
@@ -595,8 +796,16 @@ const submitCreditNote = () => {
                 class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 title="Export Peppol BIS 3.0"
             >
-                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z" clip-rule="evenodd" />
+                <svg
+                    class="h-4 w-4 mr-1.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm2.25 8.5a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5zm0 3a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
                 Peppol XML
             </a>
@@ -604,15 +813,35 @@ const submitCreditNote = () => {
             <!-- Factur-X Export Button (Pro feature) -->
             <a
                 v-if="invoice.status !== 'draft'"
-                :href="hasPlanFeature('facturx') ? route('invoices.facturx', invoice.id) : route('subscription.index')"
+                :href="
+                    hasPlanFeature('facturx')
+                        ? route('invoices.facturx', invoice.id)
+                        : route('subscription.index')
+                "
                 class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
-                :title="hasPlanFeature('facturx') ? 'Télécharger Factur-X / ZUGFeRD (PDF hybride)' : 'Factur-X est une fonctionnalité Pro - cliquez pour passer Pro'"
+                :title="
+                    hasPlanFeature('facturx')
+                        ? 'Télécharger Factur-X / ZUGFeRD (PDF hybride)'
+                        : 'Factur-X est une fonctionnalité Pro - cliquez pour passer Pro'
+                "
             >
-                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 11.97a.75.75 0 001.5 0v-2.69l.72.72a.75.75 0 101.06-1.06l-2-2a.75.75 0 00-1.06 0l-2 2a.75.75 0 001.06 1.06l.72-.72v2.69z" clip-rule="evenodd" />
+                <svg
+                    class="h-4 w-4 mr-1.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 11.97a.75.75 0 001.5 0v-2.69l.72.72a.75.75 0 101.06-1.06l-2-2a.75.75 0 00-1.06 0l-2 2a.75.75 0 001.06 1.06l.72-.72v2.69z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
                 Factur-X
-                <span v-if="!hasPlanFeature('facturx')" class="ml-1.5 inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">🔒 Pro</span>
+                <span
+                    v-if="!hasPlanFeature('facturx')"
+                    class="ml-1.5 inline-flex items-center rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
+                    >🔒 Pro</span
+                >
             </a>
 
             <!-- Send via Peppol Button -->
@@ -623,8 +852,14 @@ const submitCreditNote = () => {
                 class="inline-flex items-center rounded-xl bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 disabled:opacity-50"
                 title="Envoyer via le réseau Peppol"
             >
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+                <svg
+                    class="-ml-0.5 mr-1.5 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z"
+                    />
                 </svg>
                 Envoyer Peppol
             </button>
@@ -637,11 +872,20 @@ const submitCreditNote = () => {
                 class="inline-flex cursor-not-allowed items-center rounded-xl border border-gray-200 bg-gray-100 px-3 py-2 text-sm font-medium text-slate-400 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-500"
                 title="Transmission Peppol — bientôt disponible (l'export Peppol XML est déjà actif)"
             >
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z" />
+                <svg
+                    class="-ml-0.5 mr-1.5 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M3.105 2.289a.75.75 0 00-.826.95l1.414 4.925A1.5 1.5 0 005.135 9.25h6.115a.75.75 0 010 1.5H5.135a1.5 1.5 0 00-1.442 1.086l-1.414 4.926a.75.75 0 00.826.95 28.896 28.896 0 0015.293-7.154.75.75 0 000-1.115A28.897 28.897 0 003.105 2.289z"
+                    />
                 </svg>
                 Envoyer Peppol
-                <span class="ml-1.5 inline-flex items-center rounded-full bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">Bientôt</span>
+                <span
+                    class="ml-1.5 inline-flex items-center rounded-full bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                    >Bientôt</span
+                >
             </button>
 
             <!-- Peppol Status Badge -->
@@ -651,15 +895,52 @@ const submitCreditNote = () => {
                 class="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium"
                 :title="peppolTransmission.error_message || ''"
             >
-                <svg v-if="peppolTransmission.status === 'processing'" class="animate-spin -ml-0.5 mr-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                    v-if="peppolTransmission.status === 'processing'"
+                    class="animate-spin -ml-0.5 mr-1.5 h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                    ></circle>
+                    <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                 </svg>
-                <svg v-else-if="peppolTransmission.status === 'sent' || peppolTransmission.status === 'delivered'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                <svg
+                    v-else-if="
+                        peppolTransmission.status === 'sent' ||
+                        peppolTransmission.status === 'delivered'
+                    "
+                    class="-ml-0.5 mr-1.5 h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
-                <svg v-else-if="peppolTransmission.status === 'failed'" class="-ml-0.5 mr-1.5 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                <svg
+                    v-else-if="peppolTransmission.status === 'failed'"
+                    class="-ml-0.5 mr-1.5 h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
                 Peppol: {{ getPeppolStatusLabel(peppolTransmission.status) }}
             </span>
@@ -672,23 +953,41 @@ const submitCreditNote = () => {
                 class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
                 title="Dupliquer en nouveau brouillon"
             >
-                <svg class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                <svg
+                    class="h-4 w-4 mr-1.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"
+                    />
                 </svg>
                 Dupliquer
             </button>
 
             <!-- Create Credit Note -->
             <button
-                v-if="invoice.type === 'invoice' && ['finalized', 'sent', 'paid'].includes(invoice.status) && !invoice.credit_note"
+                v-if="
+                    invoice.type === 'invoice' &&
+                    ['finalized', 'sent', 'paid'].includes(invoice.status) &&
+                    !invoice.credit_note
+                "
                 @click="openCreditNoteModal"
                 :disabled="processing"
                 class="inline-flex items-center rounded-xl border border-pink-300 bg-white px-3 py-2 text-sm font-medium text-pink-700 shadow-sm hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800 dark:text-pink-400 dark:hover:bg-gray-800"
             >
-                <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2.121 2.121 0 013 3l-4.9 4.9a2.121 2.121 0 01-1.5.621h-1a.5.5 0 01-.5-.5v-1a2.121 2.121 0 01.621-1.5z" clip-rule="evenodd" />
+                <svg
+                    class="-ml-0.5 mr-1.5 h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2.121 2.121 0 013 3l-4.9 4.9a2.121 2.121 0 01-1.5.621h-1a.5.5 0 01-.5-.5v-1a2.121 2.121 0 01.621-1.5z"
+                        clip-rule="evenodd"
+                    />
                 </svg>
-                {{ t('credit_note') }}
+                {{ t("credit_note") }}
             </button>
         </template>
 
@@ -698,35 +997,72 @@ const submitCreditNote = () => {
             <!-- Invoice Header Info -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <!-- Seller Info -->
-                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('issuer') }}</h2>
+                <div
+                    class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+                >
+                    <div
+                        class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                    >
+                        <h2
+                            class="text-lg font-medium text-slate-900 dark:text-white"
+                        >
+                            {{ t("issuer") }}
+                        </h2>
                     </div>
                     <div class="px-6 py-4">
-                        <div v-if="invoice.seller_snapshot" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
-                            <p class="font-semibold">{{ invoice.seller_snapshot.company_name }}</p>
-                            <p v-if="invoice.seller_snapshot.legal_name">{{ invoice.seller_snapshot.legal_name }}</p>
+                        <div
+                            v-if="invoice.seller_snapshot"
+                            class="text-sm text-slate-700 dark:text-slate-300 space-y-1"
+                        >
+                            <p class="font-semibold">
+                                {{ invoice.seller_snapshot.company_name }}
+                            </p>
+                            <p v-if="invoice.seller_snapshot.legal_name">
+                                {{ invoice.seller_snapshot.legal_name }}
+                            </p>
                             <p>{{ invoice.seller_snapshot.address_line1 }}</p>
-                            <p v-if="invoice.seller_snapshot.address_line2">{{ invoice.seller_snapshot.address_line2 }}</p>
-                            <p>{{ invoice.seller_snapshot.postal_code }} {{ invoice.seller_snapshot.city }}</p>
+                            <p v-if="invoice.seller_snapshot.address_line2">
+                                {{ invoice.seller_snapshot.address_line2 }}
+                            </p>
+                            <p>
+                                {{ invoice.seller_snapshot.postal_code }}
+                                {{ invoice.seller_snapshot.city }}
+                            </p>
                             <p>{{ invoice.seller_snapshot.country }}</p>
                             <p class="pt-2">
-                                <span class="text-slate-500">{{ t('matricule') }}:</span> {{ invoice.seller_snapshot.matricule }}
+                                <span class="text-slate-500"
+                                    >{{ t("matricule") }}:</span
+                                >
+                                {{ invoice.seller_snapshot.matricule }}
                             </p>
                             <p v-if="invoice.seller_snapshot.vat_number">
-                                <span class="text-slate-500">{{ t('vat_number_short') }}:</span> {{ invoice.seller_snapshot.vat_number }}
+                                <span class="text-slate-500"
+                                    >{{ t("vat_number_short") }}:</span
+                                >
+                                {{ invoice.seller_snapshot.vat_number }}
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Buyer Info -->
-                <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('client') }}</h2>
+                <div
+                    class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+                >
+                    <div
+                        class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                    >
+                        <h2
+                            class="text-lg font-medium text-slate-900 dark:text-white"
+                        >
+                            {{ t("client") }}
+                        </h2>
                     </div>
                     <div class="px-6 py-4">
-                        <div v-if="invoice.buyer_snapshot" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                        <div
+                            v-if="invoice.buyer_snapshot"
+                            class="text-sm text-slate-700 dark:text-slate-300 space-y-1"
+                        >
                             <!-- Le nom affiché reste celui figé sur la facture,
                                  seul valable juridiquement. Le lien mène à la
                                  fiche vivante, qu'on consulte souvent depuis une
@@ -735,38 +1071,70 @@ const submitCreditNote = () => {
                             <p class="font-semibold">
                                 <Link
                                     v-if="invoice.client?.id"
-                                    :href="route('clients.show', invoice.client.id)"
+                                    :href="
+                                        route('clients.show', invoice.client.id)
+                                    "
                                     class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                     :title="t('view_client')"
-                                >{{ invoice.buyer_snapshot.name }}</Link>
-                                <span v-else>{{ invoice.buyer_snapshot.name }}</span>
+                                    >{{ invoice.buyer_snapshot.name }}</Link
+                                >
+                                <span v-else>{{
+                                    invoice.buyer_snapshot.name
+                                }}</span>
                             </p>
-                            <p v-if="invoice.buyer_snapshot.company_name">{{ invoice.buyer_snapshot.company_name }}</p>
+                            <p v-if="invoice.buyer_snapshot.company_name">
+                                {{ invoice.buyer_snapshot.company_name }}
+                            </p>
                             <p>{{ invoice.buyer_snapshot.address_line1 }}</p>
-                            <p v-if="invoice.buyer_snapshot.address_line2">{{ invoice.buyer_snapshot.address_line2 }}</p>
-                            <p>{{ invoice.buyer_snapshot.postal_code }} {{ invoice.buyer_snapshot.city }}</p>
+                            <p v-if="invoice.buyer_snapshot.address_line2">
+                                {{ invoice.buyer_snapshot.address_line2 }}
+                            </p>
+                            <p>
+                                {{ invoice.buyer_snapshot.postal_code }}
+                                {{ invoice.buyer_snapshot.city }}
+                            </p>
                             <p>{{ invoice.buyer_snapshot.country }}</p>
-                            <p v-if="invoice.buyer_snapshot.vat_number" class="pt-2">
-                                <span class="text-slate-500">{{ t('vat_number_short') }}:</span> {{ invoice.buyer_snapshot.vat_number }}
+                            <p
+                                v-if="invoice.buyer_snapshot.vat_number"
+                                class="pt-2"
+                            >
+                                <span class="text-slate-500"
+                                    >{{ t("vat_number_short") }}:</span
+                                >
+                                {{ invoice.buyer_snapshot.vat_number }}
                             </p>
                         </div>
                         <!-- Un brouillon n'a pas encore d'instantané : ce bloc
                              restait vide jusqu'ici. On affiche alors la fiche
                              vivante, comme le fait déjà le devis. -->
-                        <div v-else-if="invoice.client" class="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+                        <div
+                            v-else-if="invoice.client"
+                            class="text-sm text-slate-700 dark:text-slate-300 space-y-1"
+                        >
                             <p class="font-semibold">
                                 <Link
-                                    :href="route('clients.show', invoice.client.id)"
+                                    :href="
+                                        route('clients.show', invoice.client.id)
+                                    "
                                     class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                     :title="t('view_client')"
-                                >{{ invoice.client.name }}</Link>
+                                    >{{ invoice.client.name }}</Link
+                                >
                             </p>
-                            <p v-if="invoice.client.contact_name">{{ invoice.client.contact_name }}</p>
+                            <p v-if="invoice.client.contact_name">
+                                {{ invoice.client.contact_name }}
+                            </p>
                             <p>{{ invoice.client.address }}</p>
-                            <p>{{ invoice.client.postal_code }} {{ invoice.client.city }}</p>
+                            <p>
+                                {{ invoice.client.postal_code }}
+                                {{ invoice.client.city }}
+                            </p>
                             <p>{{ invoice.client.country }}</p>
                             <p v-if="invoice.client.vat_number" class="pt-2">
-                                <span class="text-slate-500">{{ t('vat_number_short') }}:</span> {{ invoice.client.vat_number }}
+                                <span class="text-slate-500"
+                                    >{{ t("vat_number_short") }}:</span
+                                >
+                                {{ invoice.client.vat_number }}
                             </p>
                         </div>
                     </div>
@@ -774,27 +1142,67 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Invoice Details -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('details') }}</h2>
+            <div
+                class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            >
+                <div
+                    class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                    <h2
+                        class="text-lg font-medium text-slate-900 dark:text-white"
+                    >
+                        {{ t("details") }}
+                    </h2>
                 </div>
                 <div class="px-6 py-4">
-                    <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <dl
+                        class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+                    >
                         <div>
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('issue_date') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatDate(invoice.issued_at) }}</dd>
+                            <dt
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("issue_date") }}
+                            </dt>
+                            <dd
+                                class="mt-1 text-sm text-slate-900 dark:text-white"
+                            >
+                                {{ formatDate(invoice.issued_at) }}
+                            </dd>
                         </div>
                         <div>
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('due_date') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatDate(invoice.due_at) }}</dd>
+                            <dt
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("due_date") }}
+                            </dt>
+                            <dd
+                                class="mt-1 text-sm text-slate-900 dark:text-white"
+                            >
+                                {{ formatDate(invoice.due_at) }}
+                            </dd>
                         </div>
                         <div v-if="invoice.sent_at">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('sent_on') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white">{{ formatDate(invoice.sent_at) }}</dd>
+                            <dt
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("sent_on") }}
+                            </dt>
+                            <dd
+                                class="mt-1 text-sm text-slate-900 dark:text-white"
+                            >
+                                {{ formatDate(invoice.sent_at) }}
+                            </dd>
                         </div>
                         <div v-if="invoice.paid_at">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('paid_on') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                            <dt
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("paid_on") }}
+                            </dt>
+                            <dd
+                                class="mt-1 text-sm text-slate-900 dark:text-white flex items-center gap-2"
+                            >
                                 {{ formatDate(invoice.paid_at) }}
                                 <button
                                     @click="openEditPaidModal"
@@ -802,35 +1210,72 @@ const submitCreditNote = () => {
                                     class="text-slate-400 hover:text-primary-500 transition-colors"
                                     title="Modifier la date de paiement"
                                 >
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    <svg
+                                        class="w-4 h-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                        />
                                     </svg>
                                 </button>
                             </dd>
                         </div>
                         <div v-if="invoice.credit_note_for">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('credit_note_for') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white">
+                            <dt
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("credit_note_for") }}
+                            </dt>
+                            <dd
+                                class="mt-1 text-sm text-slate-900 dark:text-white"
+                            >
                                 <Link
                                     v-if="invoice.original_invoice"
-                                    :href="route('invoices.show', invoice.credit_note_for)"
+                                    :href="
+                                        route(
+                                            'invoices.show',
+                                            invoice.credit_note_for,
+                                        )
+                                    "
                                     class="text-primary-600 hover:text-primary-500 dark:text-primary-400"
                                 >
-                                    {{ t('invoice') }} {{ invoice.original_invoice.number }}
+                                    {{ t("invoice") }}
+                                    {{ invoice.original_invoice.number }}
                                 </Link>
                                 <Link
                                     v-else
-                                    :href="route('invoices.show', invoice.credit_note_for)"
+                                    :href="
+                                        route(
+                                            'invoices.show',
+                                            invoice.credit_note_for,
+                                        )
+                                    "
                                     class="text-primary-600 hover:text-primary-500 dark:text-primary-400"
                                 >
-                                    {{ t('see_original_invoice') }}
+                                    {{ t("see_original_invoice") }}
                                 </Link>
                             </dd>
                         </div>
                         <div v-if="invoice.credit_note_reason">
-                            <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ t('reason') }}</dt>
-                            <dd class="mt-1 text-sm text-slate-900 dark:text-white">
-                                {{ creditNoteReasons[invoice.credit_note_reason] || invoice.credit_note_reason }}
+                            <dt
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("reason") }}
+                            </dt>
+                            <dd
+                                class="mt-1 text-sm text-slate-900 dark:text-white"
+                            >
+                                {{
+                                    creditNoteReasons[
+                                        invoice.credit_note_reason
+                                    ] || invoice.credit_note_reason
+                                }}
                             </dd>
                         </div>
                     </dl>
@@ -838,32 +1283,54 @@ const submitCreditNote = () => {
             </div>
 
             <!-- Invoice Items -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('invoice_lines') }}</h2>
+            <div
+                class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            >
+                <div
+                    class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                    <h2
+                        class="text-lg font-medium text-slate-900 dark:text-white"
+                    >
+                        {{ t("invoice_lines") }}
+                    </h2>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                    <table
+                        class="min-w-full divide-y divide-slate-200 dark:divide-slate-700"
+                    >
                         <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
-                                <th class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white">
-                                    {{ t('description') }}
+                                <th
+                                    class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-slate-900 dark:text-white"
+                                >
+                                    {{ t("description") }}
                                 </th>
-                                <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">
-                                    {{ t('qty') }}
+                                <th
+                                    class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white"
+                                >
+                                    {{ t("qty") }}
                                 </th>
-                                <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">
-                                    {{ t('price_ht') }}
+                                <th
+                                    class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white"
+                                >
+                                    {{ t("price_ht") }}
                                 </th>
-                                <th class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white">
-                                    {{ t('vat') }}
+                                <th
+                                    class="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 dark:text-white"
+                                >
+                                    {{ t("vat") }}
                                 </th>
-                                <th class="py-3.5 pl-3 pr-6 text-right text-sm font-semibold text-slate-900 dark:text-white">
-                                    {{ t('total_ht') }}
+                                <th
+                                    class="py-3.5 pl-3 pr-6 text-right text-sm font-semibold text-slate-900 dark:text-white"
+                                >
+                                    {{ t("total_ht") }}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card">
+                        <tbody
+                            class="divide-y divide-slate-200 bg-white dark:divide-slate-700 dark:bg-surface-card"
+                        >
                             <tr v-for="item in invoice.items" :key="item.id">
                                 <!-- Désignation puis description, comme sur le PDF.
                                      Seule la description était affichée : un
@@ -871,74 +1338,192 @@ const submitCreditNote = () => {
                                      déplacement », par exemple — donnait une
                                      ligne vide à l'écran alors que le document
                                      imprimé, lui, portait bien son intitulé. -->
-                                <td class="py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white whitespace-pre-wrap break-words">
-                                    <div v-if="item.title" class="font-medium">{{ item.title }}</div>
+                                <td
+                                    class="py-4 pl-6 pr-3 text-sm text-slate-900 dark:text-white whitespace-pre-wrap break-words"
+                                >
+                                    <div v-if="item.title" class="font-medium">
+                                        {{ item.title }}
+                                    </div>
                                     <div
                                         v-if="item.description"
-                                        :class="item.title ? 'mt-0.5 text-xs text-slate-500 dark:text-slate-400' : ''"
+                                        :class="
+                                            item.title
+                                                ? 'mt-0.5 text-xs text-slate-500 dark:text-slate-400'
+                                                : ''
+                                        "
                                     >
                                         {{ item.description }}
                                     </div>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
+                                <td
+                                    class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400"
+                                >
                                     {{ item.quantity }}
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
-                                    {{ formatCurrency(item.unit_price, invoice.currency) }}
-                                    <span v-if="parseFloat(item.discount_value) > 0" class="block text-xs text-amber-600 dark:text-amber-400">
-                                        −{{ item.discount_type === 'amount' ? formatCurrency(item.discount_value, invoice.currency) : parseFloat(item.discount_value) + ' %' }}
+                                <td
+                                    class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400"
+                                >
+                                    {{
+                                        formatCurrency(
+                                            item.unit_price,
+                                            invoice.currency,
+                                        )
+                                    }}
+                                    <span
+                                        v-if="
+                                            parseFloat(item.discount_value) > 0
+                                        "
+                                        class="block text-xs text-amber-600 dark:text-amber-400"
+                                    >
+                                        −{{
+                                            item.discount_type === "amount"
+                                                ? formatCurrency(
+                                                      item.discount_value,
+                                                      invoice.currency,
+                                                  )
+                                                : parseFloat(
+                                                      item.discount_value,
+                                                  ) + " %"
+                                        }}
                                     </span>
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
+                                <td
+                                    class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400"
+                                >
                                     {{ item.vat_rate }}%
                                 </td>
-                                <td class="whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white">
-                                    <s v-if="parseFloat(item.discount_value) > 0" class="block text-xs font-normal text-slate-400">{{ formatCurrency(item.quantity * item.unit_price, invoice.currency) }}</s>
-                                    {{ formatCurrency(item.total_ht, invoice.currency) }}
+                                <td
+                                    class="whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white"
+                                >
+                                    <s
+                                        v-if="
+                                            parseFloat(item.discount_value) > 0
+                                        "
+                                        class="block text-xs font-normal text-slate-400"
+                                        >{{
+                                            formatCurrency(
+                                                item.quantity * item.unit_price,
+                                                invoice.currency,
+                                            )
+                                        }}</s
+                                    >
+                                    {{
+                                        formatCurrency(
+                                            item.total_ht,
+                                            invoice.currency,
+                                        )
+                                    }}
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot class="bg-slate-50 dark:bg-gray-800">
                             <tr v-if="(invoice.discounts || []).length > 0">
-                                <td colspan="4" class="py-2 pl-6 pr-3 text-right text-sm text-slate-500 dark:text-slate-400">
-                                    {{ t('subtotal_ht') }}
-                                </td>
-                                <td class="whitespace-nowrap py-2 pl-3 pr-6 text-right text-sm text-slate-700 dark:text-slate-300">
-                                    {{ formatCurrency(subtotalHt, invoice.currency) }}
-                                </td>
-                            </tr>
-                            <tr v-for="discount in invoice.discounts || []" :key="discount.id">
-                                <td colspan="4" class="py-2 pl-6 pr-3 text-right text-sm text-amber-700 dark:text-amber-400">
-                                    {{ discount.label || t('discount') }}<template v-if="discount.type === 'percent'"> ({{ parseFloat(discount.value) }} %)</template>
-                                </td>
-                                <td class="whitespace-nowrap py-2 pl-3 pr-6 text-right text-sm text-amber-700 dark:text-amber-400">
-                                    − {{ formatCurrency(discountEuro(discount), invoice.currency) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
-                                    {{ t('total_ht') }}
-                                </td>
-                                <td class="whitespace-nowrap py-3 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white">
-                                    {{ formatCurrency(invoice.total_ht, invoice.currency) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
-                                    {{ t('total_vat') }}
-                                </td>
-                                <td class="whitespace-nowrap py-3 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white">
-                                    {{ formatCurrency(invoice.total_vat, invoice.currency) }}
-                                </td>
-                            </tr>
-                            <tr class="border-t-2 border-gray-300 dark:border-gray-700">
-                                <td colspan="4" class="py-3 pl-6 pr-3 text-right text-sm font-bold text-slate-900 dark:text-white">
-                                    {{ t('total_ttc') }}
-                                </td>
-                                <td class="whitespace-nowrap py-3 pl-3 pr-6 text-right text-sm font-bold"
-                                    :class="invoice.type === 'credit_note' ? 'text-pink-600 dark:text-pink-400' : 'text-slate-900 dark:text-white'"
+                                <td
+                                    colspan="4"
+                                    class="py-2 pl-6 pr-3 text-right text-sm text-slate-500 dark:text-slate-400"
                                 >
-                                    {{ formatCurrency(invoice.total_ttc, invoice.currency) }}
+                                    {{ t("subtotal_ht") }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-2 pl-3 pr-6 text-right text-sm text-slate-700 dark:text-slate-300"
+                                >
+                                    {{
+                                        formatCurrency(
+                                            subtotalHt,
+                                            invoice.currency,
+                                        )
+                                    }}
+                                </td>
+                            </tr>
+                            <tr
+                                v-for="discount in invoice.discounts || []"
+                                :key="discount.id"
+                            >
+                                <td
+                                    colspan="4"
+                                    class="py-2 pl-6 pr-3 text-right text-sm text-amber-700 dark:text-amber-400"
+                                >
+                                    {{ discount.label || t("discount")
+                                    }}<template
+                                        v-if="discount.type === 'percent'"
+                                    >
+                                        ({{
+                                            parseFloat(discount.value)
+                                        }}
+                                        %)</template
+                                    >
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-2 pl-3 pr-6 text-right text-sm text-amber-700 dark:text-amber-400"
+                                >
+                                    −
+                                    {{
+                                        formatCurrency(
+                                            discountEuro(discount),
+                                            invoice.currency,
+                                        )
+                                    }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td
+                                    colspan="4"
+                                    class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400"
+                                >
+                                    {{ t("total_ht") }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-3 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white"
+                                >
+                                    {{
+                                        formatCurrency(
+                                            invoice.total_ht,
+                                            invoice.currency,
+                                        )
+                                    }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td
+                                    colspan="4"
+                                    class="py-3 pl-6 pr-3 text-right text-sm font-medium text-slate-500 dark:text-slate-400"
+                                >
+                                    {{ t("total_vat") }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-3 pl-3 pr-6 text-right text-sm font-medium text-slate-900 dark:text-white"
+                                >
+                                    {{
+                                        formatCurrency(
+                                            invoice.total_vat,
+                                            invoice.currency,
+                                        )
+                                    }}
+                                </td>
+                            </tr>
+                            <tr
+                                class="border-t-2 border-gray-300 dark:border-gray-700"
+                            >
+                                <td
+                                    colspan="4"
+                                    class="py-3 pl-6 pr-3 text-right text-sm font-bold text-slate-900 dark:text-white"
+                                >
+                                    {{ t("total_ttc") }}
+                                </td>
+                                <td
+                                    class="whitespace-nowrap py-3 pl-3 pr-6 text-right text-sm font-bold"
+                                    :class="
+                                        invoice.type === 'credit_note'
+                                            ? 'text-pink-600 dark:text-pink-400'
+                                            : 'text-slate-900 dark:text-white'
+                                    "
+                                >
+                                    {{
+                                        formatCurrency(
+                                            invoice.total_ttc,
+                                            invoice.currency,
+                                        )
+                                    }}
                                 </td>
                             </tr>
                         </tfoot>
@@ -946,32 +1531,311 @@ const submitCreditNote = () => {
                 </div>
             </div>
 
+            <!-- Encaissements (FEAT-114) -->
+            <div
+                v-if="
+                    invoice.status !== 'draft' && invoice.type !== 'credit_note'
+                "
+                class="rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            >
+                <div
+                    class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                    <h2
+                        class="text-lg font-medium text-slate-900 dark:text-white"
+                    >
+                        {{ t("payments_title") }}
+                    </h2>
+                    <button
+                        v-if="!paymentSummary.locked"
+                        type="button"
+                        @click="ouvrirSaisie"
+                        class="rounded-xl bg-primary-600 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-700"
+                    >
+                        {{ t("payments_add") }}
+                    </button>
+                </div>
+
+                <!-- Encaissé / reste dû : le calcul vient du serveur, qui
+                     connaît la règle du trop-perçu. -->
+                <div class="grid grid-cols-2 gap-4 px-6 py-4 sm:grid-cols-3">
+                    <div>
+                        <p
+                            class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400"
+                        >
+                            {{ t("payments_total_due") }}
+                        </p>
+                        <p
+                            class="mt-1 text-lg font-semibold text-slate-900 dark:text-white"
+                        >
+                            {{ formatMontant(invoice.total_ttc) }}
+                        </p>
+                    </div>
+                    <div>
+                        <p
+                            class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400"
+                        >
+                            {{ t("payments_received") }}
+                        </p>
+                        <p
+                            class="mt-1 text-lg font-semibold text-emerald-600 dark:text-emerald-400"
+                        >
+                            {{ formatMontant(paymentSummary.paid) }}
+                        </p>
+                    </div>
+                    <div>
+                        <p
+                            class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400"
+                        >
+                            {{ t("payments_remaining") }}
+                        </p>
+                        <p
+                            class="mt-1 text-lg font-semibold"
+                            :class="
+                                paymentSummary.due > 0
+                                    ? 'text-amber-600 dark:text-amber-400'
+                                    : 'text-slate-400'
+                            "
+                        >
+                            {{ formatMontant(paymentSummary.due) }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Saisie -->
+                <form
+                    v-if="saisieOuverte"
+                    @submit.prevent="enregistrerEncaissement"
+                    class="border-t border-gray-200 px-6 py-4 dark:border-gray-700"
+                >
+                    <div class="grid gap-4 sm:grid-cols-4">
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >{{ t("payments_amount") }}</label
+                            >
+                            <input
+                                v-model="formEncaissement.amount"
+                                type="number"
+                                step="0.01"
+                                min="0.01"
+                                required
+                                class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                            <p
+                                v-if="formEncaissement.errors.amount"
+                                class="mt-1 text-xs text-red-600"
+                            >
+                                {{ formEncaissement.errors.amount }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >{{ t("payments_date") }}</label
+                            >
+                            <input
+                                v-model="formEncaissement.paid_at"
+                                type="date"
+                                required
+                                class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                            <p
+                                v-if="formEncaissement.errors.paid_at"
+                                class="mt-1 text-xs text-red-600"
+                            >
+                                {{ formEncaissement.errors.paid_at }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >{{ t("payments_method") }}</label
+                            >
+                            <select
+                                v-model="formEncaissement.method"
+                                class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            >
+                                <option :value="null">
+                                    {{ t("payments_method_unknown") }}
+                                </option>
+                                <option
+                                    v-for="m in paymentMethods"
+                                    :key="m.value"
+                                    :value="m.value"
+                                >
+                                    {{ m.label }}
+                                </option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >{{ t("payments_reference") }}</label
+                            >
+                            <input
+                                v-model="formEncaissement.reference"
+                                type="text"
+                                maxlength="255"
+                                class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                        </div>
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                        <button
+                            type="submit"
+                            :disabled="formEncaissement.processing"
+                            class="rounded-xl bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-50"
+                        >
+                            {{ t("save") }}
+                        </button>
+                        <button
+                            type="button"
+                            @click="saisieOuverte = false"
+                            class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-slate-700 dark:border-gray-600 dark:text-slate-300"
+                        >
+                            {{ t("cancel") }}
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Liste -->
+                <div
+                    v-if="payments.length"
+                    class="border-t border-gray-200 dark:border-gray-700"
+                >
+                    <table
+                        class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                    >
+                        <tbody
+                            class="divide-y divide-gray-100 dark:divide-gray-800"
+                        >
+                            <tr v-for="p in payments" :key="p.id">
+                                <td
+                                    class="px-6 py-3 text-sm text-slate-600 dark:text-slate-400"
+                                >
+                                    {{ p.paid_at }}
+                                </td>
+                                <td class="px-3 py-3 text-sm">
+                                    <span
+                                        class="rounded-full px-2 py-0.5 text-xs"
+                                        :class="
+                                            p.method
+                                                ? 'bg-slate-100 text-slate-700 dark:bg-gray-700 dark:text-slate-200'
+                                                : 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                                        "
+                                        >{{ p.method_label }}</span
+                                    >
+                                </td>
+                                <td
+                                    class="px-3 py-3 text-sm text-slate-500 dark:text-slate-400"
+                                >
+                                    {{ p.reference || "-" }}
+                                </td>
+                                <td
+                                    class="px-3 py-3 text-right text-sm font-semibold text-slate-900 dark:text-white"
+                                >
+                                    {{ formatMontant(p.amount) }}
+                                </td>
+                                <td class="px-6 py-3 text-right">
+                                    <button
+                                        v-if="!paymentSummary.locked"
+                                        type="button"
+                                        @click="supprimerEncaissement(p)"
+                                        class="rounded-lg p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                        :title="t('payments_delete')"
+                                    >
+                                        <svg
+                                            class="h-4 w-4"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                        <span class="sr-only">{{
+                                            t("payments_delete")
+                                        }}</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Une facture soldée verrouille ses encaissements : le
+                     statut « payée » est terminal côté modèle. -->
+                <p
+                    v-if="paymentSummary.locked"
+                    class="border-t border-gray-200 px-6 py-3 text-xs text-slate-500 dark:border-gray-700 dark:text-slate-400"
+                >
+                    {{ t("payments_locked_hint") }}
+                </p>
+            </div>
+
             <!-- Notes -->
-            <div v-if="invoice.notes" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('notes') }}</h2>
+            <div
+                v-if="invoice.notes"
+                class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            >
+                <div
+                    class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                    <h2
+                        class="text-lg font-medium text-slate-900 dark:text-white"
+                    >
+                        {{ t("notes") }}
+                    </h2>
                 </div>
                 <div class="px-6 py-4">
-                    <p class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{{ invoice.notes }}</p>
+                    <p
+                        class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap"
+                    >
+                        {{ invoice.notes }}
+                    </p>
                 </div>
             </div>
 
             <!-- Credit Notes linked to this invoice -->
-            <div v-if="invoice.credit_notes && invoice.credit_notes.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('related_credit_notes') }}</h2>
+            <div
+                v-if="invoice.credit_notes && invoice.credit_notes.length > 0"
+                class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            >
+                <div
+                    class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                >
+                    <h2
+                        class="text-lg font-medium text-slate-900 dark:text-white"
+                    >
+                        {{ t("related_credit_notes") }}
+                    </h2>
                 </div>
                 <div class="px-6 py-4">
                     <ul class="divide-y divide-slate-200 dark:divide-slate-700">
-                        <li v-for="creditNote in invoice.credit_notes" :key="creditNote.id" class="py-3 flex justify-between items-center">
+                        <li
+                            v-for="creditNote in invoice.credit_notes"
+                            :key="creditNote.id"
+                            class="py-3 flex justify-between items-center"
+                        >
                             <Link
                                 :href="route('invoices.show', creditNote.id)"
                                 class="text-primary-600 hover:text-primary-500 dark:text-primary-400"
                             >
                                 {{ creditNote.number }}
                             </Link>
-                            <span class="text-sm text-pink-600 dark:text-pink-400">
-                                {{ formatCurrency(creditNote.total_ttc, creditNote.currency) }}
+                            <span
+                                class="text-sm text-pink-600 dark:text-pink-400"
+                            >
+                                {{
+                                    formatCurrency(
+                                        creditNote.total_ttc,
+                                        creditNote.currency,
+                                    )
+                                }}
                             </span>
                         </li>
                     </ul>
@@ -980,20 +1844,39 @@ const submitCreditNote = () => {
         </div>
 
         <!-- Credit Note Modal -->
-        <div v-if="showCreditNoteModal" class="fixed inset-0 z-50 overflow-y-auto">
-            <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="closeCreditNoteModal"></div>
+        <div
+            v-if="showCreditNoteModal"
+            class="fixed inset-0 z-50 overflow-y-auto"
+        >
+            <div
+                class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            >
+                <div
+                    class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+                    @click="closeCreditNoteModal"
+                ></div>
 
-                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div
+                    class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
+                >
                     <div class="px-4 pt-5 pb-4 sm:p-6">
-                        <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
-                            {{ t('create_credit_note_for').replace(':number', invoice.number) }}
+                        <h3
+                            class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4"
+                        >
+                            {{
+                                t("create_credit_note_for").replace(
+                                    ":number",
+                                    invoice.number,
+                                )
+                            }}
                         </h3>
 
                         <!-- Credit Note Type -->
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                {{ t('credit_note_type') }}
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                {{ t("credit_note_type") }}
                             </label>
                             <div class="flex flex-wrap gap-4">
                                 <label class="flex items-center">
@@ -1003,7 +1886,10 @@ const submitCreditNote = () => {
                                         value="full"
                                         class="h-4 w-4 text-primary-500 border-gray-300 focus:ring-primary-500"
                                     />
-                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">{{ t('full_credit_note') }}</span>
+                                    <span
+                                        class="ml-2 text-sm text-slate-700 dark:text-slate-300"
+                                        >{{ t("full_credit_note") }}</span
+                                    >
                                 </label>
                                 <label class="flex items-center">
                                     <input
@@ -1012,22 +1898,32 @@ const submitCreditNote = () => {
                                         value="partial"
                                         class="h-4 w-4 text-primary-500 border-gray-300 focus:ring-primary-500"
                                     />
-                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">{{ t('partial_credit_note') }}</span>
+                                    <span
+                                        class="ml-2 text-sm text-slate-700 dark:text-slate-300"
+                                        >{{ t("partial_credit_note") }}</span
+                                    >
                                 </label>
                             </div>
                         </div>
 
                         <!-- Reason -->
                         <div class="mb-4">
-                            <label for="credit_note_reason" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                {{ t('credit_note_reason') }}
+                            <label
+                                for="credit_note_reason"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                {{ t("credit_note_reason") }}
                             </label>
                             <select
                                 id="credit_note_reason"
                                 v-model="creditNoteForm.reason"
                                 class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             >
-                                <option v-for="(label, value) in creditNoteReasons" :key="value" :value="value">
+                                <option
+                                    v-for="(label, value) in creditNoteReasons"
+                                    :key="value"
+                                    :value="value"
+                                >
                                     {{ label }}
                                 </option>
                             </select>
@@ -1035,10 +1931,14 @@ const submitCreditNote = () => {
 
                         <!-- Item Selection for Partial -->
                         <div v-if="creditNoteType === 'partial'" class="mb-4">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                {{ t('lines_to_cancel') }}
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                {{ t("lines_to_cancel") }}
                             </label>
-                            <div class="border border-gray-200 rounded-xl divide-y divide-slate-200 dark:border-gray-700 dark:divide-slate-600 max-h-48 overflow-y-auto">
+                            <div
+                                class="border border-gray-200 rounded-xl divide-y divide-slate-200 dark:border-gray-700 dark:divide-slate-600 max-h-48 overflow-y-auto"
+                            >
                                 <label
                                     v-for="item in invoice.items"
                                     :key="item.id"
@@ -1046,58 +1946,94 @@ const submitCreditNote = () => {
                                 >
                                     <input
                                         type="checkbox"
-                                        :checked="selectedItemIds.includes(item.id)"
+                                        :checked="
+                                            selectedItemIds.includes(item.id)
+                                        "
                                         @change="toggleItemSelection(item.id)"
                                         class="h-4 w-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
                                     />
-                                    <span class="ml-3 flex-1 text-sm text-slate-700 dark:text-slate-300">
+                                    <span
+                                        class="ml-3 flex-1 text-sm text-slate-700 dark:text-slate-300"
+                                    >
                                         {{ item.title || item.description }}
                                     </span>
-                                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                                        {{ formatCurrency(item.total_ttc, invoice.currency) }}
+                                    <span
+                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                    >
+                                        {{
+                                            formatCurrency(
+                                                item.total_ttc,
+                                                invoice.currency,
+                                            )
+                                        }}
                                     </span>
                                 </label>
                             </div>
-                            <p v-if="selectedItemIds.length === 0" class="mt-2 text-sm text-pink-600 dark:text-pink-400">
-                                {{ t('select_at_least_one_line') }}
+                            <p
+                                v-if="selectedItemIds.length === 0"
+                                class="mt-2 text-sm text-pink-600 dark:text-pink-400"
+                            >
+                                {{ t("select_at_least_one_line") }}
                             </p>
                         </div>
 
                         <!-- Summary -->
-                        <div class="bg-slate-50 dark:bg-gray-800 rounded-xl p-3 mb-4">
+                        <div
+                            class="bg-slate-50 dark:bg-gray-800 rounded-xl p-3 mb-4"
+                        >
                             <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    {{ t('credit_note_amount') }} :
+                                <span
+                                    class="text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >
+                                    {{ t("credit_note_amount") }} :
                                 </span>
-                                <span class="text-lg font-bold text-pink-600 dark:text-pink-400">
-                                    {{ creditNoteType === 'partial'
-                                        ? formatCurrency(-partialTotal, invoice.currency)
-                                        : formatCurrency(-invoice.total_ttc, invoice.currency)
+                                <span
+                                    class="text-lg font-bold text-pink-600 dark:text-pink-400"
+                                >
+                                    {{
+                                        creditNoteType === "partial"
+                                            ? formatCurrency(
+                                                  -partialTotal,
+                                                  invoice.currency,
+                                              )
+                                            : formatCurrency(
+                                                  -invoice.total_ttc,
+                                                  invoice.currency,
+                                              )
                                     }}
                                 </span>
                             </div>
                         </div>
 
                         <p class="text-sm text-slate-500 dark:text-slate-400">
-                            {{ t('credit_note_draft_info') }}
+                            {{ t("credit_note_draft_info") }}
                         </p>
                     </div>
 
-                    <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div
+                        class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6"
+                    >
                         <button
                             type="button"
                             @click="submitCreditNote"
-                            :disabled="!canSubmitCreditNote || creditNoteForm.processing"
+                            :disabled="
+                                !canSubmitCreditNote ||
+                                creditNoteForm.processing
+                            "
                             class="inline-flex w-full justify-center rounded-xl bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
                         >
-                            {{ creditNoteForm.processing ? t('creating') : t('create_credit_note') }}
+                            {{
+                                creditNoteForm.processing
+                                    ? t("creating")
+                                    : t("create_credit_note")
+                            }}
                         </button>
                         <button
                             type="button"
                             @click="closeCreditNoteModal"
                             class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                         >
-                            {{ t('cancel') }}
+                            {{ t("cancel") }}
                         </button>
                     </div>
                 </div>
@@ -1107,18 +2043,33 @@ const submitCreditNote = () => {
         <!-- Preview Modal -->
         <div v-if="showPreviewModal" class="fixed inset-0 z-50 overflow-hidden">
             <div class="flex items-center justify-center min-h-screen p-4">
-                <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showPreviewModal = false"></div>
+                <div
+                    class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+                    @click="showPreviewModal = false"
+                ></div>
 
-                <div class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+                <div
+                    class="relative bg-white dark:bg-surface-card rounded-2xl shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col"
+                >
                     <!-- Modal header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="text-lg font-medium text-slate-900 dark:text-white">
-                            <span v-if="invoice.type === 'credit_note'" class="text-pink-600 dark:text-pink-400">{{ t('credit_note') }} </span>
+                    <div
+                        class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+                    >
+                        <h3
+                            class="text-lg font-medium text-slate-900 dark:text-white"
+                        >
+                            <span
+                                v-if="invoice.type === 'credit_note'"
+                                class="text-pink-600 dark:text-pink-400"
+                                >{{ t("credit_note") }}
+                            </span>
                             {{ invoice.number }}
                         </h3>
                         <div class="flex items-center space-x-2">
                             <!-- Language selector -->
-                            <div class="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+                            <div
+                                class="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
+                            >
                                 <button
                                     v-for="lang in pdfLanguages"
                                     :key="lang.value"
@@ -1126,11 +2077,16 @@ const submitCreditNote = () => {
                                     @click="changePdfLanguage(lang.value)"
                                     :title="lang.label"
                                     class="px-2 py-1.5 text-base transition-colors"
-                                    :class="pdfLocale === lang.value
-                                        ? 'bg-primary-100 dark:bg-primary-900'
-                                        : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'"
+                                    :class="
+                                        pdfLocale === lang.value
+                                            ? 'bg-primary-100 dark:bg-primary-900'
+                                            : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                    "
                                 >
-                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
+                                    <FlagIcon
+                                        :code="lang.value"
+                                        class="w-5 h-3.5"
+                                    />
                                 </button>
                             </div>
                             <a
@@ -1138,9 +2094,17 @@ const submitCreditNote = () => {
                                 target="_blank"
                                 class="inline-flex items-center rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300"
                             >
-                                <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
-                                    <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+                                <svg
+                                    class="h-4 w-4 mr-1"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z"
+                                    />
+                                    <path
+                                        d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z"
+                                    />
                                 </svg>
                                 PDF
                             </a>
@@ -1149,34 +2113,57 @@ const submitCreditNote = () => {
                                 @click="showPreviewModal = false"
                                 class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
                             >
-                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                <svg
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
                                 </svg>
                             </button>
                         </div>
                     </div>
 
                     <!-- Modal body -->
-                    <div class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-surface-dark">
-                        <div v-if="loadingPreview" class="flex items-center justify-center h-96">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+                    <div
+                        class="flex-1 overflow-auto p-6 bg-slate-100 dark:bg-surface-dark"
+                    >
+                        <div
+                            v-if="loadingPreview"
+                            class="flex items-center justify-center h-96"
+                        >
+                            <div
+                                class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"
+                            ></div>
                         </div>
                         <iframe
                             v-else
                             :srcdoc="previewHtml"
                             class="bg-white shadow-lg mx-auto block border-0"
-                            style="width: 210mm; height: 297mm; color-scheme: light;"
+                            style="
+                                width: 210mm;
+                                height: 297mm;
+                                color-scheme: light;
+                            "
                         ></iframe>
                     </div>
 
                     <!-- Modal footer -->
-                    <div class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50">
+                    <div
+                        class="flex items-center justify-end px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800/50"
+                    >
                         <button
                             type="button"
                             @click="showPreviewModal = false"
                             class="inline-flex items-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500"
                         >
-                            {{ t('close') }}
+                            {{ t("close") }}
                         </button>
                     </div>
                 </div>
@@ -1185,20 +2172,32 @@ const submitCreditNote = () => {
 
         <!-- Email Modal -->
         <div v-if="showEmailModal" class="fixed inset-0 z-50 overflow-y-auto">
-            <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showEmailModal = false"></div>
+            <div
+                class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            >
+                <div
+                    class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+                    @click="showEmailModal = false"
+                ></div>
 
-                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div
+                    class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
+                >
                     <form @submit.prevent="sendEmail">
                         <div class="px-4 pt-5 pb-4 sm:p-6">
-                            <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
-                                {{ t('send_invoice_by_email') }}
+                            <h3
+                                class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4"
+                            >
+                                {{ t("send_invoice_by_email") }}
                             </h3>
 
                             <!-- Recipient Email -->
                             <div class="mb-4">
-                                <label for="recipient_email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                    {{ t('recipient_email') }} *
+                                <label
+                                    for="recipient_email"
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                                >
+                                    {{ t("recipient_email") }} *
                                 </label>
                                 <input
                                     type="email"
@@ -1207,15 +2206,21 @@ const submitCreditNote = () => {
                                     required
                                     class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
-                                <p v-if="emailForm.errors.recipient_email" class="mt-1 text-sm text-pink-600">
+                                <p
+                                    v-if="emailForm.errors.recipient_email"
+                                    class="mt-1 text-sm text-pink-600"
+                                >
                                     {{ emailForm.errors.recipient_email }}
                                 </p>
                             </div>
 
                             <!-- Subject -->
                             <div class="mb-4">
-                                <label for="subject" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                    {{ t('subject') }} *
+                                <label
+                                    for="subject"
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                                >
+                                    {{ t("subject") }} *
                                 </label>
                                 <input
                                     type="text"
@@ -1224,15 +2229,21 @@ const submitCreditNote = () => {
                                     required
                                     class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
-                                <p v-if="emailForm.errors.subject" class="mt-1 text-sm text-pink-600">
+                                <p
+                                    v-if="emailForm.errors.subject"
+                                    class="mt-1 text-sm text-pink-600"
+                                >
                                     {{ emailForm.errors.subject }}
                                 </p>
                             </div>
 
                             <!-- Message -->
                             <div class="mb-4">
-                                <label for="message" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                    {{ t('custom_message') }}
+                                <label
+                                    for="message"
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                                >
+                                    {{ t("custom_message") }}
                                 </label>
                                 <textarea
                                     id="message"
@@ -1241,7 +2252,10 @@ const submitCreditNote = () => {
                                     class="mt-1 block w-full rounded-xl border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                     :placeholder="t('leave_empty_for_default')"
                                 ></textarea>
-                                <p v-if="emailForm.errors.message" class="mt-1 text-sm text-pink-600">
+                                <p
+                                    v-if="emailForm.errors.message"
+                                    class="mt-1 text-sm text-pink-600"
+                                >
                                     {{ emailForm.errors.message }}
                                 </p>
                             </div>
@@ -1254,38 +2268,66 @@ const submitCreditNote = () => {
                                         v-model="emailForm.send_copy_to_self"
                                         class="h-4 w-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
                                     />
-                                    <span class="ml-2 text-sm text-slate-700 dark:text-slate-300">
-                                        {{ t('send_copy_to_self') }}
+                                    <span
+                                        class="ml-2 text-sm text-slate-700 dark:text-slate-300"
+                                    >
+                                        {{ t("send_copy_to_self") }}
                                     </span>
                                 </label>
                             </div>
 
                             <!-- Info -->
-                            <div class="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-3">
-                                <p class="text-sm text-sky-700 dark:text-sky-300">
-                                    {{ t('invoice_pdf_attached') }}
+                            <div
+                                class="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-3"
+                            >
+                                <p
+                                    class="text-sm text-sky-700 dark:text-sky-300"
+                                >
+                                    {{ t("invoice_pdf_attached") }}
                                 </p>
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
+                        <div
+                            class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6"
+                        >
                             <button
                                 type="submit"
                                 :disabled="emailForm.processing"
                                 class="inline-flex w-full justify-center rounded-xl bg-accent-rose px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 disabled:opacity-50 sm:ml-3 sm:w-auto"
                             >
-                                <svg v-if="emailForm.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                <svg
+                                    v-if="emailForm.processing"
+                                    class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        class="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="4"
+                                    ></circle>
+                                    <path
+                                        class="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                    ></path>
                                 </svg>
-                                {{ emailForm.processing ? t('sending') : t('send') }}
+                                {{
+                                    emailForm.processing
+                                        ? t("sending")
+                                        : t("send")
+                                }}
                             </button>
                             <button
                                 type="button"
                                 @click="showEmailModal = false"
                                 class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                             >
-                                {{ t('cancel') }}
+                                {{ t("cancel") }}
                             </button>
                         </div>
                     </form>
@@ -1294,66 +2336,114 @@ const submitCreditNote = () => {
         </div>
 
         <!-- Reminder Modal -->
-        <div v-if="showReminderModal" class="fixed inset-0 z-50 overflow-y-auto">
-            <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showReminderModal = false"></div>
+        <div
+            v-if="showReminderModal"
+            class="fixed inset-0 z-50 overflow-y-auto"
+        >
+            <div
+                class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            >
+                <div
+                    class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+                    @click="showReminderModal = false"
+                ></div>
 
-                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div
+                    class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
+                >
                     <form @submit.prevent="sendReminder">
                         <div class="px-4 pt-5 pb-4 sm:p-6">
-                            <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
-                                {{ t('send_payment_reminder') }}
+                            <h3
+                                class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4"
+                            >
+                                {{ t("send_payment_reminder") }}
                             </h3>
 
                             <!-- Reminder Level -->
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    {{ t('reminder_level') }}
+                                <label
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                                >
+                                    {{ t("reminder_level") }}
                                 </label>
                                 <div class="flex flex-col sm:flex-row gap-2">
                                     <button
                                         type="button"
                                         @click="openReminderModal(1)"
-                                        :class="reminderLevel === 1 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
+                                        :class="
+                                            reminderLevel === 1
+                                                ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'
+                                                : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'
+                                        "
                                         class="w-full sm:w-auto text-center flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
-                                        {{ t('level') }} 1 - {{ t('reminder') }}
+                                        {{ t("level") }} 1 - {{ t("reminder") }}
                                     </button>
                                     <button
                                         type="button"
                                         @click="openReminderModal(2)"
-                                        :class="reminderLevel === 2 ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
+                                        :class="
+                                            reminderLevel === 2
+                                                ? 'bg-orange-100 border-orange-500 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'
+                                                : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'
+                                        "
                                         class="w-full sm:w-auto text-center flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
-                                        {{ t('level') }} 2 - {{ t('follow_up') }}
+                                        {{ t("level") }} 2 -
+                                        {{ t("follow_up") }}
                                     </button>
                                     <button
                                         type="button"
                                         @click="openReminderModal(3)"
-                                        :class="reminderLevel === 3 ? 'bg-pink-100 border-pink-500 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300' : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'"
+                                        :class="
+                                            reminderLevel === 3
+                                                ? 'bg-pink-100 border-pink-500 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300'
+                                                : 'bg-white border-gray-200 text-slate-700 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300'
+                                        "
                                         class="w-full sm:w-auto text-center flex-1 py-2 px-3 rounded-xl border text-sm font-medium"
                                     >
-                                        {{ t('level') }} 3 - {{ t('formal_notice') }}
+                                        {{ t("level") }} 3 -
+                                        {{ t("formal_notice") }}
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Overdue Info -->
-                            <div class="mb-4 bg-orange-50 dark:bg-orange-900/20 rounded-xl p-3">
+                            <div
+                                class="mb-4 bg-orange-50 dark:bg-orange-900/20 rounded-xl p-3"
+                            >
                                 <div class="flex items-center">
-                                    <svg class="h-5 w-5 text-orange-600 dark:text-orange-400 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                    <svg
+                                        class="h-5 w-5 text-orange-600 dark:text-orange-400 mr-2"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
+                                            clip-rule="evenodd"
+                                        />
                                     </svg>
-                                    <span class="text-sm font-medium text-orange-700 dark:text-orange-300">
-                                        {{ t('payment_overdue_by').replace(':days', daysOverdue) }}
+                                    <span
+                                        class="text-sm font-medium text-orange-700 dark:text-orange-300"
+                                    >
+                                        {{
+                                            t("payment_overdue_by").replace(
+                                                ":days",
+                                                daysOverdue,
+                                            )
+                                        }}
                                     </span>
                                 </div>
                             </div>
 
                             <!-- Recipient Email -->
                             <div class="mb-4">
-                                <label for="reminder_email" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                    {{ t('recipient_email') }} *
+                                <label
+                                    for="reminder_email"
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                                >
+                                    {{ t("recipient_email") }} *
                                 </label>
                                 <input
                                     type="email"
@@ -1366,8 +2456,11 @@ const submitCreditNote = () => {
 
                             <!-- Subject -->
                             <div class="mb-4">
-                                <label for="reminder_subject" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                    {{ t('subject') }} *
+                                <label
+                                    for="reminder_subject"
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                                >
+                                    {{ t("subject") }} *
                                 </label>
                                 <input
                                     type="text"
@@ -1380,8 +2473,11 @@ const submitCreditNote = () => {
 
                             <!-- Message -->
                             <div class="mb-4">
-                                <label for="reminder_message" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                    {{ t('message') }} *
+                                <label
+                                    for="reminder_message"
+                                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                                >
+                                    {{ t("message") }} *
                                 </label>
                                 <textarea
                                     id="reminder_message"
@@ -1393,31 +2489,57 @@ const submitCreditNote = () => {
                             </div>
 
                             <!-- Info -->
-                            <div class="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-3">
-                                <p class="text-sm text-sky-700 dark:text-sky-300">
-                                    {{ t('invoice_pdf_attached') }}
+                            <div
+                                class="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-3"
+                            >
+                                <p
+                                    class="text-sm text-sky-700 dark:text-sky-300"
+                                >
+                                    {{ t("invoice_pdf_attached") }}
                                 </p>
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
+                        <div
+                            class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6"
+                        >
                             <button
                                 type="submit"
                                 :disabled="reminderForm.processing"
                                 class="inline-flex w-full justify-center rounded-xl bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 disabled:opacity-50 sm:ml-3 sm:w-auto"
                             >
-                                <svg v-if="reminderForm.processing" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                <svg
+                                    v-if="reminderForm.processing"
+                                    class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        class="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="4"
+                                    ></circle>
+                                    <path
+                                        class="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                    ></path>
                                 </svg>
-                                {{ reminderForm.processing ? t('sending') : t('send_reminder') }}
+                                {{
+                                    reminderForm.processing
+                                        ? t("sending")
+                                        : t("send_reminder")
+                                }}
                             </button>
                             <button
                                 type="button"
                                 @click="showReminderModal = false"
                                 class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:mt-0 sm:w-auto"
                             >
-                                {{ t('cancel') }}
+                                {{ t("cancel") }}
                             </button>
                         </div>
                     </form>
@@ -1427,25 +2549,54 @@ const submitCreditNote = () => {
 
         <!-- Email History Modal -->
         <div v-if="showEmailHistory" class="fixed inset-0 z-50 overflow-y-auto">
-            <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" @click="showEmailHistory = false"></div>
+            <div
+                class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+            >
+                <div
+                    class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+                    @click="showEmailHistory = false"
+                ></div>
 
-                <div class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div
+                    class="inline-block transform overflow-x-auto rounded-2xl bg-white text-left align-bottom shadow-xl transition-all dark:bg-surface-card sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
+                >
                     <div class="px-4 pt-5 pb-4 sm:p-6">
-                        <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4">
-                            {{ t('email_history') }}
+                        <h3
+                            class="text-lg font-medium leading-6 text-slate-900 dark:text-white mb-4"
+                        >
+                            {{ t("email_history") }}
                         </h3>
 
-                        <div v-if="loadingHistory" class="flex items-center justify-center py-8">
-                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+                        <div
+                            v-if="loadingHistory"
+                            class="flex items-center justify-center py-8"
+                        >
+                            <div
+                                class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"
+                            ></div>
                         </div>
 
-                        <div v-else-if="emailHistory.length === 0" class="text-center py-8">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        <div
+                            v-else-if="emailHistory.length === 0"
+                            class="text-center py-8"
+                        >
+                            <svg
+                                class="mx-auto h-12 w-12 text-slate-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                />
                             </svg>
-                            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                                {{ t('no_emails_sent') }}
+                            <p
+                                class="mt-2 text-sm text-slate-500 dark:text-slate-400"
+                            >
+                                {{ t("no_emails_sent") }}
                             </p>
                         </div>
 
@@ -1454,42 +2605,71 @@ const submitCreditNote = () => {
                                 v-for="email in emailHistory"
                                 :key="email.id"
                                 class="border rounded-xl p-3 dark:border-gray-700"
-                                :class="email.status === 'failed' ? 'border-pink-300 bg-pink-50 dark:border-pink-600 dark:bg-pink-900/20' : 'border-gray-200 dark:border-gray-700'"
+                                :class="
+                                    email.status === 'failed'
+                                        ? 'border-pink-300 bg-pink-50 dark:border-pink-600 dark:bg-pink-900/20'
+                                        : 'border-gray-200 dark:border-gray-700'
+                                "
                             >
-                                <div class="flex items-center justify-between mb-2">
+                                <div
+                                    class="flex items-center justify-between mb-2"
+                                >
                                     <span
                                         class="inline-flex items-center rounded-xl px-2.5 py-0.5 text-xs font-medium"
-                                        :class="email.is_reminder ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300' : 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300'"
+                                        :class="
+                                            email.is_reminder
+                                                ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300'
+                                                : 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300'
+                                        "
                                     >
                                         {{ email.type_label }}
                                     </span>
-                                    <span class="text-xs text-slate-500 dark:text-slate-400">
+                                    <span
+                                        class="text-xs text-slate-500 dark:text-slate-400"
+                                    >
                                         {{ email.sent_at }}
                                     </span>
                                 </div>
-                                <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
+                                <p
+                                    class="text-sm font-medium text-slate-900 dark:text-white truncate"
+                                >
                                     {{ email.subject }}
                                 </p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                                    {{ t('to') }}: {{ email.recipient_email }}
+                                <p
+                                    class="text-xs text-slate-500 dark:text-slate-400 mt-1"
+                                >
+                                    {{ t("to") }}: {{ email.recipient_email }}
                                 </p>
-                                <div v-if="email.status === 'failed'" class="mt-2 flex items-center text-xs text-pink-600 dark:text-pink-400">
-                                    <svg class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                                <div
+                                    v-if="email.status === 'failed'"
+                                    class="mt-2 flex items-center text-xs text-pink-600 dark:text-pink-400"
+                                >
+                                    <svg
+                                        class="h-4 w-4 mr-1"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                                            clip-rule="evenodd"
+                                        />
                                     </svg>
-                                    {{ t('sending_failed') }}
+                                    {{ t("sending_failed") }}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div
+                        class="bg-slate-50 px-4 py-3 dark:bg-gray-800 sm:flex sm:flex-row-reverse sm:px-6"
+                    >
                         <button
                             type="button"
                             @click="showEmailHistory = false"
                             class="inline-flex w-full justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-gray-50 dark:bg-slate-600 dark:text-white dark:ring-slate-500 sm:w-auto"
                         >
-                            {{ t('close') }}
+                            {{ t("close") }}
                         </button>
                     </div>
                 </div>
@@ -1497,11 +2677,26 @@ const submitCreditNote = () => {
         </div>
 
         <!-- Modal : marquer comme payée avec date personnalisée -->
-        <div v-if="showPaidModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click.self="showPaidModal = false">
-            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-md">
-                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Marquer comme payée</h3>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">À quelle date le paiement a-t-il été reçu ?</p>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date de paiement</label>
+        <div
+            v-if="showPaidModal"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            @click.self="showPaidModal = false"
+        >
+            <div
+                class="bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-md"
+            >
+                <h3
+                    class="text-lg font-semibold text-slate-900 dark:text-white mb-2"
+                >
+                    Marquer comme payée
+                </h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                    À quelle date le paiement a-t-il été reçu ?
+                </p>
+                <label
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                    >Date de paiement</label
+                >
                 <input
                     v-model="paidAtForm"
                     type="date"
@@ -1509,10 +2704,18 @@ const submitCreditNote = () => {
                     class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                 />
                 <div class="mt-6 flex justify-end gap-2">
-                    <button @click="showPaidModal = false" type="button" class="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <button
+                        @click="showPaidModal = false"
+                        type="button"
+                        class="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    >
                         Annuler
                     </button>
-                    <button @click="markAsPaid" :disabled="processing" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                    <button
+                        @click="markAsPaid"
+                        :disabled="processing"
+                        class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                    >
                         Confirmer
                     </button>
                 </div>
@@ -1520,10 +2723,23 @@ const submitCreditNote = () => {
         </div>
 
         <!-- Modal : modifier la date de paiement -->
-        <div v-if="showEditPaidModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" @click.self="showEditPaidModal = false">
-            <div class="bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-md">
-                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Modifier la date de paiement</h3>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date de paiement</label>
+        <div
+            v-if="showEditPaidModal"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            @click.self="showEditPaidModal = false"
+        >
+            <div
+                class="bg-white dark:bg-surface-card rounded-2xl shadow-xl p-6 w-full max-w-md"
+            >
+                <h3
+                    class="text-lg font-semibold text-slate-900 dark:text-white mb-2"
+                >
+                    Modifier la date de paiement
+                </h3>
+                <label
+                    class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1"
+                    >Date de paiement</label
+                >
                 <input
                     v-model="editPaidAtForm"
                     type="date"
@@ -1531,10 +2747,18 @@ const submitCreditNote = () => {
                     class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                 />
                 <div class="mt-6 flex justify-end gap-2">
-                    <button @click="showEditPaidModal = false" type="button" class="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                    <button
+                        @click="showEditPaidModal = false"
+                        type="button"
+                        class="rounded-xl border border-gray-300 dark:border-gray-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    >
                         Annuler
                     </button>
-                    <button @click="updatePaidAt" :disabled="processing" class="rounded-xl bg-primary-500 hover:bg-primary-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                    <button
+                        @click="updatePaidAt"
+                        :disabled="processing"
+                        class="rounded-xl bg-primary-500 hover:bg-primary-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                    >
                         Enregistrer
                     </button>
                 </div>

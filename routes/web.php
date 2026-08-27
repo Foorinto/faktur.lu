@@ -750,6 +750,13 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/invoices/{invoice}/mark-sent', [InvoiceController::class, 'markAsSent'])->name('invoices.mark-sent');
         Route::post('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
         Route::post('/invoices/{invoice}/paid-at', [InvoiceController::class, 'updatePaidAt'])->name('invoices.update-paid-at');
+
+        // Encaissements (FEAT-114) : plusieurs par facture, de moyens
+        // différents. Le statut « payée » se dérive de leur somme.
+        Route::post('/invoices/{invoice}/payments', [InvoiceController::class, 'storePayment'])
+            ->name('invoices.payments.store');
+        Route::delete('/invoices/{invoice}/payments/{payment}', [InvoiceController::class, 'destroyPayment'])
+            ->name('invoices.payments.destroy');
         Route::post('/invoices/{invoice}/credit-note', [InvoiceController::class, 'createCreditNote'])->name('invoices.credit-note');
         Route::post('/invoices/{invoice}/duplicate', [InvoiceController::class, 'duplicate'])
             ->middleware('plan.limit:invoices')

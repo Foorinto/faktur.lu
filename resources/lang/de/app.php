@@ -603,7 +603,22 @@ return [
     'vat_check_title' => 'MwSt.-Hinweis prüfen',
     'vat_check_eu' => 'Achtung: Dieser Kunde ist in der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Reverse-Charge-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
     'vat_check_foreign' => 'Achtung: Dieser Kunde ist außerhalb der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Ausfuhr-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
+    'payments_title' => 'Zahlungseingänge',
+    'payments_add' => 'Zahlungseingang erfassen',
+    'payments_total_due' => 'Rechnungsbetrag',
+    'payments_received' => 'Erhalten',
+    'payments_remaining' => 'Offener Betrag',
+    'payments_amount' => 'Betrag',
+    'payments_date' => 'Datum',
+    'payments_method' => 'Zahlungsart',
+    'payments_method_unknown' => 'Nicht angegeben',
+    'payments_reference' => 'Referenz',
+    'payments_delete' => 'Diesen Zahlungseingang löschen',
+    'payments_confirm_delete' => 'Diesen Zahlungseingang über :amount löschen?',
+    'payments_locked_hint' => 'Diese Rechnung ist beglichen: Ihre Zahlungseingänge können nicht mehr geändert werden.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Nicht angegeben',
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',
         'cash' => 'Bargeld',
@@ -4253,6 +4268,12 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_locked' => 'Diese Rechnung ist beglichen: Ihre Zahlungseingänge können nicht mehr gelöscht werden.',
+
+        'payment_recorded' => 'Zahlungseingang erfasst.',
+
+        'payment_deleted' => 'Zahlungseingang gelöscht.',
         'created' => 'Rechnungsentwurf erstellt.',
         'updated' => 'Rechnung aktualisiert.',
         'deleted' => 'Entwurf gelöscht.',

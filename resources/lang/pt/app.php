@@ -673,7 +673,22 @@ return [
     'vat_check_title' => 'Verifique a menção de IVA',
     'vat_check_eu' => 'Atenção: este cliente está na UE. No regime de franquia, verifique se deve aplicar-se uma menção de autoliquidação (confirme com o seu contabilista).',
     'vat_check_foreign' => 'Atenção: este cliente está fora da UE. No regime de franquia, verifique se deve aplicar-se uma menção de exportação (confirme com o seu contabilista).',
+    'payments_title' => 'Recebimentos',
+    'payments_add' => 'Registar um recebimento',
+    'payments_total_due' => 'Total da fatura',
+    'payments_received' => 'Recebido',
+    'payments_remaining' => 'Em dívida',
+    'payments_amount' => 'Montante',
+    'payments_date' => 'Data',
+    'payments_method' => 'Meio',
+    'payments_method_unknown' => 'Não indicado',
+    'payments_reference' => 'Referência',
+    'payments_delete' => 'Eliminar este recebimento',
+    'payments_confirm_delete' => 'Eliminar este recebimento de :amount?',
+    'payments_locked_hint' => 'Esta fatura está liquidada: os seus recebimentos já não podem ser alterados.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Não indicado',
         'card' => 'Cartão bancário',
         'transfer' => 'Transferência bancária',
         'cash' => 'Numerário',
@@ -4483,6 +4498,12 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_locked' => 'Esta fatura está liquidada: os seus recebimentos já não podem ser eliminados.',
+
+        'payment_recorded' => 'Recebimento registado.',
+
+        'payment_deleted' => 'Recebimento eliminado.',
         'created' => 'Rascunho de fatura criado.',
         'updated' => 'Fatura atualizada.',
         'deleted' => 'Rascunho eliminado.',
