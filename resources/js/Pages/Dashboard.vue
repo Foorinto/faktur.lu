@@ -547,9 +547,26 @@ const getStatusLabel = (status) => {
             -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
-                    <h3 class="text-base font-semibold text-slate-900 dark:text-white">
-                        {{ t('dashboard_payments_by_method', { year: selectedYear }) }}
-                    </h3>
+                    <div class="flex items-center justify-between gap-3">
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">
+                            {{ t('dashboard_payments_by_method', { year: selectedYear }) }}
+                        </h3>
+                        <!--
+                            « Voir tout » mène au livre de recettes et non au
+                            listing : c'est là que la période se choisit
+                            librement et que la ventilation se détaille. Les
+                            liens par moyen, eux, mènent aux factures.
+                        -->
+                        <Link
+                            :href="route('reports.revenue-book', {
+                                start_date: `${selectedYear}-01-01`,
+                                end_date: `${selectedYear}-12-31`,
+                            })"
+                            class="whitespace-nowrap text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400"
+                        >
+                            {{ t('view_all') }}
+                        </Link>
+                    </div>
 
                     <!-- Année hors du plan Gratuit : même règle que le livre de recettes. -->
                     <p
