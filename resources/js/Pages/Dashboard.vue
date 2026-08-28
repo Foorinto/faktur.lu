@@ -28,9 +28,35 @@ const props = defineProps({
     cashflowForecast: Object,
     onboardingChecklist: Object,
     quotaAlerts: { type: Array, default: () => [] },
+    // Encaissements par moyen, mois par mois (FEAT-114).
+    encaissementsParMoyen: {
+        type: Object,
+        default: () => ({ annee: 0, verrouille: false, mois: {}, annuel: { total: 0, lignes: [] } }),
+    },
 });
 
 const selectedYear = ref(props.selectedYear);
+
+// Ventilation des encaissements : 0 = toute l'année, 1-12 = un mois.
+// On ouvre sur le mois en cours quand on regarde l'année en cours — c'est ce
+// qu'un utilisateur veut voir en arrivant —, sur l'année entière sinon.
+const moisVentilation = ref(
+    props.selectedYear === new Date().getFullYear() ? new Date().getMonth() + 1 : 0,
+);
+
+const ventilation = computed(() => {
+    const source = props.encaissementsParMoyen;
+
+    if (moisVentilation.value === 0) {
+        return source?.annuel?.lignes ?? [];
+    }
+
+    return source?.mois?.[moisVentilation.value] ?? [];
+});
+
+const totalVentilation = computed(() =>
+    ventilation.value.reduce((somme, ligne) => somme + ligne.total, 0),
+);
 const hoveredMonth = ref(null);
 
 const formatCurrency = (amount) => {
@@ -477,6 +503,84 @@ const getStatusLabel = (status) => {
                             >
                                 {{ month.label }}
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+                Encaissements par moyen de paiement (FEAT-114).
+
+                Le chiffre d'affaires mensuel était déjà là ; ce qui manquait,
+                c'est comment il a été réglé. Toute l'année arrive en une fois,
+                la bascule d'un mois à l'autre ne repasse pas par le serveur.
+            -->
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="p-6">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">
+                            {{ t('dashboard_payments_by_method') }}
+                        </h3>
+                        <select
+                            v-if="!encaissementsParMoyen.verrouille"
+                            v-model.number="moisVentilation"
+                            class="rounded-xl border-gray-300 py-1.5 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                        >
+                            <option :value="0">{{ t('dashboard_payments_whole_year') }}</option>
+                            <option v-for="mois in revenueChart" :key="mois.month" :value="mois.month">
+                                {{ mois.label }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Année hors du plan Gratuit : même règle que le livre de recettes. -->
+                    <p
+                        v-if="encaissementsParMoyen.verrouille"
+                        class="mt-4 text-sm text-slate-500 dark:text-slate-400"
+                    >
+                        {{ t('revenue_book_history_locked_note') }}
+                        <Link
+                            :href="route('subscription.index')"
+                            class="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 dark:text-primary-400"
+                        >
+                            {{ t('revenue_book_unlock_history') }}
+                        </Link>
+                    </p>
+
+                    <p
+                        v-else-if="ventilation.length === 0"
+                        class="mt-4 text-sm text-slate-500 dark:text-slate-400"
+                    >
+                        {{ t('dashboard_payments_none') }}
+                    </p>
+
+                    <div v-else class="mt-4 space-y-3">
+                        <div v-for="ligne in ventilation" :key="ligne.label">
+                            <div class="flex items-baseline justify-between gap-3">
+                                <span class="text-sm text-slate-700 dark:text-slate-300">
+                                    {{ ligne.label }}
+                                    <span class="text-xs text-slate-400 dark:text-slate-500">
+                                        {{ t('dashboard_payments_count', { count: ligne.nombre }) }}
+                                    </span>
+                                </span>
+                                <span class="whitespace-nowrap text-sm font-medium tabular-nums text-slate-900 dark:text-white">
+                                    {{ formatCurrency(ligne.total) }}
+                                    <span class="ml-1 text-xs font-normal text-slate-400">{{ ligne.part }} %</span>
+                                </span>
+                            </div>
+                            <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                                <div
+                                    class="h-full rounded-full bg-accent-rose"
+                                    :style="{ width: `${ligne.part}%` }"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between border-t border-gray-200 pt-3 dark:border-gray-700">
+                            <span class="text-sm text-slate-500 dark:text-slate-400">{{ t('total') }}</span>
+                            <span class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">
+                                {{ formatCurrency(totalVentilation) }}
+                            </span>
                         </div>
                     </div>
                 </div>

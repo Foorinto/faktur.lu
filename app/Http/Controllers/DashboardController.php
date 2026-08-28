@@ -46,7 +46,44 @@ class DashboardController extends Controller
             'onboardingChecklist' => $checklist,
             // Quotas proches ou atteints : prévenir avant le blocage.
             'quotaAlerts' => $this->planService->getQuotaAlerts($user),
+            // Encaissements par moyen, mois par mois (FEAT-114). Demandé par un
+            // client payant qui voyait ici son chiffre d'affaires mensuel sans
+            // savoir comment il avait été réglé.
+            'encaissementsParMoyen' => $this->encaissementsParMoyen($user, (int) $year),
         ]);
+    }
+
+    /**
+     * Ventilation des encaissements par moyen, mois par mois.
+     *
+     * Toute l'année part en une fois : la carte bascule d'un mois à l'autre
+     * sans repasser par le serveur.
+     *
+     * ⚠️ Même règle que le livre de recettes — un compte sans l'option ne
+     * consulte que l'année en cours. Sans cela, le tableau de bord rendrait par
+     * la bande l'historique que le livre de recettes réserve aux plans payants.
+     *
+     * @return array{annee: int, verrouille: bool, mois: array<int, mixed>, annuel: array<string, mixed>}
+     */
+    private function encaissementsParMoyen(\App\Models\User $user, int $year): array
+    {
+        $historiqueComplet = $this->planService->hasFeature($user, 'accounting_exports');
+
+        if (! $historiqueComplet && $year !== (int) now()->year) {
+            return ['annee' => $year, 'verrouille' => true, 'mois' => [], 'annuel' => ['total' => 0.0, 'lignes' => []]];
+        }
+
+        $ventilation = app(\App\Services\VentilationEncaissements::class);
+
+        return [
+            'annee' => $year,
+            'verrouille' => false,
+            'mois' => $ventilation->parMoisPourAnnee($user->id, $year),
+            // Le cumul annuel vient du serveur plutôt que d'une ré-agrégation
+            // dans la page : deux calculs de la même chose finissent toujours
+            // par diverger, et celui-ci est déjà couvert par des tests.
+            'annuel' => $ventilation->surPeriode($user->id, "{$year}-01-01", "{$year}-12-31"),
+        ];
     }
 
     /**

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\DatabaseHelper;
 use App\Models\Invoice;
-use App\Models\InvoicePayment;
 use App\Models\InvoiceItem;
 use App\Services\PlanService;
+use App\Services\VentilationEncaissements;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -76,7 +76,8 @@ class RevenueBookController extends Controller
             'invoices' => $invoices,
             'totals' => $totals,
             'vatBreakdown' => $vatBreakdown,
-            'parMoyenDePaiement' => $this->ventilationParMoyen($startDate, $endDate),
+            'parMoyenDePaiement' => app(VentilationEncaissements::class)
+                ->surPeriode($request->user()->id, $startDate, $endDate),
             'filters' => [
                 'start_date' => $startDate,
                 'end_date' => $endDate,
@@ -89,47 +90,6 @@ class RevenueBookController extends Controller
         ]);
     }
 
-    /**
-     * Montants encaissés par moyen de paiement sur la période (FEAT-114).
-     *
-     * ⚠️ Cette ventilation lit les ENCAISSEMENTS, pas les factures.
-     *
-     * La différence n'est pas cosmétique : une facture réglée 300 € en mars et
-     * 700 € en avril porte un `paid_at` d'avril, et la liste ci-dessus lui
-     * attribue donc 1 000 € en avril. Les encaissements, eux, tombent dans le
-     * mois où l'argent est réellement rentré.
-     *
-     * Les deux totaux peuvent donc différer, et c'est normal. Voir FEAT-114.
-     */
-    protected function ventilationParMoyen(string $startDate, string $endDate): array
-    {
-        $lignes = InvoicePayment::query()
-            ->whereHas('invoice', fn ($q) => $q->where('user_id', auth()->id()))
-            ->whereDate('paid_at', '>=', $startDate)
-            ->whereDate('paid_at', '<=', $endDate)
-            ->selectRaw('method, SUM(amount) as total, COUNT(*) as nombre')
-            ->groupBy('method')
-            ->orderByDesc('total')
-            ->get();
-
-        $total = round((float) $lignes->sum('total'), 2);
-
-        return [
-            'total' => $total,
-            'lignes' => $lignes->map(fn ($l) => [
-                'method' => $l->method,
-                // « Non renseigné » se dit : les encaissements repris lors de
-                // la migration n'ont pas de moyen, et les ranger sous
-                // « virement » fabriquerait une donnée comptable.
-                'label' => $l->method
-                    ? __("app.payment_methods.{$l->method}")
-                    : __('app.payment_methods.unknown'),
-                'total' => round((float) $l->total, 2),
-                'nombre' => (int) $l->nombre,
-                'part' => $total > 0 ? round((float) $l->total / $total * 100, 1) : 0.0,
-            ])->values(),
-        ];
-    }
 
     /**
      * Export the revenue book as PDF.
