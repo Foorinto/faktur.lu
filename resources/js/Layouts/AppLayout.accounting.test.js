@@ -11,10 +11,11 @@ import { resolve } from "node:path";
  * encaissements dans « Facturation », ne les a jamais trouvés, et a écrit pour
  * demander une fonctionnalité qui existait déjà (2026-08-28).
  *
- * ⚠️ Le livre de recettes est réservé aux plans payants. Sans le repli sur
- * l'export FAIA, un compte gratuit cliquerait sur « Comptabilité » pour être
- * renvoyé sur l'écran d'abonnement : on aurait remplacé une page mal choisie
- * par un mur.
+ * ⚠️ Cette destination n'est correcte que parce que la page est consultable
+ * par TOUS les plans. Si elle repassait derrière `plan.feature`, un compte
+ * gratuit cliquerait sur « Comptabilité » pour être renvoyé sur l'écran
+ * d'abonnement : on aurait remplacé une page mal choisie par un mur. Le test
+ * de bornage côté serveur (RevenueBookHistoryTest) garde l'autre moitié.
  *
  * Ce test lit la source, à la manière de MarketingLayout.footer.test.js :
  * monter AppLayout exigerait Inertia, Ziggy, les traductions et l'abonnement
@@ -39,19 +40,9 @@ describe("entrée de menu « Comptabilité »", () => {
         expect(ENTREE).toContain("reports.revenue-book");
     });
 
-    it("retombe sur l'export FAIA quand le plan ne donne pas accès aux recettes", () => {
-        expect(ENTREE).toContain("isLocked('accounting_exports')");
-        expect(ENTREE).toContain("exports.audit.index");
-    });
-
-    it("garde les deux destinations du bon côté du test", () => {
-        // Inverser les branches enverrait les comptes payants sur le FAIA et
-        // les gratuits sur un mur : les deux publics perdants d'un coup.
-        const ternaire = ENTREE.slice(ENTREE.indexOf("isLocked"));
-
-        expect(ternaire.indexOf("exports.audit.index")).toBeLessThan(
-            ternaire.indexOf("reports.revenue-book"),
-        );
+    it("n'ouvre plus sur l'export FAIA", () => {
+        // Le FAIA se produit une fois par an, sur demande d'un contrôleur.
+        expect(ENTREE).not.toContain("exports.audit.index");
     });
 
     it("continue de surligner toute la section", () => {

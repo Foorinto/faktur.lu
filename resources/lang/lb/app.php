@@ -45,6 +45,9 @@ return [
     'profile' => 'Profil',
     'logout' => 'Ausloggen',
     'revenue_book' => 'Recettebuch',
+    'revenue_book_history_locked_note' => "Är Rechnunge vun de virege Joere ginn opbewahrt: näischt gëtt geläscht. Den Zougang zur ganzer Historie gehéiert zum Plang Essentiel.",
+    'revenue_book_history_locked_hint' => "Ganz Historie: Plang Essentiel néideg",
+    'revenue_book_unlock_history' => "Ganz Historie kucken",
     'faia_export' => 'FAIA Export',
     'accounting_export' => 'Comptabel Export',
     'archive' => 'Archivéierung',
@@ -1749,6 +1752,8 @@ return [
                     'pro_plus' => 'Pro-Funktiounen & méi héich',
                 ],
                 'rows' => [
+                    'revenue_book' => 'Recettebuch',
+                    'revenue_book_free' => 'Lafent Joer',
                     'clients' => 'Clienten',
                     'invoices_per_month' => 'Rechnungen / Mount (PDF an E-Mail)',
                     'quotes_per_month' => 'Devis / Mount',

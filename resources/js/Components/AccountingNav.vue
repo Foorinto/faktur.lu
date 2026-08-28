@@ -10,7 +10,8 @@ const { isLocked, minPlanFor } = usePlanFeatures();
 const currentRoute = computed(() => usePage().url);
 
 const links = [
-    { label: () => t('revenue_book'), href: 'reports.revenue-book', match: ['/reports/revenue-book'], requires: 'accounting_exports' },
+    // Consultable par tous : l'historique et les exports sont la part vendue.
+    { label: () => t('revenue_book'), href: 'reports.revenue-book', match: ['/reports/revenue-book'] },
     { label: () => t('faia_export'), href: 'exports.audit.index', match: ['/exports/audit'] },
     { label: () => t('accounting_export'), href: 'exports.accounting.index', match: ['/exports/accounting'], requires: 'accounting_exports' },
     { label: () => t('fiscal_summary'), href: 'reports.fiscal-summary', match: ['/reports/fiscal-summary'], requires: 'accounting_exports' },

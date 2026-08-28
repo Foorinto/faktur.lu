@@ -45,6 +45,9 @@ return [
     'profile' => 'Profil',
     'logout' => 'Abmelden',
     'revenue_book' => 'Einnahmenbuch',
+    'revenue_book_history_locked_note' => "Ihre Rechnungen aus den Vorjahren bleiben erhalten: nichts wird gelöscht. Der Zugriff auf die vollständige Historie gehört zum Tarif Essentiel.",
+    'revenue_book_history_locked_hint' => "Vollständige Historie: Tarif Essentiel erforderlich",
+    'revenue_book_unlock_history' => "Gesamte Historie ansehen",
     'faia_export' => 'FAIA-Export',
     'accounting_export' => 'Buchhaltungsexport',
     'archive' => 'Archivierung',
@@ -1749,6 +1752,8 @@ return [
                     'pro_plus' => 'Pro-Funktionen & höher',
                 ],
                 'rows' => [
+                    'revenue_book' => 'Einnahmenbuch',
+                    'revenue_book_free' => 'Laufendes Jahr',
                     'clients' => 'Kunden',
                     'invoices_per_month' => 'Rechnungen / Monat (PDF und E-Mail)',
                     'quotes_per_month' => 'Angebote / Monat',

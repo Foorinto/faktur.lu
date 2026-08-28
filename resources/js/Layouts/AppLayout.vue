@@ -52,22 +52,15 @@ const navigation = computed(() => {
         { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'], requiresFeature: 'time_tracking' },
-        // « Comptabilité » ouvrait sur l'export FAIA, la page la plus technique
-        // de la section : un fichier qu'on produit une fois l'an, à la demande
-        // d'un contrôleur. Le livre de recettes se consulte toutes les
-        // semaines. Un client payant a cherché ses encaissements dans
-        // « Facturation » sans jamais trouver la page (2026-08-28).
+        // « Comptabilité » ouvrait sur l'export FAIA — un fichier qu'on produit
+        // une fois par an à la demande d'un contrôleur — présenté comme la
+        // porte d'entrée d'une section qu'on consulte toutes les semaines. Un
+        // client payant a cherché ses encaissements dans « Facturation » sans
+        // jamais trouver la page (2026-08-28).
         //
-        // Le livre de recettes est réservé aux plans payants : sans cela, un
-        // compte gratuit cliquerait sur « Comptabilité » pour atterrir sur
-        // l'écran d'abonnement. L'export FAIA, lui, est ouvert à tous.
-        {
-            name: t('accounting'),
-            href: isLocked('accounting_exports') ? 'exports.audit.index' : 'reports.revenue-book',
-            icon: 'calculator',
-            routes: ['reports', 'exports'],
-            tour: 'accounting',
-        },
+        // Le livre de recettes est désormais consultable par tous les plans :
+        // aucun repli n'est nécessaire.
+        { name: t('accounting'), href: 'reports.revenue-book', icon: 'calculator', routes: ['reports', 'exports'], tour: 'accounting' },
         { name: t('hr.nav_title'), href: 'hr.dashboard', icon: 'identification', requiresFeature: 'hr_module' },
         { name: t('archive'), href: 'archive.index', icon: 'archive', requiresFeature: 'pdf_archive' },
         { name: t('business'), href: 'settings.business.edit', icon: 'building', routes: ['settings.business', 'settings.organization'], tour: 'settings' },

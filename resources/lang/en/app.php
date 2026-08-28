@@ -28,6 +28,9 @@ return [
     'profile' => 'Profile',
     'logout' => 'Log out',
     'revenue_book' => 'Revenue book',
+    'revenue_book_history_locked_note' => "Your invoices from previous years are kept: nothing is deleted. Access to the full history is part of the Essentiel plan.",
+    'revenue_book_history_locked_hint' => "Full history: Essentiel plan required",
+    'revenue_book_unlock_history' => "See the full history",
     'faia_export' => 'FAIA Export',
     'accounting_export' => 'Accounting Export',
     'archive' => 'Archive',
@@ -1822,6 +1825,8 @@ return [
                     'pro_plus' => 'Pro & higher features',
                 ],
                 'rows' => [
+                    'revenue_book' => 'Revenue book',
+                    'revenue_book_free' => 'Current year',
                     'clients' => 'Clients',
                     'invoices_per_month' => 'Invoices / month (PDF and email)',
                     'quotes_per_month' => 'Quotes / month',

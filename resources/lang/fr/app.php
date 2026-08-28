@@ -28,6 +28,9 @@ return [
     'profile' => 'Profil',
     'logout' => 'Déconnexion',
     'revenue_book' => 'Livre de recettes',
+    'revenue_book_history_locked_note' => "Vos factures des années précédentes sont conservées : rien n'est supprimé. L'accès à l'historique complet fait partie du plan Essentiel.",
+    'revenue_book_history_locked_hint' => "Historique complet : plan Essentiel requis",
+    'revenue_book_unlock_history' => "Voir tout l'historique",
     'faia_export' => 'Export FAIA',
     'accounting_export' => 'Export comptable',
     'archive' => 'Archive',
@@ -1857,6 +1860,8 @@ return [
                     'pro_plus' => 'Fonctionnalités Pro & supérieur',
                 ],
                 'rows' => [
+                    'revenue_book' => 'Livre de recettes',
+                    'revenue_book_free' => 'Année en cours',
                     'clients' => 'Clients',
                     'invoices_per_month' => 'Factures / mois (PDF et email)',
                     'quotes_per_month' => 'Devis / mois',
