@@ -29,7 +29,6 @@ return [
     'logout' => 'Terminar sessão',
     'revenue_book' => 'Livro de receitas',
     'dashboard_payments_by_method' => "Recebimentos por meio de pagamento",
-    'dashboard_payments_whole_year' => "Todo o ano",
     'dashboard_payments_none' => "Nenhum recebimento neste período.",
     'dashboard_payments_count' => ":count recebimento(s)",
     'revenue_book_history_locked_note' => "As suas faturas dos anos anteriores são conservadas: nada é eliminado. O acesso ao histórico completo faz parte do plano Essentiel.",

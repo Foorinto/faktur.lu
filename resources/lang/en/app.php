@@ -29,7 +29,6 @@ return [
     'logout' => 'Log out',
     'revenue_book' => 'Revenue book',
     'dashboard_payments_by_method' => "Payments received by method",
-    'dashboard_payments_whole_year' => "Whole year",
     'dashboard_payments_none' => "No payments received in this period.",
     'dashboard_payments_count' => ":count payment(s)",
     'revenue_book_history_locked_note' => "Your invoices from previous years are kept: nothing is deleted. Access to the full history is part of the Essentiel plan.",

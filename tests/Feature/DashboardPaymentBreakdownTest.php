@@ -43,17 +43,18 @@ class DashboardPaymentBreakdownTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    private function factureEncaissee(array $encaissements, float $ttc = 1000): Invoice
+    private function factureEncaissee(array $encaissements, float $ttc = 1000, ?User $proprietaire = null): Invoice
     {
-        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $proprietaire ??= $this->user;
+        $client = Client::factory()->create(['user_id' => $proprietaire->id]);
 
         $facture = Invoice::factory()->create([
-            'user_id' => $this->user->id,
+            'user_id' => $proprietaire->id,
             'client_id' => $client->id,
             'status' => Invoice::STATUS_PAID,
-            'issued_at' => now()->startOfYear()->addDays(20)->toDateString(),
-            'finalized_at' => now()->startOfYear()->addDays(20)->toDateString(),
-            'paid_at' => now()->startOfYear()->addDays(20)->toDateString(),
+            'issued_at' => now()->startOfMonth()->toDateString(),
+            'finalized_at' => now()->startOfMonth()->toDateString(),
+            'paid_at' => now()->startOfMonth()->toDateString(),
             'total_ht' => $ttc, 'total_vat' => 0, 'total_ttc' => $ttc,
         ]);
 
@@ -64,63 +65,42 @@ class DashboardPaymentBreakdownTest extends TestCase
         return $facture;
     }
 
-    public function test_the_dashboard_carries_the_breakdown(): void
+    public function test_the_dashboard_carries_this_month_breakdown(): void
     {
         $this->factureEncaissee([
-            [300, now()->startOfYear()->addMonth()->toDateString(), 'cash'],
-            [700, now()->startOfYear()->addMonth()->toDateString(), 'transfer'],
+            [300, now()->startOfMonth()->toDateString(), 'cash'],
+            [700, now()->startOfMonth()->addDay()->toDateString(), 'transfer'],
         ]);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
-                ->where('encaissementsParMoyen.annuel.total', 1000)
-                ->has('encaissementsParMoyen.annuel.lignes', 2)
+                ->where('encaissementsParMoyen.total', 1000)
+                ->has('encaissementsParMoyen.lignes', 2)
+                // Le plus gros moyen d'abord : c'est l'ordre qu'on lit.
+                ->where('encaissementsParMoyen.lignes.0.method', 'transfer')
+                ->where('encaissementsParMoyen.lignes.0.part', 70)
             );
     }
 
     /**
-     * Le grain demandé : un encaissement pèse dans SON mois.
+     * Le mois EN COURS, et lui seul. C'est la question qu'on se pose depuis un
+     * tableau de bord ; le détail par période vit dans le livre de recettes.
      */
-    public function test_a_payment_lands_in_its_own_month(): void
+    public function test_a_payment_from_another_month_stays_out(): void
     {
-        // Une facture unique, réglée en deux fois, à deux mois d'écart.
         $this->factureEncaissee([
-            [400, now()->startOfYear()->addMonths(1)->toDateString(), 'cash'],
-            [600, now()->startOfYear()->addMonths(3)->toDateString(), 'transfer'],
+            [400, now()->startOfMonth()->toDateString(), 'cash'],
+            [600, now()->subMonth()->startOfMonth()->toDateString(), 'transfer'],
+            // Un encaissement daté du mois prochain — un chèque post-daté se
+            // saisit — ne doit pas non plus entrer dans le mois en cours.
+            [900, now()->addMonth()->startOfMonth()->toDateString(), 'check'],
         ]);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
-                ->where('encaissementsParMoyen.mois.2.0.total', 400)
-                ->where('encaissementsParMoyen.mois.2.0.method', 'cash')
-                ->where('encaissementsParMoyen.mois.4.0.total', 600)
-                ->where('encaissementsParMoyen.mois.4.0.method', 'transfer')
-            );
-    }
-
-    /**
-     * Le même moyen, deux mois différents : deux lignes, pas une somme.
-     *
-     * C'est le cas qui distingue un regroupement par mois d'un regroupement
-     * par moyen seul. Sans lui, un test peut passer avec l'un comme avec
-     * l'autre — vérifié par mutation.
-     */
-    public function test_the_same_method_in_two_months_stays_split(): void
-    {
-        $this->factureEncaissee([
-            [250, now()->startOfYear()->addMonths(1)->toDateString(), 'cash'],
-            [750, now()->startOfYear()->addMonths(5)->toDateString(), 'cash'],
-        ]);
-
-        $this->get(route('dashboard'))
-            ->assertInertia(fn (AssertableInertia $page) => $page
-                ->has('encaissementsParMoyen.mois.2', 1)
-                ->where('encaissementsParMoyen.mois.2.0.total', 250)
-                ->has('encaissementsParMoyen.mois.6', 1)
-                ->where('encaissementsParMoyen.mois.6.0.total', 750)
-                // Et le cumul annuel les additionne, lui.
-                ->where('encaissementsParMoyen.annuel.total', 1000)
-                ->has('encaissementsParMoyen.annuel.lignes', 1)
+                ->where('encaissementsParMoyen.total', 400)
+                ->has('encaissementsParMoyen.lignes', 1)
+                ->where('encaissementsParMoyen.lignes.0.method', 'cash')
             );
     }
 
@@ -131,87 +111,72 @@ class DashboardPaymentBreakdownTest extends TestCase
      */
     public function test_an_unknown_method_is_named_not_guessed(): void
     {
-        $this->factureEncaissee([[500, now()->startOfYear()->addMonth()->toDateString(), null]], 500);
+        $this->factureEncaissee([[500, now()->startOfMonth()->toDateString(), null]], 500);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
-                ->where('encaissementsParMoyen.annuel.lignes.0.label', __('app.payment_methods.unknown'))
+                ->where('encaissementsParMoyen.lignes.0.label', __('app.payment_methods.unknown'))
+                ->where('encaissementsParMoyen.lignes.0.method', null)
             );
     }
 
     /**
-     * Un compte gratuit consulte l'année en cours, comme dans le livre de
-     * recettes. Sans cela, le tableau de bord rendrait par la bande
-     * l'historique que le livre réserve aux plans payants.
+     * La carte est ouverte à tous : le mois en cours appartient à l'année en
+     * cours, que tous les plans consultent. Un compte gratuit doit la voir.
      */
-    public function test_a_free_account_cannot_see_a_past_year_here_either(): void
+    public function test_a_free_account_sees_the_card(): void
     {
         $gratuit = User::factory()->create(['email_verified_at' => now()]);
-
-        $this->actingAs($gratuit)
-            ->get(route('dashboard', ['year' => now()->subYear()->year]))
-            ->assertInertia(fn (AssertableInertia $page) => $page
-                ->where('encaissementsParMoyen.verrouille', true)
-                ->where('encaissementsParMoyen.mois', [])
-            );
-    }
-
-    public function test_a_free_account_still_sees_the_current_year(): void
-    {
-        $gratuit = User::factory()->create(['email_verified_at' => now()]);
-        $client = Client::factory()->create(['user_id' => $gratuit->id]);
-        $facture = Invoice::factory()->create([
-            'user_id' => $gratuit->id,
-            'client_id' => $client->id,
-            'status' => Invoice::STATUS_PAID,
-            'issued_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'finalized_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'paid_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'total_ht' => 200, 'total_vat' => 0, 'total_ttc' => 200,
-        ]);
-        $facture->payments()->create([
-            'amount' => 200,
-            'paid_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'method' => 'payconiq',
-        ]);
+        $this->factureEncaissee(
+            [[200, now()->startOfMonth()->toDateString(), 'payconiq']],
+            200,
+            $gratuit
+        );
 
         $this->actingAs($gratuit)
             ->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
-                ->where('encaissementsParMoyen.verrouille', false)
-                ->where('encaissementsParMoyen.annuel.total', 200)
+                ->where('encaissementsParMoyen.total', 200)
             );
     }
 
     /**
-     * La ventilation d'un utilisateur ne doit compter que ses encaissements.
      * `InvoicePayment` ne porte pas de portée globale : l'oubli du filtre
-     * additionnerait ceux de tout le monde.
+     * additionnerait les encaissements de tout le monde.
      */
     public function test_another_users_payments_stay_out(): void
     {
         $autre = User::factory()->create(['email_verified_at' => now()]);
-        $clientAutre = Client::factory()->create(['user_id' => $autre->id]);
-        $factureAutre = Invoice::factory()->create([
-            'user_id' => $autre->id,
-            'client_id' => $clientAutre->id,
-            'status' => Invoice::STATUS_PAID,
-            'issued_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'finalized_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'paid_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'total_ht' => 9999, 'total_vat' => 0, 'total_ttc' => 9999,
-        ]);
-        $factureAutre->payments()->create([
-            'amount' => 9999,
-            'paid_at' => now()->startOfYear()->addDays(5)->toDateString(),
-            'method' => 'cash',
-        ]);
+        $this->factureEncaissee(
+            [[9999, now()->startOfMonth()->toDateString(), 'cash']],
+            9999,
+            $autre
+        );
 
-        $this->factureEncaissee([[100, now()->startOfYear()->addMonth()->toDateString(), 'cash']], 100);
+        $this->factureEncaissee([[100, now()->startOfMonth()->toDateString(), 'cash']], 100);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
-                ->where('encaissementsParMoyen.annuel.total', 100)
+                ->where('encaissementsParMoyen.total', 100)
             );
+    }
+
+    /**
+     * Chaque ligne renvoie au listing filtré : la carte donne le chiffre, le
+     * listing donne les factures qui le composent. Le filtre attend la clé
+     * technique du moyen, pas son libellé traduit.
+     */
+    public function test_the_method_key_survives_for_the_invoice_list_filter(): void
+    {
+        $this->factureEncaissee([[250, now()->startOfMonth()->toDateString(), 'wero']], 250);
+
+        $this->get(route('dashboard'))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('encaissementsParMoyen.lignes.0.method', 'wero')
+            );
+
+        // Et ce filtre existe bien de l'autre côté.
+        $this->get(route('invoices.index', ['payment_method' => 'wero']))
+            ->assertSuccessful();
     }
 }

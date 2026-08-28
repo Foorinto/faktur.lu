@@ -46,7 +46,6 @@ return [
     'logout' => 'Abmelden',
     'revenue_book' => 'Einnahmenbuch',
     'dashboard_payments_by_method' => "Zahlungseingänge nach Zahlungsart",
-    'dashboard_payments_whole_year' => "Ganzes Jahr",
     'dashboard_payments_none' => "Keine Zahlungseingänge in diesem Zeitraum.",
     'dashboard_payments_count' => ":count Zahlungseingang/-eingänge",
     'revenue_book_history_locked_note' => "Ihre Rechnungen aus den Vorjahren bleiben erhalten: nichts wird gelöscht. Der Zugriff auf die vollständige Historie gehört zum Tarif Essentiel.",

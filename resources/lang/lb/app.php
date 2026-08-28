@@ -46,7 +46,6 @@ return [
     'logout' => 'Ausloggen',
     'revenue_book' => 'Recettebuch',
     'dashboard_payments_by_method' => "Akommes no Bezuelmëttel",
-    'dashboard_payments_whole_year' => "Ganzt Joer",
     'dashboard_payments_none' => "Keng Akommes an dëser Period.",
     'dashboard_payments_count' => ":count Akommes",
     'revenue_book_history_locked_note' => "Är Rechnunge vun de virege Joere ginn opbewahrt: näischt gëtt geläscht. Den Zougang zur ganzer Historie gehéiert zum Plang Essentiel.",

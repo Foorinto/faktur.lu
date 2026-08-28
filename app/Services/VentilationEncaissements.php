@@ -46,49 +46,6 @@ class VentilationEncaissements
     }
 
     /**
-     * Ventilation d'une année, détaillée mois par mois.
-     *
-     * Le tableau de bord affiche déjà un chiffre d'affaires mensuel ; la
-     * demande était de voir « le montant reçu en espèces, en virement etc. par
-     * mois ». Tout est calculé en une requête et envoyé une fois : la page
-     * bascule d'un mois à l'autre sans repasser par le serveur.
-     *
-     * @return array<int, array<int, array<string, mixed>>>  mois (1-12) => lignes
-     */
-    public function parMoisPourAnnee(int $userId, int $annee): array
-    {
-        $brut = $this->requete($userId)
-            ->whereYear('paid_at', $annee)
-            ->selectRaw(
-                \App\Helpers\DatabaseHelper::month('paid_at')
-                . ' as mois, method, SUM(amount) as total, COUNT(*) as nombre'
-            )
-            ->groupBy('mois', 'method')
-            ->get();
-
-        $parMois = [];
-
-        foreach ($brut as $l) {
-            $parMois[(int) $l->mois][] = $l;
-        }
-
-        $resultat = [];
-
-        foreach ($parMois as $mois => $lignes) {
-            $total = round(array_sum(array_map(fn ($l) => (float) $l->total, $lignes)), 2);
-
-            usort($lignes, fn ($a, $b) => (float) $b->total <=> (float) $a->total);
-
-            $resultat[$mois] = array_map(
-                fn ($l) => $this->ligne($l->method, (float) $l->total, (int) $l->nombre, $total),
-                $lignes
-            );
-        }
-
-        return $resultat;
-    }
-
-    /**
      * Encaissements de l'utilisateur.
      *
      * `InvoicePayment` ne porte pas de portée globale : sans ce `whereHas`, la

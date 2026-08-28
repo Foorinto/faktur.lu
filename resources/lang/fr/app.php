@@ -29,7 +29,6 @@ return [
     'logout' => 'Déconnexion',
     'revenue_book' => 'Livre de recettes',
     'dashboard_payments_by_method' => "Encaissements par moyen",
-    'dashboard_payments_whole_year' => "Toute l'année",
     'dashboard_payments_none' => "Aucun encaissement sur cette période.",
     'dashboard_payments_count' => ":count encaissement(s)",
     'revenue_book_history_locked_note' => "Vos factures des années précédentes sont conservées : rien n'est supprimé. L'accès à l'historique complet fait partie du plan Essentiel.",
