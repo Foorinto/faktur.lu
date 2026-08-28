@@ -360,7 +360,14 @@ class RevenueBookController extends Controller
             ->whereNotNull('paid_at')
             ->selectRaw(DatabaseHelper::year('paid_at') . ' as year, SUM(total_ttc) as total')
             ->groupBy('year')
-            ->pluck('total', 'year');
+            ->pluck('total', 'year')
+            // ⚠️ MySQL renvoie l'année de YEAR() en chaîne sur l'hébergement
+            // mutualisé, SQLite en chaîne aussi via strftime. Les clés sont
+            // ramenées à l'entier ici plutôt que de compter sur la conversion
+            // implicite des clés numériques : un total qui ne se retrouve pas
+            // s'affiche « 0 € » sans que rien n'échoue, et c'est invisible en
+            // test. Voir la famille de pièges o2switch.
+            ->mapWithKeys(fn ($total, $annee) => [(int) $annee => $total]);
 
         return collect($annees)
             ->map(fn ($annee) => (int) $annee)
