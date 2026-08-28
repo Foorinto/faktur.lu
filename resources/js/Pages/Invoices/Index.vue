@@ -20,11 +20,13 @@ const props = defineProps({
     statuses: Array,
     years: Array,
     clients: Array,
+    paymentMethods: { type: Array, default: () => [] },
 });
 
 const statusFilter = ref(props.filters.status || "");
 const yearFilter = ref(props.filters.year || "");
 const clientFilter = ref(props.filters.client_id || "");
+const paymentMethodFilter = ref(props.filters.payment_method || "");
 
 // Preview modal state
 const showPreviewModal = ref(false);
@@ -101,6 +103,7 @@ const updateFilters = () => {
             status: statusFilter.value || undefined,
             year: yearFilter.value || undefined,
             client_id: clientFilter.value || undefined,
+            payment_method: paymentMethodFilter.value || undefined,
         },
         {
             preserveState: true,
@@ -109,7 +112,19 @@ const updateFilters = () => {
     );
 };
 
-watch([statusFilter, yearFilter, clientFilter], updateFilters);
+watch(
+    [statusFilter, yearFilter, clientFilter, paymentMethodFilter],
+    updateFilters,
+);
+
+/**
+ * Libellé du moyen filtré, pour l'afficher sur chaque ligne.
+ */
+const libelleMoyenFiltre = computed(
+    () =>
+        props.paymentMethods.find((m) => m.value === paymentMethodFilter.value)
+            ?.label || "",
+);
 
 const getStatusBadgeClass = (status) => {
     const classes = {
@@ -133,6 +148,24 @@ const getStatusLabel = (status) => {
         cancelled: t("cancelled"),
     };
     return labels[status] || status;
+};
+
+/**
+ * Reste dû d'une facture partiellement encaissée, ou `null`.
+ *
+ * `null` dans les deux cas où l'information n'apprend rien : aucun
+ * encaissement, ou facture soldée. La colonne reste alors telle qu'avant.
+ *
+ * `encaisse` est une somme agrégée par la requête d'index — pas la relation
+ * chargée, qui coûterait quinze requêtes de plus par page.
+ */
+const restePartiel = (invoice) => {
+    const encaisse = parseFloat(invoice.encaisse) || 0;
+    const total = parseFloat(invoice.total_ttc) || 0;
+
+    if (encaisse <= 0 || encaisse >= total) return null;
+
+    return Math.round((total - encaisse) * 100) / 100;
 };
 
 const formatCurrency = (amount, currency = "EUR") => {
@@ -184,10 +217,14 @@ const canChangeStatus = (invoice) => {
 };
 
 const duplicateInvoice = (invoice) => {
-    if (!confirm(t('duplicate_invoice_confirm'))) return;
-    router.post(route("invoices.duplicate", invoice.id), {}, {
-        preserveScroll: true,
-    });
+    if (!confirm(t("duplicate_invoice_confirm"))) return;
+    router.post(
+        route("invoices.duplicate", invoice.id),
+        {},
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const changeStatus = (invoice, newStatus) => {
@@ -267,6 +304,21 @@ const changeStatus = (invoice, newStatus) => {
                 <option value="">{{ t("all_years") }}</option>
                 <option v-for="year in years" :key="year" :value="year">
                     {{ year }}
+                </option>
+            </select>
+
+            <!-- Filtre par moyen d'encaissement (FEAT-114) -->
+            <select
+                v-model="paymentMethodFilter"
+                class="rounded-xl border-0 py-1.5 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-primary-600 dark:bg-surface-card dark:text-white dark:ring-slate-600 sm:text-sm"
+            >
+                <option value="">{{ t("all_payment_methods") }}</option>
+                <option
+                    v-for="methode in paymentMethods"
+                    :key="methode.value"
+                    :value="methode.value"
+                >
+                    {{ methode.label }}
                 </option>
             </select>
 
@@ -392,7 +444,8 @@ const changeStatus = (invoice, newStatus) => {
                                 :href="route('clients.show', invoice.client.id)"
                                 class="hover:text-primary-600 underline decoration-dotted underline-offset-2 dark:hover:text-primary-400"
                                 :title="t('view_client')"
-                            >{{ invoice.client.name }}</Link>
+                                >{{ invoice.client.name }}</Link
+                            >
                             <span v-else>{{ invoice.client?.name }}</span>
                         </td>
                         <td
@@ -436,10 +489,17 @@ const changeStatus = (invoice, newStatus) => {
                         <td
                             class="hidden whitespace-nowrap px-3 py-4 text-sm lg:table-cell"
                         >
-                            <span v-if="invoice.paid_at" class="text-emerald-600 dark:text-emerald-400">
+                            <span
+                                v-if="invoice.paid_at"
+                                class="text-emerald-600 dark:text-emerald-400"
+                            >
                                 {{ formatDate(invoice.paid_at) }}
                             </span>
-                            <span v-else class="text-slate-300 dark:text-slate-600">-</span>
+                            <span
+                                v-else
+                                class="text-slate-300 dark:text-slate-600"
+                                >-</span
+                            >
                         </td>
                         <td
                             class="whitespace-nowrap px-3 py-4 text-right text-sm font-semibold"
@@ -455,6 +515,35 @@ const changeStatus = (invoice, newStatus) => {
                                     invoice.currency,
                                 )
                             }}
+                            <!-- Un moyen est filtré : c'est la part qui lui
+                                 revient qui intéresse, pas le total encaissé. -->
+                            <span
+                                v-if="invoice.encaisse_moyen !== undefined"
+                                class="mt-0.5 block text-xs font-normal text-emerald-600 dark:text-emerald-400"
+                            >
+                                {{ libelleMoyenFiltre }} :
+                                {{
+                                    formatCurrency(
+                                        invoice.encaisse_moyen,
+                                        invoice.currency,
+                                    )
+                                }}
+                            </span>
+                            <!-- Encaissement partiel : le total seul laisserait
+                                 croire que rien n'est rentré. On montre ce qui
+                                 reste dû, qui est l'information utile. -->
+                            <span
+                                v-if="restePartiel(invoice) !== null"
+                                class="mt-0.5 block text-xs font-normal text-amber-600 dark:text-amber-400"
+                            >
+                                {{ t("payments_remaining") }} :
+                                {{
+                                    formatCurrency(
+                                        restePartiel(invoice),
+                                        invoice.currency,
+                                    )
+                                }}
+                            </span>
                         </td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm">
                             <div class="flex items-center gap-2">
@@ -770,7 +859,10 @@ const changeStatus = (invoice, newStatus) => {
                                             : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800'
                                     "
                                 >
-                                    <FlagIcon :code="lang.value" class="w-5 h-3.5" />
+                                    <FlagIcon
+                                        :code="lang.value"
+                                        class="w-5 h-3.5"
+                                    />
                                 </button>
                             </div>
                             <a

@@ -674,7 +674,33 @@ return [
     'vat_check_title' => 'Check the VAT mention',
     'vat_check_eu' => 'Note: this client is in the EU. Under the franchise scheme, check whether a reverse-charge mention should apply (confirm with your accountant).',
     'vat_check_foreign' => 'Note: this client is outside the EU. Under the franchise scheme, check whether an export mention should apply (confirm with your accountant).',
+    'payments_edit' => 'Edit',
+    'payments_settled_hint' => 'This invoice is settled. Removing or correcting a payment will make it outstanding again.',
+    'payments_settle_shortcut' => 'Settle the invoice',
+    'payments_by_method_title' => 'Payments received by method',
+    'payments_by_method_hint' => 'Computed from the payments themselves, at their actual date: an invoice settled in instalments is spread across the periods concerned.',
+    'payments_count' => 'Count',
+    'payments_share' => 'Share',
+    'all_payment_methods' => 'All payment methods',
+    'export_sheet_sales' => 'Sales',
+    'export_sheet_expenses' => 'Expenses',
+    'export_sheet_payments' => 'Payments',
+    'payments_title' => 'Payments received',
+    'payments_add' => 'Record a payment',
+    'payments_total_due' => 'Invoice total',
+    'payments_received' => 'Received',
+    'payments_remaining' => 'Outstanding',
+    'payments_amount' => 'Amount',
+    'payments_date' => 'Date',
+    'payments_method' => 'Method',
+    'payments_method_unknown' => 'Not specified',
+    'payments_reference' => 'Reference',
+    'payments_delete' => 'Delete this payment',
+    'payments_confirm_delete' => 'Delete this payment of :amount?',
+    'payments_locked_hint' => 'This invoice is settled: its payments can no longer be changed.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Not specified',
         'card' => 'Credit card',
         'transfer' => 'Bank transfer',
         'cash' => 'Cash',
@@ -4269,6 +4295,16 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_exceeds' => 'The amount exceeds the outstanding balance (:amount €).',
+
+        'payment_updated' => 'Payment updated.',
+
+        'error_payment_locked' => 'This invoice is settled: its payments can no longer be deleted.',
+
+        'payment_recorded' => 'Payment recorded.',
+
+        'payment_deleted' => 'Payment deleted.',
         'created' => 'Invoice draft created.',
         'updated' => 'Invoice updated.',
         'deleted' => 'Draft deleted.',

@@ -15,6 +15,13 @@ class AccountingExport extends Model
     public const FORMAT_GENERIC = 'generic';
     public const FORMAT_FEC = 'fec';
 
+    /**
+     * Classeur à trois onglets — ventes, dépenses, encaissements.
+     *
+     * Le CSV reste le format d'import ; celui-ci est le format de lecture.
+     */
+    public const FORMAT_XLSX = 'xlsx';
+
     public const STATUS_PENDING = 'pending';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_COMPLETED = 'completed';
@@ -22,6 +29,7 @@ class AccountingExport extends Model
 
     public const FORMATS = [
         self::FORMAT_GENERIC => 'CSV Générique',
+        self::FORMAT_XLSX => 'Excel (3 onglets)',
         self::FORMAT_SAGE_BOB => 'Sage BOB 50 (ASCII)',
         self::FORMAT_SAGE_100 => 'Sage 100 (CSV)',
         self::FORMAT_FEC => 'FEC (France)',

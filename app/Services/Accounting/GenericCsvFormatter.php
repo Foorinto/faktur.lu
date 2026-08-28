@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 
 class GenericCsvFormatter
 {
+    use VentileLesFactures;
+
     /**
      * Format invoices as a generic CSV (one line per invoice and sales account).
      *
@@ -97,6 +99,8 @@ class GenericCsvFormatter
             }
         }
 
+        $lines = array_merge($lines, $this->lignesEncaissements($invoices));
+
         return $bom . implode("\r\n", $lines);
     }
 
@@ -127,112 +131,69 @@ class GenericCsvFormatter
      *
      * @return list<array{ht: float, tva: float, ttc: float, taux: float, compte: string}>
      */
-    protected function ventiler(Invoice $invoice, AccountingSetting $settings): array
-    {
-        if (! $invoice->relationLoaded('items')) {
-            $invoice->load('items');
-        }
-
-        $tranches = $invoice->vat_breakdown;
-
-        // Aucune ligne d'article : un montant saisi directement, ou une reprise.
-        // On conserve le document tel quel plutôt que de le reconstruire.
-        if (empty($tranches) || $invoice->items->isEmpty()) {
-            return [[
-                'ht' => round((float) $invoice->total_ht, 2),
-                'tva' => round((float) $invoice->total_vat, 2),
-                'ttc' => round((float) $invoice->total_ttc, 2),
-                'taux' => $this->getMainVatRate($invoice),
-                'compte' => $settings->sales_account,
-            ]];
-        }
-
-        $parts = [];
-
-        foreach ($tranches as $tranche) {
-            $taux = (float) $tranche['rate'];
-            $htNet = round((float) $tranche['base'], 2);
-            $tvaNet = round((float) $tranche['amount'], 2);
-
-            // Les articles de ce taux, regroupés par compte. Le brut sert de clé
-            // de répartition ; la remise est déjà déduite du net de la tranche.
-            $brut = $invoice->items
-                ->filter(fn ($item) => abs((float) $item->vat_rate - $taux) < 0.001)
-                ->groupBy(fn ($item) => $item->pcn_account ?: $settings->sales_account)
-                ->map(fn ($lignes) => round((float) $lignes->sum('total_ht'), 2))
-                ->filter(fn ($montant) => abs($montant) > 0.001);
-
-            if ($brut->count() <= 1) {
-                $parts[] = [
-                    'ht' => $htNet,
-                    'tva' => $tvaNet,
-                    'ttc' => round($htNet + $tvaNet, 2),
-                    'taux' => $taux,
-                    'compte' => (string) ($brut->keys()->first() ?? $settings->sales_account),
-                ];
-
-                continue;
-            }
-
-            $sommeBrute = round($brut->sum(), 2);
-            $premiere = count($parts);
-            $cumulHt = 0.0;
-            $cumulTva = 0.0;
-
-            foreach ($brut as $compte => $montant) {
-                $quotient = $montant / $sommeBrute;
-                $ht = round($htNet * $quotient, 2);
-                $tva = round($tvaNet * $quotient, 2);
-
-                $parts[] = [
-                    'ht' => $ht,
-                    'tva' => $tva,
-                    'ttc' => round($ht + $tva, 2),
-                    'taux' => $taux,
-                    'compte' => (string) $compte,
-                ];
-
-                $cumulHt = round($cumulHt + $ht, 2);
-                $cumulTva = round($cumulTva + $tva, 2);
-            }
-
-            // Le reliquat d'arrondi va au plus gros compte de la tranche : la
-            // somme des lignes doit faire le total du document au centime près,
-            // sinon le fichier se contredit là où il prétendait s'expliquer.
-            // Repéré par son compte, non par sa valeur : sur un avoir les
-            // montants sont négatifs, et chercher le maximum en valeur absolue
-            // dans la liste des montants ne l'y trouverait pas.
-            $compteMajoritaire = $brut->sortByDesc(fn ($m) => abs($m))->keys()->first();
-            $rangPrincipal = $premiere + $brut->keys()->values()->search($compteMajoritaire);
-
-            $parts[$rangPrincipal]['ht'] = round($parts[$rangPrincipal]['ht'] + ($htNet - $cumulHt), 2);
-            $parts[$rangPrincipal]['tva'] = round($parts[$rangPrincipal]['tva'] + ($tvaNet - $cumulTva), 2);
-            $parts[$rangPrincipal]['ttc'] = round($parts[$rangPrincipal]['ht'] + $parts[$rangPrincipal]['tva'], 2);
-        }
-
-        return $parts;
-    }
-
     /**
-     * Get the main VAT rate from an invoice (highest HT amount).
+     * Troisième tableau : les encaissements (FEAT-114).
+     *
+     * Ils ne peuvent pas être une colonne du journal des ventes. Une facture
+     * réglée moitié espèces moitié virement porterait alors deux moyens sur une
+     * même ligne — ou un seul, faux. Et la date d'encaissement diffère de la
+     * date d'émission, qui est celle du journal des ventes.
+     *
+     * C'est ce tableau qui permet à la fiduciaire de rapprocher la banque et la
+     * caisse : une ligne par mouvement d'argent, à sa date réelle.
+     *
+     * Le moyen absent s'écrit « Non renseigné ». Les encaissements repris de
+     * l'ancien fonctionnement n'en ont pas, et les ranger sous « Virement »
+     * fabriquerait une écriture qui n'a jamais existé.
+     *
+     * @param  Collection<int, Invoice>  $invoices
+     * @return array<int, string>
      */
-    protected function getMainVatRate(Invoice $invoice): float
+    protected function lignesEncaissements(Collection $invoices): array
     {
-        if (!$invoice->relationLoaded('items')) {
-            $invoice->load('items');
+        $encaissements = $invoices
+            ->flatMap(fn (Invoice $invoice) => $invoice->payments->map(fn ($p) => [
+                'date' => $p->paid_at,
+                'facture' => $invoice->number,
+                'client' => $invoice->client?->name ?? 'N/A',
+                'montant' => (float) $p->amount,
+                'moyen' => $p->methodLabel(),
+                'reference' => (string) ($p->reference ?? ''),
+            ]))
+            ->sortBy('date')
+            ->values();
+
+        if ($encaissements->isEmpty()) {
+            return [];
         }
 
-        if ($invoice->items->isEmpty()) {
-            return 0;
+        $lines = [''];
+        $lines[] = implode(';', [
+            'Date encaissement',
+            'N° Facture',
+            'Client',
+            'Montant',
+            'Moyen de paiement',
+            'Référence',
+        ]);
+
+        foreach ($encaissements as $e) {
+            $lines[] = implode(';', [
+                $e['date']?->format('d/m/Y') ?? '',
+                $e['facture'],
+                $this->escapeCsvField($e['client']),
+                $this->formatAmount($e['montant']),
+                $this->escapeCsvField($e['moyen']),
+                $this->escapeCsvField($e['reference']),
+            ]);
         }
 
-        return $invoice->items
-            ->groupBy('vat_rate')
-            ->map(fn ($items) => $items->sum('total_ht'))
-            ->sortDesc()
-            ->keys()
-            ->first() ?? 0;
+        return $lines;
     }
+
+
+
+
 
     protected function formatAmount(float $amount): string
     {

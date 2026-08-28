@@ -603,7 +603,33 @@ return [
     'vat_check_title' => 'TVA-Mentioun iwwerpréifen',
     'vat_check_eu' => 'Opgepasst: dëse Client ass an der EU. Am Franchise-Regime, iwwerpréift ob eng Autoliquidatioun-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
     'vat_check_foreign' => 'Opgepasst: dëse Client ass ausserhalb vun der EU. Am Franchise-Regime, iwwerpréift ob eng Export-Mentioun gëllt (mat Ärer Fiduciaire confirméieren).',
+    'payments_edit' => 'Änneren',
+    'payments_settled_hint' => 'Dës Rechnung ass bezuelt. Wann e Zuelungsagang ewechgeholl oder korrigéiert gëtt, gëtt se erëm oppen.',
+    'payments_settle_shortcut' => 'D\'Rechnung ausgläichen',
+    'payments_by_method_title' => 'Zuelungsagäng no Zuelungsaart',
+    'payments_by_method_hint' => 'Berechent aus den Zuelungsagäng, op hirem richtegen Datum: eng Rechnung déi a méi Kéiere bezuelt gouf verdeelt sech op déi betraffe Perioden.',
+    'payments_count' => 'Unzuel',
+    'payments_share' => 'Undeel',
+    'all_payment_methods' => 'All Zuelungsaarten',
+    'export_sheet_sales' => 'Verkeef',
+    'export_sheet_expenses' => 'Ausgaben',
+    'export_sheet_payments' => 'Zuelungsagäng',
+    'payments_title' => 'Zuelungsagäng',
+    'payments_add' => 'E Zuelungsagang androen',
+    'payments_total_due' => 'Rechnungsbetrag',
+    'payments_received' => 'Kritt',
+    'payments_remaining' => 'Nach ze bezuelen',
+    'payments_amount' => 'Betrag',
+    'payments_date' => 'Datum',
+    'payments_method' => 'Zuelungsaart',
+    'payments_method_unknown' => 'Net uginn',
+    'payments_reference' => 'Referenz',
+    'payments_delete' => 'Dëse Zuelungsagang läschen',
+    'payments_confirm_delete' => 'Dëse Zuelungsagang vun :amount läschen?',
+    'payments_locked_hint' => 'Dës Rechnung ass bezuelt: hir Zuelungsagäng kënnen net méi geännert ginn.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Net uginn',
         'card' => 'Kreditkaart',
         'transfer' => 'Iwwerweisung',
         'cash' => 'Boergeld',
@@ -4254,6 +4280,16 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_exceeds' => 'De Betrag ass méi héich wéi dat wat nach ze bezuelen ass (:amount €).',
+
+        'payment_updated' => 'Zuelungsagang aktualiséiert.',
+
+        'error_payment_locked' => 'Dës Rechnung ass bezuelt: hir Zuelungsagäng kënnen net méi geläscht ginn.',
+
+        'payment_recorded' => 'Zuelungsagang agedroen.',
+
+        'payment_deleted' => 'Zuelungsagang geläscht.',
         'created' => 'Brouillon vun der Rechnung erstallt.',
         'updated' => 'Rechnung aktualiséiert.',
         'deleted' => 'Brouillon geläscht.',

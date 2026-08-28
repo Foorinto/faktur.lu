@@ -13,6 +13,7 @@ use App\Mail\InvoiceMail;
 use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\InvoicePayment;
 use App\Models\InvoiceItem;
 use App\Models\PeppolTransmission;
 use App\Services\FacturXService;
@@ -21,6 +22,7 @@ use App\Services\Peppol\PeppolAccessPointInterface;
 use App\Services\VatCalculationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -57,7 +59,37 @@ class InvoiceController extends Controller
             $query->where('type', $request->input('type'));
         }
 
+        // Filtre par moyen d'encaissement (FEAT-114).
+        //
+        // On retient les factures qui portent AU MOINS un encaissement de ce
+        // moyen — une facture réglée moitié espèces moitié virement apparaît
+        // donc dans les deux filtres, ce qui est exact.
+        $moyen = $request->input('payment_method');
+
+        if ($moyen === 'unknown') {
+            // « Non renseigné » est une valeur à part entière : les
+            // encaissements repris de l'ancien fonctionnement n'ont pas de
+            // moyen, et pouvoir les retrouver est précisément ce qui permet de
+            // les compléter.
+            $query->whereHas('payments', fn ($q) => $q->whereNull('method'));
+        } elseif (in_array($moyen, InvoicePayment::METHODS, true)) {
+            $query->whereHas('payments', fn ($q) => $q->where('method', $moyen));
+        } else {
+            $moyen = null;
+        }
+
         $invoices = $query
+            // Somme des encaissements en une seule requête agrégée : charger
+            // la relation pour quinze factures en produirait quinze de plus.
+            ->withSum('payments as encaisse', 'amount')
+            // Et, quand un moyen est filtré, la part qui lui revient : c'est
+            // elle qui intéresse l'utilisateur, pas le total encaissé.
+            ->when($moyen, fn ($q) => $q->withSum(
+                ['payments as encaisse_moyen' => fn ($p) => $moyen === 'unknown'
+                    ? $p->whereNull('method')
+                    : $p->where('method', $moyen)],
+                'amount'
+            ))
             ->orderByRaw("CASE WHEN status = 'draft' THEN 0 ELSE 1 END")
             ->orderByDesc('issued_at')
             ->orderByDesc('created_at')
@@ -83,6 +115,7 @@ class InvoiceController extends Controller
                 'year' => $request->input('year'),
                 'client_id' => $request->input('client_id'),
                 'type' => $request->input('type'),
+                'payment_method' => $moyen,
             ],
             'statuses' => [
                 ['value' => 'draft', 'label' => __('app.draft')],
@@ -93,6 +126,14 @@ class InvoiceController extends Controller
             ],
             'years' => $years,
             'clients' => Client::orderBy('name')->get(['id', 'name']),
+
+            // Moyens proposés au filtre. « Non renseigné » y figure : c'est ce
+            // qui permet de retrouver les encaissements repris et de les
+            // compléter.
+            'paymentMethods' => collect(InvoicePayment::METHODS)
+                ->map(fn ($m) => ['value' => $m, 'label' => __("app.payment_methods.{$m}")])
+                ->push(['value' => 'unknown', 'label' => __('app.payment_methods.unknown')])
+                ->values(),
         ]);
     }
 
@@ -247,12 +288,33 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): Response
     {
-        $invoice->load(['client', 'items', 'discounts', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission']);
+        $invoice->load(['client', 'items', 'discounts', 'originalInvoice', 'creditNote', 'creditNotes', 'peppolTransmission', 'payments']);
 
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
             'creditNoteReasons' => Invoice::CREDIT_NOTE_REASONS,
             'peppolEnabled' => config('peppol.enabled', false),
+
+            // Encaissements (FEAT-114). Les montants sont calculés côté
+            // serveur : le modèle connaît la règle du trop-perçu et la
+            // comparaison au centime près, l'interface n'a pas à la refaire.
+            'payments' => $invoice->payments->map(fn ($p) => [
+                'id' => $p->id,
+                'amount' => (float) $p->amount,
+                'paid_at' => $p->paid_at?->format('Y-m-d'),
+                'method' => $p->method,
+                'method_label' => $p->methodLabel(),
+                'reference' => $p->reference,
+            ]),
+            'paymentSummary' => [
+                'paid' => $invoice->amountPaid(),
+                'due' => $invoice->amountDue(),
+                'is_partial' => $invoice->isPartiallyPaid(),
+                'locked' => $invoice->isPaid(),
+            ],
+            'paymentMethods' => collect(InvoicePayment::METHODS)
+                ->map(fn ($m) => ['value' => $m, 'label' => __("app.payment_methods.{$m}")])
+                ->values(),
         ]);
     }
 
@@ -432,6 +494,13 @@ class InvoiceController extends Controller
     /**
      * Mark the invoice as paid.
      */
+    /**
+     * Marquer la facture comme réglée en totalité, en un seul encaissement.
+     *
+     * Conservé pour le cas courant — le client paie tout, d'un coup. Mais le
+     * chemin passe désormais par un encaissement : sans lui, la facture serait
+     * « payée » sans qu'aucun montant ne figure au récapitulatif par moyen.
+     */
     public function markAsPaid(Request $request, Invoice $invoice): RedirectResponse
     {
         if (!$invoice->isFinalized() || $invoice->isPaid()) {
@@ -440,14 +509,113 @@ class InvoiceController extends Controller
 
         $validated = $request->validate([
             'paid_at' => 'nullable|date|before_or_equal:today',
+            'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
         ]);
 
-        $invoice->update([
-            'status' => Invoice::STATUS_PAID,
-            'paid_at' => $validated['paid_at'] ?? now(),
+        $invoice->payments()->create([
+            'amount' => $invoice->amountDue(),
+            'paid_at' => $validated['paid_at'] ?? now()->toDateString(),
+            'method' => $validated['method'] ?? null,
         ]);
+
+        $invoice->refresh()->refreshPaymentStatus();
 
         return back()->with('success', __('app.invoices_flash.marked_paid'));
+    }
+
+    /**
+     * Enregistre un encaissement partiel (FEAT-114).
+     *
+     * Le montant n'est pas plafonné au reste dû : un trop-perçu arrive, et le
+     * refuser obligerait l'utilisateur à mentir sur ce qu'il a réellement reçu.
+     * Le reste dû, lui, ne descend jamais sous zéro.
+     */
+    public function storePayment(Request $request, Invoice $invoice): RedirectResponse
+    {
+        if (! $invoice->isFinalized()) {
+            return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
+        }
+
+        // Plafonné au reste dû. Le trop-perçu existe — un client qui règle un
+        // montant rond en espèces — mais la faute de frappe est bien plus
+        // fréquente, et une facture encaissée au-delà de son total est presque
+        // toujours une erreur de saisie.
+        $donnees = $request->validate([
+            'amount' => ['required', 'numeric', 'min:0.01', 'max:'.$invoice->amountDue()],
+            'paid_at' => ['required', 'date', 'before_or_equal:today'],
+            'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
+            'reference' => ['nullable', 'string', 'max:255'],
+        ], [
+            'amount.max' => __('app.invoices_flash.error_payment_exceeds', [
+                'amount' => number_format($invoice->amountDue(), 2, ',', ' '),
+            ]),
+        ]);
+
+        $invoice->payments()->create($donnees);
+        $invoice->refresh()->refreshPaymentStatus();
+
+        return back()->with('success', __('app.invoices_flash.payment_recorded'));
+    }
+
+    /**
+     * Corrige le moyen, la date ou la référence d'un encaissement.
+     *
+     * Toujours autorisé, même sur une facture soldée — et c'est le point
+     * important. Aucun de ces trois champs ne touche au statut ni aux montants
+     * de la facture : le garde d'immuabilité n'est pas concerné.
+     *
+     * Sans cette correction, marquer une facture payée depuis la LISTE créait
+     * un encaissement sans moyen, aussitôt verrouillé : l'information que
+     * l'utilisateur cherche à collecter était perdue définitivement.
+     *
+     * Le montant est modifiable lui aussi : le réduire fait redescendre la
+     * somme sous le total et la facture redevient due, ce que le modèle
+     * autorise depuis FEAT-114.
+     */
+    public function updatePayment(Request $request, Invoice $invoice, InvoicePayment $payment): RedirectResponse
+    {
+        abort_unless($payment->invoice_id === $invoice->id, 404);
+
+        // Le plafond exclut l'encaissement en cours de correction : sans cela,
+        // repasser 500 € à 500 € serait refusé sur une facture soldée.
+        $plafond = round((float) $invoice->total_ttc - $invoice->amountPaid() + (float) $payment->amount, 2);
+
+        $donnees = $request->validate([
+            'amount' => ['required', 'numeric', 'min:0.01', 'max:'.$plafond],
+            'paid_at' => ['required', 'date', 'before_or_equal:today'],
+            'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
+            'reference' => ['nullable', 'string', 'max:255'],
+        ], [
+            'amount.max' => __('app.invoices_flash.error_payment_exceeds', [
+                'amount' => number_format($plafond, 2, ',', ' '),
+            ]),
+        ]);
+
+        $payment->update($donnees);
+
+        // Le montant a pu changer : le statut et `paid_at` en dérivent tous
+        // les deux, et la facture peut redevenir due.
+        $invoice->refresh()->refreshPaymentStatus();
+
+        return back()->with('success', __('app.invoices_flash.payment_updated'));
+    }
+
+    /**
+     * Supprime un encaissement.
+     *
+     * Possible même sur une facture soldée : la suppression fait redescendre la
+     * somme sous le total, et la facture redevient due. C'est ce qui permet de
+     * traiter un chèque revenu impayé, un virement rejeté ou une saisie
+     * erronée sur un paiement en plusieurs fois.
+     */
+    public function destroyPayment(Invoice $invoice, InvoicePayment $payment): RedirectResponse
+    {
+        abort_unless($payment->invoice_id === $invoice->id, 404);
+
+        $payment->delete();
+        $invoice->refresh()->refreshPaymentStatus();
+
+        return back()->with('success', __('app.invoices_flash.payment_deleted'));
     }
 
     /**

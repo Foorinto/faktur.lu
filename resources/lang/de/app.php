@@ -603,7 +603,33 @@ return [
     'vat_check_title' => 'MwSt.-Hinweis prüfen',
     'vat_check_eu' => 'Achtung: Dieser Kunde ist in der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Reverse-Charge-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
     'vat_check_foreign' => 'Achtung: Dieser Kunde ist außerhalb der EU. Prüfen Sie bei Kleinunternehmerregelung, ob ein Ausfuhr-Hinweis gilt (mit Ihrem Treuhänder bestätigen).',
+    'payments_edit' => 'Bearbeiten',
+    'payments_settled_hint' => 'Diese Rechnung ist beglichen. Wird ein Zahlungseingang entfernt oder korrigiert, wird sie wieder offen.',
+    'payments_settle_shortcut' => 'Rechnung ausgleichen',
+    'payments_by_method_title' => 'Zahlungseingänge nach Zahlungsart',
+    'payments_by_method_hint' => 'Berechnet aus den Zahlungseingängen zu ihrem tatsächlichen Datum: eine in mehreren Raten beglichene Rechnung verteilt sich auf die betroffenen Zeiträume.',
+    'payments_count' => 'Anzahl',
+    'payments_share' => 'Anteil',
+    'all_payment_methods' => 'Alle Zahlungsarten',
+    'export_sheet_sales' => 'Verkäufe',
+    'export_sheet_expenses' => 'Ausgaben',
+    'export_sheet_payments' => 'Zahlungseingänge',
+    'payments_title' => 'Zahlungseingänge',
+    'payments_add' => 'Zahlungseingang erfassen',
+    'payments_total_due' => 'Rechnungsbetrag',
+    'payments_received' => 'Erhalten',
+    'payments_remaining' => 'Offener Betrag',
+    'payments_amount' => 'Betrag',
+    'payments_date' => 'Datum',
+    'payments_method' => 'Zahlungsart',
+    'payments_method_unknown' => 'Nicht angegeben',
+    'payments_reference' => 'Referenz',
+    'payments_delete' => 'Diesen Zahlungseingang löschen',
+    'payments_confirm_delete' => 'Diesen Zahlungseingang über :amount löschen?',
+    'payments_locked_hint' => 'Diese Rechnung ist beglichen: Ihre Zahlungseingänge können nicht mehr geändert werden.',
     'payment_methods' => [
+        'wero' => 'Wero',
+        'unknown' => 'Nicht angegeben',
         'card' => 'Kreditkarte',
         'transfer' => 'Überweisung',
         'cash' => 'Bargeld',
@@ -4253,6 +4279,16 @@ return [
     ],
 
     'invoices_flash' => [
+
+        'error_payment_exceeds' => 'Der Betrag übersteigt den offenen Betrag (:amount €).',
+
+        'payment_updated' => 'Zahlungseingang aktualisiert.',
+
+        'error_payment_locked' => 'Diese Rechnung ist beglichen: Ihre Zahlungseingänge können nicht mehr gelöscht werden.',
+
+        'payment_recorded' => 'Zahlungseingang erfasst.',
+
+        'payment_deleted' => 'Zahlungseingang gelöscht.',
         'created' => 'Rechnungsentwurf erstellt.',
         'updated' => 'Rechnung aktualisiert.',
         'deleted' => 'Entwurf gelöscht.',
