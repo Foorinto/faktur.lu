@@ -28,10 +28,10 @@ const props = defineProps({
     cashflowForecast: Object,
     onboardingChecklist: Object,
     quotaAlerts: { type: Array, default: () => [] },
-    // Encaissements du mois en cours, par moyen (FEAT-114).
+    // Encaissements de l'année, par moyen (FEAT-114).
     encaissementsParMoyen: {
         type: Object,
-        default: () => ({ total: 0, lignes: [] }),
+        default: () => ({ annee: 0, verrouille: false, total: 0, lignes: [] }),
     },
 });
 
@@ -538,24 +538,35 @@ const getStatusLabel = (status) => {
             </div>
 
             <!--
-                Encaissements du mois en cours, par moyen de paiement (FEAT-114).
+                Encaissements de l'année, par moyen de paiement (FEAT-114).
 
                 Le chiffre d'affaires mensuel était déjà là ; ce qui manquait,
-                c'est comment il a été réglé. Chaque ligne renvoie au listing
-                des factures filtré sur son moyen : la carte donne le chiffre,
-                le listing donne les factures qui le composent.
+                c'est comment il a été réglé. Récapitulatif d'un coup d'œil ;
+                chaque ligne renvoie au listing des factures filtré sur son
+                moyen pour qui veut le détail.
             -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
-                        {{ t('dashboard_payments_by_method') }}
+                        {{ t('dashboard_payments_by_method', { year: selectedYear }) }}
                     </h3>
-                    <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-                        {{ t('this_month') }}
+
+                    <!-- Année hors du plan Gratuit : même règle que le livre de recettes. -->
+                    <p
+                        v-if="encaissementsParMoyen.verrouille"
+                        class="mt-4 text-sm text-slate-500 dark:text-slate-400"
+                    >
+                        {{ t('revenue_book_history_locked_note') }}
+                        <Link
+                            :href="route('subscription.index')"
+                            class="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 dark:text-primary-400"
+                        >
+                            {{ t('revenue_book_unlock_history') }}
+                        </Link>
                     </p>
 
                     <p
-                        v-if="!encaissementsParMoyen.lignes.length"
+                        v-else-if="!encaissementsParMoyen.lignes.length"
                         class="mt-4 text-sm text-slate-500 dark:text-slate-400"
                     >
                         {{ t('dashboard_payments_none') }}

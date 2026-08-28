@@ -52,9 +52,9 @@ class DashboardPaymentBreakdownTest extends TestCase
             'user_id' => $proprietaire->id,
             'client_id' => $client->id,
             'status' => Invoice::STATUS_PAID,
-            'issued_at' => now()->startOfMonth()->toDateString(),
-            'finalized_at' => now()->startOfMonth()->toDateString(),
-            'paid_at' => now()->startOfMonth()->toDateString(),
+            'issued_at' => now()->startOfYear()->addMonth()->toDateString(),
+            'finalized_at' => now()->startOfYear()->addMonth()->toDateString(),
+            'paid_at' => now()->startOfYear()->addMonth()->toDateString(),
             'total_ht' => $ttc, 'total_vat' => 0, 'total_ttc' => $ttc,
         ]);
 
@@ -65,11 +65,11 @@ class DashboardPaymentBreakdownTest extends TestCase
         return $facture;
     }
 
-    public function test_the_dashboard_carries_this_month_breakdown(): void
+    public function test_the_dashboard_carries_the_year_breakdown(): void
     {
         $this->factureEncaissee([
-            [300, now()->startOfMonth()->toDateString(), 'cash'],
-            [700, now()->startOfMonth()->addDay()->toDateString(), 'transfer'],
+            [300, now()->startOfYear()->toDateString(), 'cash'],
+            [700, now()->startOfYear()->addMonths(4)->toDateString(), 'transfer'],
         ]);
 
         $this->get(route('dashboard'))
@@ -83,17 +83,17 @@ class DashboardPaymentBreakdownTest extends TestCase
     }
 
     /**
-     * Le mois EN COURS, et lui seul. C'est la question qu'on se pose depuis un
-     * tableau de bord ; le détail par période vit dans le livre de recettes.
+     * L'année sélectionnée, et elle seule : les bornes sont celles du 1er
+     * janvier au 31 décembre, pas une fenêtre glissante.
      */
-    public function test_a_payment_from_another_month_stays_out(): void
+    public function test_payments_from_other_years_stay_out(): void
     {
         $this->factureEncaissee([
-            [400, now()->startOfMonth()->toDateString(), 'cash'],
-            [600, now()->subMonth()->startOfMonth()->toDateString(), 'transfer'],
-            // Un encaissement daté du mois prochain — un chèque post-daté se
-            // saisit — ne doit pas non plus entrer dans le mois en cours.
-            [900, now()->addMonth()->startOfMonth()->toDateString(), 'check'],
+            [400, now()->startOfYear()->addMonth()->toDateString(), 'cash'],
+            [600, now()->subYear()->endOfYear()->toDateString(), 'transfer'],
+            // Un encaissement daté de l'an prochain — un chèque post-daté se
+            // saisit — ne doit pas non plus entrer dans l'année en cours.
+            [900, now()->addYear()->startOfYear()->toDateString(), 'check'],
         ]);
 
         $this->get(route('dashboard'))
@@ -105,13 +105,53 @@ class DashboardPaymentBreakdownTest extends TestCase
     }
 
     /**
+     * La carte suit le sélecteur d'année, comme le récapitulatif TVA à côté.
+     * Figée sur l'année en cours, elle dirait autre chose que sa voisine.
+     */
+    public function test_the_card_follows_the_year_selector(): void
+    {
+        $this->factureEncaissee([
+            [1100, now()->subYear()->startOfYear()->addMonth()->toDateString(), 'wero'],
+        ], 1100);
+
+        $this->get(route('dashboard', ['year' => now()->subYear()->year]))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('encaissementsParMoyen.annee', now()->subYear()->year)
+                ->where('encaissementsParMoyen.total', 1100)
+            );
+    }
+
+    /**
+     * ⚠️ Un compte gratuit ne consulte que l'année en cours, ici comme dans le
+     * livre de recettes. Sans ce verrou, le tableau de bord rendrait par la
+     * bande l'historique que le livre réserve aux plans payants.
+     */
+    public function test_a_free_account_cannot_read_a_past_year_here_either(): void
+    {
+        $gratuit = User::factory()->create(['email_verified_at' => now()]);
+        $this->factureEncaissee(
+            [[5000, now()->subYear()->startOfYear()->addMonth()->toDateString(), 'cash']],
+            5000,
+            $gratuit
+        );
+
+        $this->actingAs($gratuit)
+            ->get(route('dashboard', ['year' => now()->subYear()->year]))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('encaissementsParMoyen.verrouille', true)
+                ->where('encaissementsParMoyen.total', 0)
+                ->where('encaissementsParMoyen.lignes', [])
+            );
+    }
+
+    /**
      * Un moyen inconnu se nomme. Les encaissements repris lors de la migration
      * n'en portent pas, et les ranger sous « virement » fabriquerait une donnée
      * comptable.
      */
     public function test_an_unknown_method_is_named_not_guessed(): void
     {
-        $this->factureEncaissee([[500, now()->startOfMonth()->toDateString(), null]], 500);
+        $this->factureEncaissee([[500, now()->startOfYear()->addMonth()->toDateString(), null]], 500);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
@@ -121,14 +161,14 @@ class DashboardPaymentBreakdownTest extends TestCase
     }
 
     /**
-     * La carte est ouverte à tous : le mois en cours appartient à l'année en
-     * cours, que tous les plans consultent. Un compte gratuit doit la voir.
+     * L'année en cours reste ouverte à tous : c'est l'historique qui se vend,
+     * pas la lecture de son propre exercice.
      */
-    public function test_a_free_account_sees_the_card(): void
+    public function test_a_free_account_sees_the_current_year(): void
     {
         $gratuit = User::factory()->create(['email_verified_at' => now()]);
         $this->factureEncaissee(
-            [[200, now()->startOfMonth()->toDateString(), 'payconiq']],
+            [[200, now()->startOfYear()->addMonth()->toDateString(), 'payconiq']],
             200,
             $gratuit
         );
@@ -148,12 +188,12 @@ class DashboardPaymentBreakdownTest extends TestCase
     {
         $autre = User::factory()->create(['email_verified_at' => now()]);
         $this->factureEncaissee(
-            [[9999, now()->startOfMonth()->toDateString(), 'cash']],
+            [[9999, now()->startOfYear()->addMonth()->toDateString(), 'cash']],
             9999,
             $autre
         );
 
-        $this->factureEncaissee([[100, now()->startOfMonth()->toDateString(), 'cash']], 100);
+        $this->factureEncaissee([[100, now()->startOfYear()->addMonth()->toDateString(), 'cash']], 100);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page
@@ -168,7 +208,7 @@ class DashboardPaymentBreakdownTest extends TestCase
      */
     public function test_the_method_key_survives_for_the_invoice_list_filter(): void
     {
-        $this->factureEncaissee([[250, now()->startOfMonth()->toDateString(), 'wero']], 250);
+        $this->factureEncaissee([[250, now()->startOfYear()->addMonth()->toDateString(), 'wero']], 250);
 
         $this->get(route('dashboard'))
             ->assertInertia(fn (AssertableInertia $page) => $page

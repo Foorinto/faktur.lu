@@ -49,33 +49,40 @@ class DashboardController extends Controller
             // Encaissements par moyen, mois par mois (FEAT-114). Demandé par un
             // client payant qui voyait ici son chiffre d'affaires mensuel sans
             // savoir comment il avait été réglé.
-            'encaissementsParMoyen' => $this->encaissementsParMoyen($user),
+            'encaissementsParMoyen' => $this->encaissementsParMoyen($user, (int) $year),
         ]);
     }
 
     /**
-     * Encaissements du MOIS EN COURS, par moyen de paiement (FEAT-114).
+     * Encaissements de l'ANNÉE, par moyen de paiement (FEAT-114).
      *
      * Le chiffre d'affaires mensuel était déjà là ; ce qui manquait, c'est
-     * comment il a été réglé. Un client payant est venu le chercher ici avant
-     * de le trouver dans le livre de recettes.
+     * comment il a été réglé. Un récapitulatif annuel donne la vue d'ensemble
+     * qu'on vient chercher sur un tableau de bord ; chaque ligne renvoie au
+     * listing des factures filtré sur son moyen pour le détail.
      *
-     * Le mois en cours, et lui seul : c'est la question qu'on se pose depuis un
-     * tableau de bord. Le détail par période vit dans le livre de recettes, et
-     * chaque ligne renvoie au listing des factures filtré sur son moyen.
+     * Suit le sélecteur d'année, comme le récapitulatif TVA à côté : une carte
+     * figée sur l'année en cours dirait autre chose que sa voisine dès qu'on
+     * change d'année.
      *
-     * Aucun verrou de plan n'est nécessaire — le mois en cours appartient à
-     * l'année en cours, que tous les plans consultent.
+     * ⚠️ Même verrou que le livre de recettes — un compte gratuit consulte
+     * l'année en cours. Sans cela le tableau de bord rendrait par la bande
+     * l'historique que le livre réserve aux plans payants.
      *
-     * @return array{total: float, lignes: array<int, array<string, mixed>>}
+     * @return array{annee: int, verrouille: bool, total: float, lignes: array<int, mixed>}
      */
-    private function encaissementsParMoyen(\App\Models\User $user): array
+    private function encaissementsParMoyen(\App\Models\User $user, int $year): array
     {
-        return app(\App\Services\VentilationEncaissements::class)->surPeriode(
-            $user->id,
-            now()->startOfMonth()->format('Y-m-d'),
-            now()->endOfMonth()->format('Y-m-d'),
-        );
+        $historiqueComplet = $this->planService->hasFeature($user, 'accounting_exports');
+
+        if (! $historiqueComplet && $year !== (int) now()->year) {
+            return ['annee' => $year, 'verrouille' => true, 'total' => 0.0, 'lignes' => []];
+        }
+
+        $ventilation = app(\App\Services\VentilationEncaissements::class)
+            ->surPeriode($user->id, "{$year}-01-01", "{$year}-12-31");
+
+        return ['annee' => $year, 'verrouille' => false, ...$ventilation];
     }
 
     /**
