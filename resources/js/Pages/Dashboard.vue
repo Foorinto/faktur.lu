@@ -28,9 +28,15 @@ const props = defineProps({
     cashflowForecast: Object,
     onboardingChecklist: Object,
     quotaAlerts: { type: Array, default: () => [] },
+    // Encaissements de l'année, par moyen (FEAT-114).
+    encaissementsParMoyen: {
+        type: Object,
+        default: () => ({ annee: 0, verrouille: false, total: 0, lignes: [] }),
+    },
 });
 
 const selectedYear = ref(props.selectedYear);
+
 const hoveredMonth = ref(null);
 
 const formatCurrency = (amount) => {
@@ -413,10 +419,10 @@ const getStatusLabel = (status) => {
             <CashflowChart :forecast="cashflowForecast" />
         </div>
 
-        <!-- Third Row: Revenue Chart & VAT Summary -->
-        <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <!-- Chiffre d'affaires mensuel, sur toute la largeur -->
+        <div class="mt-6">
             <!-- Revenue Chart -->
-            <div class="lg:col-span-2 overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('monthly_revenue') }}
@@ -481,7 +487,10 @@ const getStatusLabel = (status) => {
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Récapitulatif TVA et encaissements du mois, côte à côte -->
+        <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- VAT Summary -->
             <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-6">
@@ -525,6 +534,95 @@ const getStatusLabel = (status) => {
                     <p class="mt-4 border-t border-gray-200 pt-3 text-xs text-slate-500 dark:border-gray-700 dark:text-slate-400">
                         {{ t('notice_vat_dashboard') }}
                     </p>
+                </div>
+            </div>
+
+            <!--
+                Encaissements de l'année, par moyen de paiement (FEAT-114).
+
+                Le chiffre d'affaires mensuel était déjà là ; ce qui manquait,
+                c'est comment il a été réglé. Récapitulatif d'un coup d'œil ;
+                chaque ligne renvoie au listing des factures filtré sur son
+                moyen pour qui veut le détail.
+            -->
+            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+                <div class="p-6">
+                    <div class="flex items-center justify-between gap-3">
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">
+                            {{ t('dashboard_payments_by_method', { year: selectedYear }) }}
+                        </h3>
+                        <!--
+                            « Voir tout » mène au livre de recettes et non au
+                            listing : c'est là que la période se choisit
+                            librement et que la ventilation se détaille. Les
+                            liens par moyen, eux, mènent aux factures.
+                        -->
+                        <Link
+                            :href="route('reports.revenue-book', {
+                                start_date: `${selectedYear}-01-01`,
+                                end_date: `${selectedYear}-12-31`,
+                            })"
+                            class="whitespace-nowrap text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400"
+                        >
+                            {{ t('view_all') }}
+                        </Link>
+                    </div>
+
+                    <!-- Année hors du plan Gratuit : même règle que le livre de recettes. -->
+                    <p
+                        v-if="encaissementsParMoyen.verrouille"
+                        class="mt-4 text-sm text-slate-500 dark:text-slate-400"
+                    >
+                        {{ t('revenue_book_history_locked_note') }}
+                        <Link
+                            :href="route('subscription.index')"
+                            class="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 dark:text-primary-400"
+                        >
+                            {{ t('revenue_book_unlock_history') }}
+                        </Link>
+                    </p>
+
+                    <p
+                        v-else-if="!encaissementsParMoyen.lignes.length"
+                        class="mt-4 text-sm text-slate-500 dark:text-slate-400"
+                    >
+                        {{ t('dashboard_payments_none') }}
+                    </p>
+
+                    <div v-else class="mt-4 space-y-3">
+                        <Link
+                            v-for="ligne in encaissementsParMoyen.lignes"
+                            :key="ligne.label"
+                            :href="route('invoices.index', { payment_method: ligne.method ?? 'unknown' })"
+                            class="block rounded-lg -mx-2 px-2 py-1 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                        >
+                            <div class="flex items-baseline justify-between gap-3">
+                                <span class="text-sm text-slate-700 dark:text-slate-300">
+                                    {{ ligne.label }}
+                                    <span class="text-xs text-slate-400 dark:text-slate-500">
+                                        {{ t('dashboard_payments_count', { count: ligne.nombre }) }}
+                                    </span>
+                                </span>
+                                <span class="whitespace-nowrap text-sm font-medium tabular-nums text-slate-900 dark:text-white">
+                                    {{ formatCurrency(ligne.total) }}
+                                    <span class="ml-1 text-xs font-normal text-slate-400">{{ ligne.part }} %</span>
+                                </span>
+                            </div>
+                            <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                                <div
+                                    class="h-full rounded-full bg-accent-rose"
+                                    :style="{ width: `${ligne.part}%` }"
+                                ></div>
+                            </div>
+                        </Link>
+
+                        <div class="flex justify-between border-t border-gray-200 pt-3 dark:border-gray-700">
+                            <span class="text-sm text-slate-500 dark:text-slate-400">{{ t('total') }}</span>
+                            <span class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">
+                                {{ formatCurrency(encaissementsParMoyen.total) }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

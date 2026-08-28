@@ -1022,8 +1022,13 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::get('/audit-logs/{auditLog}', [AuditLogController::class, 'show'])->name('audit-logs.show');
 
     // Reports views (HTML pages) — Essentiel ou Pro
+    // Le livre de recettes se CONSULTE librement ; c'est l'historique au-delà de
+    // l'année en cours, et les exports CSV/PDF, qui relèvent du plan payant.
+    // Le contrôleur borne lui-même la période : la restriction ne peut pas se
+    // contourner en écrivant une date dans l'URL.
+    Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
+
     Route::middleware('plan.feature:accounting_exports')->group(function () {
-        Route::get('/reports/revenue-book', [RevenueBookController::class, 'index'])->name('reports.revenue-book');
         Route::get('/reports/fiscal-summary', [FiscalSummaryController::class, 'index'])->name('reports.fiscal-summary');
     });
     Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');

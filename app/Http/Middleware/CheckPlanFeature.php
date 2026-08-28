@@ -98,7 +98,7 @@ class CheckPlanFeature
             'projects' => __('La gestion de projets nécessite le plan Essentiel ou Pro.'),
             'time_tracking' => __('Le suivi du temps nécessite le plan Essentiel ou Pro.'),
             'accounting_portal' => __('Le portail comptable (invitation d\'une fiduciaire) nécessite le plan Essentiel ou Pro.'),
-            'accounting_exports' => __('Les exports comptables (Sage BOB, FID-Manager, livre des recettes) nécessitent le plan Essentiel ou Pro.'),
+            'accounting_exports' => __('Les exports comptables (Sage BOB, FID-Manager), l\'historique complet du livre de recettes et le récapitulatif fiscal nécessitent le plan Essentiel ou Pro.'),
             'recurring_invoices' => __('La facturation récurrente nécessite le plan Essentiel ou Pro. Vos récurrences existantes restent accessibles.'),
             default => __('Cette fonctionnalité nécessite un plan supérieur.'),
         };

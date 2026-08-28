@@ -1,8 +1,8 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import AccountingNav from "@/Components/AccountingNav.vue";
-import { Head, router } from "@inertiajs/vue3";
-import { ref, watch, onMounted } from "vue";
+import { Head, Link, router } from "@inertiajs/vue3";
+import { computed, ref, watch, onMounted } from "vue";
 import { useTranslations } from "@/Composables/useTranslations";
 import { useTour } from "@/Composables/useTour";
 
@@ -23,7 +23,20 @@ const props = defineProps({
         type: Object,
         default: () => ({ total: 0, lignes: [] }),
     },
+    // Le livre est consultable par tous ; l'historique est la part vendue.
+    historiqueComplet: { type: Boolean, default: true },
+    anneeAutorisee: { type: Number, default: () => new Date().getFullYear() },
+    anneesVerrouillees: { type: Array, default: () => [] },
 });
+
+// Sans historique, la seule année ouverte est celle en cours. Les autres ne
+// disparaissent pas : elles passent dans `anneesVerrouillees`, avec leur total,
+// pour que la limite se voie et puisse se lever.
+const anneesAccessibles = computed(() =>
+    props.historiqueComplet
+        ? props.years
+        : props.years.filter((annee) => Number(annee) === props.anneeAutorisee),
+);
 
 const startDate = ref(props.filters.start_date);
 const endDate = ref(props.filters.end_date);
@@ -197,16 +210,21 @@ const exportCsv = () => {
                                 v-for="period in periods"
                                 :key="period.label"
                                 type="button"
+                                :disabled="period.verrouille"
+                                :title="period.verrouille ? t('revenue_book_history_locked_hint') : null"
                                 @click="applyPeriod(period)"
                                 :class="[
                                     'px-3 py-2 text-sm rounded-xl border',
-                                    startDate === period.start &&
-                                    endDate === period.end
-                                        ? 'bg-primary-100 border-primary-300 text-primary-700 dark:bg-primary-900 dark:border-primary-700 dark:text-primary-300'
-                                        : 'bg-white border-gray-300 text-slate-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300 dark:hover:bg-gray-800',
+                                    period.verrouille
+                                        ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-slate-400 dark:border-gray-700 dark:bg-gray-900 dark:text-slate-500'
+                                        : startDate === period.start &&
+                                          endDate === period.end
+                                          ? 'bg-primary-100 border-primary-300 text-primary-700 dark:bg-primary-900 dark:border-primary-700 dark:text-primary-300'
+                                          : 'bg-white border-gray-300 text-slate-700 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:text-slate-300 dark:hover:bg-gray-800',
                                 ]"
                             >
                                 {{ period.label }}
+                                <span v-if="period.verrouille" aria-hidden="true">🔒</span>
                             </button>
                         </div>
                     </div>
@@ -217,7 +235,7 @@ const exportCsv = () => {
                             >{{ t("year") }} :</span
                         >
                         <button
-                            v-for="year in years"
+                            v-for="year in anneesAccessibles"
                             :key="year"
                             type="button"
                             @click="applyYear(year)"
@@ -231,7 +249,39 @@ const exportCsv = () => {
                         >
                             {{ year }}
                         </button>
+
+                        <!--
+                            Années hors du plan Gratuit. Montrées avec leur
+                            total : une limite qu'on ne voit pas ne se lève
+                            jamais, et un utilisateur doit pouvoir constater
+                            que ses données sont là.
+                        -->
+                        <Link
+                            v-for="verrouillee in anneesVerrouillees"
+                            :key="`verrou-${verrouillee.annee}`"
+                            :href="route('subscription.index')"
+                            :title="t('revenue_book_history_locked_hint')"
+                            class="inline-flex items-center gap-1.5 rounded-xl border border-amber-200 bg-amber-50 px-3 py-1 text-sm text-amber-800 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300"
+                        >
+                            {{ verrouillee.annee }}
+                            <span class="tabular-nums opacity-80">{{ formatCurrency(verrouillee.total) }}</span>
+                            <span aria-hidden="true">🔒</span>
+                            <span class="sr-only">{{ t('revenue_book_history_locked_hint') }}</span>
+                        </Link>
                     </div>
+
+                    <p
+                        v-if="!historiqueComplet"
+                        class="mt-3 text-sm text-slate-500 dark:text-slate-400"
+                    >
+                        {{ t('revenue_book_history_locked_note') }}
+                        <Link
+                            :href="route('subscription.index')"
+                            class="font-medium text-primary-600 underline underline-offset-2 hover:text-primary-700 dark:text-primary-400"
+                        >
+                            {{ t('revenue_book_unlock_history') }}
+                        </Link>
+                    </p>
                 </div>
             </div>
 
