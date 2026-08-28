@@ -27,7 +27,7 @@ return [
     'settings' => 'Settings',
     'profile' => 'Profile',
     'logout' => 'Log out',
-    'revenue_book' => 'Revenue',
+    'revenue_book' => 'Revenue book',
     'faia_export' => 'FAIA Export',
     'accounting_export' => 'Accounting Export',
     'archive' => 'Archive',

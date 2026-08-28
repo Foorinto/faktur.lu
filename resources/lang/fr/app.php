@@ -27,7 +27,7 @@ return [
     'settings' => 'Paramètres',
     'profile' => 'Profil',
     'logout' => 'Déconnexion',
-    'revenue_book' => 'Recettes',
+    'revenue_book' => 'Livre de recettes',
     'faia_export' => 'Export FAIA',
     'accounting_export' => 'Export comptable',
     'archive' => 'Archive',

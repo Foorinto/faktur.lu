@@ -44,7 +44,7 @@ return [
     'settings' => 'Einstellungen',
     'profile' => 'Profil',
     'logout' => 'Abmelden',
-    'revenue_book' => 'Einnahmen',
+    'revenue_book' => 'Einnahmenbuch',
     'faia_export' => 'FAIA-Export',
     'accounting_export' => 'Buchhaltungsexport',
     'archive' => 'Archivierung',

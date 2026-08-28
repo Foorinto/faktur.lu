@@ -44,7 +44,7 @@ return [
     'settings' => 'Astellungen',
     'profile' => 'Profil',
     'logout' => 'Ausloggen',
-    'revenue_book' => 'Recetten',
+    'revenue_book' => 'Recettebuch',
     'faia_export' => 'FAIA Export',
     'accounting_export' => 'Comptabel Export',
     'archive' => 'Archivéierung',

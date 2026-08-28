@@ -23,7 +23,13 @@ const isActive = (match) => {
 </script>
 
 <template>
-    <nav class="flex items-center gap-1 overflow-x-auto pb-px">
+    <!--
+        Barre de section, soulignée pour se lire comme une navigation et non
+        comme quatre liens en vrac : un client payant ne savait pas que le
+        livre de recettes et les exports comptables vivaient au même endroit
+        (2026-08-28).
+    -->
+    <nav class="flex items-center gap-1 overflow-x-auto border-b border-gray-200 pb-2 dark:border-gray-700">
         <Link
             v-for="link in links"
             :key="link.href"
