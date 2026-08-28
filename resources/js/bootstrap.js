@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { patchViaPost } from './Support/patchViaPost';
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -16,6 +18,10 @@ const updateCsrfToken = () => {
 
 // Initial CSRF token setup
 updateCsrfToken();
+
+// PATCH n'atteint jamais la production : LiteSpeed coupe la connexion avant
+// PHP. On le transforme en POST + en-tête de substitution. Voir patchViaPost.
+axios.interceptors.request.use(patchViaPost);
 
 // Update token before each request to ensure freshness
 axios.interceptors.request.use((config) => {
