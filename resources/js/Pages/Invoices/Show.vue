@@ -1713,25 +1713,27 @@ const submitCreditNote = () => {
                                 required
                                 class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                             />
-                            <button
-                                type="button"
-                                @click="solderLaFacture"
-                                class="mt-1 text-xs text-primary-600 hover:underline dark:text-primary-400"
-                            >
-                                {{ t("payments_settle_shortcut") }}
-                            </button>
-                            <!--
-                                Acompte annoncé sur le devis : proposé tant
-                                qu'aucun versement n'a été enregistré.
-                            -->
-                            <button
-                                v-if="acompteAttendu"
-                                type="button"
-                                @click="saisirLAcompte"
-                                class="mt-1 ml-3 text-xs text-primary-600 hover:underline dark:text-primary-400"
-                            >
-                                {{ t("payments_deposit_shortcut", { amount: formatCurrency(acompteAttendu) }) }}
-                            </button>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                <button
+                                    type="button"
+                                    @click="solderLaFacture"
+                                    class="inline-flex items-center rounded-lg border border-primary-200 bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-700 transition-colors hover:bg-primary-100 dark:border-primary-800 dark:bg-primary-900/30 dark:text-primary-300 dark:hover:bg-primary-900/50"
+                                >
+                                    {{ t("payments_settle_shortcut") }}
+                                </button>
+                                <!--
+                                    Acompte annoncé sur le devis : proposé tant
+                                    qu'aucun versement n'a été enregistré.
+                                -->
+                                <button
+                                    v-if="acompteAttendu"
+                                    type="button"
+                                    @click="saisirLAcompte"
+                                    class="inline-flex items-center rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/30 dark:text-amber-200 dark:hover:bg-amber-900/50"
+                                >
+                                    {{ t("payments_deposit_shortcut", { amount: formatCurrency(acompteAttendu) }) }}
+                                </button>
+                            </div>
                             <p
                                 v-if="formEncaissement.errors.amount"
                                 class="mt-1 text-xs text-red-600"
