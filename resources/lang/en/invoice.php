@@ -38,6 +38,10 @@ return [
     'total' => 'Total (incl. VAT)',
     'net_total' => 'Amount Due',
 
+    'deposit_paid' => "Deposit paid on :date",
+    'payment_received' => "Payment received on :date",
+    'remaining_due' => "Balance due",
+    'fully_paid' => "Paid in full",
     // Payment
     'payment_terms' => 'Payment Terms',
     'payment_delay' => 'Payment Period',

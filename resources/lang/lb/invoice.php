@@ -38,6 +38,10 @@ return [
     'total' => 'Total TTC',
     'net_total' => 'Ze bezuelen',
 
+    'deposit_paid' => "Akonto bezuelt den :date",
+    'payment_received' => "Bezuelung vum :date",
+    'remaining_due' => "Reschtbetrag",
+    'fully_paid' => "Ganz bezuelt",
     // Payment
     'payment_terms' => 'Bezuelungskonditiounen',
     'payment_delay' => 'Bezuelungsfrist',

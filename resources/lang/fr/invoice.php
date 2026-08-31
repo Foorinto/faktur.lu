@@ -38,6 +38,10 @@ return [
     'total' => 'Total TTC',
     'net_total' => 'Net à payer',
 
+    'deposit_paid' => "Acompte versé le :date",
+    'payment_received' => "Règlement du :date",
+    'remaining_due' => "Reste à payer",
+    'fully_paid' => "Facture soldée",
     // Payment
     'payment_terms' => 'Conditions de paiement',
     'payment_delay' => 'Délai de paiement',

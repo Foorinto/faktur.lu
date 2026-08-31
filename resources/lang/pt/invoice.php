@@ -38,6 +38,10 @@ return [
     'total' => 'Total com IVA',
     'net_total' => 'Valor líquido a pagar',
 
+    'deposit_paid' => "Adiantamento pago em :date",
+    'payment_received' => "Pagamento de :date",
+    'remaining_due' => "Valor em falta",
+    'fully_paid' => "Fatura liquidada",
     // Payment
     'payment_terms' => 'Condições de pagamento',
     'payment_delay' => 'Prazo de pagamento',

@@ -38,6 +38,10 @@ return [
     'total' => 'Gesamtbetrag brutto',
     'net_total' => 'Zahlbetrag',
 
+    'deposit_paid' => "Anzahlung vom :date",
+    'payment_received' => "Zahlung vom :date",
+    'remaining_due' => "Restbetrag",
+    'fully_paid' => "Vollständig bezahlt",
     // Payment
     'payment_terms' => 'Zahlungsbedingungen',
     'payment_delay' => 'Zahlungsfrist',
