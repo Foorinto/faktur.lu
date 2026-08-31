@@ -141,12 +141,32 @@ class InvoicePdfService
     }
 
     /**
+     * Reste à payer tel que le document doit l'annoncer.
+     *
+     * ⚠️ Il découle des encaissements AFFICHÉS, pas de tous. Sinon
+     * l'arithmétique du document serait fausse : une facture de 1 000 €
+     * montrant un acompte de 300 € afficherait « reste à payer 0 € » dès que le
+     * solde aurait été encaissé après l'émission — 1 000 − 300 = 0 sous les
+     * yeux du client.
+     */
+    private function resteAPayerAffiche(Invoice $invoice): float
+    {
+        $verse = array_sum(array_column($this->encaissementsAAfficher($invoice), 'montant'));
+
+        return max(0.0, round((float) $invoice->total_ttc - $verse, 2));
+    }
+
+    /**
      * Encaissements à faire figurer sur la facture, du plus ancien au plus récent.
      *
      * Demande d'un client (2026-08-28) : il encaisse un acompte à la signature
      * du devis, puis le solde le jour de la prestation, et n'établit qu'UNE
      * facture — toute la TVA dessus. Ce que sa cliente doit lire, c'est
      * « acompte versé le 12/09 : 300 € — reste à payer : 700 € ».
+     *
+     * L'acompte se saisit donc sur le BROUILLON, avant émission. Ce qui est
+     * enregistré après la finalisation reste en comptabilité mais ne paraît
+     * plus sur le document : une facture envoyée doit rester ce qu'elle était.
      *
      * ⚠️ Un acompte n'est pas une remise. Une remise réduirait la base taxable
      * et donc la TVA déclarée ; le prix ne change pas, seul le moment du
@@ -163,6 +183,20 @@ class InvoicePdfService
     private function encaissementsAAfficher(Invoice $invoice): array
     {
         return $invoice->payments
+            // ⚠️ Seuls les encaissements SAISIS AVANT la finalisation figurent
+            // sur le document. Une facture émise ne doit plus changer d'aspect :
+            // sans ce filtre, le PDF régénéré après un règlement n'aurait plus
+            // été celui envoyé au client.
+            //
+            // Le critère est le moment de la SAISIE, pas la date du versement :
+            // un acompte reçu le 12/09 et noté sur le brouillon le 18/09
+            // appartient au document ; le même, noté après l'émission, non.
+            //
+            // La réponse est inscrite sur l'encaissement à sa création plutôt
+            // que recalculée ici : les horodatages sont à la seconde, et une
+            // comparaison laissait passer ce qui était saisi dans la même
+            // seconde que la finalisation.
+            ->filter(fn ($paiement) => $paiement->recorded_before_issue)
             ->sortBy('paid_at')
             ->map(function ($paiement) use ($invoice) {
                 $date = $paiement->paid_at?->format('d/m/Y') ?? '';
@@ -272,7 +306,7 @@ class InvoicePdfService
             // Encaissements déjà reçus, pour que le client lise « acompte
             // versé » et « reste à payer » plutôt que de recalculer (FEAT-114).
             'encaissements' => $this->encaissementsAAfficher($invoice),
-            'resteAPayer' => $invoice->amountDue(),
+            'resteAPayer' => $this->resteAPayerAffiche($invoice),
             'paymentReference' => $this->generatePaymentReference($invoice),
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
@@ -404,7 +438,7 @@ class InvoicePdfService
             // Le brouillon rend le même gabarit : sans ces clés, l'aperçu
             // mentirait sur ce que la facture finalisée montrera.
             'encaissements' => $this->encaissementsAAfficher($invoice),
-            'resteAPayer' => $invoice->amountDue(),
+            'resteAPayer' => $this->resteAPayerAffiche($invoice),
             'seller' => $seller,
             'buyer' => $buyer,
             'items' => $invoice->items,

@@ -1625,7 +1625,7 @@ const submitCreditNote = () => {
             <!-- Encaissements (FEAT-114) -->
             <div
                 v-if="
-                    invoice.status !== 'draft' && invoice.type !== 'credit_note'
+                    invoice.status !== 'cancelled' && invoice.type !== 'credit_note'
                 "
                 class="rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
             >

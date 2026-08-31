@@ -539,7 +539,14 @@ class InvoiceController extends Controller
      */
     public function storePayment(Request $request, Invoice $invoice): RedirectResponse
     {
-        if (! $invoice->isFinalized()) {
+        // Le brouillon accepte désormais les encaissements. L'acompte est reçu
+        // AVANT que la facture n'existe — à la signature du devis — et devoir
+        // finaliser pour l'enregistrer imposait au client l'ordre du logiciel
+        // plutôt que le sien.
+        //
+        // Une facture annulée, en revanche, ne reçoit plus rien : il n'y a plus
+        // de créance à régler.
+        if ($invoice->status === Invoice::STATUS_CANCELLED) {
             return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
         }
 
@@ -562,7 +569,11 @@ class InvoiceController extends Controller
         ]);
 
         $invoice->payments()->create($donnees);
-        $invoice->refresh()->refreshPaymentStatus();
+        // Un brouillon ne devient pas « payé » : il n'a pas encore été émis, et
+        // le statut de règlement n'a de sens que sur une créance existante.
+        if ($invoice->fresh()->isFinalized()) {
+            $invoice->refresh()->refreshPaymentStatus();
+        }
 
         return back()->with('success', __('app.invoices_flash.payment_recorded'));
     }
@@ -607,8 +618,11 @@ class InvoiceController extends Controller
         $payment->update($donnees);
 
         // Le montant a pu changer : le statut et `paid_at` en dérivent tous
-        // les deux, et la facture peut redevenir due.
-        $invoice->refresh()->refreshPaymentStatus();
+        // les deux, et la facture peut redevenir due. Un brouillon n'a pas de
+        // statut de règlement à dériver.
+        if ($invoice->fresh()->isFinalized()) {
+            $invoice->refresh()->refreshPaymentStatus();
+        }
 
         return back()->with('success', __('app.invoices_flash.payment_updated'));
     }
@@ -626,7 +640,10 @@ class InvoiceController extends Controller
         abort_unless($payment->invoice_id === $invoice->id, 404);
 
         $payment->delete();
-        $invoice->refresh()->refreshPaymentStatus();
+
+        if ($invoice->fresh()->isFinalized()) {
+            $invoice->refresh()->refreshPaymentStatus();
+        }
 
         return back()->with('success', __('app.invoices_flash.payment_deleted'));
     }

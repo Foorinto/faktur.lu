@@ -22,6 +22,10 @@ use Tests\TestCase;
  * puis le solde le jour de la prestation. Ce qu'elle doit lire sur la facture :
  * « Acompte versé le 12/09 : 300 € — Reste à payer : 700 € ».
  *
+ * Les encaissements y portent `recorded_before_issue` : ce sont des acomptes
+ * saisis sur le brouillon, seuls à figurer sur le document. La règle de
+ * visibilité elle-même est couverte par DraftPaymentsTest.
+ *
  * ⚠️ CE QUI NE DOIT PAS BOUGER : le total TTC et la TVA. Un acompte n'est pas
  * une remise. Représenté en remise, il réduirait la base taxable — sur 1 000 €
  * HT à 17 %, 300 € d'« acompte » en remise donnent 119 € de TVA au lieu de
@@ -66,7 +70,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
     public function test_a_payment_made_before_the_invoice_is_a_deposit(): void
     {
         $facture = $this->facture(1000);
-        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer']);
+        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer', 'recorded_before_issue' => true]);
 
         $donnees = $this->donnees($facture);
 
@@ -85,7 +89,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
     public function test_a_payment_made_after_the_invoice_is_a_settlement(): void
     {
         $facture = $this->facture(1000);
-        $facture->payments()->create(['amount' => 700, 'paid_at' => '2026-09-25', 'method' => 'cash']);
+        $facture->payments()->create(['amount' => 700, 'paid_at' => '2026-09-25', 'method' => 'cash', 'recorded_before_issue' => true]);
 
         $donnees = $this->donnees($facture);
 
@@ -98,7 +102,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
     public function test_the_remaining_balance_is_carried(): void
     {
         $facture = $this->facture(1000);
-        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer']);
+        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer', 'recorded_before_issue' => true]);
 
         $this->assertSame(700.0, $this->donnees($facture)['resteAPayer']);
     }
@@ -120,7 +124,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
 
         $avant = [$facture->total_ht, $facture->total_vat, $facture->total_ttc];
 
-        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer']);
+        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer', 'recorded_before_issue' => true]);
         $facture->refresh();
 
         $this->assertSame($avant, [$facture->total_ht, $facture->total_vat, $facture->total_ttc]);
@@ -135,8 +139,8 @@ class InvoicePdfShowsPaymentsTest extends TestCase
     {
         $facture = $this->facture(1000);
         $facture->payments()->createMany([
-            ['amount' => 700, 'paid_at' => '2026-09-25', 'method' => 'cash'],
-            ['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer'],
+            ['amount' => 700, 'paid_at' => '2026-09-25', 'method' => 'cash', 'recorded_before_issue' => true],
+            ['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer', 'recorded_before_issue' => true],
         ]);
 
         $montants = array_column($this->donnees($facture)['encaissements'], 'montant');
@@ -161,7 +165,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
     public function test_the_rendered_document_shows_the_deposit(): void
     {
         $facture = $this->facture(1000);
-        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer']);
+        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-09-12', 'method' => 'transfer', 'recorded_before_issue' => true]);
 
         $html = app(InvoicePdfService::class)->preview($facture->fresh());
 
@@ -176,7 +180,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
     public function test_a_fully_paid_invoice_says_so(): void
     {
         $facture = $this->facture(1000);
-        $facture->payments()->create(['amount' => 1000, 'paid_at' => '2026-09-12', 'method' => 'transfer']);
+        $facture->payments()->create(['amount' => 1000, 'paid_at' => '2026-09-12', 'method' => 'transfer', 'recorded_before_issue' => true]);
 
         $html = app(InvoicePdfService::class)->preview($facture->fresh());
 
@@ -197,6 +201,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
         $facture->payments()->create([
             'amount' => 300,
             'paid_at' => '2026-09-12',
+            'recorded_before_issue' => true,
             'method' => 'transfer',
             'label' => 'Arrhes à la réservation',
         ]);
@@ -216,6 +221,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
         $facture->payments()->create([
             'amount' => 300,
             'paid_at' => '2026-09-12',
+            'recorded_before_issue' => true,
             'method' => 'transfer',
             'label' => '',
         ]);
@@ -232,6 +238,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
         $facture->payments()->create([
             'amount' => 300,
             'paid_at' => '2026-09-12',
+            'recorded_before_issue' => true,
             'method' => 'transfer',
             'label' => 'Arrhes à la réservation',
         ]);
@@ -263,6 +270,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
         $this->post(route('invoices.payments.store', $facture), [
             'amount' => 300,
             'paid_at' => now()->subDays(20)->toDateString(),
+            'recorded_before_issue' => true,
             'method' => 'transfer',
             'label' => 'Acompte à la commande',
         ])->assertSessionHasNoErrors();
@@ -290,6 +298,7 @@ class InvoicePdfShowsPaymentsTest extends TestCase
         $facture->payments()->create([
             'amount' => 300,
             'paid_at' => '2026-09-12',
+            'recorded_before_issue' => true,
             'method' => 'transfer',
             'label' => 'Acompte à la commande',
             'reference' => 'VIR-2026-0912',
