@@ -312,6 +312,10 @@ class InvoiceController extends Controller
             'paymentSummary' => [
                 'paid' => $invoice->amountPaid(),
                 'due' => $invoice->amountDue(),
+                // Acompte annoncé sur le devis, repris à la conversion : la
+                // saisie le propose en un clic plutôt que de faire recalculer
+                // 30 % de 1 170 € à la main.
+                'deposit' => $invoice->depositAmount(),
                 'is_partial' => $invoice->isPartiallyPaid(),
                 'locked' => $invoice->isPaid(),
             ],

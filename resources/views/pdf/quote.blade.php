@@ -546,7 +546,32 @@
                             <span class="total-value">{{ number_format($quote->total_ttc ?? 0, 2, ',', ' ') }} €</span>
                         </div>
                     @endif
+
+                    {{--
+                        Acompte demandé à la commande.
+
+                        ⚠️ Une DEMANDE, pas un encaissement, et surtout pas une
+                        remise : le total du devis ne bouge pas d'un centime.
+                        C'est ce versement qui engage le client et réserve la
+                        date — d'où le besoin qu'il figure noir sur blanc.
+                    --}}
+                    @if($quote->hasDeposit())
+                        <div class="total-row" style="border-top: 2px solid #1e293b; padding-top: 8px; margin-top: 8px;">
+                            <span class="total-label" style="font-weight: 700;">
+                                {{ __('invoice.deposit_requested') }}@if($quote->deposit_type === 'percent') ({{ rtrim(rtrim(number_format((float) $quote->deposit_value, 2, ',', ' '), '0'), ',') }} %)@endif
+                            </span>
+                            <span class="total-value" style="font-weight: 700;">{{ number_format($quote->depositAmount(), 2, ',', ' ') }} €</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">{{ __('invoice.deposit_balance') }}</span>
+                            <span class="total-value">{{ number_format($quote->depositBalance(), 2, ',', ' ') }} €</span>
+                        </div>
+                    @endif
                 </div>
+
+                @if($quote->hasDeposit())
+                    <div class="vat-notice">{{ __('invoice.deposit_notice') }}</div>
+                @endif
 
                 @if(!empty($vatMentionText))
                     <div class="vat-notice">

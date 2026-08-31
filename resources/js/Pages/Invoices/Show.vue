@@ -72,6 +72,22 @@ const solderLaFacture = () => {
     formEncaissement.amount = props.paymentSummary.due;
 };
 
+/**
+ * Raccourci d'acompte, quand le devis en annonçait un.
+ *
+ * Ne s'affiche qu'avant tout encaissement : une fois qu'un versement existe,
+ * l'acompte a été reçu et le bouton n'a plus de sens.
+ */
+const acompteAttendu = computed(() => {
+    const acompte = props.paymentSummary.deposit;
+
+    return acompte && props.paymentSummary.paid === 0 ? acompte : null;
+});
+
+const saisirLAcompte = () => {
+    formEncaissement.amount = acompteAttendu.value;
+};
+
 const enregistrerEncaissement = () => {
     formEncaissement.post(route("invoices.payments.store", props.invoice.id), {
         preserveScroll: true,
@@ -1703,6 +1719,18 @@ const submitCreditNote = () => {
                                 class="mt-1 text-xs text-primary-600 hover:underline dark:text-primary-400"
                             >
                                 {{ t("payments_settle_shortcut") }}
+                            </button>
+                            <!--
+                                Acompte annoncé sur le devis : proposé tant
+                                qu'aucun versement n'a été enregistré.
+                            -->
+                            <button
+                                v-if="acompteAttendu"
+                                type="button"
+                                @click="saisirLAcompte"
+                                class="mt-1 ml-3 text-xs text-primary-600 hover:underline dark:text-primary-400"
+                            >
+                                {{ t("payments_deposit_shortcut", { amount: formatCurrency(acompteAttendu) }) }}
                             </button>
                             <p
                                 v-if="formEncaissement.errors.amount"

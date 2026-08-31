@@ -75,6 +75,8 @@ const editItemForm = useForm({
 const form = useForm({
     client_id: props.quote.client_id,
     valid_until: formatDateForInput(props.quote.valid_until),
+    deposit_type: props.quote.deposit_type ?? 'percent',
+    deposit_value: props.quote.deposit_value ?? null,
     notes: props.quote.notes || '',
     currency: props.quote.currency,
     vat_mention: props.quote.vat_mention || '',
@@ -494,6 +496,39 @@ const getStatusLabel = (status) => {
                                     class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 />
                                 <InputError :message="form.errors.valid_until" class="mt-2" />
+                            </div>
+
+                            <!--
+                                Acompte demandé à la commande.
+                                ⚠️ Une demande, pas un encaissement : le total
+                                du devis ne bouge pas. Le versement réel
+                                s'enregistre sur la facture, une fois émise.
+                            -->
+                            <div>
+                                <InputLabel :value="t('deposit_requested_label')" />
+                                <div class="mt-1 flex gap-2">
+                                    <input
+                                        v-model="form.deposit_value"
+                                        @change="updateQuote"
+                                        type="number"
+                                        step="0.01"
+                                        min="0"
+                                        :placeholder="t('deposit_none')"
+                                        class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                    />
+                                    <select
+                                        v-model="form.deposit_type"
+                                        @change="updateQuote"
+                                        class="rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                    >
+                                        <option value="percent">%</option>
+                                        <option value="amount">€</option>
+                                    </select>
+                                </div>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                    {{ t('deposit_requested_help') }}
+                                </p>
+                                <InputError :message="form.errors.deposit_value" class="mt-2" />
                             </div>
                         </div>
 

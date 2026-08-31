@@ -42,6 +42,9 @@ return [
     'payment_received' => "Bezuelung vum :date",
     'remaining_due' => "Reschtbetrag",
     'fully_paid' => "Ganz bezuelt",
+    'deposit_requested' => "Akonto bei der Bestellung",
+    'deposit_balance' => "Rescht bei der Leeschtung",
+    'deposit_notice' => "D'Akonto ass ze bezuelen fir d'Bestellung ze bestätegen an den Rendez-vous festzeleeën. Et gëtt op der Rechnung ofgezunn.",
     // Payment
     'payment_terms' => 'Bezuelungskonditiounen',
     'payment_delay' => 'Bezuelungsfrist',

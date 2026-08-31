@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quote extends Model
 {
+    use \App\Support\AcompteDemande;
+
     use HasFactory, SoftDeletes, BelongsToUser, Auditable;
 
     public const STATUS_DRAFT = 'draft';
@@ -42,6 +44,8 @@ class Quote extends Model
         'custom_vat_mention',
         'footer_message',
         'currency',
+        'deposit_type',
+        'deposit_value',
     ];
 
     protected $casts = [

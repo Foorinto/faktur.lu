@@ -20,6 +20,10 @@ class UpdateQuoteRequest extends FormRequest
         return [
             'client_id' => ['sometimes', 'required', 'integer', new BelongsToAuthUser(Client::class)],
             'valid_until' => ['nullable', 'date'],
+            // Acompte demandé à la commande : un pourcentage ou une somme.
+            // ⚠️ Une demande, pas un encaissement : les totaux ne bougent pas.
+            'deposit_type' => ['nullable', 'in:percent,amount'],
+            'deposit_value' => ['nullable', 'numeric', 'min:0', 'max:999999'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'currency' => ['sometimes', 'string', 'size:3', Rule::in(['EUR', 'USD', 'GBP', 'CHF'])],
             'vat_mention' => ['nullable', 'string', 'max:50'],

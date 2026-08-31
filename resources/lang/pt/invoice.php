@@ -42,6 +42,9 @@ return [
     'payment_received' => "Pagamento de :date",
     'remaining_due' => "Valor em falta",
     'fully_paid' => "Fatura liquidada",
+    'deposit_requested' => "Adiantamento na encomenda",
+    'deposit_balance' => "Saldo na prestação",
+    'deposit_notice' => "O adiantamento deve ser pago para validar a encomenda e fixar a marcação. Será deduzido do valor a pagar na fatura.",
     // Payment
     'payment_terms' => 'Condições de pagamento',
     'payment_delay' => 'Prazo de pagamento',
