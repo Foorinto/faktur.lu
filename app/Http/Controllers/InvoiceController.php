@@ -304,6 +304,9 @@ class InvoiceController extends Controller
                 'paid_at' => $p->paid_at?->format('Y-m-d'),
                 'method' => $p->method,
                 'method_label' => $p->methodLabel(),
+                // Le libellé porté par la facture : sans lui, la correction
+                // rouvrirait le champ vide et l'effacerait à l'enregistrement.
+                'label' => $p->label,
                 'reference' => $p->reference,
             ]),
             'paymentSummary' => [
@@ -544,6 +547,9 @@ class InvoiceController extends Controller
             'amount' => ['required', 'numeric', 'min:0.01', 'max:'.$invoice->amountDue()],
             'paid_at' => ['required', 'date', 'before_or_equal:today'],
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
+            // Libellé porté par la facture. Laissé vide, le PDF écrit
+            // « Acompte versé le … » ou « Règlement du … » selon la date.
+            'label' => ['nullable', 'string', 'max:100'],
             'reference' => ['nullable', 'string', 'max:255'],
         ], [
             'amount.max' => __('app.invoices_flash.error_payment_exceeds', [
@@ -584,6 +590,9 @@ class InvoiceController extends Controller
             'amount' => ['required', 'numeric', 'min:0.01', 'max:'.$plafond],
             'paid_at' => ['required', 'date', 'before_or_equal:today'],
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
+            // Libellé porté par la facture. Laissé vide, le PDF écrit
+            // « Acompte versé le … » ou « Règlement du … » selon la date.
+            'label' => ['nullable', 'string', 'max:100'],
             'reference' => ['nullable', 'string', 'max:255'],
         ], [
             'amount.max' => __('app.invoices_flash.error_payment_exceeds', [

@@ -152,8 +152,11 @@ class InvoicePdfService
      * et donc la TVA déclarée ; le prix ne change pas, seul le moment du
      * paiement change. D'où un bloc SOUS le total, jamais une ligne au-dessus.
      *
-     * Un encaissement antérieur à la date d'émission est un acompte : il a été
-     * reçu avant que la facture n'existe. Les autres sont des règlements.
+     * Le libellé peut être saisi ; sinon il se déduit de la date. Un
+     * encaissement antérieur à l'émission est un acompte — il a été reçu avant
+     * que la facture n'existe — les autres sont des règlements. La déduction
+     * couvre le cas courant sans rien imposer : le texte figure sur un document
+     * que le client lit, l'utilisateur doit pouvoir le choisir.
      *
      * @return array<int, array{libelle: string, montant: float}>
      */
@@ -168,7 +171,11 @@ class InvoicePdfService
                     && $paiement->paid_at->lt($invoice->issued_at);
 
                 return [
-                    'libelle' => __($estAcompte ? 'invoice.deposit_paid' : 'invoice.payment_received', ['date' => $date]),
+                    // Le libellé saisi gagne : c'est un texte que le client
+                    // lira sur un document commercial, et la déduction par la
+                    // date ne peut pas connaître tous les usages.
+                    'libelle' => $paiement->label
+                        ?: __($estAcompte ? 'invoice.deposit_paid' : 'invoice.payment_received', ['date' => $date]),
                     'montant' => round((float) $paiement->amount, 2),
                 ];
             })

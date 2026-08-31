@@ -39,6 +39,10 @@ const formEncaissement = useForm({
     amount: null,
     paid_at: "",
     method: null,
+    // Ce que la facture écrira. Laissé vide, le PDF déduit « Acompte versé
+    // le … » ou « Règlement du … » de la date, mais c'est un texte que le
+    // client lit : il doit rester au choix de l'utilisateur.
+    label: "",
     reference: "",
 });
 
@@ -58,6 +62,7 @@ const ouvrirSaisie = () => {
     formEncaissement.amount = null;
     formEncaissement.paid_at = todayLocal();
     formEncaissement.method = null;
+    formEncaissement.label = "";
     formEncaissement.reference = "";
     saisieOuverte.value = true;
 };
@@ -88,6 +93,7 @@ const formCorrection = useForm({
     amount: null,
     paid_at: "",
     method: null,
+    label: "",
     reference: "",
 });
 
@@ -96,6 +102,7 @@ const ouvrirCorrection = (encaissement) => {
     formCorrection.amount = encaissement.amount;
     formCorrection.paid_at = encaissement.paid_at;
     formCorrection.method = encaissement.method;
+    formCorrection.label = encaissement.label || "";
     formCorrection.reference = encaissement.reference || "";
 };
 
@@ -1746,6 +1753,22 @@ const submitCreditNote = () => {
                         <div>
                             <label
                                 class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >{{ t("payments_label") }}</label
+                            >
+                            <input
+                                v-model="formEncaissement.label"
+                                type="text"
+                                maxlength="100"
+                                :placeholder="t('payments_label_placeholder')"
+                                class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t("payments_label_help") }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300"
                                 >{{ t("payments_reference") }}</label
                             >
                             <input
@@ -1869,6 +1892,19 @@ const submitCreditNote = () => {
                                                         {{ m.label }}
                                                     </option>
                                                 </select>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-xs font-medium text-slate-600 dark:text-slate-400"
+                                                    >{{ t("payments_label") }}</label
+                                                >
+                                                <input
+                                                    v-model="formCorrection.label"
+                                                    type="text"
+                                                    maxlength="100"
+                                                    :placeholder="t('payments_label_placeholder')"
+                                                    class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                                />
                                             </div>
                                             <div>
                                                 <label

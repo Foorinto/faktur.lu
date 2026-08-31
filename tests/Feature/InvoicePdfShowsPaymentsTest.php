@@ -183,4 +183,121 @@ class InvoicePdfShowsPaymentsTest extends TestCase
         $this->assertStringContainsString(__('invoice.fully_paid'), $html);
         $this->assertStringNotContainsString(__('invoice.remaining_due'), $html);
     }
+
+    /**
+     * Le libellé saisi l'emporte sur la déduction.
+     *
+     * La déduction par la date couvre le cas courant, mais c'est un texte que
+     * le client lit sur un document commercial : l'utilisateur doit pouvoir
+     * écrire « Arrhes », « Acompte à la réservation » ou ce qu'il veut.
+     */
+    public function test_a_typed_label_wins_over_the_inferred_one(): void
+    {
+        $facture = $this->facture(1000);
+        $facture->payments()->create([
+            'amount' => 300,
+            'paid_at' => '2026-09-12',
+            'method' => 'transfer',
+            'label' => 'Arrhes à la réservation',
+        ]);
+
+        $donnees = $this->donnees($facture);
+
+        $this->assertSame('Arrhes à la réservation', $donnees['encaissements'][0]['libelle']);
+    }
+
+    /**
+     * Vide, le libellé automatique reprend la main — c'est ce qui permet de ne
+     * rien changer pour qui ne s'en préoccupe pas.
+     */
+    public function test_an_empty_label_falls_back_to_the_inferred_one(): void
+    {
+        $facture = $this->facture(1000);
+        $facture->payments()->create([
+            'amount' => 300,
+            'paid_at' => '2026-09-12',
+            'method' => 'transfer',
+            'label' => '',
+        ]);
+
+        $this->assertSame(
+            __('invoice.deposit_paid', ['date' => '12/09/2026']),
+            $this->donnees($facture)['encaissements'][0]['libelle']
+        );
+    }
+
+    public function test_the_typed_label_reaches_the_document(): void
+    {
+        $facture = $this->facture(1000);
+        $facture->payments()->create([
+            'amount' => 300,
+            'paid_at' => '2026-09-12',
+            'method' => 'transfer',
+            'label' => 'Arrhes à la réservation',
+        ]);
+
+        $html = app(InvoicePdfService::class)->preview($facture->fresh());
+
+        $this->assertStringContainsString('Arrhes à la réservation', $html);
+    }
+
+    /**
+     * Le libellé se saisit et se corrige par les routes, sinon le champ du
+     * formulaire n'aurait nulle part où aller.
+     */
+    public function test_the_label_is_accepted_and_editable(): void
+    {
+        // Dates dans le passé : la saisie refuse un encaissement daté du futur,
+        // et `assertRedirect()` ne le dirait pas — un refus de validation
+        // redirige lui aussi.
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $facture = Invoice::factory()->create([
+            'user_id' => $this->user->id,
+            'client_id' => $client->id,
+            'status' => Invoice::STATUS_SENT,
+            'issued_at' => now()->subDays(10)->toDateString(),
+            'finalized_at' => now()->subDays(10)->toDateString(),
+            'total_ht' => 1000, 'total_vat' => 0, 'total_ttc' => 1000,
+        ]);
+
+        $this->post(route('invoices.payments.store', $facture), [
+            'amount' => 300,
+            'paid_at' => now()->subDays(20)->toDateString(),
+            'method' => 'transfer',
+            'label' => 'Acompte à la commande',
+        ])->assertSessionHasNoErrors();
+
+        $encaissement = $facture->payments()->firstOrFail();
+        $this->assertSame('Acompte à la commande', $encaissement->label);
+
+        $this->post(
+            route('invoices.payments.update', [$facture, $encaissement]),
+            ['amount' => 300, 'paid_at' => now()->subDays(20)->toDateString(), 'method' => 'transfer', 'label' => 'Arrhes'],
+            ['X-HTTP-METHOD-OVERRIDE' => 'PATCH']
+        )->assertSessionHasNoErrors();
+
+        $this->assertSame('Arrhes', $encaissement->fresh()->label);
+    }
+
+    /**
+     * ⚠️ Le libellé n'est pas la référence bancaire : celle-ci part dans
+     * l'export comptable, celui-là ne sert qu'à l'affichage. Les confondre
+     * ferait remonter « Acompte » dans un fichier remis à une fiduciaire.
+     */
+    public function test_the_label_is_not_the_bank_reference(): void
+    {
+        $facture = $this->facture(1000);
+        $facture->payments()->create([
+            'amount' => 300,
+            'paid_at' => '2026-09-12',
+            'method' => 'transfer',
+            'label' => 'Acompte à la commande',
+            'reference' => 'VIR-2026-0912',
+        ]);
+
+        $encaissement = $facture->payments()->firstOrFail();
+
+        $this->assertSame('Acompte à la commande', $encaissement->label);
+        $this->assertSame('VIR-2026-0912', $encaissement->reference);
+    }
 }
