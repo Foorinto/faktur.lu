@@ -1021,6 +1021,27 @@ const openPreview = () => {
             </div>
         </div>
 
+        <!--
+            Encaissements du brouillon (FEAT-114).
+
+            C'est ICI que l'acompte se saisit : il est reçu à la signature du
+            devis, avant que la facture n'existe. Enregistré après la
+            finalisation, il resterait en comptabilité mais ne paraîtrait plus
+            sur le document.
+
+            ⚠️ Placé APRÈS la grille et AVANT les fenêtres modales. Glissé dans
+            l'une d'elles, il ne s'affichait qu'au moment de finaliser —
+            c'est-à-dire jamais, pour qui cherche à saisir un acompte.
+        -->
+        <div class="mt-6">
+            <EncaissementsPanel
+                :invoice="invoice"
+                :payments="payments"
+                :payment-summary="paymentSummary"
+                :payment-methods="paymentMethods"
+            />
+        </div>
+
         <!-- Preview Modal -->
         <div v-if="showPreviewModal" class="fixed inset-0 z-50 overflow-hidden">
             <div class="flex items-center justify-center min-h-screen p-4">
@@ -1148,22 +1169,6 @@ const openPreview = () => {
                 </div>
             </div>
 
-            <!--
-                Encaissements du brouillon (FEAT-114).
-
-                C'est ICI que l'acompte se saisit : il est reçu à la signature
-                du devis, avant que la facture n'existe. Enregistré après la
-                finalisation, il resterait en comptabilité mais ne paraîtrait
-                plus sur le document.
-            -->
-            <div class="mt-6">
-                <EncaissementsPanel
-                    :invoice="invoice"
-                    :payments="payments"
-                    :payment-summary="paymentSummary"
-                    :payment-methods="paymentMethods"
-                />
-            </div>
         </div>
     </AppLayout>
 </template>
