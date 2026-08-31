@@ -1082,6 +1082,7 @@ return [
     'days_90' => '+90 jours',
     'cash_position' => 'Position actuelle',
     'monthly_avg_expense' => 'Dépense moyenne mensuelle',
+    'cashflow_excludes_bank_balance' => "Prévision à partir d'aujourd'hui, hors solde bancaire.",
     'vat_summary' => 'Récapitulatif TVA :year',
     'collected_vat' => 'TVA collectée',
     'deductible_vat' => 'TVA déductible',

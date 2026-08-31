@@ -1081,6 +1081,7 @@ return [
     'days_90' => '+90 dias',
     'cash_position' => 'Posição atual',
     'monthly_avg_expense' => 'Despesa média mensal',
+    'cashflow_excludes_bank_balance' => "Previsão a partir de hoje, sem o saldo bancário.",
     'vat_summary' => 'Resumo do IVA :year',
     'collected_vat' => 'IVA cobrado',
     'deductible_vat' => 'IVA dedutível',

@@ -1011,6 +1011,7 @@ return [
     'days_90' => '+90 Deeg',
     'cash_position' => 'Aktuell Positioun',
     'monthly_avg_expense' => 'Duerchschnëttlech monatlech Depensen',
+    'cashflow_excludes_bank_balance' => "Prognos vun haut un, ouni de Kontostand.",
     'vat_summary' => 'TVA Resumé :year',
     'collected_vat' => 'Ageholl TVA',
     'deductible_vat' => 'Ofzuchsfäeg TVA',

@@ -1011,6 +1011,7 @@ return [
     'days_90' => '+90 Tage',
     'cash_position' => 'Aktuelle Position',
     'monthly_avg_expense' => 'Durchschnittliche monatliche Ausgaben',
+    'cashflow_excludes_bank_balance' => "Prognose ab heute, ohne Kontostand.",
     'vat_summary' => 'MwSt.-Übersicht :year',
     'collected_vat' => 'Eingenommene MwSt.',
     'deductible_vat' => 'Abzugsfähige MwSt.',

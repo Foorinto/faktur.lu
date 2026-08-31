@@ -35,6 +35,18 @@ const props = defineProps({
     },
 });
 
+/**
+ * Le seuil de franchise ne concerne QUE les entreprises sous ce régime.
+ *
+ * Un assujetti l'a déjà franchi ou n'y a jamais été : lui montrer « 11,6 % —
+ * 44 176 € restant avant le seuil » annonce une échéance qui n'existe pas
+ * pour lui. Un client l'a signalé (2026-08-31). Le bandeau d'alerte, lui,
+ * vérifiait déjà le régime : la carte ne le faisait pas.
+ */
+const sousRegimeDeFranchise = computed(
+    () => props.franchiseAlert?.is_franchise_regime ?? false,
+);
+
 const selectedYear = ref(props.selectedYear);
 
 const hoveredMonth = ref(null);
@@ -336,7 +348,10 @@ const getStatusLabel = (status) => {
         <!-- Second Row: Progress Bars -->
         <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- VAT Franchise Threshold -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div
+                v-if="sousRegimeDeFranchise"
+                class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+            >
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('vat_franchise_threshold') }}
@@ -380,7 +395,14 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Simplified Accounting Threshold -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <!-- Seul en ligne quand la franchise ne s'applique pas : une carte
+                 orpheline sur une demi-largeur se lit comme un manque. -->
+            <div
+                :class="[
+                    'overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50',
+                    sousRegimeDeFranchise ? '' : 'lg:col-span-2',
+                ]"
+            >
                 <div class="p-6">
                     <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                         {{ t('simplified_accounting_threshold') }}

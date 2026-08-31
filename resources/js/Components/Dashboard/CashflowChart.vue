@@ -129,7 +129,15 @@ const summary = computed(() => forecastData.value.summary);
 
 const summaryCards = computed(() => {
     const cards = [
-        { label: t('cash_position'), value: summary.value.current, show: true },
+        // ⚠️ « Position actuelle » a été retirée. Elle n'a jamais rien dit
+        // d'utile : la prévision démarre à ZÉRO aujourd'hui — elle ne connaît
+        // pas le solde bancaire —, si bien que le jour 0 valait toujours à peu
+        // près « moins une journée de dépenses moyennes ». Un client l'a lue
+        // comme un découvert de 4 € alors qu'il avait 4 749 € d'encaissements
+        // (2026-08-31).
+        //
+        // Les trois horizons, eux, répondent à une vraie question : est-ce que
+        // ça passe le mois prochain ?
         { label: t('days_30'), value: summary.value.days_30, show: summary.value.days_30 !== null },
         { label: t('days_60'), value: summary.value.days_60, show: selectedPeriod.value >= 60 && summary.value.days_60 !== null },
         { label: t('days_90'), value: summary.value.days_90, show: selectedPeriod.value >= 90 && summary.value.days_90 !== null },
@@ -361,6 +369,15 @@ const summaryCards = computed(() => {
                     {{ t('monthly_avg_expense') }}: {{ formatCurrency(forecastData.totals.monthly_expense_average) }}
                 </span>
             </div>
+
+            <!--
+                Le vrai malentendu était là : la courbe part de zéro et
+                l'application ne connaît pas le compte en banque. Sans le dire,
+                les montants se lisent comme une position réelle.
+            -->
+            <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">
+                {{ t('cashflow_excludes_bank_balance') }}
+            </p>
         </div>
     </div>
 </template>
