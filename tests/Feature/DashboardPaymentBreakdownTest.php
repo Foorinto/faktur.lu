@@ -219,4 +219,71 @@ class DashboardPaymentBreakdownTest extends TestCase
         $this->get(route('invoices.index', ['payment_method' => 'wero']))
             ->assertSuccessful();
     }
+
+    /**
+     * ⚠️ Un acompte posé sur un BROUILLON ne compte pas encore.
+     *
+     * Depuis que la saisie est ouverte avant l'émission, un encaissement peut
+     * se rattacher à un document qui n'existe pas — et qu'on peut supprimer,
+     * emportant ses encaissements. Le chiffre disparaîtrait du livre de
+     * recettes après y avoir figuré.
+     *
+     * Il y entrera dès la facture émise, à sa vraie date de versement.
+     */
+    public function test_a_deposit_on_a_draft_is_not_counted_yet(): void
+    {
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $brouillon = Invoice::factory()->create([
+            'user_id' => $this->user->id,
+            'client_id' => $client->id,
+            'status' => Invoice::STATUS_DRAFT,
+            'finalized_at' => null,
+            'number' => null,
+            'total_ht' => 500, 'total_vat' => 0, 'total_ttc' => 500,
+        ]);
+        $brouillon->payments()->create([
+            'amount' => 500,
+            'paid_at' => now()->startOfYear()->addMonth()->toDateString(),
+            'method' => 'cash',
+        ]);
+
+        $this->get(route('dashboard'))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('encaissementsParMoyen.total', 0)
+                ->where('encaissementsParMoyen.lignes', [])
+            );
+    }
+
+    /**
+     * …et il y entre dès que la facture est émise, sans avoir à ressaisir quoi
+     * que ce soit.
+     */
+    public function test_the_same_deposit_counts_once_the_invoice_is_issued(): void
+    {
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $facture = Invoice::factory()->create([
+            'user_id' => $this->user->id,
+            'client_id' => $client->id,
+            'status' => Invoice::STATUS_DRAFT,
+            'finalized_at' => null,
+            'number' => null,
+            'total_ht' => 500, 'total_vat' => 0, 'total_ttc' => 500,
+        ]);
+        $facture->payments()->create([
+            'amount' => 500,
+            'paid_at' => now()->startOfYear()->addMonth()->toDateString(),
+            'method' => 'cash',
+        ]);
+
+        $facture->forceFill([
+            'status' => Invoice::STATUS_SENT,
+            'finalized_at' => now(),
+            'number' => 'FAC-2026-800',
+        ])->saveQuietly();
+
+        $this->get(route('dashboard'))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('encaissementsParMoyen.total', 500)
+            );
+    }
 }
