@@ -6,6 +6,7 @@ import RichTextEditor from '@/Components/RichTextEditor.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PaymentMethodsInput from '@/Components/PaymentMethodsInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import EncaissementsPanel from '@/Components/Invoices/EncaissementsPanel.vue';
 import VatScenarioIndicator from '@/Components/VatScenarioIndicator.vue';
 import ProductAutocomplete from '@/Components/ProductAutocomplete.vue';
 import FlagIcon from '@/Components/FlagIcon.vue';
@@ -31,6 +32,12 @@ const props = defineProps({
     clientVatScenario: Object,
     suggestedVatMention: String,
     vatScenarios: Object,
+    // Encaissements : l'acompte se saisit ici, sur le brouillon, avant que la
+    // facture n'existe. Après finalisation il ne paraîtrait plus sur le
+    // document.
+    payments: { type: Array, default: () => [] },
+    paymentSummary: { type: Object, default: () => ({ paid: 0, due: 0, deposit: null, is_partial: false, locked: false }) },
+    paymentMethods: { type: Array, default: () => [] },
 });
 
 const defaultVatRate = props.isVatExempt ? 0 : 17;
@@ -1139,6 +1146,23 @@ const openPreview = () => {
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!--
+                Encaissements du brouillon (FEAT-114).
+
+                C'est ICI que l'acompte se saisit : il est reçu à la signature
+                du devis, avant que la facture n'existe. Enregistré après la
+                finalisation, il resterait en comptabilité mais ne paraîtrait
+                plus sur le document.
+            -->
+            <div class="mt-6">
+                <EncaissementsPanel
+                    :invoice="invoice"
+                    :payments="payments"
+                    :payment-summary="paymentSummary"
+                    :payment-methods="paymentMethods"
+                />
             </div>
         </div>
     </AppLayout>

@@ -334,7 +334,7 @@ class InvoiceController extends Controller
             return redirect()->route('invoices.show', $invoice);
         }
 
-        $invoice->load(['client', 'items', 'discounts']);
+        $invoice->load(['client', 'items', 'discounts', 'payments']);
 
         $settings = BusinessSettings::getInstance();
         $vatService = app(VatCalculationService::class);
@@ -368,6 +368,27 @@ class InvoiceController extends Controller
             'clientVatScenario' => $clientVatScenario,
             'suggestedVatMention' => $suggestedVatMention,
             'vatScenarios' => VatCalculationService::getAllScenarios(),
+            // Encaissements : l'acompte se saisit sur le BROUILLON, et un
+            // brouillon s'ouvre ici, pas sur la page de consultation.
+            'payments' => $invoice->payments->map(fn ($p) => [
+                'id' => $p->id,
+                'amount' => (float) $p->amount,
+                'paid_at' => $p->paid_at?->format('Y-m-d'),
+                'method' => $p->method,
+                'method_label' => $p->methodLabel(),
+                'label' => $p->label,
+                'reference' => $p->reference,
+            ]),
+            'paymentSummary' => [
+                'paid' => $invoice->amountPaid(),
+                'due' => $invoice->amountDue(),
+                'deposit' => $invoice->depositAmount(),
+                'is_partial' => $invoice->isPartiallyPaid(),
+                'locked' => $invoice->isPaid(),
+            ],
+            'paymentMethods' => collect(InvoicePayment::METHODS)
+                ->map(fn ($m) => ['value' => $m, 'label' => __("app.payment_methods.{$m}")])
+                ->all(),
         ]);
     }
 

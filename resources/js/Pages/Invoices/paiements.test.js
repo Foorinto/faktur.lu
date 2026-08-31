@@ -16,7 +16,7 @@ import { resolve } from 'node:path';
  */
 
 const SOURCE = readFileSync(
-    resolve(process.cwd(), 'resources/js/Pages/Invoices/Show.vue'),
+    resolve(process.cwd(), 'resources/js/Components/Invoices/EncaissementsPanel.vue'),
     'utf8',
 );
 

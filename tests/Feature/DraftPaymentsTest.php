@@ -268,4 +268,33 @@ class DraftPaymentsTest extends TestCase
         $this->assertTrue($surBrouillon->fresh()->recorded_before_issue);
         $this->assertFalse($apresEmission->fresh()->recorded_before_issue);
     }
+
+    /**
+     * ⚠️ La question posée par l'auteur : et si le versement est DATÉ avant
+     * l'émission, mais saisi après ?
+     *
+     * Il ne paraît pas sur le document. La date du versement ne décide de rien
+     * — sinon il suffirait d'antidater un encaissement pour réécrire une
+     * facture déjà envoyée. C'est le moment de la SAISIE qui décide, et lui
+     * seul.
+     */
+    public function test_backdating_a_payment_does_not_reopen_a_sent_invoice(): void
+    {
+        $brouillon = $this->brouillon(1000);
+        $facture = app(FinalizeInvoiceAction::class)->execute($brouillon);
+
+        $avant = app(InvoicePdfService::class)->preview($facture->fresh());
+
+        // Saisi maintenant, mais daté d'avant l'émission.
+        $facture->payments()->create([
+            'amount' => 300,
+            'paid_at' => now()->subDays(30)->toDateString(),
+            'method' => 'transfer',
+        ]);
+
+        $this->assertSame([], $this->encaissementsDuPdf($facture));
+        $this->assertSame($avant, app(InvoicePdfService::class)->preview($facture->fresh()));
+        // La comptabilité, elle, l'enregistre.
+        $this->assertSame(300.0, $facture->fresh()->amountPaid());
+    }
 }
