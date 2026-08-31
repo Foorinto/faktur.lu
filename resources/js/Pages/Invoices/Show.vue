@@ -3,6 +3,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import BillingNav from "@/Components/BillingNav.vue";
 import FlagIcon from "@/Components/FlagIcon.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import axios from "axios";
 import { useTranslations } from "@/Composables/useTranslations";
@@ -1714,25 +1715,26 @@ const submitCreditNote = () => {
                                 class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                             />
                             <div class="mt-2 flex flex-wrap gap-2">
-                                <button
-                                    type="button"
-                                    @click="solderLaFacture"
-                                    class="inline-flex items-center rounded-lg border border-primary-200 bg-primary-50 px-2.5 py-1 text-xs font-medium text-primary-700 transition-colors hover:bg-primary-100 dark:border-primary-800 dark:bg-primary-900/30 dark:text-primary-300 dark:hover:bg-primary-900/50"
-                                >
+                                <SecondaryButton size="sm" @click="solderLaFacture">
+                                    <svg class="mr-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
                                     {{ t("payments_settle_shortcut") }}
-                                </button>
+                                </SecondaryButton>
                                 <!--
                                     Acompte annoncé sur le devis : proposé tant
                                     qu'aucun versement n'a été enregistré.
                                 -->
-                                <button
+                                <SecondaryButton
                                     v-if="acompteAttendu"
-                                    type="button"
+                                    size="sm"
                                     @click="saisirLAcompte"
-                                    class="inline-flex items-center rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/30 dark:text-amber-200 dark:hover:bg-amber-900/50"
                                 >
+                                    <svg class="mr-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
                                     {{ t("payments_deposit_shortcut", { amount: formatCurrency(acompteAttendu) }) }}
-                                </button>
+                                </SecondaryButton>
                             </div>
                             <p
                                 v-if="formEncaissement.errors.amount"

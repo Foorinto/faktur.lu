@@ -5,9 +5,13 @@ import { resolve } from "node:path";
 /**
  * Les deux raccourcis de saisie d'encaissement.
  *
- * Ils étaient rendus en texte souligné et se voyaient mal (retour de l'auteur,
- * 2026-08-31). Ce sont des actions : elles remplissent le champ montant
- * au-dessus, elles doivent se lire comme des boutons.
+ * Ils ont été rendus deux fois : d'abord en texte souligné (invisible), puis
+ * en pastilles colorées — qui « ressemblaient encore à des tags informatifs
+ * plutôt qu'à des boutons » (retour de l'auteur, 2026-08-31). Ce sont des
+ * actions : elles remplissent le champ montant au-dessus.
+ *
+ * D'où `SecondaryButton`, le bouton d'action du dépôt — fond blanc, bordure
+ * franche — plutôt qu'un style inventé sur place.
  *
  * ⚠️ Le raccourci d'acompte ne s'affiche que TANT QU'AUCUN versement n'existe.
  * Une fois l'acompte reçu, le proposer encore inviterait à le saisir deux fois.
@@ -31,19 +35,30 @@ const RACCOURCIS = (() => {
 })();
 
 describe("raccourcis de saisie d'un encaissement", () => {
-    it("présente « solder la facture » comme un bouton, pas comme un lien", () => {
-        expect(RACCOURCIS).toContain("rounded-lg border border-primary-200 bg-primary-50");
+    it("réutilise le bouton du dépôt plutôt qu'un style local", () => {
+        expect(RACCOURCIS).toContain("<SecondaryButton");
         expect(RACCOURCIS).not.toContain("hover:underline");
     });
 
-    it("distingue l'acompte du solde par la couleur", () => {
-        // Deux actions différentes : régler le reste dû, ou saisir l'acompte
-        // annoncé. Les rendre identiques ferait cliquer sur la mauvaise.
-        expect(RACCOURCIS).toContain("border-amber-200 bg-amber-50");
+    it("porte une icône sur CHACUN des deux boutons", () => {
+        // Un « + » : on ajoute un montant dans le champ, on ne lit pas une
+        // information. C'est ce qui distinguait mal les pastilles précédentes.
+        //
+        // Le compte, et pas la simple présence : vérifier « il y a une icône »
+        // passait encore quand l'un des deux boutons perdait la sienne.
+        const icones = RACCOURCIS.split("M12 4.5v15m7.5-7.5h-15").length - 1;
+
+        expect(icones).toBe(2);
     });
 
     it("n'affiche l'acompte que lorsqu'il est attendu", () => {
         expect(RACCOURCIS).toContain('v-if="acompteAttendu"');
+    });
+
+    it("importe le composant qu'il utilise", () => {
+        // Un composant non importé rend une balise inconnue : Vue n'échoue pas,
+        // il n'affiche simplement rien — et le bouton disparaîtrait en silence.
+        expect(SOURCE).toContain('import SecondaryButton from "@/Components/SecondaryButton.vue"');
     });
 
     it("annonce le montant de l'acompte dans le bouton", () => {
