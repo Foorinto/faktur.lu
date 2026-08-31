@@ -16,13 +16,16 @@ import { resolve } from "node:path";
  * ⚠️ Le raccourci d'acompte ne s'affiche que TANT QU'AUCUN versement n'existe.
  * Une fois l'acompte reçu, le proposer encore inviterait à le saisir deux fois.
  *
+ * Le bloc vit dans un composant depuis qu'il sert aussi la page d'édition :
+ * l'acompte se saisit sur le brouillon, et un brouillon s'ouvre là.
+ *
  * Ce test lit la source, comme MarketingLayout.footer.test.js : monter la page
  * exigerait Inertia, Ziggy et les traductions pour vérifier des classes CSS et
  * une condition d'affichage.
  */
 
 const SOURCE = readFileSync(
-    resolve(process.cwd(), "resources/js/Pages/Invoices/Show.vue"),
+    resolve(process.cwd(), "resources/js/Components/Invoices/EncaissementsPanel.vue"),
     "utf8",
 );
 

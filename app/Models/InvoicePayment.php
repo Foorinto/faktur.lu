@@ -37,6 +37,7 @@ class InvoicePayment extends Model
         'paid_at',
         'method',
         'label',
+        'recorded_before_issue',
         'reference',
     ];
 
@@ -45,7 +46,31 @@ class InvoicePayment extends Model
         return [
             'amount' => 'decimal:2',
             'paid_at' => 'date:Y-m-d',
+            'recorded_before_issue' => 'boolean',
         ];
+    }
+
+    /**
+     * Un encaissement sait, dès sa création, s'il était connu avant l'émission.
+     *
+     * La réponse est inscrite plutôt que déduite d'une comparaison
+     * d'horodatages : ceux-ci sont stockés à la seconde, et un règlement saisi
+     * juste après la finalisation aurait été indiscernable d'un acompte saisi
+     * juste avant. C'est elle qui décide de la présence sur le document.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (self $paiement) {
+            // Une valeur explicitement fournie est respectée — les tests s'en
+            // servent pour poser un acompte sans rejouer tout le cycle du
+            // brouillon. `exists` vaut false à la création : c'est la présence
+            // de l'attribut qu'il faut regarder, pas sa valeur.
+            if (array_key_exists('recorded_before_issue', $paiement->getAttributes())) {
+                return;
+            }
+
+            $paiement->recorded_before_issue = ! ($paiement->invoice?->isFinalized() ?? false);
+        });
     }
 
     public function invoice(): BelongsTo
