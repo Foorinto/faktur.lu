@@ -148,6 +148,8 @@ class QuoteController extends Controller
             'client_id' => $client->id,
             'currency' => $request->validated('currency') ?? $client->currency,
             'valid_until' => $request->validated('valid_until'),
+            'deposit_type' => $request->validated('deposit_type'),
+            'deposit_value' => $request->validated('deposit_value'),
             'notes' => $request->validated('notes'),
             'vat_mention' => $request->validated('vat_mention'),
             'custom_vat_mention' => $request->validated('custom_vat_mention'),

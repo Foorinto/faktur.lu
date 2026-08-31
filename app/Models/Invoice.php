@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
+    use \App\Support\AcompteDemande;
+
     use HasFactory, SoftDeletes, BelongsToUser, Auditable;
 
     public const STATUS_DRAFT = 'draft';
@@ -69,6 +71,8 @@ class Invoice extends Model
         'payment_reference',
         'currency',
         'exclude_from_reminders',
+        'deposit_type',
+        'deposit_value',
         'retention_guarantee_rate',
         'retention_guarantee_amount',
         'retention_release_date',

@@ -668,6 +668,30 @@
                         <span class="total-label" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ __('invoice.total') }}</span>
                         <span class="total-value" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ number_format($invoice->total_ttc ?? 0, 2, ',', ' ') }} €</span>
                     </div>
+                    {{--
+                        Encaissements déjà reçus (FEAT-114).
+
+                        ⚠️ Le bloc vit SOUS le total, jamais au-dessus : un
+                        acompte n'est pas une remise. Une remise réduirait la
+                        base taxable et donc la TVA ; ici le prix ne change pas,
+                        seul le moment du paiement change. Le total TTC et la
+                        TVA restent ceux de la prestation entière.
+                    --}}
+                    @if(count($encaissements ?? []) > 0)
+                        @foreach($encaissements as $encaissement)
+                            <div class="total-row" style="margin-top: 4px;">
+                                <span class="total-label">{{ $encaissement['libelle'] }}</span>
+                                <span class="total-value">- {{ number_format($encaissement['montant'], 2, ',', ' ') }} €</span>
+                            </div>
+                        @endforeach
+                        <div class="total-row" style="border-top: 2px solid #1e293b; padding-top: 8px; margin-top: 4px;">
+                            <span class="total-label" style="font-weight: 700; font-size: {{ $fontSize(11) }};">
+                                {{ ($resteAPayer ?? 0) > 0 ? __('invoice.remaining_due') : __('invoice.fully_paid') }}
+                            </span>
+                            <span class="total-value" style="font-weight: 700; font-size: {{ $fontSize(11) }};">{{ number_format($resteAPayer ?? 0, 2, ',', ' ') }} €</span>
+                        </div>
+                    @endif
+
                     @if($invoice->retention_guarantee_rate && $invoice->retention_guarantee_rate > 0)
                         <div class="total-row" style="margin-top: 8px;">
                             <span class="total-label">{{ __('invoice.retention_guarantee') }} ({{ number_format($invoice->retention_guarantee_rate, 0) }}%)</span>

@@ -38,6 +38,13 @@ return [
     'total' => 'Total (incl. VAT)',
     'net_total' => 'Amount Due',
 
+    'deposit_paid' => "Deposit paid on :date",
+    'payment_received' => "Payment received on :date",
+    'remaining_due' => "Balance due",
+    'fully_paid' => "Paid in full",
+    'deposit_requested' => "Deposit on order",
+    'deposit_balance' => "Balance on completion",
+    'deposit_notice' => "The deposit is payable to confirm the order and secure the appointment. It will be deducted from the amount due on the invoice.",
     // Payment
     'payment_terms' => 'Payment Terms',
     'payment_delay' => 'Payment Period',

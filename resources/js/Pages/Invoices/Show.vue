@@ -3,6 +3,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import BillingNav from "@/Components/BillingNav.vue";
 import FlagIcon from "@/Components/FlagIcon.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import axios from "axios";
 import { useTranslations } from "@/Composables/useTranslations";
@@ -39,6 +40,10 @@ const formEncaissement = useForm({
     amount: null,
     paid_at: "",
     method: null,
+    // Ce que la facture écrira. Laissé vide, le PDF déduit « Acompte versé
+    // le … » ou « Règlement du … » de la date, mais c'est un texte que le
+    // client lit : il doit rester au choix de l'utilisateur.
+    label: "",
     reference: "",
 });
 
@@ -58,6 +63,7 @@ const ouvrirSaisie = () => {
     formEncaissement.amount = null;
     formEncaissement.paid_at = todayLocal();
     formEncaissement.method = null;
+    formEncaissement.label = "";
     formEncaissement.reference = "";
     saisieOuverte.value = true;
 };
@@ -65,6 +71,22 @@ const ouvrirSaisie = () => {
 /** Raccourci : solder la facture en un clic, quand c'est bien l'intention. */
 const solderLaFacture = () => {
     formEncaissement.amount = props.paymentSummary.due;
+};
+
+/**
+ * Raccourci d'acompte, quand le devis en annonçait un.
+ *
+ * Ne s'affiche qu'avant tout encaissement : une fois qu'un versement existe,
+ * l'acompte a été reçu et le bouton n'a plus de sens.
+ */
+const acompteAttendu = computed(() => {
+    const acompte = props.paymentSummary.deposit;
+
+    return acompte && props.paymentSummary.paid === 0 ? acompte : null;
+});
+
+const saisirLAcompte = () => {
+    formEncaissement.amount = acompteAttendu.value;
 };
 
 const enregistrerEncaissement = () => {
@@ -88,6 +110,7 @@ const formCorrection = useForm({
     amount: null,
     paid_at: "",
     method: null,
+    label: "",
     reference: "",
 });
 
@@ -96,6 +119,7 @@ const ouvrirCorrection = (encaissement) => {
     formCorrection.amount = encaissement.amount;
     formCorrection.paid_at = encaissement.paid_at;
     formCorrection.method = encaissement.method;
+    formCorrection.label = encaissement.label || "";
     formCorrection.reference = encaissement.reference || "";
 };
 
@@ -1690,13 +1714,28 @@ const submitCreditNote = () => {
                                 required
                                 class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                             />
-                            <button
-                                type="button"
-                                @click="solderLaFacture"
-                                class="mt-1 text-xs text-primary-600 hover:underline dark:text-primary-400"
-                            >
-                                {{ t("payments_settle_shortcut") }}
-                            </button>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                <SecondaryButton size="sm" @click="solderLaFacture">
+                                    <svg class="mr-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    {{ t("payments_settle_shortcut") }}
+                                </SecondaryButton>
+                                <!--
+                                    Acompte annoncé sur le devis : proposé tant
+                                    qu'aucun versement n'a été enregistré.
+                                -->
+                                <SecondaryButton
+                                    v-if="acompteAttendu"
+                                    size="sm"
+                                    @click="saisirLAcompte"
+                                >
+                                    <svg class="mr-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    {{ t("payments_deposit_shortcut", { amount: formatCurrency(acompteAttendu) }) }}
+                                </SecondaryButton>
+                            </div>
                             <p
                                 v-if="formEncaissement.errors.amount"
                                 class="mt-1 text-xs text-red-600"
@@ -1742,6 +1781,22 @@ const submitCreditNote = () => {
                                     {{ m.label }}
                                 </option>
                             </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300"
+                                >{{ t("payments_label") }}</label
+                            >
+                            <input
+                                v-model="formEncaissement.label"
+                                type="text"
+                                maxlength="100"
+                                :placeholder="t('payments_label_placeholder')"
+                                class="mt-1 w-full rounded-xl border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                                {{ t("payments_label_help") }}
+                            </p>
                         </div>
                         <div>
                             <label
@@ -1869,6 +1924,19 @@ const submitCreditNote = () => {
                                                         {{ m.label }}
                                                     </option>
                                                 </select>
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-xs font-medium text-slate-600 dark:text-slate-400"
+                                                    >{{ t("payments_label") }}</label
+                                                >
+                                                <input
+                                                    v-model="formCorrection.label"
+                                                    type="text"
+                                                    maxlength="100"
+                                                    :placeholder="t('payments_label_placeholder')"
+                                                    class="mt-1 w-full rounded-xl border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                                                />
                                             </div>
                                             <div>
                                                 <label

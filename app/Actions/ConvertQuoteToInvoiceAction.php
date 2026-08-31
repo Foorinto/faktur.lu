@@ -37,6 +37,11 @@ class ConvertQuoteToInvoiceAction
                 'due_at' => now()->addDays(30),
                 'notes' => $quote->notes,
                 'currency' => $quote->currency,
+                // L'acompte demandé suit le devis : c'est lui qui a été
+                // annoncé au client, et c'est le montant que la facture
+                // proposera d'enregistrer une fois versé.
+                'deposit_type' => $quote->deposit_type,
+                'deposit_value' => $quote->deposit_value,
             ]);
 
             // Copy all items from the quote to the invoice

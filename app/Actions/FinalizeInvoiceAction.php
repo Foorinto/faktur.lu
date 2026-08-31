@@ -43,6 +43,24 @@ class FinalizeInvoiceAction
             ]);
         }
 
+        // L'existence de l'enregistrement ne suffit pas : une facture doit
+        // identifier son émetteur, et elle se conserve dix ans. Un
+        // enregistrement vide produirait un document sans en-tête, sans que
+        // rien ne le signale — constaté sur des données créées hors du
+        // formulaire (2026-08-29).
+        //
+        // Le contrôle porte volontairement sur le MINIMUM identifiant — un nom
+        // et une adresse — et non sur tous les champs exigés par le formulaire.
+        // Refuser sur un code postal manquant bloquerait un utilisateur qui
+        // facture aujourd'hui, pour un défaut qui ne rend pas le document
+        // anonyme.
+        $nom = trim((string) ($settings->company_name ?: $settings->legal_name));
+        if ($nom === '' || trim((string) $settings->address) === '') {
+            throw ValidationException::withMessages([
+                'settings' => 'Le nom et l\'adresse de votre entreprise doivent être renseignés avant de finaliser une facture.',
+            ]);
+        }
+
         return DB::transaction(function () use ($invoice, $settings, $issuedAt) {
             // Recalculate totals one last time
             $this->calculateTotals->execute($invoice);

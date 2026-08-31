@@ -36,6 +36,7 @@ class InvoicePayment extends Model
         'amount',
         'paid_at',
         'method',
+        'label',
         'reference',
     ];
 

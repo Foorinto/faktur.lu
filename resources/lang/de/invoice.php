@@ -38,6 +38,13 @@ return [
     'total' => 'Gesamtbetrag brutto',
     'net_total' => 'Zahlbetrag',
 
+    'deposit_paid' => "Anzahlung vom :date",
+    'payment_received' => "Zahlung vom :date",
+    'remaining_due' => "Restbetrag",
+    'fully_paid' => "Vollständig bezahlt",
+    'deposit_requested' => "Anzahlung bei Auftragserteilung",
+    'deposit_balance' => "Restbetrag bei Leistung",
+    'deposit_notice' => "Die Anzahlung ist zu leisten, um den Auftrag zu bestätigen und den Termin festzulegen. Sie wird auf der Rechnung angerechnet.",
     // Payment
     'payment_terms' => 'Zahlungsbedingungen',
     'payment_delay' => 'Zahlungsfrist',

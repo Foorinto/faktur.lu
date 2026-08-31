@@ -38,6 +38,13 @@ return [
     'total' => 'Total TTC',
     'net_total' => 'Net à payer',
 
+    'deposit_paid' => "Acompte versé le :date",
+    'payment_received' => "Règlement du :date",
+    'remaining_due' => "Reste à payer",
+    'fully_paid' => "Facture soldée",
+    'deposit_requested' => "Acompte à la commande",
+    'deposit_balance' => "Solde à la prestation",
+    'deposit_notice' => "L'acompte est à régler pour valider la commande et fixer le rendez-vous. Il sera déduit du montant à payer sur la facture.",
     // Payment
     'payment_terms' => 'Conditions de paiement',
     'payment_delay' => 'Délai de paiement',

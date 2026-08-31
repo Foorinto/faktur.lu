@@ -141,6 +141,49 @@ class InvoicePdfService
     }
 
     /**
+     * Encaissements à faire figurer sur la facture, du plus ancien au plus récent.
+     *
+     * Demande d'un client (2026-08-28) : il encaisse un acompte à la signature
+     * du devis, puis le solde le jour de la prestation, et n'établit qu'UNE
+     * facture — toute la TVA dessus. Ce que sa cliente doit lire, c'est
+     * « acompte versé le 12/09 : 300 € — reste à payer : 700 € ».
+     *
+     * ⚠️ Un acompte n'est pas une remise. Une remise réduirait la base taxable
+     * et donc la TVA déclarée ; le prix ne change pas, seul le moment du
+     * paiement change. D'où un bloc SOUS le total, jamais une ligne au-dessus.
+     *
+     * Le libellé peut être saisi ; sinon il se déduit de la date. Un
+     * encaissement antérieur à l'émission est un acompte — il a été reçu avant
+     * que la facture n'existe — les autres sont des règlements. La déduction
+     * couvre le cas courant sans rien imposer : le texte figure sur un document
+     * que le client lit, l'utilisateur doit pouvoir le choisir.
+     *
+     * @return array<int, array{libelle: string, montant: float}>
+     */
+    private function encaissementsAAfficher(Invoice $invoice): array
+    {
+        return $invoice->payments
+            ->sortBy('paid_at')
+            ->map(function ($paiement) use ($invoice) {
+                $date = $paiement->paid_at?->format('d/m/Y') ?? '';
+                $estAcompte = $invoice->issued_at
+                    && $paiement->paid_at
+                    && $paiement->paid_at->lt($invoice->issued_at);
+
+                return [
+                    // Le libellé saisi gagne : c'est un texte que le client
+                    // lira sur un document commercial, et la déduction par la
+                    // date ne peut pas connaître tous les usages.
+                    'libelle' => $paiement->label
+                        ?: __($estAcompte ? 'invoice.deposit_paid' : 'invoice.payment_received', ['date' => $date]),
+                    'montant' => round((float) $paiement->amount, 2),
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    /**
      * Prepare data for PDF template.
      * IMPORTANT: Uses snapshots for immutability.
      *
@@ -149,7 +192,7 @@ class InvoicePdfService
      */
     public function prepareData(Invoice $invoice, ?string $localeOverride = null): array
     {
-        $invoice->load('items', 'discounts');
+        $invoice->load('items', 'discounts', 'payments');
 
         $seller = $invoice->seller_snapshot ?? [];
         $buyer = $invoice->buyer_snapshot ?? [];
@@ -226,6 +269,10 @@ class InvoicePdfService
             'vatSummary' => $vatSummary,
             'discounts' => $invoice->discounts,
             'subtotalHt' => $documentTotals['subtotal_ht'],
+            // Encaissements déjà reçus, pour que le client lise « acompte
+            // versé » et « reste à payer » plutôt que de recalculer (FEAT-114).
+            'encaissements' => $this->encaissementsAAfficher($invoice),
+            'resteAPayer' => $invoice->amountDue(),
             'paymentReference' => $this->generatePaymentReference($invoice),
             'logoPath' => $logoPath,
             'pdfColor' => $pdfColor,
@@ -249,7 +296,7 @@ class InvoicePdfService
      */
     public function prepareDraftData(Invoice $invoice, ?string $localeOverride = null): array
     {
-        $invoice->load(['items', 'client', 'discounts']);
+        $invoice->load(['items', 'client', 'discounts', 'payments']);
 
         // Get current business settings for seller info
         $settings = \App\Models\BusinessSettings::getInstance();
@@ -354,6 +401,10 @@ class InvoicePdfService
 
         return [
             'invoice' => $invoice,
+            // Le brouillon rend le même gabarit : sans ces clés, l'aperçu
+            // mentirait sur ce que la facture finalisée montrera.
+            'encaissements' => $this->encaissementsAAfficher($invoice),
+            'resteAPayer' => $invoice->amountDue(),
             'seller' => $seller,
             'buyer' => $buyer,
             'items' => $invoice->items,
