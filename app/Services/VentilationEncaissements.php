@@ -50,11 +50,31 @@ class VentilationEncaissements
      *
      * `InvoicePayment` ne porte pas de portée globale : sans ce `whereHas`, la
      * ventilation additionnerait les encaissements de tout le monde.
+     *
+     * Le `user_id` explicite fait double emploi avec la portée globale de
+     * `Invoice` tant qu'on interroge pour l'utilisateur connecté — une mutation
+     * l'a confirmé. Il reste parce qu'il rend le service indépendant de la
+     * session : une tâche planifiée ou un export pour un autre compte
+     * n'auraient pas cette portée.
      */
     private function requete(int $userId)
     {
         return InvoicePayment::query()
-            ->whereHas('invoice', fn ($q) => $q->where('user_id', $userId));
+            ->whereHas('invoice', fn ($q) => $q
+                ->where('user_id', $userId)
+                // ⚠️ Les brouillons sont écartés. Depuis que l'acompte se
+                // saisit avant l'émission, un encaissement peut être rattaché
+                // à un document qui n'existe pas encore — et qui peut être
+                // supprimé, emportant ses encaissements avec lui. Le chiffre
+                // disparaîtrait alors du livre de recettes après y avoir figuré.
+                //
+                // L'acompte y entre dès que la facture est émise, à sa vraie
+                // date de versement : on perd quelques jours de visibilité, on
+                // gagne un livre de recettes qui ne se contredit pas. La liste
+                // des factures, juste à côté, ne compte elle non plus que des
+                // documents émis.
+                ->whereNotNull('finalized_at')
+            );
     }
 
     /**
