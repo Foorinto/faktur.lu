@@ -49,20 +49,6 @@ class BrandNameReachesThePagesTest extends TestCase
             ->assertSee('apple-mobile-web-app-title" content="kolux.lu', false);
     }
 
-    /**
-     * ⚠️ Ce qui NE doit pas encore suivre : la prose des traductions. Ce test
-     * documente la limite plutôt que de la laisser deviner. Il tombera le jour
-     * où le remplacement mécanique sera fait, et ce sera le signal que l'étape
-     * est terminée.
-     */
-    public function test_prose_still_carries_the_old_name(): void
-    {
-        $this->assertStringContainsString(
-            'faktur.lu',
-            file_get_contents(resource_path('lang/fr/app.php')),
-            "Si ce test échoue, la prose a été traitée : retirez-le."
-        );
-    }
 
     /**
      * Aucun gabarit ne doit plus écrire le nom comme une VALEUR.

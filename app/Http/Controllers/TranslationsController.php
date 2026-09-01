@@ -58,7 +58,13 @@ class TranslationsController extends Controller
         // traduction ne changeait alors plus l'empreinte : le navigateur gardait
         // l'ancien fichier et affichait la clé brute. Cinq `filemtime` par
         // requête coûtent moins qu'une classe entière de bugs de cache.
-        $empreintes = [];
+        // ⚠️ Le NOM DE LA MARQUE entre dans l'empreinte. Les traductions
+        // portent le marqueur `:app`, rempli au moment de produire le JSON :
+        // le contenu servi dépend donc du nom autant que des fichiers. Sans
+        // cette ligne, un changement de dénomination ne changerait ni
+        // l'empreinte, ni l'URL, ni le cache — et le navigateur continuerait
+        // d'afficher l'ancien nom, un an durant, le cache étant immuable.
+        $empreintes = [(string) config('marque.nom')];
 
         foreach (self::LOCALES as $locale) {
             $chemin = lang_path("{$locale}/app.php");

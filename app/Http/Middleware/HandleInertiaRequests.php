@@ -238,7 +238,7 @@ class HandleInertiaRequests extends Middleware
     public static function translationsFor(string $locale): array
     {
         if (isset(self::$translationsCache[$locale])) {
-            return self::$translationsCache[$locale];
+            return ['app' => self::remplacerLaMarque(self::$translationsCache[$locale])];
         }
 
         $appPath = lang_path("{$locale}/app.php");
@@ -281,6 +281,33 @@ class HandleInertiaRequests extends Middleware
             }
         }
 
-        return self::$translationsCache[$locale] = ['app' => $translations];
+        // Le nom de la marque est rempli ici, avant l'envoi au navigateur.
+        //
+        // Côté serveur c'est le traducteur qui s'en charge ; côté client, les
+        // traductions partent en JSON et `useTranslations` ne remplace un
+        // marqueur que si un paramètre lui est passé. Sans cette substitution,
+        // « :app » s'afficherait en clair dans l'interface.
+        self::$translationsCache[$locale] = $translations;
+
+        return ['app' => self::remplacerLaMarque($translations)];
+    }
+
+    /**
+     * Remplace `:app` par le nom de la marque, à tous les niveaux du tableau.
+     *
+     * @param  array<string, mixed>  $traductions
+     * @return array<string, mixed>
+     */
+    private static function remplacerLaMarque(array $traductions): array
+    {
+        $nom = (string) config('marque.nom');
+
+        array_walk_recursive($traductions, function (&$valeur) use ($nom) {
+            if (is_string($valeur) && str_contains($valeur, ':app')) {
+                $valeur = str_replace(':app', $nom, $valeur);
+            }
+        });
+
+        return $traductions;
     }
 }
