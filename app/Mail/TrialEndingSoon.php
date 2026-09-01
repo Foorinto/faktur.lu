@@ -32,7 +32,7 @@ class TrialEndingSoon extends Mailable implements ShouldQueue
         return new Envelope(
             subject: __('app.mail_subject_trial_ending_soon', [
                 'days' => $this->daysRemaining,
-                'app' => 'faktur.lu',
+                'app' => config('marque.nom'),
             ]),
         );
     }

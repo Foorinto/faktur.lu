@@ -38,7 +38,7 @@ class HomepageStructuredData
             '@context' => 'https://schema.org',
             '@type' => ['Organization', 'LocalBusiness'],
             '@id' => "$appUrl/#organization",
-            'name' => 'faktur.lu',
+            'name' => config('marque.nom'),
             'alternateName' => ['Faktur.lu', 'Faktur'],
             'identifier' => [
                 '@type' => 'PropertyValue',
@@ -89,8 +89,7 @@ class HomepageStructuredData
             'currenciesAccepted' => 'EUR',
             'paymentAccepted' => 'Credit Card, SEPA',
             'sameAs' => [
-                'https://www.linkedin.com/company/faktur-lu/',
-                'https://www.trustpilot.com/review/faktur.lu',
+                ...config('marque.reseaux'),
                 'https://www.wikidata.org/wiki/Q139674760',
             ],
         ];
@@ -99,7 +98,7 @@ class HomepageStructuredData
             '@context' => 'https://schema.org',
             '@type' => 'SoftwareApplication',
             '@id' => "$appUrl/#software",
-            'name' => 'faktur.lu',
+            'name' => config('marque.nom'),
             'alternateName' => 'Faktur',
             'description' => $t('schema_software_description'),
             'applicationCategory' => 'BusinessApplication',

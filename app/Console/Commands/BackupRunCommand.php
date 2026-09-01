@@ -94,7 +94,7 @@ class BackupRunCommand extends Command
     protected function sendNotification(string $type, array $data): void
     {
         $email = config('backup.notification_email');
-        $appName = config('app.name', 'faktur.lu');
+        $appName = config('marque.nom');
 
         if ($type === 'success') {
             Mail::raw(

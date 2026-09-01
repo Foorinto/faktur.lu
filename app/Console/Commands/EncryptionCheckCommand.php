@@ -74,7 +74,7 @@ class EncryptionCheckCommand extends Command
             return;
         }
 
-        $application = config('app.name', 'faktur.lu');
+        $application = config('marque.nom');
 
         try {
             Mail::raw(

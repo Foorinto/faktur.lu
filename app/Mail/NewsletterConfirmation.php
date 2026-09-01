@@ -23,7 +23,7 @@ class NewsletterConfirmation extends Mailable implements ShouldQueue
         app()->setLocale($this->subscriber->locale ?? app()->getLocale());
 
         return new Envelope(
-            subject: __('app.mail_subject_newsletter_confirmation', ['app' => 'faktur.lu']),
+            subject: __('app.mail_subject_newsletter_confirmation', ['app' => config('marque.nom')]),
         );
     }
 

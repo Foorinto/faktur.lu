@@ -135,8 +135,8 @@ class AccountantExportController extends Controller
         $header->addChild('AuditFileVersion', '2.01');
         $header->addChild('AuditFileCountry', 'LU');
         $header->addChild('AuditFileDateCreated', now()->format('Y-m-d'));
-        $header->addChild('SoftwareCompanyName', 'faktur.lu');
-        $header->addChild('SoftwareID', 'faktur.lu');
+        $header->addChild('SoftwareCompanyName', config('marque.nom'));
+        $header->addChild('SoftwareID', config('marque.nom'));
         $header->addChild('SoftwareVersion', '1.0');
 
         // Company
