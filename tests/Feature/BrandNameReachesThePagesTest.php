@@ -63,4 +63,51 @@ class BrandNameReachesThePagesTest extends TestCase
             "Si ce test échoue, la prose a été traitée : retirez-le."
         );
     }
+
+    /**
+     * Aucun gabarit ne doit plus écrire le nom comme une VALEUR.
+     *
+     * Ce test manquait, et c'est pour cela que j'ai livré deux fois « c'est
+     * fait » alors qu'il restait des métadonnées de partage, un attribut alt et
+     * une dizaine de fils d'Ariane. Vérifier fichier par fichier ne dit rien de
+     * ce qu'on n'a pas pensé à regarder.
+     *
+     * Il ne vise QUE les formes où le nom est une valeur d'attribut ou de
+     * champ. La prose des traductions reste hors de portée, volontairement.
+     */
+    public function test_no_template_hardcodes_the_brand_as_a_value(): void
+    {
+        $motifs = [
+            'content="faktur.lu"',
+            'content="@fakturlu"',
+            'alt="faktur.lu"',
+            "'name': 'faktur.lu'",
+            '"name": "faktur.lu"',
+            "name: 'faktur.lu'",
+        ];
+
+        $coupables = [];
+
+        foreach (['resources/js', 'resources/views'] as $racine) {
+            $fichiers = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator(base_path($racine))
+            );
+
+            foreach ($fichiers as $fichier) {
+                if (! $fichier->isFile() || ! preg_match('/\.(vue|blade\.php)$/', $fichier->getFilename())) {
+                    continue;
+                }
+
+                $contenu = file_get_contents($fichier->getPathname());
+
+                foreach ($motifs as $motif) {
+                    if (str_contains($contenu, $motif)) {
+                        $coupables[] = str_replace(base_path().'/', '', $fichier->getPathname()).' : '.$motif;
+                    }
+                }
+            }
+        }
+
+        $this->assertSame([], $coupables, "Le nom est écrit en dur ici :\n".implode("\n", $coupables));
+    }
 }

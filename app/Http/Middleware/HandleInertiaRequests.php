@@ -124,6 +124,8 @@ class HandleInertiaRequests extends Middleware
                 'nom' => config('marque.nom'),
                 'domaine' => config('marque.domaine'),
                 'url' => config('app.url'),
+                'compte_social' => config('marque.compte_social'),
+                'email_contact' => config('marque.email_contact'),
             ],
             // Guard explicite : cette charge décrit un compte utilisateur de
             // l'application, avec son plan et son essai. Le portail comptable

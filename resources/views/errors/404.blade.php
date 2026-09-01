@@ -128,7 +128,7 @@
 <body>
     <nav class="nav">
         <a href="/{{ $locale }}" aria-label="faktur.lu">
-            <img src="/images/logo.png" alt="faktur.lu" />
+            <img src="/images/logo.png" alt="{{ config('marque.nom') }}" />
         </a>
     </nav>
     <main class="main">

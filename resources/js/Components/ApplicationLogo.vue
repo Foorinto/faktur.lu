@@ -1,4 +1,8 @@
 <script setup>
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 defineProps({
     size: {
         type: String,
@@ -22,7 +26,7 @@ const logoNaturalHeight = 374;
 <template>
     <img
         src="/images/logo.png"
-        alt="faktur.lu"
+        :alt="marqueNom"
         :width="logoNaturalWidth"
         :height="logoNaturalHeight"
         :class="['w-auto', heightClasses[size]]"

@@ -27,5 +27,9 @@ export function useMarque() {
         domaine: computed(() => marque.value.domaine ?? "faktur.lu"),
         /** URL publique, pour les liens absolus des données structurées. */
         url: computed(() => marque.value.url ?? "https://faktur.lu"),
+        /** Identifiant sur X, cité dans les métadonnées de partage. */
+        compteSocial: computed(() => marque.value.compte_social ?? "@fakturlu"),
+        /** Adresse de contact publiée sur le site. */
+        emailContact: computed(() => marque.value.email_contact ?? "contact@faktur.lu"),
     };
 }

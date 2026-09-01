@@ -39,6 +39,10 @@ return [
     // moteurs de recherche. Ils ne se déduisent PAS du domaine : l'identifiant
     // d'un profil LinkedIn est ce qu'il est. Ils figurent ici pour que le
     // changement de nom ne demande de relire qu'un seul fichier.
+    // Identifiant sur X, cité dans les métadonnées de partage. Ne se déduit
+    // pas non plus du domaine.
+    'compte_social' => env('BRAND_SOCIAL_HANDLE', '@fakturlu'),
+
     'reseaux' => [
         'https://www.linkedin.com/company/faktur-lu/',
         'https://www.trustpilot.com/review/faktur.lu',

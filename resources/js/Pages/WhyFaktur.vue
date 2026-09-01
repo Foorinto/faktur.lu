@@ -5,6 +5,10 @@ import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -65,11 +69,11 @@ const schemaWhyFaktur = computed(() => JSON.stringify({
         "description": t('why_faktur.meta_description'),
         "author": {
             "@type": "Organization",
-            "name": "faktur.lu"
+            "name": marqueNom.value
         },
         "publisher": {
             "@type": "Organization",
-            "name": "faktur.lu"
+            "name": marqueNom.value
         }
     }
 }));

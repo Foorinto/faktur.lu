@@ -9,7 +9,7 @@ import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useMarque } from "@/Composables/useMarque";
 
-const { url: marqueUrl } = useMarque();
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const { t } = useTranslations();
@@ -35,7 +35,7 @@ const breadcrumbSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     'itemListElement': [
-        { '@type': 'ListItem', 'position': 1, 'name': 'faktur.lu', 'item': appUrl.value },
+        { '@type': 'ListItem', 'position': 1, 'name': marqueNom.value, 'item': appUrl.value },
         { '@type': 'ListItem', 'position': 2, 'name': 'Blog', 'item': `${appUrl.value}/${currentLocale()}/blog` },
         ...(props.post.category ? [{
             '@type': 'ListItem',
@@ -57,14 +57,14 @@ const breadcrumbSchema = computed(() => ({
 const authorSchema = computed(() => ({
     '@type': 'Organization',
     '@id': `${appUrl.value}/#organization`,
-    'name': 'faktur.lu',
+    'name': marqueNom.value,
     'url': appUrl.value,
 }));
 
 const publisherSchema = computed(() => ({
     '@type': 'Organization',
     '@id': `${appUrl.value}/#organization`,
-    'name': 'faktur.lu',
+    'name': marqueNom.value,
     'url': appUrl.value,
     'logo': {
         '@type': 'ImageObject',

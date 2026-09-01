@@ -8,7 +8,7 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useMarque } from "@/Composables/useMarque";
 
-const { url: marqueUrl } = useMarque();
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
@@ -89,7 +89,7 @@ const breadcrumbSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     'itemListElement': [
-        { '@type': 'ListItem', 'position': 1, 'name': 'faktur.lu', 'item': appUrl.value },
+        { '@type': 'ListItem', 'position': 1, 'name': marqueNom.value, 'item': appUrl.value },
         { '@type': 'ListItem', 'position': 2, 'name': t('glossary.breadcrumb'), 'item': glossaryUrl.value },
     ],
 }));
@@ -105,7 +105,7 @@ const definedTermSetSchema = computed(() => ({
     'publisher': {
         '@type': 'Organization',
         '@id': `${appUrl.value}/#organization`,
-        'name': 'faktur.lu',
+        'name': marqueNom.value,
     },
     'hasDefinedTerm': terms.value.map((term) => {
         const node = {
@@ -133,7 +133,7 @@ const webPageSchema = computed(() => ({
     'isPartOf': {
         '@type': 'WebSite',
         '@id': `${appUrl.value}/#website`,
-        'name': 'faktur.lu',
+        'name': marqueNom.value,
         'url': appUrl.value,
     },
     'mainEntity': { '@id': `${glossaryUrl.value}#set` },

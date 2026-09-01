@@ -7,7 +7,7 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useMarque } from "@/Composables/useMarque";
 
-const { url: marqueUrl } = useMarque();
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -68,7 +68,7 @@ const schemaBreadcrumb = computed(() => JSON.stringify({
         {
             "@type": "ListItem",
             "position": 1,
-            "name": "faktur.lu",
+            "name": marqueNom.value,
             "item": appUrl.value,
         },
         {

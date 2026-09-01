@@ -8,7 +8,7 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useMarque } from "@/Composables/useMarque";
 
-const { url: marqueUrl } = useMarque();
+const { emailContact: marqueEmailContact, nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -18,7 +18,7 @@ const schemaBreadcrumb = computed(() => JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "faktur.lu", "item": appUrl.value },
+        { "@type": "ListItem", "position": 1, "name": marqueNom.value, "item": appUrl.value },
         { "@type": "ListItem", "position": 2, "name": t('contact.breadcrumb') },
     ],
 }));
@@ -98,7 +98,7 @@ const submit = () => {
                                 </div>
                                 <div>
                                     <h3 class="font-semibold text-slate-900">{{ t('contact.info.email_title') }}</h3>
-                                    <p class="text-slate-600">support@faktur.lu</p>
+                                    <p class="text-slate-600">{{ marqueEmailContact }}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-4">

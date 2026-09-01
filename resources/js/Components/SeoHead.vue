@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useMarque } from "@/Composables/useMarque";
 
-const { url: marqueUrl } = useMarque();
+const { compteSocial: marqueCompteSocial, nom: marqueNom, url: marqueUrl } = useMarque();
 
 const props = defineProps({
     title: {
@@ -185,7 +185,7 @@ const ogImage = computed(() => {
             property="og:locale:alternate"
             :content="altLocale"
         />
-        <meta property="og:site_name" content="faktur.lu" />
+        <meta property="og:site_name" :content="marqueNom" />
 
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
@@ -193,7 +193,7 @@ const ogImage = computed(() => {
         <meta v-if="description" name="twitter:description" :content="description" />
         <meta name="twitter:image" :content="ogImage" />
         <meta name="twitter:image:alt" :content="title" />
-        <meta name="twitter:site" content="@fakturlu" />
+        <meta name="twitter:site" :content="marqueCompteSocial" />
 
         <!-- AI / LLM hints -->
         <link rel="alternate" type="text/markdown" :title="`${title} - LLM-friendly version`" href="/llms.txt" />

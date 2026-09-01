@@ -5,6 +5,10 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { compteSocial: marqueCompteSocial, nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
@@ -242,7 +246,7 @@ const toggleFaq = (index) => {
         <meta property="og:locale:alternate" content="en_GB" />
         <meta property="og:locale:alternate" content="lb_LU" />
         <meta property="og:locale:alternate" content="pt_PT" />
-        <meta property="og:site_name" content="faktur.lu" />
+        <meta property="og:site_name" :content="marqueNom" />
 
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image" />
@@ -251,7 +255,7 @@ const toggleFaq = (index) => {
         <meta name="twitter:description" :content="metaDescription" />
         <meta name="twitter:image" :content="`${appUrl}/images/og-image.png`" />
         <meta name="twitter:image:alt" :content="pageTitle" />
-        <meta name="twitter:site" content="@fakturlu" />
+        <meta name="twitter:site" :content="marqueCompteSocial" />
 
         <!-- AI / LLM hint -->
         <link rel="alternate" type="text/markdown" title="LLM-friendly version" href="/llms.txt" />
