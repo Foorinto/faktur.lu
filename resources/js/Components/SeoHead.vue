@@ -2,6 +2,9 @@
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { url: marqueUrl } = useMarque();
 
 const props = defineProps({
     title: {
@@ -57,7 +60,7 @@ const props = defineProps({
 const page = usePage();
 const { currentLocale, availableLocales, getAlternateUrls } = useLocalizedRoute();
 
-const appUrl = computed(() => page.props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => page.props.appUrl || marqueUrl.value);
 const locale = computed(() => currentLocale());
 
 // Map locale codes to full locale strings for og:locale

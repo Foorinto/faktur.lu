@@ -16,5 +16,5 @@
 @endif
 
 {{ __('app.email_closing') }}
-faktur.lu
+{{ config('marque.nom') }}
 </x-mail::message>

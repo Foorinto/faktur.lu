@@ -34,7 +34,7 @@
                 $pathWithoutLocale = '/' . implode('/', array_slice($segments, 1));
                 $pathWithoutLocale = rtrim($pathWithoutLocale, '/');
                 $slugAfterLocale = ltrim($pathWithoutLocale, '/');
-                $base = rtrim(config('app.url') ?: 'https://faktur.lu', '/');
+                $base = rtrim(config('app.url') ?: 'https://'.config('marque.domaine'), '/');
                 $canSafelyEmitHreflang = in_array($slugAfterLocale, $slugStableRoutes, true);
             }
         @endphp
@@ -55,7 +55,7 @@
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta name="apple-mobile-web-app-title" content="faktur.lu" />
+        <meta name="apple-mobile-web-app-title" content="{{ config('marque.nom') }}" />
         <link rel="manifest" href="/site.webmanifest" />
 
         <!-- Fonts : preconnect + preload de la CSS pour la rendre non-bloquante.

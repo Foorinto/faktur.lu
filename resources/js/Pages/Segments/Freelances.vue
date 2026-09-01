@@ -7,11 +7,14 @@ import SectorInterestForm from '@/Components/SectorInterestForm.vue';
 import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const page = usePage();
-const appUrl = computed(() => page.props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => page.props.appUrl || marqueUrl.value);
 
 const pains = computed(() => [
     { key: 'admin', icon: 'doc' },
@@ -39,7 +42,7 @@ const schemas = computed(() => [
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'faktur.lu', item: appUrl.value + '/' + currentLocale() + '/' },
+            { '@type': 'ListItem', position: 1, name: marqueNom.value, item: appUrl.value + '/' + currentLocale() + '/' },
             { '@type': 'ListItem', position: 2, name: t('for_freelances.breadcrumb') },
         ],
     },
@@ -60,7 +63,7 @@ const schemas = computed(() => [
         provider: {
             '@type': 'Organization',
             '@id': appUrl.value + '/#organization',
-            name: 'faktur.lu',
+            name: marqueNom.value,
             url: appUrl.value + '/',
             sameAs: ['https://www.wikidata.org/wiki/Q139674760'],
         },

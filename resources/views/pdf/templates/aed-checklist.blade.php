@@ -251,7 +251,7 @@
 </div>
 
 <div class="footer">
-    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> - {{ $tr['footer'] }}
+    <a href="https://{{ config('marque.domaine') }}" class="powered-by">{{ config('marque.nom') }}</a> - {{ $tr['footer'] }}
 </div>
 </body>
 </html>

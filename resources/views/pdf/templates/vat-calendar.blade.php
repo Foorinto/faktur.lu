@@ -212,7 +212,7 @@
 </div>
 
 <div class="footer">
-    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> - {{ $T['footer'] }}
+    <a href="https://{{ config('marque.domaine') }}" class="powered-by">{{ config('marque.nom') }}</a> - {{ $T['footer'] }}
 </div>
 </body>
 </html>

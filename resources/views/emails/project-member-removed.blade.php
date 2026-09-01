@@ -6,5 +6,5 @@
 {{ __('app.email_project_member_removed_body', ['project' => $project->title]) }}
 
 {{ __('app.email_closing') }}
-faktur.lu
+{{ config('marque.nom') }}
 </x-mail::message>

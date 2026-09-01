@@ -6,10 +6,13 @@ import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
-const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => usePage().props.appUrl || marqueUrl.value);
 const glossaryUrl = computed(() => `${appUrl.value}/${currentLocale()}/${t('glossary.slug')}`);
 
 // 50 terms - ordered alphabetically. Each translation key returns name + description.

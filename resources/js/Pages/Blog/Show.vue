@@ -7,6 +7,9 @@ import SeoHead from '@/Components/SeoHead.vue';
 import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useMarque } from "@/Composables/useMarque";
+
+const { url: marqueUrl } = useMarque();
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const { t } = useTranslations();
@@ -16,7 +19,7 @@ const props = defineProps({
     relatedPosts: Array,
 });
 
-const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => usePage().props.appUrl || marqueUrl.value);
 const postUrl = computed(() => `${appUrl.value}/${currentLocale()}/blog/${props.post.slug}`);
 
 const stripHtml = (html) => (html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();

@@ -114,6 +114,17 @@ class HandleInertiaRequests extends Middleware
 
         return [
             ...parent::share($request),
+            // Identité de la marque, partagée à toutes les pages.
+            //
+            // Un changement de dénomination est engagé. Le nom vient du serveur
+            // plutôt que de `VITE_APP_NAME`, qui est figé dans le bundle au
+            // moment de la compilation : le jour du changement, une variable
+            // d'environnement suffira, sans recompiler pour ces valeurs.
+            'marque' => [
+                'nom' => config('marque.nom'),
+                'domaine' => config('marque.domaine'),
+                'url' => config('app.url'),
+            ],
             // Guard explicite : cette charge décrit un compte utilisateur de
             // l'application, avec son plan et son essai. Le portail comptable
             // s'authentifie sur un autre guard, sur un modèle qui ne connaît

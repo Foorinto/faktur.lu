@@ -5,6 +5,9 @@ import SeoHead from '@/Components/SeoHead.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -15,7 +18,7 @@ const props = defineProps({
 });
 
 const page = usePage();
-const appUrl = computed(() => page.props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => page.props.appUrl || marqueUrl.value);
 
 // FAQ toggle
 const openFaq = ref(null);
