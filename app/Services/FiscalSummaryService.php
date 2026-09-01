@@ -10,6 +10,8 @@ use App\Models\InvoiceItem;
 
 class FiscalSummaryService
 {
+    use \App\Support\VentileLaTvaParTaux;
+
     /**
      * Form 152 category labels (Luxembourg).
      */
@@ -150,9 +152,12 @@ class FiscalSummaryService
             $byMonth[$m] = round((float) ($monthly[$m] ?? 0), 2);
         }
 
-        // VAT breakdown by rate
-        $invoiceIds = (clone $invoices)->pluck('id')->toArray();
-        $vatBreakdown = $this->getVatBreakdownByRate($invoiceIds);
+        // VAT breakdown by rate.
+        // ⚠️ Les lignes ET les remises : une remise globale n'existe pas dans
+        // les lignes, et la sommer sans elle gonflait la base déclarée.
+        $vatBreakdown = $this->ventilationTvaParTaux(
+            (clone $invoices)->with(['items', 'discounts'])->get()
+        );
 
         return [
             'total_ht' => round((float) $totals->total_ht, 2),
@@ -233,27 +238,4 @@ class FiscalSummaryService
         return $this->dashboardService->getVatSummary($year);
     }
 
-    /**
-     * VAT breakdown by rate from invoice items.
-     */
-    protected function getVatBreakdownByRate(array $invoiceIds): array
-    {
-        if (empty($invoiceIds)) {
-            return [];
-        }
-
-        return InvoiceItem::whereIn('invoice_id', $invoiceIds)
-            ->select('vat_rate')
-            ->selectRaw('SUM(total_ht) as total_ht')
-            ->selectRaw('SUM(total_vat) as total_vat')
-            ->groupBy('vat_rate')
-            ->orderByDesc('vat_rate')
-            ->get()
-            ->map(fn ($item) => [
-                'rate' => (float) $item->vat_rate,
-                'base' => round((float) $item->total_ht, 2),
-                'amount' => round((float) $item->total_vat, 2),
-            ])
-            ->toArray();
-    }
 }

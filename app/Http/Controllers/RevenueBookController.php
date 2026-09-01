@@ -17,6 +17,8 @@ use Inertia\Response;
 
 class RevenueBookController extends Controller
 {
+    use \App\Support\VentileLaTvaParTaux;
+
     /**
      * Display the revenue book.
      */
@@ -39,7 +41,10 @@ class RevenueBookController extends Controller
         }
 
         $invoices = Invoice::query()
-            ->with('client')
+            // `vat_breakdown` lit les lignes ET les remises de chaque facture :
+            // sans chargement anticipé, un exercice complet ferait deux requêtes
+            // par facture.
+            ->with(['client', 'items', 'discounts'])
             ->where('status', Invoice::STATUS_PAID)
             ->whereNotNull('paid_at')
             ->whereDate('paid_at', '>=', $startDate)
@@ -56,7 +61,7 @@ class RevenueBookController extends Controller
         ];
 
         // Get VAT breakdown from invoice items
-        $vatBreakdown = $this->getVatBreakdown($invoices->pluck('id')->toArray());
+        $vatBreakdown = $this->ventilationTvaParTaux($invoices);
 
         // Get available years for quick selection
         $years = Invoice::query()
@@ -100,7 +105,10 @@ class RevenueBookController extends Controller
         $endDate = $request->input('end_date', Carbon::now()->endOfYear()->format('Y-m-d'));
 
         $invoices = Invoice::query()
-            ->with('client')
+            // `vat_breakdown` lit les lignes ET les remises de chaque facture :
+            // sans chargement anticipé, un exercice complet ferait deux requêtes
+            // par facture.
+            ->with(['client', 'items', 'discounts'])
             ->where('status', Invoice::STATUS_PAID)
             ->whereNotNull('paid_at')
             ->whereDate('paid_at', '>=', $startDate)
@@ -115,7 +123,7 @@ class RevenueBookController extends Controller
             'count' => $invoices->count(),
         ];
 
-        $vatBreakdown = $this->getVatBreakdown($invoices->pluck('id')->toArray());
+        $vatBreakdown = $this->ventilationTvaParTaux($invoices);
 
         // Get business settings for header
         $settings = \App\Models\BusinessSettings::first();
@@ -157,7 +165,10 @@ class RevenueBookController extends Controller
         $endDate = $request->input('end_date', Carbon::now()->endOfYear()->format('Y-m-d'));
 
         $invoices = Invoice::query()
-            ->with('client')
+            // `vat_breakdown` lit les lignes ET les remises de chaque facture :
+            // sans chargement anticipé, un exercice complet ferait deux requêtes
+            // par facture.
+            ->with(['client', 'items', 'discounts'])
             ->where('status', Invoice::STATUS_PAID)
             ->whereNotNull('paid_at')
             ->whereDate('paid_at', '>=', $startDate)
@@ -232,32 +243,6 @@ class RevenueBookController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
-    /**
-     * Get VAT breakdown by rate.
-     */
-    private function getVatBreakdown(array $invoiceIds): array
-    {
-        if (empty($invoiceIds)) {
-            return [];
-        }
-
-        $breakdown = InvoiceItem::query()
-            ->whereIn('invoice_id', $invoiceIds)
-            ->select('vat_rate')
-            ->selectRaw('SUM(total_ht) as total_ht')
-            ->selectRaw('SUM(total_vat) as total_vat')
-            ->groupBy('vat_rate')
-            ->orderByDesc('vat_rate')
-            ->get();
-
-        return $breakdown->map(function ($item) {
-            return [
-                'rate' => (float) $item->vat_rate,
-                'base' => (float) $item->total_ht,
-                'amount' => (float) $item->total_vat,
-            ];
-        })->toArray();
-    }
 
     /**
      * Get predefined periods for quick selection.

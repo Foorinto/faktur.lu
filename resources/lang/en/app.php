@@ -1082,6 +1082,7 @@ return [
     'days_90' => '+90 days',
     'cash_position' => 'Current Position',
     'monthly_avg_expense' => 'Monthly Average Expense',
+    'cashflow_excludes_bank_balance' => "Forecast from today, excluding your bank balance.",
     'vat_summary' => 'VAT Summary :year',
     'collected_vat' => 'Collected VAT',
     'deductible_vat' => 'Deductible VAT',
