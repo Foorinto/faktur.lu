@@ -33,7 +33,7 @@ const todayLocal = () => {
 };
 
 const formatCurrency = (montant, devise = "EUR") =>
-    new Intl.NumberFormat("fr-LU", { style: "currency", currency: devise }).format(montant ?? 0);
+    new Intl.NumberFormat("fr-FR", { style: "currency", currency: devise }).format(montant ?? 0);
 
 const formatMontant = (montant) => formatCurrency(montant, props.invoice.currency ?? "EUR");
 

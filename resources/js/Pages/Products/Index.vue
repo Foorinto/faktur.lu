@@ -69,7 +69,7 @@ const quotaLabel = computed(() => {
 });
 
 const formatPrice = (value) =>
-    new Intl.NumberFormat('fr-LU', { style: 'currency', currency: 'EUR' }).format(Number(value || 0));
+    new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(Number(value || 0));
 
 // --- Sélection multiple ---------------------------------------------------
 // La sélection ne porte que sur la page affichée : « tout sélectionner » sur

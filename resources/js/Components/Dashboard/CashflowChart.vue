@@ -25,7 +25,7 @@ const hoveredDay = ref(null);
 const isLoading = ref(false);
 
 const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('fr-LU', {
+    return new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
         minimumFractionDigits: 0,

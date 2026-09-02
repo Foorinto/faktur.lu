@@ -16,7 +16,7 @@ const processing = ref(false);
 const confirmAction = ref(null);
 
 const formatCurrency = (value) => {
-    return new Intl.NumberFormat('fr-LU', {
+    return new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
     }).format(value || 0);

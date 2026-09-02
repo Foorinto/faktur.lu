@@ -52,7 +52,7 @@ const selectedYear = ref(props.selectedYear);
 const hoveredMonth = ref(null);
 
 const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('fr-LU', {
+    return new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
     }).format(amount || 0);
