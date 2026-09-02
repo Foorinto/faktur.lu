@@ -1,1 +1,0 @@
-import{g as a,h as e}from"./app-Bgl64zCG.js";function l(){const t=e(),u=a(()=>t.props.marque??{});return{nom:a(()=>u.value.nom??"faktur.lu"),domaine:a(()=>u.value.domaine??"faktur.lu"),url:a(()=>u.value.url??"https://faktur.lu"),compteSocial:a(()=>u.value.compte_social??"@fakturlu"),emailContact:a(()=>u.value.email_contact??"contact@faktur.lu")}}export{l as u};
