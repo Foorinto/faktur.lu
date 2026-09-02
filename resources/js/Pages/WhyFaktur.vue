@@ -5,6 +5,10 @@ import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -65,11 +69,11 @@ const schemaWhyFaktur = computed(() => JSON.stringify({
         "description": t('why_faktur.meta_description'),
         "author": {
             "@type": "Organization",
-            "name": "faktur.lu"
+            "name": marqueNom.value
         },
         "publisher": {
             "@type": "Organization",
-            "name": "faktur.lu"
+            "name": marqueNom.value
         }
     }
 }));
@@ -104,7 +108,7 @@ onUnmounted(() => {
 
                 <!-- Breadcrumb -->
                 <nav class="mb-8 text-sm">
-                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">faktur.lu</Link>
+                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">{{ marqueNom }}</Link>
                     <span class="text-slate-400 mx-2">/</span>
                     <span class="text-slate-900">{{ t('why_faktur.breadcrumb') }}</span>
                 </nav>

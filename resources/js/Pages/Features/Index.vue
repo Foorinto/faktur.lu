@@ -5,16 +5,19 @@ import SeoHead from '@/Components/SeoHead.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
-const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => usePage().props.appUrl || marqueUrl.value);
 
 const schemaBreadcrumb = computed(() => JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "faktur.lu", "item": appUrl.value },
+        { "@type": "ListItem", "position": 1, "name": marqueNom.value, "item": appUrl.value },
         { "@type": "ListItem", "position": 2, "name": t('features.breadcrumb.features') },
     ],
 }));

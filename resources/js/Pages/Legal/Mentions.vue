@@ -4,6 +4,10 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { emailContact: marqueEmailContact, nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -41,7 +45,7 @@ const { localizedRoute } = useLocalizedRoute();
                     <section id="editeur" class="mb-10">
                         <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_mentions_s1_title') }}</h2>
                         <p class="text-slate-600 mb-4">
-                            {{ t('legal_mentions_s1_intro_before') }} <strong>faktur.lu</strong> {{ t('legal_mentions_s1_intro_after') }}
+                            {{ t('legal_mentions_s1_intro_before') }} <strong>{{ marqueNom }}</strong> {{ t('legal_mentions_s1_intro_after') }}
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
@@ -50,7 +54,7 @@ const { localizedRoute } = useLocalizedRoute();
                                 <li><strong>{{ t('legal_mentions_s1_label_address') }}</strong> {{ t('legal_mentions_s1_value_address') }}</li>
                                 <li><strong>{{ t('legal_mentions_s1_label_rcs') }}</strong> {{ t('legal_mentions_s1_value_rcs') }}</li>
                                 <li><strong>{{ t('legal_mentions_s1_label_vat') }}</strong> {{ t('legal_mentions_s1_value_vat') }}</li>
-                                <li><strong>{{ t('legal_mentions_s1_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_mentions_s1_label_email') }}</strong> <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a></li>
                                 <li><strong>{{ t('legal_mentions_s1_label_publication_director') }}</strong> {{ t('legal_mentions_s1_value_publication_director') }}</li>
                             </ul>
                         </div>
@@ -120,7 +124,7 @@ const { localizedRoute } = useLocalizedRoute();
                             {{ t('legal_mentions_s6_p') }}
                         </p>
                         <ul class="text-slate-600 space-y-1">
-                            <li><strong>{{ t('legal_mentions_s6_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                            <li><strong>{{ t('legal_mentions_s6_label_email') }}</strong> <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a></li>
                             <li><strong>{{ t('legal_mentions_s6_label_address') }}</strong> {{ t('legal_mentions_s6_value_address') }}</li>
                         </ul>
                     </section>

@@ -3,6 +3,10 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useExpenseAmounts } from '@/Composables/useExpenseAmounts';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 
@@ -104,7 +108,7 @@ const reverseChargeScopeUrl =
                     </select>
                     <!-- Qualifier un achat, c'est une décision fiscale : elle
                          conditionne la déductibilité et ce qui partira dans la
-                         déclaration. Faktur.lu propose, il ne tranche pas. -->
+                         déclaration. {{ marqueNom }} propose, il ne tranche pas. -->
                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                         {{ t('notice_vat_regime_choice') }}
                     </p>

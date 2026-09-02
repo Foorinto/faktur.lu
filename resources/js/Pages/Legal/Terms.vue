@@ -4,6 +4,10 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { emailContact: marqueEmailContact, nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -178,7 +182,7 @@ const { localizedRoute } = useLocalizedRoute();
                         </ul>
                     </section>
 
-                    <!-- 9. Obligations de faktur.lu -->
+                    <!-- 9. Obligations de {{ marqueNom }} -->
                     <section id="obligations-faktur" class="mb-10">
                         <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ t('legal_terms_s9_title') }}</h2>
 
@@ -188,7 +192,7 @@ const { localizedRoute } = useLocalizedRoute();
 
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_terms_s9_2_title') }}</h3>
                         <p class="text-slate-600 mb-4">
-                            {{ t('legal_terms_s9_2_p_before') }} <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a>{{ t('legal_terms_s9_2_p_after') }}
+                            {{ t('legal_terms_s9_2_p_before') }} <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a>{{ t('legal_terms_s9_2_p_after') }}
                         </p>
 
                         <h3 class="text-lg font-medium text-slate-800 mt-6 mb-3">{{ t('legal_terms_s9_3_title') }}</h3>
@@ -293,7 +297,7 @@ const { localizedRoute } = useLocalizedRoute();
                         <p class="text-slate-600 mb-4">{{ t('legal_terms_s16_p') }}</p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>{{ t('legal_terms_s16_email_label') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_terms_s16_email_label') }}</strong> <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a></li>
                                 <li><strong>{{ t('legal_terms_s16_address_label') }}</strong> {{ t('legal_terms_s16_address_value') }}</li>
                             </ul>
                         </div>

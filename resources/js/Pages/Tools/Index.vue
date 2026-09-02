@@ -7,11 +7,14 @@ import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { usePage } from '@inertiajs/vue3';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const page = usePage();
-const appUrl = page.props.appUrl || 'https://faktur.lu';
+const appUrl = page.props.appUrl || marqueUrl.value;
 
 const tools = computed(() => [
     {
@@ -70,7 +73,7 @@ const schemas = computed(() => [
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'faktur.lu', item: appUrl + '/' + currentLocale() + '/' },
+            { '@type': 'ListItem', position: 1, name: marqueNom.value, item: appUrl + '/' + currentLocale() + '/' },
             { '@type': 'ListItem', position: 2, name: t('tools.index.breadcrumb') },
         ],
     },
@@ -109,7 +112,7 @@ const schemas = computed(() => [
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <!-- Breadcrumb -->
                 <nav class="mb-8 text-sm">
-                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">faktur.lu</Link>
+                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">{{ marqueNom }}</Link>
                     <span class="text-slate-400 mx-2">/</span>
                     <span class="text-slate-900">{{ t('tools.index.breadcrumb') }}</span>
                 </nav>

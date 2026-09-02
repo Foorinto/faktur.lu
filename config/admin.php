@@ -34,7 +34,7 @@ return [
     |
     */
 
-    'username' => env('ADMIN_USERNAME', 'admin@faktur.lu'),
+    'username' => env('ADMIN_USERNAME', 'admin@'.env('APP_NAME', 'faktur.lu')),
     'password_hash' => env('ADMIN_PASSWORD_HASH'),
     '2fa_secret' => env('ADMIN_2FA_SECRET'),
     '2fa_recovery_codes' => env('ADMIN_2FA_RECOVERY_CODES'),
@@ -73,6 +73,6 @@ return [
     |
     */
 
-    'support_email' => env('ADMIN_SUPPORT_EMAIL', env('ADMIN_USERNAME', 'admin@faktur.lu')),
+    'support_email' => env('ADMIN_SUPPORT_EMAIL', env('ADMIN_USERNAME', 'admin@'.env('APP_NAME', 'faktur.lu'))),
 
 ];

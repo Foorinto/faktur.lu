@@ -736,7 +736,7 @@
         <div class="footer-content">
             @if($showBranding ?? false)
                 <div class="footer-branding">
-                    {!! __('app.pdf_branding_text', ['app' => '<a href="https://faktur.lu">faktur.lu</a>']) !!}
+                    {!! __('app.pdf_branding_text', ['app' => '<a href="https://'.config('marque.domaine').'">'.config('marque.nom').'</a>']) !!}
                 </div>
             @endif
             <div class="footer-page">{{ __('invoice.page') }} 1/1</div>

@@ -146,7 +146,7 @@ class EmailSettings extends Model
             return $this->from_address;
         }
 
-        return config('mail.from.address', 'factures@faktur.lu');
+        return config('mail.from.address') ?: config('marque.email_expediteur');
     }
 
     /**

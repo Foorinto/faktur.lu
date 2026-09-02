@@ -4,6 +4,10 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { emailContact: marqueEmailContact } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -191,7 +195,7 @@ const { localizedRoute } = useLocalizedRoute();
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>{{ t('legal_cookies_s6_email_label') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_cookies_s6_email_label') }}</strong> <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a></li>
                             </ul>
                         </div>
                     </section>

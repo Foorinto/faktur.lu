@@ -7,6 +7,9 @@ import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import HoneypotFields from '@/Components/HoneypotFields.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { t } = useTranslations();
 const { localizedRoute, currentLocale } = useLocalizedRoute();
@@ -30,7 +33,7 @@ const submit = () => {
 };
 
 // ───── Programme « Partenaire fondateur » (pilote) ─────
-// Lien Calendly « Découverte faktur.lu - portail comptable » (20 min, Google Meet)
+// Lien Calendly « Découverte ${marqueNom.value} - portail comptable » (20 min, Google Meet)
 const CALENDLY_URL = 'https://calendly.com/foorintodev/decouverte-faktur-lu-portail-comptable';
 
 // Note : le portail comptable est gratuit pour TOUTES les fiduciaires (clarifié
@@ -120,7 +123,7 @@ const faqs = computed(() => [
 ]);
 
 // Schema.org for SEO + LLM authority signals
-const appUrl = computed(() => page.props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => page.props.appUrl || marqueUrl.value);
 const schemas = computed(() => [
     {
         '@context': 'https://schema.org',
@@ -132,7 +135,7 @@ const schemas = computed(() => [
         provider: {
             '@type': 'Organization',
             '@id': appUrl.value + '/#organization',
-            name: 'faktur.lu',
+            name: marqueNom.value,
             url: appUrl.value + '/',
             sameAs: ['https://www.wikidata.org/wiki/Q139674760'],
         },
@@ -145,7 +148,7 @@ const schemas = computed(() => [
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'EUR',
-            description: 'Free for accounting firms; clients pay their own faktur.lu plan (Free, Essentiel or Pro)',
+            description: 'Free for accounting firms; clients pay their own ${marqueNom.value} plan (Free, Essentiel or Pro)',
         },
         dateModified: new Date().toISOString().slice(0, 10),
     },
@@ -153,7 +156,7 @@ const schemas = computed(() => [
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'faktur.lu', item: appUrl.value + '/' + currentLocale() + '/' },
+            { '@type': 'ListItem', position: 1, name: marqueNom.value, item: appUrl.value + '/' + currentLocale() + '/' },
             { '@type': 'ListItem', position: 2, name: t('partners.breadcrumb') },
         ],
     },
@@ -184,7 +187,7 @@ const schemas = computed(() => [
 
                 <!-- Breadcrumb -->
                 <nav class="mb-8 text-sm">
-                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">faktur.lu</Link>
+                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">{{ marqueNom }}</Link>
                     <span class="text-slate-400 mx-2">/</span>
                     <span class="text-slate-900">{{ t('partners.breadcrumb') }}</span>
                 </nav>

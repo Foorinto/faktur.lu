@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <title>Admin - faktur.lu</title>
+    <title>Admin - {{ config('marque.nom') }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
@@ -25,7 +25,7 @@
 <body>
     <div class="card">
         <h1>Administration</h1>
-        <p class="subtitle">faktur.lu</p>
+        <p class="subtitle">{{ config('marque.nom') }}</p>
 
         <div id="error" class="error"></div>
 

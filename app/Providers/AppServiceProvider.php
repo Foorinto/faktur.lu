@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+
         // Bind Peppol Access Point interface to implementation based on config
         $this->app->bind(PeppolAccessPointInterface::class, function ($app) {
             return match (config('peppol.provider')) {

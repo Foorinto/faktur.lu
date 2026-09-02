@@ -45,7 +45,7 @@
             'jul' => 'juillet', 'aug' => 'août', 'sep' => 'septembre', 'oct' => 'octobre', 'nov' => 'novembre', 'dec' => 'décembre',
             'annual_taxable' => 'Déclaration annuelle TVA 2026 - Assujettis TVA',
             'annual_exempt' => 'Déclaration annuelle 2026 - Franchise TVA',
-            'cta' => '💡 Avec faktur.lu, recevez des rappels avant chaque échéance TVA + un export de données prêt à soumettre. Essai gratuit 14 jours : faktur.lu',
+            'cta' => '💡 Avec '.config('marque.nom').', recevez des rappels avant chaque échéance TVA + un export de données prêt à soumettre. Essai gratuit 14 jours : .config('marque.nom').',
             'footer' => 'Modèle gratuit - 2026',
         ],
         'de' => [
@@ -69,7 +69,7 @@
             'jul' => 'Juli', 'aug' => 'August', 'sep' => 'September', 'oct' => 'Oktober', 'nov' => 'November', 'dec' => 'Dezember',
             'annual_taxable' => 'Jährliche MwSt-Erklärung 2026 - MwSt-pflichtig',
             'annual_exempt' => 'Jährliche Erklärung 2026 - MwSt-Befreiung',
-            'cta' => '💡 Mit faktur.lu erhalten Sie Erinnerungen vor jeder MwSt-Frist + einen abgabebereiten Datenexport. 14 Tage gratis testen: faktur.lu',
+            'cta' => '💡 Mit '.config('marque.nom').' erhalten Sie Erinnerungen vor jeder MwSt-Frist + einen abgabebereiten Datenexport. 14 Tage gratis testen: .config('marque.nom').',
             'footer' => 'Kostenlose Vorlage - 2026',
         ],
         'en' => [
@@ -93,7 +93,7 @@
             'jul' => 'July', 'aug' => 'August', 'sep' => 'September', 'oct' => 'October', 'nov' => 'November', 'dec' => 'December',
             'annual_taxable' => 'Annual VAT return 2026 - VAT taxable',
             'annual_exempt' => 'Annual return 2026 - VAT exempt (franchise)',
-            'cta' => '💡 With faktur.lu, get reminders before each VAT deadline + ready-to-submit data export. Free 14-day trial: faktur.lu',
+            'cta' => '💡 With '.config('marque.nom').', get reminders before each VAT deadline + ready-to-submit data export. Free 14-day trial: .config('marque.nom').',
             'footer' => 'Free template - 2026',
         ],
         'lb' => [
@@ -117,7 +117,7 @@
             'jul' => 'Juli', 'aug' => 'August', 'sep' => 'September', 'oct' => 'Oktober', 'nov' => 'November', 'dec' => 'Dezember',
             'annual_taxable' => 'Jährlech TVA-Deklaratioun 2026 - TVA-pflichtig',
             'annual_exempt' => 'Jährlech Deklaratioun 2026 - TVA-Franchise',
-            'cta' => '💡 Mat faktur.lu kritt Dir Rappeller virun all TVA-Echéance + en Datenexport prett fir ze soumetéieren. Gratis Essai 14 Deeg: faktur.lu',
+            'cta' => '💡 Mat '.config('marque.nom').' kritt Dir Rappeller virun all TVA-Echéance + en Datenexport prett fir ze soumetéieren. Gratis Essai 14 Deeg: .config('marque.nom').',
             'footer' => 'Gratis Modell - 2026',
         ],
         'pt' => [
@@ -141,7 +141,7 @@
             'jul' => 'julho', 'aug' => 'agosto', 'sep' => 'setembro', 'oct' => 'outubro', 'nov' => 'novembro', 'dec' => 'dezembro',
             'annual_taxable' => 'Declaração anual de IVA 2026 - Sujeitos a IVA',
             'annual_exempt' => 'Declaração anual 2026 - Isenção de IVA',
-            'cta' => '💡 Com o faktur.lu, receba lembretes antes de cada prazo de IVA + uma exportação de dados pronta a submeter. Avaliação gratuita de 14 dias: faktur.lu',
+            'cta' => '💡 Com o '.config('marque.nom').', receba lembretes antes de cada prazo de IVA + uma exportação de dados pronta a submeter. Avaliação gratuita de 14 dias: .config('marque.nom').',
             'footer' => 'Modelo gratuito - 2026',
         ],
     ];
@@ -212,7 +212,7 @@
 </div>
 
 <div class="footer">
-    <a href="https://faktur.lu" class="powered-by">faktur.lu</a> - {{ $T['footer'] }}
+    <a href="https://{{ config('marque.domaine') }}" class="powered-by">{{ config('marque.nom') }}</a> - {{ $T['footer'] }}
 </div>
 </body>
 </html>

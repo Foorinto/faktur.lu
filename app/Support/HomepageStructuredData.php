@@ -38,8 +38,8 @@ class HomepageStructuredData
             '@context' => 'https://schema.org',
             '@type' => ['Organization', 'LocalBusiness'],
             '@id' => "$appUrl/#organization",
-            'name' => 'faktur.lu',
-            'alternateName' => ['Faktur.lu', 'Faktur'],
+            'name' => config('marque.nom'),
+            'alternateName' => config('marque.noms_alternatifs'),
             'identifier' => [
                 '@type' => 'PropertyValue',
                 'propertyID' => 'Wikidata',
@@ -89,8 +89,7 @@ class HomepageStructuredData
             'currenciesAccepted' => 'EUR',
             'paymentAccepted' => 'Credit Card, SEPA',
             'sameAs' => [
-                'https://www.linkedin.com/company/faktur-lu/',
-                'https://www.trustpilot.com/review/faktur.lu',
+                ...config('marque.reseaux'),
                 'https://www.wikidata.org/wiki/Q139674760',
             ],
         ];
@@ -99,8 +98,8 @@ class HomepageStructuredData
             '@context' => 'https://schema.org',
             '@type' => 'SoftwareApplication',
             '@id' => "$appUrl/#software",
-            'name' => 'faktur.lu',
-            'alternateName' => 'Faktur',
+            'name' => config('marque.nom'),
+            'alternateName' => config('marque.noms_alternatifs'),
             'description' => $t('schema_software_description'),
             'applicationCategory' => 'BusinessApplication',
             'applicationSubCategory' => 'Invoicing & Billing Software',

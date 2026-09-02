@@ -269,10 +269,10 @@ class SubscriptionController extends Controller
     public function downloadInvoice(Request $request, string $invoiceId)
     {
         $user = $request->user();
-        $planName = $user->isPro() ? 'Pro' : ($user->isEssentiel() ? 'Essentiel' : 'faktur.lu');
+        $planName = $user->isPro() ? 'Pro' : ($user->isEssentiel() ? 'Essentiel' : config('marque.nom'));
 
         return $user->downloadInvoice($invoiceId, [
-            'vendor' => 'faktur.lu',
+            'vendor' => config('marque.nom'),
             'product' => "Abonnement {$planName}",
         ]);
     }

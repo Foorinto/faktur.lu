@@ -16,5 +16,5 @@
 {{ __('app.email_terminated_cleanup_portal_note') }}
 
 {{ __('app.email_closing') }}
-faktur.lu
+{{ config('marque.nom') }}
 </x-mail::message>

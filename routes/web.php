@@ -340,12 +340,17 @@ Route::prefix('{locale}')
             ->where('locale', 'fr')
             ->name('alternatives.show.fr');
 
-        // Why faktur.lu page (explicit localized routes)
-        Route::get('/pourquoi-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.fr');
-        Route::get('/warum-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.de');
-        Route::get('/why-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.en');
-        Route::get('/firwat-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.lb');
-        Route::get('/porque-faktur-lu', [ContactController::class, 'whyFaktur'])->name('why_faktur.pt');
+        // Page « Pourquoi », adresses localisées.
+        //
+        // ⚠️ Ces adresses contiennent le nom de la marque et changeront le jour
+        // du changement de dénomination. Elles sont lues depuis
+        // `config/localized_routes.php`, seule source, plutôt que réécrites
+        // ici : deux listes finiraient par diverger, et le sitemap annoncerait
+        // des adresses qui répondent 404.
+        foreach (config('localized_routes.why_faktur') as $langue => $adresse) {
+            Route::get("/{$adresse}", [ContactController::class, 'whyFaktur'])
+                ->name("why_faktur.{$langue}");
+        }
 
         // Partners page (explicit localized routes)
         Route::get('/partenaires', [ContactController::class, 'partners'])->name('partners.fr');

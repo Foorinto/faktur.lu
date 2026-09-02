@@ -1,6 +1,10 @@
 <script setup>
 import { Link, router } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 defineProps({
     accountant: {
@@ -51,7 +55,7 @@ const logout = () => {
         <footer class="bg-white dark:bg-surface-card border-t border-gray-200 dark:border-gray-700 mt-auto">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <p class="text-center text-sm text-slate-500 dark:text-slate-400">
-                    faktur.lu - Espace Comptable
+                    {{ marqueNom }} - Espace Comptable
                 </p>
             </div>
         </footer>

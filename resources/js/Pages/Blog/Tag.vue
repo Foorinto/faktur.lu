@@ -4,6 +4,10 @@ import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const { t } = useTranslations();
@@ -32,7 +36,7 @@ const formatDate = (date) => {
          préserve en revanche le maillage vers les articles qu'elles desservent. -->
     <SeoHead
         robots="noindex, follow"
-        :title="`#${tag.name} - Blog | faktur.lu`"
+        :title="`#${tag.name} - Blog | {{ marqueNom }}`"
         :description="t('blog_tag_meta_description', { name: tag.name })"
         :canonical-path="`/blog/tag/${tag.slug}`"
     />

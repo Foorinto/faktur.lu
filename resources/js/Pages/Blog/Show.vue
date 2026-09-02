@@ -7,6 +7,9 @@ import SeoHead from '@/Components/SeoHead.vue';
 import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom, url: marqueUrl } = useMarque();
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const { t } = useTranslations();
@@ -16,7 +19,7 @@ const props = defineProps({
     relatedPosts: Array,
 });
 
-const appUrl = computed(() => usePage().props.appUrl || 'https://faktur.lu');
+const appUrl = computed(() => usePage().props.appUrl || marqueUrl.value);
 const postUrl = computed(() => `${appUrl.value}/${currentLocale()}/blog/${props.post.slug}`);
 
 const stripHtml = (html) => (html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -32,7 +35,7 @@ const breadcrumbSchema = computed(() => ({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     'itemListElement': [
-        { '@type': 'ListItem', 'position': 1, 'name': 'faktur.lu', 'item': appUrl.value },
+        { '@type': 'ListItem', 'position': 1, 'name': marqueNom.value, 'item': appUrl.value },
         { '@type': 'ListItem', 'position': 2, 'name': 'Blog', 'item': `${appUrl.value}/${currentLocale()}/blog` },
         ...(props.post.category ? [{
             '@type': 'ListItem',
@@ -49,19 +52,19 @@ const breadcrumbSchema = computed(() => ({
     ],
 }));
 
-// E-E-A-T author: Alexandre Beaudier - founder of faktur.lu, cross-border worker (frontalier)
-// Author is the organization (faktur.lu): no personal byline on the articles.
+// E-E-A-T author: Alexandre Beaudier - founder of ${marqueNom.value}, cross-border worker (frontalier)
+// Author is the organization (${marqueNom.value}): no personal byline on the articles.
 const authorSchema = computed(() => ({
     '@type': 'Organization',
     '@id': `${appUrl.value}/#organization`,
-    'name': 'faktur.lu',
+    'name': marqueNom.value,
     'url': appUrl.value,
 }));
 
 const publisherSchema = computed(() => ({
     '@type': 'Organization',
     '@id': `${appUrl.value}/#organization`,
-    'name': 'faktur.lu',
+    'name': marqueNom.value,
     'url': appUrl.value,
     'logo': {
         '@type': 'ImageObject',
@@ -135,7 +138,7 @@ const shareOnFacebook = () => {
 
 <template>
     <SeoHead
-        :title="`${post.meta_title} | faktur.lu`"
+        :title="`${post.meta_title} | {{ marqueNom }}`"
         :description="post.meta_description"
         :canonical-path="`/blog/${post.slug}`"
         :image="post.cover_image_url"

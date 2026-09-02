@@ -349,7 +349,7 @@
 @endif
 
 <div class="footer">
-    {{ $L['powered_by'] }} <a href="https://faktur.lu" class="powered-by">faktur.lu</a> - {{ $L['invoice'] }} {{ \Carbon\Carbon::now()->format('Y') }}
+    {{ $L['powered_by'] }} <a href="https://{{ config('marque.domaine') }}" class="powered-by">{{ config('marque.nom') }}</a> - {{ $L['invoice'] }} {{ \Carbon\Carbon::now()->format('Y') }}
 </div>
 
 </body>

@@ -13,6 +13,10 @@ import { computed, watch, ref, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
 import UnsavedChangesBar from '@/Components/UnsavedChangesBar.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { startTour } = useTour();
 
@@ -587,7 +591,7 @@ const cancelPaymentQrcodeUpload = () => {
                             <!-- Champ figé plutôt que supprimé : le pays
                                  d'établissement reste une information utile à
                                  lire, elle n'est simplement plus un choix.
-                                 faktur.lu est un outil luxembourgeois — ce qui
+                                 {{ marqueNom }} est un outil luxembourgeois — ce qui
                                  n'empêche ni de facturer, ni d'acheter, ni
                                  d'autoliquider à l'étranger. -->
                             <div>
