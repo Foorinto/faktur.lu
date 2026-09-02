@@ -1094,6 +1094,7 @@ return [
     'bank_balance_deleted' => 'Extrato eliminado.',
     'bank_balance_help' => 'Indique o saldo da sua conta numa data. A previsão parte desse montante, adiciona os seus recebimentos e subtrai as suas despesas.',
     'cashflow_needs_balance' => 'Sem saldo bancário, esta curva mostra a variação esperada, não o seu saldo real.',
+    'cashflow_overdue_included' => 'incluindo :amount de faturas em atraso, assumidas como recebidas amanhã.',
     'vat_summary' => 'Resumo do IVA :year',
     'collected_vat' => 'IVA cobrado',
     'deductible_vat' => 'IVA dedutível',

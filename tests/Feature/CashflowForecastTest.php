@@ -217,6 +217,33 @@ class CashflowForecastTest extends TestCase
     }
 
     /**
+     * L'hypothèse la plus généreuse du calcul doit être annoncée.
+     *
+     * Une facture en retard est projetée à demain. Sur un compte réel dont les
+     * onze factures impayées étaient TOUTES en retard, la courbe supposait
+     * 29 907 € rentrant sous vingt-quatre heures — ce qui expliquait à soi
+     * seul le bond entre aujourd'hui et le mois suivant. Le chiffre n'est pas
+     * faux, il ne doit simplement pas se lire comme une promesse.
+     */
+    public function test_the_overdue_amount_assumed_arriving_tomorrow_is_announced(): void
+    {
+        $this->releve(10000);
+
+        // Créée directement en retard : une facture finalisée est verrouillée
+        // et refuse toute modification, garde-fou légitime.
+        $this->factureAEncaisser(4000, -45);
+        $this->factureAEncaisser(1500, 20);
+
+        $prevision = $this->prevision();
+
+        // Seul le retard est annoncé, pas la facture qui échoit normalement.
+        $this->assertSame(4000.0, $prevision['overdue_total']);
+
+        // Et il est bien compté dans la courbe, pas seulement affiché.
+        $this->assertSame(14000.0, $prevision['timeline'][1]['net_cash']);
+    }
+
+    /**
      * Le relevé le plus récent fait foi, et un relevé daté du futur ne sert
      * pas de base à un calcul qui part d'aujourd'hui.
      */

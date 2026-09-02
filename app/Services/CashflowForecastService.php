@@ -49,7 +49,8 @@ class CashflowForecastService
 
         $depart = $this->soldeEstiméAujourdhui($releve);
 
-        $incomeByDay = $this->getUnpaidInvoicesByDay($days);
+        $attendu = $this->getUnpaidInvoicesByDay($days);
+        $incomeByDay = $attendu['byDay'];
         $monthlyExpense = $this->getAverageMonthlyExpense();
         $dailyExpense = (float) bcdiv((string) $monthlyExpense, '30', 4);
 
@@ -84,6 +85,11 @@ class CashflowForecastService
             ] : null,
             'current_balance' => $releve ? round($depart['solde'], 2) : null,
 
+            // Ce que la courbe suppose rentrant dès demain alors que
+            // l'échéance est déjà passée. Affiché tel quel : le calcul reste
+            // optimiste, l'interface le dit plutôt que de le maquiller.
+            'overdue_total' => round($attendu['overdue'], 2),
+
             'timeline' => $timeline,
             'summary' => $summary,
             'totals' => [
@@ -103,6 +109,7 @@ class CashflowForecastService
             'opening_balance' => null,
             'movements_since_balance' => null,
             'current_balance' => null,
+            'overdue_total' => 0,
             'timeline' => [],
             'summary' => ['current' => 0, 'days_30' => null, 'days_60' => null, 'days_90' => null],
             'totals' => ['total_expected_income' => 0, 'total_expected_expense' => 0, 'monthly_expense_average' => 0],
@@ -177,6 +184,15 @@ class CashflowForecastService
      * reportées à DEMAIN. Le jour 0 doit rester le solde réel : y inscrire une
      * recette attendue afficherait comme disponible un argent qui n'est pas
      * arrivé.
+     *
+     * Ce report est OPTIMISTE et la méthode renvoie donc son montant à part,
+     * pour que l'interface puisse le dire. Sur un compte réel, les 11 factures
+     * impayées étaient toutes en retard : la courbe supposait 29 907 € rentrant
+     * dans les vingt-quatre heures, ce qui expliquait à soi seul le bond entre
+     * aujourd'hui et le mois suivant. Le chiffre n'est pas faux, mais le lire
+     * sans cette hypothèse en tête, c'est le prendre pour une promesse.
+     *
+     * @return array{byDay: array<string, float>, overdue: float}
      */
     protected function getUnpaidInvoicesByDay(int $days): array
     {
@@ -195,6 +211,7 @@ class CashflowForecastService
             ->get(['id', 'due_at', 'total_ttc']);
 
         $incomeByDay = [];
+        $enRetard = 0.0;
 
         foreach ($factures as $facture) {
             $reste = (float) bcsub(
@@ -210,9 +227,13 @@ class CashflowForecastService
 
             $echeance = $facture->due_at ? Carbon::parse($facture->due_at) : null;
 
-            $dateKey = ($echeance === null || $echeance->lessThanOrEqualTo($today))
-                ? $demain->format('Y-m-d')
-                : $echeance->format('Y-m-d');
+            $reporte = $echeance === null || $echeance->lessThanOrEqualTo($today);
+
+            if ($reporte) {
+                $enRetard = (float) bcadd((string) $enRetard, (string) $reste, 4);
+            }
+
+            $dateKey = $reporte ? $demain->format('Y-m-d') : $echeance->format('Y-m-d');
 
             $incomeByDay[$dateKey] = (float) bcadd(
                 (string) ($incomeByDay[$dateKey] ?? 0),
@@ -221,7 +242,7 @@ class CashflowForecastService
             );
         }
 
-        return $incomeByDay;
+        return ['byDay' => $incomeByDay, 'overdue' => $enRetard];
     }
 
     /**

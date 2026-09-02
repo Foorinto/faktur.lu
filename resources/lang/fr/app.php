@@ -1095,6 +1095,7 @@ return [
     'bank_balance_deleted' => 'Relevé supprimé.',
     'bank_balance_help' => 'Indiquez le solde de votre compte à une date donnée. La prévision part de ce montant, ajoute vos encaissements et retire vos dépenses.',
     'cashflow_needs_balance' => 'Sans solde bancaire, cette courbe montre la variation attendue, pas votre solde réel.',
+    'cashflow_overdue_included' => 'dont :amount de factures en retard, supposées encaissées demain.',
     'vat_summary' => 'Récapitulatif TVA :year',
     'collected_vat' => 'TVA collectée',
     'deductible_vat' => 'TVA déductible',

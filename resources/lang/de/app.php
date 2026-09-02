@@ -1024,6 +1024,7 @@ return [
     'bank_balance_deleted' => 'Auszug gelöscht.',
     'bank_balance_help' => 'Geben Sie den Stand Ihres Kontos zu einem bestimmten Datum an. Die Prognose beginnt bei diesem Betrag, addiert Ihre Zahlungseingänge und zieht Ihre Ausgaben ab.',
     'cashflow_needs_balance' => 'Ohne Kontostand zeigt diese Kurve die erwartete Veränderung, nicht Ihren tatsächlichen Kontostand.',
+    'cashflow_overdue_included' => 'davon :amount überfällige Rechnungen, angenommen als morgen eingehend.',
     'vat_summary' => 'MwSt.-Übersicht :year',
     'collected_vat' => 'Eingenommene MwSt.',
     'deductible_vat' => 'Abzugsfähige MwSt.',

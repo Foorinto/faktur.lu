@@ -519,6 +519,18 @@ const summaryCards = computed(() => {
                 {{ t('cashflow_excludes_bank_balance') }}
             </p>
 
+            <!--
+                L'hypothèse la plus généreuse du calcul, dite à voix haute.
+                Une facture en retard est projetée à demain ; sur un compte
+                réel dont les onze factures impayées étaient toutes en retard,
+                cela supposait 29 907 € rentrant sous vingt-quatre heures, et
+                expliquait à soi seul le bond du mois suivant. Le chiffre n'est
+                pas faux, mais il ne doit pas se lire comme une promesse.
+            -->
+            <p v-if="forecastData.overdue_total > 0" class="mt-1 text-xs text-slate-400 dark:text-slate-500">
+                {{ t('cashflow_overdue_included').replace(':amount', formatCurrency(forecastData.overdue_total)) }}
+            </p>
+
             </template>
         </div>
     </div>

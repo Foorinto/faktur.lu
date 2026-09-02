@@ -1095,6 +1095,7 @@ return [
     'bank_balance_deleted' => 'Statement deleted.',
     'bank_balance_help' => 'Enter your account balance on a given date. The forecast starts from that amount, adds the payments you received and subtracts your expenses.',
     'cashflow_needs_balance' => 'Without a bank balance, this curve shows the expected change, not your actual balance.',
+    'cashflow_overdue_included' => 'including :amount of overdue invoices, assumed received tomorrow.',
     'vat_summary' => 'VAT Summary :year',
     'collected_vat' => 'Collected VAT',
     'deductible_vat' => 'Deductible VAT',
