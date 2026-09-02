@@ -100,7 +100,12 @@ class ZiggyRoutesTest extends TestCase
         $this->assertSame([], $missing, sprintf(
             "Ces routes sont appelées par un composant Vue mais absentes de ziggy.js : %s\n".
             "La page concernée blanchira dans le navigateur, sans erreur serveur.\n".
-            "Corriger avec :  php artisan ziggy:generate  puis  npm run build",
+            // ⚠️ `--group=admin` : ce groupe vaut « toutes les routes ».
+            // Sans lui, la commande applique le filtre par défaut, qui exclut
+            // « admin.* » — et le fichier versionné perd d'un coup les trente
+            // routes d'administration appelées par les composants. Erreur
+            // commise le 2026-09-02, en suivant ce message même.
+            "Corriger avec :  php artisan ziggy:generate --group=admin  puis  npm run build",
             implode(', ', $missing)
         ));
     }
