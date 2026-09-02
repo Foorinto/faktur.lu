@@ -437,7 +437,15 @@ const getStatusLabel = (status) => {
         </div>
 
         <!-- Cashflow Forecast -->
-        <div v-if="cashflowForecast?.has_data" class="mt-6">
+        <!--
+            ⚠️ Affichée dès que la prévision existe, et non plus seulement
+            quand elle a des données. Sans cela, un utilisateur qui débute — ni
+            facture impayée, ni dépense — ne voyait pas la carte, donc n'avait
+            aucun endroit où saisir son solde bancaire. C'est pourtant le cas
+            que le client décrivait : « indiquer le solde bancaire en début
+            d'activité ». Le graphique lui-même reste conditionné aux données.
+        -->
+        <div v-if="cashflowForecast" class="mt-6">
             <CashflowChart :forecast="cashflowForecast" />
         </div>
 

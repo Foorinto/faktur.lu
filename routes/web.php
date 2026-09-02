@@ -1080,6 +1080,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/api/dashboard/unbilled-time', [DashboardController::class, 'unbilledTime'])->name('dashboard.unbilled-time');
         Route::get('/api/dashboard/vat-summary', [DashboardController::class, 'vatSummary'])->name('dashboard.vat-summary');
         Route::get('/api/dashboard/cashflow-forecast', [DashboardController::class, 'cashflowForecast'])->name('dashboard.cashflow-forecast');
+
+        // Le relevé de solde bancaire, saisi à la main, qui sert de point de
+        // départ à la prévision de trésorerie.
+        Route::post('/solde-bancaire', [\App\Http\Controllers\BankBalanceController::class, 'store'])->name('bank-balance.store');
+        Route::delete('/solde-bancaire/{bankBalance}', [\App\Http\Controllers\BankBalanceController::class, 'destroy'])->name('bank-balance.destroy');
     });
 });
 

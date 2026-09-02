@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 
 const { t } = useTranslations();
@@ -11,6 +12,15 @@ const props = defineProps({
 
 const selectedPeriod = ref(props.forecast.period_days || 90);
 const forecastData = ref(props.forecast);
+
+// ⚠️ `forecastData` est une COPIE de la prop, prise une fois. Après
+// l'enregistrement d'un relevé, Inertia renvoie un tableau de bord à jour,
+// mais sans cette veille la courbe garderait l'ancien calcul : l'utilisateur
+// saisirait son solde et ne verrait rien bouger — exactement le reproche
+// qu'on est en train de corriger.
+watch(() => props.forecast, (nouvelle) => {
+    forecastData.value = nouvelle;
+});
 const hoveredDay = ref(null);
 const isLoading = ref(false);
 
@@ -126,18 +136,45 @@ const hoverZoneWidth = computed(() => {
 
 // Summary values
 const summary = computed(() => forecastData.value.summary);
+const releve = computed(() => forecastData.value.opening_balance);
+
+const formatDate = (iso) => {
+    if (!iso) return '';
+    const [a, m, j] = iso.split('-');
+    return `${j}/${m}/${a}`;
+};
+
+const saisieOuverte = ref(false);
+
+const formulaire = useForm({
+    amount: null,
+    balance_date: new Date().toISOString().slice(0, 10),
+    label: null,
+});
+
+const enregistrerLeSolde = () => {
+    formulaire.post(route('bank-balance.store'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            saisieOuverte.value = false;
+            formulaire.reset('amount', 'label');
+        },
+    });
+};
 
 const summaryCards = computed(() => {
     const cards = [
-        // ⚠️ « Position actuelle » a été retirée. Elle n'a jamais rien dit
-        // d'utile : la prévision démarre à ZÉRO aujourd'hui — elle ne connaît
-        // pas le solde bancaire —, si bien que le jour 0 valait toujours à peu
-        // près « moins une journée de dépenses moyennes ». Un client l'a lue
-        // comme un découvert de 4 € alors qu'il avait 4 749 € d'encaissements
-        // (2026-08-31).
+        // « Position actuelle » avait été RETIRÉE le 2026-08-31 : la prévision
+        // partait de zéro, sans connaître le compte en banque, et le jour 0
+        // valait toujours à peu près « moins une journée de dépenses ». Un
+        // client l'avait lue comme un découvert de 4 € alors qu'il avait
+        // 4 749 € d'encaissements.
         //
-        // Les trois horizons, eux, répondent à une vraie question : est-ce que
-        // ça passe le mois prochain ?
+        // Elle revient ici, parce qu'elle dit enfin quelque chose de vrai : le
+        // relevé saisi, plus les encaissements réels, moins les dépenses
+        // réelles. Et elle ne s'affiche QUE dans ce cas — sans relevé, le
+        // chiffre serait de nouveau un faux solde.
+        { label: t('todays_balance'), value: summary.value.current, show: forecastData.value.has_balance },
         { label: t('days_30'), value: summary.value.days_30, show: summary.value.days_30 !== null },
         { label: t('days_60'), value: summary.value.days_60, show: selectedPeriod.value >= 60 && summary.value.days_60 !== null },
         { label: t('days_90'), value: summary.value.days_90, show: selectedPeriod.value >= 90 && summary.value.days_90 !== null },
@@ -154,7 +191,7 @@ const summaryCards = computed(() => {
                 <h3 class="text-base font-semibold text-slate-900 dark:text-white">
                     {{ t('cashflow_forecast') }}
                 </h3>
-                <div class="flex items-center gap-1">
+                <div v-if="forecastData.has_data" class="flex items-center gap-1">
                     <button
                         v-for="period in [30, 60, 90]"
                         :key="period"
@@ -171,6 +208,109 @@ const summaryCards = computed(() => {
                     </button>
                 </div>
             </div>
+
+            <!--
+                Le relevé bancaire : point de départ du calcul, et donc la
+                première chose à montrer. Sans lui, tous les chiffres en
+                dessous sont des variations et non des soldes.
+            -->
+            <div class="mt-4">
+                <div
+                    v-if="releve"
+                    class="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-slate-50 px-3 py-2 dark:bg-gray-800/50"
+                >
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        {{ t('bank_balance_statement_of').replace(':date', formatDate(releve.date)) }}
+                        <span class="font-semibold text-slate-700 dark:text-slate-200">{{ formatCurrency(releve.amount) }}</span>
+                    </p>
+                    <button
+                        type="button"
+                        @click="saisieOuverte = !saisieOuverte"
+                        class="text-xs font-medium text-primary-600 hover:underline dark:text-primary-400"
+                    >
+                        {{ t('update_bank_balance') }}
+                    </button>
+                </div>
+
+                <div
+                    v-else
+                    class="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 dark:border-amber-900/40 dark:bg-amber-900/10"
+                >
+                    <p class="text-xs text-amber-800 dark:text-amber-200">
+                        {{ t('cashflow_needs_balance') }}
+                    </p>
+                    <button
+                        type="button"
+                        @click="saisieOuverte = !saisieOuverte"
+                        class="mt-1.5 text-xs font-semibold text-amber-900 underline hover:no-underline dark:text-amber-100"
+                    >
+                        {{ t('record_bank_balance') }}
+                    </button>
+                </div>
+
+                <form
+                    v-if="saisieOuverte"
+                    @submit.prevent="enregistrerLeSolde"
+                    class="mt-2 rounded-xl border border-slate-200 p-3 dark:border-gray-700"
+                >
+                    <p class="text-xs text-slate-500 dark:text-slate-400">{{ t('bank_balance_help') }}</p>
+
+                    <div class="mt-3 grid gap-3 sm:grid-cols-3">
+                        <label class="block">
+                            <span class="text-xs font-medium text-slate-600 dark:text-slate-300">{{ t('bank_balance_amount') }}</span>
+                            <input
+                                v-model="formulaire.amount"
+                                type="number"
+                                step="0.01"
+                                required
+                                class="mt-1 w-full rounded-lg border-slate-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                        </label>
+                        <label class="block">
+                            <span class="text-xs font-medium text-slate-600 dark:text-slate-300">{{ t('bank_balance_date') }}</span>
+                            <input
+                                v-model="formulaire.balance_date"
+                                type="date"
+                                required
+                                class="mt-1 w-full rounded-lg border-slate-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                        </label>
+                        <label class="block">
+                            <span class="text-xs font-medium text-slate-600 dark:text-slate-300">{{ t('bank_balance_label_field') }}</span>
+                            <input
+                                v-model="formulaire.label"
+                                type="text"
+                                class="mt-1 w-full rounded-lg border-slate-300 text-sm dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                            />
+                        </label>
+                    </div>
+
+                    <div v-if="Object.keys(formulaire.errors).length" class="mt-2 text-xs text-pink-600 dark:text-pink-400">
+                        <p v-for="(message, champ) in formulaire.errors" :key="champ">{{ message }}</p>
+                    </div>
+
+                    <div class="mt-3 flex items-center gap-2">
+                        <button
+                            type="submit"
+                            :disabled="formulaire.processing"
+                            class="rounded-lg bg-primary-500 px-3 py-1.5 text-xs font-medium text-white hover:bg-primary-600 disabled:opacity-50"
+                        >
+                            {{ t('save') }}
+                        </button>
+                        <button
+                            type="button"
+                            @click="saisieOuverte = false"
+                            class="text-xs text-slate-500 hover:underline dark:text-slate-400"
+                        >
+                            {{ t('cancel') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Le graphique n'a de sens qu'avec des données ; le relevé, lui,
+                 doit pouvoir se saisir avant la première facture. -->
+            <template v-if="forecastData.has_data">
 
             <!-- Summary Cards -->
             <div class="mt-4 grid grid-cols-2 gap-3" :class="summaryCards.length >= 4 ? 'sm:grid-cols-4' : 'sm:grid-cols-3'">
@@ -371,13 +511,15 @@ const summaryCards = computed(() => {
             </div>
 
             <!--
-                Le vrai malentendu était là : la courbe part de zéro et
-                l'application ne connaît pas le compte en banque. Sans le dire,
-                les montants se lisent comme une position réelle.
+                L'avertissement ne vaut plus que sans relevé. Avec un relevé,
+                la courbe montre un vrai solde, et répéter « hors solde
+                bancaire » deviendrait faux.
             -->
-            <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">
+            <p v-if="!forecastData.has_balance" class="mt-2 text-xs text-slate-400 dark:text-slate-500">
                 {{ t('cashflow_excludes_bank_balance') }}
             </p>
+
+            </template>
         </div>
     </div>
 </template>
