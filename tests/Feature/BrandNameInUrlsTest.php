@@ -21,12 +21,41 @@ class BrandNameInUrlsTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * ⚠️ Trouvé en préparant le déploiement, le 2026-09-02.
+     *
+     * Le cookie de session en production s'appelle `fakturlu-session`, or
+     * `Str::slug` écrase la casse : impossible de savoir depuis l'extérieur si
+     * `APP_NAME` vaut « faktur.lu » ou « Faktur.lu ». C'est aussi un nom
+     * d'affichage, une majuscule y est parfaitement légitime.
+     *
+     * Sans normalisation, une majuscule dans le fichier d'environnement de
+     * production suffisait à transformer `/fr/pourquoi-faktur-lu`, qui répond
+     * 200 et qui est indexée, en 404, dans les cinq langues, au premier
+     * déploiement. Une URL publique ne peut pas dépendre de ça.
+     */
+    public function test_the_slugs_ignore_the_capitals_of_app_name(): void
+    {
+        foreach (['faktur.lu', 'Faktur.lu', 'FAKTUR.LU', '  Faktur.LU  '] as $ecriture) {
+            putenv("APP_NAME={$ecriture}");
+            $_ENV['APP_NAME'] = $ecriture;
+
+            $adresses = require config_path('localized_routes.php');
+
+            $this->assertSame(
+                'pourquoi-faktur-lu',
+                $adresses['why_faktur']['fr'],
+                "APP_NAME=\"{$ecriture}\" ne doit pas changer l'adresse publique"
+            );
+        }
+    }
+
     public function test_the_why_page_slugs_follow_the_brand(): void
     {
         // ⚠️ Comparé à la FORME attendue, pas à une valeur figée : sinon le
         // test échoue dès qu'on bascule APP_NAME pour essayer. C'est l'erreur
         // que j'avais déjà faite sur l'adresse d'expédition.
-        $marque = str_replace('.', '-', config('marque.nom'));
+        $marque = str_replace('.', '-', mb_strtolower(config('marque.nom')));
 
         $prefixes = ['fr' => 'pourquoi', 'de' => 'warum', 'en' => 'why', 'lb' => 'firwat', 'pt' => 'porque'];
 
@@ -81,7 +110,11 @@ class BrandNameInUrlsTest extends TestCase
             }
 
             foreach (file($fichier) as $numero => $ligne) {
-                if (preg_match('/^\s*(\*|\/\/|\/\*)/', $ligne)) {
+                // Le « | » est le style d'en-tête des fichiers de
+                // configuration de Laravel. Il manquait ici, et le garde-fou
+                // signalait un commentaire comme s'il s'agissait d'une valeur.
+                // Aucune ligne de PHP valide ne commence par « | ».
+                if (preg_match('/^\s*(\*|\/\/|\/\*|\|)/', $ligne)) {
                     continue;
                 }
 

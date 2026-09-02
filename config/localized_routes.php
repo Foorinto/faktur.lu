@@ -14,9 +14,15 @@
 | configuration se chargent par ordre alphabétique, et « localized_routes »
 | précède « marque ».
 |
+| ⚠️ La casse est écrasée volontairement. `APP_NAME` est aussi un nom
+| d'affichage : rien n'interdit qu'il vaille « Faktur.lu » en production. Sans
+| ce `Str::lower`, l'adresse deviendrait `/fr/pourquoi-Faktur-lu` et les cinq
+| adresses indexées tomberaient en 404 au premier déploiement. Une URL publique
+| ne doit pas dépendre d'une majuscule dans un fichier d'environnement.
+|
 */
 
-$marque = str_replace('.', '-', env('APP_NAME', 'faktur.lu'));
+$marque = str_replace('.', '-', mb_strtolower(trim((string) env('APP_NAME', 'faktur.lu'))));
 
 /**
  * Localized route slugs for each language.
