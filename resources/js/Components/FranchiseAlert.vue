@@ -99,7 +99,7 @@ const dismissButtonClasses = computed(() => {
 });
 
 const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('fr-LU', {
+    return new Intl.NumberFormat('fr-FR', {
         style: 'currency',
         currency: 'EUR',
     }).format(amount || 0);
