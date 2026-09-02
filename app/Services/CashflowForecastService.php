@@ -114,9 +114,27 @@ class CashflowForecastService
      * Le solde d'aujourd'hui : le relevé, plus ce qui est réellement entré et
      * sorti depuis.
      *
-     * ⚠️ Les mouvements du JOUR du relevé sont exclus. Un solde bancaire est
-     * arrêté en fin de journée : les encaissements de ce jour-là y figurent
-     * déjà, et les recompter les compterait deux fois.
+     * ⚠️ La frontière est INCLUSIVE : les encaissements du jour du relevé
+     * comptent.
+     *
+     * J'avais fait l'inverse, pour ne pas compter deux fois un encaissement
+     * déjà présent sur le relevé bancaire. Le raisonnement était joli et le
+     * résultat catastrophique : le relevé se saisit le jour même dans la quasi
+     * totalité des cas, si bien qu'un encaissement du jour était écarté des
+     * mouvements réels PENDANT que sa facture quittait la projection. Les
+     * 3 000 € disparaissaient des deux côtés à la fois. C'est exactement le
+     * bug que ce service était censé corriger, et un client l'a retrouvé en
+     * quelques minutes.
+     *
+     * La règle qui tient est celle-ci : chaque euro doit être compté une fois
+     * et une seule, soit comme déjà reçu, soit comme attendu. Ce qui sort de
+     * la projection doit entrer dans le réel, au même instant. La frontière
+     * est donc la même des deux côtés.
+     *
+     * Il reste un risque de double compte, si le relevé bancaire incluait déjà
+     * un encaissement du jour. Il est très inférieur à l'autre : un solde
+     * légèrement optimiste sur une journée se corrige au relevé suivant, de
+     * l'argent qui s'évapore fait douter de tout l'écran.
      */
     protected function soldeEstiméAujourdhui(?BankBalance $releve): array
     {
@@ -124,7 +142,7 @@ class CashflowForecastService
             return ['solde' => 0.0, 'encaissements' => 0.0, 'depenses' => 0.0];
         }
 
-        $depuis = $releve->balance_date->copy()->addDay()->toDateString();
+        $depuis = $releve->balance_date->toDateString();
         $jusqua = now()->toDateString();
 
         $encaissements = (float) $this->ventilation
@@ -142,13 +160,23 @@ class CashflowForecastService
     }
 
     /**
-     * Factures impayées, regroupées par date d'échéance.
+     * Ce qui RESTE DÛ sur les factures non soldées, regroupé par échéance.
      *
-     * ⚠️ Les factures en retard, et celles sans échéance, sont placées à
-     * DEMAIN et non à aujourd'hui. Le jour 0 doit rester le solde réel : y
-     * inscrire une recette attendue ferait afficher comme disponible un argent
-     * qui n'est pas arrivé, ce qui est précisément le reproche fait à l'ancien
-     * calcul.
+     * ⚠️ Le reste dû, et non le total de la facture. La projection raisonnait
+     * sur le STATUT : une facture « envoyée » pesait pour son montant entier,
+     * même déjà réglée pour moitié. L'acompte comptait alors deux fois, une
+     * fois comme encaissement réel et une fois comme recette attendue.
+     *
+     * C'est la même cause que la disparition des 3 000 € : dès que le statut
+     * décide seul, il existe des états où l'argent est compté deux fois, et
+     * d'autres où il n'est compté nulle part. Le reste dû, lui, ne ment
+     * jamais — il vaut zéro quand tout est encaissé, et la projection s'éteint
+     * d'elle-même.
+     *
+     * ⚠️ Les factures en retard, sans échéance, ou échéant aujourd'hui sont
+     * reportées à DEMAIN. Le jour 0 doit rester le solde réel : y inscrire une
+     * recette attendue afficherait comme disponible un argent qui n'est pas
+     * arrivé.
      */
     protected function getUnpaidInvoicesByDay(int $days): array
     {
@@ -156,38 +184,41 @@ class CashflowForecastService
         $demain = now()->addDay()->startOfDay();
         $endDate = now()->addDays($days)->endOfDay();
 
-        $overdueTotal = (float) Invoice::unpaid()
+        $factures = Invoice::unpaid()
             ->invoicesOnly()
-            ->where(function ($q) use ($today) {
-                $q->where('due_at', '<', $today)
-                  ->orWhereNull('due_at');
+            ->where(function ($q) use ($today, $endDate) {
+                $q->whereNull('due_at')
+                    ->orWhere('due_at', '<', $today)
+                    ->orWhereBetween('due_at', [$today, $endDate]);
             })
-            ->sum('total_ttc');
-
-        $futureIncome = Invoice::unpaid()
-            ->invoicesOnly()
-            ->whereNotNull('due_at')
-            ->where('due_at', '>=', $today)
-            ->where('due_at', '<=', $endDate)
-            ->selectRaw('due_at, SUM(total_ttc) as total_due')
-            ->groupBy('due_at')
-            ->orderBy('due_at')
-            ->get();
+            ->withSum('payments as deja_encaisse', 'amount')
+            ->get(['id', 'due_at', 'total_ttc']);
 
         $incomeByDay = [];
 
-        if ($overdueTotal > 0) {
-            $incomeByDay[$demain->format('Y-m-d')] = $overdueTotal;
-        }
+        foreach ($factures as $facture) {
+            $reste = (float) bcsub(
+                (string) $facture->total_ttc,
+                (string) ($facture->deja_encaisse ?? 0),
+                4
+            );
 
-        foreach ($futureIncome as $row) {
-            $date = Carbon::parse($row->due_at);
+            // Une facture soldée, ou trop-perçue, ne projette plus rien.
+            if ($reste <= 0) {
+                continue;
+            }
 
-            // Une facture échéant aujourd'hui n'est pas encore encaissée non
-            // plus : elle rejoint demain, pour la même raison.
-            $dateKey = $date->isSameDay($today) ? $demain->format('Y-m-d') : $date->format('Y-m-d');
+            $echeance = $facture->due_at ? Carbon::parse($facture->due_at) : null;
 
-            $incomeByDay[$dateKey] = (float) ($incomeByDay[$dateKey] ?? 0) + (float) $row->total_due;
+            $dateKey = ($echeance === null || $echeance->lessThanOrEqualTo($today))
+                ? $demain->format('Y-m-d')
+                : $echeance->format('Y-m-d');
+
+            $incomeByDay[$dateKey] = (float) bcadd(
+                (string) ($incomeByDay[$dateKey] ?? 0),
+                (string) $reste,
+                4
+            );
         }
 
         return $incomeByDay;

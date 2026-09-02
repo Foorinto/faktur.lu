@@ -151,22 +151,69 @@ class CashflowForecastTest extends TestCase
     }
 
     /**
-     * Un solde bancaire est arrêté en fin de journée : les encaissements du
-     * jour du relevé y figurent déjà. Les recompter les compterait deux fois.
+     * ⚠️ LA régression. Signalée par le client sur la toute première version
+     * de ce correctif :
+     *
+     *     « Avant : +90 jours 39.790 €. Après avoir soldé une facture de
+     *       3000 € : +90 jours 36.790 €, et le solde aujourd'hui n'a pas
+     *       changé. »
+     *
+     * J'avais écarté les encaissements datés du JOUR du relevé, pour ne pas
+     * compter deux fois un montant déjà présent sur le relevé bancaire. Sauf
+     * que le relevé se saisit le jour même : l'encaissement était donc écarté
+     * du réel PENDANT que sa facture quittait la projection. L'argent
+     * disparaissait des deux côtés à la fois, c'est-à-dire le bug d'origine,
+     * reconstitué par sa propre correction.
      */
-    public function test_payments_made_on_the_statement_day_are_not_counted_twice(): void
+    public function test_a_payment_on_the_statement_day_does_not_vanish(): void
     {
-        $releve = $this->releve(10000, 3);
-        $facture = $this->factureAEncaisser(5000, 10);
+        // Le relevé daté d'aujourd'hui : le cas de très loin le plus courant.
+        BankBalance::create(['balance_date' => now()->toDateString(), 'amount' => 10000]);
+
+        $facture = $this->factureAEncaisser(3000, 20);
+
+        $avant = $this->prevision();
 
         $facture->payments()->create([
-            'amount' => 5000,
-            'paid_at' => $releve->balance_date->toDateString(),
+            'amount' => 3000,
+            'paid_at' => now()->toDateString(),
             'method' => 'transfer',
         ]);
-        $facture->update(['status' => Invoice::STATUS_PAID]);
+        $facture->update(['status' => Invoice::STATUS_PAID, 'paid_at' => now()->toDateString()]);
 
-        $this->assertSame(10000.0, $this->prevision()['summary']['current']);
+        $apres = $this->prevision();
+
+        $this->assertSame(13000.0, $avant['summary']['days_90']);
+        $this->assertSame(13000.0, $apres['summary']['days_90'], 'Les 3 000 € ne doivent pas disparaître');
+        $this->assertSame(13000.0, $apres['summary']['current'], "Le solde du jour doit monter de l'encaissement");
+    }
+
+    /**
+     * Le second trou, de la même famille : une facture réglée à moitié restait
+     * projetée pour son montant ENTIER, pendant que l'acompte comptait déjà
+     * comme encaissement réel. Le même euro deux fois.
+     *
+     * La projection porte donc sur le RESTE DÛ, jamais sur le statut.
+     */
+    public function test_a_partial_payment_is_not_counted_twice(): void
+    {
+        BankBalance::create(['balance_date' => now()->toDateString(), 'amount' => 10000]);
+
+        $facture = $this->factureAEncaisser(3000, 20);
+        $facture->payments()->create([
+            'amount' => 1000,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+        ]);
+
+        $prevision = $this->prevision();
+
+        // 10 000 au relevé + 1 000 reçus = 11 000 aujourd'hui.
+        $this->assertSame(11000.0, $prevision['summary']['current']);
+
+        // Et à 90 jours : 13 000, pas 14 000. Seuls les 2 000 restants sont
+        // encore attendus.
+        $this->assertSame(13000.0, $prevision['summary']['days_90']);
     }
 
     /**
