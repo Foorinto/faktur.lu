@@ -5,6 +5,10 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { useTranslations } from "@/Composables/useTranslations";
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const page = usePage();
 
@@ -800,7 +804,7 @@ const getUsagePercentage = (used, limit) => {
                                             clip-rule="evenodd"
                                         />
                                     </svg>
-                                    Sans branding faktur.lu
+                                    Sans branding {{ marqueNom }}
                                 </li>
                             </ul>
                             <form

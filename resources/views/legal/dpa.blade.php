@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Accord de traitement des données (DPA) - faktur.lu</title>
+    <title>Accord de traitement des données (DPA) - {{ config('marque.nom') }}</title>
     <meta name="robots" content="noindex, nofollow">
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 880px; margin: 2rem auto; padding: 1.5rem; line-height: 1.6; color: #0f172a; }
@@ -29,7 +29,7 @@
 <table>
     <tr>
         <th style="width: 50%;">Responsable du traitement (« Client »)</th>
-        <th>Sous-traitant (« faktur.lu »)</th>
+        <th>Sous-traitant (« '.config('marque.nom').' »)</th>
     </tr>
     <tr>
         <td>
@@ -42,21 +42,21 @@
         <td>
             <strong>Exploitant :</strong> Alexandre Beaudier (entreprise individuelle)<br>
             <strong>Adresse :</strong> 13, Rue du Stade John F. Kennedy, L-3502 Dudelange, Luxembourg<br>
-            <strong>Site :</strong> https://faktur.lu/<br>
-            <strong>Contact RGPD :</strong> contact@faktur.lu
+            <strong>Site :</strong> https://{{ config('marque.domaine') }}/<br>
+            <strong>Contact RGPD :</strong> {{ config('marque.email_contact') }}
         </td>
     </tr>
 </table>
 
 <h2>1. Objet et durée</h2>
-<p>Le Sous-traitant s'engage à traiter les données à caractère personnel du Client conformément aux instructions documentées de ce dernier et au présent DPA, exclusivement dans le cadre de l'exécution du contrat de service faktur.lu (Conditions Générales d'Utilisation).</p>
+<p>Le Sous-traitant s'engage à traiter les données à caractère personnel du Client conformément aux instructions documentées de ce dernier et au présent DPA, exclusivement dans le cadre de l'exécution du contrat de service '.config('marque.nom').' (Conditions Générales d'Utilisation).</p>
 <p>Le présent DPA prend effet à la création du compte et à l'acceptation des Conditions Générales d'Utilisation, quel que soit le plan souscrit — y compris le plan gratuit — et reste en vigueur pendant toute la durée du contrat principal.</p>
 
 <h2>2. Nature et finalité du traitement</h2>
 <table>
     <tr><th>Élément</th><th>Description</th></tr>
     <tr><td>Nature du traitement</td><td>Collecte, stockage, mise à disposition, exportation des données nécessaires à la facturation et à la gestion comptable du Client.</td></tr>
-    <tr><td>Finalité</td><td>Fournir le service SaaS de facturation faktur.lu : émission de factures, devis, suivi des paiements, exports FAIA et comptables, portail comptable, support utilisateur.</td></tr>
+    <tr><td>Finalité</td><td>Fournir le service SaaS de facturation '.config('marque.nom').' : émission de factures, devis, suivi des paiements, exports FAIA et comptables, portail comptable, support utilisateur.</td></tr>
     <tr><td>Catégories de données</td><td>Données d'identification (nom, email, téléphone), données professionnelles (entreprise, TVA, RCS, IBAN), données de connexion (logs techniques, IP, user-agent), contenu utilisateur (factures, clients, devis, notes).</td></tr>
     <tr><td>Catégories de personnes concernées</td><td>Utilisateurs du compte Client, clients finaux du Client, employés et collaborateurs déclarés par le Client, fiduciaires invitées.</td></tr>
     <tr><td>Durée du traitement</td><td>Durée du contrat principal, puis 30 jours au maximum après sa résiliation, délai pendant lequel le Client peut exporter l'intégralité de ses données. Passé ce délai, elles sont supprimées. La conservation décennale des documents comptables (art. 16 du Code de commerce luxembourgeois) incombe au Client, en sa qualité de commerçant : il lui appartient de conserver ses exports.</td></tr>
@@ -137,7 +137,7 @@
 <h3>Gestion des incidents</h3>
 <ul>
     <li>Procédure de notification au Client sans retard injustifié en cas de violation de données</li>
-    <li>Contact dédié : <a href="mailto:contact@faktur.lu">contact@faktur.lu</a></li>
+    <li>Contact dédié : <a href="mailto:contact@'.config('marque.nom').'">.config('marque.email_contact').</a></li>
 </ul>
 
 <h2>Annexe 2 - Sous-traitants ultérieurs autorisés</h2>
@@ -146,7 +146,7 @@
     <tr><td>o2switch SAS</td><td>Hébergement infrastructure (serveurs, base de données, fichiers)</td><td>France (UE)</td></tr>
     <tr><td>Brevo SAS (ex-Sendinblue)</td><td>Envoi d'emails transactionnels (notifications, factures par email)</td><td>France (UE)</td></tr>
     <tr><td>Stripe Payments Europe Ltd</td><td>Traitement des paiements d'abonnement (cartes bancaires)</td><td>Irlande (UE)</td></tr>
-    <tr><td>Matomo (auto-hébergé sur l'infrastructure faktur.lu)</td><td>Mesure d'audience anonymisée, sans cookie</td><td>France (UE)</td></tr>
+    <tr><td>Matomo (auto-hébergé sur l'infrastructure '.config('marque.nom').')</td><td>Mesure d'audience anonymisée, sans cookie</td><td>France (UE)</td></tr>
     <tr><td>pCloud AG</td><td>Dépôt distant des sauvegardes de la base de données, chiffrées avant envoi</td><td>Suisse — pays reconnu adéquat par décision de la Commission européenne (art. 45 RGPD)</td></tr>
 </table>
 
@@ -161,7 +161,7 @@
     <div>
         {{-- Pré-rempli côté éditeur : un bloc laissé vide des deux côtés
              donne à penser que le document n'a jamais été relu par personne. --}}
-        <strong>Pour faktur.lu</strong><br>
+        <strong>Pour {{ config('marque.nom') }}</strong><br>
         Nom : Alexandre Beaudier<br>
         Fonction : Exploitant<br>
         Date : __________________________<br>

@@ -4,6 +4,10 @@ import { computed, ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import ToastNotification from '@/Components/ToastNotification.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const page = usePage();
@@ -110,7 +114,7 @@ const logout = () => {
         <footer class="bg-white dark:bg-surface-card border-t border-gray-200 dark:border-gray-700 mt-auto">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <p class="text-center text-sm text-slate-500 dark:text-slate-400">
-                    faktur.lu - {{ t('collaborator_space') }}
+                    {{ marqueNom }} - {{ t('collaborator_space') }}
                 </p>
             </div>
         </footer>

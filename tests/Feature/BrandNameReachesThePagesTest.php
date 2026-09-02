@@ -51,27 +51,21 @@ class BrandNameReachesThePagesTest extends TestCase
 
 
     /**
-     * Aucun gabarit ne doit plus écrire le nom comme une VALEUR.
+     * ⚠️ AUCUN gabarit ne doit plus contenir le nom, sous aucune forme.
      *
-     * Ce test manquait, et c'est pour cela que j'ai livré deux fois « c'est
-     * fait » alors qu'il restait des métadonnées de partage, un attribut alt et
-     * une dizaine de fils d'Ariane. Vérifier fichier par fichier ne dit rien de
-     * ce qu'on n'a pas pensé à regarder.
+     * Ma version précédente ne cherchait que dans les attributs. Elle a laissé
+     * passer le pied de page, les en-têtes de trois espaces, les titres de
+     * blog, le DPA et les modèles PDF. Trois fois j'ai annoncé « c'est fait »
+     * en vérifiant trop étroitement.
      *
-     * Il ne vise QUE les formes où le nom est une valeur d'attribut ou de
-     * champ. La prose des traductions reste hors de portée, volontairement.
+     * La règle est maintenant simple et sans exception : la chaîne
+     * « faktur.lu » ne doit apparaître dans aucun fichier .vue ni .blade.php.
+     *
+     * Les clés de traduction contenant « faktur » ne sont pas visées : elles
+     * ne portent jamais le « .lu ». Le vocabulaire allemand non plus.
      */
-    public function test_no_template_hardcodes_the_brand_as_a_value(): void
+    public function test_no_template_contains_the_brand_at_all(): void
     {
-        $motifs = [
-            'content="faktur.lu"',
-            'content="@fakturlu"',
-            'alt="faktur.lu"',
-            "'name': 'faktur.lu'",
-            '"name": "faktur.lu"',
-            "name: 'faktur.lu'",
-        ];
-
         $coupables = [];
 
         foreach (['resources/js', 'resources/views'] as $racine) {
@@ -86,14 +80,17 @@ class BrandNameReachesThePagesTest extends TestCase
 
                 $contenu = file_get_contents($fichier->getPathname());
 
-                foreach ($motifs as $motif) {
-                    if (str_contains($contenu, $motif)) {
-                        $coupables[] = str_replace(base_path().'/', '', $fichier->getPathname()).' : '.$motif;
-                    }
+                if (preg_match_all('/[Ff]aktur\.lu/', $contenu, $trouves)) {
+                    $coupables[] = str_replace(base_path().'/', '', $fichier->getPathname())
+                        .' ('.count($trouves[0]).')';
                 }
             }
         }
 
-        $this->assertSame([], $coupables, "Le nom est écrit en dur ici :\n".implode("\n", $coupables));
+        $this->assertSame(
+            [],
+            $coupables,
+            "Le nom est encore écrit en dur dans :\n".implode("\n", $coupables)
+        );
     }
 }

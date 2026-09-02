@@ -20,7 +20,7 @@ class PlansSeeder extends Seeder
             ['name' => 'free'],
             [
                 'display_name' => 'Gratuit',
-                'description' => 'Pour découvrir faktur.lu',
+                'description' => 'Pour découvrir '.config('marque.nom'),
                 'price_monthly' => 0,
                 'price_yearly' => 0,
                 'stripe_price_id_monthly' => null,

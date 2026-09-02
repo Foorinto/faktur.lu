@@ -52,7 +52,7 @@
             's5_3' => 'Fournir tous les documents au format demandé (XML, PDF/A, CSV)',
             's5_4' => 'Prendre des notes de toutes les communications (date, heure, contact)',
             's5_5' => 'Contacter une fiduciaire si le contrôle est complexe',
-            'cta' => '💡 Avec faktur.lu, générez votre FAIA en 1 clic et préparez un contrôle en quelques minutes. Essai gratuit 14 jours : faktur.lu',
+            'cta' => '💡 Avec '.config('marque.nom').', générez votre FAIA en 1 clic et préparez un contrôle en quelques minutes. Essai gratuit 14 jours : .config('marque.nom').',
             'footer' => 'Modèle gratuit',
         ],
         'de' => [
@@ -86,7 +86,7 @@
             's5_3' => 'Alle Unterlagen im verlangten Format bereitstellen (XML, PDF/A, CSV)',
             's5_4' => 'Notizen aller Kommunikation festhalten (Datum, Uhrzeit, Ansprechpartner)',
             's5_5' => 'Bei komplexer Prüfung einen Treuhänder hinzuziehen',
-            'cta' => '💡 Mit faktur.lu erstellen Sie Ihre FAIA-Datei mit einem Klick und bereiten eine Prüfung in wenigen Minuten vor. 14 Tage gratis testen: faktur.lu',
+            'cta' => '💡 Mit '.config('marque.nom').' erstellen Sie Ihre FAIA-Datei mit einem Klick und bereiten eine Prüfung in wenigen Minuten vor. 14 Tage gratis testen: .config('marque.nom').',
             'footer' => 'Kostenlose Vorlage',
         ],
         'en' => [
@@ -120,7 +120,7 @@
             's5_3' => 'Provide all documents in the format requested (XML, PDF/A, CSV)',
             's5_4' => 'Take notes of all communications (date, time, contact)',
             's5_5' => 'Contact a fiduciary if the audit is complex',
-            'cta' => '💡 With faktur.lu, generate your FAIA file in 1 click and prepare an audit in minutes. Free 14-day trial: faktur.lu',
+            'cta' => '💡 With '.config('marque.nom').', generate your FAIA file in 1 click and prepare an audit in minutes. Free 14-day trial: .config('marque.nom').',
             'footer' => 'Free template',
         ],
         'lb' => [
@@ -154,7 +154,7 @@
             's5_3' => 'All Dokumenter am gefuerderten Format liwweren (XML, PDF/A, CSV)',
             's5_4' => 'Notize vun all Kommunikatiounen huelen (Datum, Auerzäit, Kontakt)',
             's5_5' => 'Eng Fiduciaire kontaktéieren wann d\'Kontroll komplex ass',
-            'cta' => '💡 Mat faktur.lu generéiert Dir Är FAIA-Datei mat engem Klick a bereet eng Kontroll a Minutten vir. Gratis Essai 14 Deeg: faktur.lu',
+            'cta' => '💡 Mat '.config('marque.nom').' generéiert Dir Är FAIA-Datei mat engem Klick a bereet eng Kontroll a Minutten vir. Gratis Essai 14 Deeg: .config('marque.nom').',
             'footer' => 'Gratis Modell',
         ],
         'pt' => [
@@ -188,7 +188,7 @@
             's5_3' => 'Fornecer todos os documentos no formato solicitado (XML, PDF/A, CSV)',
             's5_4' => 'Tomar notas de todas as comunicações (data, hora, contacto)',
             's5_5' => 'Contactar uma fiduciária se a inspeção for complexa',
-            'cta' => '💡 Com o faktur.lu, gere o seu ficheiro FAIA num clique e prepare uma inspeção em minutos. Avaliação gratuita de 14 dias: faktur.lu',
+            'cta' => '💡 Com o '.config('marque.nom').', gere o seu ficheiro FAIA num clique e prepare uma inspeção em minutos. Avaliação gratuita de 14 dias: .config('marque.nom').',
             'footer' => 'Modelo gratuito',
         ],
     ];

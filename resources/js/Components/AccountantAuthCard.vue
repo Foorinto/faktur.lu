@@ -1,12 +1,16 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 /**
  * Habillage commun des écrans d'authentification du portail comptable.
  *
  * Les trois écrans du second facteur reprennent la mise en page de la
  * connexion : un comptable qui vient de saisir son mot de passe doit
- * reconnaître qu'il est encore chez faktur.lu, et non sur une page qui lui
+ * reconnaître qu'il est encore chez ${marqueNom.value}, et non sur une page qui lui
  * réclame un code sans qu'il sache pourquoi.
  */
 defineProps({

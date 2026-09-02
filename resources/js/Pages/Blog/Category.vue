@@ -4,6 +4,10 @@ import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useTranslations } from '@/Composables/useTranslations';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { localizedRoute, currentLocale } = useLocalizedRoute();
 const { t } = useTranslations();
@@ -26,7 +30,7 @@ const formatDate = (date) => {
 
 <template>
     <SeoHead
-        :title="`${category.name} - Blog | faktur.lu`"
+        :title="`${category.name} - Blog | {{ marqueNom }}`"
         :description="t('blog_category_meta_description', { name: category.name })"
         :canonical-path="`/blog/categorie/${category.slug}`"
     />
@@ -167,7 +171,7 @@ const formatDate = (date) => {
 
                         <!-- CTA -->
                         <div class="bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl p-6 text-white">
-                            <h3 class="text-lg font-semibold mb-2">Essayez faktur.lu</h3>
+                            <h3 class="text-lg font-semibold mb-2">Essayez {{ marqueNom }}</h3>
                             <p class="text-white/90 text-sm mb-4">
                                 Créez vos factures conformes au Luxembourg en quelques clics.
                             </p>

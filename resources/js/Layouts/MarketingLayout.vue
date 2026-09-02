@@ -6,6 +6,10 @@ import HoneypotFields from "@/Components/HoneypotFields.vue";
 import FlagIcon from "@/Components/FlagIcon.vue";
 import { useLocalizedRoute } from "@/Composables/useLocalizedRoute";
 import { useTranslations } from "@/Composables/useTranslations";
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { localizedRoute, currentLocale, availableLocales } = useLocalizedRoute();
 
@@ -1599,7 +1603,7 @@ onUnmounted(() => {
                     </div>
 
                     <p class="text-sm text-slate-500">
-                        &copy; {{ new Date().getFullYear() }} faktur.lu -
+                        &copy; {{ new Date().getFullYear() }} {{ marqueNom }} -
                         {{ t("landing.footer.all_rights") }}
                     </p>
                 </div>

@@ -1,5 +1,23 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Adresses localisées
+|--------------------------------------------------------------------------
+|
+| ⚠️ L'adresse de la page « Pourquoi » contient le nom de la marque. Ce sont
+| des URL PUBLIQUES, visibles dans la barre d'adresse et indexées par les
+| moteurs : elles changeront le jour du changement de dénomination, et
+| demanderont cinq redirections 301.
+|
+| Le nom est lu depuis `env` et non `config('marque.nom')` : les fichiers de
+| configuration se chargent par ordre alphabétique, et « localized_routes »
+| précède « marque ».
+|
+*/
+
+$marque = str_replace('.', '-', env('APP_NAME', 'faktur.lu'));
+
 /**
  * Localized route slugs for each language.
  *
@@ -36,11 +54,11 @@ return [
     ],
 
     'why_faktur' => [
-        'fr' => 'pourquoi-faktur-lu',
-        'de' => 'warum-faktur-lu',
-        'en' => 'why-faktur-lu',
-        'lb' => 'firwat-faktur-lu',
-        'pt' => 'porque-faktur-lu',
+        'fr' => 'pourquoi-'.$marque,
+        'de' => 'warum-'.$marque,
+        'en' => 'why-'.$marque,
+        'lb' => 'firwat-'.$marque,
+        'pt' => 'porque-'.$marque,
     ],
 
     'partners' => [

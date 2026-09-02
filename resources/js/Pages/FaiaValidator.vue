@@ -6,6 +6,10 @@ import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useMatomo } from '@/Composables/useMatomo';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const matomo = useMatomo();
@@ -458,7 +462,7 @@ const trackCtaClick = () => {
                         </Link>
                     </div>
 
-                    <!-- Pourquoi faktur.lu -->
+                    <!-- Pourquoi {{ marqueNom }} -->
                     <div class="bg-white rounded-2xl border border-gray-200 p-8">
                         <h3 class="text-lg font-bold text-slate-900 mb-6 text-center">
                             {{ t('faia_validator.why_title') }}

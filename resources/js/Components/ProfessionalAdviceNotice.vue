@@ -1,6 +1,10 @@
 <script setup>
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 /**
- * Rappel que faktur.lu produit des chiffres, sans les attester.
+ * Rappel que ${marqueNom.value} produit des chiffres, sans les attester.
  *
  * Posé aux endroits où l'utilisateur s'apprête à s'appuyer sur une sortie de
  * l'outil pour une démarche fiscale — un export remis à sa fiduciaire, un

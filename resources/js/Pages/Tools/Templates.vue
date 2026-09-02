@@ -8,6 +8,10 @@ import SchemaJsonLd from '@/Components/SchemaJsonLd.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import { useToolSchemas } from '@/Composables/useToolSchemas';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -121,7 +125,7 @@ const relatedTools = computed(() => [
             <div class="mx-auto max-w-5xl px-6 lg:px-8">
                 <!-- Breadcrumb -->
                 <nav class="mb-8 text-sm">
-                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">faktur.lu</Link>
+                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">{{ marqueNom }}</Link>
                     <span class="text-slate-400 mx-2">/</span>
                     <Link :href="localizedRoute('tools')" class="text-slate-500 hover:text-slate-700">{{ t('tools.index.breadcrumb') }}</Link>
                     <span class="text-slate-400 mx-2">/</span>

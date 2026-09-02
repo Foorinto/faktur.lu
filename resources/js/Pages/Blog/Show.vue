@@ -52,8 +52,8 @@ const breadcrumbSchema = computed(() => ({
     ],
 }));
 
-// E-E-A-T author: Alexandre Beaudier - founder of faktur.lu, cross-border worker (frontalier)
-// Author is the organization (faktur.lu): no personal byline on the articles.
+// E-E-A-T author: Alexandre Beaudier - founder of ${marqueNom.value}, cross-border worker (frontalier)
+// Author is the organization (${marqueNom.value}): no personal byline on the articles.
 const authorSchema = computed(() => ({
     '@type': 'Organization',
     '@id': `${appUrl.value}/#organization`,
@@ -138,7 +138,7 @@ const shareOnFacebook = () => {
 
 <template>
     <SeoHead
-        :title="`${post.meta_title} | faktur.lu`"
+        :title="`${post.meta_title} | {{ marqueNom }}`"
         :description="post.meta_description"
         :canonical-path="`/blog/${post.slug}`"
         :image="post.cover_image_url"

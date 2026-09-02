@@ -4,6 +4,10 @@ import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { emailContact: marqueEmailContact } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -60,7 +64,7 @@ const { localizedRoute } = useLocalizedRoute();
                             <ul class="space-y-2 text-slate-700">
                                 <li><strong>{{ t('legal_privacy_s2_label_responsable') }}</strong> {{ t('legal_privacy_s2_value_responsable') }}</li>
                                 <li><strong>{{ t('legal_privacy_s2_label_address') }}</strong> {{ t('legal_privacy_s2_value_address') }}</li>
-                                <li><strong>{{ t('legal_privacy_s2_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_privacy_s2_label_email') }}</strong> <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a></li>
                                 <li><strong>{{ t('legal_privacy_s2_label_rcs') }}</strong> {{ t('legal_privacy_s2_value_rcs') }}</li>
                             </ul>
                         </div>
@@ -260,7 +264,7 @@ const { localizedRoute } = useLocalizedRoute();
                         </div>
 
                         <p class="text-slate-600 mt-6">
-                            {{ t('legal_privacy_s8_p_contact_before') }} <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a>{{ t('legal_privacy_s8_p_contact_after') }}
+                            {{ t('legal_privacy_s8_p_contact_before') }} <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a>{{ t('legal_privacy_s8_p_contact_after') }}
                         </p>
 
                         <p class="text-slate-600 mt-4">
@@ -302,7 +306,7 @@ const { localizedRoute } = useLocalizedRoute();
                         </p>
                         <div class="bg-slate-50 rounded-lg p-4 text-sm">
                             <ul class="space-y-2 text-slate-700">
-                                <li><strong>{{ t('legal_privacy_s11_label_email') }}</strong> <a href="mailto:contact@faktur.lu" class="text-primary-500">contact@faktur.lu</a></li>
+                                <li><strong>{{ t('legal_privacy_s11_label_email') }}</strong> <a href="mailto:${marqueEmailContact}" class="text-primary-500">{{ marqueEmailContact }}</a></li>
                                 <li><strong>{{ t('legal_privacy_s11_label_address') }}</strong> {{ t('legal_privacy_s11_value_address') }}</li>
                             </ul>
                         </div>

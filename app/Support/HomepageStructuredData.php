@@ -39,7 +39,7 @@ class HomepageStructuredData
             '@type' => ['Organization', 'LocalBusiness'],
             '@id' => "$appUrl/#organization",
             'name' => config('marque.nom'),
-            'alternateName' => ['Faktur.lu', 'Faktur'],
+            'alternateName' => config('marque.noms_alternatifs'),
             'identifier' => [
                 '@type' => 'PropertyValue',
                 'propertyID' => 'Wikidata',
@@ -99,7 +99,7 @@ class HomepageStructuredData
             '@type' => 'SoftwareApplication',
             '@id' => "$appUrl/#software",
             'name' => config('marque.nom'),
-            'alternateName' => 'Faktur',
+            'alternateName' => config('marque.noms_alternatifs'),
             'description' => $t('schema_software_description'),
             'applicationCategory' => 'BusinessApplication',
             'applicationSubCategory' => 'Invoicing & Billing Software',

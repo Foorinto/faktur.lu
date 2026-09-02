@@ -42,9 +42,14 @@ class BrandNameIsConfigurableTest extends TestCase
 
     public function test_the_configuration_derives_everything_from_one_value(): void
     {
-        // Les adresses se déduisent du domaine : rien à changer deux fois.
+        // L'adresse de contact se déduit du domaine : rien à changer deux fois.
         $this->assertStringContainsString(config('marque.domaine'), config('marque.email_contact'));
-        $this->assertStringContainsString(config('marque.domaine'), config('marque.email_expediteur'));
+
+        // ⚠️ Pas d'assertion sur `email_expediteur` : il lit MAIL_FROM_ADDRESS,
+        // renseigné séparément dans .env et donc indépendant du domaine. Ce
+        // test échouait dès qu'on basculait APP_NAME pour essayer. Le repli,
+        // lui, est vérifié par test_the_default_sender_follows_the_domain.
+        $this->assertNotEmpty(config('marque.email_expediteur'));
     }
 
     /**

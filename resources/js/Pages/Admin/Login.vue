@@ -5,6 +5,10 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 defineProps({
     error: String,
@@ -29,7 +33,7 @@ const submit = () => {
         <div class="w-full max-w-md">
             <!-- Logo -->
             <div class="mb-8 text-center">
-                <h1 class="text-3xl font-bold text-purple-400">faktur.lu</h1>
+                <h1 class="text-3xl font-bold text-purple-400">{{ marqueNom }}</h1>
                 <p class="mt-2 text-slate-400">Administration</p>
             </div>
 

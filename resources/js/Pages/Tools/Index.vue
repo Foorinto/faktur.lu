@@ -112,7 +112,7 @@ const schemas = computed(() => [
             <div class="mx-auto max-w-6xl px-6 lg:px-8">
                 <!-- Breadcrumb -->
                 <nav class="mb-8 text-sm">
-                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">faktur.lu</Link>
+                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">{{ marqueNom }}</Link>
                     <span class="text-slate-400 mx-2">/</span>
                     <span class="text-slate-900">{{ t('tools.index.breadcrumb') }}</span>
                 </nav>

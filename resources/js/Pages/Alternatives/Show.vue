@@ -5,6 +5,10 @@ import SeoHead from '@/Components/SeoHead.vue';
 import MarketingLayout from '@/Layouts/MarketingLayout.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useLocalizedRoute } from '@/Composables/useLocalizedRoute';
+import { useMarque } from "@/Composables/useMarque";
+
+const { nom: marqueNom } = useMarque();
+
 
 const { t } = useTranslations();
 const { localizedRoute } = useLocalizedRoute();
@@ -99,7 +103,7 @@ onUnmounted(() => { if (faqScript) document.head.removeChild(faqScript); });
                         <thead>
                             <tr class="bg-slate-50 border-b border-slate-200">
                                 <th class="text-left font-semibold text-slate-700 px-4 py-4 w-1/3">{{ t('alternatives.common.criterion') }}</th>
-                                <th class="text-left font-semibold text-primary-700 px-4 py-4">faktur.lu</th>
+                                <th class="text-left font-semibold text-primary-700 px-4 py-4">{{ marqueNom }}</th>
                                 <th class="text-left font-semibold text-slate-700 px-4 py-4">
                                     {{ competitor.name }}
                                     <span class="block text-xs font-normal text-slate-400">{{ t('alternatives.common.competitor_note') }}</span>
@@ -121,7 +125,7 @@ onUnmounted(() => { if (faqScript) document.head.removeChild(faqScript); });
             </div>
         </section>
 
-        <!-- Why faktur.lu -->
+        <!-- Why {{ marqueNom }} -->
         <section class="py-16">
             <div class="max-w-6xl mx-auto px-6 lg:px-8">
                 <h2 class="text-3xl font-bold text-slate-900 mb-12">{{ t('alternatives.common.why_title') }}</h2>
@@ -170,7 +174,7 @@ onUnmounted(() => { if (faqScript) document.head.removeChild(faqScript); });
                 <div class="flex flex-wrap gap-3">
                     <a v-for="other in others" :key="other.slug" :href="altPath(other.slug)"
                        class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-200 text-sm text-slate-700 hover:border-primary-300 hover:text-primary-700 transition-colors">
-                        faktur.lu vs {{ other.name }}
+                        {{ marqueNom }} vs {{ other.name }}
                     </a>
                 </div>
             </div>

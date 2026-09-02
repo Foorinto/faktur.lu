@@ -77,7 +77,7 @@
             'l3_li2' => 'Au tribunal compétent du Grand-Duché de Luxembourg pour une procédure judiciaire',
             'l3_li3' => 'En réclamant, outre le montant principal : les intérêts légaux, l\'indemnité forfaitaire de 40 EUR et les frais de recouvrement supplémentaires',
             'l3_p4' => 'J\'espère que vous préférerez éviter cette escalade en réglant la dette dans le délai imparti.',
-            'cta' => '💡 Remplacez les [placeholders] par vos informations. Avec faktur.lu, automatisez vos relances : envoi programmé, suivi des paiements, calcul automatique des intérêts. faktur.lu',
+            'cta' => '💡 Remplacez les [placeholders] par vos informations. Avec '.config('marque.nom').', automatisez vos relances : envoi programmé, suivi des paiements, calcul automatique des intérêts. .config('marque.nom').',
             'footer' => 'Modèle gratuit',
         ],
         'de' => [
@@ -135,7 +135,7 @@
             'l3_li2' => 'Ein Verfahren beim zuständigen Gericht in Luxemburg einleiten',
             'l3_li3' => 'Zusätzlich zum Hauptbetrag fordern: gesetzliche Zinsen, die pauschale Entschädigung von 40 EUR sowie zusätzliche Inkassokosten',
             'l3_p4' => 'Ich vertraue darauf, dass Sie diese Eskalation vermeiden möchten, indem Sie die Schuld innerhalb der genannten Frist begleichen.',
-            'cta' => '💡 Ersetzen Sie die [Platzhalter] durch Ihre spezifischen Informationen. Mit faktur.lu automatisieren Sie Ihre Mahnungen: geplante E-Mails, Zahlungsverfolgung, Verzugszinsberechnung. faktur.lu',
+            'cta' => '💡 Ersetzen Sie die [Platzhalter] durch Ihre spezifischen Informationen. Mit '.config('marque.nom').' automatisieren Sie Ihre Mahnungen: geplante E-Mails, Zahlungsverfolgung, Verzugszinsberechnung. .config('marque.nom').',
             'footer' => 'Kostenlose Vorlage',
         ],
         'en' => [
@@ -193,7 +193,7 @@
             'l3_li2' => 'Initiate proceedings before the competent Luxembourg court',
             'l3_li3' => 'Claim, in addition to the principal amount: legal interest, the 40 EUR fixed indemnity, and additional collection costs',
             'l3_p4' => 'I trust that you will prefer to avoid this escalation by settling the debt within the stated timeframe.',
-            'cta' => '💡 Replace [placeholders] with your specific information. With faktur.lu, automate your reminders: scheduled emails, invoice tracking, late interest calculation. faktur.lu',
+            'cta' => '💡 Replace [placeholders] with your specific information. With '.config('marque.nom').', automate your reminders: scheduled emails, invoice tracking, late interest calculation. .config('marque.nom').',
             'footer' => 'Free template',
         ],
         'lb' => [
@@ -251,7 +251,7 @@
             'l3_li2' => 'Eng Prozedur viru kompetenten Geriicht vu Lëtzebuerg aleeden',
             'l3_li3' => 'Niewt dem Haaptbetrag fuerderen: gesetzlech Interessen, déi forfaitär Entschiedegung vu 40 EUR an zousätzlech Recouvrementkäschten',
             'l3_p4' => 'Ech hoffen, datt Dir dës Eskalatioun léiwer vermeit, andeems Dir d\'Schold bannent der genannter Fräscht bezuelt.',
-            'cta' => '💡 Ersetzt d\'[Platzhalter] duerch Är spezifesch Informatiounen. Mat faktur.lu automatiséiert Dir Är Rappeller: programméiert Mailen, Suivi vun de Bezuelungen, automatesch Berechnung vun den Interessen. faktur.lu',
+            'cta' => '💡 Ersetzt d\'[Platzhalter] duerch Är spezifesch Informatiounen. Mat '.config('marque.nom').' automatiséiert Dir Är Rappeller: programméiert Mailen, Suivi vun de Bezuelungen, automatesch Berechnung vun den Interessen. .config('marque.nom').',
             'footer' => 'Gratis Modell',
         ],
         'pt' => [
@@ -309,7 +309,7 @@
             'l3_li2' => 'Ao tribunal competente do Grão-Ducado do Luxemburgo para procedimento judicial',
             'l3_li3' => 'Reclamando, além do montante principal: os juros legais, a indemnização forfetária de 40 EUR e os custos adicionais de cobrança',
             'l3_p4' => 'Espero que prefira evitar esta escalada regularizando a dívida no prazo indicado.',
-            'cta' => '💡 Substitua os [placeholders] pelas suas informações. Com o faktur.lu, automatize os seus avisos: envio programado, acompanhamento de pagamentos, cálculo automático de juros. faktur.lu',
+            'cta' => '💡 Substitua os [placeholders] pelas suas informações. Com o '.config('marque.nom').', automatize os seus avisos: envio programado, acompanhamento de pagamentos, cálculo automático de juros. .config('marque.nom').',
             'footer' => 'Modelo gratuito',
         ],
     ];

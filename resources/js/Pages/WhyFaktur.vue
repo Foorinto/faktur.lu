@@ -108,7 +108,7 @@ onUnmounted(() => {
 
                 <!-- Breadcrumb -->
                 <nav class="mb-8 text-sm">
-                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">faktur.lu</Link>
+                    <Link :href="localizedRoute('home')" class="text-slate-500 hover:text-slate-700">{{ marqueNom }}</Link>
                     <span class="text-slate-400 mx-2">/</span>
                     <span class="text-slate-900">{{ t('why_faktur.breadcrumb') }}</span>
                 </nav>
