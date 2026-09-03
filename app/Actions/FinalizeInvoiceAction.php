@@ -106,6 +106,20 @@ class FinalizeInvoiceAction
                 ]);
             });
 
+            // ⚠️ Une facture peut arriver ICI déjà encaissée en totalité.
+            //
+            // Depuis l'acompte, un brouillon accepte les encaissements : le
+            // client règle à la signature du devis, avant que la facture
+            // n'existe. Sans ce rafraîchissement, la facture ressortait
+            // « finalisée » avec un reste dû nul, le bouton « Marquer comme
+            // payée » restait actif, et le clic créait un encaissement de
+            // ZÉRO euro sans moyen de paiement. Un client en avait six, qui
+            // polluaient sa ventilation par moyen et son livre de recettes.
+            //
+            // Le statut de règlement se déduit des encaissements : il doit donc
+            // être recalculé au moment précis où la créance naît.
+            $invoice->refresh()->refreshPaymentStatus();
+
             return $invoice->refresh();
         });
     }

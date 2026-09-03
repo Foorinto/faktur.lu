@@ -511,6 +511,29 @@ class InvoiceController extends Controller
             return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
         }
 
+        // ⚠️ Une facture PAYÉE ne redevient pas « envoyée ».
+        //
+        // Depuis que la finalisation reconnaît une facture déjà soldée par un
+        // acompte, celle-ci peut naître payée. Or `isFinalized()` renvoie vrai
+        // pour ce statut : sans ce garde, le bouton « Marquer comme envoyée »
+        // la faisait retomber en « envoyée », intégralement réglée et de
+        // nouveau due.
+        //
+        // L'envoi est un FAIT, le règlement est un ÉTAT. On enregistre le fait
+        // sans mentir sur l'état. Les deux chemins d'envoi par courriel, eux,
+        // testent `status === STATUS_FINALIZED` à l'identique et n'ont jamais
+        // eu ce défaut.
+        if ($invoice->isPaid()) {
+            // ⚠️ Ne pas écraser une date d'envoi existante. Une facture envoyée
+            // le 1er puis réglée le 5 repasse par ici sans que le garde
+            // `status === STATUS_SENT` ne l'arrête, son statut étant devenu
+            // « payée ». Sans ce `??`, la vraie date d'envoi serait remplacée
+            // par celle du jour, et elle est exposée par l'API.
+            $invoice->update(['sent_at' => $invoice->sent_at ?? now()]);
+
+            return back()->with('success', __('app.invoices_flash.marked_sent'));
+        }
+
         $invoice->update([
             'status' => Invoice::STATUS_SENT,
             'sent_at' => now(),
@@ -539,6 +562,21 @@ class InvoiceController extends Controller
             'paid_at' => 'nullable|date|before_or_equal:today',
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
         ]);
+
+        // ⚠️ Rien à encaisser : la facture est déjà couverte, typiquement par
+        // un acompte versé au stade du brouillon. Créer ici un encaissement du
+        // reste dû reviendrait à inscrire ZÉRO euro, sans moyen de paiement,
+        // dans la ventilation et le livre de recettes.
+        //
+        // La cause première est corrigée dans FinalizeInvoiceAction, qui
+        // rafraîchit désormais le statut. Ce garde-fou reste : le statut peut
+        // se désynchroniser par d'autres chemins, et une écriture comptable
+        // vide ne doit jamais dépendre d'un seul verrou.
+        if ($invoice->amountDue() <= 0) {
+            $invoice->refreshPaymentStatus();
+
+            return back()->with('success', __('app.invoices_flash.marked_paid'));
+        }
 
         $invoice->payments()->create([
             'amount' => $invoice->amountDue(),
