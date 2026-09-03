@@ -540,6 +540,21 @@ class InvoiceController extends Controller
             'method' => ['nullable', Rule::in(InvoicePayment::METHODS)],
         ]);
 
+        // ⚠️ Rien à encaisser : la facture est déjà couverte, typiquement par
+        // un acompte versé au stade du brouillon. Créer ici un encaissement du
+        // reste dû reviendrait à inscrire ZÉRO euro, sans moyen de paiement,
+        // dans la ventilation et le livre de recettes.
+        //
+        // La cause première est corrigée dans FinalizeInvoiceAction, qui
+        // rafraîchit désormais le statut. Ce garde-fou reste : le statut peut
+        // se désynchroniser par d'autres chemins, et une écriture comptable
+        // vide ne doit jamais dépendre d'un seul verrou.
+        if ($invoice->amountDue() <= 0) {
+            $invoice->refreshPaymentStatus();
+
+            return back()->with('success', __('app.invoices_flash.marked_paid'));
+        }
+
         $invoice->payments()->create([
             'amount' => $invoice->amountDue(),
             'paid_at' => $validated['paid_at'] ?? now()->toDateString(),
