@@ -136,6 +136,38 @@ class EncaissementsFantomesTest extends TestCase
     }
 
     /**
+     * ⚠️ Régression introduite PAR la correction ci-dessus, trouvée en la
+     * relisant plutôt qu'en la testant.
+     *
+     * Depuis que la finalisation reconnaît une facture déjà soldée, celle-ci
+     * peut naître « payée ». Or `isFinalized()` renvoie vrai pour ce statut :
+     * le garde de `markAsSent()` laissait donc passer, et la facture repassait
+     * de « payée » à « envoyée ». Intégralement réglée, et de nouveau due.
+     *
+     * L'envoi est un FAIT, le règlement est un ÉTAT. On enregistre le fait
+     * sans mentir sur l'état.
+     */
+    public function test_marking_a_settled_invoice_as_sent_does_not_unpay_it(): void
+    {
+        $facture = $this->brouillon(1000);
+        $facture->payments()->create([
+            'amount' => 1000,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+        ]);
+
+        app(FinalizeInvoiceAction::class)->execute($facture);
+        $this->assertTrue($facture->refresh()->isPaid());
+
+        $this->post(route('invoices.mark-sent', $facture));
+
+        $facture->refresh();
+
+        $this->assertTrue($facture->isPaid(), 'Une facture réglée reste réglée');
+        $this->assertNotNull($facture->sent_at, "L'envoi est tout de même enregistré");
+    }
+
+    /**
      * Le cas voisin, qui ne doit PAS basculer : un acompte partiel laisse la
      * facture due.
      */

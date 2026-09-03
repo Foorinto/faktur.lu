@@ -511,6 +511,24 @@ class InvoiceController extends Controller
             return back()->with('error', __('app.invoices_flash.error_action_not_allowed'));
         }
 
+        // ⚠️ Une facture PAYÉE ne redevient pas « envoyée ».
+        //
+        // Depuis que la finalisation reconnaît une facture déjà soldée par un
+        // acompte, celle-ci peut naître payée. Or `isFinalized()` renvoie vrai
+        // pour ce statut : sans ce garde, le bouton « Marquer comme envoyée »
+        // la faisait retomber en « envoyée », intégralement réglée et de
+        // nouveau due.
+        //
+        // L'envoi est un FAIT, le règlement est un ÉTAT. On enregistre le fait
+        // sans mentir sur l'état. Les deux chemins d'envoi par courriel, eux,
+        // testent `status === STATUS_FINALIZED` à l'identique et n'ont jamais
+        // eu ce défaut.
+        if ($invoice->isPaid()) {
+            $invoice->update(['sent_at' => now()]);
+
+            return back()->with('success', __('app.invoices_flash.marked_sent'));
+        }
+
         $invoice->update([
             'status' => Invoice::STATUS_SENT,
             'sent_at' => now(),
