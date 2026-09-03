@@ -524,7 +524,12 @@ class InvoiceController extends Controller
         // testent `status === STATUS_FINALIZED` à l'identique et n'ont jamais
         // eu ce défaut.
         if ($invoice->isPaid()) {
-            $invoice->update(['sent_at' => now()]);
+            // ⚠️ Ne pas écraser une date d'envoi existante. Une facture envoyée
+            // le 1er puis réglée le 5 repasse par ici sans que le garde
+            // `status === STATUS_SENT` ne l'arrête, son statut étant devenu
+            // « payée ». Sans ce `??`, la vraie date d'envoi serait remplacée
+            // par celle du jour, et elle est exposée par l'API.
+            $invoice->update(['sent_at' => $invoice->sent_at ?? now()]);
 
             return back()->with('success', __('app.invoices_flash.marked_sent'));
         }

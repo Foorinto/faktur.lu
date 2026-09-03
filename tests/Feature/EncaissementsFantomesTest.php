@@ -168,6 +168,43 @@ class EncaissementsFantomesTest extends TestCase
     }
 
     /**
+     * Audit du correctif précédent : la date d'envoi ne doit pas être écrasée.
+     *
+     * En laissant passer une facture payée dans `markAsSent()` pour y inscrire
+     * `sent_at`, j'ai ouvert un second chemin : une facture envoyée le 1er,
+     * réglée le 5, puis repassée par ce bouton verrait sa date d'envoi
+     * remplacée par celle du jour. La vraie date d'envoi serait perdue, et
+     * elle est exposée par l'API.
+     */
+    public function test_marking_as_sent_again_does_not_erase_the_original_send_date(): void
+    {
+        $facture = $this->brouillon(1000);
+        app(FinalizeInvoiceAction::class)->execute($facture);
+
+        $envoiInitial = now()->subDays(5)->startOfDay();
+        $facture->refresh()->update([
+            'status' => Invoice::STATUS_SENT,
+            'sent_at' => $envoiInitial,
+        ]);
+
+        $facture->fresh()->payments()->create([
+            'amount' => 1000,
+            'paid_at' => now()->toDateString(),
+            'method' => 'transfer',
+        ]);
+        $facture->fresh()->refreshPaymentStatus();
+        $this->assertTrue($facture->fresh()->isPaid());
+
+        $this->post(route('invoices.mark-sent', $facture));
+
+        $this->assertSame(
+            $envoiInitial->toDateString(),
+            $facture->fresh()->sent_at->toDateString(),
+            "La date d'envoi réelle ne doit pas être remplacée par celle du jour"
+        );
+    }
+
+    /**
      * Le cas voisin, qui ne doit PAS basculer : un acompte partiel laisse la
      * facture due.
      */
