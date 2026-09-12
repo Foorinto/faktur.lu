@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Support\CsvSafe;
+
 use App\Models\AuditExport;
 use App\Models\BusinessSettings;
 use App\Models\Invoice;
@@ -424,6 +426,8 @@ class AuditExportService
      */
     protected function escapeCsvField(string $value): string
     {
+        $value = CsvSafe::field($value);
+
         if (str_contains($value, ';') || str_contains($value, '"') || str_contains($value, "\n")) {
             return '"' . str_replace('"', '""', $value) . '"';
         }

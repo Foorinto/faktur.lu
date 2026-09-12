@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Ihr :app-Passwort wurde zurückgesetzt', 'line' => 'Ein Administrator hat das Passwort Ihres Kontos zurückgesetzt. Nutzen Sie « Passwort vergessen », um ein neues festzulegen.'],
+        '2fa_reset' => ['subject' => 'Die Zwei-Faktor-Authentifizierung Ihres :app-Kontos wurde zurückgesetzt', 'line' => 'Ein Administrator hat die Zwei-Faktor-Authentifizierung Ihres Kontos zurückgesetzt. Richten Sie sie bei der nächsten Anmeldung neu ein.'],
+        'warning' => 'Falls diese Aktion nicht gerechtfertigt erscheint, wenden Sie sich sofort an den :app-Support.',
+    ],
+    'email_changed' => [
+        'subject' => 'Ihre :app-E-Mail-Adresse wurde geändert',
+        'intro' => 'Die E-Mail-Adresse Ihres Kontos wurde soeben geändert.',
+        'from' => 'Bisherige Adresse: :email',
+        'to' => 'Neue Adresse: :email',
+        'warning' => 'Falls Sie diese Änderung nicht vorgenommen haben, wenden Sie sich sofort an den :app-Support und setzen Sie Ihr Passwort zurück.',
+    ],
     // Essai et abonnement, ajoutés le 2026-08-18 : ces clés n'existaient qu'en
     // français, les utilisateurs germanophones voyaient donc le nom de la clé.
     'trial_expired_message' => 'Ihre Testphase ist abgelaufen. Wählen Sie ein Abonnement, um :app weiter zu nutzen.',
@@ -331,6 +343,7 @@ return [
     'verification_link_sent' => 'Ein neuer Verifizierungslink wurde an die bei der Registrierung angegebene E-Mail-Adresse gesendet.',
     'resend_verification_email' => 'Verifizierungs-E-Mail erneut senden',
     'confirm_password_title' => 'Passwort bestätigen',
+    'confirm_password_for_email' => 'Um Ihre E-Mail-Adresse zu ändern, bestätigen Sie Ihr aktuelles Passwort.',
     'confirm_password_message' => 'Dies ist ein sicherer Bereich. Bitte bestätigen Sie Ihr Passwort, bevor Sie fortfahren.',
     'two_factor_title' => 'Zwei-Faktor-Authentifizierung',
     'two_factor_description' => 'Bitte geben Sie den 6-stelligen Code ein, der von Ihrer Authenticator-App generiert wurde (Google Authenticator, Authy, etc.).',

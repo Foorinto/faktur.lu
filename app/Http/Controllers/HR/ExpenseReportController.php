@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\HR;
 
+use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
 use App\Models\HR\Employee;
 use App\Models\HR\ExpenseCategory;
@@ -54,8 +56,8 @@ class ExpenseReportController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'employee_id' => ['required', 'exists:employees,id'],
-            'expense_category_id' => ['required', 'exists:expense_categories,id'],
+            'employee_id' => ['required', Rule::exists('employees', 'id')->where('user_id', auth()->id())],
+            'expense_category_id' => ['required', Rule::exists('expense_categories', 'id')->where('user_id', auth()->id())],
             'date' => ['required', 'date'],
             'description' => ['nullable', 'string', 'max:1000'],
             'vendor' => ['required', 'string', 'max:255'],

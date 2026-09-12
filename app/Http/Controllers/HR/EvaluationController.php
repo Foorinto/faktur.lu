@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\HR;
 
+use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
 use App\Models\HR\Employee;
 use App\Models\HR\EmployeeDocument;
@@ -33,7 +35,7 @@ class EvaluationController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'date' => ['required', 'date'],
-            'evaluator_id' => ['required', 'exists:employees,id'],
+            'evaluator_id' => ['required', Rule::exists('employees', 'id')->where('user_id', auth()->id())],
         ]);
 
         $employee->evaluations()->create($validated);

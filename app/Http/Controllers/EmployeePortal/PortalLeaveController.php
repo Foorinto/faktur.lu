@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\EmployeePortal;
 
+use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeePortal\Concerns\ResolvesEmployee;
 use App\Models\HR\LeaveBalance;
@@ -59,7 +61,7 @@ class PortalLeaveController extends Controller
         $employee = $this->employee();
 
         $validated = $request->validate([
-            'leave_type_id' => ['required', 'exists:leave_types,id'],
+            'leave_type_id' => ['required', Rule::exists('leave_types', 'id')->where('user_id', $employee->user_id)],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'days_count' => ['required', 'numeric', 'min:0.5'],

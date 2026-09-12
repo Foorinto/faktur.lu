@@ -2,6 +2,8 @@
 
 namespace App\Services\Accounting;
 
+use App\Support\CsvSafe;
+
 use App\Models\AccountingSetting;
 
 /**
@@ -93,6 +95,6 @@ class FecFormatter
     /** Nettoie les séparateurs (tab/retours) pour ne pas casser les colonnes. */
     private function clean($value): string
     {
-        return str_replace(["\t", "\r", "\n"], ' ', (string) $value);
+        return CsvSafe::field(str_replace(["\t", "\r", "\n"], ' ', (string) $value));
     }
 }

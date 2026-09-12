@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'A sua palavra-passe :app foi redefinida', 'line' => 'Um administrador redefiniu a palavra-passe da sua conta. Use « Esqueci a palavra-passe » para definir uma nova.'],
+        '2fa_reset' => ['subject' => 'A autenticação de dois fatores da sua conta :app foi redefinida', 'line' => 'Um administrador redefiniu a autenticação de dois fatores da sua conta. Configure-a novamente no próximo início de sessão.'],
+        'warning' => 'Se esta ação lhe parecer injustificada, contacte imediatamente o suporte da :app.',
+    ],
+    'email_changed' => [
+        'subject' => 'O seu endereço de e-mail :app foi alterado',
+        'intro' => 'O endereço de e-mail da sua conta acaba de ser alterado.',
+        'from' => 'Endereço anterior: :email',
+        'to' => 'Novo endereço: :email',
+        'warning' => 'Se não foi você a efetuar esta alteração, contacte imediatamente o suporte da :app e redefina a sua palavra-passe.',
+    ],
     // Trial & Subscription
     'trial_expired_message' => 'O seu período de avaliação terminou. Escolha uma subscrição para continuar a utilizar o :app.',
     'trial_days_remaining' => ':days dias restantes na sua avaliação gratuita',
@@ -401,6 +413,7 @@ return [
     'verification_link_sent' => 'Foi enviada uma nova ligação de verificação para o endereço de email indicado no registo.',
     'resend_verification_email' => 'Reenviar o email de verificação',
     'confirm_password_title' => 'Confirmar a palavra-passe',
+    'confirm_password_for_email' => 'Para alterar o seu endereço de e-mail, confirme a sua palavra-passe atual.',
     'confirm_password_message' => 'Esta é uma área segura. Confirme a sua palavra-passe antes de continuar.',
     'two_factor_title' => 'Autenticação de dois fatores',
     'two_factor_description' => 'Introduza o código de 6 dígitos gerado pela sua aplicação de autenticação (Google Authenticator, Authy, etc.).',

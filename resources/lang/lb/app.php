@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Äert :app-Passwuert gouf zréckgesat', 'line' => 'En Administrateur huet d\'Passwuert vun Ärem Kont zréckgesat. Benotzt « Passwuert vergiess », fir en neit festzeleeën.'],
+        '2fa_reset' => ['subject' => 'D\'Zwee-Faktor-Authentifikatioun vun Ärem :app-Kont gouf zréckgesat', 'line' => 'En Administrateur huet d\'Zwee-Faktor-Authentifikatioun vun Ärem Kont zréckgesat. Riicht se bei Ärer nächster Umeldung nei an.'],
+        'warning' => 'Wann dës Aktioun net gerechtfäerdegt schéngt, kontaktéiert direkt de :app-Support.',
+    ],
+    'email_changed' => [
+        'subject' => 'Är :app-E-Mail-Adress gouf geännert',
+        'intro' => 'D\'E-Mail-Adress vun Ärem Kont gouf just geännert.',
+        'from' => 'Fréier Adress: :email',
+        'to' => 'Nei Adress: :email',
+        'warning' => 'Wann Dir dës Ännerung net gemaach hutt, kontaktéiert direkt de :app-Support a setzt Äert Passwuert zréck.',
+    ],
     // Essai et abonnement, ajoutés le 2026-08-18 : ces clés n'existaient qu'en
     // français, les utilisateurs luxembourgophones voyaient donc le nom de la clé.
     'trial_expired_message' => 'Är Testphase ass ofgelaf. Wielt en Abonnement fir :app weider ze notzen.',
@@ -331,6 +343,7 @@ return [
     'verification_link_sent' => 'En neie Verifizéierungslink gouf un d\'E-Mail-Adress geschéckt, déi Dir bei der Registréierung uginn hutt.',
     'resend_verification_email' => 'Verifizéierungs-E-Mail nach eng Kéier schécken',
     'confirm_password_title' => 'Passwuert bestätegen',
+    'confirm_password_for_email' => 'Fir Är E-Mail-Adress ze änneren, confirméiert Äert aktuellt Passwuert.',
     'confirm_password_message' => 'Dëst ass e sécheren Beräich. Bestätegt w.e.g. Äert Passwuert ier Dir weiderfuert.',
     'two_factor_title' => 'Zwee-Faktor-Authentifikatioun',
     'two_factor_description' => 'Gitt w.e.g. den 6-stellege Code an, deen vun Ärer Authenticator-App generéiert gouf (Google Authenticator, Authy, etc.).',

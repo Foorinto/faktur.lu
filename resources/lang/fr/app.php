@@ -1,6 +1,18 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Votre mot de passe :app a été réinitialisé', 'line' => 'Un administrateur vient de réinitialiser le mot de passe de votre compte. Utilisez « Mot de passe oublié » pour en définir un nouveau.'],
+        '2fa_reset' => ['subject' => 'La double authentification de votre compte :app a été réinitialisée', 'line' => 'Un administrateur vient de réinitialiser la double authentification de votre compte. Reconfigurez-la dès votre prochaine connexion.'],
+        'warning' => 'Si cette action ne vous semble pas justifiée, contactez immédiatement le support de :app.',
+    ],
+    'email_changed' => [
+        'subject' => 'Votre adresse e-mail :app a été modifiée',
+        'intro' => 'L\'adresse e-mail de votre compte vient d\'être modifiée.',
+        'from' => 'Ancienne adresse : :email',
+        'to' => 'Nouvelle adresse : :email',
+        'warning' => 'Si vous n\'êtes pas à l\'origine de ce changement, contactez immédiatement le support de :app et réinitialisez votre mot de passe.',
+    ],
     // Trial & Subscription
     'trial_expired_message' => 'Votre période d\'essai est terminée. Choisissez un abonnement pour continuer à utiliser :app.',
     'trial_days_remaining' => ':days jours restants sur votre essai gratuit',
@@ -402,6 +414,7 @@ return [
     'verification_link_sent' => 'Un nouveau lien de vérification a été envoyé à l\'adresse e-mail que vous avez indiquée lors de l\'inscription.',
     'resend_verification_email' => 'Renvoyer l\'e-mail de vérification',
     'confirm_password_title' => 'Confirmer le mot de passe',
+    'confirm_password_for_email' => 'Pour modifier votre adresse e-mail, confirmez votre mot de passe actuel.',
     'confirm_password_message' => 'Ceci est une zone sécurisée. Veuillez confirmer votre mot de passe avant de continuer.',
     'two_factor_title' => 'Authentification à deux facteurs',
     'two_factor_description' => 'Veuillez entrer le code à 6 chiffres généré par votre application d\'authentification (Google Authenticator, Authy, etc.).',
