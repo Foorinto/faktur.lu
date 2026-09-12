@@ -79,6 +79,10 @@ class SubscriptionController extends Controller
             ->checkout([
                 'success_url' => route('subscription.success') . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('subscription.index'),
+                // Estampille la session avec l'id du compte : success() refuse
+                // toute session dont le client_reference_id ne correspond pas,
+                // pour qu'on ne puisse pas rattacher la session d'un autre.
+                'client_reference_id' => (string) $user->id,
                 'locale' => 'fr',
                 'billing_address_collection' => 'required',
                 'customer_update' => [
@@ -127,6 +131,18 @@ class SubscriptionController extends Controller
         $session = $stripe->checkout->sessions->retrieve($sessionId, ['expand' => ['subscription']]);
 
         if (! $session || ! $session->subscription) {
+            return;
+        }
+
+        // La session doit avoir été ouverte PAR cet utilisateur. Sans ce
+        // contrôle, fournir le session_id d'un autre (visible dans une URL, un
+        // journal) rattachait son abonnement au compte courant.
+        if ((string) ($session->client_reference_id ?? '') !== (string) $user->id) {
+            Log::warning('Checkout session rejetée : client_reference_id ne correspond pas au compte.', [
+                'user_id' => $user->id,
+                'session_id' => $sessionId,
+            ]);
+
             return;
         }
 
