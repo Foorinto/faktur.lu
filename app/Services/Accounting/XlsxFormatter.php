@@ -2,6 +2,8 @@
 
 namespace App\Services\Accounting;
 
+use App\Support\CsvSafe;
+
 use App\Models\AccountingSetting;
 use App\Models\Invoice;
 use Illuminate\Support\Collection;
@@ -81,8 +83,8 @@ class XlsxFormatter
 
             foreach ($this->ventiler($invoice, $settings) as $part) {
                 $feuille->setCellValue("A{$ligne}", $invoice->issued_at?->format('d/m/Y'));
-                $feuille->setCellValue("B{$ligne}", $invoice->number);
-                $feuille->setCellValue("C{$ligne}", $invoice->client?->name ?? 'N/A');
+                $feuille->setCellValue("B{$ligne}", CsvSafe::field((string) $invoice->number));
+                $feuille->setCellValue("C{$ligne}", CsvSafe::field($invoice->client?->name ?? 'N/A'));
                 $feuille->setCellValue("D{$ligne}", $codeClient);
                 $feuille->setCellValue("E{$ligne}", $part['ht']);
                 $feuille->setCellValue("F{$ligne}", $part['tva']);
@@ -116,9 +118,9 @@ class XlsxFormatter
 
         foreach ($expenses as $expense) {
             $feuille->setCellValue("A{$ligne}", $expense->date?->format('d/m/Y'));
-            $feuille->setCellValue("B{$ligne}", (string) ($expense->reference ?? ''));
-            $feuille->setCellValue("C{$ligne}", (string) $expense->provider_name);
-            $feuille->setCellValue("D{$ligne}", (string) $expense->category_label);
+            $feuille->setCellValue("B{$ligne}", CsvSafe::field((string) ($expense->reference ?? '')));
+            $feuille->setCellValue("C{$ligne}", CsvSafe::field((string) $expense->provider_name));
+            $feuille->setCellValue("D{$ligne}", CsvSafe::field((string) $expense->category_label));
             $feuille->setCellValue("E{$ligne}", (float) $expense->amount_ht);
             $feuille->setCellValue("F{$ligne}", (float) $expense->amount_vat);
             $feuille->setCellValue("G{$ligne}", (float) $expense->amount_ttc);
@@ -163,10 +165,10 @@ class XlsxFormatter
         foreach ($encaissements as $e) {
             $feuille->setCellValue("A{$ligne}", $e['date']?->format('d/m/Y') ?? '');
             $feuille->setCellValue("B{$ligne}", $e['facture']);
-            $feuille->setCellValue("C{$ligne}", $e['client']);
+            $feuille->setCellValue("C{$ligne}", CsvSafe::field((string) $e['client']));
             $feuille->setCellValue("D{$ligne}", $e['montant']);
             $feuille->setCellValue("E{$ligne}", $e['moyen']);
-            $feuille->setCellValue("F{$ligne}", $e['reference']);
+            $feuille->setCellValue("F{$ligne}", CsvSafe::field((string) $e['reference']));
             $ligne++;
         }
 

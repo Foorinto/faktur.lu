@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\CsvSafe;
+
 use App\Models\BusinessSettings;
 use App\Services\DashboardService;
 use App\Services\FiscalSummaryService;
@@ -116,12 +118,12 @@ class FiscalSummaryController extends Controller
             fputcsv($file, ['Catégorie', 'HT (€)', 'TVA déductible (€)', 'TVA non déductible (€)', 'Nb', 'Ligne Form. 152'], ';');
             foreach ($summary['expenses']['by_category'] as $cat => $data) {
                 fputcsv($file, [
-                    $data['form152_label'],
+                    CsvSafe::field($data['form152_label']),
                     number_format($data['total_ht'], 2, ',', ''),
                     number_format($data['total_vat_deductible'], 2, ',', ''),
                     number_format($data['total_vat_non_deductible'], 2, ',', ''),
                     $data['count'],
-                    $data['form152_label'],
+                    CsvSafe::field($data['form152_label']),
                 ], ';');
             }
             fputcsv($file, [
@@ -165,7 +167,7 @@ class FiscalSummaryController extends Controller
                 fputcsv($file, ['Pays', 'TVA payée (€)', 'Achats', 'Récupérable'], ';');
                 foreach ($summary['foreign_vat']['par_pays'] as $ligne) {
                     fputcsv($file, [
-                        $ligne['pays'],
+                        CsvSafe::field((string) $ligne['pays']),
                         number_format($ligne['tva'], 2, ',', ''),
                         $ligne['achats'],
                         $ligne['recuperable'] ? 'oui' : 'non (sous le seuil)',

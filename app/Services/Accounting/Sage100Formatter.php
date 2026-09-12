@@ -2,6 +2,8 @@
 
 namespace App\Services\Accounting;
 
+use App\Support\CsvSafe;
+
 use App\Models\AccountingSetting;
 
 class Sage100Formatter
@@ -55,6 +57,9 @@ class Sage100Formatter
 
     protected function escapeCsvField(string $value): string
     {
+        // Neutralise d'abord l'injection de formule, puis l'échappement CSV.
+        $value = CsvSafe::field($value);
+
         if (str_contains($value, ';') || str_contains($value, '"') || str_contains($value, "\n")) {
             return '"' . str_replace('"', '""', $value) . '"';
         }

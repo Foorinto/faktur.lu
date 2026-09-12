@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\CsvSafe;
+
 use App\Helpers\DatabaseHelper;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
@@ -214,8 +216,8 @@ class RevenueBookController extends Controller
             foreach ($invoices as $invoice) {
                 fputcsv($file, [
                     $invoice->paid_at->format('d/m/Y'),
-                    $invoice->number,
-                    $invoice->client->name,
+                    CsvSafe::field((string) $invoice->number),
+                    CsvSafe::field((string) $invoice->client->name),
                     number_format($invoice->total_ht, 2, ',', ''),
                     number_format($invoice->total_vat, 2, ',', ''),
                     number_format($invoice->total_ttc, 2, ',', ''),
