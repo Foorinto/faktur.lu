@@ -343,6 +343,7 @@ return [
     'verification_link_sent' => 'En neie Verifizéierungslink gouf un d\'E-Mail-Adress geschéckt, déi Dir bei der Registréierung uginn hutt.',
     'resend_verification_email' => 'Verifizéierungs-E-Mail nach eng Kéier schécken',
     'confirm_password_title' => 'Passwuert bestätegen',
+    'confirm_password_for_email' => 'Fir Är E-Mail-Adress ze änneren, confirméiert Äert aktuellt Passwuert.',
     'confirm_password_message' => 'Dëst ass e sécheren Beräich. Bestätegt w.e.g. Äert Passwuert ier Dir weiderfuert.',
     'two_factor_title' => 'Zwee-Faktor-Authentifikatioun',
     'two_factor_description' => 'Gitt w.e.g. den 6-stellege Code an, deen vun Ärer Authenticator-App generéiert gouf (Google Authenticator, Authy, etc.).',

@@ -2,8 +2,11 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import Modal from '@/Components/Modal.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { nextTick, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -25,7 +28,40 @@ const form = useForm({
     email: user.email,
     locale: user.locale ?? 'fr',
     business_sector: user.business_sector ?? '',
+    current_password: '',
 });
+
+// Changer l'adresse e-mail exige le mot de passe courant (sécurité : une
+// session ouverte ne doit pas pouvoir préparer une prise de contrôle). On le
+// demande dans une modale dédiée, pour que l'erreur s'affiche ici et non dans
+// la section « Mettre à jour le mot de passe » (qui a un champ du même nom).
+const confirmingEmailChange = ref(false);
+const passwordInput = ref(null);
+
+const submit = () => {
+    if (form.email !== user.email) {
+        confirmingEmailChange.value = true;
+        nextTick(() => passwordInput.value?.focus());
+
+        return;
+    }
+
+    form.patch(route('profile.update'), { preserveScroll: true });
+};
+
+const submitWithPassword = () => {
+    form.patch(route('profile.update'), {
+        preserveScroll: true,
+        onSuccess: () => closeEmailModal(),
+        onError: () => passwordInput.value?.focus(),
+    });
+};
+
+const closeEmailModal = () => {
+    confirmingEmailChange.value = false;
+    form.reset('current_password');
+    form.clearErrors('current_password');
+};
 
 /**
  * Secteurs proposés, dans l'ordre de l'écran d'inscription.
@@ -50,7 +86,7 @@ const secteurs = ['construction', 'freelance', 'health', 'real_estate', 'retail'
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="submit"
             class="mt-6 space-y-6"
         >
             <div>
@@ -158,5 +194,50 @@ const secteurs = ['construction', 'freelance', 'health', 'real_estate', 'retail'
                 </Transition>
             </div>
         </form>
+
+        <!-- Confirmation du mot de passe pour changer l'adresse e-mail (sécurité). -->
+        <Modal :show="confirmingEmailChange" @close="closeEmailModal">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
+                    {{ t('confirm_password_title') }}
+                </h2>
+
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                    {{ t('confirm_password_for_email') }}
+                </p>
+
+                <div class="mt-6">
+                    <InputLabel for="current_password_email" :value="t('current_password')" class="sr-only" />
+
+                    <TextInput
+                        id="current_password_email"
+                        ref="passwordInput"
+                        v-model="form.current_password"
+                        type="password"
+                        class="mt-1 block w-3/4"
+                        :placeholder="t('current_password')"
+                        autocomplete="current-password"
+                        @keyup.enter="submitWithPassword"
+                    />
+
+                    <InputError :message="form.errors.current_password" class="mt-2" />
+                </div>
+
+                <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                    <SecondaryButton class="w-full sm:w-auto justify-center" @click="closeEmailModal">
+                        {{ t('cancel') }}
+                    </SecondaryButton>
+
+                    <PrimaryButton
+                        class="w-full sm:w-auto justify-center"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                        @click="submitWithPassword"
+                    >
+                        {{ t('save') }}
+                    </PrimaryButton>
+                </div>
+            </div>
+        </Modal>
     </section>
 </template>

@@ -413,6 +413,7 @@ return [
     'verification_link_sent' => 'Foi enviada uma nova ligação de verificação para o endereço de email indicado no registo.',
     'resend_verification_email' => 'Reenviar o email de verificação',
     'confirm_password_title' => 'Confirmar a palavra-passe',
+    'confirm_password_for_email' => 'Para alterar o seu endereço de e-mail, confirme a sua palavra-passe atual.',
     'confirm_password_message' => 'Esta é uma área segura. Confirme a sua palavra-passe antes de continuar.',
     'two_factor_title' => 'Autenticação de dois fatores',
     'two_factor_description' => 'Introduza o código de 6 dígitos gerado pela sua aplicação de autenticação (Google Authenticator, Authy, etc.).',

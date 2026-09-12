@@ -343,6 +343,7 @@ return [
     'verification_link_sent' => 'Ein neuer Verifizierungslink wurde an die bei der Registrierung angegebene E-Mail-Adresse gesendet.',
     'resend_verification_email' => 'Verifizierungs-E-Mail erneut senden',
     'confirm_password_title' => 'Passwort bestätigen',
+    'confirm_password_for_email' => 'Um Ihre E-Mail-Adresse zu ändern, bestätigen Sie Ihr aktuelles Passwort.',
     'confirm_password_message' => 'Dies ist ein sicherer Bereich. Bitte bestätigen Sie Ihr Passwort, bevor Sie fortfahren.',
     'two_factor_title' => 'Zwei-Faktor-Authentifizierung',
     'two_factor_description' => 'Bitte geben Sie den 6-stelligen Code ein, der von Ihrer Authenticator-App generiert wurde (Google Authenticator, Authy, etc.).',

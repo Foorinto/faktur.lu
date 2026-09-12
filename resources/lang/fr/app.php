@@ -414,6 +414,7 @@ return [
     'verification_link_sent' => 'Un nouveau lien de vérification a été envoyé à l\'adresse e-mail que vous avez indiquée lors de l\'inscription.',
     'resend_verification_email' => 'Renvoyer l\'e-mail de vérification',
     'confirm_password_title' => 'Confirmer le mot de passe',
+    'confirm_password_for_email' => 'Pour modifier votre adresse e-mail, confirmez votre mot de passe actuel.',
     'confirm_password_message' => 'Ceci est une zone sécurisée. Veuillez confirmer votre mot de passe avant de continuer.',
     'two_factor_title' => 'Authentification à deux facteurs',
     'two_factor_description' => 'Veuillez entrer le code à 6 chiffres généré par votre application d\'authentification (Google Authenticator, Authy, etc.).',
