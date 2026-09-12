@@ -49,8 +49,14 @@ class SecurityHeaders
 
         // Content Security Policy - désactivé en local pour Vite
         if (config('app.env') !== 'local') {
-            $csp = $this->buildContentSecurityPolicy();
-            $response->headers->set('Content-Security-Policy', $csp);
+            // Politique ACTIVE (inchangée) : protège le site aujourd'hui.
+            $response->headers->set('Content-Security-Policy', $this->buildContentSecurityPolicy());
+
+            // Politique STRICTE en OBSERVATION (Report-Only) : ne bloque RIEN,
+            // le navigateur signale seulement ce qu'elle interdirait. Mesure
+            // sans risque ce que casserait le retrait de 'unsafe-inline'/
+            // 'unsafe-eval' sur script-src. Violations visibles en console.
+            $response->headers->set('Content-Security-Policy-Report-Only', $this->buildStrictContentSecurityPolicy());
         }
 
         return $response;
@@ -93,6 +99,33 @@ class SecurityHeaders
             "form-action 'self' https://checkout.stripe.com",
 
             // Object/embed restriction
+            "object-src 'none'",
+        ];
+
+        return implode('; ', $directives);
+    }
+
+    /**
+     * Politique stricte, en OBSERVATION (Report-Only).
+     *
+     * Identique à la politique active, sauf script-src d'où 'unsafe-inline' et
+     * 'unsafe-eval' sont retirés (l'enjeu anti-XSS). Les scripts en ligne
+     * légitimes apparaîtront comme violations : la liste obtenue dira lesquels
+     * autoriser (nonce ou externalisation) avant de basculer en mode actif.
+     */
+    protected function buildStrictContentSecurityPolicy(): string
+    {
+        $directives = [
+            "default-src 'self'",
+            "script-src 'self' " . $this->getMatomoDomain(),
+            "style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com",
+            "img-src 'self' data: https:",
+            "font-src 'self' data: https://fonts.bunny.net https://fonts.gstatic.com",
+            "connect-src 'self' " . $this->getMatomoDomain() . " https://api.stripe.com",
+            "frame-ancestors 'none'",
+            "frame-src https://js.stripe.com https://checkout.stripe.com https://hooks.stripe.com",
+            "base-uri 'self'",
+            "form-action 'self' https://checkout.stripe.com",
             "object-src 'none'",
         ];
 
