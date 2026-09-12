@@ -82,7 +82,9 @@ class PdfArchiveService
         ];
 
         foreach ($invoiceIds as $invoiceId) {
-            $invoice = Invoice::find($invoiceId);
+            // Filtre explicite au tenant (défense en profondeur : le scope global
+            // suffit en session, mais ne pas en dépendre hors requête).
+            $invoice = Invoice::where('user_id', auth()->id())->find($invoiceId);
 
             if (!$invoice) {
                 $results['failed']++;

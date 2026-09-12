@@ -68,8 +68,13 @@ class AdminBlogController extends Controller
             $query->where('locale', $locale);
         }
 
+        // Liste blanche : orderBy sur une colonne arbitraire fournie par la
+        // requête peut fuir une erreur SQL ou trier sur un champ inattendu.
         $sortField = $request->get('sort', 'created_at');
-        $sortDirection = $request->get('direction', 'desc');
+        if (! in_array($sortField, ['title', 'status', 'created_at', 'published_at', 'updated_at'], true)) {
+            $sortField = 'created_at';
+        }
+        $sortDirection = $request->get('direction') === 'asc' ? 'asc' : 'desc';
 
         $query->orderBy($sortField, $sortDirection);
 
