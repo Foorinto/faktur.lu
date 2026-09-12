@@ -48,8 +48,8 @@ class ClientDefaultDiscountTest extends TestCase
     {
         return array_merge([
             'client_id' => $client->id,
-            'issued_at' => '2026-08-06',
-            'due_at' => '2026-09-05',
+            'issued_at' => now()->toDateString(),
+            'due_at' => now()->addMonth()->toDateString(),
             'items' => [
                 ['title' => 'Prestation', 'quantity' => 1, 'unit_price' => 1000, 'vat_rate' => 17],
             ],
@@ -179,8 +179,8 @@ class ClientDefaultDiscountTest extends TestCase
         // l'écart se découvrirait devant le client.
         $this->post(route('quotes.store'), [
             'client_id' => $client->id,
-            'issued_at' => '2026-08-06',
-            'valid_until' => '2026-09-06',
+            'issued_at' => now()->toDateString(),
+            'valid_until' => now()->addMonth()->toDateString(),
             'items' => [['title' => 'Prestation', 'quantity' => 1, 'unit_price' => 1000, 'vat_rate' => 17]],
         ])->assertSessionHasNoErrors();
 
@@ -196,8 +196,8 @@ class ClientDefaultDiscountTest extends TestCase
 
         $this->post(route('quotes.store'), [
             'client_id' => $client->id,
-            'issued_at' => '2026-08-06',
-            'valid_until' => '2026-09-06',
+            'issued_at' => now()->toDateString(),
+            'valid_until' => now()->addMonth()->toDateString(),
             'items' => [['title' => 'Prestation', 'quantity' => 1, 'unit_price' => 1000, 'vat_rate' => 17]],
         ])->assertSessionHasNoErrors();
 

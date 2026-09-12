@@ -140,8 +140,8 @@ class PaymentMethodsTest extends TestCase
 
         $this->post(route('invoices.store'), [
             'client_id' => $client->id,
-            'issued_at' => '2026-08-06',
-            'due_at' => '2026-09-06',
+            'issued_at' => now()->toDateString(),
+            'due_at' => now()->addMonth()->toDateString(),
             'payment_methods' => ['Payconiq', 'cash'],
             'items' => [['title' => 'X', 'quantity' => 1, 'unit_price' => 100, 'vat_rate' => 17]],
         ])->assertSessionHasNoErrors();
@@ -160,8 +160,8 @@ class PaymentMethodsTest extends TestCase
 
         $this->post(route('invoices.store'), [
             'client_id' => $client->id,
-            'issued_at' => '2026-08-06',
-            'due_at' => '2026-09-06',
+            'issued_at' => now()->toDateString(),
+            'due_at' => now()->addMonth()->toDateString(),
             'payment_methods' => [],
             'items' => [['title' => 'X', 'quantity' => 1, 'unit_price' => 100, 'vat_rate' => 17]],
         ])->assertSessionHasNoErrors();
