@@ -30,6 +30,8 @@ class ProfileTest extends TestCase
             ->patch('/profile', [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
+                // Changer l'e-mail exige désormais le mot de passe courant (AUTH-1).
+                'current_password' => 'password',
             ]);
 
         $response
