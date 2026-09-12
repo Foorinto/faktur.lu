@@ -44,7 +44,7 @@ class InertiaVersionMatchesRouteGroupTest extends TestCase
         $ordinaire = $this->version();
 
         Auth::logout();
-        Auth::login(User::factory()->create(['is_admin' => true]));
+        Auth::login(User::factory()->admin()->create());
         $administrateur = $this->version();
 
         $this->assertNotSame($anonyme, $ordinaire,
@@ -88,7 +88,7 @@ class InertiaVersionMatchesRouteGroupTest extends TestCase
         );
 
         Auth::logout();
-        Auth::login(User::factory()->create(['is_admin' => true]));
+        Auth::login(User::factory()->admin()->create());
         $this->assertSame('admin', HandleInertiaRequests::ziggyGroup());
     }
 
@@ -131,7 +131,7 @@ class InertiaVersionMatchesRouteGroupTest extends TestCase
     {
         $versionAnonyme = $this->version();
 
-        $admin = User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        $admin = User::factory()->admin()->create();
 
         $reponse = $this->actingAs($admin)->withHeaders([
             'X-Inertia' => 'true',
@@ -155,7 +155,7 @@ class InertiaVersionMatchesRouteGroupTest extends TestCase
      */
     public function test_a_matching_version_is_served_normally(): void
     {
-        $admin = User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        $admin = User::factory()->admin()->create();
 
         Auth::login($admin);
         $versionAdmin = $this->version();

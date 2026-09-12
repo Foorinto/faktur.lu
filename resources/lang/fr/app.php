@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'admin_requires_2fa' => 'La double authentification est obligatoire pour accéder à l\'administration. Activez-la ci-dessous.',
     'admin_action' => [
         'password_reset' => ['subject' => 'Votre mot de passe :app a été réinitialisé', 'line' => 'Un administrateur vient de réinitialiser le mot de passe de votre compte. Utilisez « Mot de passe oublié » pour en définir un nouveau.'],
         '2fa_reset' => ['subject' => 'La double authentification de votre compte :app a été réinitialisée', 'line' => 'Un administrateur vient de réinitialiser la double authentification de votre compte. Reconfigurez-la dès votre prochaine connexion.'],

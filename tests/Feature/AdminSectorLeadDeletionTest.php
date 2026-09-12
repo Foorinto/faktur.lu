@@ -40,7 +40,7 @@ class AdminSectorLeadDeletionTest extends TestCase
 
     public function test_an_administrator_can_delete_a_response(): void
     {
-        $admin = User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        $admin = User::factory()->admin()->create();
         $reponse = $this->reponse();
 
         $this->actingAs($admin)
@@ -52,7 +52,7 @@ class AdminSectorLeadDeletionTest extends TestCase
 
     public function test_only_the_targeted_response_disappears(): void
     {
-        $admin = User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        $admin = User::factory()->admin()->create();
 
         $cible = $this->reponse(['email' => 'a@exemple.lu']);
         $voisine = $this->reponse(['email' => 'b@exemple.lu']);

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'admin_requires_2fa' => 'Two-factor authentication is required to access the administration. Enable it below.',
     'admin_action' => [
         'password_reset' => ['subject' => 'Your :app password was reset', 'line' => 'An administrator has reset your account password. Use « Forgot password » to set a new one.'],
         '2fa_reset' => ['subject' => 'Your :app two-factor authentication was reset', 'line' => 'An administrator has reset your account\'s two-factor authentication. Set it up again at your next login.'],

@@ -47,7 +47,7 @@ class FaiblesHardeningTest extends TestCase
     /** PUB-1 : un champ de tri arbitraire retombe sur la valeur par défaut. */
     public function test_admin_blog_sort_field_is_whitelisted(): void
     {
-        $admin = User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        $admin = User::factory()->admin()->create();
 
         // Un champ de tri non autorisé ne doit pas provoquer d'erreur SQL :
         // la page répond normalement (retombe sur created_at).

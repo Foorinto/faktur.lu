@@ -23,7 +23,7 @@ class AdminActionAuditTest extends TestCase
 
     private function admin(): User
     {
-        return User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        return User::factory()->admin()->create();
     }
 
     public function test_impersonation_is_audited(): void
