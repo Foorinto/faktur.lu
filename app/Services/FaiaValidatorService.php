@@ -66,11 +66,19 @@ class FaiaValidatorService
         }
 
         // Try to load XML
+        //
+        // ⚠️ Sécurité (XXE / déni de service). On ne passe PAS LIBXML_NOENT :
+        // cette option substitue les entités, ce qui ouvre l'expansion récursive
+        // (« billion laughs ») et la lecture d'entités. LIBXML_NONET interdit le
+        // réseau. Sans chargement de DTD ni substitution d'entités, un document
+        // hostile ne peut ni exploser la mémoire ni lire un fichier local.
+        // Le filtre containsXxePatterns (contrôleur) reste une première barrière,
+        // mais la sécurité repose ici, pas sur une regex contournable par encodage.
         libxml_use_internal_errors(true);
         $this->dom = new DOMDocument('1.0', 'UTF-8');
         $this->dom->preserveWhiteSpace = false;
 
-        if (!$this->dom->loadXML($xmlContent, LIBXML_NONET | LIBXML_NOENT)) {
+        if (!$this->dom->loadXML($xmlContent, LIBXML_NONET)) {
             $xmlErrors = libxml_get_errors();
             foreach ($xmlErrors as $error) {
                 $this->errors[] = [
@@ -797,9 +805,15 @@ class FaiaValidatorService
             return null;
         }
 
-        // Try with namespace
-        $element = $this->xpath->query("faia:{$path}", $context)->item(0)
-            ?? $this->xpath->query($path, $context)->item(0);
+        // Try with namespace.
+        // query() renvoie false si le préfixe « faia » n'est pas enregistré
+        // (document sans namespace FAIA, ou XML hostile) : on ne déréférence
+        // jamais un résultat false, sinon un document malformé fait planter
+        // l'endpoint public au lieu de renvoyer une erreur de validation propre.
+        $avecNs = $this->xpath->query("faia:{$path}", $context);
+        $sansNs = $this->xpath->query($path, $context);
+        $element = ($avecNs ? $avecNs->item(0) : null)
+            ?? ($sansNs ? $sansNs->item(0) : null);
 
         if ($element) {
             return trim($element->textContent);
