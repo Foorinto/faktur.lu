@@ -28,6 +28,11 @@ Thumbs.db
 
 # Planning board
 Planning/
+# Rapports d'audit de sécurité : cartographie des faiblesses + scénarios
+# d'exploitation + ce qui reste à corriger. Ne JAMAIS versionner ni déployer
+# (le git pull de deploy.sh les déposerait dans le webroot de production).
+audit/
+docs/audit-secu-fable/
 # SQLite database
 database/*.sqlite
 
