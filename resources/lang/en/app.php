@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Your :app password was reset', 'line' => 'An administrator has reset your account password. Use « Forgot password » to set a new one.'],
+        '2fa_reset' => ['subject' => 'Your :app two-factor authentication was reset', 'line' => 'An administrator has reset your account\'s two-factor authentication. Set it up again at your next login.'],
+        'warning' => 'If this action seems unwarranted, contact :app support immediately.',
+    ],
     'email_changed' => [
         'subject' => 'Your :app e-mail address was changed',
         'intro' => 'The e-mail address of your account has just been changed.',

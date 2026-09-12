@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Ihr :app-Passwort wurde zurückgesetzt', 'line' => 'Ein Administrator hat das Passwort Ihres Kontos zurückgesetzt. Nutzen Sie « Passwort vergessen », um ein neues festzulegen.'],
+        '2fa_reset' => ['subject' => 'Die Zwei-Faktor-Authentifizierung Ihres :app-Kontos wurde zurückgesetzt', 'line' => 'Ein Administrator hat die Zwei-Faktor-Authentifizierung Ihres Kontos zurückgesetzt. Richten Sie sie bei der nächsten Anmeldung neu ein.'],
+        'warning' => 'Falls diese Aktion nicht gerechtfertigt erscheint, wenden Sie sich sofort an den :app-Support.',
+    ],
     'email_changed' => [
         'subject' => 'Ihre :app-E-Mail-Adresse wurde geändert',
         'intro' => 'Die E-Mail-Adresse Ihres Kontos wurde soeben geändert.',

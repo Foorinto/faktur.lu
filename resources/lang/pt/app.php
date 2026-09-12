@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'A sua palavra-passe :app foi redefinida', 'line' => 'Um administrador redefiniu a palavra-passe da sua conta. Use « Esqueci a palavra-passe » para definir uma nova.'],
+        '2fa_reset' => ['subject' => 'A autenticação de dois fatores da sua conta :app foi redefinida', 'line' => 'Um administrador redefiniu a autenticação de dois fatores da sua conta. Configure-a novamente no próximo início de sessão.'],
+        'warning' => 'Se esta ação lhe parecer injustificada, contacte imediatamente o suporte da :app.',
+    ],
     'email_changed' => [
         'subject' => 'O seu endereço de e-mail :app foi alterado',
         'intro' => 'O endereço de e-mail da sua conta acaba de ser alterado.',

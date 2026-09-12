@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Votre mot de passe :app a été réinitialisé', 'line' => 'Un administrateur vient de réinitialiser le mot de passe de votre compte. Utilisez « Mot de passe oublié » pour en définir un nouveau.'],
+        '2fa_reset' => ['subject' => 'La double authentification de votre compte :app a été réinitialisée', 'line' => 'Un administrateur vient de réinitialiser la double authentification de votre compte. Reconfigurez-la dès votre prochaine connexion.'],
+        'warning' => 'Si cette action ne vous semble pas justifiée, contactez immédiatement le support de :app.',
+    ],
     'email_changed' => [
         'subject' => 'Votre adresse e-mail :app a été modifiée',
         'intro' => 'L\'adresse e-mail de votre compte vient d\'être modifiée.',

@@ -78,6 +78,13 @@ class AuditLog extends Model
         'BusinessSettings.updated' => 'Paramètres modifiés',
         'export.faia' => 'Export FAIA généré',
         'export.pdf' => 'PDF téléchargé',
+        'admin.user.impersonate' => 'Administrateur : usurpation d\'identité',
+        'admin.user.password_reset' => 'Administrateur : mot de passe réinitialisé',
+        'admin.user.2fa_reset' => 'Administrateur : 2FA réinitialisée',
+        'admin.user.toggle_active' => 'Administrateur : activation/désactivation de compte',
+        'admin.user.deleted' => 'Administrateur : compte supprimé',
+        'admin.user.restored' => 'Administrateur : compte restauré',
+        'admin.user.force_deleted' => 'Administrateur : compte supprimé définitivement',
         'peppol_sent' => 'Envoi Peppol réussi',
         'peppol_failed' => 'Envoi Peppol échoué',
     ];

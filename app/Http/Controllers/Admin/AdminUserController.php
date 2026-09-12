@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\AuditLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -109,6 +110,8 @@ class AdminUserController extends Controller
         // is_active retire du fillable (champ sensible) -> forceFill obligatoire
         $user->forceFill(['is_active' => !$user->is_active])->save();
 
+        AuditLogger::log('admin.user.toggle_active', $user, null, ['is_active' => $user->is_active]);
+
         $status = $user->is_active ? 'activé' : 'désactivé';
 
         return back()->with('success', "Compte {$status} avec succès.");
@@ -125,6 +128,9 @@ class AdminUserController extends Controller
             'password' => Hash::make($tempPassword),
         ]);
 
+        AuditLogger::log('admin.user.password_reset', $user);
+        $user->notify(new \App\Notifications\AdminActionNotification('password_reset', $user->locale ?? 'fr'));
+
         return back()->with('success', 'Mot de passe réinitialisé. L\'utilisateur devra utiliser "Mot de passe oublié".');
     }
 
@@ -138,6 +144,9 @@ class AdminUserController extends Controller
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
         ])->save();
+
+        AuditLogger::log('admin.user.2fa_reset', $user);
+        $user->notify(new \App\Notifications\AdminActionNotification('2fa_reset', $user->locale ?? 'fr'));
 
         return back()->with('success', '2FA réinitialisé avec succès.');
     }
@@ -154,6 +163,8 @@ class AdminUserController extends Controller
             'user_name' => $user->name,
             'started_at' => now()->toIso8601String(),
         ]);
+
+        AuditLogger::log('admin.user.impersonate', $user);
 
         auth()->login($user);
 
@@ -191,6 +202,7 @@ class AdminUserController extends Controller
      */
     public function destroy(User $user)
     {
+        AuditLogger::log('admin.user.deleted', $user);
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur supprimé (récupérable).');
@@ -204,6 +216,8 @@ class AdminUserController extends Controller
         $user = User::withTrashed()->findOrFail($user);
         $user->restore();
 
+        AuditLogger::log('admin.user.restored', $user);
+
         return back()->with('success', 'Utilisateur restauré avec succès.');
     }
 
@@ -213,6 +227,7 @@ class AdminUserController extends Controller
     public function forceDelete(int $user)
     {
         $user = User::withTrashed()->findOrFail($user);
+        AuditLogger::log('admin.user.force_deleted', $user, $user->only(['id', 'email', 'name']));
         $user->forceDelete();
 
         return redirect()->route('admin.users.index')->with('success', 'Utilisateur supprimé définitivement.');

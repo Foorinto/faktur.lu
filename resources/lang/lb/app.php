@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'admin_action' => [
+        'password_reset' => ['subject' => 'Äert :app-Passwuert gouf zréckgesat', 'line' => 'En Administrateur huet d\'Passwuert vun Ärem Kont zréckgesat. Benotzt « Passwuert vergiess », fir en neit festzeleeën.'],
+        '2fa_reset' => ['subject' => 'D\'Zwee-Faktor-Authentifikatioun vun Ärem :app-Kont gouf zréckgesat', 'line' => 'En Administrateur huet d\'Zwee-Faktor-Authentifikatioun vun Ärem Kont zréckgesat. Riicht se bei Ärer nächster Umeldung nei an.'],
+        'warning' => 'Wann dës Aktioun net gerechtfäerdegt schéngt, kontaktéiert direkt de :app-Support.',
+    ],
     'email_changed' => [
         'subject' => 'Är :app-E-Mail-Adress gouf geännert',
         'intro' => 'D\'E-Mail-Adress vun Ärem Kont gouf just geännert.',
