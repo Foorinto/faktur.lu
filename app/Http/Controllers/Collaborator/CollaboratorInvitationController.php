@@ -104,9 +104,25 @@ class CollaboratorInvitationController extends Controller
 
         $invitation->markAsAccepted();
 
+        if ($this->requiresTwoFactorChallenge($user)) {
+            $request->session()->put(['login.id' => $user->getKey(), 'login.remember' => true]);
+
+            return redirect()->route('two-factor.login');
+        }
+
         Auth::login($user, true);
 
         return redirect()->route('collaborator.dashboard')
             ->with('success', __('app.collaborator_flash.welcome', ['organization' => $invitation->organization->name]));
+    }
+
+    /**
+     * Un compte existant avec 2FA active ne doit pas ouvrir de session directe
+     * via l'invitation : cela contournerait le second facteur. On route vers le
+     * défi Fortify comme le fait le login normal.
+     */
+    private function requiresTwoFactorChallenge(\App\Models\User $user): bool
+    {
+        return ! empty($user->two_factor_secret) && $user->two_factor_confirmed_at !== null;
     }
 }

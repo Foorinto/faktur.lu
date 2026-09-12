@@ -241,6 +241,25 @@ class AppServiceProvider extends ServiceProvider
                 });
         });
 
+        // Portail comptable : connexion - 5/minute par IP + email.
+        RateLimiter::for('accountant-login', function (Request $request) {
+            $key = $request->input('email', '') . '|' . $request->ip();
+            return Limit::perMinute(5)
+                ->by($key)
+                ->response(function (Request $request, array $headers) {
+                    return $this->rateLimitResponse($headers, 'Trop de tentatives de connexion.');
+                });
+        });
+
+        // Portail comptable : second facteur et acceptation d'invitation - 5/minute par IP.
+        RateLimiter::for('accountant-2fa', function (Request $request) {
+            return Limit::perMinute(5)
+                ->by($request->ip())
+                ->response(function (Request $request, array $headers) {
+                    return $this->rateLimitResponse($headers, 'Trop de tentatives. Veuillez patienter.');
+                });
+        });
+
         // Company lookup API - 30/minute (external API calls)
         RateLimiter::for('company-lookup', function (Request $request) {
             return Limit::perMinute(30)

@@ -21,17 +21,20 @@ Route::prefix('comptable')->name('accountant.')->group(function () {
     // Guest routes
     Route::middleware('guest:accountant')->group(function () {
         Route::get('/login', [AccountantAuthController::class, 'showLogin'])->name('login');
-        Route::post('/login', [AccountantAuthController::class, 'login'])->name('login.submit');
+        Route::post('/login', [AccountantAuthController::class, 'login'])
+            ->middleware('throttle:accountant-login')->name('login.submit');
     });
 
     // Invitation acceptance (no auth required)
     Route::get('/invitation/{token}', [AccountantAuthController::class, 'showAcceptInvitation'])->name('accept');
-    Route::post('/invitation/{token}', [AccountantAuthController::class, 'acceptInvitation'])->name('accept.submit');
+    Route::post('/invitation/{token}', [AccountantAuthController::class, 'acceptInvitation'])
+        ->middleware('throttle:accountant-2fa')->name('accept.submit');
 
     // Défi du second facteur : le mot de passe a été vérifié, la session n'est
     // pas encore ouverte. Hors du groupe authentifié, par construction.
     Route::get('/double-facteur', [AccountantTwoFactorController::class, 'showChallenge'])->name('two-factor.challenge');
-    Route::post('/double-facteur', [AccountantTwoFactorController::class, 'verifyChallenge'])->name('two-factor.verify');
+    Route::post('/double-facteur', [AccountantTwoFactorController::class, 'verifyChallenge'])
+        ->middleware('throttle:accountant-2fa')->name('two-factor.verify');
 
     // Authenticated routes
     Route::middleware('accountant.auth')->group(function () {
