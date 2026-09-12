@@ -129,7 +129,9 @@ class BusinessSettingsController extends Controller
         // Store new logo
         $path = $request->file('logo')->store('logos', 'public');
 
-        $settings->update(['logo_path' => $path]);
+        // forceFill + save : logo_path n'est plus fillable. Le chemin vient de
+        // store() (nom généré par Laravel), jamais de la requête.
+        $settings->forceFill(['logo_path' => $path])->save();
 
         return back()->with('success', __('app.business_flash.logo_updated'));
     }
@@ -156,7 +158,7 @@ class BusinessSettingsController extends Controller
 
         $path = $request->file('payment_qrcode')->store('payment-qrcodes', 'public');
 
-        $settings->update(['payment_qrcode_path' => $path]);
+        $settings->forceFill(['payment_qrcode_path' => $path])->save();
 
         return back()->with('success', __('app.business_flash.qrcode_updated'));
     }
@@ -174,7 +176,7 @@ class BusinessSettingsController extends Controller
 
         Storage::disk('public')->delete($settings->payment_qrcode_path);
 
-        $settings->update(['payment_qrcode_path' => null]);
+        $settings->forceFill(['payment_qrcode_path' => null])->save();
 
         return back()->with('success', __('app.business_flash.qrcode_deleted'));
     }
@@ -193,8 +195,8 @@ class BusinessSettingsController extends Controller
         // Delete file
         Storage::disk('public')->delete($settings->logo_path);
 
-        // Clear path in database
-        $settings->update(['logo_path' => null]);
+        // Clear path in database (forceFill : logo_path hors fillable)
+        $settings->forceFill(['logo_path' => null])->save();
 
         return back()->with('success', __('app.business_flash.logo_deleted'));
     }

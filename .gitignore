@@ -42,3 +42,6 @@ deploy.sh.bak
 
 # Pièces de dossiers (marque, juridique) : gardées en local, hors dépôt
 docs/*.pdf
+
+# Script de déploiement web obsolète : ne JAMAIS versionner (exécution de code non authentifiée)
+/public/deploy.php

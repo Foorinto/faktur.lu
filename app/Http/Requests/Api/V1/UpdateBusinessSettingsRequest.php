@@ -104,7 +104,9 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'late_penalty_text' => ['nullable', 'string', 'max:255'],
             'recovery_fee_amount' => ['nullable', 'numeric', 'min:0', 'max:99999'],
             'discount_terms' => ['nullable', 'string', 'max:255'],
-            'logo_path' => ['nullable', 'string', 'max:255'],
+            // 'logo_path' n'est PAS accepté ici : le chemin du logo ne se définit
+            // que via uploadLogo()/deleteLogo(), jamais par le corps de la requête
+            // (une chaîne libre permettait de lire n'importe quel fichier, dont .env).
             'peppol_endpoint_scheme' => ['nullable', 'string', 'max:4'],
             'peppol_endpoint_id' => ['nullable', 'string', 'max:50'],
             // Custom numbering - fields are optional in the form, server enforces the lock
@@ -254,7 +256,6 @@ class UpdateBusinessSettingsRequest extends FormRequest
             'vat_regime' => 'régime TVA',
             'phone' => 'téléphone',
             'email' => 'email',
-            'logo_path' => 'logo',
         ];
     }
 }
