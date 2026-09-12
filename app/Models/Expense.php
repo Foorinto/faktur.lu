@@ -105,6 +105,10 @@ class Expense extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('attachments')
+            // Disque PRIVÉ : un justificatif est une facture fournisseur
+            // (montants, RIB, parfois données personnelles). Sur le disque
+            // public, l'URL séquentielle suffisait à le lire sans authentification.
+            ->useDisk('local')
             ->acceptsMimeTypes(['application/pdf', 'image/jpeg', 'image/png', 'image/webp'])
             ->singleFile();
     }
@@ -410,8 +414,11 @@ class Expense extends Model implements HasMedia
      */
     public function getAttachmentUrlAttribute(): ?string
     {
-        $media = $this->getFirstMedia('attachments');
-        return $media ? $media->getUrl() : null;
+        // Jamais l'URL publique directe de Medialibrary : une route
+        // authentifiée et scopée au tenant (PrivateFileController).
+        return $this->getFirstMedia('attachments')
+            ? route('files.expense-attachment', $this->id)
+            : null;
     }
 
     /**

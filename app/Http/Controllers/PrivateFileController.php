@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HR\Employee;
 use App\Models\HR\EmployeeDocument;
+use App\Models\Expense;
 use App\Models\HR\ExpenseReceipt;
 use App\Models\SupportAttachment;
 use Illuminate\Support\Facades\Storage;
@@ -32,6 +33,26 @@ class PrivateFileController extends Controller
         abort_unless($this->ownsEmployeeRecord($document->user_id, $document->employee_id), 403);
 
         return $this->stream($document->file_path, $document->original_name ?? $document->name);
+    }
+
+    /**
+     * Justificatif d'une DÉPENSE (Medialibrary).
+     *
+     * Expense porte BelongsToUser : le route model binding renvoie 404 si la
+     * dépense n'appartient pas à l'utilisateur courant, inutile de revérifier.
+     * Lu depuis le disque réel du média ($media->disk) pour servir aussi les
+     * fichiers pas encore migrés du public vers le privé.
+     */
+    public function expenseAttachment(Expense $expense): StreamedResponse
+    {
+        $media = $expense->getFirstMedia('attachments');
+        abort_if($media === null, 404);
+
+        $disk = Storage::disk($media->disk);
+        $chemin = $media->getPathRelativeToRoot();
+        abort_unless($disk->exists($chemin), 404);
+
+        return $disk->download($chemin, $media->file_name);
     }
 
     /** Justificatif d'une note de frais. */

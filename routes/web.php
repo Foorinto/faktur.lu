@@ -552,6 +552,8 @@ Route::middleware(['auth', 'verified'])->prefix('fichiers')->name('files.')->gro
         ->whereNumber('employee')->name('employee-photo');
     Route::get('/piece-jointe-support/{attachment}', [\App\Http\Controllers\PrivateFileController::class, 'supportAttachment'])
         ->whereNumber('attachment')->name('support-attachment');
+    Route::get('/justificatif-depense/{expense}', [\App\Http\Controllers\PrivateFileController::class, 'expenseAttachment'])
+        ->whereNumber('expense')->name('expense-attachment');
 });
 
 Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
