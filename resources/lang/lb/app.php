@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'email_changed' => [
+        'subject' => 'Är :app-E-Mail-Adress gouf geännert',
+        'intro' => 'D\'E-Mail-Adress vun Ärem Kont gouf just geännert.',
+        'from' => 'Fréier Adress: :email',
+        'to' => 'Nei Adress: :email',
+        'warning' => 'Wann Dir dës Ännerung net gemaach hutt, kontaktéiert direkt de :app-Support a setzt Äert Passwuert zréck.',
+    ],
     // Essai et abonnement, ajoutés le 2026-08-18 : ces clés n'existaient qu'en
     // français, les utilisateurs luxembourgophones voyaient donc le nom de la clé.
     'trial_expired_message' => 'Är Testphase ass ofgelaf. Wielt en Abonnement fir :app weider ze notzen.',

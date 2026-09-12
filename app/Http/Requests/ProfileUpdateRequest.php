@@ -30,6 +30,14 @@ class ProfileUpdateRequest extends FormRequest
             // le promet. `sometimes` parce que le formulaire de profil ne le
             // porte pas toujours : l'omettre ne doit pas l'effacer.
             'business_sector' => ['sometimes', 'nullable', 'string', Rule::in(\App\Models\User::BUSINESS_SECTORS)],
+            // Changer l'adresse e-mail exige le mot de passe courant : une
+            // session ouverte mais volée ne doit pas pouvoir préparer une prise
+            // de contrôle en silence.
+            'current_password' => [
+                Rule::requiredIf(fn () => $this->input('email') !== null
+                    && strtolower((string) $this->input('email')) !== strtolower((string) $this->user()->email)),
+                'current_password',
+            ],
         ];
     }
 }

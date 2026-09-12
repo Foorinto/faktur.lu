@@ -50,13 +50,27 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        $ancienEmail = $request->user()->email;
+
         $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
+        $emailChange = $request->user()->isDirty('email');
+        if ($emailChange) {
             $request->user()->email_verified_at = null;
         }
 
         $request->user()->save();
+
+        // Prévenir l'ANCIENNE adresse : si le changement n'est pas de son fait,
+        // c'est le seul signal que le titulaire reçoit.
+        if ($emailChange) {
+            \Illuminate\Support\Facades\Notification::route('mail', $ancienEmail)
+                ->notify(new \App\Notifications\EmailChangedNotification(
+                    $ancienEmail,
+                    $request->user()->email,
+                    $request->user()->locale ?? 'fr',
+                ));
+        }
 
         return Redirect::route('profile.edit');
     }

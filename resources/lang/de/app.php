@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'email_changed' => [
+        'subject' => 'Ihre :app-E-Mail-Adresse wurde geändert',
+        'intro' => 'Die E-Mail-Adresse Ihres Kontos wurde soeben geändert.',
+        'from' => 'Bisherige Adresse: :email',
+        'to' => 'Neue Adresse: :email',
+        'warning' => 'Falls Sie diese Änderung nicht vorgenommen haben, wenden Sie sich sofort an den :app-Support und setzen Sie Ihr Passwort zurück.',
+    ],
     // Essai et abonnement, ajoutés le 2026-08-18 : ces clés n'existaient qu'en
     // français, les utilisateurs germanophones voyaient donc le nom de la clé.
     'trial_expired_message' => 'Ihre Testphase ist abgelaufen. Wählen Sie ein Abonnement, um :app weiter zu nutzen.',

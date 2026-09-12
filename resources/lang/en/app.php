@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'email_changed' => [
+        'subject' => 'Your :app e-mail address was changed',
+        'intro' => 'The e-mail address of your account has just been changed.',
+        'from' => 'Previous address: :email',
+        'to' => 'New address: :email',
+        'warning' => 'If you did not make this change, contact :app support immediately and reset your password.',
+    ],
     // Trial & Subscription
     'trial_expired_message' => 'Your trial period has ended. Choose a subscription to continue using :app.',
     'trial_days_remaining' => ':days days remaining on your free trial',

@@ -37,7 +37,10 @@ class CrmEmail extends Mailable
             markdown: $template,
             with: [
                 'client' => $this->client,
-                'body' => $this->emailBody,
+                // Assaini : le corps est rédigé par l'utilisateur et rendu en
+                // HTML ({!! !!}) dans un mail sortant. Sans nettoyage, un script
+                // ou un lien hostile partirait depuis l'infrastructure plateforme.
+                'body' => \App\Support\HtmlSanitizer::clean($this->emailBody),
                 'senderName' => $this->senderName,
                 'senderEmail' => $this->senderEmail,
                 'senderPhone' => $this->senderPhone,
