@@ -3820,6 +3820,7 @@ return [
         'deactivate_portal' => 'Deactivate',
         'portal_active' => 'Portal active',
         'confirm_deactivate' => 'Are you sure you want to deactivate portal access?',
+        'email_already_account' => 'This address already belongs to a faktur.lu account. Use a different work address for this employee.',
         'already_activated' => 'Portal access is already activated.',
         'email_required' => 'A professional email is required to activate the portal.',
         'activated' => 'Portal access activated. A password reset email has been sent.',

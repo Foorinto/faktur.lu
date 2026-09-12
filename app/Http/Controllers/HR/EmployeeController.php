@@ -306,21 +306,26 @@ class EmployeeController extends Controller
 
         $user = User::where('email', $employee->email_pro)->first();
 
-        if (!$user) {
-            $user = User::create([
-                'name' => $employee->full_name,
-                'email' => $employee->email_pro,
-                'password' => Hash::make(Str::random(32)),
-                'locale' => auth()->user()->locale ?? 'fr',
-            ]);
-            // is_active retire du fillable, email_verified_at jamais dans fillable
-            $user->forceFill([
-                'is_active' => true,
-                'email_verified_at' => now(),
-            ])->save();
-        } elseif (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
+        // ⚠️ Ne JAMAIS rattacher un compte préexistant appartenant à autrui.
+        // Avant, on retrouvait le compte, on FORÇAIT la vérification de son
+        // e-mail et on posait account_id dessus : un employeur pouvait ainsi
+        // s'approprier le compte d'un tiers (détournement) en saisissant son
+        // adresse. Le portail ne s'active que sur un compte créé pour le salarié.
+        if ($user) {
+            return back()->with('error', __('app.employee_portal.email_already_account'));
         }
+
+        $user = User::create([
+            'name' => $employee->full_name,
+            'email' => $employee->email_pro,
+            'password' => Hash::make(Str::random(32)),
+            'locale' => auth()->user()->locale ?? 'fr',
+        ]);
+        // is_active retire du fillable, email_verified_at jamais dans fillable
+        $user->forceFill([
+            'is_active' => true,
+            'email_verified_at' => now(),
+        ])->save();
 
         $employee->update([
             'account_id' => $user->id,

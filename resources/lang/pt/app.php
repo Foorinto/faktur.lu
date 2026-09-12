@@ -4034,6 +4034,7 @@ return [
         'deactivate_portal' => 'Desativar',
         'portal_active' => 'Portal ativo',
         'confirm_deactivate' => 'Tem a certeza de que pretende desativar o acesso ao portal?',
+        'email_already_account' => 'Este endereço já corresponde a uma conta faktur.lu. Utilize outro endereço profissional para este colaborador.',
         'already_activated' => 'O acesso ao portal já está ativado.',
         'email_required' => 'É obrigatório um email profissional para ativar o portal.',
         'activated' => 'Acesso ao portal ativado. Foi enviado um email de redefinição.',
