@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\HR;
 
+use Illuminate\Validation\Rule;
+
 use App\Models\HR\HrEvent;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,12 +24,12 @@ class StoreHrEventRequest extends FormRequest
             'ends_at' => ['required', 'date', 'after:starts_at'],
             'is_all_day' => ['boolean'],
             'location_type' => ['required', 'string', 'in:'.implode(',', HrEvent::LOCATION_TYPES)],
-            'room_id' => ['nullable', 'integer', 'exists:rooms,id', 'required_if:location_type,room'],
+            'room_id' => ['nullable', 'integer', Rule::exists('rooms', 'id')->where('user_id', auth()->id()), 'required_if:location_type,room'],
             'address' => ['nullable', 'string', 'max:500', 'required_if:location_type,address'],
             'video_url' => ['nullable', 'url', 'max:500', 'required_if:location_type,video'],
             'description' => ['nullable', 'string', 'max:5000'],
             'participant_employee_ids' => ['nullable', 'array'],
-            'participant_employee_ids.*' => ['integer', 'exists:employees,id'],
+            'participant_employee_ids.*' => ['integer', Rule::exists('employees', 'id')->where('user_id', auth()->id())],
             'participant_external_emails' => ['nullable', 'array', 'max:20'],
             'participant_external_emails.*' => ['email', 'max:255'],
         ];

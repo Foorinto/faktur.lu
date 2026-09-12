@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\HR;
 
+use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
 use App\Models\HR\Employee;
 use App\Models\HR\LeaveBalance;
@@ -84,8 +86,8 @@ class LeaveRequestController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'employee_id' => ['required', 'exists:employees,id'],
-            'leave_type_id' => ['required', 'exists:leave_types,id'],
+            'employee_id' => ['required', Rule::exists('employees', 'id')->where('user_id', auth()->id())],
+            'leave_type_id' => ['required', Rule::exists('leave_types', 'id')->where('user_id', auth()->id())],
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'days_count' => ['required', 'numeric', 'min:0.5'],

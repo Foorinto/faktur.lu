@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\Rule;
+
 use App\Actions\ConvertTimeToInvoiceAction;
 use App\Http\Requests\Api\V1\StoreTimeEntryRequest;
 use App\Http\Requests\Api\V1\UpdateTimeEntryRequest;
@@ -228,8 +230,8 @@ class TimeEntryController extends Controller
 
         $request->validate([
             'client_id' => 'required|exists:clients,id',
-            'project_id' => 'nullable|exists:projects,id',
-            'task_id' => 'nullable|exists:tasks,id',
+            'project_id' => ['nullable', Rule::exists('projects', 'id')->where('user_id', auth()->id())],
+            'task_id' => ['nullable', Rule::exists('tasks', 'id')->whereIn('project_id', \App\Models\Project::where('user_id', auth()->id())->pluck('id'))],
             'project_name' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
         ]);

@@ -172,6 +172,14 @@ class RecurringInvoiceController extends Controller
             'discounts.*.value' => 'required|numeric|min:0',
         ]);
 
+        // Le client doit appartenir à l'utilisateur : exists:clients,id ne le
+        // vérifie pas (contrairement à store()). Sans cela, la récurrence
+        // pointerait vers le client d'un autre tenant, dont le nom apparaîtrait
+        // sur les factures générées.
+        Client::where('id', $validated['client_id'])
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
         $recurringInvoice->update([
             'client_id' => $validated['client_id'],
             'title' => $validated['title'] ?? null,

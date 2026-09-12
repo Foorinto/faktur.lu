@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\EmployeePortal;
 
+use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeePortal\Concerns\ResolvesEmployee;
 use App\Models\HR\ExpenseCategory;
@@ -46,7 +48,7 @@ class PortalExpenseController extends Controller
         $employee = $this->employee();
 
         $validated = $request->validate([
-            'expense_category_id' => ['required', 'exists:expense_categories,id'],
+            'expense_category_id' => ['required', Rule::exists('expense_categories', 'id')->where('user_id', $employee->user_id)],
             'date' => ['required', 'date'],
             'description' => ['nullable', 'string', 'max:1000'],
             'vendor' => ['required', 'string', 'max:255'],
