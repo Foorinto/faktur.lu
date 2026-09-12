@@ -16,6 +16,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
@@ -51,6 +52,16 @@ class AppServiceProvider extends ServiceProvider
         // Force HTTPS in production
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
+
+            // ⚠️ Webhook Stripe : sans secret, Cashier N'ATTACHE PAS la
+            // vérification de signature (WebhookController::__construct), et
+            // accepte alors des événements forgés (abonnement Pro gratuit,
+            // résiliation d'un tiers). On ne peut pas le bloquer sans risquer
+            // de casser les webhooks légitimes, mais on le signale fort : un
+            // secret manquant en production est une faille ouverte.
+            if (empty(config('cashier.webhook.secret'))) {
+                Log::critical('STRIPE_WEBHOOK_SECRET absent en production : le webhook Stripe accepte des requêtes non signées. Définir la variable immédiatement.');
+            }
         }
 
         // Register audit logging for authentication events
@@ -238,6 +249,25 @@ class AppServiceProvider extends ServiceProvider
                 ->by($request->ip())
                 ->response(function (Request $request, array $headers) {
                     return $this->rateLimitResponse($headers, 'Trop de tentatives 2FA. Veuillez patienter.');
+                });
+        });
+
+        // Portail comptable : connexion - 5/minute par IP + email.
+        RateLimiter::for('accountant-login', function (Request $request) {
+            $key = $request->input('email', '') . '|' . $request->ip();
+            return Limit::perMinute(5)
+                ->by($key)
+                ->response(function (Request $request, array $headers) {
+                    return $this->rateLimitResponse($headers, 'Trop de tentatives de connexion.');
+                });
+        });
+
+        // Portail comptable : second facteur et acceptation d'invitation - 5/minute par IP.
+        RateLimiter::for('accountant-2fa', function (Request $request) {
+            return Limit::perMinute(5)
+                ->by($request->ip())
+                ->response(function (Request $request, array $headers) {
+                    return $this->rateLimitResponse($headers, 'Trop de tentatives. Veuillez patienter.');
                 });
         });
 

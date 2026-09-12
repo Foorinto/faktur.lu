@@ -89,6 +89,9 @@ class PortalExpenseController extends Controller
         }
 
         $receipt = ExpenseReceipt::withoutGlobalScope('user')->findOrFail($receiptId);
+        // Le reçu doit appartenir à la note déjà vérifiée : sinon un id de reçu
+        // d'un autre tenant serait supprimé.
+        abort_unless((int) $receipt->expense_report_id === (int) $expense->id, 404);
         Storage::disk('local')->delete($receipt->file_path);
         $receipt->delete();
 

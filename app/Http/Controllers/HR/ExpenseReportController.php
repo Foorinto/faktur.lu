@@ -123,6 +123,11 @@ class ExpenseReportController extends Controller
 
     public function deleteReceipt(ExpenseReport $expenseReport, ExpenseReceipt $expenseReceipt): RedirectResponse
     {
+        // Le reçu doit appartenir à CETTE note. $expenseReport est scopé au
+        // tenant (route model binding), mais ExpenseReceipt ne l'est pas : sans
+        // ce lien, un id de reçu d'un autre tenant serait supprimé (IDOR).
+        abort_unless((int) $expenseReceipt->expense_report_id === (int) $expenseReport->id, 404);
+
         if (!in_array($expenseReport->status, ['pending', 'rejected'])) {
             return back()->with('error', __('app.hr.expense_not_editable'));
         }

@@ -3,6 +3,7 @@ import CollaboratorLayout from '@/Layouts/CollaboratorLayout.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import RichTextDisplay from '@/Components/RichTextDisplay.vue';
 
 const { t } = useTranslations();
 
@@ -129,7 +130,7 @@ const getStatusBadgeClass = (status) => ({
                 </div>
             </div>
 
-            <div v-if="project.description" class="mt-3 text-sm text-slate-600 dark:text-slate-400 prose prose-sm dark:prose-invert max-w-none" v-html="project.description"></div>
+            <RichTextDisplay v-if="project.description" :content="project.description" class="mt-3 text-sm text-slate-600 dark:text-slate-400" />
         </div>
 
         <!-- Progress Stats -->

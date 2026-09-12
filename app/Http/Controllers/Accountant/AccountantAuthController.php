@@ -167,6 +167,17 @@ class AccountantAuthController extends Controller
         // Mark invitation as accepted
         $invitation->markAsAccepted();
 
+        // ⚠️ Respecter la 2FA. Avant, on ouvrait la session directement, ce qui
+        // permettait d'entrer avec le seul mot de passe + un token d'invitation,
+        // en contournant le second facteur que le login normal impose. Si le
+        // comptable a une 2FA active, on passe par le défi, comme login().
+        if ($accountant->hasEnabledTwoFactorAuthentication()) {
+            $request->session()->put(AccountantTwoFactorController::SESSION_KEY, $accountant->id);
+            $request->session()->put('accountant.two_factor.remember', true);
+
+            return redirect()->route('accountant.two-factor.challenge');
+        }
+
         // Log in the accountant
         Auth::guard('accountant')->login($accountant, true);
 

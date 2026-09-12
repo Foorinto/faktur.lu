@@ -4110,6 +4110,7 @@ return [
         'deactivate_portal' => 'Désactiver',
         'portal_active' => 'Portail actif',
         'confirm_deactivate' => 'Êtes-vous sûr de vouloir désactiver l\'accès portail ?',
+        'email_already_account' => 'Cette adresse correspond déjà à un compte :app. Utilisez une autre adresse professionnelle pour ce salarié.',
         'already_activated' => 'L\'accès portail est déjà activé.',
         'email_required' => 'Un email professionnel est requis pour activer le portail.',
         'activated' => 'Accès portail activé. Un email de réinitialisation a été envoyé.',

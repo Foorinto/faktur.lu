@@ -3805,6 +3805,7 @@ return [
         'deactivate_portal' => 'Deaktivéieren',
         'portal_active' => 'Portal aktiv',
         'confirm_deactivate' => 'Sidd Dir sécher datt Dir de Portalzougang wëllt deaktivéieren?',
+        'email_already_account' => 'Dës Adress gehéiert schonn zu engem :app-Kont. Benotzt eng aner berufflech Adress fir dëse Mataarbechter.',
         'already_activated' => 'De Portalzougang ass schonn aktivéiert.',
         'email_required' => 'Eng berufflech E-Mail ass néideg fir de Portal ze aktivéieren.',
         'activated' => 'Portalzougang aktivéiert. Eng Passwuert-Reset-E-Mail gouf geschéckt.',

@@ -3804,6 +3804,7 @@ return [
         'deactivate_portal' => 'Deaktivieren',
         'portal_active' => 'Portal aktiv',
         'confirm_deactivate' => 'Möchten Sie den Portalzugang wirklich deaktivieren?',
+        'email_already_account' => 'Diese Adresse gehört bereits zu einem :app-Konto. Verwenden Sie eine andere berufliche Adresse für diesen Mitarbeiter.',
         'already_activated' => 'Der Portalzugang ist bereits aktiviert.',
         'email_required' => 'Eine berufliche E-Mail ist erforderlich, um das Portal zu aktivieren.',
         'activated' => 'Portalzugang aktiviert. Eine Passwort-Reset-E-Mail wurde gesendet.',

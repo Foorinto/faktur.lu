@@ -2,6 +2,7 @@
 import EmployeePortalLayout from '@/Layouts/EmployeePortalLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import RichTextDisplay from '@/Components/RichTextDisplay.vue';
 
 const { t } = useTranslations();
 
@@ -52,7 +53,7 @@ const getScoreClass = (score) => {
             <!-- Main content -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-surface-card">
-                    <div v-if="evaluation.description" class="prose prose-sm dark:prose-invert max-w-none" v-html="evaluation.description"></div>
+                    <RichTextDisplay v-if="evaluation.description" :content="evaluation.description" />
                     <p v-else class="text-sm text-slate-500 dark:text-slate-400">{{ t('hr.no_data') }}</p>
                 </div>
 
