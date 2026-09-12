@@ -1,3 +1,13 @@
+# Defense en profondeur : n'exécuter que index.php.
+# Tout autre .php déposé dans public/ (script de déploiement, sauvegarde, fichier
+# oublié) est refusé. Laravel route tout via index.php : aucun autre .php légitime.
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+<Files "index.php">
+    Require all granted
+</Files>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

@@ -234,18 +234,33 @@ class QuotePdfService
      */
     protected function getLogoDataUri(string $logoPath): ?string
     {
-        $fullPath = storage_path('app/public/' . $logoPath);
+        // Lecture STRICTEMENT bornée au disque public. Sans cette vérification,
+        // un logo_path tel que « ../../../.env » lisait un fichier arbitraire du
+        // serveur et l'exposait en base64 dans l'aperçu HTML (faille critique).
+        $disk = \Illuminate\Support\Facades\Storage::disk('public');
 
-        if (!file_exists($fullPath)) {
+        // Refus explicite de toute tentative de traversée.
+        if ($logoPath === '' || str_contains($logoPath, '..') || str_starts_with($logoPath, '/')) {
             return null;
         }
 
-        $content = file_get_contents($fullPath);
-        if ($content === false) {
+        if (!$disk->exists($logoPath)) {
             return null;
         }
 
-        $mimeType = mime_content_type($fullPath) ?: 'image/png';
+        // Garde-fou supplémentaire : le chemin réel doit rester sous le disque public.
+        $racine = realpath(storage_path('app/public'));
+        $reel = realpath($disk->path($logoPath));
+        if ($racine === false || $reel === false || !str_starts_with($reel, $racine . DIRECTORY_SEPARATOR)) {
+            return null;
+        }
+
+        $content = $disk->get($logoPath);
+        if ($content === null) {
+            return null;
+        }
+
+        $mimeType = $disk->mimeType($logoPath) ?: 'image/png';
 
         return 'data:' . $mimeType . ';base64,' . base64_encode($content);
     }

@@ -41,14 +41,17 @@ class BusinessSettings extends Model
         'email',
         'show_email_on_invoice',
         'show_payment_qrcode',
-        'payment_qrcode_path',
+        // 'payment_qrcode_path' retiré du fillable : défini seulement par
+        // uploadPaymentQrcode()/deletePaymentQrcode() (chemin généré côté serveur).
         'default_payment_methods',
         'payment_instructions',
         'show_payment_conditions',
         'late_penalty_text',
         'recovery_fee_amount',
         'discount_terms',
-        'logo_path',
+        // 'logo_path' retiré du fillable : défini seulement par uploadLogo()/
+        // deleteLogo(). En chaîne libre, il permettait la lecture de fichiers
+        // arbitraires (../../../.env) au rendu du PDF.
         // Custom document numbering (Invoice / Credit note / Quote)
         'number_format',
         'invoice_prefix',
