@@ -281,7 +281,7 @@ class SectorPagesTest extends TestCase
             'email' => 'a@exemple.lu', 'message' => 'x', 'locale' => 'fr',
         ]);
 
-        $admin = \App\Models\User::factory()->create(['is_admin' => true, 'email_verified_at' => now()]);
+        $admin = \App\Models\User::factory()->admin()->create();
 
         $this->actingAs($admin)
             ->get('/'.config('admin.url_prefix').'/secteurs')

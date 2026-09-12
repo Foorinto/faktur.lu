@@ -41,4 +41,20 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Administrateur plateforme AVEC 2FA active.
+     *
+     * La 2FA est obligatoire pour accéder à l'administration (EnsureUserIsAdmin) :
+     * un admin de test doit donc l'avoir, sinon il est renvoyé vers son profil.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_admin' => true,
+            'email_verified_at' => now(),
+            'two_factor_secret' => encrypt('JBSWY3DPEHPK3PXP'),
+            'two_factor_confirmed_at' => now(),
+        ]);
+    }
 }

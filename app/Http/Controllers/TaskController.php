@@ -257,9 +257,15 @@ class TaskController extends Controller
                 // Calculate new depth
                 $newDepth = 0;
                 if ($newParentId) {
-                    $parent = Task::find($newParentId);
+                    // Le parent doit appartenir AU MÊME projet : sans ce contrôle,
+                    // on pouvait rattacher une tâche au sous-arbre d'un autre tenant.
+                    $parent = Task::where('id', $newParentId)
+                        ->where('project_id', $project->id)
+                        ->first();
                     if ($parent) {
                         $newDepth = $parent->depth + 1;
+                    } else {
+                        $newParentId = null;
                     }
                 }
 
@@ -310,9 +316,15 @@ class TaskController extends Controller
                 // Calculate new depth
                 $newDepth = 0;
                 if ($newParentId) {
-                    $parent = Task::find($newParentId);
+                    // Le parent doit appartenir AU MÊME projet : sans ce contrôle,
+                    // on pouvait rattacher une tâche au sous-arbre d'un autre tenant.
+                    $parent = Task::where('id', $newParentId)
+                        ->where('project_id', $project->id)
+                        ->first();
                     if ($parent) {
                         $newDepth = $parent->depth + 1;
+                    } else {
+                        $newParentId = null;
                     }
                 }
 

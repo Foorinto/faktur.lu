@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'admin_requires_2fa' => 'A autenticação de dois fatores é obrigatória para aceder à administração. Ative-a abaixo.',
     'admin_action' => [
         'password_reset' => ['subject' => 'A sua palavra-passe :app foi redefinida', 'line' => 'Um administrador redefiniu a palavra-passe da sua conta. Use « Esqueci a palavra-passe » para definir uma nova.'],
         '2fa_reset' => ['subject' => 'A autenticação de dois fatores da sua conta :app foi redefinida', 'line' => 'Um administrador redefiniu a autenticação de dois fatores da sua conta. Configure-a novamente no próximo início de sessão.'],

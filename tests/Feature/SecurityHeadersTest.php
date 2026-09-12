@@ -71,14 +71,14 @@ class SecurityHeadersTest extends TestCase
 
         $response = $this->get('/');
 
-        // On vérifie la propriété qui protège réellement : HSTS actif, un an.
-        // Le durcissement « includeSubDomains; preload » est une décision
-        // séparée — il contraint TOUS les sous-domaines à l'HTTPS, et 'preload'
-        // est difficilement réversible une fois soumis aux navigateurs.
+        // HSTS actif un an, avec includeSubDomains (les seuls sous-domaines —
+        // www et staging — sont en HTTPS, confirmé). 'preload' reste volontairement
+        // écarté : difficilement réversible une fois soumis aux navigateurs.
         $header = $response->headers->get('Strict-Transport-Security');
 
         $this->assertNotNull($header, 'HSTS doit être actif en production.');
         $this->assertStringContainsString('max-age=31536000', $header);
+        $this->assertStringContainsString('includeSubDomains', $header);
 
         // Reset environment
         config(['app.env' => 'testing']);

@@ -858,7 +858,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             // Project members (FEAT-081)
             Route::get('/projects/{project}/members', [\App\Http\Controllers\ProjectMemberController::class, 'index'])->name('projects.members.index');
             Route::patch('/projects/{project}/members/employees/{employee}/toggle', [\App\Http\Controllers\ProjectMemberController::class, 'toggleEmployee'])->name('projects.members.employees.toggle');
-            Route::post('/projects/{project}/members/collaborators', [\App\Http\Controllers\ProjectMemberController::class, 'inviteCollaborator'])->name('projects.members.collaborators.invite');
+            Route::post('/projects/{project}/members/collaborators', [\App\Http\Controllers\ProjectMemberController::class, 'inviteCollaborator'])->middleware('throttle:6,1')->name('projects.members.collaborators.invite');
             Route::delete('/projects/{project}/members/collaborators/{memberId}', [\App\Http\Controllers\ProjectMemberController::class, 'removeCollaborator'])->name('projects.members.collaborators.remove');
             Route::get('/projects/{project}/members/quota', [\App\Http\Controllers\ProjectMemberController::class, 'quota'])->name('projects.members.quota');
 

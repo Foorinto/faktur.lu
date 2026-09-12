@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -23,6 +24,17 @@ class PasswordController extends Controller
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
+
+        // Révoquer les autres sessions : un mot de passe changé doit déconnecter
+        // les appareils restés ouverts ailleurs (une session volée ne survit
+        // pas au changement). Sessions en base : on supprime les siennes sauf
+        // la session courante.
+        if (config('session.driver') === 'database') {
+            DB::table(config('session.table', 'sessions'))
+                ->where('user_id', $request->user()->id)
+                ->where('id', '!=', $request->session()->getId())
+                ->delete();
+        }
 
         return back();
     }

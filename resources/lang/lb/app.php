@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'admin_requires_2fa' => 'Fir den Zougang zur Administratioun ass d\'Zwee-Faktor-Authentifikatioun obligatoresch. Aktivéiert se hei ënnen.',
     'admin_action' => [
         'password_reset' => ['subject' => 'Äert :app-Passwuert gouf zréckgesat', 'line' => 'En Administrateur huet d\'Passwuert vun Ärem Kont zréckgesat. Benotzt « Passwuert vergiess », fir en neit festzeleeën.'],
         '2fa_reset' => ['subject' => 'D\'Zwee-Faktor-Authentifikatioun vun Ärem :app-Kont gouf zréckgesat', 'line' => 'En Administrateur huet d\'Zwee-Faktor-Authentifikatioun vun Ärem Kont zréckgesat. Riicht se bei Ärer nächster Umeldung nei an.'],

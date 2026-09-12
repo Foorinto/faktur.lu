@@ -169,7 +169,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // Défaut : cookie Secure forcé en production (HTTPS), libre ailleurs pour
+    // ne pas casser le dev en HTTP. Une valeur explicite dans .env prime.
+    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV') === 'production'),
 
     /*
     |--------------------------------------------------------------------------

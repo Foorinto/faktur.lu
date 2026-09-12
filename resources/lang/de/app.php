@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'admin_requires_2fa' => 'Für den Zugang zur Verwaltung ist die Zwei-Faktor-Authentifizierung erforderlich. Aktivieren Sie sie unten.',
     'admin_action' => [
         'password_reset' => ['subject' => 'Ihr :app-Passwort wurde zurückgesetzt', 'line' => 'Ein Administrator hat das Passwort Ihres Kontos zurückgesetzt. Nutzen Sie « Passwort vergessen », um ein neues festzulegen.'],
         '2fa_reset' => ['subject' => 'Die Zwei-Faktor-Authentifizierung Ihres :app-Kontos wurde zurückgesetzt', 'line' => 'Ein Administrator hat die Zwei-Faktor-Authentifizierung Ihres Kontos zurückgesetzt. Richten Sie sie bei der nächsten Anmeldung neu ein.'],
