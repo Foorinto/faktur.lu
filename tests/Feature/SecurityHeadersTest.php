@@ -56,6 +56,31 @@ class SecurityHeadersTest extends TestCase
         $this->assertStringContainsString("form-action 'self'", $csp);
     }
 
+    public function test_strict_csp_is_sent_in_report_only_without_unsafe(): void
+    {
+        $response = $this->get('/');
+
+        // L'en-tête Report-Only existe et ne bloque rien (observation).
+        $this->assertTrue($response->headers->has('Content-Security-Policy-Report-Only'));
+        $strict = $response->headers->get('Content-Security-Policy-Report-Only');
+
+        // Isoler la directive script-src pour la vérifier seule (style-src, lui,
+        // garde légitimement 'unsafe-inline').
+        $scriptSrc = '';
+        foreach (explode(';', $strict) as $directive) {
+            if (str_contains(trim($directive), 'script-src')) {
+                $scriptSrc = $directive;
+            }
+        }
+        $this->assertStringContainsString("script-src 'self'", $scriptSrc);
+        $this->assertStringNotContainsString("'unsafe-inline'", $scriptSrc);
+        $this->assertStringNotContainsString("'unsafe-eval'", $scriptSrc);
+
+        // La politique ACTIVE, elle, reste inchangée (le site n'est pas cassé).
+        $active = $response->headers->get('Content-Security-Policy');
+        $this->assertStringContainsString("'unsafe-inline'", $active);
+    }
+
     public function test_hsts_header_not_set_in_non_production(): void
     {
         // In testing environment, HSTS should not be set
