@@ -45,7 +45,18 @@ return new class extends Migration
         // `saving` — les montants agrégés de `expenses` sont déjà bons, la
         // reprise ne fait que les recopier sur la ligne. Les dépenses
         // soft-deleted sont incluses : une restauration doit retrouver sa ligne.
-        DB::table('expenses')->orderBy('id')->chunkById(500, function ($expenses) {
+        // Défensif : on ne reprend que les dépenses qui n'ont pas déjà de
+        // ligne. La reprise devient ainsi rejouable — une reprise interrompue
+        // puis relancée ne créera jamais de doublon, et le total du
+        // récapitulatif fiscal ne peut pas doubler.
+        DB::table('expenses')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('expense_lines')
+                    ->whereColumn('expense_lines.expense_id', 'expenses.id');
+            })
+            ->orderBy('id')
+            ->chunkById(500, function ($expenses) {
             $now = now();
             $rows = [];
 
