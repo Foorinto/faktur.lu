@@ -91,6 +91,7 @@ const pdfUrl = computed(() => {
     return `${baseUrl}?locale=${pdfLocale.value}`;
 });
 const editItemForm = useForm({
+    product_id: null,
     title: '',
     description: '',
     quantity: 1,
@@ -119,6 +120,7 @@ const form = useForm({
 const showRetention = ref(!!props.invoice.retention_guarantee_rate);
 
 const itemForm = useForm({
+    product_id: null,
     title: '',
     description: '',
     quantity: 1,
@@ -150,6 +152,7 @@ const productVatRate = (product) => {
 
 // Pre-fill from a selected catalogue product (FEAT-095).
 const applyProductToEdit = (product) => {
+    editItemForm.product_id = product.id;
     editItemForm.title = product.designation;
     if (product.description) { editItemForm.description = product.description; }
     editItemForm.unit_price = Number(product.unit_price_ht);
@@ -159,6 +162,7 @@ const applyProductToEdit = (product) => {
     editVatCustom.value = !isKnownVat(rate);
 };
 const applyProductToItem = (product) => {
+    itemForm.product_id = product.id;
     itemForm.title = product.designation;
     if (product.description) { itemForm.description = product.description; }
     itemForm.unit_price = Number(product.unit_price_ht);
@@ -321,6 +325,7 @@ const deleteItem = (itemId) => {
 // Start editing an item
 const startEditItem = (item) => {
     editingItemId.value = item.id;
+    editItemForm.product_id = item.product_id ?? null;
     editItemForm.title = item.title;
     editItemForm.description = item.description || '';
     editItemForm.quantity = parseFloat(item.quantity);

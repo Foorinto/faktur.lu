@@ -118,6 +118,10 @@ const addItem = () => {
         // Déclaré dès la création : un champ absent de l'objet ne serait pas
         // transmis, et le compte de l'article choisi ensuite serait perdu.
         pcn_account: null,
+        // Lien vers le produit du catalogue (FEAT-116), nul tant que la ligne
+        // n'est pas issue du catalogue. Nécessaire pour décrémenter le stock à
+        // l'émission.
+        product_id: null,
     });
     customVatRates.value[itemIndex] = '';
 };
@@ -161,6 +165,8 @@ const handleCustomVatRateChange = (index, value) => {
 // Pre-fill a line from a selected catalogue product (FEAT-095).
 const applyProduct = (index, product) => {
     const item = form.items[index];
+    // La ligne devient celle de ce produit : on mémorise son id pour le stock.
+    item.product_id = product.id;
     item.title = product.designation;
     if (product.description) {
         item.description = product.description;

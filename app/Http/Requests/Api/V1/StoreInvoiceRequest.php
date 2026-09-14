@@ -34,6 +34,10 @@ class StoreInvoiceRequest extends FormRequest
             'payment_methods' => ['nullable', 'array', 'max:10'],
             'payment_methods.*' => ['string', 'max:60'],
             'items' => ['nullable', 'array'],
+            // Produit du catalogue (FEAT-116) : facultatif, cloisonné au compte.
+            'items.*.product_id' => ['nullable', 'integer', Rule::exists('products', 'id')
+                ->where('user_id', $this->user()->id)
+                ->whereNull('deleted_at')],
             'items.*.title' => ['required_with:items', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string', 'max:2000'],
             'items.*.quantity' => ['required_with:items', 'numeric', 'min:0.0001'],

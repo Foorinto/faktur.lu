@@ -21,6 +21,7 @@ class InvoiceItem extends Model
 
     protected $fillable = [
         'invoice_id',
+        'product_id',
         'title',
         'description',
         'quantity',
@@ -77,6 +78,17 @@ class InvoiceItem extends Model
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    /**
+     * Produit du catalogue dont cette ligne est issue (FEAT-116).
+     *
+     * Nul pour une ligne saisie à la main. C'est ce lien qui permettra de
+     * décrémenter le stock à l'émission de la facture, sans deviner.
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 
     /**
