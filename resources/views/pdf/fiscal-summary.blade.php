@@ -295,6 +295,7 @@
             <thead>
                 <tr>
                     <th>{{ __('app.pdf_category') }}</th>
+                    <th>{{ __('app.pdf_account_short') }}</th>
                     <th>{{ __('app.pdf_form152_line') }}</th>
                     <th class="right">{{ __('app.pdf_ht_short') }}</th>
                     <th class="right">{{ __('app.pdf_vat_deductible_short') }}</th>
@@ -307,6 +308,7 @@
                     {{-- Le libellé de l'utilisateur, pas celui d'origine : une
                          catégorie renommée doit se lire sous son nom. --}}
                     <td>{{ $data['label'] ?? __('app.expense_categories.' . $cat) }}</td>
+                    <td style="font-size: 7pt;">{{ $data['pcn_account'] ?? '—' }}</td>
                     <td style="font-size: 7pt; color: #6b7280;">{{ $data['form152_label'] }}</td>
                     <td class="number">{{ number_format($data['total_ht'], 2, ',', ' ') }} €</td>
                     {{-- La colonne annonce la TVA déductible : elle doit
@@ -324,7 +326,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" style="text-align: center; padding: 5mm; color: #6b7280;">
+                    <td colspan="6" style="text-align: center; padding: 5mm; color: #6b7280;">
                         {{ __('app.pdf_no_expenses') }}
                     </td>
                 </tr>
@@ -333,7 +335,7 @@
             @if(count($summary['expenses']['by_category']) > 0)
             <tfoot>
                 <tr>
-                    <td colspan="2">{{ __('app.pdf_total') }}</td>
+                    <td colspan="3">{{ __('app.pdf_total') }}</td>
                     <td class="number">{{ number_format($summary['expenses']['total_ht'], 2, ',', ' ') }} €</td>
                     <td class="number">{{ number_format($summary['expenses']['total_vat_deductible'], 2, ',', ' ') }} €</td>
                     <td></td>

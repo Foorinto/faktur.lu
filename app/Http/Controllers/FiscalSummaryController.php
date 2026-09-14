@@ -115,10 +115,11 @@ class FiscalSummaryController extends Controller
 
             // Expenses section
             fputcsv($file, ['DÉPENSES PAR CATÉGORIE'], ';');
-            fputcsv($file, ['Catégorie', 'HT (€)', 'TVA déductible (€)', 'TVA non déductible (€)', 'Nb', 'Ligne Form. 152'], ';');
+            fputcsv($file, ['Catégorie', 'Compte', 'HT (€)', 'TVA déductible (€)', 'TVA non déductible (€)', 'Nb', 'Ligne Form. 152'], ';');
             foreach ($summary['expenses']['by_category'] as $cat => $data) {
                 fputcsv($file, [
-                    CsvSafe::field($data['form152_label']),
+                    CsvSafe::field($data['label'] ?? $data['form152_label']),
+                    CsvSafe::field((string) ($data['pcn_account'] ?? '')),
                     number_format($data['total_ht'], 2, ',', ''),
                     number_format($data['total_vat_deductible'], 2, ',', ''),
                     number_format($data['total_vat_non_deductible'], 2, ',', ''),
@@ -128,6 +129,7 @@ class FiscalSummaryController extends Controller
             }
             fputcsv($file, [
                 'TOTAL',
+                '',
                 number_format($summary['expenses']['total_ht'], 2, ',', ''),
                 number_format($summary['expenses']['total_vat_deductible'], 2, ',', ''),
             ], ';');

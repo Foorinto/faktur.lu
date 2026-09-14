@@ -193,6 +193,31 @@ class FiscalSummaryServiceTest extends TestCase
     }
 
     /**
+     * FEAT-115 (lot 0) — le récapitulatif porte le compte comptable (PCN) de
+     * chaque catégorie, à côté de son montant. Un client (fiduciaire) le réclame
+     * pour retrouver, au même endroit, le montant global par compte.
+     */
+    public function test_each_category_carries_its_accounting_account(): void
+    {
+        \App\Models\PurchaseCategory::create([
+            'user_id' => $this->user->id,
+            'key' => 'office',
+            'label' => 'Fournitures de bureau',
+            'pcn_account' => '606100',
+            'is_default' => true,
+            'is_active' => true,
+            'sort_order' => 1,
+        ]);
+        Expense::forgetCategoryMapCache();
+
+        $this->recordExpense(200, 'office');
+
+        $byCategory = $this->service->getSummary(now()->year)['expenses']['by_category'];
+
+        $this->assertSame('606100', $byCategory['office']['pcn_account']);
+    }
+
+    /**
      * L'autoliquidation gonfle les deux colonnes du même montant et laisse le
      * solde intact. C'est tout l'intérêt du mécanisme : rien de plus à payer,
      * mais l'opération apparaît, et l'AED peut la recouper avec ce que l'État

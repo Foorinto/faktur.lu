@@ -174,6 +174,7 @@ const categoryLabels = {
                         <thead class="bg-slate-50 dark:bg-gray-800">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_category') }}</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('pdf_account_short') }}</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_form152_line') }}</th>
                                 <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_summary_ht') }}</th>
                                 <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('fiscal_vat_deductible') }}</th>
@@ -188,6 +189,7 @@ const categoryLabels = {
                                      de bureau » à qui avait rebaptisé la
                                      sienne « Loyer et charges ». -->
                                 <td class="px-6 py-3 text-sm text-slate-900 dark:text-white">{{ data.label || t(categoryLabels[cat] || cat) }}</td>
+                                <td class="px-6 py-3 text-xs font-mono text-slate-500 dark:text-slate-400">{{ data.pcn_account || '—' }}</td>
                                 <td class="px-6 py-3 text-xs text-slate-500 dark:text-slate-400">{{ data.form152_label }}</td>
                                 <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">{{ formatCurrency(data.total_ht) }}</td>
                                 <td class="px-6 py-3 text-right text-sm font-mono text-slate-900 dark:text-white">
@@ -207,12 +209,12 @@ const categoryLabels = {
                                 <td class="px-6 py-3 text-right text-sm text-slate-900 dark:text-white">{{ data.count }}</td>
                             </tr>
                             <tr v-if="Object.keys(summary.expenses.by_category).length === 0">
-                                <td colspan="5" class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">{{ t('fiscal_no_data') }}</td>
+                                <td colspan="6" class="px-6 py-8 text-center text-sm text-slate-500 dark:text-slate-400">{{ t('fiscal_no_data') }}</td>
                             </tr>
                         </tbody>
                         <tfoot v-if="Object.keys(summary.expenses.by_category).length > 0" class="bg-slate-50 dark:bg-gray-800">
                             <tr>
-                                <td colspan="2" class="px-6 py-3 text-sm font-bold text-slate-900 dark:text-white">{{ t('fiscal_summary_total') }}</td>
+                                <td colspan="3" class="px-6 py-3 text-sm font-bold text-slate-900 dark:text-white">{{ t('fiscal_summary_total') }}</td>
                                 <td class="px-6 py-3 text-right text-sm font-bold font-mono text-slate-900 dark:text-white">{{ formatCurrency(summary.expenses.total_ht) }}</td>
                                 <td class="px-6 py-3 text-right text-sm font-bold font-mono text-slate-900 dark:text-white">{{ formatCurrency(summary.expenses.total_vat_deductible) }}</td>
                                 <td></td>

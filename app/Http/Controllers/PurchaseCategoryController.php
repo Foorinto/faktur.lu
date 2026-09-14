@@ -33,6 +33,13 @@ class PurchaseCategoryController extends Controller
             ->groupBy('category')
             ->pluck('total', 'category');
 
+        // Montant total (HT) par catégorie : demandé par un client pour voir,
+        // au même endroit que le compte comptable, ce que pèse chaque catégorie.
+        $montants = Expense::query()
+            ->selectRaw('category, SUM(amount_ht) as total_ht')
+            ->groupBy('category')
+            ->pluck('total_ht', 'category');
+
         $categories = PurchaseCategory::ordered()->get()->map(fn ($category) => [
             'id' => $category->id,
             'key' => $category->key,
@@ -42,6 +49,7 @@ class PurchaseCategoryController extends Controller
             'is_active' => $category->is_active,
             'sort_order' => $category->sort_order,
             'expenses_count' => (int) ($usage[$category->key] ?? 0),
+            'expenses_total' => round((float) ($montants[$category->key] ?? 0), 2),
         ]);
 
         return Inertia::render('Settings/PurchaseCategories/Index', [

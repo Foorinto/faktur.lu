@@ -5454,6 +5454,7 @@ return [
     'pdf_expenses_by_category' => 'Expenses by category',
     'pdf_category' => 'Category',
     'pdf_form152_line' => 'Form 152 line',
+    'pdf_account_short' => 'Account',
     'pdf_ht_short' => 'Net',
     'pdf_vat_deductible_short' => 'VAT ded.',
     'pdf_count_short' => 'Nb',

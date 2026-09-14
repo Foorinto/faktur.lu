@@ -7,6 +7,7 @@ use App\Models\BusinessSettings;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\PurchaseCategory;
 
 class FiscalSummaryService
 {
@@ -194,11 +195,16 @@ class FiscalSummaryService
         // seconde : une TVA étrangère de 19 € s'affichait comme déductible sur
         // sa ligne alors que le total, lui, l'excluait. Les lignes ne
         // s'additionnaient donc pas au total affiché juste en dessous.
+        // Compte comptable (PCN) par catégorie : demandé par un client pour
+        // retrouver le compte directement dans le récapitulatif, sans aller le
+        // chercher dans la page des catégories lors du bilan.
+        $pcnParCategorie = PurchaseCategory::pluck('pcn_account', 'key')->all();
+
         $byCategory = Expense::forYear($year)
             ->selectRaw('category, SUM(amount_ht) as total_ht, SUM(amount_vat) as total_vat, SUM(CASE WHEN is_deductible = 1 THEN amount_vat ELSE 0 END) as total_vat_deductible, COUNT(*) as count')
             ->groupBy('category')
             ->get()
-            ->mapWithKeys(function ($item) use ($userLabels) {
+            ->mapWithKeys(function ($item) use ($userLabels, $pcnParCategorie) {
                 $cat = $item->category;
 
                 $vat = round((float) $item->total_vat, 2);
@@ -218,6 +224,7 @@ class FiscalSummaryService
                     // bureau ».
                     'label' => $userLabels[$cat] ?? Expense::builtInCategories()[$cat] ?? $cat,
                     'form152_label' => self::FORM152_MAP[$cat] ?? $userLabels[$cat] ?? $cat,
+                    'pcn_account' => $pcnParCategorie[$cat] ?? null,
                 ]];
             })
             ->toArray();

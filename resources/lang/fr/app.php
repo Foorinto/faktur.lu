@@ -5835,6 +5835,7 @@ return [
     'pdf_expenses_by_category' => 'Dépenses par catégorie',
     'pdf_category' => 'Catégorie',
     'pdf_form152_line' => 'Ligne Form. 152',
+    'pdf_account_short' => 'Compte',
     'pdf_ht_short' => 'HT',
     'pdf_vat_deductible_short' => 'TVA déd.',
     'pdf_count_short' => 'Nb',

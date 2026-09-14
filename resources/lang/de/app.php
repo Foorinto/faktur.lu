@@ -5438,6 +5438,7 @@ return [
     'pdf_expenses_by_category' => 'Ausgaben nach Kategorie',
     'pdf_category' => 'Kategorie',
     'pdf_form152_line' => 'Zeile Form. 152',
+    'pdf_account_short' => 'Konto',
     'pdf_ht_short' => 'Netto',
     'pdf_vat_deductible_short' => 'MwSt abz.',
     'pdf_count_short' => 'Anz.',
