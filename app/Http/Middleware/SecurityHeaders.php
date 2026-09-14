@@ -49,14 +49,11 @@ class SecurityHeaders
 
         // Content Security Policy - désactivé en local pour Vite
         if (config('app.env') !== 'local') {
-            // Politique ACTIVE (inchangée) : protège le site aujourd'hui.
+            // Politique stricte ACTIVE : script-src sans 'unsafe-inline' ni
+            // 'unsafe-eval'. Validée par une phase Report-Only (2026-09) qui n'a
+            // relevé aucune violation sur l'ensemble du site — la protection
+            // anti-XSS est donc réelle et sans casse.
             $response->headers->set('Content-Security-Policy', $this->buildContentSecurityPolicy());
-
-            // Politique STRICTE en OBSERVATION (Report-Only) : ne bloque RIEN,
-            // le navigateur signale seulement ce qu'elle interdirait. Mesure
-            // sans risque ce que casserait le retrait de 'unsafe-inline'/
-            // 'unsafe-eval' sur script-src. Violations visibles en console.
-            $response->headers->set('Content-Security-Policy-Report-Only', $this->buildStrictContentSecurityPolicy());
         }
 
         return $response;
@@ -71,8 +68,8 @@ class SecurityHeaders
             // Default fallback
             "default-src 'self'",
 
-            // Scripts - allow inline for Vue + Matomo analytics
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' " . $this->getMatomoDomain(),
+            // Scripts : plus de 'unsafe-inline' ni 'unsafe-eval' (anti-XSS).
+            "script-src 'self' " . $this->getMatomoDomain(),
 
             // Styles - allow inline for Tailwind + Google/Bunny fonts
             "style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com",
@@ -99,33 +96,6 @@ class SecurityHeaders
             "form-action 'self' https://checkout.stripe.com",
 
             // Object/embed restriction
-            "object-src 'none'",
-        ];
-
-        return implode('; ', $directives);
-    }
-
-    /**
-     * Politique stricte, en OBSERVATION (Report-Only).
-     *
-     * Identique à la politique active, sauf script-src d'où 'unsafe-inline' et
-     * 'unsafe-eval' sont retirés (l'enjeu anti-XSS). Les scripts en ligne
-     * légitimes apparaîtront comme violations : la liste obtenue dira lesquels
-     * autoriser (nonce ou externalisation) avant de basculer en mode actif.
-     */
-    protected function buildStrictContentSecurityPolicy(): string
-    {
-        $directives = [
-            "default-src 'self'",
-            "script-src 'self' " . $this->getMatomoDomain(),
-            "style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com",
-            "img-src 'self' data: https:",
-            "font-src 'self' data: https://fonts.bunny.net https://fonts.gstatic.com",
-            "connect-src 'self' " . $this->getMatomoDomain() . " https://api.stripe.com",
-            "frame-ancestors 'none'",
-            "frame-src https://js.stripe.com https://checkout.stripe.com https://hooks.stripe.com",
-            "base-uri 'self'",
-            "form-action 'self' https://checkout.stripe.com",
             "object-src 'none'",
         ];
 
