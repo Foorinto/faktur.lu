@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\PurchaseCategory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 /**
@@ -233,5 +234,33 @@ class PurchaseCategoryTest extends TestCase
 
         $this->assertSame(9, PurchaseCategory::count(), 'Le scope global ne doit montrer que les siennes.');
         $this->assertNotSame('Chez le voisin', PurchaseCategory::mapFor($user)['office']);
+    }
+
+    /**
+     * FEAT-115 (lot 0) — la liste affiche, à côté du nombre de factures, le
+     * montant total (HT) engagé sur chaque catégorie. Réclamé par une fiduciaire
+     * pour jauger d'un coup d'oeil ce que pèse chaque compte comptable.
+     */
+    public function test_la_liste_expose_le_montant_total_par_categorie(): void
+    {
+        $user = $this->user();
+        PurchaseCategory::ensureDefaultsFor($user);
+
+        Expense::factory()->create([
+            'user_id' => $user->id,
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 120,
+        ]);
+        Expense::factory()->create([
+            'user_id' => $user->id,
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_ht' => 80,
+        ]);
+
+        $this->get(route('settings.purchase-categories'))
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->component('Settings/PurchaseCategories/Index')
+                ->where('categories', fn ($categories) => (float) collect($categories)
+                    ->firstWhere('key', Expense::CATEGORY_HARDWARE)['expenses_total'] === 200.0));
     }
 }

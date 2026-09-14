@@ -5439,6 +5439,7 @@ return [
     'pdf_expenses_by_category' => 'Ausgaben no Kategorie',
     'pdf_category' => 'Kategorie',
     'pdf_form152_line' => 'Zeil Form. 152',
+    'pdf_account_short' => 'Kont',
     'pdf_ht_short' => 'HT',
     'pdf_vat_deductible_short' => 'TVA ofz.',
     'pdf_count_short' => 'Nb',

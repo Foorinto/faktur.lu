@@ -5668,6 +5668,7 @@ return [
     'pdf_expenses_by_category' => 'Despesas por categoria',
     'pdf_category' => 'Categoria',
     'pdf_form152_line' => 'Linha Form. 152',
+    'pdf_account_short' => 'Conta',
     'pdf_ht_short' => 'Sem IVA',
     'pdf_vat_deductible_short' => 'IVA ded.',
     'pdf_count_short' => 'N.º',

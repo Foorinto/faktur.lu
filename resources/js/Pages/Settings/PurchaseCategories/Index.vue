@@ -7,6 +7,10 @@ import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
 
+const formatCurrency = (amount) => new Intl.NumberFormat('fr-FR', {
+    style: 'currency', currency: 'EUR',
+}).format(amount || 0);
+
 defineProps({
     categories: { type: Array, default: () => [] },
 });
@@ -173,6 +177,9 @@ const destroy = (category) => {
                                         {{ category.expenses_count > 0
                                             ? t('purchase_categories.usage', { count: category.expenses_count })
                                             : t('purchase_categories.unused') }}
+                                    </span>
+                                    <span v-if="category.expenses_count > 0" class="tabular-nums font-medium text-slate-500 dark:text-slate-300">
+                                        {{ formatCurrency(category.expenses_total) }}
                                     </span>
                                 </p>
                             </div>

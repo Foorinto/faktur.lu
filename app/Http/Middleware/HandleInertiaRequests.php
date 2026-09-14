@@ -268,6 +268,9 @@ class HandleInertiaRequests extends Middleware
             'pdf_text_size', 'pdf_text_size_normal', 'pdf_text_size_large',
             'pdf_text_size_xlarge', 'pdf_text_size_help',
             'pdf_logo_size', 'pdf_logo_size_small', 'pdf_logo_size_help',
+            // Colonne « Compte » du récapitulatif fiscal, partagée entre le PDF
+            // et l'écran (Reports/FiscalSummary.vue).
+            'pdf_account_short',
         ];
         foreach ($translations as $key => $value) {
             if (in_array($key, $frontendKept, true)) {
