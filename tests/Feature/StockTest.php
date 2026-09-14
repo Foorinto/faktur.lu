@@ -269,6 +269,56 @@ class StockTest extends TestCase
         $this->assertDatabaseHas('stock_movements', ['id' => $sortie->id]);
     }
 
+    public function test_une_depense_alimente_le_stock(): void
+    {
+        $product = $this->trackedProduct();
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+
+        // Achat de 100 unités pour 800 EUR HT -> coût unitaire 8 EUR.
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Grossiste',
+            'category' => 'other',
+            'amount_input_mode' => 'ht',
+            'amount_ht' => 800,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+            'stock_product_id' => $product->id,
+            'stock_quantity' => 100,
+        ])->assertRedirect(route('expenses.index'));
+
+        $product->refresh();
+        $this->assertSame(100.0, $product->currentStock());
+        $this->assertSame(8.0, $product->weightedAverageCost(), 'Coût unitaire = 800 / 100.');
+    }
+
+    public function test_modifier_la_depense_resynchronise_le_stock(): void
+    {
+        $product = $this->trackedProduct();
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10', 'provider_name' => 'Grossiste', 'category' => 'other',
+            'amount_input_mode' => 'ht', 'amount_ht' => 800, 'vat_rate' => 17,
+            'vat_regime' => 'national', 'is_deductible' => true,
+            'stock_product_id' => $product->id, 'stock_quantity' => 100,
+        ]);
+        $expense = \App\Models\Expense::latest('id')->first();
+        $this->assertSame(100.0, $product->fresh()->currentStock());
+
+        // Correction : finalement 120 unités reçues.
+        $this->put(route('expenses.update', $expense->id), [
+            'date' => '2026-03-10', 'provider_name' => 'Grossiste', 'category' => 'other',
+            'amount_input_mode' => 'ht', 'amount_ht' => 800, 'vat_rate' => 17,
+            'vat_regime' => 'national', 'is_deductible' => true,
+            'stock_product_id' => $product->id, 'stock_quantity' => 120,
+        ]);
+
+        $this->assertSame(120.0, $product->fresh()->currentStock(), 'Le stock suit la dépense corrigée, sans doublon.');
+        $this->assertSame(1, $product->stockMovements()->where('source_type', \App\Models\Expense::class)->count());
+    }
+
     public function test_le_stock_ne_fuit_jamais_chez_un_autre_compte(): void
     {
         $product = $this->trackedProduct();

@@ -5914,6 +5914,16 @@ return [
     'business_settings_required_cta' => 'Compléter mes informations',
     'validation_vat_rate_franchise' => 'Vous êtes en franchise de TVA : le taux doit être de 0 %.',
     'error_archive_only_finalized' => 'Seules les factures finalisées peuvent être archivées.',
+    'expense_stock' => [
+        'title' => 'Réception en stock',
+        'help' => 'Si cet achat concerne un produit suivi en stock, indiquez-le pour créer une entrée de stock au prix payé.',
+        'product' => 'Produit reçu',
+        'none' => 'Aucun (pas d\'entrée en stock)',
+        'quantity' => 'Quantité reçue',
+        'quantity_placeholder' => 'ex. 100',
+        'quantity_help' => 'Le coût unitaire sera le montant HT de la dépense divisé par cette quantité.',
+        'line_label' => 'En stock',
+    ],
     'stock' => [
         'nav' => 'Stock',
         'title' => 'Gestion de stock',

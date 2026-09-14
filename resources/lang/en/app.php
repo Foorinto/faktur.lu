@@ -5533,6 +5533,16 @@ return [
     'business_settings_required_cta' => 'Complete my details',
     'validation_vat_rate_franchise' => 'You are under the VAT franchise scheme: the rate must be 0%.',
     'error_archive_only_finalized' => 'Only finalized invoices can be archived.',
+    'expense_stock' => [
+        'title' => 'Stock receipt',
+        'help' => 'If this purchase is a stock-tracked product, select it to create a stock entry at the price paid.',
+        'product' => 'Item received',
+        'none' => 'None (no stock entry)',
+        'quantity' => 'Quantity received',
+        'quantity_placeholder' => 'e.g. 100',
+        'quantity_help' => 'The unit cost will be the expense net amount divided by this quantity.',
+        'line_label' => 'To stock',
+    ],
     'stock' => [
         'nav' => 'Stock',
         'title' => 'Stock management',

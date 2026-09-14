@@ -56,7 +56,20 @@ class UpdateExpenseRequest extends FormRequest
             'lines.*.amount_ht' => ['required', 'numeric', 'min:0.01'],
             'lines.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
             'lines.*.sort_order' => ['nullable', 'integer', 'min:0'],
+            // Réception en stock (FEAT-116).
+            'lines.*.product_id' => ['nullable', 'integer', $this->trackedProductRule()],
+            'lines.*.stock_quantity' => ['nullable', 'numeric', 'gt:0'],
+            'stock_product_id' => ['nullable', 'integer', $this->trackedProductRule()],
+            'stock_quantity' => ['nullable', 'numeric', 'gt:0'],
         ];
+    }
+
+    private function trackedProductRule(): \Illuminate\Validation\Rules\Exists
+    {
+        return Rule::exists('products', 'id')
+            ->where('user_id', $this->user()->id)
+            ->where('track_stock', true)
+            ->whereNull('deleted_at');
     }
 
     public function messages(): array

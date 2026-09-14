@@ -5747,6 +5747,16 @@ return [
     'business_settings_required_cta' => 'Completar os meus dados',
     'validation_vat_rate_franchise' => 'Está no regime de franquia de IVA: a taxa deve ser 0 %.',
     'error_archive_only_finalized' => 'Apenas faturas finalizadas podem ser arquivadas.',
+    'expense_stock' => [
+        'title' => 'Receção em stock',
+        'help' => 'Se esta compra corresponde a um produto acompanhado em stock, indique-o para criar uma entrada ao preço pago.',
+        'product' => 'Artigo recebido',
+        'none' => 'Nenhum (sem entrada em stock)',
+        'quantity' => 'Quantidade recebida',
+        'quantity_placeholder' => 'ex. 100',
+        'quantity_help' => 'O custo unitário será o montante sem IVA da despesa dividido por esta quantidade.',
+        'line_label' => 'Para stock',
+    ],
     'stock' => [
         'nav' => 'Stock',
         'title' => 'Gestão de stock',

@@ -21,6 +21,7 @@ const props = defineProps({
     homeCountry: String,
     homeStandardRate: Number,
     paymentMethods: Array,
+    trackedProducts: { type: Array, default: () => [] },
 });
 
 const form = useForm({
@@ -47,6 +48,8 @@ const form = useForm({
     attachment: null,
     remove_attachment: false,
     lines: [],
+    stock_product_id: null,
+    stock_quantity: null,
 });
 
 // Ventilation (FEAT-115) : on ouvre l'éditeur d'emblée si la dépense est déjà
@@ -61,7 +64,13 @@ if (ventilated.value) {
         description: line.description || '',
         amount_ht: line.amount_ht,
         vat_rate: parseFloat(line.vat_rate),
+        product_id: line.product_id || null,
+        stock_quantity: line.stock_quantity || null,
     }));
+} else if (existingLines.length === 1 && existingLines[0].product_id) {
+    // Réception en stock enregistrée en saisie simple : on la ré-affiche.
+    form.stock_product_id = existingLines[0].product_id;
+    form.stock_quantity = existingLines[0].stock_quantity;
 }
 
 const startVentilation = () => {
@@ -70,7 +79,11 @@ const startVentilation = () => {
         description: '',
         amount_ht: form.amount_ht || '',
         vat_rate: form.vat_rate || 17,
+        product_id: form.stock_product_id || null,
+        stock_quantity: form.stock_quantity || null,
     }];
+    form.stock_product_id = null;
+    form.stock_quantity = null;
     ventilated.value = true;
 };
 
@@ -212,7 +225,45 @@ const submit = () => {
                 v-if="ventilated"
                 :form="form"
                 :categories="categories"
+                :tracked-products="trackedProducts"
             />
+
+            <!-- Réception en stock (FEAT-116), saisie simple : un seul produit.
+                 En mode ventilé, la réception se fait ligne par ligne. -->
+            <div v-if="!ventilated && trackedProducts.length > 0" class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('expense_stock.title') }}</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ t('expense_stock.help') }}</p>
+                </div>
+                <div class="px-6 py-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <InputLabel for="stock_product" :value="t('expense_stock.product')" />
+                        <select
+                            id="stock_product"
+                            v-model="form.stock_product_id"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                        >
+                            <option :value="null">{{ t('expense_stock.none') }}</option>
+                            <option v-for="p in trackedProducts" :key="p.value" :value="p.value">{{ p.label }}</option>
+                        </select>
+                        <InputError :message="form.errors.stock_product_id" class="mt-2" />
+                    </div>
+                    <div v-if="form.stock_product_id">
+                        <InputLabel for="stock_quantity" :value="t('expense_stock.quantity')" />
+                        <input
+                            id="stock_quantity"
+                            v-model="form.stock_quantity"
+                            type="number"
+                            step="0.01"
+                            min="0.01"
+                            class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                            :placeholder="t('expense_stock.quantity_placeholder')"
+                        />
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('expense_stock.quantity_help') }}</p>
+                        <InputError :message="form.errors.stock_quantity" class="mt-2" />
+                    </div>
+                </div>
+            </div>
 
             <ExpenseVatFields
                 :form="form"

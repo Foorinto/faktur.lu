@@ -5518,6 +5518,16 @@ return [
     'business_settings_required_cta' => 'Meng Donnéeë complétéieren',
     'validation_vat_rate_franchise' => 'Dir sidd an der TVA-Franchise: de Saz muss 0 % sinn.',
     'error_archive_only_finalized' => 'Nëmme finaliséiert Rechnunge kënnen archivéiert ginn.',
+    'expense_stock' => [
+        'title' => 'Wareneingang',
+        'help' => 'Wann dësen Akaf en Artikel betrëfft deen am Stock verfollegt gëtt, gitt en un fir en Zougang zum bezuelte Präis ze erstellen.',
+        'product' => 'Kritenen Artikel',
+        'none' => 'Keen (kee Stockzougang)',
+        'quantity' => 'Kriten Quantitéit',
+        'quantity_placeholder' => 'z. B. 100',
+        'quantity_help' => 'D\'Stéckkäschten sinn den Nettobetrag vun der Ausgab gedeelt duerch dës Quantitéit.',
+        'line_label' => 'An de Stock',
+    ],
     'stock' => [
         'nav' => 'Stock',
         'title' => 'Stockverwaltung',

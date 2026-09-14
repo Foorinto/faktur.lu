@@ -17,6 +17,7 @@ const { t } = useTranslations();
 const props = defineProps({
     form: { type: Object, required: true },
     categories: { type: Array, default: () => [] },
+    trackedProducts: { type: Array, default: () => [] },
 });
 
 const formatCurrency = (amount) =>
@@ -38,7 +39,7 @@ const totalTtc = computed(() =>
 );
 
 const addLine = () => {
-    props.form.lines.push({ category: '', description: '', amount_ht: '', vat_rate: 17 });
+    props.form.lines.push({ category: '', description: '', amount_ht: '', vat_rate: 17, product_id: null, stock_quantity: null });
 };
 
 const removeLine = (index) => {
@@ -143,6 +144,27 @@ const lineError = (index, field) => props.form.errors?.[`lines.${index}.${field}
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                         </button>
+                    </div>
+
+                    <!-- Réception en stock de cette ligne (FEAT-116) -->
+                    <div v-if="trackedProducts.length > 0" class="sm:col-span-12 flex flex-col gap-3 border-t border-gray-100 pt-3 dark:border-gray-800 sm:flex-row sm:items-center">
+                        <span class="text-xs font-medium uppercase tracking-wide text-slate-400">{{ t('expense_stock.line_label') }}</span>
+                        <select
+                            v-model="line.product_id"
+                            class="block w-full rounded-xl border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:w-56"
+                        >
+                            <option :value="null">{{ t('expense_stock.none') }}</option>
+                            <option v-for="p in trackedProducts" :key="p.value" :value="p.value">{{ p.label }}</option>
+                        </select>
+                        <input
+                            v-if="line.product_id"
+                            v-model="line.stock_quantity"
+                            type="number"
+                            step="0.01"
+                            min="0.01"
+                            class="block w-full rounded-xl border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:w-32"
+                            :placeholder="t('expense_stock.quantity')"
+                        />
                     </div>
                 </div>
             </div>

@@ -5517,6 +5517,16 @@ return [
     'business_settings_required_cta' => 'Daten vervollständigen',
     'validation_vat_rate_franchise' => 'Sie unterliegen der Kleinunternehmerregelung: Der Satz muss 0 % betragen.',
     'error_archive_only_finalized' => 'Nur finalisierte Rechnungen können archiviert werden.',
+    'expense_stock' => [
+        'title' => 'Wareneingang',
+        'help' => 'Betrifft dieser Einkauf einen bestandsgeführten Artikel, geben Sie ihn an, um einen Bestandszugang zum gezahlten Preis zu erzeugen.',
+        'product' => 'Erhaltener Artikel',
+        'none' => 'Keiner (kein Bestandszugang)',
+        'quantity' => 'Erhaltene Menge',
+        'quantity_placeholder' => 'z. B. 100',
+        'quantity_help' => 'Die Stückkosten sind der Nettobetrag der Ausgabe geteilt durch diese Menge.',
+        'line_label' => 'In den Bestand',
+    ],
     'stock' => [
         'nav' => 'Bestand',
         'title' => 'Bestandsverwaltung',
