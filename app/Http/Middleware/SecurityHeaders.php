@@ -49,10 +49,10 @@ class SecurityHeaders
 
         // Content Security Policy - désactivé en local pour Vite
         if (config('app.env') !== 'local') {
-            // Politique stricte ACTIVE : script-src sans 'unsafe-inline' ni
-            // 'unsafe-eval'. Validée par une phase Report-Only (2026-09) qui n'a
-            // relevé aucune violation sur l'ensemble du site — la protection
-            // anti-XSS est donc réelle et sans casse.
+            // CSP active. script-src garde 'unsafe-inline'/'unsafe-eval' : les
+            // pages publiques exécutent des scripts en ligne (Ziggy @routes,
+            // JSON-LD, gestionnaires d'événements). Le durcissement anti-XSS se
+            // fera par nonce/hash, pas en retirant les unsafe (échec 2026-09-14).
             $response->headers->set('Content-Security-Policy', $this->buildContentSecurityPolicy());
         }
 
@@ -68,8 +68,11 @@ class SecurityHeaders
             // Default fallback
             "default-src 'self'",
 
-            // Scripts : plus de 'unsafe-inline' ni 'unsafe-eval' (anti-XSS).
-            "script-src 'self' " . $this->getMatomoDomain(),
+            // ⚠️ Rétabli en urgence : la bascule stricte cassait les pages
+            // publiques (script Ziggy @routes, JSON-LD, gestionnaires inline).
+            // Le durcissement se fera par nonce/hash, pas en retirant les unsafe
+            // sans les avoir remplacés. Voir l'échec du 2026-09-14.
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' " . $this->getMatomoDomain(),
 
             // Styles - allow inline for Tailwind + Google/Bunny fonts
             "style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com",
