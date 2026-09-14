@@ -13,6 +13,7 @@ class FinalizeInvoiceAction
     public function __construct(
         private GenerateInvoiceNumberAction $generateNumber,
         private CalculateInvoiceTotalsAction $calculateTotals,
+        private \App\Services\StockService $stock,
     ) {}
 
     /**
@@ -119,6 +120,12 @@ class FinalizeInvoiceAction
             // Le statut de règlement se déduit des encaissements : il doit donc
             // être recalculé au moment précis où la créance naît.
             $invoice->refresh()->refreshPaymentStatus();
+
+            // Stock (FEAT-116) : l'émission sort les produits suivis du stock ;
+            // une note de crédit émise les réintègre. Dans la transaction, pour
+            // que rien ne bouge si la finalisation échoue. Aucun effet sur une
+            // facture sans ligne rattachée à un produit suivi.
+            $this->stock->applyEmission($invoice);
 
             return $invoice->refresh();
         });

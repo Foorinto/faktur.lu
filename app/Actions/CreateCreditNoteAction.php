@@ -75,6 +75,9 @@ class CreateCreditNoteAction
             foreach ($itemsToCredit as $item) {
                 InvoiceItem::create([
                     'invoice_id' => $creditNote->id,
+                    // Le lien produit suit sur l'avoir : c'est lui qui réintègre
+                    // la bonne référence en stock (FEAT-116).
+                    'product_id' => $item->product_id,
                     'title' => $item->title,
                     'description' => $item->description,
                     'quantity' => bcmul($item->quantity, '-1', 4), // Negative quantity
