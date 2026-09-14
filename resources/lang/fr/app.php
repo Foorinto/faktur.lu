@@ -967,6 +967,11 @@ return [
     // Expenses
     'expenses_title' => 'Dépenses',
     'new_expense' => 'Nouvelle dépense',
+    'expense_ventilation' => 'Ventilation sur plusieurs comptes',
+    'expense_ventilation_help' => 'Répartissez le montant de la dépense entre plusieurs catégories comptables. Chaque ligne se saisit hors taxe.',
+    'expense_ventilation_add_line' => 'Ajouter une ligne',
+    'expense_ventilation_start' => 'Ventiler sur plusieurs comptes',
+    'expense_ventilation_stop' => 'Revenir à une seule catégorie',
     'expense' => 'Dépense',
     'no_expenses' => 'Aucune dépense trouvée.',
     'create_first_expense' => 'Enregistrez votre première dépense',

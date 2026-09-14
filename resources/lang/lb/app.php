@@ -896,6 +896,11 @@ return [
     // Expenses
     'expenses_title' => 'Ausgaben',
     'new_expense' => 'Nei Ausgab',
+    'expense_ventilation' => 'Opdeelung op méi Konten',
+    'expense_ventilation_help' => 'Deelt de Betrag vun der Ausgab op méi Comptabilitéitskategorien op. All Zeil gëtt ouni Taxe agedroen.',
+    'expense_ventilation_add_line' => 'Eng Zeil derbäisetzen',
+    'expense_ventilation_start' => 'Op méi Konten opdeelen',
+    'expense_ventilation_stop' => 'Zréck op eng eenzeg Kategorie',
     'expense' => 'Ausgab',
     'no_expenses' => 'Keng Ausgabe fonnt.',
     'create_first_expense' => 'Registréiert Är éischt Ausgab',

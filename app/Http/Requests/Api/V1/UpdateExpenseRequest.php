@@ -48,6 +48,14 @@ class UpdateExpenseRequest extends FormRequest
             'reference' => ['nullable', 'string', 'max:100'],
             'attachment' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png,webp', 'max:10240'],
             'remove_attachment' => ['boolean'],
+
+            // Ventilation (FEAT-115) : facultative, mêmes règles qu'à la création.
+            'lines' => ['nullable', 'array', 'min:1'],
+            'lines.*.category' => ['required', 'string', Rule::in(array_keys(Expense::categoryMap(activeOnly: false)))],
+            'lines.*.description' => ['nullable', 'string', 'max:2000'],
+            'lines.*.amount_ht' => ['required', 'numeric', 'min:0.01'],
+            'lines.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
+            'lines.*.sort_order' => ['nullable', 'integer', 'min:0'],
         ];
     }
 
