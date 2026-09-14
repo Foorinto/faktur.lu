@@ -186,6 +186,62 @@ class StockTest extends TestCase
         $this->assertFalse($product->fresh()->isLowOnStock(), '14 > seuil de 5.');
     }
 
+    public function test_la_page_stock_ne_liste_que_les_produits_suivis(): void
+    {
+        $suivi = $this->trackedProduct(['designation' => 'Widget suivi']);
+        Product::factory()->create([
+            'user_id' => $this->user->id,
+            'designation' => 'Service non suivi',
+            'track_stock' => false,
+        ]);
+        app(StockService::class)->recordEntry($suivi, 10, 20.0);
+
+        $this->get(route('stock.index'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Stock/Index')
+                ->where('products', fn ($rows) => count($rows) === 1
+                    && $rows[0]['designation'] === 'Widget suivi'
+                    && (float) $rows[0]['current_stock'] === 10.0));
+    }
+
+    public function test_l_entree_manuelle_incremente_le_stock(): void
+    {
+        $product = $this->trackedProduct();
+
+        $this->post(route('stock.entry', $product->id), [
+            'quantity' => 15,
+            'unit_cost' => 12.5,
+            'date' => now()->toDateString(),
+            'note' => 'Réception',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(15.0, $product->fresh()->currentStock());
+    }
+
+    public function test_l_inventaire_via_le_controleur_enregistre_l_ecart(): void
+    {
+        $product = $this->trackedProduct();
+        app(StockService::class)->recordEntry($product, 10, 20.0);
+
+        $this->post(route('stock.inventory', $product->id), [
+            'counted_quantity' => 7,
+            'date' => now()->toDateString(),
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(7.0, $product->fresh()->currentStock());
+    }
+
+    public function test_un_mouvement_sur_un_produit_non_suivi_est_refuse(): void
+    {
+        $product = $this->trackedProduct(['track_stock' => false]);
+
+        $this->post(route('stock.entry', $product->id), [
+            'quantity' => 5,
+            'date' => now()->toDateString(),
+        ])->assertNotFound();
+    }
+
     public function test_le_stock_ne_fuit_jamais_chez_un_autre_compte(): void
     {
         $product = $this->trackedProduct();

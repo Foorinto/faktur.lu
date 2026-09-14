@@ -607,6 +607,16 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/products/search', [\App\Http\Controllers\ProductController::class, 'search'])
             ->name('products.search');
 
+        // Gestion de stock (FEAT-116)
+        Route::get('/stock', [\App\Http\Controllers\StockController::class, 'index'])
+            ->name('stock.index');
+        Route::get('/stock/{product}/movements', [\App\Http\Controllers\StockController::class, 'movements'])
+            ->name('stock.movements');
+        Route::post('/stock/{product}/entry', [\App\Http\Controllers\StockController::class, 'storeEntry'])
+            ->name('stock.entry');
+        Route::post('/stock/{product}/inventory', [\App\Http\Controllers\StockController::class, 'storeInventory'])
+            ->name('stock.inventory');
+
         // Actions groupées — déclarées AVANT la resource : « /products/bulk-… »
         // serait sinon capturé comme un identifiant d'article.
         Route::post('/products/bulk-update', [\App\Http\Controllers\ProductController::class, 'bulkUpdate'])
