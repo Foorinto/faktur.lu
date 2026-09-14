@@ -5559,6 +5559,10 @@ return [
         'flash_entry_recorded' => 'Stockzougang gespäichert.',
         'flash_inventory_recorded' => 'Inventaire gespäichert.',
         'flash_inventory_no_change' => 'Keen Ënnerscheed: de Stock war scho korrekt.',
+        'confirm_delete_movement' => 'Dës Stockbeweegung läschen? De Stock gëtt nei berechent.',
+        'delete_movement' => 'Dës Beweegung läschen',
+        'locked_movement' => 'Beweegung aus enger Rechnung: net änderbar',
+        'flash_movement_deleted' => 'Stockbeweegung geläscht.',
     ],
     'products' => [
             'track_stock' => 'De Stock vun dësem Artikel verfollegen',

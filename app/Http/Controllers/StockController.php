@@ -107,7 +107,18 @@ class StockController extends Controller
             ->orderByDesc('date')
             ->orderByDesc('id')
             ->limit(200)
-            ->get(['id', 'quantity', 'type', 'date', 'unit_cost', 'note']);
+            ->get(['id', 'quantity', 'type', 'source_type', 'date', 'unit_cost', 'note'])
+            ->map(fn ($m) => [
+                'id' => $m->id,
+                'quantity' => $m->quantity,
+                'type' => $m->type,
+                'date' => $m->date?->toDateString(),
+                'unit_cost' => $m->unit_cost !== null ? (float) $m->unit_cost : null,
+                'note' => $m->note,
+                // Un mouvement manuel (sans source) est corrigible ; un mouvement
+                // issu d'une facture reste immuable, comme la facture elle-même.
+                'is_manual' => $m->source_type === null,
+            ]);
 
         return Inertia::render('Stock/Movements', [
             'product' => [
@@ -117,5 +128,22 @@ class StockController extends Controller
             ],
             'movements' => $movements,
         ]);
+    }
+
+    /**
+     * Supprime un mouvement MANUEL saisi par erreur (entrée, ajustement,
+     * inventaire). Un mouvement issu d'une facture est immuable : sa correction
+     * passe par une note de crédit, jamais par une suppression rétroactive.
+     */
+    public function destroyMovement(Product $product, StockMovement $movement): RedirectResponse
+    {
+        abort_unless((int) $movement->product_id === (int) $product->id, 404);
+
+        // Seuls les mouvements sans source (saisis à la main) sont supprimables.
+        abort_unless($movement->source_type === null, 403);
+
+        $movement->delete();
+
+        return back()->with('success', __('app.stock.flash_movement_deleted'));
     }
 }

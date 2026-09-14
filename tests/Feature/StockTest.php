@@ -242,6 +242,33 @@ class StockTest extends TestCase
         ])->assertNotFound();
     }
 
+    public function test_une_entree_manuelle_erronee_peut_etre_supprimee(): void
+    {
+        $product = $this->trackedProduct();
+        $entry = app(StockService::class)->recordEntry($product, 100, 20.0, note: 'Erreur de saisie');
+        $this->assertSame(100.0, $product->fresh()->currentStock());
+
+        $this->delete(route('stock.movements.destroy', [$product->id, $entry->id]))
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame(0.0, $product->fresh()->currentStock(), 'Le stock est recalculé après suppression.');
+        $this->assertDatabaseMissing('stock_movements', ['id' => $entry->id]);
+    }
+
+    public function test_un_mouvement_issu_d_une_facture_ne_peut_pas_etre_supprime(): void
+    {
+        $product = $this->trackedProduct();
+        app(StockService::class)->recordEntry($product, 10, 20.0);
+        $invoice = $this->finalize($this->draftWith($product, 3));
+
+        $sortie = $product->stockMovements()->where('source_type', Invoice::class)->first();
+
+        $this->delete(route('stock.movements.destroy', [$product->id, $sortie->id]))
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('stock_movements', ['id' => $sortie->id]);
+    }
+
     public function test_le_stock_ne_fuit_jamais_chez_un_autre_compte(): void
     {
         $product = $this->trackedProduct();

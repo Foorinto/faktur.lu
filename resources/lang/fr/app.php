@@ -5955,6 +5955,10 @@ return [
         'flash_entry_recorded' => 'Entrée de stock enregistrée.',
         'flash_inventory_recorded' => 'Inventaire enregistré.',
         'flash_inventory_no_change' => 'Aucun écart : le stock était déjà à jour.',
+        'confirm_delete_movement' => 'Supprimer ce mouvement de stock ? Le stock sera recalculé.',
+        'delete_movement' => 'Supprimer ce mouvement',
+        'locked_movement' => 'Mouvement issu d\'une facture : non modifiable',
+        'flash_movement_deleted' => 'Mouvement de stock supprimé.',
     ],
     'products' => [
             'track_stock' => 'Suivre le stock de cet article',

@@ -5788,6 +5788,10 @@ return [
         'flash_entry_recorded' => 'Entrada de stock registada.',
         'flash_inventory_recorded' => 'Inventário registado.',
         'flash_inventory_no_change' => 'Sem diferença: o stock já estava atualizado.',
+        'confirm_delete_movement' => 'Eliminar este movimento de stock? O stock será recalculado.',
+        'delete_movement' => 'Eliminar este movimento',
+        'locked_movement' => 'Movimento proveniente de uma fatura: não editável',
+        'flash_movement_deleted' => 'Movimento de stock eliminado.',
     ],
     'products' => [
             'track_stock' => 'Acompanhar o stock deste artigo',

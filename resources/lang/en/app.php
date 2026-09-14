@@ -5574,6 +5574,10 @@ return [
         'flash_entry_recorded' => 'Stock entry recorded.',
         'flash_inventory_recorded' => 'Inventory recorded.',
         'flash_inventory_no_change' => 'No difference: stock was already up to date.',
+        'confirm_delete_movement' => 'Delete this stock movement? Stock will be recalculated.',
+        'delete_movement' => 'Delete this movement',
+        'locked_movement' => 'Movement from an invoice: not editable',
+        'flash_movement_deleted' => 'Stock movement deleted.',
     ],
     'products' => [
             'track_stock' => 'Track stock for this item',

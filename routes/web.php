@@ -616,6 +616,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->name('stock.entry');
         Route::post('/stock/{product}/inventory', [\App\Http\Controllers\StockController::class, 'storeInventory'])
             ->name('stock.inventory');
+        Route::delete('/stock/{product}/movements/{movement}', [\App\Http\Controllers\StockController::class, 'destroyMovement'])
+            ->name('stock.movements.destroy');
 
         // Actions groupées — déclarées AVANT la resource : « /products/bulk-… »
         // serait sinon capturé comme un identifiant d'article.

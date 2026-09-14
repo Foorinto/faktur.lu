@@ -5558,6 +5558,10 @@ return [
         'flash_entry_recorded' => 'Bestandszugang gespeichert.',
         'flash_inventory_recorded' => 'Inventur gespeichert.',
         'flash_inventory_no_change' => 'Keine Abweichung: der Bestand war bereits aktuell.',
+        'confirm_delete_movement' => 'Diese Bestandsbewegung löschen? Der Bestand wird neu berechnet.',
+        'delete_movement' => 'Diese Bewegung löschen',
+        'locked_movement' => 'Aus einer Rechnung stammende Bewegung: nicht änderbar',
+        'flash_movement_deleted' => 'Bestandsbewegung gelöscht.',
     ],
     'products' => [
             'track_stock' => 'Bestand dieses Artikels verfolgen',
