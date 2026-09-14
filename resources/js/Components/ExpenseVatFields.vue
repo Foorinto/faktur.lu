@@ -25,6 +25,10 @@ const props = defineProps({
     countries: { type: Array, default: () => [] },
     homeCountry: { type: String, default: 'LU' },
     homeStandardRate: { type: Number, default: 17 },
+    // Ventilation (FEAT-115) : quand la dépense est répartie sur plusieurs
+    // comptes, ce sont les lignes qui portent montant et taux. Le bloc montant
+    // unique est alors masqué ; le régime de TVA, lui, reste ici.
+    hideAmounts: { type: Boolean, default: false },
 });
 
 const {
@@ -204,7 +208,7 @@ const reverseChargeScopeUrl =
             </div>
 
             <!-- Montants -->
-            <div>
+            <div v-if="!hideAmounts">
                 <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
                     <InputLabel :value="t('amount')" />
 

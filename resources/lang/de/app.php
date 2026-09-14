@@ -896,6 +896,11 @@ return [
     // Expenses
     'expenses_title' => 'Ausgaben',
     'new_expense' => 'Neue Ausgabe',
+    'expense_ventilation' => 'Aufteilung auf mehrere Konten',
+    'expense_ventilation_help' => 'Verteilen Sie den Ausgabenbetrag auf mehrere Buchungskategorien. Jede Zeile wird ohne Steuer erfasst.',
+    'expense_ventilation_add_line' => 'Zeile hinzufügen',
+    'expense_ventilation_start' => 'Auf mehrere Konten aufteilen',
+    'expense_ventilation_stop' => 'Zurück zu einer einzigen Kategorie',
     'expense' => 'Ausgabe',
     'no_expenses' => 'Keine Ausgaben gefunden.',
     'create_first_expense' => 'Erfassen Sie Ihre erste Ausgabe',

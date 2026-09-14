@@ -967,6 +967,11 @@ return [
     // Expenses
     'expenses_title' => 'Expenses',
     'new_expense' => 'New expense',
+    'expense_ventilation' => 'Split across several accounts',
+    'expense_ventilation_help' => 'Split the expense amount across several accounting categories. Each line is entered excluding VAT.',
+    'expense_ventilation_add_line' => 'Add a line',
+    'expense_ventilation_start' => 'Split across several accounts',
+    'expense_ventilation_stop' => 'Back to a single category',
     'expense' => 'Expense',
     'no_expenses' => 'No expenses found.',
     'create_first_expense' => 'Record your first expense',

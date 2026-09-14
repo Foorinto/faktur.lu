@@ -4,10 +4,11 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
 import ExpenseVatFields from '@/Components/ExpenseVatFields.vue';
+import ExpenseLinesEditor from '@/Components/ExpenseLinesEditor.vue';
 
 const { t } = useTranslations();
 const { startTour } = useTour();
@@ -41,13 +42,56 @@ const form = useForm({
     payment_method: '',
     reference: '',
     attachment: null,
+    lines: [],
 });
+
+// Ventilation (FEAT-115) : repli intelligent. Par défaut, saisie à une seule
+// catégorie comme avant. Le bouton déplie l'éditeur multi-lignes.
+const ventilated = ref(false);
+
+const startVentilation = () => {
+    // On amorce avec la catégorie et le montant déjà saisis, pour ne rien
+    // reperdre en passant en mode ventilé.
+    form.lines = [{
+        category: form.category || '',
+        description: '',
+        amount_ht: form.amount_ht || '',
+        vat_rate: form.vat_rate || 17,
+    }];
+    ventilated.value = true;
+};
+
+const stopVentilation = () => {
+    // Retour à une catégorie unique : on reprend la première ligne.
+    const first = form.lines[0] ?? {};
+    form.category = first.category || form.category;
+    form.amount_ht = first.amount_ht || form.amount_ht;
+    form.vat_rate = first.vat_rate || form.vat_rate;
+    form.lines = [];
+    ventilated.value = false;
+};
 
 const handleFileChange = (event) => {
     form.attachment = event.target.files[0];
 };
 
 const submit = () => {
+    // En mode ventilé, on aligne les champs agrégés sur les lignes : la
+    // validation exige une catégorie et un montant, et le contrôleur recalcule
+    // de toute façon depuis les lignes. Catégorie et taux = ligne majoritaire.
+    if (ventilated.value && form.lines.length > 0) {
+        const majority = [...form.lines].sort(
+            (a, b) => (parseFloat(b.amount_ht) || 0) - (parseFloat(a.amount_ht) || 0)
+        )[0];
+
+        form.amount_input_mode = 'ht';
+        form.amount_ht = form.lines.reduce((sum, l) => sum + (parseFloat(l.amount_ht) || 0), 0);
+        form.category = majority.category;
+        form.vat_rate = majority.vat_rate;
+    } else {
+        form.lines = [];
+    }
+
     form.post(route('expenses.store'), {
         forceFormData: true,
     });
@@ -105,7 +149,7 @@ const submit = () => {
                             <InputError :message="form.errors.provider_name" class="mt-2" />
                         </div>
 
-                        <div data-tour="expense-form-category" class="sm:col-span-2">
+                        <div v-if="!ventilated" data-tour="expense-form-category" class="sm:col-span-2">
                             <InputLabel for="category" :value="t('category')" />
                             <select
                                 id="category"
@@ -120,9 +164,37 @@ const submit = () => {
                             </select>
                             <InputError :message="form.errors.category" class="mt-2" />
                         </div>
+
+                        <div class="sm:col-span-2">
+                            <button
+                                v-if="!ventilated"
+                                type="button"
+                                class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
+                                @click="startVentilation"
+                            >
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                {{ t('expense_ventilation_start') }}
+                            </button>
+                            <button
+                                v-else
+                                type="button"
+                                class="inline-flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400"
+                                @click="stopVentilation"
+                            >
+                                {{ t('expense_ventilation_stop') }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <ExpenseLinesEditor
+                v-if="ventilated"
+                :form="form"
+                :categories="categories"
+            />
 
             <ExpenseVatFields
                 :form="form"
@@ -132,6 +204,7 @@ const submit = () => {
                 :countries="countries"
                 :home-country="homeCountry"
                 :home-standard-rate="homeStandardRate"
+                :hide-amounts="ventilated"
             />
 
             <!-- Additional Info -->

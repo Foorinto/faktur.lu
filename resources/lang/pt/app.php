@@ -966,6 +966,11 @@ return [
     // Expenses
     'expenses_title' => 'Despesas',
     'new_expense' => 'Nova despesa',
+    'expense_ventilation' => 'Repartição por várias contas',
+    'expense_ventilation_help' => 'Reparta o montante da despesa por várias categorias contabilísticas. Cada linha é introduzida sem IVA.',
+    'expense_ventilation_add_line' => 'Adicionar uma linha',
+    'expense_ventilation_start' => 'Repartir por várias contas',
+    'expense_ventilation_stop' => 'Voltar a uma única categoria',
     'expense' => 'Despesa',
     'no_expenses' => 'Nenhuma despesa encontrada.',
     'create_first_expense' => 'Registe a sua primeira despesa',

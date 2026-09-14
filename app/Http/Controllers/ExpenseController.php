@@ -81,6 +81,10 @@ class ExpenseController extends Controller
     {
         $expense = Expense::create($request->validated());
 
+        // La ventilation (FEAT-115) est écrite après la dépense : les lignes ont
+        // besoin de son id, et c'est leur somme qui fixe ensuite ses montants.
+        $this->syncLines($expense, $request->validated());
+
         // Handle attachment upload
         if ($request->hasFile('attachment')) {
             $expense->addMediaFromRequest('attachment')
@@ -114,6 +118,9 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense): Response
     {
+        // Les lignes de ventilation alimentent l'éditeur multi-comptes (FEAT-115).
+        $expense->load('lines');
+
         return Inertia::render('Expenses/Edit', array_merge($this->formOptions(), [
             'expense' => array_merge($expense->toArray(), [
                 'attachment_url' => $expense->attachment_url,
@@ -128,6 +135,9 @@ class ExpenseController extends Controller
     public function update(UpdateExpenseRequest $request, Expense $expense): RedirectResponse
     {
         $expense->update($request->validated());
+
+        // Réécrit la ventilation puis recalcule les agrégats depuis les lignes.
+        $this->syncLines($expense, $request->validated());
 
         // Handle attachment upload
         if ($request->hasFile('attachment')) {
@@ -198,6 +208,50 @@ class ExpenseController extends Controller
      * des deux constructions qui avait laissé le filtre « fournisseur »
      * s'appliquer aux lignes sans s'appliquer aux totaux.
      */
+    /**
+     * Réécrit les lignes de ventilation d'une dépense (FEAT-115).
+     *
+     * Sans ventilation explicite, on dérive une ligne unique de la catégorie et
+     * du montant HT de la dépense : la saisie mono-catégorie reste identique, et
+     * aucune dépense ne se retrouve sans ligne. On remplace intégralement plutôt
+     * que de rapprocher ligne à ligne : une dépense en a peu, et un delete +
+     * insert évite tout état intermédiaire incohérent.
+     *
+     * @param  array<string, mixed>  $validated
+     */
+    private function syncLines(Expense $expense, array $validated): void
+    {
+        $lines = $validated['lines'] ?? null;
+
+        if (empty($lines)) {
+            $lines = [[
+                'category' => $expense->category,
+                'description' => $expense->description,
+                'amount_ht' => $expense->amount_ht,
+                'vat_rate' => $expense->vat_rate,
+                'sort_order' => 0,
+            ]];
+        }
+
+        $expense->lines()->delete();
+
+        foreach (array_values($lines) as $index => $line) {
+            $expense->lines()->create([
+                'user_id' => $expense->user_id,
+                'category' => $line['category'],
+                'description' => $line['description'] ?? null,
+                'amount_ht' => $line['amount_ht'],
+                'vat_rate' => $line['vat_rate'],
+                'sort_order' => $line['sort_order'] ?? $index,
+            ]);
+        }
+
+        // Les lignes existent : recharger la relation puis re-sauver la dépense
+        // recalcule ses montants agrégés et sa catégorie majoritaire depuis elles.
+        $expense->load('lines');
+        $expense->save();
+    }
+
     private function filtered(Request $request): \Illuminate\Database\Eloquent\Builder
     {
         return Expense::query()

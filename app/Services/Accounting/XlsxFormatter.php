@@ -116,18 +116,24 @@ class XlsxFormatter
 
         $ligne = 2;
 
+        // Une ligne par ligne de ventilation (FEAT-115), pour que la feuille
+        // colle aux écritures : une dépense répartie sur deux comptes s'y lit
+        // sur deux lignes. La déductibilité reste une propriété de la dépense,
+        // reportée sur chacune de ses lignes.
         foreach ($expenses as $expense) {
-            $feuille->setCellValue("A{$ligne}", $expense->date?->format('d/m/Y'));
-            $feuille->setCellValue("B{$ligne}", CsvSafe::field((string) ($expense->reference ?? '')));
-            $feuille->setCellValue("C{$ligne}", CsvSafe::field((string) $expense->provider_name));
-            $feuille->setCellValue("D{$ligne}", CsvSafe::field((string) $expense->category_label));
-            $feuille->setCellValue("E{$ligne}", (float) $expense->amount_ht);
-            $feuille->setCellValue("F{$ligne}", (float) $expense->amount_vat);
-            $feuille->setCellValue("G{$ligne}", (float) $expense->amount_ttc);
-            $feuille->setCellValue("H{$ligne}", (float) $expense->vat_rate / 100);
-            $feuille->setCellValue("I{$ligne}", $expense->is_deductible ? 'Oui' : 'Non');
-            $feuille->setCellValue("J{$ligne}", $settings->purchase_journal);
-            $ligne++;
+            foreach ($expense->effectiveLines() as $line) {
+                $feuille->setCellValue("A{$ligne}", $expense->date?->format('d/m/Y'));
+                $feuille->setCellValue("B{$ligne}", CsvSafe::field((string) ($expense->reference ?? '')));
+                $feuille->setCellValue("C{$ligne}", CsvSafe::field((string) $expense->provider_name));
+                $feuille->setCellValue("D{$ligne}", CsvSafe::field((string) $line->category_label));
+                $feuille->setCellValue("E{$ligne}", (float) $line->amount_ht);
+                $feuille->setCellValue("F{$ligne}", (float) $line->amount_vat);
+                $feuille->setCellValue("G{$ligne}", (float) $line->amount_ttc);
+                $feuille->setCellValue("H{$ligne}", (float) $line->vat_rate / 100);
+                $feuille->setCellValue("I{$ligne}", $expense->is_deductible ? 'Oui' : 'Non');
+                $feuille->setCellValue("J{$ligne}", $settings->purchase_journal);
+                $ligne++;
+            }
         }
 
         $this->montants($feuille, ['E', 'F', 'G'], $ligne - 1);

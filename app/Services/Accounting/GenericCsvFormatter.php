@@ -85,19 +85,24 @@ class GenericCsvFormatter
                 'Journal',
             ]);
 
+            // Une ligne par ligne de ventilation (FEAT-115) : le récapitulatif
+            // suit les écritures. La déductibilité, propriété de la dépense, est
+            // reportée sur chacune de ses lignes.
             foreach ($expenses as $expense) {
-                $lines[] = implode(';', [
-                    $expense->date->format('d/m/Y'),
-                    $this->escapeCsvField((string) ($expense->reference ?? '')),
-                    $this->escapeCsvField((string) $expense->provider_name),
-                    $this->escapeCsvField((string) $expense->category_label),
-                    $this->formatAmount((float) $expense->amount_ht),
-                    $this->formatAmount((float) $expense->amount_vat),
-                    $this->formatAmount((float) $expense->amount_ttc),
-                    number_format((float) $expense->vat_rate, 0) . '%',
-                    $expense->is_deductible ? 'Oui' : 'Non',
-                    $settings->purchase_journal,
-                ]);
+                foreach ($expense->effectiveLines() as $line) {
+                    $lines[] = implode(';', [
+                        $expense->date->format('d/m/Y'),
+                        $this->escapeCsvField((string) ($expense->reference ?? '')),
+                        $this->escapeCsvField((string) $expense->provider_name),
+                        $this->escapeCsvField((string) $line->category_label),
+                        $this->formatAmount((float) $line->amount_ht),
+                        $this->formatAmount((float) $line->amount_vat),
+                        $this->formatAmount((float) $line->amount_ttc),
+                        number_format((float) $line->vat_rate, 0) . '%',
+                        $expense->is_deductible ? 'Oui' : 'Non',
+                        $settings->purchase_journal,
+                    ]);
+                }
             }
         }
 

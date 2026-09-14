@@ -71,7 +71,7 @@ class FiscalSummaryServiceTest extends TestCase
 
     private function recordExpense(float $ht, string $category = 'office'): Expense
     {
-        return Expense::create([
+        $expense = Expense::create([
             'user_id' => $this->user->id,
             'date' => now()->toDateString(),
             'provider_name' => 'Fournisseur',
@@ -82,6 +82,17 @@ class FiscalSummaryServiceTest extends TestCase
             'amount_ttc' => round($ht * 1.17, 4),
             'is_deductible' => true,
         ]);
+
+        // Comme en production, la dépense porte une ligne de ventilation : c'est
+        // elle que lit désormais le récapitulatif fiscal.
+        $expense->lines()->create([
+            'user_id' => $this->user->id,
+            'category' => $category,
+            'amount_ht' => $ht,
+            'vat_rate' => 17,
+        ]);
+
+        return $expense;
     }
 
     public function test_the_taxable_profit_is_revenue_minus_expenses(): void
@@ -139,7 +150,7 @@ class FiscalSummaryServiceTest extends TestCase
     {
         $this->recordExpense(200, 'office');
 
-        Expense::create([
+        $allemande = Expense::create([
             'user_id' => $this->user->id,
             'date' => now()->toDateString(),
             'provider_name' => 'Amazon.de',
@@ -148,6 +159,12 @@ class FiscalSummaryServiceTest extends TestCase
             'amount_ht' => 100,
             'vat_rate' => 19,
             'vat_regime' => Expense::REGIME_FOREIGN_VAT,
+        ]);
+        $allemande->lines()->create([
+            'user_id' => $this->user->id,
+            'category' => 'hardware',
+            'amount_ht' => 100,
+            'vat_rate' => 19,
         ]);
 
         $expenses = $this->service->getSummary(now()->year)['expenses'];

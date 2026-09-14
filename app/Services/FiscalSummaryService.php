@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Helpers\DatabaseHelper;
 use App\Models\BusinessSettings;
 use App\Models\Expense;
+use App\Models\ExpenseLine;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\PurchaseCategory;
@@ -200,9 +201,18 @@ class FiscalSummaryService
         // chercher dans la page des catégories lors du bilan.
         $pcnParCategorie = PurchaseCategory::pluck('pcn_account', 'key')->all();
 
-        $byCategory = Expense::forYear($year)
-            ->selectRaw('category, SUM(amount_ht) as total_ht, SUM(amount_vat) as total_vat, SUM(CASE WHEN is_deductible = 1 THEN amount_vat ELSE 0 END) as total_vat_deductible, COUNT(*) as count')
-            ->groupBy('category')
+        // Ventilation par LIGNE et non par dépense (FEAT-115) : une facture
+        // répartie sur deux comptes pèse sur ses deux catégories. La
+        // déductibilité reste portée par la dépense (propriété de l'opération),
+        // d'où la jointure. On exclut les dépenses supprimées et on reste
+        // cloisonné par le scope utilisateur d'ExpenseLine. La somme des HT de
+        // ligne égale celle des dépenses : les totaux ci-dessus ne bougent pas.
+        $byCategory = ExpenseLine::query()
+            ->join('expenses', 'expense_lines.expense_id', '=', 'expenses.id')
+            ->whereNull('expenses.deleted_at')
+            ->whereYear('expenses.date', $year)
+            ->selectRaw('expense_lines.category as category, SUM(expense_lines.amount_ht) as total_ht, SUM(expense_lines.amount_vat) as total_vat, SUM(CASE WHEN expenses.is_deductible = 1 THEN expense_lines.amount_vat ELSE 0 END) as total_vat_deductible, COUNT(*) as count')
+            ->groupBy('expense_lines.category')
             ->get()
             ->mapWithKeys(function ($item) use ($userLabels, $pcnParCategorie) {
                 $cat = $item->category;

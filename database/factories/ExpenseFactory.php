@@ -46,6 +46,39 @@ class ExpenseFactory extends Factory
     }
 
     /**
+     * En production, toute dépense porte au moins une ligne de ventilation
+     * (migration de reprise + contrôleur). Les tests doivent refléter ce même
+     * état : sans quoi ils exerceraient un chemin qui n'existe plus en prod.
+     * La ligne recopie la dépense — pour une dépense mono-catégorie, l'agrégat
+     * reste identique, ce qui préserve la non-régression.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Expense $expense) {
+            // Sans propriétaire (tests de calcul pur, hors authentification), on
+            // ne peut pas rattacher une ligne isolée : ces dépenses n'entrent ni
+            // dans le récapitulatif fiscal ni dans les exports, la ligne serait
+            // inutile.
+            if (empty($expense->user_id)) {
+                return;
+            }
+
+            if ($expense->lines()->withoutGlobalScope('user')->exists()) {
+                return;
+            }
+
+            $expense->lines()->create([
+                'user_id' => $expense->user_id,
+                'category' => $expense->category,
+                'description' => $expense->description,
+                'amount_ht' => $expense->amount_ht,
+                'vat_rate' => $expense->vat_rate,
+                'sort_order' => 0,
+            ]);
+        });
+    }
+
+    /**
      * Indicate that the expense is for hardware.
      */
     public function hardware(): static

@@ -172,9 +172,22 @@ class Expense extends Model implements HasMedia
 
     /**
      * Calculate VAT and TTC amounts.
+     *
+     * Quand la dépense est ventilée, ses montants agrégés dérivent des lignes,
+     * jamais l'inverse : la ligne est la source de vérité. C'est ce hook qui
+     * décide (il est appelé dans booted()::saving) et il doit continuer à
+     * décider — d'où le repli sur le calcul mono-montant quand il n'y a pas
+     * encore de ligne (création avant sync des lignes, ou écriture par l'API).
      */
     public function calculateAmounts(): void
     {
+        if ($this->hasLines()) {
+            $this->aggregateFromLines();
+            $this->calculateReverseChargeVat();
+
+            return;
+        }
+
         $vatRate = (string) ($this->vat_rate ?? '0');
         $vatMultiplier = bcdiv($vatRate, '100', 6);
 
@@ -219,6 +232,93 @@ class Expense extends Model implements HasMedia
         $rate = bcdiv((string) ($this->reverse_charge_vat_rate ?? '0'), '100', 6);
 
         $this->reverse_charge_vat = bcmul((string) ($this->amount_ht ?? '0'), $rate, 4);
+    }
+
+    /**
+     * Lignes de ventilation de la dépense (FEAT-115).
+     */
+    public function lines(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ExpenseLine::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    /**
+     * Lignes à afficher/exporter : les vraies, sinon une ligne synthétisée
+     * depuis la dépense.
+     *
+     * Rend les exports et les écrans uniformes : ils bouclent toujours sur des
+     * lignes, qu'il y ait eu ventilation ou non. Une dépense d'avant FEAT-115
+     * (ou écrite par l'API sans ligne) se présente comme une ligne unique
+     * reprenant ses propres montants — donc à l'identique.
+     *
+     * @return \Illuminate\Support\Collection<int, ExpenseLine>
+     */
+    public function effectiveLines(): \Illuminate\Support\Collection
+    {
+        if ($this->lines->isNotEmpty()) {
+            return $this->lines;
+        }
+
+        return collect([new ExpenseLine([
+            'category' => $this->category,
+            'description' => $this->description,
+            'amount_ht' => $this->amount_ht,
+            'vat_rate' => $this->vat_rate,
+            'amount_vat' => $this->amount_vat,
+            'amount_ttc' => $this->amount_ttc,
+        ])]);
+    }
+
+    /**
+     * La dépense porte-t-elle des lignes de ventilation ?
+     *
+     * On préfère la relation déjà chargée pour éviter une requête à chaque
+     * `saving`, et on n'interroge la base que sur une dépense persistée : une
+     * dépense neuve n'a pas encore de ligne, elles sont écrites juste après.
+     */
+    public function hasLines(): bool
+    {
+        if ($this->relationLoaded('lines')) {
+            return $this->lines->isNotEmpty();
+        }
+
+        return $this->exists && $this->lines()->exists();
+    }
+
+    /**
+     * Recalcule les montants agrégés et la catégorie majoritaire depuis les
+     * lignes. En base 10 exacte, comme partout où l'on manipule de la monnaie.
+     *
+     * `category` prend la catégorie de la ligne au HT le plus élevé : quatorze
+     * consommateurs lisent encore `expenses.category`, elle doit rester la plus
+     * représentative. `vat_rate` suit la même ligne — sur une dépense à une
+     * seule ligne, l'agrégat vaut donc exactement les valeurs de la ligne, ce
+     * qui garantit la non-régression de l'export comptable.
+     */
+    protected function aggregateFromLines(): void
+    {
+        $lines = $this->relationLoaded('lines') ? $this->lines : $this->lines()->get();
+
+        $ht = '0';
+        $vat = '0';
+        $ttc = '0';
+
+        foreach ($lines as $line) {
+            $ht = bcadd($ht, (string) ($line->amount_ht ?? '0'), 4);
+            $vat = bcadd($vat, (string) ($line->amount_vat ?? '0'), 4);
+            $ttc = bcadd($ttc, (string) ($line->amount_ttc ?? '0'), 4);
+        }
+
+        $this->amount_ht = $ht;
+        $this->amount_vat = $vat;
+        $this->amount_ttc = $ttc;
+
+        $majority = $lines->sortByDesc(fn ($line) => (float) $line->amount_ht)->first();
+
+        if ($majority !== null) {
+            $this->category = $majority->category;
+            $this->vat_rate = $majority->vat_rate;
+        }
     }
 
     /**

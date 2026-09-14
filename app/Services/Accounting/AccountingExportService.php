@@ -318,6 +318,10 @@ class AccountingExportService
         return Expense::withoutUserScope()
             ->where('user_id', $user->id)
             ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
+            // Les lignes de ventilation, sans le scope utilisateur : l'export
+            // peut tourner hors contexte authentifié (portail comptable, job),
+            // et la dépense est déjà cloisonnée par user_id juste au-dessus.
+            ->with(['lines' => fn ($q) => $q->withoutGlobalScope('user')])
             ->orderBy('date')
             ->orderBy('id')
             ->get();
@@ -408,23 +412,65 @@ class AccountingExportService
             // l'utilisateur a donné à sa catégorie : 6413 s'appelle « Licences
             // informatiques » même si la catégorie s'intitule « Logiciels ».
             // La catégorie reste lisible dans le libellé d'écriture.
-            $account = $this->expenseAccount($expense, $settings);
-            $accountLabel = $pcn->find($account, $locale)['label'] ?? $expense->category_label;
+            // 1. Charge(s) — une écriture par ligne de ventilation, sur le
+            // compte de la catégorie de la ligne. La logique de TVA, le crédit
+            // fournisseur et l'autoliquidation restent, eux, uniques pour la
+            // dépense : le régime est une propriété de l'opération, pas de la
+            // nature de l'achat. Sans ligne (dépense d'avant la ventilation, ou
+            // écriture par l'API), on en synthétise une depuis la dépense, et
+            // l'écriture produite est alors identique à l'ancienne.
+            $lines = $expense->effectiveLines();
 
-            // 1. Charge
-            $entries[] = [
-                'date' => $expense->date,
-                'journal' => $settings->purchase_journal,
-                'account' => $account,
-                'account_label' => $accountLabel,
-                'third_party' => '',
-                'third_party_label' => $expense->provider_name,
-                'piece' => $piece,
-                'label' => $label,
-                'debit' => $chargeAmount,
-                'credit' => 0,
-                'due_date' => null,
-            ];
+            // Base de charge par ligne : HT seul quand la TVA part sur un compte
+            // dédié (déductible ou étrangère), HT+TVA quand elle reste dans la
+            // charge (non déductible).
+            $lineCharges = $lines->map(function ($line) use ($onVatAccount) {
+                $lineHt = round((float) $line->amount_ht, 2);
+                $lineVat = round((float) $line->amount_vat, 2);
+
+                return $onVatAccount ? $lineHt : round($lineHt + $lineVat, 2);
+            })->all();
+
+            // La somme des charges de ligne doit tomber au centime sur le
+            // montant de charge de la dépense (TVA d'autoliquidation non
+            // déductible comprise) : sans quoi débit et crédit ne s'équilibrent
+            // plus. On absorbe l'écart d'arrondi sur la ligne majoritaire.
+            $majorityIndex = 0;
+            $majorityHt = -1.0;
+            foreach ($lines->values() as $i => $line) {
+                if ((float) $line->amount_ht > $majorityHt) {
+                    $majorityHt = (float) $line->amount_ht;
+                    $majorityIndex = $i;
+                }
+            }
+            $ecart = round($chargeAmount - array_sum($lineCharges), 2);
+            $lineCharges[$majorityIndex] = round($lineCharges[$majorityIndex] + $ecart, 2);
+
+            foreach ($lines->values() as $i => $line) {
+                $account = $this->expenseAccount($expense, $settings, $line->category);
+                $accountLabel = $pcn->find($account, $locale)['label'] ?? $expense->category_label;
+
+                // Le libellé porte la description de la ligne quand elle existe,
+                // sinon celui de la dépense : une écriture ventilée doit rester
+                // lisible compte par compte.
+                $lineLabel = $line->description
+                    ? mb_substr(trim($expense->provider_name.' - '.$line->description), 0, 40)
+                    : $label;
+
+                $entries[] = [
+                    'date' => $expense->date,
+                    'journal' => $settings->purchase_journal,
+                    'account' => $account,
+                    'account_label' => $accountLabel,
+                    'third_party' => '',
+                    'third_party_label' => $expense->provider_name,
+                    'piece' => $piece,
+                    'label' => $lineLabel,
+                    'debit' => $lineCharges[$i],
+                    'credit' => 0,
+                    'due_date' => null,
+                ];
+            }
 
             // 2. TVA récupérable, luxembourgeoise ou étrangère
             if ($onVatAccount) {
@@ -502,13 +548,16 @@ class AccountingExportService
     }
 
     /**
-     * Compte de charge d'une dépense : celui de sa catégorie, sinon le générique.
+     * Compte de charge : celui de la catégorie donnée, sinon le générique.
+     *
+     * La catégorie est passée explicitement pour servir la ventilation par
+     * ligne (FEAT-115) ; à défaut, on retombe sur celle de la dépense.
      */
-    protected function expenseAccount(Expense $expense, AccountingSetting $settings): string
+    protected function expenseAccount(Expense $expense, AccountingSetting $settings, ?string $category = null): string
     {
         $account = PurchaseCategory::withoutUserScope()
             ->where('user_id', $expense->user_id)
-            ->where('key', $expense->category)
+            ->where('key', $category ?? $expense->category)
             ->value('pcn_account');
 
         return $account ?: $settings->default_expense_account;
