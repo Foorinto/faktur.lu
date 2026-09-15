@@ -459,6 +459,12 @@ class InvoiceController extends Controller
             foreach ($invoice->items as $item) {
                 InvoiceItem::create([
                     'invoice_id' => $newInvoice->id,
+                    // Le lien produit (stock, FEAT-116) et le compte comptable
+                    // (FEAT-095) font partie de la ligne : les perdre à la
+                    // duplication ferait une facture qui ne décrémente plus le
+                    // stock et repart sur le compte de ventes générique.
+                    'product_id' => $item->product_id,
+                    'pcn_account' => $item->pcn_account,
                     'title' => $item->title,
                     'description' => $item->description,
                     'quantity' => $item->quantity,

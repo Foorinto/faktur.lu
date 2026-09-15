@@ -58,12 +58,14 @@ class StoreExpenseRequest extends FormRequest
             'lines.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
             'lines.*.sort_order' => ['nullable', 'integer', 'min:0'],
             // Réception en stock par ligne (FEAT-116) : produit suivi + quantité.
+            // Un produit sans quantité n'entrerait rien en stock, en silence :
+            // la quantité devient obligatoire dès qu'un produit est désigné.
             'lines.*.product_id' => ['nullable', 'integer', $this->trackedProductRule()],
-            'lines.*.stock_quantity' => ['nullable', 'numeric', 'gt:0'],
+            'lines.*.stock_quantity' => ['nullable', 'required_with:lines.*.product_id', 'numeric', 'gt:0'],
 
             // Réception en stock du chemin simple (dépense mono-catégorie).
             'stock_product_id' => ['nullable', 'integer', $this->trackedProductRule()],
-            'stock_quantity' => ['nullable', 'numeric', 'gt:0'],
+            'stock_quantity' => ['nullable', 'required_with:stock_product_id', 'numeric', 'gt:0'],
         ];
     }
 

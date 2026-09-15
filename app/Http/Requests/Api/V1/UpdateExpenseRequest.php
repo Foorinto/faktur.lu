@@ -58,9 +58,9 @@ class UpdateExpenseRequest extends FormRequest
             'lines.*.sort_order' => ['nullable', 'integer', 'min:0'],
             // Réception en stock (FEAT-116).
             'lines.*.product_id' => ['nullable', 'integer', $this->trackedProductRule()],
-            'lines.*.stock_quantity' => ['nullable', 'numeric', 'gt:0'],
+            'lines.*.stock_quantity' => ['nullable', 'required_with:lines.*.product_id', 'numeric', 'gt:0'],
             'stock_product_id' => ['nullable', 'integer', $this->trackedProductRule()],
-            'stock_quantity' => ['nullable', 'numeric', 'gt:0'],
+            'stock_quantity' => ['nullable', 'required_with:stock_product_id', 'numeric', 'gt:0'],
         ];
     }
 

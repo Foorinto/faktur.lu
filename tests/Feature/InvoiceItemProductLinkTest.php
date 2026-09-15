@@ -115,6 +115,33 @@ class InvoiceItemProductLinkTest extends TestCase
         $this->assertNull($item->fresh()->product_id);
     }
 
+    public function test_la_duplication_conserve_le_produit_et_le_compte_de_la_ligne(): void
+    {
+        // Relevé en revue : duplicate() recopiait la ligne sans son lien produit
+        // ni son compte comptable — la copie ne décrémentait plus le stock et
+        // repartait sur le compte de ventes générique.
+        $invoice = $this->draft();
+        $product = Product::factory()->create(['user_id' => $this->user->id]);
+
+        InvoiceItem::create([
+            'invoice_id' => $invoice->id,
+            'product_id' => $product->id,
+            'pcn_account' => '7061',
+            'title' => $product->designation,
+            'quantity' => 2,
+            'unit_price' => 50,
+            'vat_rate' => 17,
+        ]);
+
+        $this->post(route('invoices.duplicate', $invoice->id))->assertRedirect();
+
+        $copie = Invoice::where('id', '!=', $invoice->id)->latest('id')->first();
+        $ligne = $copie->items()->first();
+
+        $this->assertSame($product->id, $ligne->product_id, 'Le lien produit doit survivre à la duplication.');
+        $this->assertSame('7061', $ligne->pcn_account, 'Le compte comptable doit survivre à la duplication.');
+    }
+
     public function test_le_produit_supprime_delie_la_ligne_sans_la_detruire(): void
     {
         $invoice = $this->draft();

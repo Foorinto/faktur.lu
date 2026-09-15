@@ -293,6 +293,23 @@ class StockTest extends TestCase
         $this->assertSame(8.0, $product->weightedAverageCost(), 'Coût unitaire = 800 / 100.');
     }
 
+    public function test_un_produit_sans_quantite_est_refuse(): void
+    {
+        // Relevé en revue : un produit désigné sans quantité passait la
+        // validation et n'entrait rien en stock, en silence.
+        $product = $this->trackedProduct();
+
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10', 'provider_name' => 'Grossiste', 'category' => 'other',
+            'amount_input_mode' => 'ht', 'amount_ht' => 800, 'vat_rate' => 17,
+            'vat_regime' => 'national', 'is_deductible' => true,
+            'stock_product_id' => $product->id,
+            // stock_quantity volontairement absent
+        ])->assertSessionHasErrors('stock_quantity');
+
+        $this->assertSame(0.0, $product->fresh()->currentStock());
+    }
+
     public function test_modifier_la_depense_resynchronise_le_stock(): void
     {
         $product = $this->trackedProduct();
