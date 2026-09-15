@@ -27,6 +27,20 @@ return [
     'unique' => 'La valeur de :attribute est déjà utilisée.',
     'uploaded' => 'Le fichier :attribute n\'a pas pu être téléversé. Vérifiez la taille du fichier.',
 
+    'before_or_equal' => 'Le champ :attribute doit être une date antérieure ou égale au :date.',
+    'boolean' => 'Le champ :attribute doit être vrai ou faux.',
+    'current_password' => 'Le mot de passe est incorrect.',
+    'date' => 'Le champ :attribute n\'est pas une date valide.',
+    'gt' => [
+        'numeric' => 'La valeur de :attribute doit être supérieure à :value.',
+        'string' => 'Le texte :attribute doit contenir plus de :value caractères.',
+        'array' => 'Le tableau :attribute doit contenir plus de :value éléments.',
+        'file' => 'Le fichier :attribute doit dépasser :value kilo-octets.',
+    ],
+    'in' => 'Le champ :attribute sélectionné est invalide.',
+    'integer' => 'Le champ :attribute doit être un nombre entier.',
+    'required_with' => 'Le champ :attribute est obligatoire quand :values est renseigné.',
+
     'password' => [
         'letters' => 'Le mot de passe doit contenir au moins une lettre.',
         'mixed' => 'Le mot de passe doit contenir au moins une majuscule et une minuscule.',

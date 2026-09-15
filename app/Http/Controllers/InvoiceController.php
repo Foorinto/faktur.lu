@@ -942,7 +942,7 @@ class InvoiceController extends Controller
      * Preview the invoice PDF as HTML (Inertia page).
      * Accepts optional 'locale' query parameter to override PDF language.
      */
-    public function previewPdf(Request $request, Invoice $invoice, InvoicePdfService $pdfService): Response
+    public function previewPdf(Request $request, Invoice $invoice, InvoicePdfService $pdfService): Response|RedirectResponse
     {
         try {
             $locale = $this->validatePdfLocale($request->query('locale'));

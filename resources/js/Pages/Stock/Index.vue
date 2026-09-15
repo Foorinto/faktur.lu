@@ -24,9 +24,12 @@ const formatQty = (v) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits:
 
 const today = new Date().toISOString().split('T')[0];
 
-// Modale d'entrée de stock
+// Modale d'entrée de stock.
+// Les valeurs initiales sont données par une fonction : après un envoi réussi,
+// Inertia prend les données soumises comme nouveaux défauts, et reset() ramenait
+// la saisie précédente au lieu d'un formulaire vierge.
 const entryProduct = ref(null);
-const entryForm = useForm({ quantity: null, unit_cost: null, date: today, note: '' });
+const entryForm = useForm(() => ({ quantity: null, unit_cost: null, date: today, note: '' }));
 
 const openEntry = (product) => {
     entryProduct.value = product;
@@ -42,7 +45,7 @@ const submitEntry = () => {
 
 // Modale d'inventaire
 const inventoryProduct = ref(null);
-const inventoryForm = useForm({ counted_quantity: null, date: today, note: '' });
+const inventoryForm = useForm(() => ({ counted_quantity: null, date: today, note: '' }));
 
 const openInventory = (product) => {
     inventoryProduct.value = product;
