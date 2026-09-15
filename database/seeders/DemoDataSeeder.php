@@ -181,7 +181,9 @@ class DemoDataSeeder extends Seeder
             'default_vat_mention' => 'none',
             'default_pdf_color' => '#7c3aed',
             'activity_type' => 'services',
-            'number_format' => 'INV-{YYYY}-{####}',
+            // Espaces réservés valides uniquement : {YYYY} et {####} n'existent pas et
+            // bloquaient l'enregistrement des paramètres (« doit contenir {number} »).
+            'number_format' => 'INV-{year}-{number}',
             'invoice_prefix' => 'INV',
             'credit_note_prefix' => 'CN',
             'quote_prefix' => 'QT',
