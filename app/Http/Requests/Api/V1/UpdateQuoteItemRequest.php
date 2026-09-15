@@ -18,7 +18,7 @@ class UpdateQuoteItemRequest extends FormRequest
     {
         return [
             // Produit du catalogue (FEAT-116), cloisonné au compte.
-            'product_id' => ['sometimes', 'nullable', 'integer', \Illuminate\Validation\Rule::exists('products', 'id')
+            'product_id' => ['sometimes', 'nullable', 'integer', Rule::exists('products', 'id')
                 ->where('user_id', $this->user()->id)
                 ->whereNull('deleted_at')],
             'title' => ['sometimes', 'required', 'string', 'max:255'],

@@ -7,12 +7,12 @@ use App\Models\BusinessSettings;
 use App\Models\Expense;
 use App\Models\ExpenseLine;
 use App\Models\Invoice;
-use App\Models\InvoiceItem;
 use App\Models\PurchaseCategory;
+use App\Support\VentileLaTvaParTaux;
 
 class FiscalSummaryService
 {
-    use \App\Support\VentileLaTvaParTaux;
+    use VentileLaTvaParTaux;
 
     /**
      * Form 152 category labels (Luxembourg).
@@ -254,5 +254,4 @@ class FiscalSummaryService
     {
         return $this->dashboardService->getVatSummary($year);
     }
-
 }

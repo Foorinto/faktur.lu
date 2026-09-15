@@ -4,6 +4,7 @@ namespace Tests\Feature\Security;
 
 use App\Models\Client;
 use App\Models\HR\Employee;
+use App\Models\HR\LeaveType;
 use App\Models\RecurringInvoice;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,7 +37,7 @@ class ForeignKeyScopeTest extends TestCase
         $attaquant = $this->pro();
         // L'attaquant a besoin d'un type de congé et d'un employé à lui pour que
         // seul employee_id soit en cause.
-        $typeAttaquant = \App\Models\HR\LeaveType::create([
+        $typeAttaquant = LeaveType::create([
             'user_id' => $attaquant->id, 'name' => 'Congés payés', 'default_days_per_year' => 25,
         ]);
 

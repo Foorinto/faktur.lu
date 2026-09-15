@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Security;
 
+use App\Services\Accounting\GenericCsvFormatter;
 use App\Support\CsvSafe;
 use Tests\TestCase;
 
@@ -30,7 +31,7 @@ class CsvFormulaInjectionTest extends TestCase
 
     public function test_generic_csv_formatter_neutralises_a_malicious_client_name(): void
     {
-        $formatter = new \App\Services\Accounting\GenericCsvFormatter();
+        $formatter = new GenericCsvFormatter;
         $method = new \ReflectionMethod($formatter, 'escapeCsvField');
         $method->setAccessible(true);
 

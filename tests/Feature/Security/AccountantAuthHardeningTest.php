@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Security;
 
+use App\Http\Controllers\Accountant\AccountantTwoFactorController;
 use App\Models\Accountant;
 use App\Models\AccountantInvitation;
 use App\Models\User;
@@ -61,7 +62,7 @@ class AccountantAuthHardeningTest extends TestCase
     public function test_accountant_two_factor_challenge_is_rate_limited(): void
     {
         $comptable = $this->comptable(avecDoubleFacteur: true);
-        session([\App\Http\Controllers\Accountant\AccountantTwoFactorController::SESSION_KEY => $comptable->id]);
+        session([AccountantTwoFactorController::SESSION_KEY => $comptable->id]);
 
         for ($i = 0; $i < 5; $i++) {
             $this->post(route('accountant.two-factor.verify'), ['code' => '000000']);

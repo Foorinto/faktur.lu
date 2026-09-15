@@ -4,6 +4,7 @@ namespace Tests\Feature\Security;
 
 use App\Models\Expense;
 use App\Models\HR\Employee;
+use App\Models\HR\ExpenseCategory;
 use App\Models\HR\ExpenseReport;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +32,7 @@ class ExpenseReceiptIsolationTest extends TestCase
     private function reportWithReceipt(User $owner): array
     {
         $employee = Employee::factory()->create(['user_id' => $owner->id]);
-        $category = \App\Models\HR\ExpenseCategory::create([
+        $category = ExpenseCategory::create([
             'user_id' => $owner->id,
             'name' => 'Déplacements',
         ]);

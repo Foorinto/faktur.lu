@@ -35,7 +35,7 @@ class AdminActionNotification extends Notification
     {
         $app = config('marque.nom');
 
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject(__("app.admin_action.{$this->type}.subject", ['app' => $app]))
             ->line(__("app.admin_action.{$this->type}.line"))
             ->line(__('app.admin_action.warning', ['app' => $app]));

@@ -37,7 +37,7 @@ class EmailChangedNotification extends Notification
     {
         $app = config('marque.nom');
 
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject(__('app.email_changed.subject', ['app' => $app]))
             ->line(__('app.email_changed.intro'))
             ->line(__('app.email_changed.from', ['email' => $this->ancienEmail]))

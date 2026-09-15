@@ -6,6 +6,7 @@ use App\Actions\CreateCreditNoteAction;
 use App\Actions\FinalizeInvoiceAction;
 use App\Models\BusinessSettings;
 use App\Models\Client;
+use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Product;
@@ -321,7 +322,7 @@ class StockTest extends TestCase
             'vat_regime' => 'national', 'is_deductible' => true,
             'stock_product_id' => $product->id, 'stock_quantity' => 100,
         ]);
-        $expense = \App\Models\Expense::latest('id')->first();
+        $expense = Expense::latest('id')->first();
         $this->assertSame(100.0, $product->fresh()->currentStock());
 
         // Correction : finalement 120 unités reçues.
@@ -333,7 +334,7 @@ class StockTest extends TestCase
         ]);
 
         $this->assertSame(120.0, $product->fresh()->currentStock(), 'Le stock suit la dépense corrigée, sans doublon.');
-        $this->assertSame(1, $product->stockMovements()->where('source_type', \App\Models\Expense::class)->count());
+        $this->assertSame(1, $product->stockMovements()->where('source_type', Expense::class)->count());
     }
 
     public function test_le_stock_ne_fuit_jamais_chez_un_autre_compte(): void

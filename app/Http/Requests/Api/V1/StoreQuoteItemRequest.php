@@ -19,7 +19,7 @@ class StoreQuoteItemRequest extends FormRequest
     {
         return [
             // Produit du catalogue (FEAT-116), cloisonné au compte.
-            'product_id' => ['nullable', 'integer', \Illuminate\Validation\Rule::exists('products', 'id')
+            'product_id' => ['nullable', 'integer', Rule::exists('products', 'id')
                 ->where('user_id', $this->user()->id)
                 ->whereNull('deleted_at')],
             'title' => ['required', 'string', 'max:255'],

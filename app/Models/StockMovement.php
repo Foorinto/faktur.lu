@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class StockMovement extends Model
 {
-    use HasFactory, BelongsToUser;
+    use BelongsToUser, HasFactory;
 
     /** Entrée de marchandise (réception, achat) : quantité positive. */
     public const TYPE_ENTREE = 'entree';
