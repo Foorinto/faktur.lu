@@ -98,6 +98,9 @@ const addItem = () => {
         discount_value: 0,
         vat_rate: effectiveDefaultVatRate.value,
         vat_rate_select: effectiveDefaultVatRate.value,
+        // Lien vers le produit du catalogue (FEAT-116) : déclaré dès la
+        // création pour être transmis, nul tant que la ligne est saisie à la main.
+        product_id: null,
     });
     customVatRates.value[itemIndex] = '';
 };
@@ -140,6 +143,8 @@ const handleCustomVatRateChange = (index, value) => {
 // Pre-fill a line from a selected catalogue product (FEAT-095).
 const applyProduct = (index, product) => {
     const item = form.items[index];
+    // La ligne devient celle de ce produit : le lien suivra jusqu'à la facture.
+    item.product_id = product.id;
     item.title = product.designation;
     if (product.description) {
         item.description = product.description;

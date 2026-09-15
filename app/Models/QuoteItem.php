@@ -21,6 +21,7 @@ class QuoteItem extends Model
 
     protected $fillable = [
         'quote_id',
+        'product_id',
         'title',
         'description',
         'quantity',
@@ -73,6 +74,17 @@ class QuoteItem extends Model
     /**
      * Get the quote that owns the item.
      */
+    /**
+     * Produit du catalogue dont cette ligne est issue (FEAT-116).
+     *
+     * Nul pour une ligne saisie à la main. Suit la ligne à la conversion en
+     * facture, pour que le stock sorte à l'émission.
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function quote(): BelongsTo
     {
         return $this->belongsTo(Quote::class);

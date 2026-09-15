@@ -20,6 +20,7 @@ class QuoteItemController extends Controller
 
         QuoteItem::create([
             'quote_id' => $quote->id,
+            'product_id' => $request->validated('product_id'),
             'title' => $request->validated('title'),
             'description' => $request->validated('description'),
             'quantity' => $request->validated('quantity'),

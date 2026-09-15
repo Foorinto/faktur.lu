@@ -31,6 +31,10 @@ class StoreQuoteRequest extends FormRequest
             'custom_vat_mention' => ['nullable', 'string', 'max:500'],
             'footer_message' => ['nullable', 'string', 'max:10000'],
             'items' => ['nullable', 'array'],
+            // Produit du catalogue (FEAT-116), cloisonné au compte.
+            'items.*.product_id' => ['nullable', 'integer', \Illuminate\Validation\Rule::exists('products', 'id')
+                ->where('user_id', $this->user()->id)
+                ->whereNull('deleted_at')],
             'items.*.title' => ['required_with:items', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string', 'max:2000'],
             'items.*.quantity' => ['required_with:items', 'numeric', 'min:0.0001'],

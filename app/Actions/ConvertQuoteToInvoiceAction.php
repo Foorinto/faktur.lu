@@ -47,6 +47,9 @@ class ConvertQuoteToInvoiceAction
             // Copy all items from the quote to the invoice
             foreach ($quote->items as $quoteItem) {
                 $invoice->items()->create([
+                    // Le produit devisé est le produit facturé : c'est ce lien
+                    // qui fait sortir le stock à l'émission (FEAT-116).
+                    'product_id' => $quoteItem->product_id,
                     'title' => $quoteItem->title,
                     'description' => $quoteItem->description,
                     'quantity' => $quoteItem->quantity,
