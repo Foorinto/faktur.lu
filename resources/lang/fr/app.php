@@ -1115,6 +1115,7 @@ return [
     'bank_balance_help' => 'Indiquez le solde de votre compte à une date donnée. La prévision part de ce montant, ajoute vos encaissements et retire vos dépenses.',
     'cashflow_needs_balance' => 'Sans solde bancaire, cette courbe montre la variation attendue, pas votre solde réel.',
     'cashflow_overdue_included' => 'dont :amount de factures en retard, supposées encaissées demain.',
+    'cashflow_recurring_note' => 'dont :amount par mois de charges fixes déclarées, posées à leur date d\'échéance et retirées de la moyenne.',
     'vat_summary' => 'Récapitulatif TVA :year',
     'collected_vat' => 'TVA collectée',
     'deductible_vat' => 'TVA déductible',

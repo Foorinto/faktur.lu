@@ -527,6 +527,15 @@ const summaryCards = computed(() => {
                 expliquait à soi seul le bond du mois suivant. Le chiffre n'est
                 pas faux, mais il ne doit pas se lire comme une promesse.
             -->
+            <!--
+                Les charges fixes ne sont plus lissées dans la moyenne : elles
+                tombent à leur date. Le dire évite de croire que la moyenne a
+                gonflé, ou qu'un loyer a disparu du calcul.
+            -->
+            <p v-if="forecastData.totals.monthly_recurring > 0" class="mt-1 text-xs text-slate-400 dark:text-slate-500">
+                {{ t('cashflow_recurring_note').replace(':amount', formatCurrency(forecastData.totals.monthly_recurring)) }}
+            </p>
+
             <p v-if="forecastData.overdue_total > 0" class="mt-1 text-xs text-slate-400 dark:text-slate-500">
                 {{ t('cashflow_overdue_included').replace(':amount', formatCurrency(forecastData.overdue_total)) }}
             </p>

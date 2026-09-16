@@ -1044,6 +1044,7 @@ return [
     'bank_balance_help' => "Gitt de Stand vun Ärem Kont op engem bestëmmten Datum un. D'Prognos fänkt bei dësem Betrag un, addéiert Är Akommes a zitt Är Ausgaben of.",
     'cashflow_needs_balance' => "Ouni Kontostand weist dës Kurve d'erwaart Verännerung, net Äre wierklechen Kontostand.",
     'cashflow_overdue_included' => 'dovunner :amount un iwwerfälleg Rechnungen, ugeholl datt se muer erakommen.',
+    'cashflow_recurring_note' => 'dovunner :amount de Mount u fixe Käschten, op hirem Fälegkeetsdag ugesat an aus dem Duerchschnëtt erausgeholl.',
     'vat_summary' => 'TVA Resumé :year',
     'collected_vat' => 'Ageholl TVA',
     'deductible_vat' => 'Ofzuchsfäeg TVA',

@@ -132,6 +132,43 @@ class RecurringExpense extends Model
     }
 
     /**
+     * Le montant TTC de la dépense que cette charge fera naître.
+     *
+     * Calculé par le modèle Expense lui-même, à partir d'une dépense non
+     * enregistrée : le régime de TVA, l'autoliquidation et l'exonération
+     * obéissent ainsi aux mêmes règles que partout ailleurs, sans les
+     * réécrire. C'est la sortie de trésorerie réelle, celle qui compte pour
+     * une prévision.
+     */
+    public function montantTtc(): float
+    {
+        $depense = new Expense($this->toExpenseAttributes());
+        $depense->applyVatRegime();
+        $depense->calculateAmounts();
+
+        return (float) $depense->amount_ttc;
+    }
+
+    /**
+     * Le poids mensuel TTC de la charge.
+     *
+     * Un ordre de grandeur, pour comparer des rythmes différents : une
+     * assurance annuelle et un loyer mensuel ne se comparent pas autrement.
+     */
+    public function poidsMensuelTtc(): float
+    {
+        $ttc = $this->montantTtc();
+
+        return match ($this->frequency) {
+            self::FREQUENCY_WEEKLY => $ttc * 52 / 12,
+            self::FREQUENCY_MONTHLY => $ttc,
+            self::FREQUENCY_QUARTERLY => $ttc / 3,
+            self::FREQUENCY_YEARLY => $ttc / 12,
+            default => 0.0,
+        };
+    }
+
+    /**
      * Construit une charge fixe à partir d'une dépense déjà saisie.
      *
      * C'est le chemin naturel : on découvre le besoin en ressaisissant son

@@ -25,10 +25,14 @@ class RecurringExpenseController extends Controller
 
     public function index(): Response
     {
-        $charges = RecurringExpense::with('lastExpense:id,date')
+        $modeles = RecurringExpense::with('lastExpense:id,date')
             ->orderByDesc('is_active')
             ->orderBy('next_expense_date')
-            ->get()
+            ->get();
+
+        $actives = $modeles->where('is_active', true);
+
+        $charges = $modeles
             ->map(fn (RecurringExpense $c) => [
                 'id' => $c->id,
                 'label' => $c->displayName(),
@@ -46,9 +50,7 @@ class RecurringExpenseController extends Controller
 
         return Inertia::render('RecurringExpenses/Index', [
             'charges' => $charges,
-            'monthlyTotal' => round($charges->where('is_active', true)->sum(
-                fn ($c) => $this->montantMensualise($c['amount'], $c['frequency'])
-            ), 2),
+            'monthlyTotal' => round($actives->sum(fn (RecurringExpense $c) => $c->poidsMensuelTtc()), 2),
         ]);
     }
 
@@ -202,20 +204,5 @@ class RecurringExpenseController extends Controller
         }
 
         return $data;
-    }
-
-    /**
-     * Ramène une charge à son poids mensuel, pour donner un ordre de grandeur
-     * en haut de l'écran. C'est un repère de lecture, pas un chiffre comptable.
-     */
-    private function montantMensualise(float $montant, string $frequence): float
-    {
-        return match ($frequence) {
-            RecurringExpense::FREQUENCY_WEEKLY => $montant * 52 / 12,
-            RecurringExpense::FREQUENCY_MONTHLY => $montant,
-            RecurringExpense::FREQUENCY_QUARTERLY => $montant / 3,
-            RecurringExpense::FREQUENCY_YEARLY => $montant / 12,
-            default => 0.0,
-        };
     }
 }

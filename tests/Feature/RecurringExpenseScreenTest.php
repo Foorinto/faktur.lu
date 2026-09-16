@@ -65,8 +65,11 @@ class RecurringExpenseScreenTest extends TestCase
             ->assertInertia(fn ($page) => $page
                 ->component('RecurringExpenses/Index')
                 ->has('charges', 2)
-                // 1000 par mois + 1200 par an ramenés au mois = 1100.
-                ->where('monthlyTotal', 1100)
+                // Le poids se compte en TTC, sinon on additionnerait des
+                // montants saisis en HT avec d'autres saisis en TTC.
+                // 1 000 HT à 17 % = 1 170 par mois ; 1 200 HT par an = 117 par
+                // mois. Soit 1 287.
+                ->where('monthlyTotal', 1287)
             );
     }
 
