@@ -5973,6 +5973,7 @@ return [
     'products' => [
             'track_stock' => 'Suivre le stock de cet article',
             'track_stock_help' => 'Le stock diminue à l\'émission d\'une facture et remonte sur une note de crédit.',
+            'track_stock_needs_type' => 'Choisissez le type « Produit » ci-dessus pour pouvoir suivre le stock de cet article.',
             'stock_alert_threshold' => 'Seuil d\'alerte',
             'stock_alert_threshold_placeholder' => 'ex. 5',
             'stock_alert_threshold_help' => 'Sous ce niveau, l\'article est signalé sur le tableau de bord. Laisser vide pour aucune alerte.',

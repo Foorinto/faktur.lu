@@ -294,6 +294,39 @@ class StockTest extends TestCase
         $this->assertSame(8.0, $product->weightedAverageCost(), 'Coût unitaire = 800 / 100.');
     }
 
+    public function test_supprimer_une_depense_retire_sa_reception_du_stock(): void
+    {
+        // Relevé sur staging : la dépense partait, son entrée restait. Comme le
+        // mouvement porte une source, l'écran d'historique refuse de l'effacer
+        // à la main : le stock restait gonflé sans aucun recours.
+        $product = $this->trackedProduct();
+
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Grossiste',
+            'category' => 'other',
+            'amount_input_mode' => 'ht',
+            'amount_ht' => 800,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+            'stock_product_id' => $product->id,
+            'stock_quantity' => 100,
+        ])->assertRedirect(route('expenses.index'));
+
+        $expense = Expense::latest('id')->firstOrFail();
+        $this->assertSame(100.0, $product->fresh()->currentStock());
+
+        $this->delete(route('expenses.destroy', $expense))
+            ->assertRedirect(route('expenses.index'));
+
+        $this->assertSame(0.0, $product->fresh()->currentStock());
+        $this->assertDatabaseMissing('stock_movements', [
+            'source_type' => Expense::class,
+            'source_id' => $expense->id,
+        ]);
+    }
+
     public function test_un_produit_sans_quantite_est_refuse(): void
     {
         // Relevé en revue : un produit désigné sans quantité passait la

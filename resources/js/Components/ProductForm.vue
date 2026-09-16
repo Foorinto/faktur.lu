@@ -222,6 +222,15 @@ watch(vatMode, (mode) => {
             </div>
         </div>
 
+        <!-- Type non renseigné : la case est absente, on dit pourquoi plutôt que
+             de laisser chercher. Un service, lui, n'a légitimement pas de stock. -->
+        <p
+            v-else-if="!form.type"
+            class="rounded-xl border border-dashed border-gray-200 p-4 text-xs text-slate-500 dark:border-gray-800 dark:text-slate-400"
+        >
+            {{ t('products.track_stock_needs_type') }}
+        </p>
+
         <!-- Actif -->
         <label class="flex items-center gap-3">
             <input

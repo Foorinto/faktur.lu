@@ -5577,6 +5577,7 @@ return [
     'products' => [
             'track_stock' => 'De Stock vun dësem Artikel verfollegen',
             'track_stock_help' => 'De Stock fällt bei der Emissioun vun enger Rechnung a klëmmt erëm bei enger Gutschrëft.',
+            'track_stock_needs_type' => 'Wielt uewen den Typ „Produkt“, fir de Stock vun dësem Artikel kënnen ze verfollegen.',
             'stock_alert_threshold' => 'Alarmschwell',
             'stock_alert_threshold_placeholder' => 'z. B. 5',
             'stock_alert_threshold_help' => 'Ënner dësem Niveau gëtt den Artikel um Dashboard ugewisen. Eidel loossen fir keng Alarm.',

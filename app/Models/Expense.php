@@ -97,6 +97,18 @@ class Expense extends Model implements HasMedia
             $expense->applyVatRegime();
             $expense->calculateAmounts();
         });
+
+        // Une dépense supprimée ne doit pas laisser sa réception en stock.
+        // Le mouvement porte une source, donc l'écran d'historique refuse de
+        // l'effacer à la main : sans ce ménage, le stock reste gonflé sans
+        // recours. syncFromExpense fait déjà table rase à chaque modification,
+        // la suppression suit la même règle.
+        static::deleted(function (Expense $expense) {
+            StockMovement::withoutGlobalScope('user')
+                ->where('source_type', Expense::class)
+                ->where('source_id', $expense->id)
+                ->delete();
+        });
     }
 
     /**

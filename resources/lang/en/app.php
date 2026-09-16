@@ -5592,6 +5592,7 @@ return [
     'products' => [
             'track_stock' => 'Track stock for this item',
             'track_stock_help' => 'Stock decreases when an invoice is issued and rises back on a credit note.',
+            'track_stock_needs_type' => 'Choose the "Product" type above to be able to track stock for this item.',
             'stock_alert_threshold' => 'Alert threshold',
             'stock_alert_threshold_placeholder' => 'e.g. 5',
             'stock_alert_threshold_help' => 'Below this level the item is flagged on the dashboard. Leave empty for no alert.',

@@ -5576,6 +5576,7 @@ return [
     'products' => [
             'track_stock' => 'Bestand dieses Artikels verfolgen',
             'track_stock_help' => 'Der Bestand sinkt bei Rechnungsstellung und steigt bei einer Gutschrift.',
+            'track_stock_needs_type' => 'Wählen Sie oben den Typ „Produkt“, um den Bestand dieses Artikels verfolgen zu können.',
             'stock_alert_threshold' => 'Warnschwelle',
             'stock_alert_threshold_placeholder' => 'z. B. 5',
             'stock_alert_threshold_help' => 'Unter diesem Wert wird der Artikel im Dashboard gemeldet. Leer lassen für keine Warnung.',
