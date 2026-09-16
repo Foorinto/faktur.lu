@@ -68,6 +68,7 @@ class Expense extends Model implements HasMedia
         'is_deductible',
         'payment_method',
         'reference',
+        'recurring_expense_id',
     ];
 
     protected $casts = [
@@ -244,6 +245,18 @@ class Expense extends Model implements HasMedia
         $rate = bcdiv((string) ($this->reverse_charge_vat_rate ?? '0'), '100', 6);
 
         $this->reverse_charge_vat = bcmul((string) ($this->amount_ht ?? '0'), $rate, 4);
+    }
+
+    /**
+     * Charge fixe qui a fait naître cette dépense (FEAT-117), s'il y en a une.
+     *
+     * C'est ce qui permet à la prévision de trésorerie de distinguer une
+     * dépense récurrente d'une dépense variable, et donc de ne jamais compter
+     * le loyer deux fois.
+     */
+    public function recurringExpense(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(RecurringExpense::class);
     }
 
     /**
