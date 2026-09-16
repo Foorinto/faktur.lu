@@ -99,6 +99,12 @@ const deleteExpense = (expense) => {
         </template>
         <template #header-actions>
             <Link
+                :href="route('recurring-expenses.index')"
+                class="mr-2 inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
+            >
+                {{ t("recurring_expenses.title") }}
+            </Link>
+            <Link
                 :href="route('settings.purchase-categories')"
                 class="mr-2 inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
             >
@@ -399,6 +405,18 @@ const deleteExpense = (expense) => {
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                         >
                             <div class="flex items-center justify-end gap-4">
+                                <!-- Le chemin naturel vers les charges fixes :
+                                     on y pense en ressaisissant son loyer. -->
+                                <Link
+                                    :href="route('recurring-expenses.create', { from_expense: expense.id })"
+                                    class="text-slate-400 transition-colors hover:text-slate-600 dark:hover:text-slate-200"
+                                    :title="t('recurring_expenses.make_recurring')"
+                                >
+                                    <span class="sr-only">{{ t('recurring_expenses.make_recurring') }}</span>
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992V4.356m-4.993 4.992l3.181-3.183a8.25 8.25 0 00-13.803 3.7M4.031 9.865v4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7" />
+                                    </svg>
+                                </Link>
                                 <Link
                                     :href="route('expenses.edit', expense.id)"
                                     class="text-primary-500 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors"
