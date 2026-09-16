@@ -9,6 +9,7 @@ use App\Models\PurchaseCategory;
 use App\Models\User;
 use App\Services\Accounting\AccountingExportService;
 use App\Services\FiscalSummaryService;
+use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -31,7 +32,7 @@ class ExpenseVentilationTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(\Database\Seeders\PlansSeeder::class);
+        $this->seed(PlansSeeder::class);
 
         $this->user = User::factory()->create([
             'email_verified_at' => now(),

@@ -27,5 +27,19 @@ return [
     'unique' => ':attribute ist bereits vergeben.',
     'uploaded' => ':attribute konnte nicht hochgeladen werden. Überprüfen Sie die Dateigröße.',
 
+    'before_or_equal' => ':attribute muss ein Datum am oder vor dem :date sein.',
+    'boolean' => ':attribute muss wahr oder falsch sein.',
+    'current_password' => 'Das Passwort ist falsch.',
+    'date' => ':attribute ist kein gültiges Datum.',
+    'gt' => [
+        'numeric' => ':attribute muss größer als :value sein.',
+        'string' => ':attribute muss mehr als :value Zeichen enthalten.',
+        'array' => ':attribute muss mehr als :value Elemente enthalten.',
+        'file' => ':attribute muss größer als :value Kilobyte sein.',
+    ],
+    'in' => 'Der gewählte Wert für :attribute ist ungültig.',
+    'integer' => ':attribute muss eine ganze Zahl sein.',
+    'required_with' => ':attribute ist erforderlich, wenn :values ausgefüllt ist.',
+
     'attributes' => [],
 ];

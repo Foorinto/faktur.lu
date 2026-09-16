@@ -247,6 +247,7 @@ class InvoiceController extends Controller
             foreach ($request->validated('items') as $index => $itemData) {
                 InvoiceItem::create([
                     'invoice_id' => $invoice->id,
+                    'product_id' => $itemData['product_id'] ?? null,
                     'title' => $itemData['title'],
                     'description' => $itemData['description'] ?? null,
                     'quantity' => $itemData['quantity'],
@@ -458,6 +459,12 @@ class InvoiceController extends Controller
             foreach ($invoice->items as $item) {
                 InvoiceItem::create([
                     'invoice_id' => $newInvoice->id,
+                    // Le lien produit (stock, FEAT-116) et le compte comptable
+                    // (FEAT-095) font partie de la ligne : les perdre à la
+                    // duplication ferait une facture qui ne décrémente plus le
+                    // stock et repart sur le compte de ventes générique.
+                    'product_id' => $item->product_id,
+                    'pcn_account' => $item->pcn_account,
                     'title' => $item->title,
                     'description' => $item->description,
                     'quantity' => $item->quantity,
@@ -935,7 +942,7 @@ class InvoiceController extends Controller
      * Preview the invoice PDF as HTML (Inertia page).
      * Accepts optional 'locale' query parameter to override PDF language.
      */
-    public function previewPdf(Request $request, Invoice $invoice, InvoicePdfService $pdfService): Response
+    public function previewPdf(Request $request, Invoice $invoice, InvoicePdfService $pdfService): Response|RedirectResponse
     {
         try {
             $locale = $this->validatePdfLocale($request->query('locale'));

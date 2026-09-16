@@ -194,6 +194,43 @@ watch(vatMode, (mode) => {
             </div>
         </div>
 
+        <!-- Suivi de stock (FEAT-116) : réservé aux produits. -->
+        <div v-if="form.type === 'product'" class="rounded-xl border border-gray-100 p-4 dark:border-gray-800">
+            <label class="flex items-center gap-3">
+                <input
+                    type="checkbox"
+                    v-model="form.track_stock"
+                    class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
+                />
+                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('products.track_stock') }}</span>
+            </label>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('products.track_stock_help') }}</p>
+
+            <div v-if="form.track_stock" class="mt-3">
+                <InputLabel for="stock_alert_threshold" :value="t('products.stock_alert_threshold')" />
+                <input
+                    id="stock_alert_threshold"
+                    v-model="form.stock_alert_threshold"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:w-48"
+                    :placeholder="t('products.stock_alert_threshold_placeholder')"
+                />
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('products.stock_alert_threshold_help') }}</p>
+                <InputError :message="form.errors.stock_alert_threshold" class="mt-2" />
+            </div>
+        </div>
+
+        <!-- Type non renseigné : la case est absente, on dit pourquoi plutôt que
+             de laisser chercher. Un service, lui, n'a légitimement pas de stock. -->
+        <p
+            v-else-if="!form.type"
+            class="rounded-xl border border-dashed border-gray-200 p-4 text-xs text-slate-500 dark:border-gray-800 dark:text-slate-400"
+        >
+            {{ t('products.track_stock_needs_type') }}
+        </p>
+
         <!-- Actif -->
         <label class="flex items-center gap-3">
             <input

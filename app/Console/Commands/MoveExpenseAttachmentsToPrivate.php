@@ -55,6 +55,7 @@ class MoveExpenseAttachmentsToPrivate extends Command
                     $media->save();
                 }
                 $this->warn("#{$media->id} : fichier introuvable sur public, disque corrigé en base.");
+
                 continue;
             }
 

@@ -17,6 +17,11 @@ class UpdateInvoiceItemRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // Produit du catalogue (FEAT-116), cloisonné au compte. Nullable :
+            // dissocier une ligne de son produit reste possible.
+            'product_id' => ['sometimes', 'nullable', 'integer', Rule::exists('products', 'id')
+                ->where('user_id', $this->user()->id)
+                ->whereNull('deleted_at')],
             'title' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:2000'],
             'quantity' => ['sometimes', 'required', 'numeric', 'min:0.0001'],

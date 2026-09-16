@@ -237,4 +237,18 @@ class InvoicePdfTest extends TestCase
                 )
             );
     }
+
+    /**
+     * La page d'aperçu d'un brouillon renvoie vers la page précédente avec un
+     * message, jamais une erreur 500 (le type de retour déclaré ne couvrait
+     * pas la redirection).
+     */
+    public function test_draft_pdf_preview_page_redirects_with_error(): void
+    {
+        $response = $this->from(route('invoices.show', $this->draftInvoice))
+            ->get(route('invoices.pdf.preview', $this->draftInvoice));
+
+        $response->assertRedirect(route('invoices.show', $this->draftInvoice));
+        $response->assertSessionHas('error');
+    }
 }

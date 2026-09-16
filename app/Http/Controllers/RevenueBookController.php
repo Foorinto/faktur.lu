@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Support\CsvSafe;
-
 use App\Helpers\DatabaseHelper;
+use App\Models\BusinessSettings;
 use App\Models\Invoice;
-use App\Models\InvoiceItem;
 use App\Services\PlanService;
 use App\Services\VentilationEncaissements;
+use App\Support\CsvSafe;
+use App\Support\VentileLaTvaParTaux;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class RevenueBookController extends Controller
 {
-    use \App\Support\VentileLaTvaParTaux;
+    use VentileLaTvaParTaux;
 
     /**
      * Display the revenue book.
@@ -97,7 +98,6 @@ class RevenueBookController extends Controller
         ]);
     }
 
-
     /**
      * Export the revenue book as PDF.
      */
@@ -128,7 +128,7 @@ class RevenueBookController extends Controller
         $vatBreakdown = $this->ventilationTvaParTaux($invoices);
 
         // Get business settings for header
-        $settings = \App\Models\BusinessSettings::first();
+        $settings = BusinessSettings::first();
 
         $pdf = Pdf::loadView('pdf.revenue-book', [
             'invoices' => $invoices,
@@ -161,7 +161,7 @@ class RevenueBookController extends Controller
     /**
      * Export the revenue book as CSV.
      */
-    public function exportCsv(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse
+    public function exportCsv(Request $request): StreamedResponse
     {
         $startDate = $request->input('start_date', Carbon::now()->startOfYear()->format('Y-m-d'));
         $endDate = $request->input('end_date', Carbon::now()->endOfYear()->format('Y-m-d'));
@@ -193,14 +193,14 @@ class RevenueBookController extends Controller
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ];
 
         $callback = function () use ($invoices) {
             $file = fopen('php://output', 'w');
 
             // BOM for Excel UTF-8 compatibility
-            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 
             // Header row
             fputcsv($file, [
@@ -244,7 +244,6 @@ class RevenueBookController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
-
 
     /**
      * Get predefined periods for quick selection.
@@ -335,7 +334,7 @@ class RevenueBookController extends Controller
      * compréhensible. « 2025 — 12 340 € » se lit comme une donnée qu'on possède
      * et qu'on peut rouvrir, là où une année absente ne se lit pas du tout.
      *
-     * @param  \Illuminate\Support\Collection<int, int|string>  $annees
+     * @param  Collection<int, int|string>  $annees
      * @return array<int, array{annee: int, total: float}>
      */
     private function anneesVerrouillees($annees): array
@@ -345,7 +344,7 @@ class RevenueBookController extends Controller
         $totaux = Invoice::query()
             ->where('status', Invoice::STATUS_PAID)
             ->whereNotNull('paid_at')
-            ->selectRaw(DatabaseHelper::year('paid_at') . ' as year, SUM(total_ttc) as total')
+            ->selectRaw(DatabaseHelper::year('paid_at').' as year, SUM(total_ttc) as total')
             ->groupBy('year')
             ->pluck('total', 'year')
             // ⚠️ MySQL renvoie l'année de YEAR() en chaîne sur l'hébergement

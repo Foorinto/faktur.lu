@@ -57,7 +57,28 @@ class StoreExpenseRequest extends FormRequest
             'lines.*.amount_ht' => ['required', 'numeric', 'min:0.01'],
             'lines.*.vat_rate' => ['required', 'numeric', 'min:0', 'max:100'],
             'lines.*.sort_order' => ['nullable', 'integer', 'min:0'],
+            // Réception en stock par ligne (FEAT-116) : produit suivi + quantité.
+            // Un produit sans quantité n'entrerait rien en stock, en silence :
+            // la quantité devient obligatoire dès qu'un produit est désigné.
+            'lines.*.product_id' => ['nullable', 'integer', $this->trackedProductRule()],
+            'lines.*.stock_quantity' => ['nullable', 'required_with:lines.*.product_id', 'numeric', 'gt:0'],
+
+            // Réception en stock du chemin simple (dépense mono-catégorie).
+            'stock_product_id' => ['nullable', 'integer', $this->trackedProductRule()],
+            'stock_quantity' => ['nullable', 'required_with:stock_product_id', 'numeric', 'gt:0'],
         ];
+    }
+
+    /**
+     * Le produit d'une réception de stock doit appartenir au compte ET être
+     * effectivement suivi en stock — sans quoi aucun mouvement ne serait créé.
+     */
+    private function trackedProductRule(): \Illuminate\Validation\Rules\Exists
+    {
+        return Rule::exists('products', 'id')
+            ->where('user_id', $this->user()->id)
+            ->where('track_stock', true)
+            ->whereNull('deleted_at');
     }
 
     public function messages(): array

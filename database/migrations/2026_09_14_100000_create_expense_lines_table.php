@@ -57,29 +57,29 @@ return new class extends Migration
             })
             ->orderBy('id')
             ->chunkById(500, function ($expenses) {
-            $now = now();
-            $rows = [];
+                $now = now();
+                $rows = [];
 
-            foreach ($expenses as $expense) {
-                $rows[] = [
-                    'user_id' => $expense->user_id,
-                    'expense_id' => $expense->id,
-                    'category' => $expense->category,
-                    'description' => $expense->description,
-                    'amount_ht' => $expense->amount_ht,
-                    'vat_rate' => $expense->vat_rate,
-                    'amount_vat' => $expense->amount_vat,
-                    'amount_ttc' => $expense->amount_ttc,
-                    'sort_order' => 0,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ];
-            }
+                foreach ($expenses as $expense) {
+                    $rows[] = [
+                        'user_id' => $expense->user_id,
+                        'expense_id' => $expense->id,
+                        'category' => $expense->category,
+                        'description' => $expense->description,
+                        'amount_ht' => $expense->amount_ht,
+                        'vat_rate' => $expense->vat_rate,
+                        'amount_vat' => $expense->amount_vat,
+                        'amount_ttc' => $expense->amount_ttc,
+                        'sort_order' => 0,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
 
-            if ($rows !== []) {
-                DB::table('expense_lines')->insert($rows);
-            }
-        });
+                if ($rows !== []) {
+                    DB::table('expense_lines')->insert($rows);
+                }
+            });
     }
 
     public function down(): void

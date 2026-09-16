@@ -27,6 +27,8 @@ const form = useForm({
     pcn_account: '',
     unit: 'piece',
     is_active: true,
+    track_stock: false,
+    stock_alert_threshold: null,
 });
 
 const submit = () => form.post(route('products.store'));

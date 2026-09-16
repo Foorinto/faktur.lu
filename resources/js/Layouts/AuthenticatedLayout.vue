@@ -5,6 +5,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ToastNotification from '@/Components/ToastNotification.vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 
 const page = usePage();
@@ -34,6 +35,7 @@ const stopImpersonation = () => {
         </div>
 
         <div class="min-h-screen bg-gray-50 dark:bg-surface-dark">
+            <ToastNotification />
             <nav
                 class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-surface-card"
             >

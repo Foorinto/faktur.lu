@@ -77,7 +77,14 @@ class DemoDataSeeder extends Seeder
             $this->command->info('7/8 - Dépenses...');
             $this->createExpenses();
 
-            $this->command->info('8/8 - Accès comptable, employé et collaborateur...');
+            $this->command->info('8/9 - Catalogue, catégories d\'achat, stock, récurrentes...');
+            $this->createPurchaseCategories($owner);
+            $products = $this->createProducts($owner);
+            $this->createStock($owner, $products);
+            $this->createRecurringInvoices($owner, $clients);
+            $this->ventilateExpenses($owner, $products);
+
+            $this->command->info('9/9 - Accès comptable, employé et collaborateur...');
             $this->createAccountantAccess($owner);
             Auth::logout();
 
@@ -113,6 +120,14 @@ class DemoDataSeeder extends Seeder
             if (!empty($orgIds)) DB::table('organization_members')->whereIn('organization_id', $orgIds)->delete();
             DB::table('organization_members')->whereIn('user_id', $userIds)->delete();
             DB::table('organizations')->whereIn('user_id', $userIds)->delete();
+            DB::table('stock_movements')->whereIn('user_id', $userIds)->delete();
+            DB::table('expense_lines')->whereIn('user_id', $userIds)->delete();
+            DB::table('recurring_invoice_items')->whereIn('recurring_invoice_id', function ($q) use ($userIds) {
+                $q->select('id')->from('recurring_invoices')->whereIn('user_id', $userIds);
+            })->delete();
+            DB::table('recurring_invoices')->whereIn('user_id', $userIds)->delete();
+            DB::table('products')->whereIn('user_id', $userIds)->delete();
+            DB::table('purchase_categories')->whereIn('user_id', $userIds)->delete();
             DB::table('business_settings')->whereIn('user_id', $userIds)->delete();
             DB::table('employees')->whereIn('user_id', $userIds)->delete();
             DB::table('employees')->whereIn('account_id', $userIds)->delete();
@@ -166,7 +181,9 @@ class DemoDataSeeder extends Seeder
             'default_vat_mention' => 'none',
             'default_pdf_color' => '#7c3aed',
             'activity_type' => 'services',
-            'number_format' => 'INV-{YYYY}-{####}',
+            // Espaces réservés valides uniquement : {YYYY} et {####} n'existent pas et
+            // bloquaient l'enregistrement des paramètres (« doit contenir {number} »).
+            'number_format' => 'INV-{year}-{number}',
             'invoice_prefix' => 'INV',
             'credit_note_prefix' => 'CN',
             'quote_prefix' => 'QT',
@@ -615,6 +632,201 @@ class DemoDataSeeder extends Seeder
             'vat_number' => $client->vat_number,
             'email' => $client->email,
         ]);
+    }
+
+    /**
+     * Catégories d'achat avec leurs comptes comptables (FEAT-115 lot 0).
+     */
+    private function createPurchaseCategories(User $owner): void
+    {
+        \App\Models\PurchaseCategory::ensureDefaultsFor($owner);
+
+        // Quelques comptes PCN, pour que le récapitulatif fiscal les affiche.
+        $comptes = [
+            'hardware' => '21830',
+            'software' => '6413',
+            'hosting' => '6151',
+            'office' => '61112',
+            'travel' => '6251',
+            'telecommunications' => '6261',
+            'professional_services' => '6226',
+        ];
+
+        foreach ($comptes as $key => $compte) {
+            \App\Models\PurchaseCategory::withoutUserScope()
+                ->where('user_id', $owner->id)->where('key', $key)
+                ->update(['pcn_account' => $compte]);
+        }
+    }
+
+    /**
+     * Catalogue d'articles : produits (dont certains suivis en stock) et services.
+     *
+     * @return array<string, \App\Models\Product>
+     */
+    private function createProducts(User $owner): array
+    {
+        $defs = [
+            ['cle-usb', 'Clé USB 64 Go', 'product', 12.50, 17, 'piece', true, 10, '7061'],
+            ['ecran', 'Écran 27 pouces', 'product', 249.00, 17, 'piece', true, 3, '7061'],
+            ['clavier', 'Clavier mécanique', 'product', 89.00, 17, 'piece', true, 5, '7061'],
+            ['cable', 'Câble HDMI 2 m', 'product', 9.90, 17, 'piece', false, null, '7061'],
+            ['dev', 'Développement sur mesure', 'service', 95.00, 17, 'hour', false, null, '7051'],
+            ['maintenance', 'Maintenance mensuelle', 'service', 350.00, 17, 'month', false, null, '7051'],
+            ['formation', 'Formation utilisateur', 'service', 600.00, 17, 'day', false, null, '7051'],
+        ];
+
+        $products = [];
+
+        foreach ($defs as [$slug, $designation, $type, $prix, $tva, $unit, $suivi, $seuil, $pcn]) {
+            $products[$slug] = \App\Models\Product::create([
+                'user_id' => $owner->id,
+                'designation' => $designation,
+                'reference' => strtoupper(substr($slug, 0, 4)).'-'.rand(100, 999),
+                'type' => $type,
+                'unit_price_ht' => $prix,
+                'vat_rate' => $tva,
+                'unit' => $unit,
+                'pcn_account' => $pcn,
+                'is_active' => true,
+                'track_stock' => $suivi,
+                'stock_alert_threshold' => $seuil,
+            ]);
+        }
+
+        return $products;
+    }
+
+    /**
+     * Stock de départ (FEAT-116) : inventaire d'ouverture, réappro, et un
+     * produit volontairement sous son seuil pour déclencher l'alerte.
+     *
+     * @param  array<string, \App\Models\Product>  $products
+     */
+    private function createStock(User $owner, array $products): void
+    {
+        $stock = app(\App\Services\StockService::class);
+
+        // Inventaire d'ouverture (achats réels, avec leur coût).
+        $stock->recordEntry($products['cle-usb'], 120, 6.20, now()->subMonths(3)->toDateString(), 'Inventaire d\'ouverture');
+        $stock->recordEntry($products['ecran'], 12, 165.00, now()->subMonths(3)->toDateString(), 'Inventaire d\'ouverture');
+        $stock->recordEntry($products['clavier'], 20, 48.00, now()->subMonths(3)->toDateString(), 'Inventaire d\'ouverture');
+
+        // Réapprovisionnement plus cher : le coût moyen pondéré bouge.
+        $stock->recordEntry($products['cle-usb'], 60, 7.40, now()->subMonth()->toDateString(), 'Réappro fournisseur');
+
+        // Sorties de marchandises (ventes passées) + un écart d'inventaire.
+        $stock->recordInventory($products['cle-usb'], 145, now()->subWeeks(2)->toDateString(), 'Recomptage');
+
+        // Écran : volontairement sous le seuil de 3 pour montrer l'alerte.
+        $stock->recordInventory($products['ecran'], 2, now()->subWeek()->toDateString(), 'Recomptage trimestriel');
+    }
+
+    /**
+     * Factures récurrentes : un abonnement mensuel et une maintenance trimestrielle.
+     *
+     * @param  array<int, \App\Models\Client>  $clients
+     */
+    private function createRecurringInvoices(User $owner, array $clients): void
+    {
+        $defs = [
+            ['Maintenance mensuelle', 'monthly', 350.00, 'Maintenance et supervision'],
+            ['Hébergement trimestriel', 'quarterly', 180.00, 'Hébergement infogéré'],
+        ];
+
+        foreach ($defs as $i => [$titre, $frequence, $montant, $ligne]) {
+            $client = $clients[$i % count($clients)];
+
+            $recurrente = \App\Models\RecurringInvoice::create([
+                'user_id' => $owner->id,
+                'client_id' => $client->id,
+                'title' => $titre,
+                'frequency' => $frequence,
+                'next_invoice_date' => now()->addWeeks($i + 1)->toDateString(),
+                'is_active' => true,
+                'auto_finalize' => false,
+                'auto_send' => false,
+                'payment_delay_days' => 30,
+                'currency' => 'EUR',
+            ]);
+
+            \App\Models\RecurringInvoiceItem::create([
+                'recurring_invoice_id' => $recurrente->id,
+                'title' => $ligne,
+                'quantity' => 1,
+                'unit_price' => $montant,
+                'vat_rate' => 17,
+                'sort_order' => 0,
+            ]);
+        }
+    }
+
+    /**
+     * Donne une ligne de ventilation à chaque dépense (FEAT-115), et fait
+     * d'un achat de marchandises une entrée de stock (FEAT-116).
+     *
+     * @param  array<string, \App\Models\Product>  $products
+     */
+    private function ventilateExpenses(User $owner, array $products): void
+    {
+        $expenses = Expense::withoutGlobalScope('user')->where('user_id', $owner->id)->get();
+
+        foreach ($expenses as $i => $expense) {
+            // Une dépense sur quatre est ventilée sur deux comptes : c'est le cas
+            // que la fonctionnalité sert (marchandises + prestation sur la même facture).
+            if ($i % 4 === 0 && (float) $expense->amount_ht > 50) {
+                $part = round((float) $expense->amount_ht * 0.6, 2);
+                $reste = round((float) $expense->amount_ht - $part, 2);
+
+                $expense->lines()->create([
+                    'user_id' => $owner->id, 'category' => $expense->category,
+                    'amount_ht' => $part, 'vat_rate' => $expense->vat_rate, 'sort_order' => 0,
+                ]);
+                $expense->lines()->create([
+                    'user_id' => $owner->id, 'category' => 'professional_services',
+                    'amount_ht' => $reste, 'vat_rate' => $expense->vat_rate, 'sort_order' => 1,
+                ]);
+            } else {
+                $expense->lines()->create([
+                    'user_id' => $owner->id, 'category' => $expense->category,
+                    'description' => $expense->description,
+                    'amount_ht' => $expense->amount_ht, 'vat_rate' => $expense->vat_rate,
+                    'sort_order' => 0,
+                ]);
+            }
+
+            $expense->load('lines');
+            $expense->save();
+        }
+
+        // Un achat de marchandises qui alimente le stock, avec son coût réel.
+        $achat = Expense::create([
+            'user_id' => $owner->id,
+            'date' => now()->subWeeks(3)->toDateString(),
+            'provider_name' => 'Grossiste Informatique SA',
+            'category' => 'hardware',
+            'amount_ht' => 740.00,
+            'vat_rate' => 17,
+            'is_deductible' => true,
+            'description' => 'Achat de 100 clés USB',
+            'reference' => 'GI-2026-0412',
+        ]);
+
+        $achat->lines()->create([
+            'user_id' => $owner->id,
+            'category' => 'hardware',
+            'description' => 'Clés USB 64 Go',
+            'amount_ht' => 740.00,
+            'vat_rate' => 17,
+            'sort_order' => 0,
+            'product_id' => $products['cle-usb']->id,
+            'stock_quantity' => 100,
+        ]);
+
+        $achat->load('lines');
+        $achat->save();
+
+        app(\App\Services\StockService::class)->syncFromExpense($achat);
     }
 
     private function printCredentials(): void

@@ -20,6 +20,7 @@ class InvoiceItemController extends Controller
 
         InvoiceItem::create([
             'invoice_id' => $invoice->id,
+            'product_id' => $request->validated('product_id'),
             'title' => $request->validated('title'),
             'description' => $request->validated('description'),
             'quantity' => $request->validated('quantity'),

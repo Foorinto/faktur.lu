@@ -49,6 +49,7 @@ const navigation = computed(() => {
         { name: t('dashboard'), href: 'dashboard', icon: 'chart-bar', tour: 'dashboard' },
         { name: t('clients'), href: 'clients.index', icon: 'users', tour: 'clients' },
         { name: t('products.nav'), href: 'products.index', icon: 'cube', routes: ['products'] },
+        { name: t('stock.nav'), href: 'stock.index', icon: 'stock', routes: ['stock'] },
         { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'], requiresFeature: 'time_tracking' },
@@ -185,6 +186,10 @@ const routeExists = (routeName) => {
                             <!-- Cube Icon (Catalogue d'articles) -->
                             <svg v-else-if="item.icon === 'cube'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                            <!-- Stock Icon (gestion de stock) -->
+                            <svg v-else-if="item.icon === 'stock'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 00-1-1.73l-6-3.5a2 2 0 00-2 0l-6 3.5A2 2 0 004 7v10a2 2 0 001 1.73l6 3.5a2 2 0 002 0M3.3 7L12 12m0 0l8.7-5M12 12v9m5-2.5l3 1.5m0 0l-3 1.5m3-1.5h-6" />
                             </svg>
                             <!-- Document Icon (Facturation) -->
                             <svg v-else-if="item.icon === 'document-text'" :class="[sidebarCollapsed ? '' : 'mr-3', 'h-5 w-5 flex-shrink-0']" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -162,6 +162,7 @@ class QuoteController extends Controller
             foreach ($request->validated('items') as $index => $itemData) {
                 QuoteItem::create([
                     'quote_id' => $quote->id,
+                    'product_id' => $itemData['product_id'] ?? null,
                     'title' => $itemData['title'],
                     'description' => $itemData['description'] ?? null,
                     'quantity' => $itemData['quantity'],
@@ -274,6 +275,8 @@ class QuoteController extends Controller
             foreach ($quote->items as $item) {
                 QuoteItem::create([
                     'quote_id' => $newQuote->id,
+                    // Le lien produit suit la duplication (FEAT-116).
+                    'product_id' => $item->product_id,
                     'title' => $item->title,
                     'description' => $item->description,
                     'quantity' => $item->quantity,

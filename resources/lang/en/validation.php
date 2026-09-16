@@ -27,5 +27,19 @@ return [
     'unique' => 'The :attribute has already been taken.',
     'uploaded' => 'The :attribute failed to upload. Please check the file size.',
 
+    'before_or_equal' => 'The :attribute field must be a date before or equal to :date.',
+    'boolean' => 'The :attribute field must be true or false.',
+    'current_password' => 'The password is incorrect.',
+    'date' => 'The :attribute field must be a valid date.',
+    'gt' => [
+        'numeric' => 'The :attribute field must be greater than :value.',
+        'string' => 'The :attribute field must be greater than :value characters.',
+        'array' => 'The :attribute field must have more than :value items.',
+        'file' => 'The :attribute field must be greater than :value kilobytes.',
+    ],
+    'in' => 'The selected :attribute is invalid.',
+    'integer' => 'The :attribute field must be an integer.',
+    'required_with' => 'The :attribute field is required when :values is present.',
+
     'attributes' => [],
 ];

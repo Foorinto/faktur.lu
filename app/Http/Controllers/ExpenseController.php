@@ -230,6 +230,9 @@ class ExpenseController extends Controller
                 'amount_ht' => $expense->amount_ht,
                 'vat_rate' => $expense->vat_rate,
                 'sort_order' => 0,
+                // Réception en stock du chemin simple (FEAT-116) : un seul produit.
+                'product_id' => $validated['stock_product_id'] ?? null,
+                'stock_quantity' => $validated['stock_quantity'] ?? null,
             ]];
         }
 
@@ -243,6 +246,9 @@ class ExpenseController extends Controller
                 'amount_ht' => $line['amount_ht'],
                 'vat_rate' => $line['vat_rate'],
                 'sort_order' => $line['sort_order'] ?? $index,
+                // Lien stock (FEAT-116) : produit reçu + quantité, facultatifs.
+                'product_id' => $line['product_id'] ?? null,
+                'stock_quantity' => $line['stock_quantity'] ?? null,
             ]);
         }
 
@@ -250,6 +256,9 @@ class ExpenseController extends Controller
         // recalcule ses montants agrégés et sa catégorie majoritaire depuis elles.
         $expense->load('lines');
         $expense->save();
+
+        // Génère/actualise les entrées de stock issues de cette dépense.
+        app(\App\Services\StockService::class)->syncFromExpense($expense);
     }
 
     private function filtered(Request $request): \Illuminate\Database\Eloquent\Builder
@@ -378,6 +387,13 @@ class ExpenseController extends Controller
             // celui du fournisseur : c'est l'acheteur qui déclare.
             'homeStandardRate' => Expense::defaultReverseChargeRate(),
             'paymentMethods' => $this->getPaymentMethodsForSelect(),
+            // Produits suivis en stock (FEAT-116) : une ligne d'achat peut les
+            // faire entrer en stock. Liste vide si aucun produit n'est suivi.
+            'trackedProducts' => \App\Models\Product::where('track_stock', true)
+                ->orderBy('designation')
+                ->get(['id', 'designation'])
+                ->map(fn ($p) => ['value' => $p->id, 'label' => $p->designation])
+                ->all(),
         ];
     }
 }

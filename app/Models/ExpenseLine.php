@@ -21,11 +21,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ExpenseLine extends Model
 {
-    use HasFactory, BelongsToUser;
+    use BelongsToUser, HasFactory;
 
     protected $fillable = [
         'user_id',
         'expense_id',
+        'product_id',
+        'stock_quantity',
         'category',
         'description',
         'amount_ht',
@@ -40,6 +42,7 @@ class ExpenseLine extends Model
         'vat_rate' => 'decimal:2',
         'amount_vat' => 'decimal:4',
         'amount_ttc' => 'decimal:4',
+        'stock_quantity' => 'decimal:4',
         'sort_order' => 'integer',
     ];
 
@@ -56,6 +59,15 @@ class ExpenseLine extends Model
     public function expense(): BelongsTo
     {
         return $this->belongsTo(Expense::class);
+    }
+
+    /**
+     * Produit du catalogue que cette ligne d'achat fait entrer en stock (FEAT-116).
+     * Nul pour une ligne de dépense ordinaire.
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 
     /**

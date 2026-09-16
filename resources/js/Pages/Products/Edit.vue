@@ -22,6 +22,8 @@ const form = useForm({
     pcn_account: props.product.pcn_account ?? '',
     unit: props.product.unit ?? 'piece',
     is_active: Boolean(props.product.is_active),
+    track_stock: Boolean(props.product.track_stock),
+    stock_alert_threshold: props.product.stock_alert_threshold ?? null,
 });
 
 const submit = () => form.put(route('products.update', props.product.id));

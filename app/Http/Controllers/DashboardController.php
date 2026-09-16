@@ -50,7 +50,31 @@ class DashboardController extends Controller
             // client payant qui voyait ici son chiffre d'affaires mensuel sans
             // savoir comment il avait été réglé.
             'encaissementsParMoyen' => $this->encaissementsParMoyen($user, (int) $year),
+            // Produits passés sous leur seuil d'alerte de stock (FEAT-116).
+            'lowStockAlerts' => $this->lowStockAlerts(),
         ]);
+    }
+
+    /**
+     * Produits suivis passés sous leur seuil d'alerte de stock (FEAT-116).
+     *
+     * @return array<int, array{id: int, designation: string, current_stock: float, threshold: float}>
+     */
+    private function lowStockAlerts(): array
+    {
+        return \App\Models\Product::where('track_stock', true)
+            ->whereNotNull('stock_alert_threshold')
+            ->orderBy('designation')
+            ->get()
+            ->filter->isLowOnStock()
+            ->map(fn ($p) => [
+                'id' => $p->id,
+                'designation' => $p->designation,
+                'current_stock' => $p->currentStock(),
+                'threshold' => (float) $p->stock_alert_threshold,
+            ])
+            ->values()
+            ->all();
     }
 
     /**

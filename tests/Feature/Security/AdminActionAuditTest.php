@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Security;
 
-use App\Models\AuditLog;
 use App\Models\User;
 use App\Notifications\AdminActionNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,7 +35,7 @@ class AdminActionAuditTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'user_id' => $admin->id,
             'action' => 'admin.user.impersonate',
-            'auditable_type' => (new User())->getMorphClass(),
+            'auditable_type' => (new User)->getMorphClass(),
             'auditable_id' => $cible->id,
         ]);
     }

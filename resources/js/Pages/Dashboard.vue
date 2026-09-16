@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import CashflowChart from '@/Components/Dashboard/CashflowChart.vue';
 import FranchiseAlert from '@/Components/FranchiseAlert.vue';
+import LowStockAlert from '@/Components/LowStockAlert.vue';
 import QuotaAlertBanner from '@/Components/QuotaAlertBanner.vue';
 import OnboardingChecklist from '@/Components/OnboardingChecklist.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -25,6 +26,7 @@ const props = defineProps({
     availableYears: Array,
     selectedYear: Number,
     franchiseAlert: Object,
+    lowStockAlerts: { type: Array, default: () => [] },
     cashflowForecast: Object,
     onboardingChecklist: Object,
     quotaAlerts: { type: Array, default: () => [] },
@@ -179,6 +181,8 @@ const getStatusLabel = (status) => {
         <QuotaAlertBanner :alerts="quotaAlerts" />
 
         <FranchiseAlert v-if="franchiseAlert" :franchise-alert="franchiseAlert" />
+
+        <LowStockAlert :products="lowStockAlerts" class="mb-6" />
 
         <!-- Alerts -->
         <div v-if="kpis?.alerts?.length > 0" class="mb-6 space-y-3">

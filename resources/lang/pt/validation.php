@@ -27,5 +27,19 @@ return [
     'unique' => 'O valor de :attribute já está em uso.',
     'uploaded' => 'O ficheiro :attribute não pôde ser carregado. Verifique o tamanho do ficheiro.',
 
+    'before_or_equal' => 'O campo :attribute deve ser uma data anterior ou igual a :date.',
+    'boolean' => 'O campo :attribute deve ser verdadeiro ou falso.',
+    'current_password' => 'A palavra-passe está incorreta.',
+    'date' => 'O campo :attribute não é uma data válida.',
+    'gt' => [
+        'numeric' => 'O campo :attribute deve ser superior a :value.',
+        'string' => 'O campo :attribute deve ter mais de :value caracteres.',
+        'array' => 'O campo :attribute deve ter mais de :value elementos.',
+        'file' => 'O ficheiro :attribute deve ter mais de :value kilobytes.',
+    ],
+    'in' => 'O valor selecionado para :attribute é inválido.',
+    'integer' => 'O campo :attribute deve ser um número inteiro.',
+    'required_with' => 'O campo :attribute é obrigatório quando :values está preenchido.',
+
     'attributes' => [],
 ];
