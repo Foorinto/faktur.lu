@@ -33,6 +33,23 @@ trait HasRecurrenceSchedule
         self::FREQUENCY_YEARLY,
     ];
 
+    /**
+     * Mémorise le jour du mois voulu à la création.
+     *
+     * Sans cette ancre, une échéance ramenée au 28 février ne saurait plus
+     * qu'on lui avait demandé le 31, et resterait au 28 pour toujours.
+     */
+    protected static function bootHasRecurrenceSchedule(): void
+    {
+        static::creating(function ($recurrence) {
+            $echeance = $recurrence->{static::nextDateColumn()};
+
+            if ($recurrence->anchor_day === null && $echeance !== null) {
+                $recurrence->anchor_day = Carbon::parse($echeance)->day;
+            }
+        });
+    }
+
     /** Colonne portant la prochaine échéance (par exemple `next_invoice_date`). */
     abstract public static function nextDateColumn(): string;
 
@@ -69,17 +86,29 @@ trait HasRecurrenceSchedule
      *
      * Les variantes « sans débordement » ramènent au dernier jour du mois visé
      * (28 février), ce qui ne saute jamais une échéance.
+     *
+     * L'ancre rend ensuite son jour à l'utilisateur dès que le mois le permet :
+     * 31 janvier, 28 février, 31 mars, 30 avril. Sans elle, l'échéance resterait
+     * collée au 28 après le premier février rencontré.
      */
     public function calculateNextDate(): Carbon
     {
         $depuis = $this->nextDate()->copy();
 
-        return match ($this->frequency) {
+        $suivante = match ($this->frequency) {
             self::FREQUENCY_WEEKLY => $depuis->addWeek(),
             self::FREQUENCY_MONTHLY => $depuis->addMonthNoOverflow(),
             self::FREQUENCY_QUARTERLY => $depuis->addMonthsNoOverflow(3),
             self::FREQUENCY_YEARLY => $depuis->addYearNoOverflow(),
         };
+
+        // Un rythme hebdomadaire ne connaît pas de jour du mois : le réancrer
+        // n'aurait aucun sens.
+        if ($this->frequency !== self::FREQUENCY_WEEKLY && $this->anchor_day) {
+            $suivante->day(min((int) $this->anchor_day, $suivante->daysInMonth));
+        }
+
+        return $suivante;
     }
 
     /**

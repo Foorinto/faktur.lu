@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Client;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
 use App\Models\RecurringInvoice;
@@ -246,6 +247,41 @@ class RecurringExpenseTest extends TestCase
         $this->assertSame(['2026-02', '2026-03', '2026-04', '2026-05'], $mois);
     }
 
+    public function test_l_ancre_rend_son_jour_des_que_le_mois_le_permet(): void
+    {
+        // Le 31 demandé reste le 31 : février le ramène au 28, mars le rend.
+        $charge = $this->charge(['next_expense_date' => '2026-01-31']);
+
+        $this->assertSame(31, $charge->anchor_day, 'L\'ancre est prise sur la première échéance.');
+
+        $echeances = [];
+
+        for ($i = 0; $i < 4; $i++) {
+            $charge->forceFill(['next_expense_date' => $charge->calculateNextDate()]);
+            $echeances[] = $charge->next_expense_date->toDateString();
+        }
+
+        $this->assertSame(['2026-02-28', '2026-03-31', '2026-04-30', '2026-05-31'], $echeances);
+    }
+
+    public function test_une_echeance_ordinaire_n_est_pas_affectee_par_l_ancre(): void
+    {
+        $charge = $this->charge(['next_expense_date' => '2026-01-15']);
+
+        $this->assertSame(15, $charge->anchor_day);
+        $this->assertSame('2026-02-15', $charge->calculateNextDate()->toDateString());
+    }
+
+    public function test_le_rythme_hebdomadaire_ignore_le_jour_du_mois(): void
+    {
+        $charge = $this->charge([
+            'frequency' => RecurringExpense::FREQUENCY_WEEKLY,
+            'next_expense_date' => '2026-01-31',
+        ]);
+
+        $this->assertSame('2026-02-07', $charge->calculateNextDate()->toDateString());
+    }
+
     public function test_les_factures_recurrentes_gardent_exactement_le_meme_rythme(): void
     {
         // Le rythme est désormais partagé : ce test garantit que la mise en
@@ -257,6 +293,18 @@ class RecurringExpenseTest extends TestCase
         $recurrente->is_active = true;
 
         $this->assertSame('2026-04-30', $recurrente->calculateNextDate()->toDateString());
+        // La même ancre s'applique aux factures récurrentes : elle est prise à
+        // la création, par le trait, sans que le contrôleur ait à y penser.
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $enBase = RecurringInvoice::create([
+            'user_id' => $this->user->id,
+            'client_id' => $client->id,
+            'frequency' => RecurringInvoice::FREQUENCY_MONTHLY,
+            'next_invoice_date' => '2026-01-31',
+        ]);
+
+        $this->assertSame(31, $enBase->anchor_day);
+        $this->assertSame('2026-02-28', $enBase->calculateNextDate()->toDateString());
         $this->assertSame('next_invoice_date', RecurringInvoice::nextDateColumn());
         $this->assertSame('invoices_generated', RecurringInvoice::generatedCountColumn());
         $this->assertSame(RecurringExpense::FREQUENCIES, RecurringInvoice::FREQUENCIES);

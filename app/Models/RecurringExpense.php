@@ -30,6 +30,7 @@ class RecurringExpense extends Model
         'label',
         'frequency',
         'next_expense_date',
+        'anchor_day',
         'ends_at',
         'is_active',
         'expenses_generated',
@@ -50,6 +51,7 @@ class RecurringExpense extends Model
     protected $casts = [
         'next_expense_date' => 'date:Y-m-d',
         'ends_at' => 'date:Y-m-d',
+        'anchor_day' => 'integer',
         'is_active' => 'boolean',
         'is_deductible' => 'boolean',
         'amount' => 'decimal:4',
