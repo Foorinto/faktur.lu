@@ -12,6 +12,7 @@ use App\Services\StockService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -140,10 +141,28 @@ class ExpenseController extends Controller
      */
     public function update(UpdateExpenseRequest $request, Expense $expense): RedirectResponse
     {
-        $expense->update($request->validated());
+        $donnees = $request->validated();
 
-        // Réécrit la ventilation puis recalcule les agrégats depuis les lignes.
-        $this->syncLines($expense, $request->validated());
+        DB::transaction(function () use ($expense, $donnees) {
+            // ⚠️ Les anciennes lignes partent AVANT la mise à jour.
+            //
+            // Une dépense tire ses montants, sa catégorie et son taux de ses
+            // lignes (FEAT-115). Sauvée d'abord, elle agrégeait depuis les
+            // lignes de la version précédente et réécrivait aussitôt ce que
+            // l'utilisateur venait de saisir : le montant revenait à l'ancien,
+            // avec un message de succès. Relevé à l'usage, invisible en test
+            // parce que la seule modification couverte envoyait des lignes.
+            //
+            // Sans lignes, `calculateAmounts` reprend son chemin normal et
+            // calcule depuis la saisie, en HT comme en TTC.
+            $expense->lines()->delete();
+            $expense->unsetRelation('lines');
+
+            $expense->update($donnees);
+
+            // Réécrit la ventilation puis recalcule les agrégats depuis les lignes.
+            $this->syncLines($expense, $donnees);
+        });
 
         // Handle attachment upload
         if ($request->hasFile('attachment')) {
@@ -277,10 +296,6 @@ class ExpenseController extends Controller
     }
 
     /**
-     * Get payment methods for select.
-     */
-
-    /**
      * Get months for select.
      */
     private function getMonthsForSelect(): array
@@ -300,29 +315,6 @@ class ExpenseController extends Controller
             ['value' => '12', 'label' => 'Décembre'],
         ];
     }
-
-    /**
-     * Get VAT rates for select based on seller's country.
-     */
-
-    /**
-     * Grilles de taux des pays dont la configuration en contient une.
-     *
-     * Les autres États membres ne sont pas devinés : proposer une grille
-     * approximative pour la Slovaquie serait pire que de laisser saisir le
-     * taux lu sur la facture. Le formulaire bascule alors en saisie libre.
-     *
-     * @return array<string, array<int, array<string, mixed>>>
-     */
-
-    /**
-     * @param  array<int, array<string, mixed>>  $rates
-     * @return array<int, array<string, mixed>>
-     */
-
-    /**
-     * Régimes de TVA pour le sélecteur.
-     */
 
     /**
      * Données communes aux formulaires de création et de modification.
