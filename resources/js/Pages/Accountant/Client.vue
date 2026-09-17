@@ -3,6 +3,7 @@ import AccountantLayout from '@/Layouts/AccountantLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -220,17 +221,12 @@ const getExportUrl = (type) => {
                                 <span v-if="inv.paid_at" class="text-xs text-slate-400 ml-1">{{ inv.paid_at }}</span>
                             </td>
                             <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-6">
-                                <a
+                                <RowAction
+                                    icon="download"
+                                    tone="primary"
+                                    :label="t('view_pdf')"
                                     :href="route('accountant.invoice-pdf', { user: client.id, invoice: inv.id })"
-                                    target="_blank"
-                                    class="text-slate-400 hover:text-primary-500 transition-colors"
-                                    :title="t('view_pdf')"
-                                >
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.64 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.64 0-8.573-3.007-9.963-7.178z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </a>
+                                />
                             </td>
                         </tr>
                     </tbody>
