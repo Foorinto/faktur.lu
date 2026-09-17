@@ -31,6 +31,42 @@ class EmailChangeRequiresPasswordTest extends TestCase
         ]);
     }
 
+    public function test_changer_sa_langue_ne_reclame_aucun_mot_de_passe(): void
+    {
+        // Relevé à l'usage : changer la langue de l'interface répondait « Le mot
+        // de passe est incorrect », alors que rien ne l'avait demandé. Le champ
+        // est toujours envoyé, vide ; `ConvertEmptyStringsToNull` en fait un
+        // null, présent — donc validé par la règle `current_password`.
+        $user = $this->user();
+
+        $this->actingAs($user)
+            ->from(route('profile.edit'))
+            ->patch(route('profile.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'locale' => 'de',
+                'current_password' => '',
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame('de', $user->fresh()->locale);
+    }
+
+    public function test_changer_son_nom_ne_reclame_aucun_mot_de_passe(): void
+    {
+        $user = $this->user();
+
+        $this->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => 'Nouveau Nom',
+                'email' => $user->email,
+                'current_password' => '',
+            ])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame('Nouveau Nom', $user->fresh()->name);
+    }
+
     public function test_email_change_without_password_is_rejected(): void
     {
         $user = $this->user();
