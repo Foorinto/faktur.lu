@@ -261,6 +261,35 @@ class RecurringExpenseScreenTest extends TestCase
         $this->assertNull($sienne->fresh()->recurring_expense_id);
     }
 
+    // --- Suggestions de fournisseurs -----------------------------------------
+
+    public function test_les_fournisseurs_deja_saisis_sont_proposes(): void
+    {
+        Expense::factory()->count(3)->create(['user_id' => $this->user->id, 'provider_name' => 'POST Luxembourg']);
+        Expense::factory()->create(['user_id' => $this->user->id, 'provider_name' => 'Immo Lux Sàrl']);
+
+        $this->get(route('recurring-expenses.create'))
+            ->assertInertia(fn ($page) => $page
+                // Les plus fréquents d'abord : on retape rarement le fournisseur
+                // d'une seule dépense.
+                ->where('providers.0', 'POST Luxembourg')
+                ->where('providers.1', 'Immo Lux Sàrl')
+            );
+
+        $this->get(route('expenses.create'))
+            ->assertInertia(fn ($page) => $page->where('providers.0', 'POST Luxembourg'));
+    }
+
+    public function test_les_fournisseurs_d_un_autre_compte_ne_sont_jamais_proposes(): void
+    {
+        $autre = User::factory()->create();
+        Expense::factory()->create(['user_id' => $autre->id, 'provider_name' => 'Fournisseur Confidentiel']);
+        Expense::factory()->create(['user_id' => $this->user->id, 'provider_name' => 'Le mien']);
+
+        $this->get(route('recurring-expenses.create'))
+            ->assertInertia(fn ($page) => $page->where('providers', ['Le mien']));
+    }
+
     public function test_une_charge_sans_fournisseur_ni_categorie_est_refusee(): void
     {
         $this->from(route('recurring-expenses.create'))

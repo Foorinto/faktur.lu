@@ -20,6 +20,7 @@ const props = defineProps({
     homeCountry: { type: String, default: 'LU' },
     homeStandardRate: { type: Number, default: 17 },
     paymentMethods: { type: Array, default: () => [] },
+    providers: { type: Array, default: () => [] },
     submitLabel: { type: String, default: '' },
 });
 
@@ -148,8 +149,12 @@ const jourAncre = computed(() => {
                         v-model="form.provider_name"
                         type="text"
                         maxlength="255"
+                        list="fournisseurs-connus-charge"
                         class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                     />
+                    <datalist id="fournisseurs-connus-charge">
+                        <option v-for="f in providers" :key="f" :value="f" />
+                    </datalist>
                     <InputError :message="form.errors.provider_name" class="mt-2" />
                 </div>
 

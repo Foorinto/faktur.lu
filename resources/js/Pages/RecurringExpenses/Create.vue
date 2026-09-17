@@ -16,6 +16,7 @@ const props = defineProps({
     homeCountry: { type: String, default: 'LU' },
     homeStandardRate: { type: Number, default: 17 },
     paymentMethods: { type: Array, default: () => [] },
+    providers: { type: Array, default: () => [] },
     // Prérempli quand on arrive depuis une dépense existante.
     modele: { type: Object, default: null },
     // Nombre de dépenses déjà saisies qui ressemblent à cette charge.
@@ -105,6 +106,7 @@ const submit = () => form.post(route('recurring-expenses.store'));
             :home-country="homeCountry"
             :home-standard-rate="homeStandardRate"
             :payment-methods="paymentMethods"
+            :providers="providers"
             :submit-label="t('recurring_expenses.create_submit')"
             @submit="submit"
         />

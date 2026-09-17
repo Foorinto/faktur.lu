@@ -24,6 +24,7 @@ const props = defineProps({
     homeCountry: String,
     homeStandardRate: Number,
     paymentMethods: Array,
+    providers: { type: Array, default: () => [] },
     trackedProducts: { type: Array, default: () => [] },
 });
 
@@ -152,8 +153,15 @@ const submit = () => {
                                 type="text"
                                 class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                                 :placeholder="t('example_provider')"
+                                list="fournisseurs-connus"
                                 required
                             />
+                            <!-- Suggestions des fournisseurs déjà saisis. Une
+                                 datalist, donc le champ reste libre : on propose,
+                                 on n'impose pas. -->
+                            <datalist id="fournisseurs-connus">
+                                <option v-for="f in providers" :key="f" :value="f" />
+                            </datalist>
                             <InputError :message="form.errors.provider_name" class="mt-2" />
                         </div>
 

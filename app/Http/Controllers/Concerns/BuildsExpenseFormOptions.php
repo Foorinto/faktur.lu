@@ -31,7 +31,27 @@ trait BuildsExpenseFormOptions
             // celui du fournisseur : c'est l'acheteur qui déclare.
             'homeStandardRate' => Expense::defaultReverseChargeRate(),
             'paymentMethods' => $this->getPaymentMethodsForSelect(),
+            // Les fournisseurs déjà saisis, les plus fréquents d'abord. Une
+            // simple liste de suggestions : le champ reste libre, on ne force
+            // personne à choisir dans un catalogue qui n'existe pas encore.
+            'providers' => $this->fournisseursDejaSaisis(),
         ];
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function fournisseursDejaSaisis(): array
+    {
+        return Expense::query()
+            ->whereNotNull('provider_name')
+            ->where('provider_name', '!=', '')
+            ->select('provider_name')
+            ->groupBy('provider_name')
+            ->orderByRaw('COUNT(*) DESC')
+            ->limit(100)
+            ->pluck('provider_name')
+            ->all();
     }
 
     protected function getCategoriesForSelect(): array

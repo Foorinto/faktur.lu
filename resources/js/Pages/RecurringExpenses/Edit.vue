@@ -17,6 +17,7 @@ const props = defineProps({
     homeCountry: { type: String, default: 'LU' },
     homeStandardRate: { type: Number, default: 17 },
     paymentMethods: { type: Array, default: () => [] },
+    providers: { type: Array, default: () => [] },
 });
 
 const form = useForm({
@@ -66,6 +67,7 @@ const submit = () => form.put(route('recurring-expenses.update', props.charge.id
             :home-country="homeCountry"
             :home-standard-rate="homeStandardRate"
             :payment-methods="paymentMethods"
+            :providers="providers"
             @submit="submit"
         />
     </AppLayout>
