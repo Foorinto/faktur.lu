@@ -18,6 +18,8 @@ const props = defineProps({
     paymentMethods: { type: Array, default: () => [] },
     // Prérempli quand on arrive depuis une dépense existante.
     modele: { type: Object, default: null },
+    // Nombre de dépenses déjà saisies qui ressemblent à cette charge.
+    occurrencesPassees: { type: Number, default: 0 },
 });
 
 const moisProchain = () => {
@@ -43,6 +45,9 @@ const form = useForm({
     is_deductible: props.modele?.is_deductible ?? true,
     payment_method: props.modele?.payment_method ?? '',
     description: props.modele?.description ?? '',
+    // Proposé coché quand on arrive d'une dépense qui a déjà des jumelles :
+    // c'est le cas de figure où le double compte guette.
+    attach_past: props.occurrencesPassees > 0,
 });
 
 const submit = () => form.post(route('recurring-expenses.store'));
@@ -61,6 +66,33 @@ const submit = () => form.post(route('recurring-expenses.store'));
         <p v-if="modele" class="mb-4 rounded-xl bg-primary-50 px-4 py-3 text-sm text-primary-800 dark:bg-primary-900/30 dark:text-primary-200">
             {{ t('recurring_expenses.prefilled_from_expense') }}
         </p>
+
+        <!--
+            Une charge déclarée après coup a souvent déjà été saisie à la main.
+            Sans rattachement, ces dépenses resteraient dans la moyenne pendant
+            que la charge est projetée à sa date, et le loyer pèserait deux fois.
+            Rien ne se fait dans le dos de l'utilisateur : il coche.
+        -->
+        <div v-if="occurrencesPassees > 0" class="mb-4 rounded-2xl bg-white p-4 shadow dark:bg-surface-card">
+            <label class="flex items-start gap-3">
+                <input
+                    type="checkbox"
+                    v-model="form.attach_past"
+                    class="mt-0.5 rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
+                />
+                <span>
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                        {{ t('recurring_expenses.attach_past_label') }}
+                        <span class="font-normal text-slate-500 dark:text-slate-400">
+                            ({{ t('recurring_expenses.attach_past_found', { count: occurrencesPassees }) }})
+                        </span>
+                    </span>
+                    <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+                        {{ t('recurring_expenses.attach_past_hint') }}
+                    </span>
+                </span>
+            </label>
+        </div>
 
         <RecurringExpenseForm
             :form="form"

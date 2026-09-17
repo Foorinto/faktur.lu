@@ -113,6 +113,55 @@ class RecurringExpenseForecastTest extends TestCase
         $this->assertSame(2000.0, $prevision['totals']['total_expected_expense']);
     }
 
+    /**
+     * Le cas réel : un loyer saisi à la main pendant des mois, puis déclaré.
+     *
+     * Sans rattachement, les six loyers passés resteraient dans la moyenne
+     * PENDANT que la charge est projetée à sa date. La prévision surestimerait
+     * d'un loyer par mois jusqu'à ce que l'historique sorte de la fenêtre.
+     */
+    public function test_declarer_une_charge_deja_saisie_a_la_main_ne_double_pas_la_prevision(): void
+    {
+        for ($mois = 1; $mois <= 6; $mois++) {
+            Expense::factory()->create([
+                'user_id' => $this->user->id,
+                'provider_name' => 'Immo Lux Sàrl',
+                'category' => Expense::CATEGORY_OTHER,
+                'date' => now()->subMonths($mois)->startOfMonth()->addDays(2)->toDateString(),
+                'amount_input_mode' => Expense::INPUT_TTC,
+                'amount_ttc' => 1000,
+                'vat_rate' => 0,
+                'vat_regime' => Expense::REGIME_EXEMPT,
+            ]);
+        }
+
+        $this->assertSame(1000.0, $this->prevision(30)['totals']['monthly_expense_average']);
+
+        // L'utilisateur déclare la charge et coche « elle existait déjà ».
+        $this->post(route('recurring-expenses.store'), [
+            'label' => 'Loyer',
+            'frequency' => RecurringExpense::FREQUENCY_MONTHLY,
+            'next_expense_date' => now()->addDays(10)->toDateString(),
+            'provider_name' => 'Immo Lux Sàrl',
+            'supplier_country' => 'LU',
+            'category' => Expense::CATEGORY_OTHER,
+            'amount_input_mode' => Expense::INPUT_TTC,
+            'amount' => 1000,
+            'vat_rate' => 0,
+            'vat_regime' => Expense::REGIME_EXEMPT,
+            'attach_past' => true,
+        ])->assertRedirect(route('recurring-expenses.index'));
+
+        $prevision = $this->prevision(30);
+
+        $this->assertSame(
+            0.0,
+            $prevision['totals']['monthly_expense_average'],
+            'Les loyers rattachés sortent de la moyenne.'
+        );
+        $this->assertSame(1000.0, $prevision['totals']['total_expected_expense'], 'Le loyer ne pèse qu\'une fois, à sa date.');
+    }
+
     public function test_les_depenses_variables_restent_lissees(): void
     {
         // Un achat de matériel exceptionnel n'a pas de rythme : il continue

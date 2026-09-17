@@ -6,6 +6,7 @@ use App\Http\Controllers\Concerns\BuildsExpenseFormOptions;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -75,6 +76,12 @@ class RecurringExpenseController extends Controller
         return Inertia::render('RecurringExpenses/Create', array_merge($this->expenseFormOptions(), [
             'frequencies' => RecurringExpense::FREQUENCIES,
             'modele' => $modele,
+            // Combien de fois cette charge a déjà été saisie à la main. Le
+            // chiffre est indicatif : c'est le fournisseur et la catégorie
+            // finalement enregistrés qui décideront du rattachement.
+            'occurrencesPassees' => $modele !== null
+                ? $this->occurrencesPassees($modele['provider_name'], $modele['category'])->count()
+                : 0,
         ]));
     }
 
@@ -82,10 +89,27 @@ class RecurringExpenseController extends Controller
     {
         $data = $this->valider($request);
 
-        RecurringExpense::create($data);
+        $charge = RecurringExpense::create($data);
+
+        // Une charge déclarée après coup a souvent déjà été saisie à la main
+        // pendant des mois. Sans rattachement, ces dépenses resteraient dans
+        // la moyenne des dépenses variables PENDANT que la charge est projetée
+        // à sa date : le loyer pèserait deux fois jusqu'à ce que l'historique
+        // sorte de la fenêtre de six mois.
+        //
+        // Le rattachement ne se fait jamais tout seul : l'utilisateur coche, et
+        // le message dit combien de dépenses ont effectivement changé.
+        $rattachees = 0;
+
+        if ($request->boolean('attach_past')) {
+            $rattachees = $this->occurrencesPassees($data['provider_name'], $data['category'])
+                ->update(['recurring_expense_id' => $charge->id]);
+        }
 
         return redirect()->route('recurring-expenses.index')
-            ->with('success', __('app.recurring_expenses.flash_created'));
+            ->with('success', $rattachees > 0
+                ? __('app.recurring_expenses.flash_created_with_attached', ['count' => $rattachees])
+                : __('app.recurring_expenses.flash_created'));
     }
 
     public function edit(RecurringExpense $recurringExpense): Response
@@ -144,6 +168,25 @@ class RecurringExpenseController extends Controller
     }
 
     /**
+     * Les dépenses déjà saisies qui sont, selon toute vraisemblance, des
+     * occurrences de cette charge.
+     *
+     * Même fournisseur, même catégorie, sur la fenêtre que regarde la
+     * prévision. Celles qui appartiennent déjà à une autre charge ne sont
+     * jamais reprises.
+     *
+     * @return Builder<Expense>
+     */
+    private function occurrencesPassees(?string $fournisseur, ?string $categorie): Builder
+    {
+        return Expense::query()
+            ->whereNull('recurring_expense_id')
+            ->where('provider_name', (string) $fournisseur)
+            ->where('category', (string) $categorie)
+            ->where('date', '>=', now()->subMonths(6)->startOfMonth()->toDateString());
+    }
+
+    /**
      * Les champs du formulaire, en valeurs simples.
      *
      * Les dates sont rendues en `Y-m-d` et les montants en nombres : un objet
@@ -194,7 +237,11 @@ class RecurringExpenseController extends Controller
             'is_deductible' => ['boolean'],
             'payment_method' => ['nullable', 'string', Rule::in(array_keys(Expense::getPaymentMethods()))],
             'description' => ['nullable', 'string', 'max:2000'],
+            'attach_past' => ['boolean'],
         ]);
+
+        // Un ordre donné au contrôleur, pas une colonne de la charge.
+        unset($data['attach_past']);
 
         $data['is_active'] = $request->boolean('is_active', true);
         $data['is_deductible'] = $request->boolean('is_deductible', true);

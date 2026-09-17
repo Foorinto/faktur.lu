@@ -184,6 +184,83 @@ class RecurringExpenseScreenTest extends TestCase
         $this->delete(route('recurring-expenses.destroy', $charge))->assertNotFound();
     }
 
+    // --- Rattachement des occurrences déjà saisies à la main ------------------
+
+    private function loyerSaisiAlaMain(int $ilYAXMois): Expense
+    {
+        return Expense::factory()->create([
+            'user_id' => $this->user->id,
+            'provider_name' => 'Immo Lux Sàrl',
+            'category' => Expense::CATEGORY_OTHER,
+            'date' => now()->subMonths($ilYAXMois)->startOfMonth()->addDays(2)->toDateString(),
+        ]);
+    }
+
+    public function test_le_formulaire_annonce_les_occurrences_deja_saisies(): void
+    {
+        $this->loyerSaisiAlaMain(1);
+        $this->loyerSaisiAlaMain(2);
+        $depense = $this->loyerSaisiAlaMain(0);
+
+        $this->get(route('recurring-expenses.create', ['from_expense' => $depense->id]))
+            ->assertInertia(fn ($page) => $page->where('occurrencesPassees', 3));
+    }
+
+    public function test_le_rattachement_demande_relie_les_depenses_passees(): void
+    {
+        $this->loyerSaisiAlaMain(1);
+        $this->loyerSaisiAlaMain(2);
+        $autreFournisseur = Expense::factory()->create([
+            'user_id' => $this->user->id,
+            'provider_name' => 'Amazon',
+            'category' => Expense::CATEGORY_OTHER,
+            'date' => now()->subMonth()->toDateString(),
+        ]);
+
+        $this->post(route('recurring-expenses.store'), $this->payload(['attach_past' => true]))
+            ->assertRedirect(route('recurring-expenses.index'));
+
+        $charge = RecurringExpense::sole();
+
+        $this->assertSame(2, Expense::where('recurring_expense_id', $charge->id)->count());
+        $this->assertNull($autreFournisseur->fresh()->recurring_expense_id, 'Un autre fournisseur n\'est jamais repris.');
+    }
+
+    public function test_sans_la_case_cochee_rien_n_est_rattache(): void
+    {
+        $this->loyerSaisiAlaMain(1);
+
+        $this->post(route('recurring-expenses.store'), $this->payload());
+
+        $this->assertSame(0, Expense::whereNotNull('recurring_expense_id')->count());
+    }
+
+    public function test_une_depense_deja_rattachee_a_une_autre_charge_n_est_pas_reprise(): void
+    {
+        $premiere = RecurringExpense::factory()->create(['user_id' => $this->user->id]);
+        $depense = $this->loyerSaisiAlaMain(1);
+        $depense->update(['recurring_expense_id' => $premiere->id]);
+
+        $this->post(route('recurring-expenses.store'), $this->payload(['attach_past' => true]));
+
+        $this->assertSame($premiere->id, $depense->fresh()->recurring_expense_id);
+    }
+
+    public function test_les_depenses_d_un_autre_compte_ne_sont_jamais_rattachees(): void
+    {
+        $autre = User::factory()->create();
+        $sienne = Expense::factory()->create([
+            'user_id' => $autre->id,
+            'provider_name' => 'Immo Lux Sàrl',
+            'category' => Expense::CATEGORY_OTHER,
+            'date' => now()->subMonth()->toDateString(),
+        ]);
+
+        $this->post(route('recurring-expenses.store'), $this->payload(['attach_past' => true]));
+
+        $this->assertNull($sienne->fresh()->recurring_expense_id);
+    }
+
     public function test_une_charge_sans_fournisseur_ni_categorie_est_refusee(): void
     {
         $this->from(route('recurring-expenses.create'))
