@@ -289,6 +289,114 @@ class ExpenseVentilationTest extends TestCase
         $this->assertEquals('50.0000', $expense->amount_ht);
     }
 
+    public function test_modifier_le_montant_d_une_depense_simple_l_enregistre_vraiment(): void
+    {
+        // Relevé à l'usage : le message annonçait « Dépense mise à jour » mais
+        // le montant restait l'ancien, même après rechargement.
+        //
+        // La dépense tire ses montants de ses lignes. À la mise à jour, elle
+        // était sauvée AVANT que ses lignes soient réécrites : l'agrégation
+        // repartait des anciennes lignes et écrasait la saisie.
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Immo Lux',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_input_mode' => 'ht',
+            'amount_ht' => 800,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+        ])->assertRedirect(route('expenses.index'));
+
+        $expense = Expense::latest('id')->first();
+        $this->assertEquals('800.0000', $expense->amount_ht);
+
+        $this->put(route('expenses.update', $expense->id), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Immo Lux',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_input_mode' => 'ht',
+            'amount_ht' => 500,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+        ])->assertRedirect(route('expenses.index'));
+
+        $expense->refresh()->load('lines');
+
+        $this->assertEquals('500.0000', $expense->amount_ht);
+        $this->assertEquals('585.0000', $expense->amount_ttc);
+        $this->assertCount(1, $expense->lines);
+        $this->assertEquals('500.0000', $expense->lines->first()->amount_ht, 'La ligne dérivée suit le nouveau montant.');
+    }
+
+    public function test_modifier_la_categorie_et_le_taux_d_une_depense_simple_les_enregistre(): void
+    {
+        // Même cause : la catégorie et le taux majoritaires étaient eux aussi
+        // repris des anciennes lignes, donc réécrits par les anciennes valeurs.
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Fournisseur SARL',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_input_mode' => 'ht',
+            'amount_ht' => 100,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+        ]);
+
+        $expense = Expense::latest('id')->first();
+
+        $this->put(route('expenses.update', $expense->id), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Fournisseur SARL',
+            'category' => Expense::CATEGORY_HARDWARE,
+            'amount_input_mode' => 'ht',
+            'amount_ht' => 100,
+            'vat_rate' => 8,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+        ])->assertRedirect(route('expenses.index'));
+
+        $expense->refresh()->load('lines');
+
+        $this->assertSame(Expense::CATEGORY_HARDWARE, $expense->category);
+        $this->assertEquals('8.00', $expense->vat_rate);
+        $this->assertSame(Expense::CATEGORY_HARDWARE, $expense->lines->first()->category);
+    }
+
+    public function test_modifier_une_depense_simple_saisie_en_ttc_l_enregistre_aussi(): void
+    {
+        $this->post(route('expenses.store'), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Fournisseur SARL',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_input_mode' => 'ttc',
+            'amount_ttc' => 1170,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+        ]);
+
+        $expense = Expense::latest('id')->first();
+
+        $this->put(route('expenses.update', $expense->id), [
+            'date' => '2026-03-10',
+            'provider_name' => 'Fournisseur SARL',
+            'category' => Expense::CATEGORY_OFFICE,
+            'amount_input_mode' => 'ttc',
+            'amount_ttc' => 585,
+            'vat_rate' => 17,
+            'vat_regime' => 'national',
+            'is_deductible' => true,
+        ])->assertRedirect(route('expenses.index'));
+
+        $expense->refresh();
+
+        $this->assertEquals('585.0000', $expense->amount_ttc, 'Le TTC saisi reste au centime.');
+        $this->assertEquals('500.0000', $expense->amount_ht);
+    }
+
     public function test_les_agregats_de_la_depense_derivent_des_lignes(): void
     {
         $expense = $this->ventilated([

@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Helpers\DatabaseHelper;
 use App\Http\Requests\Api\V1\StoreExpenseRequest;
 use App\Http\Requests\Api\V1\UpdateExpenseRequest;
+use App\Models\BusinessSettings;
 use App\Models\Expense;
+use App\Models\Product;
+use App\Services\StockService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -134,10 +139,28 @@ class ExpenseController extends Controller
      */
     public function update(UpdateExpenseRequest $request, Expense $expense): RedirectResponse
     {
-        $expense->update($request->validated());
+        $donnees = $request->validated();
 
-        // Réécrit la ventilation puis recalcule les agrégats depuis les lignes.
-        $this->syncLines($expense, $request->validated());
+        DB::transaction(function () use ($expense, $donnees) {
+            // ⚠️ Les anciennes lignes partent AVANT la mise à jour.
+            //
+            // Une dépense tire ses montants, sa catégorie et son taux de ses
+            // lignes (FEAT-115). Sauvée d'abord, elle agrégeait depuis les
+            // lignes de la version précédente et réécrivait aussitôt ce que
+            // l'utilisateur venait de saisir : le montant revenait à l'ancien,
+            // avec un message de succès. Relevé à l'usage, invisible en test
+            // parce que la seule modification couverte envoyait des lignes.
+            //
+            // Sans lignes, `calculateAmounts` reprend son chemin normal et
+            // calcule depuis la saisie, en HT comme en TTC.
+            $expense->lines()->delete();
+            $expense->unsetRelation('lines');
+
+            $expense->update($donnees);
+
+            // Réécrit la ventilation puis recalcule les agrégats depuis les lignes.
+            $this->syncLines($expense, $donnees);
+        });
 
         // Handle attachment upload
         if ($request->hasFile('attachment')) {
@@ -258,10 +281,10 @@ class ExpenseController extends Controller
         $expense->save();
 
         // Génère/actualise les entrées de stock issues de cette dépense.
-        app(\App\Services\StockService::class)->syncFromExpense($expense);
+        app(StockService::class)->syncFromExpense($expense);
     }
 
-    private function filtered(Request $request): \Illuminate\Database\Eloquent\Builder
+    private function filtered(Request $request): Builder
     {
         return Expense::query()
             ->when($request->filled('category'), fn ($q) => $q->where('category', $request->input('category')))
@@ -273,6 +296,7 @@ class ExpenseController extends Controller
     private function getCategoriesForSelect(): array
     {
         $categories = Expense::getCategories();
+
         return collect($categories)->map(fn ($label, $value) => [
             'value' => $value,
             'label' => $label,
@@ -285,6 +309,7 @@ class ExpenseController extends Controller
     private function getPaymentMethodsForSelect(): array
     {
         $methods = Expense::getPaymentMethods();
+
         return collect($methods)->map(fn ($label, $value) => [
             'value' => $value,
             'label' => $label,
@@ -317,7 +342,7 @@ class ExpenseController extends Controller
      */
     private function getVatRates(): array
     {
-        $settings = \App\Models\BusinessSettings::getInstance();
+        $settings = BusinessSettings::getInstance();
 
         // Get country-specific VAT rates
         $countryRates = $settings?->getVatRates() ?? config('countries.LU.vat_rates', []);
@@ -382,14 +407,14 @@ class ExpenseController extends Controller
             'vatRatesByCountry' => $this->getVatRatesByCountry(),
             'vatRegimes' => $this->getVatRegimesForSelect(),
             'countries' => Expense::getSupplierCountries(),
-            'homeCountry' => \App\Models\BusinessSettings::getInstance()?->country_code ?? 'LU',
+            'homeCountry' => BusinessSettings::getInstance()?->country_code ?? 'LU',
             // Le taux d'autoliquidation est celui du pays de l'entreprise, pas
             // celui du fournisseur : c'est l'acheteur qui déclare.
             'homeStandardRate' => Expense::defaultReverseChargeRate(),
             'paymentMethods' => $this->getPaymentMethodsForSelect(),
             // Produits suivis en stock (FEAT-116) : une ligne d'achat peut les
             // faire entrer en stock. Liste vide si aucun produit n'est suivi.
-            'trackedProducts' => \App\Models\Product::where('track_stock', true)
+            'trackedProducts' => Product::where('track_stock', true)
                 ->orderBy('designation')
                 ->get(['id', 'designation'])
                 ->map(fn ($p) => ['value' => $p->id, 'label' => $p->designation])
