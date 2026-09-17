@@ -65,6 +65,23 @@ class RecurringExpenseTest extends TestCase
         $this->assertSame('1170.0000', $depense->amount_ttc);
     }
 
+    public function test_la_depense_generee_entre_dans_le_recapitulatif_fiscal(): void
+    {
+        // Le récapitulatif par catégorie interroge les lignes de ventilation,
+        // jointes aux dépenses. Sans ligne, le loyer généré n'apparaîtrait ni
+        // dans le récapitulatif ni dans les comptes attendus par la fiduciaire.
+        $this->charge(['category' => Expense::CATEGORY_OFFICE]);
+
+        $this->artisan('recurring-expenses:generate');
+
+        $depense = Expense::withoutGlobalScope('user')->sole();
+        $lignes = $depense->lines()->withoutGlobalScope('user')->get();
+
+        $this->assertCount(1, $lignes);
+        $this->assertSame(Expense::CATEGORY_OFFICE, $lignes->first()->category);
+        $this->assertSame('1000.0000', $lignes->first()->amount_ht);
+    }
+
     public function test_la_depense_porte_la_date_de_l_echeance_pas_celle_de_la_generation(): void
     {
         // Un serveur en retard ne doit pas déplacer le loyer dans le mois

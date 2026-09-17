@@ -51,6 +51,11 @@ class GenerateRecurringExpenses extends Command
 
                 $depense = Expense::create($charge->toExpenseAttributes());
 
+                // Sans sa ligne de ventilation, la dépense n'apparaîtrait pas
+                // dans le récapitulatif fiscal par catégorie, qui interroge les
+                // lignes : le loyer serait facturé nulle part.
+                $depense->ensureDerivedLine();
+
                 $charge->update(['last_expense_id' => $depense->id]);
                 $charge->advanceToNextDate();
 

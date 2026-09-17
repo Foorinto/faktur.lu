@@ -6,7 +6,7 @@ use App\Models\Expense;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Expense>
+ * @extends Factory<Expense>
  */
 class ExpenseFactory extends Factory
 {
@@ -58,23 +58,9 @@ class ExpenseFactory extends Factory
             // Sans propriétaire (tests de calcul pur, hors authentification), on
             // ne peut pas rattacher une ligne isolée : ces dépenses n'entrent ni
             // dans le récapitulatif fiscal ni dans les exports, la ligne serait
-            // inutile.
-            if (empty($expense->user_id)) {
-                return;
-            }
-
-            if ($expense->lines()->withoutGlobalScope('user')->exists()) {
-                return;
-            }
-
-            $expense->lines()->create([
-                'user_id' => $expense->user_id,
-                'category' => $expense->category,
-                'description' => $expense->description,
-                'amount_ht' => $expense->amount_ht,
-                'vat_rate' => $expense->vat_rate,
-                'sort_order' => 0,
-            ]);
+            // inutile. Le modèle porte la règle, ici comme à la génération des
+            // charges fixes.
+            $expense->ensureDerivedLine();
         });
     }
 
