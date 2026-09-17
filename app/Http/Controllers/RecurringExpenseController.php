@@ -42,6 +42,10 @@ class RecurringExpenseController extends Controller
                 'frequency' => $c->frequency,
                 'amount' => (float) $c->amount,
                 'amount_input_mode' => $c->amount_input_mode,
+                // Les deux montants, pour qu'aucun écran n'oblige à convertir
+                // de tête : le HT parle au comptable, le TTC au compte en banque.
+                'amount_ht' => $c->montants()['ht'],
+                'amount_ttc' => $c->montants()['ttc'],
                 'next_expense_date' => $c->next_expense_date?->toDateString(),
                 'ends_at' => $c->ends_at?->toDateString(),
                 'is_active' => $c->is_active,

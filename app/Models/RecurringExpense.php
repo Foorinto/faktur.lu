@@ -142,11 +142,29 @@ class RecurringExpense extends Model
      */
     public function montantTtc(): float
     {
+        return $this->montants()['ttc'];
+    }
+
+    /**
+     * Les trois montants de la dépense à naître : HT, TVA, TTC.
+     *
+     * Calculés par le modèle Expense lui-même, à partir d'une dépense non
+     * enregistrée : le régime de TVA, l'autoliquidation et l'exonération
+     * obéissent ainsi aux mêmes règles que partout ailleurs, sans les réécrire.
+     *
+     * @return array{ht: float, vat: float, ttc: float}
+     */
+    public function montants(): array
+    {
         $depense = new Expense($this->toExpenseAttributes());
         $depense->applyVatRegime();
         $depense->calculateAmounts();
 
-        return (float) $depense->amount_ttc;
+        return [
+            'ht' => (float) $depense->amount_ht,
+            'vat' => (float) $depense->amount_vat,
+            'ttc' => (float) $depense->amount_ttc,
+        ];
     }
 
     /**

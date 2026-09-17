@@ -28,6 +28,23 @@ const emit = defineEmits(['submit']);
 const isTtcMode = computed(() => props.form.amount_input_mode === 'ttc');
 
 /**
+ * L'autre montant, celui qu'on n'a pas saisi.
+ *
+ * Le HT parle au comptable, le TTC au compte en banque : afficher les deux
+ * évite de convertir de tête à chaque relecture de la charge.
+ */
+const montantConverti = computed(() => {
+    const montant = Number(props.form.amount);
+
+    if (!Number.isFinite(montant) || montant <= 0) return null;
+
+    const taux = Number(props.form.vat_rate) || 0;
+    const valeur = isTtcMode.value ? montant / (1 + taux / 100) : montant * (1 + taux / 100);
+
+    return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(valeur);
+});
+
+/**
  * Le jour du mois que l'utilisateur vient de choisir. Affiché tel quel parce
  * que c'est lui qui sera tenu tous les mois, y compris en février.
  */
@@ -191,6 +208,9 @@ const jourAncre = computed(() => {
                         min="0.01"
                         class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:w-64"
                     />
+                    <p v-if="montantConverti" class="mt-1 text-sm font-medium text-slate-600 dark:text-slate-300">
+                        {{ isTtcMode ? t('amount_ht') : t('amount_ttc') }} : {{ montantConverti }}
+                    </p>
                     <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('recurring_expenses.amount_hint') }}</p>
                     <InputError :message="form.errors.amount" class="mt-2" />
                 </div>
