@@ -36,7 +36,7 @@ const formatDate = (date) => {
          préserve en revanche le maillage vers les articles qu'elles desservent. -->
     <SeoHead
         robots="noindex, follow"
-        :title="`#${tag.name} - Blog | {{ marqueNom }}`"
+        :title="`#${tag.name} - Blog | ${marqueNom}`"
         :description="t('blog_tag_meta_description', { name: tag.name })"
         :canonical-path="`/blog/tag/${tag.slug}`"
     />

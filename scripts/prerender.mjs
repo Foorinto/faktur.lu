@@ -54,27 +54,62 @@ const LIMIT = limitArg !== -1 ? Number(args[limitArg + 1]) : null;
 const onlyArg = args.indexOf('--only');
 const ONLY = onlyArg !== -1 ? args[onlyArg + 1].split(',').map((s) => s.trim()) : null;
 
+// Filets de sécurité, après l'incident du 2026-09-17.
+//
+// Le blog avait disparu de la base LOCALE contre laquelle tourne le rendu.
+// `/sitemap-blog.xml` a donc répondu 200 avec zéro URL, le script a généré les
+// 210 pages restantes, et la purge a effacé les 255 snapshots d'articles avant
+// que le rsync ne les supprime en production. Les robots ont reçu des articles
+// vides. Rien dans la sortie ne disait « il en manque la moitié » : le résumé
+// annonçait fièrement « 210/210 pages générées ».
+//
+// Une liste d'URL incomplète ne doit jamais servir de référence pour supprimer.
+const ALLOW_EMPTY = args.includes('--allow-empty-sitemap');
+const FORCE_PRUNE = args.includes('--force-prune');
+
 // --- Collect the list of public URLs to prerender ------------------------
 async function collectUrls() {
-    if (ONLY) return ONLY.map((p) => `${BASE_URL}${p.startsWith('/') ? p : `/${p}`}`);
+    if (ONLY) {
+        return { urls: ONLY.map((p) => `${BASE_URL}${p.startsWith('/') ? p : `/${p}`}`), complet: false };
+    }
 
     const sitemaps = ['/sitemap-pages.xml', '/sitemap-blog.xml'];
     const urls = new Set();
+    let complet = true;
+
     for (const sm of sitemaps) {
-        const res = await fetch(`${BASE_URL}${sm}`);
+        let res;
+        try {
+            res = await fetch(`${BASE_URL}${sm}`);
+        } catch (e) {
+            console.warn(`⚠️  ${sm} → injoignable (${e.message})`);
+            complet = false;
+            continue;
+        }
         if (!res.ok) {
             console.warn(`⚠️  ${sm} → HTTP ${res.status}, ignoré`);
+            complet = false;
             continue;
         }
         const xml = await res.text();
+        const avant = urls.size;
         for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
             // Normalize the host to BASE_URL (sitemap may use the prod host).
             const path = new URL(m[1]).pathname;
             urls.add(`${BASE_URL}${path}`);
         }
+        // Un sitemap vide n'est jamais une nouvelle rassurante : soit la section
+        // a réellement disparu, soit — bien plus souvent — la base interrogée
+        // n'est pas celle qu'on croit.
+        if (urls.size === avant) {
+            console.warn(`⚠️  ${sm} n'a déclaré AUCUNE URL.`);
+            complet = false;
+        }
     }
+
     const list = [...urls];
-    return LIMIT ? list.slice(0, LIMIT) : list;
+
+    return { urls: LIMIT ? list.slice(0, LIMIT) : list, complet };
 }
 
 /**
@@ -187,8 +222,11 @@ async function pruneOrphans(urls) {
     }
 
     const attendus = new Set(urls.map((u) => fileForPath(new URL(u).pathname)));
-    const retires = [];
+    const candidats = [];
+    let total = 0;
 
+    // On recense d'abord, on supprime ensuite : sans ce temps d'arrêt, il n'y a
+    // aucun endroit où poser une limite.
     async function parcourir(dir) {
         let entrees;
         try {
@@ -203,25 +241,75 @@ async function pruneOrphans(urls) {
                 await parcourir(chemin);
                 continue;
             }
-            if (e.name === 'index.html' && !attendus.has(chemin)) {
-                await rm(dirname(chemin), { recursive: true, force: true });
-                retires.push(dirname(chemin).replace(OUT_DIR, ''));
+            if (e.name !== 'index.html') {
+                continue;
+            }
+            total++;
+            if (!attendus.has(chemin)) {
+                candidats.push(chemin);
             }
         }
     }
 
     await parcourir(OUT_DIR);
 
-    if (retires.length) {
-        console.log(`\n🧹 ${retires.length} snapshot(s) orphelin(s) supprimé(s) :`);
-        retires.forEach((r) => console.log(`   ${r}`));
+    if (candidats.length === 0) {
+        return 0;
     }
+
+    // Une purge légitime retire quelques pages renommées ou fusionnées. Effacer
+    // un quart du dossier d'un coup signale une liste d'URL fausse, pas un
+    // ménage. Dans le doute, on garde : un snapshot périmé se corrige au
+    // déploiement suivant, un snapshot effacé se paie en référencement.
+    const seuil = Math.max(10, Math.ceil(total * 0.25));
+
+    if (candidats.length > seuil && !FORCE_PRUNE) {
+        console.log(`\n⚠️  Purge REFUSÉE : ${candidats.length} snapshot(s) sur ${total} seraient supprimés (seuil ${seuil}).`);
+        console.log('   Une suppression de cette ampleur vient presque toujours d\'une liste d\'URL incomplète.');
+        console.log('   Vérifiez les sitemaps, puis relancez avec --force-prune si la suppression est voulue.');
+        candidats.slice(0, 10).forEach((c) => console.log(`   · ${dirname(c).replace(OUT_DIR, '')}`));
+        if (candidats.length > 10) {
+            console.log(`   · … et ${candidats.length - 10} autre(s)`);
+        }
+
+        return 0;
+    }
+
+    const retires = [];
+
+    for (const chemin of candidats) {
+        await rm(dirname(chemin), { recursive: true, force: true });
+        retires.push(dirname(chemin).replace(OUT_DIR, ''));
+    }
+
+    console.log(`\n🧹 ${retires.length} snapshot(s) orphelin(s) supprimé(s) :`);
+    retires.forEach((r) => console.log(`   ${r}`));
 
     return retires.length;
 }
 // Simple concurrency pool.
 async function run() {
-    const urls = await collectUrls();
+    const { urls, complet } = await collectUrls();
+
+    // On s'arrête AVANT de générer : sans liste fiable, tout ce qui suit est
+    // dangereux. Ne rien faire laisse les snapshots en place, et deploy.sh
+    // refuse alors le transfert. C'est le comportement qui aurait évité de
+    // supprimer 255 articles pour les robots le 2026-09-17.
+    if (!complet && !ONLY && !ALLOW_EMPTY) {
+        console.error(`
+✗ Liste d'URL incomplète : un sitemap a échoué ou n'a déclaré aucune URL.
+
+  Rien n'a été généré, rien n'a été supprimé — c'est volontaire.
+
+  Vérifiez d'abord que ${BASE_URL} sert bien les données attendues :
+  une base locale vidée rend un sitemap vide, et la purge effacerait
+  alors les snapshots correspondants en production.
+
+  Pour passer outre en connaissance de cause : --allow-empty-sitemap
+`);
+        process.exit(1);
+    }
+
     console.log(`Prerendering ${urls.length} URL(s) depuis ${BASE_URL} → ${OUT_DIR}\n`);
 
     // Generate against a LOCAL instance (BASE_URL). Generating against the live
