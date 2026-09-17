@@ -6,6 +6,7 @@ import { ref, computed, watch, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
 import ProfessionalAdviceNotice from '@/Components/ProfessionalAdviceNotice.vue';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 const { startTour } = useTour();
@@ -394,26 +395,20 @@ const getStatusBadge = (status) => {
                                     </div>
                                 </div>
 
-                                <div class="flex items-center gap-2 ml-4">
-                                    <button
+                                <div class="ml-4 flex items-center gap-1">
+                                    <RowAction
                                         v-if="exportItem.status === 'completed'"
+                                        icon="download"
+                                        tone="primary"
+                                        :label="t('download')"
                                         @click="downloadExport(exportItem)"
-                                        class="p-2 text-violet-600 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-2xl"
-                                        :title="t('download')"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                        </svg>
-                                    </button>
-                                    <button
+                                    />
+                                    <RowAction
+                                        icon="delete"
+                                        tone="danger"
+                                        :label="t('delete')"
                                         @click="deleteExport(exportItem)"
-                                        class="p-2 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-2xl"
-                                        :title="t('delete')"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
+                                    />
                                 </div>
                             </div>
                         </div>

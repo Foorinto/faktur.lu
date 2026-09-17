@@ -4,6 +4,7 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import PcnAccountPicker from '@/Components/PcnAccountPicker.vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -190,17 +191,12 @@ const destroy = (category) => {
                                  réglages e-mail. Jamais muettes pour autant :
                                  title pour la souris, sr-only pour les lecteurs
                                  d'écran et la navigation au clavier. -->
-                            <button
-                                type="button"
+                            <RowAction
+                                icon="edit"
+                                tone="primary"
+                                :label="t('edit')"
                                 @click="startEdit(category)"
-                                :title="t('edit')"
-                                class="rounded-lg p-2 text-slate-400 transition-colors hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-900/20 dark:hover:text-primary-400"
-                            >
-                                <span class="sr-only">{{ t('edit') }}</span>
-                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
-                                </svg>
-                            </button>
+                            />
 
                             <button
                                 type="button"

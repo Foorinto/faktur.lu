@@ -4,6 +4,7 @@ import ProductivityNav from '@/Components/ProductivityNav.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -765,26 +766,20 @@ const formatTime = (date) => {
                             </span>
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div v-if="!entry.is_billed" class="flex items-center justify-end gap-2">
-                                <button
+                            <div v-if="!entry.is_billed" class="flex items-center justify-end gap-1">
+                                <RowAction
                                     v-if="draftInvoices.some(inv => inv.client_id === entry.client_id)"
+                                    icon="add"
+                                    tone="primary"
+                                    :label="t('add_to_invoice')"
                                     @click="openAddToInvoiceModal(entry)"
-                                    class="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300"
-                                    :title="t('add_to_invoice')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                    </svg>
-                                </button>
-                                <button
+                                />
+                                <RowAction
+                                    icon="delete"
+                                    tone="danger"
+                                    :label="t('delete')"
                                     @click="deleteEntry(entry)"
-                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                    :title="t('delete')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
+                                />
                             </div>
                         </td>
                     </tr>
