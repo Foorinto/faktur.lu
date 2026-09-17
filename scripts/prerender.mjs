@@ -113,6 +113,54 @@ async function collectUrls() {
 }
 
 /**
+ * Compare la liste locale à ce que la PRODUCTION déclare déjà.
+ *
+ * Le rendu part d'une instance locale, donc d'une base qui n'est pas la source
+ * de vérité. Tant que les deux coïncident, tout va bien ; le jour où la base
+ * locale perd du contenu, le rsync --delete le retire du site pour les robots
+ * sans que rien ne le signale. C'est arrivé le 2026-09-17 : 255 articles
+ * effacés parce que le blog avait disparu en local.
+ *
+ * On ne compare que dans UN sens. Des URL en plus en local, c'est du contenu
+ * qu'on publie — normal. Des URL en MOINS qu'en production, c'est du contenu
+ * qu'on s'apprête à faire disparaître : là, on s'arrête.
+ *
+ * @returns {Promise<string[]>} les chemins présents en production et absents ici
+ */
+async function urlsPerduesFaceALaProd(urls) {
+    if (!PUBLIC_URL || PUBLIC_URL === BASE_URL) {
+        return [];
+    }
+
+    const ici = new Set(urls.map((u) => new URL(u).pathname));
+    const perdues = [];
+
+    for (const sm of ['/sitemap-pages.xml', '/sitemap-blog.xml']) {
+        let res;
+        try {
+            res = await fetch(`${PUBLIC_URL}${sm}`);
+        } catch {
+            // La production injoignable n'est pas une raison de tout supprimer,
+            // mais pas non plus de bloquer : on ne sait rien, on laisse passer
+            // les autres garde-fous faire leur travail.
+            return [];
+        }
+        if (!res.ok) {
+            return [];
+        }
+        const xml = await res.text();
+        for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+            const chemin = new URL(m[1]).pathname;
+            if (!ici.has(chemin)) {
+                perdues.push(chemin);
+            }
+        }
+    }
+
+    return perdues;
+}
+
+/**
  * Trim the snapshot to what crawlers actually need. Snapshots are served to bots
  * only (they never hydrate), so we drop:
  *  - the huge `data-page` JSON blob on the Inertia root (duplicates all translations),
@@ -308,6 +356,28 @@ async function run() {
   Pour passer outre en connaissance de cause : --allow-empty-sitemap
 `);
         process.exit(1);
+    }
+
+    // Deuxième filet : la production déclare-t-elle des pages que cette base
+    // ne connaît pas ? Si oui, le transfert les effacerait.
+    if (!ONLY && !LIMIT && !ALLOW_EMPTY) {
+        const perdues = await urlsPerduesFaceALaProd(urls);
+
+        if (perdues.length > 0) {
+            console.error(`
+✗ ${perdues.length} page(s) déclarée(s) par ${PUBLIC_URL} sont absentes d'ici.
+
+  Rien n'a été généré : les transférer reviendrait à les effacer pour les
+  robots, alors qu'elles existent toujours en ligne.
+
+  La cause est presque toujours une base locale en retard sur la production.
+
+${perdues.slice(0, 10).map((p) => `   · ${p}`).join('\n')}${perdues.length > 10 ? `\n   · … et ${perdues.length - 10} autre(s)` : ''}
+
+  Pour passer outre en connaissance de cause : --allow-empty-sitemap
+`);
+            process.exit(1);
+        }
     }
 
     console.log(`Prerendering ${urls.length} URL(s) depuis ${BASE_URL} → ${OUT_DIR}\n`);
