@@ -138,7 +138,7 @@ const shareOnFacebook = () => {
 
 <template>
     <SeoHead
-        :title="`${post.meta_title} | {{ marqueNom }}`"
+        :title="`${post.meta_title} | ${marqueNom}`"
         :description="post.meta_description"
         :canonical-path="`/blog/${post.slug}`"
         :image="post.cover_image_url"
