@@ -30,7 +30,7 @@ const formatDate = (date) => {
 
 <template>
     <SeoHead
-        :title="`${category.name} - Blog | ${marqueNom}`"
+        :title="`${category.name} - Blog`"
         :description="t('blog_category_meta_description', { name: category.name })"
         :canonical-path="`/blog/categorie/${category.slug}`"
     />
