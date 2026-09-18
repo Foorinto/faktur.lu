@@ -266,6 +266,76 @@
         </div>
         @endif
 
+        <!-- Encaissements par moyen de paiement -->
+        @if(count($parMoyenDePaiement['lignes'] ?? []) > 0)
+        <div class="vat-summary">
+            <div class="section-title">{{ __('app.pdf_payment_methods_title') }}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{ __('app.pdf_payment_method') }}</th>
+                        <th class="right">{{ __('app.pdf_payment_count') }}</th>
+                        <th class="right">{{ __('app.pdf_payment_share') }}</th>
+                        <th class="right">{{ __('app.pdf_total') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($parMoyenDePaiement['lignes'] as $ligne)
+                    <tr>
+                        <td>{{ $ligne['label'] }}</td>
+                        <td class="number">{{ $ligne['nombre'] }}</td>
+                        <td class="number">{{ number_format($ligne['part'], 1, ',', ' ') }} %</td>
+                        <td class="number">{{ number_format($ligne['total'], 2, ',', ' ') }} €</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>{{ __('app.pdf_total') }}</td>
+                        <td class="number"></td>
+                        <td class="number"></td>
+                        <td class="number">{{ number_format($parMoyenDePaiement['total'], 2, ',', ' ') }} €</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        @endif
+
+        {{-- Le détail des espèces, et d'elles seules : c'est la pièce jointe au
+             dépôt bancaire. La section n'apparaît que s'il y a des espèces, pour
+             ne pas alourdir le document de la majorité qui n'en manipule pas. --}}
+        @if($encaissementsEspeces->isNotEmpty())
+        <div class="vat-summary">
+            <div class="section-title">{{ __('app.pdf_cash_detail_title') }}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{ __('app.pdf_payment_date') }}</th>
+                        <th>{{ __('app.pdf_invoice_number_short') }}</th>
+                        <th>{{ __('app.pdf_client') }}</th>
+                        <th class="right">{{ __('app.pdf_total') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($encaissementsEspeces as $encaissement)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($encaissement->paid_at)->format('d/m/Y') }}</td>
+                        <td>{{ $encaissement->invoice?->number ?? '-' }}</td>
+                        <td>{{ $encaissement->invoice?->client?->name ?? '-' }}</td>
+                        <td class="number">{{ number_format((float) $encaissement->amount, 2, ',', ' ') }} €</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">{{ __('app.pdf_cash_total') }}</td>
+                        <td class="number">{{ number_format((float) $encaissementsEspeces->sum('amount'), 2, ',', ' ') }} €</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        @endif
+
         <!-- Invoices List -->
         <div class="section-title">{{ __('app.pdf_revenue_details') }}</div>
         <table>
