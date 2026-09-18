@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -63,18 +64,13 @@ const deleteMovement = (movement) => {
                         </td>
                         <td class="px-6 py-3 text-sm text-slate-500 dark:text-slate-400">{{ m.note || '—' }}</td>
                         <td class="px-6 py-3 text-right">
-                            <button
+                            <RowAction
                                 v-if="m.is_manual"
-                                type="button"
-                                :title="t('stock.delete_movement')"
-                                :aria-label="t('stock.delete_movement')"
-                                class="rounded-lg p-1.5 text-slate-400 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20"
+                                icon="delete"
+                                tone="danger"
+                                :label="t('stock.delete_movement')"
                                 @click="deleteMovement(m)"
-                            >
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
+                            />
                             <span v-else class="text-xs text-slate-300 dark:text-slate-600" :title="t('stock.locked_movement')">&#128274;</span>
                         </td>
                     </tr>

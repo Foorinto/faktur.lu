@@ -28,6 +28,14 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Charges fixes récurrentes, juste après les factures : même rythme,
+        // même heure creuse, et les dépenses du jour sont en place avant que
+        // la prévision de trésorerie ne soit consultée.
+        $schedule->command('recurring-expenses:generate')
+            ->dailyAt('06:05')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Send drip campaign emails daily at 9:30 AM
         $schedule->command('drip:send')
             ->dailyAt('09:30')

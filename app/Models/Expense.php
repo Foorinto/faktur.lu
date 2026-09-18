@@ -3,32 +3,47 @@
 namespace App\Models;
 
 use App\Helpers\DatabaseHelper;
+use App\Services\VatCalculationService;
 use App\Traits\Auditable;
 use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Expense extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes, InteractsWithMedia, BelongsToUser, Auditable;
+    use Auditable, BelongsToUser, HasFactory, InteractsWithMedia, SoftDeletes;
 
     public const CATEGORY_HARDWARE = 'hardware';
+
     public const CATEGORY_SOFTWARE = 'software';
+
     public const CATEGORY_HOSTING = 'hosting';
+
     public const CATEGORY_OFFICE = 'office';
+
     public const CATEGORY_TRAVEL = 'travel';
+
     public const CATEGORY_TRAINING = 'training';
+
     public const CATEGORY_PROFESSIONAL_SERVICES = 'professional_services';
+
     public const CATEGORY_TELECOMMUNICATIONS = 'telecommunications';
+
     public const CATEGORY_OTHER = 'other';
 
     public const PAYMENT_CASH = 'cash';
+
     public const PAYMENT_CARD = 'card';
+
     public const PAYMENT_TRANSFER = 'transfer';
+
     public const PAYMENT_CHECK = 'check';
 
     /**
@@ -38,6 +53,7 @@ class Expense extends Model implements HasMedia
      * obliger à saisir le HT revient à demander une division à la main.
      */
     public const INPUT_HT = 'ht';
+
     public const INPUT_TTC = 'ttc';
 
     /**
@@ -47,8 +63,11 @@ class Expense extends Model implements HasMedia
      * récupérable dans la déclaration luxembourgeoise.
      */
     public const REGIME_NATIONAL = 'national';
+
     public const REGIME_REVERSE_CHARGE = 'reverse_charge';
+
     public const REGIME_FOREIGN_VAT = 'foreign_vat';
+
     public const REGIME_EXEMPT = 'exempt';
 
     protected $fillable = [
@@ -68,6 +87,7 @@ class Expense extends Model implements HasMedia
         'is_deductible',
         'payment_method',
         'reference',
+        'recurring_expense_id',
     ];
 
     protected $casts = [
@@ -247,9 +267,46 @@ class Expense extends Model implements HasMedia
     }
 
     /**
+     * Donne à la dépense sa ligne de ventilation, si elle n'en a aucune.
+     *
+     * ⚠️ Le récapitulatif fiscal par catégorie interroge les LIGNES, jointes
+     * aux dépenses. Une dépense sans ligne n'y apparaît pas du tout — ni dans
+     * les comptes comptables que la fiduciaire attend. Toute dépense créée en
+     * dehors du formulaire (une charge fixe générée, par exemple) doit donc
+     * recevoir sa ligne, sans quoi elle serait comptée nulle part.
+     */
+    public function ensureDerivedLine(): void
+    {
+        if (empty($this->user_id) || $this->lines()->withoutGlobalScope('user')->exists()) {
+            return;
+        }
+
+        $this->lines()->create([
+            'user_id' => $this->user_id,
+            'category' => $this->category,
+            'description' => $this->description,
+            'amount_ht' => $this->amount_ht,
+            'vat_rate' => $this->vat_rate,
+            'sort_order' => 0,
+        ]);
+    }
+
+    /**
+     * Charge fixe qui a fait naître cette dépense (FEAT-117), s'il y en a une.
+     *
+     * C'est ce qui permet à la prévision de trésorerie de distinguer une
+     * dépense récurrente d'une dépense variable, et donc de ne jamais compter
+     * le loyer deux fois.
+     */
+    public function recurringExpense(): BelongsTo
+    {
+        return $this->belongsTo(RecurringExpense::class);
+    }
+
+    /**
      * Lignes de ventilation de la dépense (FEAT-115).
      */
-    public function lines(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function lines(): HasMany
     {
         return $this->hasMany(ExpenseLine::class)->orderBy('sort_order')->orderBy('id');
     }
@@ -263,9 +320,9 @@ class Expense extends Model implements HasMedia
      * (ou écrite par l'API sans ligne) se présente comme une ligne unique
      * reprenant ses propres montants — donc à l'identique.
      *
-     * @return \Illuminate\Support\Collection<int, ExpenseLine>
+     * @return Collection<int, ExpenseLine>
      */
-    public function effectiveLines(): \Illuminate\Support\Collection
+    public function effectiveLines(): Collection
     {
         if ($this->lines->isNotEmpty()) {
             return $this->lines;
@@ -372,7 +429,7 @@ class Expense extends Model implements HasMedia
      */
     public static function getSupplierCountries(): array
     {
-        $countries = \App\Services\VatCalculationService::getEuCountriesWithNames();
+        $countries = VatCalculationService::getEuCountriesWithNames();
 
         // Le service les rend triés par code ISO : « Allemagne » se retrouvait
         // sous DE, entre Tchéquie et Danemark. On cherche un pays par son nom,
@@ -515,9 +572,10 @@ class Expense extends Model implements HasMedia
      */
     public function getPaymentMethodLabelAttribute(): ?string
     {
-        if (!$this->payment_method) {
+        if (! $this->payment_method) {
             return null;
         }
+
         return self::getPaymentMethods()[$this->payment_method] ?? $this->payment_method;
     }
 
@@ -539,6 +597,7 @@ class Expense extends Model implements HasMedia
     public function getAttachmentFilenameAttribute(): ?string
     {
         $media = $this->getFirstMedia('attachments');
+
         return $media ? $media->file_name : null;
     }
 
@@ -663,7 +722,7 @@ class Expense extends Model implements HasMedia
 
         return $query->where(function (Builder $q) use ($search) {
             $q->where('provider_name', 'like', "%{$search}%")
-              ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         });
     }
 }

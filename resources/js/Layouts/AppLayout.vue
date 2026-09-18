@@ -51,7 +51,7 @@ const navigation = computed(() => {
         { name: t('products.nav'), href: 'products.index', icon: 'cube', routes: ['products'] },
         { name: t('stock.nav'), href: 'stock.index', icon: 'stock', routes: ['stock'] },
         { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
-        { name: t('expenses'), href: 'expenses.index', icon: 'credit-card' },
+        { name: t('expenses'), href: 'expenses.index', icon: 'credit-card', routes: ['expenses', 'recurring-expenses'] },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'], requiresFeature: 'time_tracking' },
         // « Comptabilité » ouvrait sur l'export FAIA — un fichier qu'on produit
         // une fois par an à la demande d'un contrôleur — présenté comme la

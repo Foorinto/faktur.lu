@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -262,15 +263,12 @@ const progressWidth = computed(() => {
                                         </div>
                                     </div>
 
-                                    <button
+                                    <RowAction
+                                        icon="archive"
+                                        tone="primary"
+                                        :label="t('archive_action')"
                                         @click="archiveInvoice(invoice)"
-                                        class="p-2 text-violet-600 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-2xl"
-                                        :title="t('archive_action')"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                        </svg>
-                                    </button>
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -311,25 +309,18 @@ const progressWidth = computed(() => {
                                     </div>
                                 </div>
 
-                                <div class="flex items-center gap-1 ml-4">
-                                    <a
+                                <div class="ml-4 flex items-center gap-1">
+                                    <RowAction
+                                        icon="download"
+                                        tone="primary"
+                                        :label="t('download')"
                                         :href="route('invoices.archive.download', invoice.id)"
-                                        class="p-2 text-violet-600 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-2xl"
-                                        :title="t('download')"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                        </svg>
-                                    </a>
-                                    <button
+                                    />
+                                    <RowAction
+                                        icon="finalize"
+                                        :label="t('verify_integrity')"
                                         @click="verifyIntegrity(invoice)"
-                                        class="p-2 text-slate-600 hover:bg-gray-50 dark:text-slate-400 dark:hover:bg-gray-800 rounded-2xl"
-                                        :title="t('verify_integrity')"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                        </svg>
-                                    </button>
+                                    />
                                 </div>
                             </div>
                         </div>

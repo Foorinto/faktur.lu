@@ -7,6 +7,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import debounce from 'lodash/debounce';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -201,46 +202,30 @@ const formatDate = (date) => {
                             {{ post.views_count }}
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex justify-end gap-2">
-                                <a
+                            <div class="flex items-center justify-end gap-1">
+                                <RowAction
                                     v-if="post.status === 'published'"
+                                    icon="view"
+                                    :label="t('admin_view')"
                                     :href="route('blog.show', post.slug)"
-                                    target="_blank"
-                                    class="text-slate-400 hover:text-white"
-                                    :title="t('admin_view')"
-                                >
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </a>
-                                <Link
+                                />
+                                <RowAction
+                                    icon="edit"
+                                    tone="primary"
+                                    :label="t('admin_edit')"
                                     :href="route('admin.blog.edit', post.slug)"
-                                    class="text-slate-400 hover:text-white"
-                                    :title="t('admin_edit')"
-                                >
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                </Link>
-                                <button
+                                />
+                                <RowAction
+                                    icon="duplicate"
+                                    :label="t('admin_duplicate')"
                                     @click="duplicatePost(post)"
-                                    class="text-slate-400 hover:text-white"
-                                    :title="t('admin_duplicate')"
-                                >
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                    </svg>
-                                </button>
-                                <button
+                                />
+                                <RowAction
+                                    icon="delete"
+                                    tone="danger"
+                                    :label="t('admin_delete')"
                                     @click="deletePost(post)"
-                                    class="text-red-400 hover:text-red-300"
-                                    :title="t('admin_delete')"
-                                >
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
+                                />
                             </div>
                         </td>
                     </tr>

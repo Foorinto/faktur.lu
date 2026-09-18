@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ProductivityNav from '@/Components/ProductivityNav.vue';
+import RowAction from '@/Components/RowAction.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch, computed, onMounted } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -405,57 +406,36 @@ const updateProjectStatus = (project, newStatus) => {
                             </select>
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div class="flex items-center justify-end gap-2">
-                                <Link
+                            <div class="flex items-center justify-end gap-1">
+                                <RowAction
+                                    icon="view"
+                                    :label="t('view_action')"
                                     :href="route('projects.show', project.id)"
-                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
-                                    :title="t('view_action')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                                        <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                                    </svg>
-                                </Link>
-                                <Link
+                                />
+                                <RowAction
+                                    icon="edit"
+                                    tone="primary"
+                                    :label="t('edit_action')"
                                     :href="route('projects.edit', project.id)"
-                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
-                                    :title="t('edit_action')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
-                                    </svg>
-                                </Link>
-                                <button
+                                />
+                                <RowAction
                                     v-if="!project.is_archived"
+                                    icon="archive"
+                                    :label="t('archive_action')"
                                     @click="archiveProject(project, 'archive')"
-                                    class="rounded-lg p-1.5 text-slate-400 hover:bg-gray-50 hover:text-slate-600 dark:hover:bg-gray-800 dark:hover:text-slate-300"
-                                    :title="t('archive_action')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M2 3a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1V4a1 1 0 00-1-1H2z" />
-                                        <path fill-rule="evenodd" d="M2 7.5h16l-.811 7.71a2 2 0 01-1.99 1.79H4.802a2 2 0 01-1.99-1.79L2 7.5zM7 11a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <button
+                                />
+                                <RowAction
                                     v-else
+                                    icon="unarchive"
+                                    :label="t('unarchive_action')"
                                     @click="archiveProject(project, 'unarchive')"
-                                    class="rounded-lg p-1.5 text-emerald-400 hover:bg-gray-50 hover:text-emerald-600 dark:hover:bg-gray-800"
-                                    :title="t('unarchive_action')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M4.606 12.97a.75.75 0 01-.134 1.051 2.494 2.494 0 00-.93 2.437 2.494 2.494 0 002.437-.93.75.75 0 111.186.918 3.995 3.995 0 01-4.482 1.332.75.75 0 01-.461-.461 3.994 3.994 0 011.332-4.482.75.75 0 011.052.134z" clip-rule="evenodd" />
-                                        <path fill-rule="evenodd" d="M5.752 12A13.07 13.07 0 008 14.248v4.002c0 .414.336.75.75.75a5 5 0 004.797-6.414 12.984 12.984 0 005.45-10.848.75.75 0 00-.735-.735 12.984 12.984 0 00-10.849 5.45A5 5 0 001 11.25c.001.414.337.75.751.75h4.002zM13 9a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <button
+                                />
+                                <RowAction
+                                    icon="delete"
+                                    tone="danger"
+                                    :label="t('delete_action')"
                                     @click="deleteProject(project)"
-                                    class="rounded-lg p-1.5 text-red-400 hover:bg-gray-50 hover:text-red-600 dark:hover:bg-gray-800"
-                                    :title="t('delete_action')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
+                                />
                             </div>
                         </td>
                     </tr>

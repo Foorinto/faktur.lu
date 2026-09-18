@@ -4,6 +4,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import debounce from 'lodash/debounce';
+import RowAction from '@/Components/RowAction.vue';
 
 const { t } = useTranslations();
 
@@ -239,27 +240,19 @@ const deleteTicket = (ticket) => {
                             {{ formatDate(ticket.created_at) }}
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <div class="flex items-center justify-end gap-2">
-                                <Link
+                            <div class="flex items-center justify-end gap-1">
+                                <RowAction
+                                    icon="view"
+                                    tone="primary"
+                                    :label="t('admin_support_view_ticket')"
                                     :href="route('admin.support.show', ticket.id)"
-                                    class="rounded-lg p-1.5 text-purple-400 hover:bg-slate-700 hover:text-purple-300"
-                                    :title="t('admin_support_view_ticket')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                                        <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                                    </svg>
-                                </Link>
-                                <button
-                                    type="button"
+                                />
+                                <RowAction
+                                    icon="delete"
+                                    tone="danger"
+                                    :label="t('admin_support_delete_ticket')"
                                     @click="deleteTicket(ticket)"
-                                    class="rounded-lg p-1.5 text-red-400 hover:bg-slate-700 hover:text-red-300"
-                                    :title="t('admin_support_delete_ticket')"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.519.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
+                                />
                             </div>
                         </td>
                     </tr>

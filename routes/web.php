@@ -1,51 +1,69 @@
 <?php
 
 use App\Http\Controllers\AccountantSettingsController;
-use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\AccountingExportController;
 use App\Http\Controllers\AccountingSettingsController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\AlternativeController;
-use App\Http\Controllers\FeaturePageController;
-use App\Http\Controllers\ToolsController;
-use App\Models\BlogPost;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\BankBalanceController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyLookupController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmailProviderController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FaiaValidatorController;
-use App\Http\Controllers\EmailProviderController;
-use App\Http\Controllers\LegalController;
+use App\Http\Controllers\FeaturePageController;
+use App\Http\Controllers\FiscalSummaryController;
+use App\Http\Controllers\HR;
+use App\Http\Controllers\Import\ClientImportController;
+use App\Http\Controllers\Import\ProductImportController;
+use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\LocaleController;
-use App\Http\Controllers\PricingController;
-use App\Http\Controllers\SitemapController;
-use App\Http\Controllers\PeppolExportController;
-use App\Http\Controllers\InvoiceEmailController;
 use App\Http\Controllers\InvoiceDiscountController;
+use App\Http\Controllers\InvoiceEmailController;
 use App\Http\Controllers\InvoiceItemController;
+use App\Http\Controllers\LegalController;
+use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PeppolExportController;
+use App\Http\Controllers\PricingController;
+use App\Http\Controllers\PrivateFileController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectMemberController;
+use App\Http\Controllers\PurchaseCategoryController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoteDiscountController;
 use App\Http\Controllers\QuoteItemController;
-use App\Http\Controllers\FiscalSummaryController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\RevenueBookController;
-use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\TimeEntryController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\SupportController;
-use App\Http\Controllers\InteractionController;
+use App\Http\Controllers\RecurringExpenseController;
+use App\Http\Controllers\RecurringInvoiceController;
 use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\RevenueBookController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SectorLeadController;
+use App\Http\Controllers\SectorPageController;
+use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\HR;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TimeEntryController;
+use App\Http\Controllers\ToolsController;
+use App\Http\Controllers\TranslationsController;
+use App\Models\BlogPost;
+use App\Models\User;
+use App\Support\HomepageStructuredData;
+use Database\Seeders\UpdateBlog2025To2026SlugsSeeder;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -72,8 +90,8 @@ Route::get('/switch-locale/{locale}', [LocaleController::class, 'switchLocale'])
     ->name('locale.switch');
 
 // Drip email unsubscribe (no auth required)
-Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, string $hash) {
-    $expected = hash('sha256', $user->email . config('app.key'));
+Route::get('/drip/unsubscribe/{user}/{hash}', function (User $user, string $hash) {
+    $expected = hash('sha256', $user->email.config('app.key'));
     if (! hash_equals($expected, $hash)) {
         abort(403);
     }
@@ -81,14 +99,15 @@ Route::get('/drip/unsubscribe/{user}/{hash}', function (\App\Models\User $user, 
     $view = ($user->locale ?? null) === 'pt'
         ? 'emails.pt.unsubscribed'
         : 'emails.unsubscribed';
+
     return view($view);
 })->name('drip.unsubscribe');
 
 // Newsletter routes (no auth required)
-Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])
     ->middleware(['honeypot', 'throttle:6,1'])
     ->name('newsletter.subscribe');
-Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterController::class, 'confirm'])
+Route::get('/newsletter/confirm/{token}', [NewsletterController::class, 'confirm'])
     ->name('newsletter.confirm');
 
 /*
@@ -103,7 +122,7 @@ Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterContr
 // Traductions du front, servies à part plutôt qu'injectées dans chaque page.
 // L'empreinte passe en query string : elle ne sert qu'à invalider le cache du
 // navigateur, le contenu ne dépendant que de la langue.
-Route::get('/lang/{locale}.json', [\App\Http\Controllers\TranslationsController::class, 'show'])
+Route::get('/lang/{locale}.json', [TranslationsController::class, 'show'])
     ->where('locale', 'fr|de|en|lb|pt')
     ->name('translations.show');
 
@@ -119,7 +138,7 @@ Route::get('/{cle}.txt', function (string $cle) {
 // Manifestations d'intérêt déposées sur les pages sectorielles. Mêmes
 // protections que les autres formulaires publics : pot de miel et limitation de
 // débit.
-Route::post('/secteur/interet', [\App\Http\Controllers\SectorLeadController::class, 'store'])
+Route::post('/secteur/interet', [SectorLeadController::class, 'store'])
     ->middleware(['honeypot', 'throttle:sector-lead'])
     ->name('sector-lead.store');
 
@@ -142,8 +161,8 @@ Route::get('/sitemap-blog.xml', [SitemapController::class, 'blog'])->name('sitem
 | DOIT être déclaré AVANT le groupe localisé (sinon blog.show capture en premier).
 |--------------------------------------------------------------------------
 */
-foreach (\Database\Seeders\UpdateBlog2025To2026SlugsSeeder::SLUG_MAP as $oldSlug => $newSlug) {
-    Route::get('/{locale}/blog/' . $oldSlug, fn (string $locale) => redirect()->route('blog.show', ['locale' => $locale, 'post' => $newSlug], 301))
+foreach (UpdateBlog2025To2026SlugsSeeder::SLUG_MAP as $oldSlug => $newSlug) {
+    Route::get('/{locale}/blog/'.$oldSlug, fn (string $locale) => redirect()->route('blog.show', ['locale' => $locale, 'post' => $newSlug], 301))
         ->where('locale', 'fr|de|en|lb|pt');
 }
 
@@ -167,28 +186,20 @@ Route::get('/fr/blog/article-61-liva-numerotation-sequentielle-factures-luxembou
 // dans les 4 autres langues (DE, EN, LB, PT)
 $articleLivaSlugRedirects = [
     'de' => [
-        'artikel-21-liva-reverse-charge-innergemeinschaftlich-b2b-freiberufler-luxemburg'
-            => 'artikel-17-liva-reverse-charge-innergemeinschaftlich-b2b-freiberufler-luxemburg',
-        'artikel-61-liva-sequenzielle-rechnungsnummerierung-luxemburg-pflicht'
-            => 'artikel-63-liva-sequenzielle-rechnungsnummerierung-luxemburg-pflicht',
+        'artikel-21-liva-reverse-charge-innergemeinschaftlich-b2b-freiberufler-luxemburg' => 'artikel-17-liva-reverse-charge-innergemeinschaftlich-b2b-freiberufler-luxemburg',
+        'artikel-61-liva-sequenzielle-rechnungsnummerierung-luxemburg-pflicht' => 'artikel-63-liva-sequenzielle-rechnungsnummerierung-luxemburg-pflicht',
     ],
     'en' => [
-        'article-21-liva-intra-eu-b2b-vat-reverse-charge-luxembourg-freelancers'
-            => 'article-17-liva-intra-eu-b2b-vat-reverse-charge-luxembourg-freelancers',
-        'article-61-liva-sequential-invoice-numbering-luxembourg-mandatory'
-            => 'article-63-liva-sequential-invoice-numbering-luxembourg-mandatory',
+        'article-21-liva-intra-eu-b2b-vat-reverse-charge-luxembourg-freelancers' => 'article-17-liva-intra-eu-b2b-vat-reverse-charge-luxembourg-freelancers',
+        'article-61-liva-sequential-invoice-numbering-luxembourg-mandatory' => 'article-63-liva-sequential-invoice-numbering-luxembourg-mandatory',
     ],
     'lb' => [
-        'artikel-21-liva-autoliquidatioun-b2b-intra-eu-freelancer-letzebuerg'
-            => 'artikel-17-liva-autoliquidatioun-b2b-intra-eu-freelancer-letzebuerg',
-        'artikel-61-liva-sequentiell-rechnungs-nummerung-letzebuerg-obligatoresch'
-            => 'artikel-63-liva-sequentiell-rechnungs-nummerung-letzebuerg-obligatoresch',
+        'artikel-21-liva-autoliquidatioun-b2b-intra-eu-freelancer-letzebuerg' => 'artikel-17-liva-autoliquidatioun-b2b-intra-eu-freelancer-letzebuerg',
+        'artikel-61-liva-sequentiell-rechnungs-nummerung-letzebuerg-obligatoresch' => 'artikel-63-liva-sequentiell-rechnungs-nummerung-letzebuerg-obligatoresch',
     ],
     'pt' => [
-        'artigo-21-liva-autoliquidacao-iva-b2b-intra-ue-freelancers-luxemburgo'
-            => 'artigo-17-liva-autoliquidacao-iva-b2b-intra-ue-freelancers-luxemburgo',
-        'artigo-61-liva-numeracao-sequencial-faturas-luxemburgo-obrigatoria'
-            => 'artigo-63-liva-numeracao-sequencial-faturas-luxemburgo-obrigatoria',
+        'artigo-21-liva-autoliquidacao-iva-b2b-intra-ue-freelancers-luxemburgo' => 'artigo-17-liva-autoliquidacao-iva-b2b-intra-ue-freelancers-luxemburgo',
+        'artigo-61-liva-numeracao-sequencial-faturas-luxemburgo-obrigatoria' => 'artigo-63-liva-numeracao-sequencial-faturas-luxemburgo-obrigatoria',
     ],
 ];
 foreach ($articleLivaSlugRedirects as $loc => $map) {
@@ -209,24 +220,19 @@ $mergedDuplicateRedirects = [
     // FAIA : retenu = ...-fichier-audit-informatise-guide (24 liens internes,
     // top 10 Matomo) contre 5 liens pour le doublon.
     'fr' => [
-        'faia-luxembourg-guide-fichier-audit-informatise-2026'
-            => 'faia-luxembourg-fichier-audit-informatise-guide',
+        'faia-luxembourg-guide-fichier-audit-informatise-2026' => 'faia-luxembourg-fichier-audit-informatise-guide',
     ],
     'de' => [
-        'faia-luxemburg-vollstaendiger-leitfaden-pruefdatei-2026'
-            => 'faia-luxemburg-informatisierte-audit-datei-leitfaden',
+        'faia-luxemburg-vollstaendiger-leitfaden-pruefdatei-2026' => 'faia-luxemburg-informatisierte-audit-datei-leitfaden',
     ],
     'en' => [
-        'faia-luxembourg-standard-audit-file-complete-guide-2026'
-            => 'faia-luxembourg-computerized-audit-file-guide',
+        'faia-luxembourg-standard-audit-file-complete-guide-2026' => 'faia-luxembourg-computerized-audit-file-guide',
     ],
     'lb' => [
-        'faia-letzebuerg-komplette-guide-auditdatei-2026'
-            => 'faia-letzebuerg-informatiseierte-audit-fichier-guide',
+        'faia-letzebuerg-komplette-guide-auditdatei-2026' => 'faia-letzebuerg-informatiseierte-audit-fichier-guide',
     ],
     'pt' => [
-        'faia-luxemburgo-guia-completo-ficheiro-auditoria-2026'
-            => 'faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado',
+        'faia-luxemburgo-guia-completo-ficheiro-auditoria-2026' => 'faia-luxemburgo-tudo-sobre-o-ficheiro-de-auditoria-informatizado',
     ],
 ];
 // Contrôle fiscal : retenu = ...comment-preparer (le plus ancien, titre
@@ -294,7 +300,7 @@ Route::prefix('{locale}')
                 'latestPosts' => $latestPosts,
                 'currentLocale' => $locale,
                 // JSON-LD rendered server-side in app.blade.php (Googlebot sees it without JS).
-                'structuredData' => \App\Support\HomepageStructuredData::build(config('app.url'), $locale),
+                'structuredData' => HomepageStructuredData::build(config('app.url'), $locale),
             ]);
         })->name('home');
 
@@ -329,8 +335,8 @@ Route::prefix('{locale}')
         // Un chemin par langue, métier compris — voir SectorPageController,
         // qui tient les motifs et les slugs. La boucle évite que la route et
         // le sitemap divergent, comme cela s'est déjà produit.
-        foreach (\App\Http\Controllers\SectorPageController::URL_PATTERNS as $langueSecteur => $motifSecteur) {
-            Route::get('/'.$motifSecteur, [\App\Http\Controllers\SectorPageController::class, 'show'])
+        foreach (SectorPageController::URL_PATTERNS as $langueSecteur => $motifSecteur) {
+            Route::get('/'.$motifSecteur, [SectorPageController::class, 'show'])
                 ->where('locale', $langueSecteur)
                 ->name('sectors.show.'.$langueSecteur);
         }
@@ -544,30 +550,30 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 | vérifiée dans le contrôleur, pour chaque type de fichier.
 */
 Route::middleware(['auth', 'verified'])->prefix('fichiers')->name('files.')->group(function () {
-    Route::get('/document-rh/{document}', [\App\Http\Controllers\PrivateFileController::class, 'employeeDocument'])
+    Route::get('/document-rh/{document}', [PrivateFileController::class, 'employeeDocument'])
         ->whereNumber('document')->name('employee-document');
-    Route::get('/justificatif/{receipt}', [\App\Http\Controllers\PrivateFileController::class, 'expenseReceipt'])
+    Route::get('/justificatif/{receipt}', [PrivateFileController::class, 'expenseReceipt'])
         ->whereNumber('receipt')->name('expense-receipt');
-    Route::get('/photo-salarie/{employee}', [\App\Http\Controllers\PrivateFileController::class, 'employeePhoto'])
+    Route::get('/photo-salarie/{employee}', [PrivateFileController::class, 'employeePhoto'])
         ->whereNumber('employee')->name('employee-photo');
-    Route::get('/piece-jointe-support/{attachment}', [\App\Http\Controllers\PrivateFileController::class, 'supportAttachment'])
+    Route::get('/piece-jointe-support/{attachment}', [PrivateFileController::class, 'supportAttachment'])
         ->whereNumber('attachment')->name('support-attachment');
-    Route::get('/justificatif-depense/{expense}', [\App\Http\Controllers\PrivateFileController::class, 'expenseAttachment'])
+    Route::get('/justificatif-depense/{expense}', [PrivateFileController::class, 'expenseAttachment'])
         ->whereNumber('expense')->name('expense-attachment');
 });
 
 Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
     // Onboarding wizard
-    Route::get('/onboarding', [\App\Http\Controllers\OnboardingController::class, 'show'])->name('onboarding.show');
-    Route::post('/onboarding/sector', [\App\Http\Controllers\OnboardingController::class, 'saveSector'])->name('onboarding.sector');
-    Route::post('/onboarding/company', [\App\Http\Controllers\OnboardingController::class, 'saveCompany'])->name('onboarding.company');
-    Route::post('/onboarding/numbering', [\App\Http\Controllers\OnboardingController::class, 'saveNumbering'])->name('onboarding.numbering');
-    Route::post('/onboarding/branding', [\App\Http\Controllers\OnboardingController::class, 'saveBranding'])->name('onboarding.branding');
-    Route::post('/onboarding/client', [\App\Http\Controllers\OnboardingController::class, 'saveClient'])->name('onboarding.client');
-    Route::post('/onboarding/invoice', [\App\Http\Controllers\OnboardingController::class, 'saveInvoice'])->name('onboarding.invoice');
-    Route::post('/onboarding/skip', [\App\Http\Controllers\OnboardingController::class, 'skip'])->name('onboarding.skip');
-    Route::post('/onboarding/complete', [\App\Http\Controllers\OnboardingController::class, 'complete'])->name('onboarding.complete');
-    Route::post('/onboarding/dismiss-checklist', [\App\Http\Controllers\OnboardingController::class, 'dismissChecklist'])->name('onboarding.dismiss-checklist');
+    Route::get('/onboarding', [OnboardingController::class, 'show'])->name('onboarding.show');
+    Route::post('/onboarding/sector', [OnboardingController::class, 'saveSector'])->name('onboarding.sector');
+    Route::post('/onboarding/company', [OnboardingController::class, 'saveCompany'])->name('onboarding.company');
+    Route::post('/onboarding/numbering', [OnboardingController::class, 'saveNumbering'])->name('onboarding.numbering');
+    Route::post('/onboarding/branding', [OnboardingController::class, 'saveBranding'])->name('onboarding.branding');
+    Route::post('/onboarding/client', [OnboardingController::class, 'saveClient'])->name('onboarding.client');
+    Route::post('/onboarding/invoice', [OnboardingController::class, 'saveInvoice'])->name('onboarding.invoice');
+    Route::post('/onboarding/skip', [OnboardingController::class, 'skip'])->name('onboarding.skip');
+    Route::post('/onboarding/complete', [OnboardingController::class, 'complete'])->name('onboarding.complete');
+    Route::post('/onboarding/dismiss-checklist', [OnboardingController::class, 'dismissChecklist'])->name('onboarding.dismiss-checklist');
 
     // Profile routes (no special rate limit)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -578,17 +584,17 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     // CRUD operations - 120 requests/minute
     Route::middleware('throttle:crud')->group(function () {
         // Client import wizard (must be before resource routes to avoid conflicts)
-        Route::get('/clients/import', [\App\Http\Controllers\Import\ClientImportController::class, 'index'])
+        Route::get('/clients/import', [ClientImportController::class, 'index'])
             ->name('clients.import.index');
-        Route::post('/clients/import/upload', [\App\Http\Controllers\Import\ClientImportController::class, 'upload'])
+        Route::post('/clients/import/upload', [ClientImportController::class, 'upload'])
             ->name('clients.import.upload');
-        Route::post('/clients/import/{importSession}/mapping', [\App\Http\Controllers\Import\ClientImportController::class, 'saveMapping'])
+        Route::post('/clients/import/{importSession}/mapping', [ClientImportController::class, 'saveMapping'])
             ->name('clients.import.mapping');
-        Route::post('/clients/import/{importSession}/process', [\App\Http\Controllers\Import\ClientImportController::class, 'process'])
+        Route::post('/clients/import/{importSession}/process', [ClientImportController::class, 'process'])
             ->name('clients.import.process');
-        Route::get('/clients/import/{importSession}/status', [\App\Http\Controllers\Import\ClientImportController::class, 'status'])
+        Route::get('/clients/import/{importSession}/status', [ClientImportController::class, 'status'])
             ->name('clients.import.status');
-        Route::delete('/clients/import/{importSession}', [\App\Http\Controllers\Import\ClientImportController::class, 'destroy'])
+        Route::delete('/clients/import/{importSession}', [ClientImportController::class, 'destroy'])
             ->name('clients.import.destroy');
 
         // Clients
@@ -604,47 +610,47 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->name('clients.convert');
 
         // Catalogue d'articles / produits réutilisables (FEAT-095)
-        Route::get('/products/search', [\App\Http\Controllers\ProductController::class, 'search'])
+        Route::get('/products/search', [ProductController::class, 'search'])
             ->name('products.search');
 
         // Gestion de stock (FEAT-116)
-        Route::get('/stock', [\App\Http\Controllers\StockController::class, 'index'])
+        Route::get('/stock', [StockController::class, 'index'])
             ->name('stock.index');
-        Route::get('/stock/{product}/movements', [\App\Http\Controllers\StockController::class, 'movements'])
+        Route::get('/stock/{product}/movements', [StockController::class, 'movements'])
             ->name('stock.movements');
-        Route::post('/stock/{product}/entry', [\App\Http\Controllers\StockController::class, 'storeEntry'])
+        Route::post('/stock/{product}/entry', [StockController::class, 'storeEntry'])
             ->name('stock.entry');
-        Route::post('/stock/{product}/inventory', [\App\Http\Controllers\StockController::class, 'storeInventory'])
+        Route::post('/stock/{product}/inventory', [StockController::class, 'storeInventory'])
             ->name('stock.inventory');
-        Route::delete('/stock/{product}/movements/{movement}', [\App\Http\Controllers\StockController::class, 'destroyMovement'])
+        Route::delete('/stock/{product}/movements/{movement}', [StockController::class, 'destroyMovement'])
             ->name('stock.movements.destroy');
 
         // Actions groupées — déclarées AVANT la resource : « /products/bulk-… »
         // serait sinon capturé comme un identifiant d'article.
-        Route::post('/products/bulk-update', [\App\Http\Controllers\ProductController::class, 'bulkUpdate'])
+        Route::post('/products/bulk-update', [ProductController::class, 'bulkUpdate'])
             ->name('products.bulk-update');
-        Route::post('/products/bulk-delete', [\App\Http\Controllers\ProductController::class, 'bulkDelete'])
+        Route::post('/products/bulk-delete', [ProductController::class, 'bulkDelete'])
             ->name('products.bulk-delete');
 
         // Assistant d'import du catalogue — déclaré AVANT la resource, comme
         // pour les clients : sinon /products/import serait capturé comme un
         // identifiant d'article.
-        Route::get('/products/import', [\App\Http\Controllers\Import\ProductImportController::class, 'index'])
+        Route::get('/products/import', [ProductImportController::class, 'index'])
             ->name('products.import.index');
-        Route::get('/products/import/template', [\App\Http\Controllers\Import\ProductImportController::class, 'template'])
+        Route::get('/products/import/template', [ProductImportController::class, 'template'])
             ->name('products.import.template');
-        Route::post('/products/import/upload', [\App\Http\Controllers\Import\ProductImportController::class, 'upload'])
+        Route::post('/products/import/upload', [ProductImportController::class, 'upload'])
             ->name('products.import.upload');
-        Route::post('/products/import/{importSession}/mapping', [\App\Http\Controllers\Import\ProductImportController::class, 'saveMapping'])
+        Route::post('/products/import/{importSession}/mapping', [ProductImportController::class, 'saveMapping'])
             ->name('products.import.mapping');
-        Route::post('/products/import/{importSession}/process', [\App\Http\Controllers\Import\ProductImportController::class, 'process'])
+        Route::post('/products/import/{importSession}/process', [ProductImportController::class, 'process'])
             ->name('products.import.process');
-        Route::get('/products/import/{importSession}/status', [\App\Http\Controllers\Import\ProductImportController::class, 'status'])
+        Route::get('/products/import/{importSession}/status', [ProductImportController::class, 'status'])
             ->name('products.import.status');
-        Route::delete('/products/import/{importSession}', [\App\Http\Controllers\Import\ProductImportController::class, 'destroy'])
+        Route::delete('/products/import/{importSession}', [ProductImportController::class, 'destroy'])
             ->name('products.import.destroy');
-        Route::resource('products', \App\Http\Controllers\ProductController::class)->except(['store', 'show']);
-        Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store'])
+        Route::resource('products', ProductController::class)->except(['store', 'show']);
+        Route::post('/products', [ProductController::class, 'store'])
             ->middleware('plan.limit:products')
             ->name('products.store');
 
@@ -790,14 +796,14 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         // doit pouvoir reprendre la main sur ses récurrences existantes. Le
         // couper de sa propre configuration reviendrait à laisser tourner une
         // automatisation qu'il ne peut plus arrêter.
-        Route::resource('recurring-invoices', \App\Http\Controllers\RecurringInvoiceController::class)
+        Route::resource('recurring-invoices', RecurringInvoiceController::class)
             ->except(['show', 'create', 'store']);
         Route::middleware('plan.feature:recurring_invoices')->group(function () {
-            Route::get('/recurring-invoices/create', [\App\Http\Controllers\RecurringInvoiceController::class, 'create'])->name('recurring-invoices.create');
-            Route::post('/recurring-invoices', [\App\Http\Controllers\RecurringInvoiceController::class, 'store'])->name('recurring-invoices.store');
-            Route::post('/recurring-invoices/{recurring_invoice}/duplicate', [\App\Http\Controllers\RecurringInvoiceController::class, 'duplicate'])->name('recurring-invoices.duplicate');
+            Route::get('/recurring-invoices/create', [RecurringInvoiceController::class, 'create'])->name('recurring-invoices.create');
+            Route::post('/recurring-invoices', [RecurringInvoiceController::class, 'store'])->name('recurring-invoices.store');
+            Route::post('/recurring-invoices/{recurring_invoice}/duplicate', [RecurringInvoiceController::class, 'duplicate'])->name('recurring-invoices.duplicate');
         });
-        Route::post('/recurring-invoices/{recurring_invoice}/toggle', [\App\Http\Controllers\RecurringInvoiceController::class, 'toggleActive'])->name('recurring-invoices.toggle');
+        Route::post('/recurring-invoices/{recurring_invoice}/toggle', [RecurringInvoiceController::class, 'toggleActive'])->name('recurring-invoices.toggle');
 
         // Invoice Items
         Route::post('/invoices/{invoice}/items', [InvoiceItemController::class, 'store'])->name('invoices.items.store');
@@ -843,6 +849,15 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->name('expenses.store');
         Route::get('/expenses-summary', [ExpenseController::class, 'summary'])->name('expenses.summary');
 
+        // Charges fixes récurrentes (FEAT-117). Aucun quota ici : la charge ne
+        // crée rien par elle-même, c'est la dépense générée qui est comptée,
+        // et la génération consulte déjà le plan.
+        Route::resource('recurring-expenses', RecurringExpenseController::class)
+            ->except(['show'])
+            ->parameters(['recurring-expenses' => 'recurringExpense']);
+        Route::post('/recurring-expenses/{recurringExpense}/toggle', [RecurringExpenseController::class, 'toggle'])
+            ->name('recurring-expenses.toggle');
+
         // Time Tracking
         // Time entries — Essentiel ou Pro
         Route::middleware('plan.feature:time_tracking')->group(function () {
@@ -868,11 +883,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             Route::post('/projects/{project}/archive', [ProjectController::class, 'archive'])->name('projects.archive');
 
             // Project members (FEAT-081)
-            Route::get('/projects/{project}/members', [\App\Http\Controllers\ProjectMemberController::class, 'index'])->name('projects.members.index');
-            Route::patch('/projects/{project}/members/employees/{employee}/toggle', [\App\Http\Controllers\ProjectMemberController::class, 'toggleEmployee'])->name('projects.members.employees.toggle');
-            Route::post('/projects/{project}/members/collaborators', [\App\Http\Controllers\ProjectMemberController::class, 'inviteCollaborator'])->middleware('throttle:6,1')->name('projects.members.collaborators.invite');
-            Route::delete('/projects/{project}/members/collaborators/{memberId}', [\App\Http\Controllers\ProjectMemberController::class, 'removeCollaborator'])->name('projects.members.collaborators.remove');
-            Route::get('/projects/{project}/members/quota', [\App\Http\Controllers\ProjectMemberController::class, 'quota'])->name('projects.members.quota');
+            Route::get('/projects/{project}/members', [ProjectMemberController::class, 'index'])->name('projects.members.index');
+            Route::patch('/projects/{project}/members/employees/{employee}/toggle', [ProjectMemberController::class, 'toggleEmployee'])->name('projects.members.employees.toggle');
+            Route::post('/projects/{project}/members/collaborators', [ProjectMemberController::class, 'inviteCollaborator'])->middleware('throttle:6,1')->name('projects.members.collaborators.invite');
+            Route::delete('/projects/{project}/members/collaborators/{memberId}', [ProjectMemberController::class, 'removeCollaborator'])->name('projects.members.collaborators.remove');
+            Route::get('/projects/{project}/members/quota', [ProjectMemberController::class, 'quota'])->name('projects.members.quota');
 
             // Tasks
             Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])->name('tasks.store');
@@ -939,15 +954,15 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
     // Email settings (no special rate limit)
     // Catégories de dépenses définies par l'utilisateur (FEAT-106)
-    Route::get('/settings/purchase-categories', [\App\Http\Controllers\PurchaseCategoryController::class, 'index'])
+    Route::get('/settings/purchase-categories', [PurchaseCategoryController::class, 'index'])
         ->name('settings.purchase-categories');
-    Route::get('/settings/pcn-accounts', [\App\Http\Controllers\PurchaseCategoryController::class, 'accounts'])
+    Route::get('/settings/pcn-accounts', [PurchaseCategoryController::class, 'accounts'])
         ->name('settings.pcn-accounts');
-    Route::post('/settings/purchase-categories', [\App\Http\Controllers\PurchaseCategoryController::class, 'store'])
+    Route::post('/settings/purchase-categories', [PurchaseCategoryController::class, 'store'])
         ->name('settings.purchase-categories.store');
-    Route::put('/settings/purchase-categories/{purchaseCategory}', [\App\Http\Controllers\PurchaseCategoryController::class, 'update'])
+    Route::put('/settings/purchase-categories/{purchaseCategory}', [PurchaseCategoryController::class, 'update'])
         ->name('settings.purchase-categories.update');
-    Route::delete('/settings/purchase-categories/{purchaseCategory}', [\App\Http\Controllers\PurchaseCategoryController::class, 'destroy'])
+    Route::delete('/settings/purchase-categories/{purchaseCategory}', [PurchaseCategoryController::class, 'destroy'])
         ->name('settings.purchase-categories.destroy');
 
     Route::get('/settings/email', [InvoiceEmailController::class, 'settings'])->name('settings.email');
@@ -1097,8 +1112,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
         // Le relevé de solde bancaire, saisi à la main, qui sert de point de
         // départ à la prévision de trésorerie.
-        Route::post('/solde-bancaire', [\App\Http\Controllers\BankBalanceController::class, 'store'])->name('bank-balance.store');
-        Route::delete('/solde-bancaire/{bankBalance}', [\App\Http\Controllers\BankBalanceController::class, 'destroy'])->name('bank-balance.destroy');
+        Route::post('/solde-bancaire', [BankBalanceController::class, 'store'])->name('bank-balance.store');
+        Route::delete('/solde-bancaire/{bankBalance}', [BankBalanceController::class, 'destroy'])->name('bank-balance.destroy');
     });
 });
 

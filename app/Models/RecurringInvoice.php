@@ -3,25 +3,14 @@
 namespace App\Models;
 
 use App\Traits\BelongsToUser;
+use App\Traits\HasRecurrenceSchedule;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RecurringInvoice extends Model
 {
-    use BelongsToUser;
-
-    const FREQUENCY_WEEKLY = 'weekly';
-    const FREQUENCY_MONTHLY = 'monthly';
-    const FREQUENCY_QUARTERLY = 'quarterly';
-    const FREQUENCY_YEARLY = 'yearly';
-
-    const FREQUENCIES = [
-        self::FREQUENCY_WEEKLY,
-        self::FREQUENCY_MONTHLY,
-        self::FREQUENCY_QUARTERLY,
-        self::FREQUENCY_YEARLY,
-    ];
+    use BelongsToUser, HasRecurrenceSchedule;
 
     protected $fillable = [
         'user_id',
@@ -29,6 +18,7 @@ class RecurringInvoice extends Model
         'title',
         'frequency',
         'next_invoice_date',
+        'anchor_day',
         'ends_at',
         'is_active',
         'auto_finalize',
@@ -46,6 +36,7 @@ class RecurringInvoice extends Model
     protected $casts = [
         'next_invoice_date' => 'date:Y-m-d',
         'ends_at' => 'date:Y-m-d',
+        'anchor_day' => 'integer',
         'is_active' => 'boolean',
         'auto_finalize' => 'boolean',
         'auto_send' => 'boolean',
@@ -76,53 +67,18 @@ class RecurringInvoice extends Model
         return $this->belongsTo(Invoice::class, 'last_invoice_id');
     }
 
-    public function isDue(): bool
+    public static function nextDateColumn(): string
     {
-        return $this->is_active
-            && $this->next_invoice_date->lte(now()->startOfDay())
-            && ($this->ends_at === null || $this->ends_at->gte(now()->startOfDay()));
+        return 'next_invoice_date';
     }
 
-    public function calculateNextDate(): \Carbon\Carbon
+    public static function generatedCountColumn(): string
     {
-        return match ($this->frequency) {
-            self::FREQUENCY_WEEKLY => $this->next_invoice_date->copy()->addWeek(),
-            self::FREQUENCY_MONTHLY => $this->next_invoice_date->copy()->addMonth(),
-            self::FREQUENCY_QUARTERLY => $this->next_invoice_date->copy()->addMonths(3),
-            self::FREQUENCY_YEARLY => $this->next_invoice_date->copy()->addYear(),
-        };
-    }
-
-    public function advanceToNextDate(): void
-    {
-        $this->update([
-            'next_invoice_date' => $this->calculateNextDate(),
-            'invoices_generated' => $this->invoices_generated + 1,
-        ]);
-
-        // Deactivate if past end date
-        if ($this->ends_at && $this->next_invoice_date->gt($this->ends_at)) {
-            $this->update(['is_active' => false]);
-        }
+        return 'invoices_generated';
     }
 
     public function totalHt(): float
     {
         return $this->items->sum(fn ($item) => $item->quantity * $item->unit_price);
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
-
-    public function scopeDue($query)
-    {
-        return $query->active()
-            ->where('next_invoice_date', '<=', now()->startOfDay())
-            ->where(function ($q) {
-                $q->whereNull('ends_at')
-                    ->orWhere('ends_at', '>=', now()->startOfDay());
-            });
     }
 }

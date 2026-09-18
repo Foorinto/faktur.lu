@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\BankBalance;
 use App\Models\Expense;
 use App\Models\Invoice;
+use App\Models\RecurringExpense;
 use Carbon\Carbon;
 
 /**
@@ -51,10 +52,15 @@ class CashflowForecastService
 
         $attendu = $this->getUnpaidInvoicesByDay($days);
         $incomeByDay = $attendu['byDay'];
+
+        // Les charges fixes tombent à leur date ; la moyenne, elle, ne porte
+        // plus que ce qui reste vraiment variable. Chaque euro n'est ainsi
+        // compté qu'une fois.
+        $chargesFixes = $this->chargesFixesParJour($days);
         $monthlyExpense = $this->getAverageMonthlyExpense();
         $dailyExpense = (float) bcdiv((string) $monthlyExpense, '30', 4);
 
-        $timeline = $this->buildDailyTimeline($days, $incomeByDay, $dailyExpense, $depart['solde']);
+        $timeline = $this->buildDailyTimeline($days, $incomeByDay, $dailyExpense, $chargesFixes['byDay'], $depart['solde']);
         $summary = $this->getSummaryAtMilestones($timeline);
 
         $totalIncome = 0;
@@ -64,7 +70,11 @@ class CashflowForecastService
 
         // `$days` et non `$days + 1` : le jour 0 ne porte plus de dépense
         // projetée, ses dépenses sont déjà dans les mouvements réels.
-        $totalExpense = (float) bcmul((string) $dailyExpense, (string) $days, 4);
+        $totalExpense = (float) bcadd(
+            bcmul((string) $dailyExpense, (string) $days, 4),
+            (string) $chargesFixes['total'],
+            4
+        );
 
         return [
             'has_data' => true,
@@ -96,6 +106,11 @@ class CashflowForecastService
                 'total_expected_income' => round($totalIncome, 2),
                 'total_expected_expense' => round($totalExpense, 2),
                 'monthly_expense_average' => round($monthlyExpense, 2),
+                // Ce que les charges déclarées pèsent sur la période, et au
+                // mois. L'écran peut ainsi dire d'où vient la dépense projetée
+                // au lieu de laisser croire à une moyenne qui aurait gonflé.
+                'total_expected_recurring' => round($chargesFixes['total'], 2),
+                'monthly_recurring' => round($chargesFixes['monthly'], 2),
             ],
             'period_days' => $days,
         ];
@@ -112,7 +127,13 @@ class CashflowForecastService
             'overdue_total' => 0,
             'timeline' => [],
             'summary' => ['current' => 0, 'days_30' => null, 'days_60' => null, 'days_90' => null],
-            'totals' => ['total_expected_income' => 0, 'total_expected_expense' => 0, 'monthly_expense_average' => 0],
+            'totals' => [
+                'total_expected_income' => 0,
+                'total_expected_expense' => 0,
+                'monthly_expense_average' => 0,
+                'total_expected_recurring' => 0,
+                'monthly_recurring' => 0,
+            ],
             'period_days' => $days,
         ];
     }
@@ -246,7 +267,78 @@ class CashflowForecastService
     }
 
     /**
-     * Dépense mensuelle moyenne (TTC) sur les six derniers mois.
+     * Les charges fixes, posées à leur date d'échéance réelle.
+     *
+     * C'est tout l'apport de FEAT-117 sur cette courbe : un loyer ne se lisse
+     * pas sur trente jours, il tombe le 1er. Un mois où le loyer, l'assurance
+     * annuelle et un abonnement trimestriel se cumulent se lit alors tel
+     * qu'il sera vécu, au lieu d'être aplati par une moyenne.
+     *
+     * Une échéance déjà passée mais pas encore générée est projetée à demain,
+     * comme une facture en retard : le jour 0 doit rester le solde réel.
+     * L'ancre du jour du mois fait que les échéances suivantes retrouvent
+     * d'elles-mêmes le bon rythme.
+     *
+     * @return array{byDay: array<string, float>, total: float, monthly: float}
+     */
+    protected function chargesFixesParJour(int $days): array
+    {
+        $demain = now()->addDay()->startOfDay();
+        $fin = now()->addDays($days)->endOfDay();
+
+        $parJour = [];
+        $total = 0.0;
+        $mensuel = 0.0;
+
+        foreach (RecurringExpense::active()->get() as $charge) {
+            $ttc = $charge->montantTtc();
+
+            if ($ttc <= 0 || $charge->next_expense_date === null) {
+                continue;
+            }
+
+            $mensuel = (float) bcadd((string) $mensuel, (string) $charge->poidsMensuelTtc(), 4);
+
+            $echeance = $charge->next_expense_date->copy();
+
+            if ($echeance->lt($demain)) {
+                $echeance = $demain->copy();
+            }
+
+            // Le curseur porte le rythme sans jamais toucher la base.
+            $curseur = clone $charge;
+            $garde = 0;
+
+            while ($echeance->lte($fin) && $garde++ < 500) {
+                if ($charge->ends_at !== null && $echeance->gt($charge->ends_at)) {
+                    break;
+                }
+
+                $cle = $echeance->format('Y-m-d');
+                $parJour[$cle] = (float) bcadd((string) ($parJour[$cle] ?? 0), (string) $ttc, 4);
+                $total = (float) bcadd((string) $total, (string) $ttc, 4);
+
+                $curseur->setAttribute(RecurringExpense::nextDateColumn(), $echeance);
+                $echeance = $curseur->calculateNextDate();
+            }
+        }
+
+        return ['byDay' => $parJour, 'total' => $total, 'monthly' => $mensuel];
+    }
+
+    /**
+     * Dépense mensuelle moyenne (TTC) sur les six derniers mois, **hors
+     * charges fixes**.
+     *
+     * ⚠️ C'est ici que se jouait le double compte annoncé par FEAT-117. Une
+     * charge fixe déclarée est projetée à sa date d'échéance ; si les dépenses
+     * qu'elle a déjà produites restaient dans cette moyenne, le loyer pèserait
+     * deux fois sur la courbe — une fois lissé sur trente jours, une fois à sa
+     * date. La prévision deviendrait plus fausse qu'avant la fonctionnalité.
+     *
+     * Une dépense générée porte le lien vers sa charge : c'est ce lien, et lui
+     * seul, qui la sort de la moyenne. On ne devine jamais qu'une dépense
+     * saisie à la main « ressemble » à une charge fixe.
      */
     protected function getAverageMonthlyExpense(): float
     {
@@ -256,7 +348,7 @@ class CashflowForecastService
         $totalExpenses = (float) Expense::dateBetween(
             $sixMonthsAgo->format('Y-m-d'),
             $lastMonthEnd->format('Y-m-d')
-        )->sum('amount_ttc');
+        )->whereNull('recurring_expense_id')->sum('amount_ttc');
 
         if ($totalExpenses <= 0) {
             return 0;
@@ -271,7 +363,7 @@ class CashflowForecastService
      * Le jour 0 vaut exactement le solde d'aujourd'hui : aucune recette, aucune
      * dépense projetée. La projection ne commence qu'au jour 1.
      */
-    protected function buildDailyTimeline(int $days, array $incomeByDay, float $dailyExpense, float $soldeDeDepart): array
+    protected function buildDailyTimeline(int $days, array $incomeByDay, float $dailyExpense, array $chargesByDay, float $soldeDeDepart): array
     {
         $timeline = [];
         $cumulativeIncome = 0;
@@ -282,7 +374,11 @@ class CashflowForecastService
             $dateKey = $date->format('Y-m-d');
 
             $incomeToday = $i === 0 ? 0 : ($incomeByDay[$dateKey] ?? 0);
-            $expenseToday = $i === 0 ? 0 : $dailyExpense;
+
+            // Le jour 0 reste le solde réel : ni recette ni dépense projetée.
+            $expenseToday = $i === 0
+                ? 0
+                : (float) bcadd((string) $dailyExpense, (string) ($chargesByDay[$dateKey] ?? 0), 4);
 
             $cumulativeIncome = (float) bcadd((string) $cumulativeIncome, (string) $incomeToday, 4);
             $cumulativeExpense = (float) bcadd((string) $cumulativeExpense, (string) $expenseToday, 4);

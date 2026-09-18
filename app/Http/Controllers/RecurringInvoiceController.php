@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\RecurringInvoice;
 use App\Rules\SalesVatRateAllowed;
+use App\Services\PlanService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -23,7 +25,7 @@ class RecurringInvoiceController extends Controller
             'recurringInvoices' => $recurringInvoices,
             // La liste reste ouverte à tous les plans pour que les récurrences
             // héritées puissent être arrêtées ; seule la création est réservée.
-            'canCreate' => app(\App\Services\PlanService::class)
+            'canCreate' => app(PlanService::class)
                 ->hasFeature(auth()->user(), 'recurring_invoices'),
         ]);
     }
@@ -185,6 +187,10 @@ class RecurringInvoiceController extends Controller
             'title' => $validated['title'] ?? null,
             'frequency' => $validated['frequency'],
             'next_invoice_date' => $validated['next_invoice_date'],
+            // Déplacer l'échéance déplace aussi le jour voulu : sans cela,
+            // l'ancre d'origine ramènerait la prochaine émission à l'ancien
+            // jour du mois.
+            'anchor_day' => Carbon::parse($validated['next_invoice_date'])->day,
             'ends_at' => $validated['ends_at'] ?? null,
             'is_active' => $validated['is_active'] ?? true,
             'auto_finalize' => $validated['auto_finalize'] ?? false,

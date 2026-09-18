@@ -208,7 +208,7 @@ const getStatusLabel = (status) => {
         <!-- KPI Cards -->
         <div data-tour="dashboard-kpis" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <!-- CA Annuel -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -220,17 +220,17 @@ const getStatusLabel = (status) => {
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">
+                                <dt class="text-sm font-medium leading-tight text-slate-500 dark:text-slate-400">
                                     {{ t('annual_revenue') }}
                                 </dt>
-                                <dd class="flex items-baseline">
+                                <dd class="mt-1 flex flex-wrap items-baseline gap-x-2">
                                     <span class="text-2xl font-bold text-slate-900 dark:text-white">
                                         {{ formatCurrency(kpis?.annual_revenue) }}
                                     </span>
                                     <span
                                         v-if="kpis?.annual_revenue_change !== null"
                                         :class="[
-                                            'ml-2 text-sm font-medium',
+                                            'text-sm font-medium',
                                             kpis?.annual_revenue_change >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-pink-600 dark:text-pink-400'
                                         ]"
                                     >
@@ -244,7 +244,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Bénéfice Net -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -256,10 +256,10 @@ const getStatusLabel = (status) => {
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">
+                                <dt class="text-sm font-medium leading-tight text-slate-500 dark:text-slate-400">
                                     {{ t('net_profit') }}
                                 </dt>
-                                <dd class="flex items-baseline">
+                                <dd class="mt-1 flex flex-wrap items-baseline gap-x-2">
                                     <span :class="[
                                         'text-2xl font-bold',
                                         kpis?.net_profit >= 0 ? 'text-slate-900 dark:text-white' : 'text-pink-600 dark:text-pink-400'
@@ -269,7 +269,7 @@ const getStatusLabel = (status) => {
                                     <span
                                         v-if="kpis?.net_profit_change !== null"
                                         :class="[
-                                            'ml-2 text-sm font-medium',
+                                            'text-sm font-medium',
                                             kpis?.net_profit_change >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-pink-600 dark:text-pink-400'
                                         ]"
                                     >
@@ -283,7 +283,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Factures impayées -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -298,7 +298,7 @@ const getStatusLabel = (status) => {
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">
+                                <dt class="text-sm font-medium leading-tight text-slate-500 dark:text-slate-400">
                                     {{ t('unpaid_invoices') }}
                                 </dt>
                                 <dd>
@@ -319,7 +319,7 @@ const getStatusLabel = (status) => {
             </div>
 
             <!-- Temps non facturé -->
-            <div class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
+            <div class="rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50">
                 <div class="p-5">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
@@ -331,7 +331,7 @@ const getStatusLabel = (status) => {
                         </div>
                         <div class="ml-5 w-0 flex-1">
                             <dl>
-                                <dt class="truncate text-sm font-medium text-slate-500 dark:text-slate-400">
+                                <dt class="text-sm font-medium leading-tight text-slate-500 dark:text-slate-400">
                                     {{ t('unbilled_time') }}
                                 </dt>
                                 <dd>
