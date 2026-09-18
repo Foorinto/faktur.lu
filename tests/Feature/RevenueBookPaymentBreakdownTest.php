@@ -99,7 +99,7 @@ class RevenueBookPaymentBreakdownTest extends TestCase
                 $ventilation = $page->toArray()['props']['parMoyenDePaiement'];
 
                 $this->assertSame(300.0, (float) $ventilation['total'],
-                    "Mars ne doit porter que les 300 € réellement encaissés en mars."
+                    'Mars ne doit porter que les 300 € réellement encaissés en mars.'
                 );
             });
     }
@@ -127,6 +127,94 @@ class RevenueBookPaymentBreakdownTest extends TestCase
     /**
      * Les encaissements d'un autre utilisateur n'entrent pas dans le compte.
      */
+    // --- Le PDF, pièce à joindre à un dépôt d'espèces -------------------------
+
+    private function texteDuPdf(string $debut, string $fin): string
+    {
+        $reponse = $this->actingAs($this->user)
+            ->get("/reports/revenue-book/pdf?start_date={$debut}&end_date={$fin}");
+
+        $reponse->assertOk();
+
+        $fichier = tempnam(sys_get_temp_dir(), 'lr').'.pdf';
+        file_put_contents($fichier, $reponse->getContent());
+        $texte = shell_exec('pdftotext '.escapeshellarg($fichier).' - 2>/dev/null') ?: '';
+        @unlink($fichier);
+
+        return $texte;
+    }
+
+    /**
+     * La demande d'origine : sans la ventilation, le PDF affiche un total et ne
+     * prouve rien à un banquier qui voit arriver un dépôt d'espèces.
+     */
+    public function test_le_pdf_porte_la_ventilation_par_moyen_de_paiement(): void
+    {
+        $facture = $this->facture(1000, Invoice::STATUS_PAID);
+        $facture->update(['paid_at' => '2026-03-20']);
+
+        $facture->payments()->createMany([
+            ['amount' => 400, 'paid_at' => '2026-03-10', 'method' => 'cash'],
+            ['amount' => 600, 'paid_at' => '2026-03-20', 'method' => 'transfer'],
+        ]);
+
+        $texte = $this->texteDuPdf('2026-03-01', '2026-03-31');
+
+        if ($texte === '') {
+            $this->markTestSkipped('pdftotext absent : lecture du PDF impossible.');
+        }
+
+        $this->assertStringContainsString(__('app.pdf_payment_methods_title'), $texte);
+        $this->assertStringContainsString('400,00', $texte, 'Le total encaissé en espèces.');
+        $this->assertStringContainsString('600,00', $texte, 'Le total encaissé par virement.');
+    }
+
+    /**
+     * Le détail des espèces, et d'elles seules : c'est la pièce jointe au dépôt.
+     */
+    public function test_le_pdf_detaille_les_encaissements_en_especes(): void
+    {
+        $facture = $this->facture(500, Invoice::STATUS_PAID);
+        $facture->update(['paid_at' => '2026-03-18']);
+
+        $facture->payments()->createMany([
+            ['amount' => 200, 'paid_at' => '2026-03-05', 'method' => 'cash'],
+            ['amount' => 300, 'paid_at' => '2026-03-18', 'method' => 'cash'],
+        ]);
+
+        $texte = $this->texteDuPdf('2026-03-01', '2026-03-31');
+
+        if ($texte === '') {
+            $this->markTestSkipped('pdftotext absent : lecture du PDF impossible.');
+        }
+
+        $this->assertStringContainsString(__('app.pdf_cash_detail_title'), $texte);
+        $this->assertStringContainsString('05/03/2026', $texte);
+        $this->assertStringContainsString('18/03/2026', $texte);
+        $this->assertStringContainsString('200,00', $texte);
+        $this->assertStringContainsString('300,00', $texte);
+    }
+
+    /**
+     * Celui qui ne manipule pas d'espèces ne doit pas voir la section.
+     */
+    public function test_sans_especes_le_pdf_ne_porte_aucun_detail(): void
+    {
+        $facture = $this->facture(800, Invoice::STATUS_PAID);
+        $facture->update(['paid_at' => '2026-03-12']);
+
+        $facture->payments()->create(['amount' => 800, 'paid_at' => '2026-03-12', 'method' => 'transfer']);
+
+        $texte = $this->texteDuPdf('2026-03-01', '2026-03-31');
+
+        if ($texte === '') {
+            $this->markTestSkipped('pdftotext absent : lecture du PDF impossible.');
+        }
+
+        $this->assertStringContainsString(__('app.pdf_payment_methods_title'), $texte);
+        $this->assertStringNotContainsString(__('app.pdf_cash_detail_title'), $texte);
+    }
+
     public function test_the_breakdown_is_scoped_to_the_user(): void
     {
         $this->facture(500)->payments()->create([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\DatabaseHelper;
 use App\Models\BusinessSettings;
 use App\Models\Invoice;
+use App\Models\InvoicePayment;
 use App\Services\PlanService;
 use App\Services\VentilationEncaissements;
 use App\Support\CsvSafe;
@@ -101,6 +102,29 @@ class RevenueBookController extends Controller
     /**
      * Export the revenue book as PDF.
      */
+    /**
+     * Les encaissements en espèces de la période, un par ligne.
+     *
+     * Un dépôt d'espèces à la banque doit pouvoir être rattaché à l'activité :
+     * sans ce détail, un livre de recettes affiche un total et ne prouve rien.
+     * Demandé par un client qui dépose ses espèces chaque mois.
+     *
+     * @return Collection<int, InvoicePayment>
+     */
+    private function encaissementsEspeces(string $startDate, string $endDate)
+    {
+        return InvoicePayment::query()
+            ->with('invoice:id,number,client_id', 'invoice.client:id,name')
+            ->where('method', 'cash')
+            ->whereHas('invoice', fn ($q) => $q
+                ->where('user_id', auth()->id())
+                ->whereNotNull('finalized_at'))
+            ->whereDate('paid_at', '>=', $startDate)
+            ->whereDate('paid_at', '<=', $endDate)
+            ->orderBy('paid_at')
+            ->get();
+    }
+
     public function exportPdf(Request $request): HttpResponse
     {
         $startDate = $request->input('start_date', Carbon::now()->startOfYear()->format('Y-m-d'));
@@ -130,10 +154,23 @@ class RevenueBookController extends Controller
         // Get business settings for header
         $settings = BusinessSettings::first();
 
+        // Le même service que l'écran, le tableau de bord et la prévision : une
+        // seule définition de ce qu'est un encaissement, donc pas de chiffre qui
+        // diffère entre ce qu'on lit et ce qu'on imprime.
+        $parMoyenDePaiement = app(VentilationEncaissements::class)
+            ->surPeriode($request->user()->id, $startDate, $endDate);
+
         $pdf = Pdf::loadView('pdf.revenue-book', [
             'invoices' => $invoices,
             'totals' => $totals,
             'vatBreakdown' => $vatBreakdown,
+            'parMoyenDePaiement' => $parMoyenDePaiement,
+            // Le détail des espèces, et d'elles seules : c'est la pièce que la
+            // banque réclame à l'appui d'un dépôt, et celle qu'un contrôle
+            // demande pour écarter le soupçon de fonds d'une autre origine.
+            // Détailler tous les moyens transformerait le document en listing
+            // pour la majorité qui n'en manipule pas.
+            'encaissementsEspeces' => $this->encaissementsEspeces($startDate, $endDate),
             'startDate' => Carbon::parse($startDate),
             'endDate' => Carbon::parse($endDate),
             'settings' => $settings,
