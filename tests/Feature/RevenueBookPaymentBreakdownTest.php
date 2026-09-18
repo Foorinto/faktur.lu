@@ -215,6 +215,88 @@ class RevenueBookPaymentBreakdownTest extends TestCase
         $this->assertStringNotContainsString(__('app.pdf_cash_detail_title'), $texte);
     }
 
+    /**
+     * ⚠️ Le détail des espèces est une requête neuve, hors du service commun.
+     * Une fuite y mettrait les encaissements d'un autre compte dans un document
+     * remis à une banque.
+     */
+    public function test_le_detail_des_especes_ne_montre_que_ses_propres_encaissements(): void
+    {
+        $autre = User::factory()->create(['email_verified_at' => now()]);
+        $clientAutre = Client::factory()->create(['user_id' => $autre->id]);
+        $factureAutre = Invoice::factory()->create([
+            'user_id' => $autre->id,
+            'client_id' => $clientAutre->id,
+            'status' => Invoice::STATUS_PAID,
+            'finalized_at' => now()->subMonths(3),
+            'paid_at' => '2026-03-10',
+            'total_ht' => 999, 'total_vat' => 0, 'total_ttc' => 999,
+        ]);
+        $factureAutre->payments()->create(['amount' => 999, 'paid_at' => '2026-03-10', 'method' => 'cash']);
+
+        $mienne = $this->facture(100, Invoice::STATUS_PAID);
+        $mienne->update(['paid_at' => '2026-03-11']);
+        $mienne->payments()->create(['amount' => 100, 'paid_at' => '2026-03-11', 'method' => 'cash']);
+
+        $texte = $this->texteDuPdf('2026-03-01', '2026-03-31');
+
+        if ($texte === '') {
+            $this->markTestSkipped('pdftotext absent : lecture du PDF impossible.');
+        }
+
+        $this->assertStringContainsString('100,00', $texte);
+        $this->assertStringNotContainsString('999,00', $texte, "Les espèces d'un autre compte n'apparaissent jamais.");
+        $this->assertStringNotContainsString($clientAutre->name, $texte);
+    }
+
+    /**
+     * Une période sans le moindre encaissement ne doit ni casser le PDF ni
+     * afficher de section vide.
+     */
+    public function test_une_periode_sans_encaissement_produit_un_pdf_sans_sections(): void
+    {
+        $texte = $this->texteDuPdf('2026-01-01', '2026-01-31');
+
+        if ($texte === '') {
+            $this->markTestSkipped('pdftotext absent : lecture du PDF impossible.');
+        }
+
+        $this->assertStringNotContainsString(__('app.pdf_payment_methods_title'), $texte);
+        $this->assertStringNotContainsString(__('app.pdf_cash_detail_title'), $texte);
+    }
+
+    /**
+     * Les six clés ajoutées existent dans les cinq langues, et le PDF les rend.
+     *
+     * @dataProvider langues
+     */
+    public function test_le_pdf_est_traduit_dans_toutes_les_langues(string $locale): void
+    {
+        $this->user->update(['locale' => $locale]);
+        app()->setLocale($locale);
+
+        $facture = $this->facture(300, Invoice::STATUS_PAID);
+        $facture->update(['paid_at' => '2026-03-08']);
+        $facture->payments()->create(['amount' => 300, 'paid_at' => '2026-03-08', 'method' => 'cash']);
+
+        $texte = $this->texteDuPdf('2026-03-01', '2026-03-31');
+
+        if ($texte === '') {
+            $this->markTestSkipped('pdftotext absent : lecture du PDF impossible.');
+        }
+
+        foreach (['pdf_payment_methods_title', 'pdf_payment_method', 'pdf_payment_count', 'pdf_payment_share', 'pdf_cash_detail_title', 'pdf_cash_total'] as $cle) {
+            $traduction = __("app.{$cle}", [], $locale);
+            $this->assertNotSame("app.{$cle}", $traduction, "Clé absente en {$locale} : {$cle}");
+            $this->assertStringContainsString($traduction, $texte, "Non rendu en {$locale} : {$cle}");
+        }
+    }
+
+    public static function langues(): array
+    {
+        return [['fr'], ['de'], ['en'], ['lb'], ['pt']];
+    }
+
     public function test_the_breakdown_is_scoped_to_the_user(): void
     {
         $this->facture(500)->payments()->create([
