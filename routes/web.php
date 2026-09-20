@@ -654,6 +654,21 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->middleware('plan.limit:products')
             ->name('products.store');
 
+        // Variantes d'article (FEAT-120). La CRÉATION est réservée aux plans
+        // payants : le plafond de 10 articles du plan Gratuit les rendait de
+        // toute façon inatteignables, et un refus clair vaut mieux qu'une
+        // erreur de quota au bout de la troisième nuance.
+        //
+        // La propagation, elle, reste ouverte : un compte redescendu en Gratuit
+        // doit pouvoir corriger le prix d'un catalogue qu'il a déjà. Le couper
+        // de ses propres articles reviendrait à lui laisser du stock qu'il ne
+        // peut plus tenir.
+        Route::post('/products/{product}/variants', [ProductController::class, 'storeVariants'])
+            ->middleware('plan.feature:product_variants')
+            ->name('products.variants.store');
+        Route::post('/products/{product}/propagate', [ProductController::class, 'propagateToVariants'])
+            ->name('products.variants.propagate');
+
         // CRM - Interactions, Reminders, Tags (Pro only)
         Route::middleware('plan.feature:crm')->group(function () {
             Route::post('/clients/{client}/interactions', [InteractionController::class, 'store'])->name('interactions.store');

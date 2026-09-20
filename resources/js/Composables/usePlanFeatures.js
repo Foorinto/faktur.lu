@@ -23,6 +23,7 @@ const FEATURE_TO_MIN_PLAN = {
     // vérification d'accès la traitait donc comme du Pro, et l'aurait affichée
     // verrouillée à un abonné Essentiel qui y a droit.
     recurring_invoices: 'essentiel',
+    product_variants: 'essentiel',
 
     // Pro
     hr_module: 'pro',

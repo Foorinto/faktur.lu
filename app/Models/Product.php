@@ -6,6 +6,7 @@ use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Product extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToUser;
+    use BelongsToUser, HasFactory, SoftDeletes;
 
     public const TYPE_PRODUCT = 'product';
 
@@ -23,8 +24,15 @@ class Product extends Model
 
     public const TYPES = [self::TYPE_PRODUCT, self::TYPE_SERVICE];
 
+    /** Le libellé d'axe par défaut, quand la famille n'en a pas choisi. */
+    public const AXE_PAR_DEFAUT = 'variant';
+
     protected $fillable = [
+        'parent_id',
         'designation',
+        'variant_label',
+        'variant_axis_label',
+        'sort_order',
         'description',
         'reference',
         'type',
@@ -43,7 +51,115 @@ class Product extends Model
         'is_active' => 'boolean',
         'track_stock' => 'boolean',
         'stock_alert_threshold' => 'decimal:4',
+        'sort_order' => 'integer',
     ];
+
+    // --- Variantes (FEAT-120) ------------------------------------------------
+
+    /**
+     * Les variantes de cette famille, dans l'ordre voulu.
+     *
+     * Ordonnées par `sort_order` et non par désignation : des tailles se lisent
+     * S, M, L, XL, quand l'alphabet donnerait L, M, S, XL.
+     */
+    public function variants(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id')
+            ->orderBy('sort_order')
+            ->orderBy('id');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function isVariant(): bool
+    {
+        return $this->parent_id !== null;
+    }
+
+    /**
+     * Une famille est un article qui porte au moins une variante.
+     *
+     * Se calcule, plutôt que de vivre dans un drapeau qui se désynchronise.
+     * ⚠️ Ne jamais appeler à chaque frappe d'une recherche : la sélection des
+     * documents filtre sur `parent_id`, qui est indexé.
+     */
+    public function isFamily(): bool
+    {
+        return $this->relationLoaded('variants')
+            ? $this->variants->isNotEmpty()
+            : $this->variants()->exists();
+    }
+
+    /**
+     * Le nom tel qu'il doit apparaître sur un document.
+     *
+     * « Extensions GL30 — nuance 12 ». Sans la variante, le client ne peut ni
+     * se faire livrer, ni échanger, ni vérifier sa commande.
+     */
+    public function displayName(): string
+    {
+        if (! $this->isVariant()) {
+            return (string) $this->designation;
+        }
+
+        $famille = $this->parent?->designation ?? $this->designation;
+
+        return trim($famille.' — '.$this->variant_label);
+    }
+
+    /**
+     * L'axe que porte la famille : « Nuance », « Taille », « Format »…
+     *
+     * Remonté depuis le parent pour une variante, qui ne le porte pas.
+     */
+    public function axisLabel(): string
+    {
+        $porteur = $this->isVariant() ? $this->parent : $this;
+
+        return $porteur?->variant_axis_label ?: __('app.products.variant_axis_default');
+    }
+
+    /**
+     * Applique le prix, la TVA, l'unité et le compte comptable de la famille à
+     * toutes ses variantes.
+     *
+     * La propagation plutôt que l'héritage : aucune lecture existante n'a à
+     * résoudre quoi que ce soit vers un parent, et une variante peut garder un
+     * prix propre tant qu'on ne propage pas.
+     *
+     * @return int le nombre de variantes touchées
+     */
+    public function propagateToVariants(): int
+    {
+        return $this->variants()->update([
+            'unit_price_ht' => $this->unit_price_ht,
+            'vat_rate' => $this->vat_rate,
+            'unit' => $this->unit,
+            'pcn_account' => $this->pcn_account,
+            'type' => $this->type,
+        ]);
+    }
+
+    /**
+     * Les articles proposés à la saisie d'un document : familles et articles
+     * ordinaires, jamais une variante nue.
+     *
+     * Une égalité sur colonne indexée, sans sous-requête : taper « GL30 »
+     * renvoie une ligne au lieu de quarante-cinq. La recherche est donc plus
+     * légère qu'avant les variantes.
+     */
+    public function scopeTopLevel(Builder $query): Builder
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    public function scopeVariantsOnly(Builder $query): Builder
+    {
+        return $query->whereNotNull('parent_id');
+    }
 
     /**
      * Scope to only active catalogue items.

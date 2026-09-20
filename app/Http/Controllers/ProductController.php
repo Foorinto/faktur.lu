@@ -12,9 +12,11 @@ use App\Services\PlanService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -29,8 +31,15 @@ class ProductController extends Controller
     {
         $type = $request->input('type');
 
+        // Seules les familles et les articles ordinaires sont paginés : une
+        // variante n'est pas une ligne du catalogue, elle appartient à sa
+        // famille. Sans cela, une famille de 45 nuances occuperait deux pages
+        // et demie à elle seule.
         $products = Product::query()
+            ->topLevel()
             ->ofType($type)
+            ->with(['variants:id,parent_id,designation,variant_label,reference,unit_price_ht,vat_rate,is_active,track_stock,sort_order'])
+            ->withCount('variants')
             ->orderBy('designation')
             ->paginate(20)
             ->withQueryString();
@@ -49,11 +58,14 @@ class ProductController extends Controller
             'units' => $this->getUnits(),
             'vatRates' => $this->getVatRates(),
             'filters' => ['type' => $type],
+            // Les compteurs suivent la liste : ils dénombrent des familles et
+            // des articles ordinaires, pas des variantes. Sinon l'onglet
+            // annoncerait 46 là où la page en montre une.
             'typeCounts' => [
-                'all' => Product::query()->count(),
-                Product::TYPE_PRODUCT => Product::query()->where('type', Product::TYPE_PRODUCT)->count(),
-                Product::TYPE_SERVICE => Product::query()->where('type', Product::TYPE_SERVICE)->count(),
-                'unclassified' => Product::query()->whereNull('type')->count(),
+                'all' => Product::query()->topLevel()->count(),
+                Product::TYPE_PRODUCT => Product::query()->topLevel()->where('type', Product::TYPE_PRODUCT)->count(),
+                Product::TYPE_SERVICE => Product::query()->topLevel()->where('type', Product::TYPE_SERVICE)->count(),
+                'unclassified' => Product::query()->topLevel()->whereNull('type')->count(),
             ],
         ]);
     }
@@ -108,8 +120,111 @@ class ProductController extends Controller
     /**
      * Delete a catalogue item.
      */
+    /**
+     * Crée d'un coup toutes les variantes d'une famille.
+     *
+     * L'action centrale de la fonctionnalité : six à huit tailles, dix à
+     * cinquante coloris, trois à cinq formats. Les saisir une par une est
+     * exactement la peine qu'on supprime ici.
+     */
+    public function storeVariants(Request $request, Product $product): RedirectResponse
+    {
+        abort_if($product->isVariant(), 404);
+
+        $data = $request->validate([
+            'variant_axis_label' => ['nullable', 'string', 'max:50'],
+            'labels' => ['required', 'string', 'max:5000'],
+        ]);
+
+        // Une variante par ligne, les vides ignorées, les doublons écartés :
+        // coller une liste depuis un tableur amène souvent des lignes vides.
+        $libelles = collect(preg_split('/\r\n|\r|\n/', $data['labels']))
+            ->map(fn ($l) => trim($l))
+            ->filter()
+            ->unique()
+            ->values();
+
+        if ($libelles->isEmpty()) {
+            return back()->with('error', __('app.products.variants_none_given'));
+        }
+
+        $existants = $product->variants()->pluck('variant_label')
+            ->map(fn ($l) => mb_strtolower((string) $l))
+            ->all();
+
+        $depart = (int) $product->variants()->max('sort_order');
+        $crees = 0;
+
+        DB::transaction(function () use ($product, $libelles, $existants, $depart, &$crees, $data) {
+            if (! empty($data['variant_axis_label'])) {
+                $product->update(['variant_axis_label' => $data['variant_axis_label']]);
+            }
+
+            foreach ($libelles as $index => $libelle) {
+                if (in_array(mb_strtolower($libelle), $existants, true)) {
+                    continue;
+                }
+
+                $product->variants()->create([
+                    'user_id' => $product->user_id,
+                    'designation' => $product->designation,
+                    'variant_label' => $libelle,
+                    // La référence dérive de celle de la famille : un article
+                    // stockable distinct a besoin d'un code à lui.
+                    'reference' => $product->reference
+                        ? $product->reference.'-'.Str::slug($libelle)
+                        : null,
+                    'description' => $product->description,
+                    'type' => $product->type,
+                    'unit_price_ht' => $product->unit_price_ht,
+                    'vat_rate' => $product->vat_rate,
+                    'pcn_account' => $product->pcn_account,
+                    'unit' => $product->unit,
+                    'is_active' => $product->is_active,
+                    'track_stock' => $product->track_stock,
+                    'stock_alert_threshold' => $product->stock_alert_threshold,
+                    // L'ordre de la liste collée est l'ordre voulu : S, M, L, XL.
+                    'sort_order' => $depart + $index + 1,
+                ]);
+
+                $crees++;
+            }
+        });
+
+        return redirect()->route('products.index')->with(
+            'success',
+            __('app.products.variants_created', ['count' => $crees])
+        );
+    }
+
+    /**
+     * Réapplique le prix, la TVA, l'unité et le compte de la famille à toutes
+     * ses variantes.
+     *
+     * C'est le geste qui justifie la fonctionnalité : changer un prix une fois
+     * au lieu de quarante-cinq.
+     */
+    public function propagateToVariants(Product $product): RedirectResponse
+    {
+        abort_if($product->isVariant(), 404);
+
+        $touchees = $product->propagateToVariants();
+
+        return back()->with('success', __('app.products.variants_propagated', ['count' => $touchees]));
+    }
+
     public function destroy(Product $product): RedirectResponse
     {
+        // ⚠️ Une famille ne se supprime pas tant qu'elle porte des variantes.
+        // Emporter les variantes emporterait leurs mouvements de stock, donc
+        // des écritures qui justifient un inventaire. L'utilisateur détache ou
+        // supprime ses variantes d'abord : le geste reste le sien.
+        if ($product->isFamily()) {
+            return back()->with('error', __('app.products.delete_family_blocked', [
+                'count' => $product->variants()->count(),
+            ]));
+        }
+
         $product->delete();
 
         return redirect()
