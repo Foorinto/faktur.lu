@@ -5656,6 +5656,7 @@ return [
             'variants_created' => ':count variant(s) created.',
             'variants_none_given' => 'No variant to create: the list is empty.',
             'variants_propagate' => 'Apply price and VAT to the variants',
+            'variants_propagate_confirm' => 'Apply this item\'s price and VAT to its :count variant(s)? Their own prices will be replaced.',
             'variants_propagated' => 'Price and VAT applied to :count variant(s).',
             'variant_parent_unknown' => 'The selected main item could not be found.',
             'variant_parent_is_variant' => 'A variant cannot itself have variants.',

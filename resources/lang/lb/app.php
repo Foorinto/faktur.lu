@@ -5641,6 +5641,7 @@ return [
             'variants_created' => ':count Variant(en) ugeluecht.',
             'variants_none_given' => 'Keng Variant unzeleeën: d Lëscht ass eidel.',
             'variants_propagate' => 'Präis an TVA op d Varianten iwwerdroen',
+            'variants_propagate_confirm' => 'Präis an TVA vun dësem Artikel op seng :count Variant(en) iwwerdroen? Hir eege Präisser ginn ersat.',
             'variants_propagated' => 'Präis an TVA op :count Variant(en) iwwerdroen.',
             'variant_parent_unknown' => 'De gewielten Haaptartikel gouf net fonnt.',
             'variant_parent_is_variant' => 'Eng Variant kann net selwer Varianten hunn.',

@@ -2,11 +2,49 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Pagination from '@/Components/Pagination.vue';
 import RowAction from '@/Components/RowAction.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import Modal from '@/Components/Modal.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
+
+// --- Variantes (FEAT-120) ---
+// Les familles sont repliées par défaut : une famille de 45 nuances ne doit pas
+// noyer le catalogue de celui qui vient y chercher autre chose.
+const depliees = ref(new Set());
+
+const basculer = (id) => {
+    const copie = new Set(depliees.value);
+    copie.has(id) ? copie.delete(id) : copie.add(id);
+    depliees.value = copie;
+};
+
+const familleEnCours = ref(null);
+const formVariantes = useForm(() => ({ variant_axis_label: '', labels: '' }));
+
+const ouvrirVariantes = (product) => {
+    familleEnCours.value = product;
+    formVariantes.reset();
+    formVariantes.variant_axis_label = product.variant_axis_label || '';
+};
+
+const soumettreVariantes = () => {
+    formVariantes.post(route('products.variants.store', familleEnCours.value.id), {
+        preserveScroll: true,
+        onSuccess: () => { familleEnCours.value = null; },
+    });
+};
+
+const propager = (product) => {
+    if (!window.confirm(t('products.variants_propagate_confirm', { count: product.variants_count }))) return;
+
+    router.post(route('products.variants.propagate', product.id), {}, { preserveScroll: true });
+};
 
 const props = defineProps({
     products: { type: Object, required: true },
@@ -258,7 +296,12 @@ const destroy = (product) => {
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50 dark:divide-gray-800/60">
-                            <tr v-for="product in products.data" :key="product.id" class="text-sm text-slate-700 dark:text-slate-300">
+                            <!-- ⚠️ Les deux lignes vivent dans le MÊME v-for :
+                                 la ligne d'une variante a besoin de `product`,
+                                 qui n'existe pas hors de la portée de sa
+                                 famille. -->
+                            <template v-for="product in products.data" :key="product.id">
+                            <tr class="text-sm text-slate-700 dark:text-slate-300">
                                 <td class="px-4 py-3">
                                     <input
                                         type="checkbox"
@@ -270,7 +313,22 @@ const destroy = (product) => {
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-2 font-medium text-slate-900 dark:text-white">
+                                        <button
+                                            v-if="product.variants_count > 0"
+                                            type="button"
+                                            class="rounded p-0.5 text-slate-400 transition hover:text-slate-700 dark:hover:text-slate-200"
+                                            :title="depliees.has(product.id) ? t('products.variants_hide') : t('products.variants_show')"
+                                            @click="basculer(product.id)"
+                                        >
+                                            <span class="sr-only">{{ depliees.has(product.id) ? t('products.variants_hide') : t('products.variants_show') }}</span>
+                                            <svg class="h-4 w-4 transition-transform" :class="{ 'rotate-90': depliees.has(product.id) }" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                            </svg>
+                                        </button>
                                         {{ product.designation }}
+                                        <span v-if="product.variants_count > 0" class="rounded-full bg-primary-50 px-2 py-0.5 text-xs font-normal text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                                            {{ t('products.variants_count', { count: product.variants_count }) }}
+                                        </span>
                                         <span v-if="!product.is_active" class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-normal text-slate-500 dark:bg-gray-800">
                                             {{ t('products.inactive') }}
                                         </span>
@@ -291,6 +349,17 @@ const destroy = (product) => {
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-end gap-1">
                                         <RowAction
+                                            icon="add"
+                                            :label="t('products.variants_add')"
+                                            @click="ouvrirVariantes(product)"
+                                        />
+                                        <RowAction
+                                            v-if="product.variants_count > 0"
+                                            icon="duplicate"
+                                            :label="t('products.variants_propagate')"
+                                            @click="propager(product)"
+                                        />
+                                        <RowAction
                                             icon="edit"
                                             tone="primary"
                                             :label="t('edit')"
@@ -305,6 +374,44 @@ const destroy = (product) => {
                                     </div>
                                 </td>
                             </tr>
+
+                            <!-- Les variantes de la famille dépliée : décalées,
+                                 sans case à cocher, ce sont des lignes filles. -->
+                            <tr
+                                v-for="variante in (depliees.has(product.id) ? product.variants : [])"
+                                :key="`v-${variante.id}`"
+                                class="bg-slate-50/60 text-sm text-slate-600 dark:bg-gray-800/30 dark:text-slate-400"
+                            >
+                                <td class="px-4 py-2"></td>
+                                <td class="px-4 py-2 pl-10">
+                                    <span class="font-medium text-slate-700 dark:text-slate-300">{{ variante.variant_label }}</span>
+                                    <span v-if="!variante.is_active" class="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-slate-500 dark:bg-gray-800">
+                                        {{ t('products.inactive') }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-2 text-slate-400">{{ variante.reference || '—' }}</td>
+                                <td class="px-4 py-2"></td>
+                                <td class="px-4 py-2 text-right tabular-nums">{{ formatPrice(variante.unit_price_ht) }}</td>
+                                <td class="px-4 py-2 text-right tabular-nums">{{ Number(variante.vat_rate) }}%</td>
+                                <td class="px-4 py-2"></td>
+                                <td class="px-4 py-2">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <RowAction
+                                            icon="edit"
+                                            tone="primary"
+                                            :label="t('edit')"
+                                            :href="route('products.edit', variante.id)"
+                                        />
+                                        <RowAction
+                                            icon="delete"
+                                            tone="danger"
+                                            :label="t('delete')"
+                                            @click="destroy(variante)"
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
@@ -312,5 +419,48 @@ const destroy = (product) => {
 
             <Pagination v-if="products.data.length" :links="products.links" class="mt-6" />
         </div>
+
+        <!-- Création en lot : l'action qui justifie la fonctionnalité. Personne
+             ne saisira quarante-cinq nuances une par une. -->
+        <Modal :show="familleEnCours !== null" @close="familleEnCours = null">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">
+                    {{ t('products.variants_add') }}
+                </h2>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ familleEnCours?.designation }}</p>
+
+                <div class="mt-4">
+                    <InputLabel for="variant_axis_label" :value="t('products.variants_axis_label')" />
+                    <input
+                        id="variant_axis_label"
+                        v-model="formVariantes.variant_axis_label"
+                        type="text"
+                        maxlength="50"
+                        :placeholder="t('products.variants_axis_placeholder')"
+                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                    />
+                    <InputError :message="formVariantes.errors.variant_axis_label" class="mt-1" />
+                </div>
+
+                <div class="mt-4">
+                    <InputLabel for="labels" :value="t('products.variants_labels')" />
+                    <textarea
+                        id="labels"
+                        v-model="formVariantes.labels"
+                        rows="8"
+                        class="mt-1 block w-full rounded-xl border-gray-300 font-mono text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                    ></textarea>
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('products.variants_labels_help') }}</p>
+                    <InputError :message="formVariantes.errors.labels" class="mt-1" />
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <SecondaryButton @click="familleEnCours = null">{{ t('cancel') }}</SecondaryButton>
+                    <PrimaryButton :disabled="formVariantes.processing" @click="soumettreVariantes">
+                        {{ t('products.variants_add') }}
+                    </PrimaryButton>
+                </div>
+            </div>
+        </Modal>
     </AppLayout>
 </template>

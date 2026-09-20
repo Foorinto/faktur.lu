@@ -6037,6 +6037,7 @@ return [
             'variants_created' => ':count variante(s) créée(s).',
             'variants_none_given' => 'Aucune variante à créer : la liste est vide.',
             'variants_propagate' => 'Appliquer le prix et la TVA aux variantes',
+            'variants_propagate_confirm' => 'Appliquer le prix et la TVA de cet article à ses :count variante(s) ? Leurs prix propres seront remplacés.',
             'variants_propagated' => 'Prix et TVA appliqués à :count variante(s).',
             'variant_parent_unknown' => 'L\'article principal choisi est introuvable.',
             'variant_parent_is_variant' => 'Une variante ne peut pas elle-même avoir des variantes.',

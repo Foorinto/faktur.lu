@@ -5870,6 +5870,7 @@ return [
             'variants_created' => ':count variante(s) criada(s).',
             'variants_none_given' => 'Nenhuma variante a criar: a lista está vazia.',
             'variants_propagate' => 'Aplicar preço e IVA às variantes',
+            'variants_propagate_confirm' => 'Aplicar o preço e o IVA deste artigo às suas :count variante(s)? Os preços próprios serão substituídos.',
             'variants_propagated' => 'Preço e IVA aplicados a :count variante(s).',
             'variant_parent_unknown' => 'O artigo principal selecionado não foi encontrado.',
             'variant_parent_is_variant' => 'Uma variante não pode ter variantes.',

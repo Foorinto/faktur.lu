@@ -5640,6 +5640,7 @@ return [
             'variants_created' => ':count Variante(n) angelegt.',
             'variants_none_given' => 'Keine Variante anzulegen: die Liste ist leer.',
             'variants_propagate' => 'Preis und MwSt. auf die Varianten übertragen',
+            'variants_propagate_confirm' => 'Preis und MwSt. dieses Artikels auf seine :count Variante(n) übertragen? Deren eigene Preise werden ersetzt.',
             'variants_propagated' => 'Preis und MwSt. auf :count Variante(n) übertragen.',
             'variant_parent_unknown' => 'Der gewählte Hauptartikel wurde nicht gefunden.',
             'variant_parent_is_variant' => 'Eine Variante kann nicht selbst Varianten haben.',
