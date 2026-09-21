@@ -418,7 +418,7 @@ class ProductVariantTest extends TestCase
         $this->assertSame('Durée', $prestation->fresh()->variant_axis_label);
     }
 
-    public function test_la_page_stock_annonce_le_total_de_la_famille(): void
+    public function test_la_colonne_stock_d_une_famille_couvre_ses_declinaisons(): void
     {
         // Quarante-cinq nuances à trois pièces, c'est cent trente-cinq pièces
         // en rayon : c'est ce chiffre qu'on regarde avant de commander.
@@ -436,8 +436,11 @@ class ProductVariantTest extends TestCase
         }
 
         $this->get(route('stock.index'))->assertInertia(fn ($page) => $page
-            ->where('products.0.family_total.count', 2)
-            ->where('products.0.family_total.quantity', 6)
+            ->where('products.0.variants_count', 2)
+            // La colonne annonce tout ce que la famille couvre, déclinaisons
+            // comprises : « combien en ai-je » appelle 6, pas 0.
+            ->where('products.0.current_stock', 6)
+            ->where('products.0.unallocated_stock', 0)
         );
     }
 
@@ -459,6 +462,7 @@ class ProductVariantTest extends TestCase
         [$famille, $variantes] = $this->familleSuivie();
 
         $this->post(route('stock.entry', $famille), [
+            'quantity' => 500,
             'date' => now()->toDateString(),
             'unit_cost' => 4,
             'allocations' => [
@@ -478,6 +482,7 @@ class ProductVariantTest extends TestCase
         [$famille, $variantes] = $this->familleSuivie();
 
         $this->post(route('stock.entry', $famille), [
+            'quantity' => 12,
             'date' => now()->toDateString(),
             'allocations' => [
                 ['product_id' => $variantes[0]->id, 'quantity' => 12],
@@ -488,18 +493,98 @@ class ProductVariantTest extends TestCase
         $this->assertSame(0, StockMovement::where('product_id', $variantes[1]->id)->count());
     }
 
-    public function test_une_repartition_vide_est_refusee(): void
+    public function test_sans_repartition_tout_reste_sur_la_famille(): void
     {
+        // Le choix de qui ne veut pas tenir le détail par déclinaison : il
+        // saisit sa réception et s'arrête là.
         [$famille, $variantes] = $this->familleSuivie();
 
         $this->post(route('stock.entry', $famille), [
+            'quantity' => 500,
             'date' => now()->toDateString(),
             'allocations' => [
                 ['product_id' => $variantes[0]->id, 'quantity' => 0],
             ],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(500, $famille->fresh()->currentStock(), 0.001);
+        $this->assertEqualsWithDelta(0, $variantes[0]->fresh()->currentStock(), 0.001);
+    }
+
+    public function test_le_reliquat_non_reparti_reste_sur_la_famille(): void
+    {
+        // On reçoit un carton de 500 dont on ne connaît que 350 : le reste
+        // attend sur la famille au lieu de disparaître.
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 500,
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 150],
+                ['product_id' => $variantes[1]->id, 'quantity' => 200],
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(150, $variantes[0]->fresh()->currentStock(), 0.001);
+        $this->assertEqualsWithDelta(200, $variantes[1]->fresh()->currentStock(), 0.001);
+        $this->assertEqualsWithDelta(150, $famille->fresh()->currentStock(), 0.001);
+        // Et le total lu à l'écran couvre bien les 500 reçus.
+        $this->assertEqualsWithDelta(500, $famille->fresh()->stockDeLaFamille(), 0.001);
+    }
+
+    public function test_une_repartition_qui_depasse_le_total_est_refusee(): void
+    {
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 100,
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 80],
+                ['product_id' => $variantes[1]->id, 'quantity' => 50],
+            ],
         ])->assertSessionHasErrors('quantity');
 
         $this->assertSame(0, StockMovement::count());
+    }
+
+    public function test_un_reliquat_sans_famille_suivie_est_refuse(): void
+    {
+        // Le reliquat n'aurait nulle part où aller : mieux vaut le dire que de
+        // le perdre en silence.
+        $famille = $this->famille(['track_stock' => false]);
+        $this->post(route('products.variants.store', $famille), ['labels' => 'Blanc']);
+        $variante = $famille->fresh()->variants->first();
+        $variante->update(['track_stock' => true]);
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 100,
+            'date' => now()->toDateString(),
+            'allocations' => [['product_id' => $variante->id, 'quantity' => 40]],
+        ])->assertSessionHasErrors('quantity');
+
+        $this->assertSame(0, StockMovement::count());
+    }
+
+    public function test_un_cout_propre_a_la_declinaison_l_emporte(): void
+    {
+        // Une taille XL ne s'achète pas au prix d'une S.
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 20,
+            'unit_cost' => 4,
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 10, 'unit_cost' => 7],
+                ['product_id' => $variantes[1]->id, 'quantity' => 10],
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(7, StockMovement::where('product_id', $variantes[0]->id)->value('unit_cost'), 0.001);
+        // Sans coût propre, celui de la réception s'applique.
+        $this->assertEqualsWithDelta(4, StockMovement::where('product_id', $variantes[1]->id)->value('unit_cost'), 0.001);
     }
 
     public function test_on_ne_repartit_pas_sur_la_declinaison_d_une_autre_famille(): void
@@ -511,6 +596,7 @@ class ProductVariantTest extends TestCase
         $etrangere = $autre->fresh()->variants->first();
 
         $this->post(route('stock.entry', $famille), [
+            'quantity' => 50,
             'date' => now()->toDateString(),
             'allocations' => [['product_id' => $etrangere->id, 'quantity' => 50]],
         ])->assertNotFound();
@@ -528,6 +614,7 @@ class ProductVariantTest extends TestCase
         $this->post(route('products.variants.store', $autre), ['labels' => 'Noire']);
 
         $this->post(route('stock.entry', $famille), [
+            'quantity' => 500,
             'date' => now()->toDateString(),
             'allocations' => [
                 ['product_id' => $variantes[0]->id, 'quantity' => 200],
@@ -560,11 +647,49 @@ class ProductVariantTest extends TestCase
         $variante->update(['track_stock' => true]);
 
         $this->post(route('stock.entry', $famille), [
+            'quantity' => 15,
             'date' => now()->toDateString(),
             'allocations' => [['product_id' => $variante->id, 'quantity' => 15]],
         ])->assertSessionHasNoErrors();
 
         $this->assertEqualsWithDelta(15, $variante->fresh()->currentStock(), 0.001);
+    }
+
+    public function test_la_valeur_totale_du_stock_ne_compte_pas_deux_fois_les_declinaisons(): void
+    {
+        // La colonne d'une famille inclut déjà ses déclinaisons : sommer les
+        // lignes affichées gonflerait la valeur du stock de tout le catalogue.
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 10,
+            'unit_cost' => 5,
+            'date' => now()->toDateString(),
+            'allocations' => [['product_id' => $variantes[0]->id, 'quantity' => 10]],
+        ]);
+
+        $this->get(route('stock.index'))->assertInertia(fn ($page) => $page
+            ->where('total_value', 50)
+        );
+    }
+
+    public function test_une_famille_n_est_pas_en_rupture_si_ses_declinaisons_sont_fournies(): void
+    {
+        // Dire « rupture sur les souris » alors qu'il en reste 350 réparties
+        // entre le blanc et le vert ferait commander pour rien.
+        [$famille, $variantes] = $this->familleSuivie();
+        $famille->update(['stock_alert_threshold' => 5]);
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 350,
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 150],
+                ['product_id' => $variantes[1]->id, 'quantity' => 200],
+            ],
+        ]);
+
+        $this->assertFalse($famille->fresh()->isLowOnStock());
     }
 
     // --- Réordonner ----------------------------------------------------------

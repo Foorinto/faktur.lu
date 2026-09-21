@@ -229,13 +229,56 @@ class Product extends Model
      * Sans suivi ni seuil, jamais d'alerte : on ne réclame l'attention que
      * lorsque l'utilisateur l'a explicitement demandée en posant un seuil.
      */
+    /**
+     * Le stock de toute la famille : le sien, plus celui de ses déclinaisons.
+     *
+     * « Combien de souris ai-je ? » appelle 350, pas le nombre de souris qu'on
+     * a oublié de ventiler. Une famille peut porter du stock non ventilé, par
+     * exemple une réception qu'on n'a pas encore ouverte : il compte dans le
+     * total, et l'écran le nomme à part.
+     *
+     * ⚠️ Ne jamais additionner ce chiffre sur plusieurs lignes : il inclut
+     * déjà les déclinaisons, et un total de tableau les compterait deux fois.
+     * Les cumuls se font sur `currentStock()`, qui ne compte que les
+     * mouvements de l'article lui-même.
+     */
+    public function stockDeLaFamille(?string $asOfDate = null): float
+    {
+        $total = $this->currentStock($asOfDate);
+
+        foreach ($this->variants as $variante) {
+            $total += $variante->currentStock($asOfDate);
+        }
+
+        return $total;
+    }
+
+    /**
+     * La valeur de toute la famille, même règle que ci-dessus.
+     */
+    public function valeurDeLaFamille(?string $asOfDate = null): float
+    {
+        $total = $this->stockValue($asOfDate);
+
+        foreach ($this->variants as $variante) {
+            $total += $variante->stockValue($asOfDate);
+        }
+
+        return round($total, 2);
+    }
+
     public function isLowOnStock(): bool
     {
         if (! $this->track_stock || $this->stock_alert_threshold === null) {
             return false;
         }
 
-        return $this->currentStock() <= (float) $this->stock_alert_threshold;
+        // Une famille se juge sur tout ce qu'elle couvre : dire « rupture sur
+        // les souris » alors qu'il en reste 350 réparties entre le blanc et le
+        // vert ferait commander pour rien.
+        $stock = $this->isFamily() ? $this->stockDeLaFamille() : $this->currentStock();
+
+        return $stock <= (float) $this->stock_alert_threshold;
     }
 
     /**
