@@ -1,5 +1,7 @@
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
+import { computed, ref, reactive, nextTick } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { useTranslations } from '@/Composables/useTranslations';
 import DialogModal from '@/Components/DialogModal.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -23,11 +25,21 @@ defineProps({
     },
 });
 
+const { t } = useTranslations();
+
 const confirmingPassword = ref(false);
+
+// La confirmation exige le code 2FA quand elle est active : c'est la même
+// règle que la page de confirmation, vérifiée par le même Reauthenticator.
+// Sans ce champ, un utilisateur avec 2FA ne pourrait plus la désactiver ni
+// régénérer ses codes depuis le profil.
+const requiresCode = computed(() => Boolean(usePage().props.auth?.user?.two_factor_enabled));
 
 const form = reactive({
     password: '',
+    two_factor_code: '',
     error: '',
+    codeError: '',
     processing: false,
 });
 
@@ -50,6 +62,7 @@ const confirmPassword = () => {
 
     axios.post(route('password.confirm'), {
         password: form.password,
+        two_factor_code: form.two_factor_code,
     }).then(() => {
         form.processing = false;
 
@@ -58,7 +71,11 @@ const confirmPassword = () => {
 
     }).catch(error => {
         form.processing = false;
-        form.error = error.response.data.errors.password[0];
+        // L'erreur peut porter sur l'un ou l'autre champ : lire le mot de
+        // passe seul plantait en silence quand c'était le code qui manquait.
+        const errors = error.response?.data?.errors ?? {};
+        form.error = errors.password?.[0] ?? '';
+        form.codeError = errors.two_factor_code?.[0] ?? '';
         passwordInput.value.focus();
     });
 };
@@ -66,7 +83,9 @@ const confirmPassword = () => {
 const closeModal = () => {
     confirmingPassword.value = false;
     form.password = '';
+    form.two_factor_code = '';
     form.error = '';
+    form.codeError = '';
 };
 </script>
 
@@ -96,6 +115,21 @@ const closeModal = () => {
                     />
 
                     <InputError :message="form.error" class="mt-2" />
+                </div>
+
+                <div v-if="requiresCode" class="mt-4">
+                    <TextInput
+                        v-model="form.two_factor_code"
+                        type="text"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        class="mt-1 block w-3/4 font-mono"
+                        :placeholder="t('authentication_code')"
+                        @keyup.enter="confirmPassword"
+                    />
+
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('reauth_code_help') }}</p>
+                    <InputError :message="form.codeError" class="mt-2" />
                 </div>
             </template>
 

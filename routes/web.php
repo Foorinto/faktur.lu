@@ -1101,15 +1101,21 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     // confirmation est de dix minutes (config/auth.php).
     Route::middleware('password.confirm')->group(function () {
         Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');
-        Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
         Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
     });
+    // L'aperçu ne renvoie que des comptages, chargés par fetch() depuis la
+    // page ci-dessus, déjà protégée. Une confirmation expirée pendant que la
+    // page reste ouverte ferait échouer l'aperçu en silence : il reste libre.
+    Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
     Route::delete('/exports/audit/{export}', [AuditExportController::class, 'destroy'])->name('exports.audit.destroy');
 
     // Accounting exports (Sage BOB, FID-Manager, CSV) — Essentiel ou Pro
+    // Même raison que pour l'audit : l'aperçu est un fetch() de comptages.
+    Route::middleware('plan.feature:accounting_exports')->group(function () {
+        Route::get('/exports/accounting/preview', [AccountingExportController::class, 'preview'])->name('exports.accounting.preview');
+    });
     Route::middleware(['plan.feature:accounting_exports', 'password.confirm'])->group(function () {
         Route::get('/exports/accounting', [AccountingExportController::class, 'index'])->name('exports.accounting.index');
-        Route::get('/exports/accounting/preview', [AccountingExportController::class, 'preview'])->name('exports.accounting.preview');
         Route::get('/exports/accounting/pdf-archive', [AccountingExportController::class, 'pdfArchive'])->name('exports.accounting.pdf-archive');
         Route::post('/exports/accounting', [AccountingExportController::class, 'store'])->name('exports.accounting.store');
         Route::get('/exports/accounting/{export}/download', [AccountingExportController::class, 'download'])->name('exports.accounting.download');
