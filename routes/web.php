@@ -668,6 +668,18 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::post('/products/{product}/variants', [ProductController::class, 'storeVariants'])
             ->middleware('plan.feature:product_variants')
             ->name('products.variants.store');
+        // Remonter ou descendre une déclinaison. Pas de garde de plan : un
+        // compte redescendu en Gratuit garde la main sur son catalogue.
+        Route::post('/products/{product}/variants/reorder', [ProductController::class, 'reorderVariant'])
+            ->name('products.variants.reorder');
+
+        // Dupliquer un article, ses déclinaisons comprises. Le quota compte
+        // la copie comme une création : sur le plan gratuit il n'y a pas de
+        // déclinaison, donc jamais plus d'un article créé ici.
+        Route::post('/products/{product}/duplicate', [ProductController::class, 'duplicate'])
+            ->middleware('plan.limit:products')
+            ->name('products.duplicate');
+
         Route::post('/products/{product}/propagate', [ProductController::class, 'propagateToVariants'])
             ->name('products.variants.propagate');
 

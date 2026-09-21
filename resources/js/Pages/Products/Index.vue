@@ -40,6 +40,26 @@ const soumettreVariantes = () => {
     });
 };
 
+const deplacer = (famille, variante, direction) => {
+    router.post(
+        route('products.variants.reorder', famille.id),
+        { variant_id: variante.id, direction },
+        { preserveScroll: true, preserveState: false }
+    );
+};
+
+const dupliquer = (product) => {
+    // Une famille emporte ses déclinaisons : on le dit avant, le nombre de
+    // lignes créées n'est pas celui qu'on croit.
+    const question = product.variants_count > 0
+        ? t('products.duplicate_family_confirm', { count: product.variants_count })
+        : t('products.duplicate_confirm');
+
+    if (!window.confirm(question)) return;
+
+    router.post(route('products.duplicate', product.id));
+};
+
 const propager = (product) => {
     if (!window.confirm(t('products.variants_propagate_confirm', { count: product.variants_count }))) return;
 
@@ -69,11 +89,21 @@ const typeTabs = computed(() => {
         tabs.push({ value: 'unclassified', label: t('products.type_unclassified'), count: props.typeCounts.unclassified });
     }
 
+    // L'onglet des familles n'apparaît qu'une fois qu'il y en a : sur un
+    // catalogue sans variante, il ne serait qu'un décor.
+    if ((props.typeCounts.families ?? 0) > 0) {
+        tabs.push({ value: 'families', label: t('products.families_only'), count: props.typeCounts.families });
+    }
+
     return tabs;
 });
 
 const setType = (value) => {
-    router.get(route('products.index'), value ? { type: value } : {}, {
+    // « families » n'est pas un type d'article mais un filtre à part : il
+    // isole les articles qui portent des déclinaisons.
+    const params = value === 'families' ? { families: 1 } : (value ? { type: value } : {});
+
+    router.get(route('products.index'), params, {
         preserveState: true,
         replace: true,
     });
@@ -210,7 +240,7 @@ const destroy = (product) => {
                     @click="setType(tab.value)"
                     :class="[
                         'rounded-xl px-3 py-1.5 text-sm font-medium transition-colors',
-                        (filters.type ?? null) === tab.value
+                        (filters.families ? 'families' : (filters.type ?? null)) === tab.value
                             ? 'bg-primary-600 text-white'
                             : 'bg-gray-100 text-slate-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-700',
                     ]"
@@ -326,8 +356,8 @@ const destroy = (product) => {
                                             </svg>
                                         </button>
                                         {{ product.designation }}
-                                        <span v-if="product.variants_count > 0" class="rounded-full bg-primary-50 px-2 py-0.5 text-xs font-normal text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
-                                            {{ t('products.variants_count', { count: product.variants_count }) }}
+                                        <span v-if="product.variants_count > 0" class="whitespace-nowrap rounded-full bg-primary-50 px-2 py-0.5 text-xs font-normal text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                                            {{ t('products.variants_count', { count: product.variants_count }) }}<template v-if="product.variant_axis_label"> · {{ product.variant_axis_label }}</template>
                                         </span>
                                         <span v-if="!product.is_active" class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-normal text-slate-500 dark:bg-gray-800">
                                             {{ t('products.inactive') }}
@@ -355,9 +385,14 @@ const destroy = (product) => {
                                         />
                                         <RowAction
                                             v-if="product.variants_count > 0"
-                                            icon="duplicate"
+                                            icon="propagate"
                                             :label="t('products.variants_propagate')"
                                             @click="propager(product)"
+                                        />
+                                        <RowAction
+                                            icon="duplicate"
+                                            :label="t('products.duplicate')"
+                                            @click="dupliquer(product)"
                                         />
                                         <RowAction
                                             icon="edit"
@@ -378,7 +413,7 @@ const destroy = (product) => {
                             <!-- Les variantes de la famille dépliée : décalées,
                                  sans case à cocher, ce sont des lignes filles. -->
                             <tr
-                                v-for="variante in (depliees.has(product.id) ? product.variants : [])"
+                                v-for="(variante, index) in (depliees.has(product.id) ? product.variants : [])"
                                 :key="`v-${variante.id}`"
                                 class="bg-slate-50/60 text-sm text-slate-600 dark:bg-gray-800/30 dark:text-slate-400"
                             >
@@ -396,6 +431,29 @@ const destroy = (product) => {
                                 <td class="px-4 py-2"></td>
                                 <td class="px-4 py-2">
                                     <div class="flex items-center justify-end gap-1">
+                                        <!-- Aux extrémités la flèche manquante laisse
+                                             sa place : sans cela toute la colonne
+                                             d'actions se décalerait d'une ligne à
+                                             l'autre. -->
+                                        <RowAction
+                                            v-if="index > 0"
+                                            icon="up"
+                                            :label="t('products.variant_move_up')"
+                                            @click="deplacer(product, variante, 'up')"
+                                        />
+                                        <span v-else class="inline-block h-8 w-8" aria-hidden="true"></span>
+                                        <RowAction
+                                            v-if="index < product.variants.length - 1"
+                                            icon="down"
+                                            :label="t('products.variant_move_down')"
+                                            @click="deplacer(product, variante, 'down')"
+                                        />
+                                        <span v-else class="inline-block h-8 w-8" aria-hidden="true"></span>
+                                        <RowAction
+                                            icon="duplicate"
+                                            :label="t('products.duplicate')"
+                                            @click="dupliquer(variante)"
+                                        />
                                         <RowAction
                                             icon="edit"
                                             tone="primary"

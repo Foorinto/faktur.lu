@@ -5,11 +5,15 @@ namespace Tests\Feature;
 use App\Actions\FinalizeInvoiceAction;
 use App\Models\BusinessSettings;
 use App\Models\Client;
+use App\Models\Import\ImportSession;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\StockMovement;
 use App\Models\User;
+use App\Services\Import\ProductImportService;
 use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
@@ -390,5 +394,304 @@ class ProductVariantTest extends TestCase
         $this->post(route('products.variants.propagate', $famille))->assertSessionHasNoErrors();
 
         $this->assertEquals('12.0000', $famille->fresh()->variants->first()->unit_price_ht);
+    }
+
+    public function test_une_prestation_porte_des_variantes_comme_un_bien(): void
+    {
+        // « Formation » en demi-journée ou en journée, « Conseil » junior ou
+        // senior : la déclinaison n'est pas réservée aux marchandises.
+        $prestation = $this->famille([
+            'designation' => 'Formation',
+            'reference' => 'FORM',
+            'type' => Product::TYPE_SERVICE,
+        ]);
+
+        $this->post(route('products.variants.store', $prestation), [
+            'variant_axis_label' => 'Durée',
+            'labels' => "Demi-journée\nJournée",
+        ])->assertSessionHasNoErrors();
+
+        $variantes = $prestation->fresh()->variants;
+        $this->assertCount(2, $variantes);
+        $this->assertSame(Product::TYPE_SERVICE, $variantes->first()->type);
+        $this->assertSame('Durée', $prestation->fresh()->variant_axis_label);
+    }
+
+    public function test_la_page_stock_annonce_le_total_de_la_famille(): void
+    {
+        // Quarante-cinq nuances à trois pièces, c'est cent trente-cinq pièces
+        // en rayon : c'est ce chiffre qu'on regarde avant de commander.
+        $famille = $this->famille(['track_stock' => true]);
+        $this->post(route('products.variants.store', $famille), ['labels' => "Noir\nBlanc"]);
+
+        foreach ($famille->fresh()->variants as $variante) {
+            StockMovement::create([
+                'user_id' => $this->user->id,
+                'product_id' => $variante->id,
+                'type' => 'in',
+                'quantity' => 3,
+                'date' => now()->toDateString(),
+            ]);
+        }
+
+        $this->get(route('stock.index'))->assertInertia(fn ($page) => $page
+            ->where('products.0.family_total.count', 2)
+            ->where('products.0.family_total.quantity', 6)
+        );
+    }
+
+    // --- Réordonner ----------------------------------------------------------
+
+    public function test_une_declinaison_remonte_d_un_rang(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => "S\nM\nL"]);
+        $troisieme = $famille->variants()->get()[2];
+
+        $this->post(route('products.variants.reorder', $famille), [
+            'variant_id' => $troisieme->id,
+            'direction' => 'up',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(['S', 'L', 'M'], $famille->fresh()->variants->pluck('variant_label')->all());
+    }
+
+    public function test_une_declinaison_descend_d_un_rang(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => "S\nM\nL"]);
+        $premiere = $famille->variants()->first();
+
+        $this->post(route('products.variants.reorder', $famille), [
+            'variant_id' => $premiere->id,
+            'direction' => 'down',
+        ]);
+
+        $this->assertSame(['M', 'S', 'L'], $famille->fresh()->variants->pluck('variant_label')->all());
+    }
+
+    public function test_remonter_la_premiere_declinaison_ne_change_rien(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => "S\nM"]);
+        $premiere = $famille->variants()->first();
+
+        $this->post(route('products.variants.reorder', $famille), [
+            'variant_id' => $premiere->id,
+            'direction' => 'up',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(['S', 'M'], $famille->fresh()->variants->pluck('variant_label')->all());
+    }
+
+    public function test_on_ne_reordonne_pas_la_declinaison_d_une_autre_famille(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => 'S']);
+
+        $autre = $this->famille(['designation' => 'Autre', 'reference' => 'AUT']);
+        $this->post(route('products.variants.store', $autre), ['labels' => 'XL']);
+        $etrangere = $autre->variants()->first();
+
+        $this->post(route('products.variants.reorder', $famille), [
+            'variant_id' => $etrangere->id,
+            'direction' => 'up',
+        ])->assertNotFound();
+    }
+
+    // --- Lot 3 : import, duplication, filtre ---------------------------------
+
+    public function test_une_colonne_variante_est_reconnue_a_l_import(): void
+    {
+        $mapping = app(ProductImportService::class)
+            ->autoDetectMapping(['Désignation', 'Nuance', 'Prix HT']);
+
+        $this->assertSame('variant_label', $mapping['Nuance']);
+    }
+
+    public function test_un_tableau_de_nuances_devient_une_famille_et_ses_variantes(): void
+    {
+        // Le cas réel : un tableur ne contient que les nuances, la famille n'y
+        // figure pas en tant que ligne. Elle doit naître de la première ligne.
+        $session = $this->sessionImport("designation,variante,prix\nExtensions GL30,Nuance 12,6\nExtensions GL30,Nuance 14,6\nExtensions GL30,Nuance 16,7\n");
+
+        app(ProductImportService::class)->import($session);
+
+        $familles = Product::topLevel()->get();
+        $this->assertCount(1, $familles);
+        $this->assertSame('Extensions GL30', $familles->first()->designation);
+
+        $variantes = $familles->first()->variants;
+        $this->assertCount(3, $variantes);
+        $this->assertSame(['Nuance 12', 'Nuance 14', 'Nuance 16'], $variantes->pluck('variant_label')->all());
+        $this->assertEquals('7.0000', $variantes->last()->unit_price_ht);
+    }
+
+    public function test_les_lignes_importees_rejoignent_une_famille_existante(): void
+    {
+        $famille = $this->famille();
+
+        $session = $this->sessionImport("designation,variante,prix\nExtensions GL30,Nuance 12,6\n");
+        app(ProductImportService::class)->import($session);
+
+        $this->assertCount(1, Product::topLevel()->get());
+        $this->assertSame($famille->id, Product::variantsOnly()->first()->parent_id);
+    }
+
+    public function test_une_variante_importee_n_est_pas_prise_pour_un_doublon_de_sa_famille(): void
+    {
+        // Sans précaution, chaque ligne porterait la désignation de la famille
+        // déjà en base : toutes seraient écartées comme doublons, et l'import
+        // rendrait « 0 importé » sans rien dire de plus.
+        $this->famille();
+
+        $session = $this->sessionImport("designation,variante,prix\nExtensions GL30,Nuance 12,6\nExtensions GL30,Nuance 14,6\n");
+        $apercu = app(ProductImportService::class)->validateAndPreview($session);
+
+        $this->assertCount(0, $apercu['duplicates']);
+        $this->assertCount(2, $apercu['valid']);
+    }
+
+    public function test_l_apercu_annonce_la_famille_qu_il_va_creer_en_plus(): void
+    {
+        // Le fichier a quatre lignes, l'import en crée cinq : la famille
+        // n'apparaît pas dans le tableur. L'écart doit être annoncé avant.
+        $session = $this->sessionImport("designation,variante,prix\nExtensions GL30,Nuance 12,6\nExtensions GL30,Nuance 14,6\n");
+
+        $apercu = app(ProductImportService::class)->validateAndPreview($session);
+
+        $this->assertContains(
+            __('app.import_products_notice_families', ['count' => 1]),
+            $apercu['notices']
+        );
+    }
+
+    public function test_l_apercu_se_tait_quand_la_famille_existe_deja(): void
+    {
+        $this->famille();
+        $session = $this->sessionImport("designation,variante,prix\nExtensions GL30,Nuance 12,6\n");
+
+        $apercu = app(ProductImportService::class)->validateAndPreview($session);
+
+        $this->assertSame([], $apercu['notices']);
+    }
+
+    public function test_un_second_import_ne_duplique_pas_les_memes_nuances(): void
+    {
+        $service = app(ProductImportService::class);
+        $csv = "designation,variante,prix\nExtensions GL30,Nuance 12,6\nExtensions GL30,Nuance 14,6\n";
+
+        $service->import($this->sessionImport($csv));
+        $service->import($this->sessionImport($csv));
+
+        $this->assertCount(2, Product::variantsOnly()->get());
+        $this->assertCount(1, Product::topLevel()->get());
+    }
+
+    public function test_un_compte_gratuit_n_importe_pas_de_variantes(): void
+    {
+        $gratuit = User::factory()->create([
+            'email_verified_at' => now(),
+            'trial_ends_at' => now()->subMonth(),
+        ]);
+        $this->actingAs($gratuit);
+
+        $session = $this->sessionImport("designation,variante,prix\nExtensions GL30,Nuance 12,6\n", $gratuit);
+        app(ProductImportService::class)->import($session);
+
+        $this->assertCount(0, Product::variantsOnly()->get());
+        $this->assertCount(1, Product::topLevel()->get());
+    }
+
+    public function test_dupliquer_une_famille_emporte_ses_declinaisons(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => "Nuance 12\nNuance 14"]);
+
+        $this->post(route('products.duplicate', $famille))->assertRedirect();
+
+        $copie = Product::topLevel()->where('id', '!=', $famille->id)->first();
+        $this->assertNotNull($copie);
+        $this->assertSame('Extensions GL30 '.__('app.products.copy_suffix'), $copie->designation);
+        $this->assertSame('GL30-'.__('app.products.copy_reference_suffix'), $copie->reference);
+        $this->assertCount(2, $copie->variants);
+        $this->assertSame(['Nuance 12', 'Nuance 14'], $copie->variants->pluck('variant_label')->all());
+    }
+
+    public function test_les_references_de_la_copie_ne_recouvrent_pas_l_original(): void
+    {
+        // Deux articles distincts qui portent le même code, c'est un inventaire
+        // faux et un bon de commande ambigu.
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => 'Nuance 12']);
+
+        $this->post(route('products.duplicate', $famille));
+
+        $references = Product::withTrashed()->pluck('reference')->filter()->all();
+        $this->assertSame($references, array_unique($references));
+    }
+
+    public function test_dupliquer_une_declinaison_cree_une_voisine_pas_une_famille(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => 'Nuance 12']);
+        $variante = $famille->variants()->first();
+
+        $this->post(route('products.duplicate', $variante));
+
+        $this->assertCount(1, Product::topLevel()->get());
+        $this->assertCount(2, $famille->fresh()->variants);
+        $this->assertSame('Nuance 12 '.__('app.products.copy_suffix'), $famille->fresh()->variants->last()->variant_label);
+    }
+
+    public function test_la_copie_ne_reprend_pas_le_stock_de_l_original(): void
+    {
+        $famille = $this->famille(['track_stock' => true]);
+        StockMovement::create([
+            'user_id' => $this->user->id,
+            'product_id' => $famille->id,
+            'type' => 'in',
+            'quantity' => 40,
+            'date' => now()->toDateString(),
+        ]);
+
+        $this->post(route('products.duplicate', $famille));
+
+        $copie = Product::topLevel()->where('id', '!=', $famille->id)->first();
+        $this->assertSame(0, StockMovement::where('product_id', $copie->id)->count());
+        $this->assertTrue((bool) $copie->track_stock);
+    }
+
+    public function test_le_filtre_familles_ne_montre_que_les_articles_a_declinaisons(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => 'Nuance 12']);
+        $this->famille(['designation' => 'Prestation simple', 'reference' => 'PS']);
+
+        $reponse = $this->get(route('products.index', ['families' => 1]));
+
+        $reponse->assertInertia(fn ($page) => $page
+            ->where('products.data.0.designation', 'Extensions GL30')
+            ->count('products.data', 1)
+            ->where('typeCounts.families', 1)
+        );
+    }
+
+    private function sessionImport(string $csv, ?User $proprietaire = null): ImportSession
+    {
+        Storage::fake('local');
+
+        $chemin = 'import-'.uniqid().'.csv';
+        Storage::put($chemin, $csv);
+
+        return ImportSession::create([
+            'user_id' => ($proprietaire ?? $this->user)->id,
+            'type' => 'products',
+            'filename' => $chemin,
+            'storage_path' => $chemin,
+            'mapping' => ['designation' => 'designation', 'variante' => 'variant_label', 'prix' => 'unit_price_ht'],
+            'duplicate_strategy' => 'skip',
+            'status' => 'preview',
+        ]);
     }
 }

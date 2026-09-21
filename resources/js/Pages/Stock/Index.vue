@@ -99,10 +99,20 @@ const submitInventory = () => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                        <tr v-for="p in products" :key="p.id">
-                            <td class="px-6 py-3">
+                        <tr v-for="p in products" :key="p.id" :class="p.parent_id ? 'bg-slate-50/60 dark:bg-gray-800/30' : ''">
+                            <td class="px-6 py-3" :class="p.parent_id ? 'pl-10' : ''">
                                 <div class="text-sm font-medium text-slate-900 dark:text-white">{{ p.designation }}</div>
                                 <div v-if="p.reference" class="text-xs text-slate-400">{{ p.reference }}</div>
+                                <!-- Une famille annonce le cumul de ses nuances :
+                                     c'est le chiffre qu'on regarde avant de
+                                     commander, pas celui d'une nuance isolée. -->
+                                <div v-if="p.family_total" class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                                    {{ t('stock.family_total', {
+                                        count: p.family_total.count,
+                                        quantity: formatQty(p.family_total.quantity),
+                                        value: formatCurrency(p.family_total.value),
+                                    }) }}
+                                </div>
                             </td>
                             <td class="px-6 py-3 text-right text-sm font-mono tabular-nums">
                                 <span :class="p.is_low ? 'font-semibold text-amber-600 dark:text-amber-400' : 'text-slate-900 dark:text-white'">

@@ -31,8 +31,21 @@ class StockController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        // Le total de la famille : quarante-cinq nuances à trois unités
+        // chacune, c'est cent trente-cinq pièces en rayon, et c'est ce chiffre
+        // qu'on cherche avant de commander.
+        $totauxFamille = $products->whereNotNull('parent_id')
+            ->groupBy('parent_id')
+            ->map(fn ($variantes) => [
+                'quantity' => round($variantes->sum(fn (Product $v) => $v->currentStock()), 4),
+                'value' => round($variantes->sum(fn (Product $v) => $v->stockValue()), 2),
+                'count' => $variantes->count(),
+            ]);
+
         $rows = $products->map(fn (Product $p) => [
             'id' => $p->id,
+            'parent_id' => $p->parent_id,
+            'family_total' => $totauxFamille->get($p->id),
             // ⚠️ Le nom complet : savoir que « Clavier mécanique » est bas ne
             // sert à rien, il faut savoir QUELLE déclinaison l'est.
             'designation' => $p->displayName(),

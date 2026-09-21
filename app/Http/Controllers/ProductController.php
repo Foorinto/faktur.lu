@@ -12,6 +12,7 @@ use App\Services\PlanService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -31,6 +32,11 @@ class ProductController extends Controller
     {
         $type = $request->input('type');
 
+        // Un catalogue qui compte beaucoup de familles gagne à les isoler :
+        // on ne cherche pas une déclinaison de la même façon qu'un article
+        // ordinaire.
+        $famillesSeulement = $request->boolean('families');
+
         // Seules les familles et les articles ordinaires sont paginés : une
         // variante n'est pas une ligne du catalogue, elle appartient à sa
         // famille. Sans cela, une famille de 45 nuances occuperait deux pages
@@ -38,6 +44,7 @@ class ProductController extends Controller
         $products = Product::query()
             ->topLevel()
             ->ofType($type)
+            ->when($famillesSeulement, fn ($q) => $q->whereHas('variants'))
             ->with(['variants:id,parent_id,designation,variant_label,reference,unit_price_ht,vat_rate,is_active,track_stock,sort_order'])
             ->withCount('variants')
             ->orderBy('designation')
@@ -57,7 +64,7 @@ class ProductController extends Controller
             'quota' => $this->quotaInfo($request),
             'units' => $this->getUnits(),
             'vatRates' => $this->getVatRates(),
-            'filters' => ['type' => $type],
+            'filters' => ['type' => $type, 'families' => $famillesSeulement],
             // Les compteurs suivent la liste : ils dénombrent des familles et
             // des articles ordinaires, pas des variantes. Sinon l'onglet
             // annoncerait 46 là où la page en montre une.
@@ -66,6 +73,7 @@ class ProductController extends Controller
                 Product::TYPE_PRODUCT => Product::query()->topLevel()->where('type', Product::TYPE_PRODUCT)->count(),
                 Product::TYPE_SERVICE => Product::query()->topLevel()->where('type', Product::TYPE_SERVICE)->count(),
                 'unclassified' => Product::query()->topLevel()->whereNull('type')->count(),
+                'families' => Product::query()->topLevel()->whereHas('variants')->count(),
             ],
         ]);
     }
@@ -150,6 +158,76 @@ class ProductController extends Controller
      * cinquante coloris, trois à cinq formats. Les saisir une par une est
      * exactement la peine qu'on supprime ici.
      */
+    /**
+     * Dupliquer un article, ses déclinaisons comprises (FEAT-120).
+     *
+     * Le cas qui l'a motivé : une famille de 45 nuances dont on veut la même
+     * liste dans un autre conditionnement. La ressaisir à la main, c'est 45
+     * lignes ; la dupliquer, c'est un clic puis un changement de prix.
+     *
+     * Le stock n'est pas recopié : il se déduit des mouvements, et le nouvel
+     * article n'en a aucun. C'est voulu — un article dupliqué part à zéro,
+     * sinon l'inventaire compterait deux fois la même marchandise.
+     */
+    public function duplicate(Product $product): RedirectResponse
+    {
+        $copie = null;
+
+        DB::transaction(function () use ($product, &$copie) {
+            $attributs = Arr::except(
+                $product->only($product->getFillable()),
+                ['parent_id', 'variant_label', 'sort_order']
+            );
+
+            // Une déclinaison se duplique en voisine, sous la même famille :
+            // c'est le libellé qui porte la copie, pas la désignation.
+            if ($product->isVariant()) {
+                $copie = $product->parent->variants()->create(array_merge($attributs, [
+                    'variant_label' => $this->libelleDeCopie($product->variant_label),
+                    'reference' => $this->referenceDeCopie($product->reference),
+                    'sort_order' => (int) $product->parent->variants()->max('sort_order') + 1,
+                ]));
+
+                return;
+            }
+
+            $copie = Product::create(array_merge($attributs, [
+                'designation' => $this->libelleDeCopie($product->designation),
+                'reference' => $this->referenceDeCopie($product->reference),
+            ]));
+
+            foreach ($product->variants as $variante) {
+                $copie->variants()->create(array_merge(
+                    Arr::except($variante->only($variante->getFillable()), ['parent_id']),
+                    [
+                        'designation' => $copie->designation,
+                        // La référence se redérive de celle de la copie, comme
+                        // à la création : sinon deux articles distincts
+                        // porteraient le même code.
+                        'reference' => $copie->reference
+                            ? $copie->reference.'-'.Str::slug((string) $variante->variant_label)
+                            : null,
+                    ]
+                ));
+            }
+        });
+
+        return redirect()->route('products.edit', $copie)->with(
+            'success',
+            __('app.products.duplicated')
+        );
+    }
+
+    private function libelleDeCopie(?string $libelle): string
+    {
+        return Str::limit(trim((string) $libelle).' '.__('app.products.copy_suffix'), 255, '');
+    }
+
+    private function referenceDeCopie(?string $reference): ?string
+    {
+        return $reference ? Str::limit($reference.'-'.__('app.products.copy_reference_suffix'), 100, '') : null;
+    }
+
     public function storeVariants(Request $request, Product $product): RedirectResponse
     {
         abort_if($product->isVariant(), 404);
@@ -227,6 +305,56 @@ class ProductController extends Controller
      * C'est le geste qui justifie la fonctionnalité : changer un prix une fois
      * au lieu de quarante-cinq.
      */
+    /**
+     * Remonter ou descendre une déclinaison dans sa famille (FEAT-120).
+     *
+     * Des tailles se lisent S, M, L, XL : l'ordre est voulu, pas déduit. La
+     * liste collée à la création donne le bon ordre la première fois, mais une
+     * nuance ajoutée après coup arrive en dernier, là où elle n'a pas sa place.
+     *
+     * L'échange se fait avec la voisine immédiate plutôt que par une
+     * renumérotation complète : deux lignes touchées, et deux variantes créées
+     * le même jour avec le même `sort_order` ne se bloquent pas mutuellement,
+     * puisque le départage se fait sur l'identifiant.
+     */
+    public function reorderVariant(Request $request, Product $product): RedirectResponse
+    {
+        abort_if($product->isVariant(), 404);
+
+        $data = $request->validate([
+            'variant_id' => ['required', 'integer'],
+            'direction' => ['required', 'in:up,down'],
+        ]);
+
+        $variantes = $product->variants()->get();
+        $position = $variantes->search(fn ($v) => $v->id === (int) $data['variant_id']);
+
+        if ($position === false) {
+            abort(404);
+        }
+
+        $cible = $position + ($data['direction'] === 'up' ? -1 : 1);
+
+        // Aux extrémités il n'y a rien à échanger : on repart sans rien changer
+        // plutôt que de signaler une erreur pour un clic sans conséquence.
+        if ($cible < 0 || $cible >= $variantes->count()) {
+            return back();
+        }
+
+        $a = $variantes[$position];
+        $b = $variantes[$cible];
+
+        DB::transaction(function () use ($a, $b, $position, $cible) {
+            // Les rangs peuvent être identiques (import, ancienne donnée) :
+            // on réécrit les deux à partir de la position voulue, sinon
+            // l'échange serait sans effet.
+            $a->update(['sort_order' => $cible + 1]);
+            $b->update(['sort_order' => $position + 1]);
+        });
+
+        return back();
+    }
+
     public function propagateToVariants(Product $product): RedirectResponse
     {
         abort_if($product->isVariant(), 404);
