@@ -9,6 +9,7 @@ use App\Services\DashboardService;
 use App\Services\FranchiseAlertService;
 use App\Services\OnboardingService;
 use App\Services\PlanService;
+use App\Services\StockSnapshot;
 use App\Services\VentilationEncaissements;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -65,19 +66,27 @@ class DashboardController extends Controller
      */
     private function lowStockAlerts(): array
     {
-        return Product::where('track_stock', true)
+        $suivis = Product::where('track_stock', true)
             ->whereNotNull('stock_alert_threshold')
             ->with('parent:id,designation,variant_axis_label')
             ->orderBy('designation')
             ->orderBy('sort_order')
-            ->get()
-            ->filter->isLowOnStock()
+            ->get();
+
+        // ⚠️ Trois requêtes pour tout le stock, au lieu d'une poignée par
+        // article : cette carte s'affiche sur la page la plus visitée.
+        $etat = new StockSnapshot($suivis);
+
+        return $suivis
+            ->filter(fn ($p) => $etat->estSousLeSeuil($p))
             ->map(fn ($p) => [
                 'id' => $p->id,
                 // L'alerte nomme la déclinaison, pas la famille : être en
                 // rupture « sur les extensions » ne dit pas quoi commander.
                 'designation' => $p->displayName(),
-                'current_stock' => $p->currentStock(),
+                'current_stock' => $etat->estUneFamille((int) $p->id)
+                    ? $etat->stockDeLaFamille((int) $p->id)
+                    : $etat->stock((int) $p->id),
                 'threshold' => (float) $p->stock_alert_threshold,
             ])
             ->values()

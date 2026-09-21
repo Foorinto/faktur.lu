@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\StockMovement;
 use App\Services\StockService;
+use App\Services\StockSnapshot;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -33,45 +34,38 @@ class StockController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        // Le cumul des déclinaisons, calculé une fois pour toutes plutôt
-        // qu'article par article : la page liste tout le catalogue suivi.
-        $cumuls = $products->whereNotNull('parent_id')
-            ->groupBy('parent_id')
-            ->map(fn ($variantes) => [
-                'quantity' => round($variantes->sum(fn (Product $v) => $v->currentStock()), 4),
-                'value' => round($variantes->sum(fn (Product $v) => $v->stockValue()), 2),
-                'count' => $variantes->count(),
-            ]);
+        // ⚠️ Trois requêtes pour tout le stock de la page. Appeler
+        // `currentStock()` et `stockValue()` article par article en coûtait une
+        // dizaine par ligne, et la page grossissait avec le catalogue.
+        $etat = new StockSnapshot($products);
 
-        $rows = $products->map(function (Product $p) use ($cumuls) {
-            $propre = $p->currentStock();
-            $cumul = $cumuls->get($p->id);
-
-            // La colonne annonce tout ce que la famille couvre : « combien de
-            // souris ai-je » appelle 350, pas le reliquat qu'on a oublié de
-            // ventiler. Le reliquat se nomme à part, en dessous.
-            $affiche = $cumul ? round($propre + $cumul['quantity'], 4) : $propre;
+        $rows = $products->map(function (Product $p) use ($etat) {
+            $id = (int) $p->id;
+            $estFamille = $etat->estUneFamille($id);
 
             return [
-                'id' => $p->id,
+                'id' => $id,
                 'parent_id' => $p->parent_id,
-                'variants_count' => $cumul['count'] ?? 0,
+                'variants_count' => count($etat->declinaisonsDe($id)),
                 // Le stock propre de la famille, celui qui n'est rattaché à
                 // aucune déclinaison. Zéro la plupart du temps.
-                'unallocated_stock' => $cumul ? $propre : null,
+                'unallocated_stock' => $estFamille ? $etat->stock($id) : null,
                 // ⚠️ Le nom complet : savoir que « Clavier mécanique » est bas
                 // ne sert à rien, il faut savoir QUELLE déclinaison l'est.
                 'designation' => $p->displayName(),
                 'reference' => $p->reference,
                 'unit' => $p->unit,
-                'current_stock' => $affiche,
-                'stock_value' => $cumul ? round($p->stockValue() + $cumul['value'], 2) : $p->stockValue(),
+                // La colonne annonce tout ce que la famille couvre : « combien
+                // de souris ai-je » appelle 350, pas le reliquat qu'on a oublié
+                // de ventiler. Le reliquat se nomme à part, en dessous.
+                'current_stock' => $estFamille ? $etat->stockDeLaFamille($id) : $etat->stock($id),
+                'stock_value' => $estFamille ? $etat->valeurDeLaFamille($id) : $etat->valeur($id),
                 'threshold' => $p->stock_alert_threshold !== null ? (float) $p->stock_alert_threshold : null,
-                'is_low' => $p->isLowOnStock(),
+                'is_low' => $etat->estSousLeSeuil($p),
                 // ⚠️ Ce que vaut l'article lui-même : les totaux de la page se
                 // font là-dessus, jamais sur la colonne affichée, qui inclut
                 // déjà les déclinaisons.
-                'own_value' => $p->stockValue(),
+                'own_value' => $etat->valeur($id),
             ];
         });
 
@@ -85,9 +79,6 @@ class StockController extends Controller
         ]);
     }
 
-    /**
-     * Entrée manuelle de stock (réception, achat direct).
-     */
     public function storeEntry(Request $request, Product $product): RedirectResponse
     {
         // Une famille peut ne pas suivre son propre stock tout en portant des
