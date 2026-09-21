@@ -44,17 +44,50 @@ const onInput = (event) => {
     fetchResults(event.target.value);
 };
 
+// Choix en deux temps (FEAT-120) : la recherche ne renvoie jamais une variante
+// nue, seulement sa famille. Cliquer une famille ouvre ses déclinaisons, au
+// lieu de noyer la liste sous quarante-cinq nuances.
+const famille = ref(null);
+const declinaisons = ref([]);
+const axe = ref('');
+
+const ouvrirDeclinaisons = async (product) => {
+    famille.value = product;
+    declinaisons.value = [];
+
+    try {
+        const reponse = await fetch(route('products.variants.list', product.id), {
+            headers: { Accept: 'application/json' },
+        });
+        const data = await reponse.json();
+        declinaisons.value = data.variants || [];
+        axe.value = data.axis || '';
+    } catch (e) {
+        declinaisons.value = [];
+    }
+};
+
 const choose = (product) => {
-    emit('update:modelValue', product.designation);
+    // Une famille ne se facture pas : « GL30 » sans nuance ne veut rien dire
+    // sur une facture, et son stock serait un total sans usage.
+    if (product.variants_count > 0) {
+        ouvrirDeclinaisons(product);
+
+        return;
+    }
+
+    emit('update:modelValue', product.display_name || product.designation);
     emit('select', product);
     open.value = false;
     results.value = [];
+    famille.value = null;
 };
 
 // Close the inline dropdown when clicking anywhere outside the component.
 const onOutsideClick = (event) => {
     if (open.value && rootRef.value && !rootRef.value.contains(event.target)) {
         open.value = false;
+        famille.value = null;
     }
 };
 
@@ -93,15 +126,47 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', onOutsideClick))
             v-if="open"
             class="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
         >
+            <!-- Les déclinaisons de la famille choisie -->
+            <template v-if="famille">
+                <li class="flex items-center gap-2 border-b border-gray-100 px-3 py-2 text-xs text-slate-500 dark:border-gray-700 dark:text-slate-400">
+                    <button type="button" class="font-medium text-primary-600 hover:underline dark:text-primary-400" @mousedown.prevent="famille = null">
+                        {{ t('back') }}
+                    </button>
+                    <span class="font-medium text-slate-700 dark:text-slate-200">{{ famille.designation }}</span>
+                    <span v-if="axe">· {{ axe }}</span>
+                </li>
+                <li
+                    v-for="v in declinaisons"
+                    :key="v.id"
+                    class="cursor-pointer px-3 py-2 text-sm hover:bg-primary-50 dark:hover:bg-gray-700"
+                    @mousedown.prevent="choose(v)"
+                >
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="font-medium text-slate-800 dark:text-white">{{ v.variant_label }}</span>
+                        <span class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ Number(v.unit_price_ht).toFixed(2) }} € · {{ Number(v.vat_rate) }}%</span>
+                    </div>
+                    <div v-if="v.reference" class="text-xs text-slate-400">{{ v.reference }}</div>
+                </li>
+                <li v-if="declinaisons.length === 0" class="px-3 py-2 text-sm text-slate-400">
+                    {{ t('products.none_found') }}
+                </li>
+            </template>
+
+            <!-- Familles et articles ordinaires -->
             <li
-                v-for="p in results"
+                v-for="p in (famille ? [] : results)"
                 :key="p.id"
                 class="cursor-pointer px-3 py-2 text-sm hover:bg-primary-50 dark:hover:bg-gray-700"
                 @mousedown.prevent="choose(p)"
             >
                 <div class="flex items-center justify-between gap-2">
-                    <span class="font-medium text-slate-800 dark:text-white">{{ p.designation }}</span>
-                    <span class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ Number(p.unit_price_ht).toFixed(2) }} € · {{ Number(p.vat_rate) }}%</span>
+                    <span class="font-medium text-slate-800 dark:text-white">
+                        {{ p.display_name || p.designation }}
+                        <span v-if="p.variants_count > 0" class="ml-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-normal text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                            {{ t('products.variants_count', { count: p.variants_count }) }}
+                        </span>
+                    </span>
+                    <span v-if="!p.variants_count" class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ Number(p.unit_price_ht).toFixed(2) }} € · {{ Number(p.vat_rate) }}%</span>
                 </div>
                 <div v-if="p.reference" class="text-xs text-slate-400">{{ p.reference }}</div>
             </li>

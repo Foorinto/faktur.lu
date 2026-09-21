@@ -663,6 +663,8 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         // doit pouvoir corriger le prix d'un catalogue qu'il a déjà. Le couper
         // de ses propres articles reviendrait à lui laisser du stock qu'il ne
         // peut plus tenir.
+        Route::get('/products/{product}/variants', [ProductController::class, 'variants'])
+            ->name('products.variants.list');
         Route::post('/products/{product}/variants', [ProductController::class, 'storeVariants'])
             ->middleware('plan.feature:product_variants')
             ->name('products.variants.store');

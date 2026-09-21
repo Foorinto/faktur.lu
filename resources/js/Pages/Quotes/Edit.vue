@@ -117,7 +117,7 @@ const productVatRate = (product) => (props.isVatExempt ? 0 : Number(product.vat_
 // Pre-fill from a selected catalogue product (FEAT-095).
 const applyProductToEdit = (product) => {
     editItemForm.product_id = product.id;
-    editItemForm.title = product.designation;
+    editItemForm.title = product.display_name || product.designation;
     if (product.description) { editItemForm.description = product.description; }
     editItemForm.unit_price = Number(product.unit_price_ht);
     if (product.unit) { editItemForm.unit = product.unit; }
@@ -127,7 +127,7 @@ const applyProductToEdit = (product) => {
 };
 const applyProductToItem = (product) => {
     itemForm.product_id = product.id;
-    itemForm.title = product.designation;
+    itemForm.title = product.display_name || product.designation;
     if (product.description) { itemForm.description = product.description; }
     itemForm.unit_price = Number(product.unit_price_ht);
     if (product.unit) { itemForm.unit = product.unit; }

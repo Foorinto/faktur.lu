@@ -22,13 +22,20 @@ class StockController extends Controller
 
     public function index(): Response
     {
+        // Les variantes suivent leur famille, et dans l'ordre voulu : un stock
+        // rangé par ordre alphabétique mélangerait les nuances d'une même
+        // famille avec le reste du catalogue.
         $products = Product::where('track_stock', true)
+            ->with('parent:id,designation,variant_axis_label')
             ->orderBy('designation')
+            ->orderBy('sort_order')
             ->get();
 
         $rows = $products->map(fn (Product $p) => [
             'id' => $p->id,
-            'designation' => $p->designation,
+            // ⚠️ Le nom complet : savoir que « Clavier mécanique » est bas ne
+            // sert à rien, il faut savoir QUELLE déclinaison l'est.
+            'designation' => $p->displayName(),
             'reference' => $p->reference,
             'unit' => $p->unit,
             'current_stock' => $p->currentStock(),

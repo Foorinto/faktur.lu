@@ -2,6 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Actions\FinalizeInvoiceAction;
+use App\Models\BusinessSettings;
+use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\User;
 use Database\Seeders\PlansSeeder;
@@ -252,6 +256,107 @@ class ProductVariantTest extends TestCase
         $this->post(route('products.variants.store', $famille), ['labels' => 'nuance 12']);
 
         $this->assertSame('Nuance', $famille->fresh()->variants->first()->axisLabel());
+    }
+
+    // --- Les documents : le choix en deux temps -------------------------------
+
+    public function test_la_recherche_ne_renvoie_jamais_une_variante_nue(): void
+    {
+        // ⚠️ Le critère de performance de la fiche : taper « GL30 » doit
+        // renvoyer UNE ligne, pas quarante-cinq. La saisie d'une facture ne
+        // doit pas ralentir à cause des variantes.
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => "a\nb\nc\nd\ne"]);
+
+        $reponse = $this->getJson(route('products.search', ['q' => 'Extensions']));
+
+        $reponse->assertOk();
+        $this->assertCount(1, $reponse->json('products'));
+        $this->assertSame(5, $reponse->json('products.0.variants_count'));
+    }
+
+    public function test_la_recherche_trouve_une_variante_par_sa_propre_reference(): void
+    {
+        // C'est le code que l'utilisateur a sous les yeux sur son inventaire.
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => 'nuance 12']);
+
+        $reponse = $this->getJson(route('products.search', ['q' => 'GL30-nuance-12']));
+
+        $trouve = collect($reponse->json('products'))->firstWhere('variant_label', 'nuance 12');
+
+        $this->assertNotNull($trouve);
+        $this->assertSame('Extensions GL30 — nuance 12', $trouve['display_name']);
+    }
+
+    public function test_les_declinaisons_d_une_famille_se_listent_a_part(): void
+    {
+        $famille = $this->famille(['variant_axis_label' => 'Nuance']);
+        $this->post(route('products.variants.store', $famille), ['labels' => "n1\nn2"]);
+
+        $reponse = $this->getJson(route('products.variants.list', $famille));
+
+        $reponse->assertOk();
+        $this->assertSame('Nuance', $reponse->json('axis'));
+        $this->assertCount(2, $reponse->json('variants'));
+        $this->assertSame('Extensions GL30 — n1', $reponse->json('variants.0.display_name'));
+    }
+
+    public function test_un_article_sans_variante_reste_directement_selectionnable(): void
+    {
+        $this->famille(['designation' => 'Écran 27 pouces', 'reference' => 'ECR']);
+
+        $reponse = $this->getJson(route('products.search', ['q' => 'Écran']));
+
+        $this->assertCount(1, $reponse->json('products'));
+        $this->assertSame(0, $reponse->json('products.0.variants_count'));
+    }
+
+    public function test_facturer_une_variante_sort_son_stock_a_elle(): void
+    {
+        $famille = $this->famille(['track_stock' => true]);
+        $this->post(route('products.variants.store', $famille), ['labels' => "n1\nn2"]);
+
+        [$n1, $n2] = $famille->fresh()->variants->all();
+
+        BusinessSettings::factory()->create(['user_id' => $this->user->id]);
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $facture = Invoice::factory()->create([
+            'user_id' => $this->user->id,
+            'client_id' => $client->id,
+            'status' => Invoice::STATUS_DRAFT,
+        ]);
+        $facture->items()->create([
+            'product_id' => $n1->id,
+            'title' => $n1->displayName(),
+            'quantity' => 4,
+            'unit_price' => 6,
+            'vat_rate' => 17,
+            'total_ht' => 24, 'total_vat' => 4.08, 'total_ttc' => 28.08,
+        ]);
+
+        app(FinalizeInvoiceAction::class)->execute($facture->fresh());
+
+        // La nuance vendue baisse, sa soeur ne bouge pas, la famille non plus.
+        $this->assertSame(-4.0, $n1->fresh()->currentStock());
+        $this->assertSame(0.0, $n2->fresh()->currentStock());
+        $this->assertSame(0.0, $famille->fresh()->currentStock());
+    }
+
+    // --- Le stock nomme la déclinaison ---------------------------------------
+
+    public function test_le_stock_nomme_la_declinaison_pas_la_famille(): void
+    {
+        // Savoir que « Extensions GL30 » est bas ne dit pas quoi commander.
+        $famille = $this->famille(['track_stock' => true, 'stock_alert_threshold' => 5]);
+        $this->post(route('products.variants.store', $famille), ['labels' => 'nuance 12']);
+
+        $this->get(route('stock.index'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page->where(
+                'products',
+                fn ($lignes) => collect($lignes)->contains('designation', 'Extensions GL30 — nuance 12')
+            ));
     }
 
     // --- Réservation par plan -------------------------------------------------

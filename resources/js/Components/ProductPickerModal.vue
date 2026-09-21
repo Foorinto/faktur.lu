@@ -29,7 +29,38 @@ const load = async (q) => {
 const search = debounce((q) => load(q), 250);
 watch(term, (q) => search(q));
 
+// Même règle que l'autocomplétion : une famille ne se facture pas, elle ouvre
+// ses déclinaisons.
+const famille = ref(null);
+const declinaisons = ref([]);
+const axe = ref('');
+
+const ouvrirDeclinaisons = async (product) => {
+    famille.value = product;
+    declinaisons.value = [];
+    loading.value = true;
+
+    try {
+        const reponse = await fetch(route('products.variants.list', product.id), {
+            headers: { Accept: 'application/json' },
+        });
+        const data = await reponse.json();
+        declinaisons.value = data.variants || [];
+        axe.value = data.axis || '';
+    } catch (e) {
+        declinaisons.value = [];
+    } finally {
+        loading.value = false;
+    }
+};
+
 const choose = (product) => {
+    if (product.variants_count > 0) {
+        ouvrirDeclinaisons(product);
+
+        return;
+    }
+
     emit('select', product);
     emit('close');
 };
@@ -69,8 +100,37 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
                     />
                 </div>
 
+                <!-- Fil d'Ariane de la famille ouverte -->
+                <div v-if="famille" class="flex items-center gap-2 border-b border-gray-100 px-4 py-2 text-xs text-slate-500 dark:border-gray-800 dark:text-slate-400">
+                    <button type="button" class="font-medium text-primary-600 hover:underline dark:text-primary-400" @click="famille = null">
+                        {{ t('back') }}
+                    </button>
+                    <span class="font-medium text-slate-700 dark:text-slate-200">{{ famille.designation }}</span>
+                    <span v-if="axe">· {{ axe }}</span>
+                </div>
+
+                <!-- Les déclinaisons -->
+                <div v-if="famille" class="flex-1 overflow-y-auto">
+                    <p v-if="!loading && declinaisons.length === 0" class="p-6 text-center text-sm text-slate-500">
+                        {{ t('products.none_found') }}
+                    </p>
+                    <button
+                        v-for="v in declinaisons"
+                        :key="v.id"
+                        type="button"
+                        class="block w-full border-b border-gray-50 px-4 py-3 text-left hover:bg-primary-50 dark:border-gray-800/60 dark:hover:bg-gray-800"
+                        @click="choose(v)"
+                    >
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="font-medium text-slate-800 dark:text-white">{{ v.variant_label }}</span>
+                            <span class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ Number(v.unit_price_ht).toFixed(2) }} € · {{ Number(v.vat_rate) }}%</span>
+                        </div>
+                        <div v-if="v.reference" class="mt-0.5 truncate text-xs text-slate-400">{{ v.reference }}</div>
+                    </button>
+                </div>
+
                 <!-- List -->
-                <div class="flex-1 overflow-y-auto">
+                <div v-else class="flex-1 overflow-y-auto">
                     <p v-if="!loading && results.length === 0" class="p-6 text-center text-sm text-slate-500">
                         {{ t('products.none_found') }}
                     </p>
@@ -82,8 +142,13 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
                         @click="choose(p)"
                     >
                         <div class="flex items-center justify-between gap-3">
-                            <span class="font-medium text-slate-800 dark:text-white">{{ p.designation }}</span>
-                            <span class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ Number(p.unit_price_ht).toFixed(2) }} € · {{ Number(p.vat_rate) }}%</span>
+                            <span class="font-medium text-slate-800 dark:text-white">
+                                {{ p.display_name || p.designation }}
+                                <span v-if="p.variants_count > 0" class="ml-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-normal text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                                    {{ t('products.variants_count', { count: p.variants_count }) }}
+                                </span>
+                            </span>
+                            <span v-if="!p.variants_count" class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ Number(p.unit_price_ht).toFixed(2) }} € · {{ Number(p.vat_rate) }}%</span>
                         </div>
                         <div v-if="p.reference || p.description" class="mt-0.5 truncate text-xs text-slate-400">
                             <span v-if="p.reference">{{ p.reference }}</span>

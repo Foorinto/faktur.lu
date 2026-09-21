@@ -121,6 +121,29 @@ class ProductController extends Controller
      * Delete a catalogue item.
      */
     /**
+     * Les déclinaisons d'une famille, pour le choix en deux temps.
+     *
+     * Déclenchée au clic, une fois, jamais à la frappe : `parent_id` est
+     * indexé, la requête coûte ce qu'elle doit coûter.
+     */
+    public function variants(Product $product): JsonResponse
+    {
+        return response()->json([
+            'axis' => $product->axisLabel(),
+            'family' => $product->designation,
+            'variants' => $product->variants()->active()->get([
+                'id', 'parent_id', 'designation', 'variant_label', 'reference',
+                'type', 'unit_price_ht', 'vat_rate', 'unit', 'pcn_account',
+            ])->map(function (Product $v) use ($product) {
+                $v->setRelation('parent', $product);
+                $v->setAttribute('display_name', $v->displayName());
+
+                return $v;
+            }),
+        ]);
+    }
+
+    /**
      * Crée d'un coup toutes les variantes d'une famille.
      *
      * L'action centrale de la fonctionnalité : six à huit tailles, dix à
@@ -239,10 +262,17 @@ class ProductController extends Controller
     {
         $term = trim((string) $request->query('q', ''));
 
+        $colonnes = ['id', 'parent_id', 'designation', 'variant_label', 'description',
+            'reference', 'type', 'unit_price_ht', 'vat_rate', 'unit', 'pcn_account'];
+
+        // ⚠️ `topLevel()` est une égalité sur colonne indexée, sans sous-requête :
+        // taper « GL30 » renvoie UNE ligne au lieu des quarante-cinq nuances.
+        // La recherche est donc plus légère depuis les variantes, pas plus
+        // lourde. On ne renvoie jamais une variante nue : sa famille seule est
+        // proposée, et le choix de la déclinaison vient après.
         $products = Product::query()
             ->active()
-            // Filtre facultatif : l'autocomplétion des lignes de facture peut
-            // s'y appuyer plus tard sans que son appel actuel change.
+            ->topLevel()
             ->ofType($request->query('type'))
             ->when($term !== '', function ($query) use ($term) {
                 $query->where(function ($q) use ($term) {
@@ -250,11 +280,40 @@ class ProductController extends Controller
                         ->orWhere('reference', 'like', "%{$term}%");
                 });
             })
+            ->withCount('variants')
             ->orderBy('designation')
             ->limit(50)
-            ->get(['id', 'designation', 'description', 'reference', 'type', 'unit_price_ht', 'vat_rate', 'unit', 'pcn_account']);
+            ->get($colonnes);
 
-        return response()->json(['products' => $products]);
+        // Chercher « CLAV-775-azerty » doit trouver la variante, pas seulement
+        // sa famille : c'est le code que l'utilisateur a sous les yeux sur son
+        // inventaire. Requête distincte et bornée à dix, pour ne pas rallonger
+        // la liste principale.
+        $variantes = collect();
+
+        if (mb_strlen($term) >= 3) {
+            $variantes = Product::query()
+                ->active()
+                ->variantsOnly()
+                ->with('parent:id,designation,variant_axis_label')
+                ->where(function ($q) use ($term) {
+                    $q->where('reference', 'like', "%{$term}%")
+                        ->orWhere('variant_label', 'like', "%{$term}%");
+                })
+                ->orderBy('sort_order')
+                ->limit(10)
+                ->get($colonnes)
+                ->map(function (Product $v) {
+                    // La ligne porte le nom complet : « famille — variante ».
+                    // Sans la famille, l'utilisateur ne sait pas ce qu'il choisit.
+                    $v->setAttribute('display_name', $v->displayName());
+                    $v->setAttribute('variants_count', 0);
+
+                    return $v;
+                });
+        }
+
+        return response()->json(['products' => $products->concat($variantes)->values()]);
     }
 
     /**
