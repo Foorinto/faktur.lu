@@ -292,6 +292,20 @@ class SecurityAlertTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_le_gel_tient_aussi_avec_une_adresse_en_majuscules(): void
+    {
+        // Le gel doit chercher l'utilisateur exactement comme la connexion :
+        // sur une base sensible à la casse, une normalisation d'un seul côté
+        // laisserait passer qui tape son adresse comme elle est enregistrée.
+        $this->user->forceFill(['email' => 'Titulaire@Example.lu', 'security_locked_at' => now()])->save();
+        Auth::logout();
+
+        $this->post(route('login'), ['email' => 'Titulaire@Example.lu', 'password' => 'password'])
+            ->assertSessionHasErrors('email');
+
+        $this->assertGuest();
+    }
+
     public function test_la_reinitialisation_du_mot_de_passe_leve_le_gel(): void
     {
         $this->user->forceFill(['security_locked_at' => now()])->save();

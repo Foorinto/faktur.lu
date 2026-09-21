@@ -47,7 +47,11 @@ class LoginRequest extends FormRequest
         // d'une alerte de sécurité : la connexion est refusée avant même
         // d'essayer le mot de passe. Le message dit comment lever le gel, la
         // réinitialisation du mot de passe, qui passe par la boîte mail.
-        $candidat = User::where('email', mb_strtolower(trim((string) $this->input('email'))))->first();
+        // ⚠️ La même recherche que Auth::attempt(), sur la saisie telle quelle :
+        // normaliser ici et pas là ouvrirait une porte sur une base sensible à
+        // la casse, où le gel ne trouverait pas l'utilisateur que la connexion
+        // trouve.
+        $candidat = User::where('email', $this->input('email'))->first();
 
         if ($candidat?->isSecurityLocked()) {
             throw ValidationException::withMessages([
