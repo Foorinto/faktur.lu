@@ -96,8 +96,12 @@ class Product extends Model
     /**
      * Le nom tel qu'il doit apparaître sur un document.
      *
-     * « Extensions GL30 — nuance 12 ». Sans la variante, le client ne peut ni
+     * « Extensions GL30 - nuance 12 ». Sans la variante, le client ne peut ni
      * se faire livrer, ni échanger, ni vérifier sa commande.
+     *
+     * ⚠️ Le séparateur est un trait d'union, jamais un quadratin : c'est une
+     * consigne de rédaction du projet, et ce nom part sur des factures, des
+     * exports CSV et le fichier FAIA.
      */
     public function displayName(): string
     {
@@ -107,7 +111,7 @@ class Product extends Model
 
         $famille = $this->parent?->designation ?? $this->designation;
 
-        return trim($famille.' — '.$this->variant_label);
+        return trim($famille.' - '.$this->variant_label);
     }
 
     /**

@@ -432,7 +432,7 @@ class ProductController extends Controller
                 ->limit(10)
                 ->get($colonnes)
                 ->map(function (Product $v) {
-                    // La ligne porte le nom complet : « famille — variante ».
+                    // La ligne porte le nom complet : « famille - variante ».
                     // Sans la famille, l'utilisateur ne sait pas ce qu'il choisit.
                     $v->setAttribute('display_name', $v->displayName());
                     $v->setAttribute('variants_count', 0);

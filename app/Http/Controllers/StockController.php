@@ -7,6 +7,8 @@ use App\Models\StockMovement;
 use App\Services\StockService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -69,14 +71,40 @@ class StockController extends Controller
      */
     public function storeEntry(Request $request, Product $product): RedirectResponse
     {
-        abort_unless($product->track_stock, 404);
+        // Une famille peut ne pas suivre son propre stock tout en portant des
+        // déclinaisons qui le suivent : c'est même le cas normal.
+        $aDesVariantesSuivies = $product->variants()->where('track_stock', true)->exists();
+
+        abort_unless($product->track_stock || $aDesVariantesSuivies, 404);
 
         $data = $request->validate([
-            'quantity' => ['required', 'numeric', 'gt:0'],
+            'quantity' => ['nullable', 'numeric', 'gt:0'],
             'unit_cost' => ['nullable', 'numeric', 'min:0'],
             'date' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'string', 'max:255'],
+            // Répartition sur les déclinaisons : 500 souris reçues, 200 en
+            // blanc et 300 en vert. Chaque ligne devient son propre mouvement,
+            // sinon le stock d'une nuance resterait inconnu.
+            'allocations' => ['nullable', 'array'],
+            'allocations.*.product_id' => ['required', 'integer'],
+            'allocations.*.quantity' => ['nullable', 'numeric', 'min:0'],
         ]);
+
+        $repartition = collect($data['allocations'] ?? [])
+            ->filter(fn ($ligne) => (float) ($ligne['quantity'] ?? 0) > 0)
+            ->values();
+
+        if ($repartition->isNotEmpty()) {
+            return $this->entreeRepartie($product, $repartition, $data);
+        }
+
+        if (empty($data['quantity'])) {
+            return back()->withErrors([
+                'quantity' => $aDesVariantesSuivies
+                    ? __('app.stock.allocation_empty')
+                    : __('validation.required', ['attribute' => __('app.stock.quantity')]),
+            ]);
+        }
 
         $this->stock->recordEntry(
             $product,
@@ -87,6 +115,47 @@ class StockController extends Controller
         );
 
         return back()->with('success', __('app.stock.flash_entry_recorded'));
+    }
+
+    /**
+     * Une réception éclatée entre les déclinaisons d'une même famille.
+     *
+     * Deux filets, et ils ne couvrent pas la même chose. La boucle de contrôle
+     * s'exécute d'abord : une ligne fautive arrête tout avant la moindre
+     * écriture, c'est ce que vérifie le test. La transaction couvre ce que le
+     * contrôle ne peut pas prévoir — une erreur de base au troisième
+     * mouvement, qui laisserait les deux premiers posés.
+     *
+     * @param  Collection<int, array{product_id: int, quantity: mixed}>  $repartition
+     */
+    private function entreeRepartie(Product $famille, $repartition, array $data): RedirectResponse
+    {
+        // Le scope global limite déjà au compte courant : une déclinaison d'un
+        // autre utilisateur est introuvable, donc absente de cette liste.
+        $variantes = $famille->variants()->where('track_stock', true)->get()->keyBy('id');
+
+        foreach ($repartition as $ligne) {
+            if (! $variantes->has((int) $ligne['product_id'])) {
+                abort(404);
+            }
+        }
+
+        DB::transaction(function () use ($repartition, $variantes, $data) {
+            foreach ($repartition as $ligne) {
+                $this->stock->recordEntry(
+                    $variantes->get((int) $ligne['product_id']),
+                    (float) $ligne['quantity'],
+                    isset($data['unit_cost']) ? (float) $data['unit_cost'] : null,
+                    $data['date'],
+                    $data['note'] ?? null,
+                );
+            }
+        });
+
+        return back()->with('success', __('app.stock.flash_entry_allocated', [
+            'count' => $repartition->count(),
+            'total' => $repartition->sum(fn ($l) => (float) $l['quantity']),
+        ]));
     }
 
     /**

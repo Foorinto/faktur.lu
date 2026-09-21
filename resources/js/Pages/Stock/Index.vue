@@ -6,7 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Modal from '@/Components/Modal.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -29,12 +29,29 @@ const today = new Date().toISOString().split('T')[0];
 // Inertia prend les données soumises comme nouveaux défauts, et reset() ramenait
 // la saisie précédente au lieu d'un formulaire vierge.
 const entryProduct = ref(null);
-const entryForm = useForm(() => ({ quantity: null, unit_cost: null, date: today, note: '' }));
+const entryForm = useForm(() => ({ quantity: null, unit_cost: null, date: today, note: '', allocations: [] }));
+
+// Les déclinaisons suivies de la famille ouverte. Elles se lisent dans la liste
+// déjà affichée : pas d'appel supplémentaire pour ouvrir une fenêtre.
+const declinaisons = computed(() => {
+    if (!entryProduct.value) return [];
+
+    return props.products.filter((p) => p.parent_id === entryProduct.value.id);
+});
+
+const totalReparti = computed(() =>
+    entryForm.allocations.reduce((somme, l) => somme + (parseFloat(l.quantity) || 0), 0)
+);
 
 const openEntry = (product) => {
     entryProduct.value = product;
     entryForm.reset();
     entryForm.date = today;
+    // Une réception de 500 souris se ventile entre le blanc et le vert : la
+    // fenêtre propose une ligne par déclinaison plutôt qu'un total aveugle.
+    entryForm.allocations = props.products
+        .filter((p) => p.parent_id === product.id)
+        .map((v) => ({ product_id: v.id, quantity: null }));
 };
 const submitEntry = () => {
     entryForm.post(route('stock.entry', entryProduct.value.id), {
@@ -158,8 +175,43 @@ const submitInventory = () => {
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('stock.entry_title') }}</h2>
                 <p v-if="entryProduct" class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ entryProduct.designation }}</p>
 
+                <!-- Une famille à déclinaisons répartit sa réception : mettre
+                     500 sur la famille laisserait le stock de chaque nuance
+                     inconnu, et c'est ce stock-là qu'on vient chercher. -->
+                <div v-if="declinaisons.length > 0" class="mt-4">
+                    <InputLabel :value="t('stock.allocation_title')" />
+                    <p class="mt-1 text-xs text-slate-400">{{ t('stock.allocation_help') }}</p>
+
+                    <div class="mt-2 max-h-64 space-y-2 overflow-y-auto rounded-xl border border-gray-200 p-3 dark:border-gray-700">
+                        <div v-for="(ligne, i) in entryForm.allocations" :key="ligne.product_id" class="flex items-center gap-3">
+                            <div class="min-w-0 flex-1">
+                                <p class="truncate text-sm text-slate-700 dark:text-slate-300">
+                                    {{ declinaisons[i]?.designation }}
+                                </p>
+                                <p class="text-xs text-slate-400">
+                                    {{ t('stock.allocation_current', { quantity: formatQty(declinaisons[i]?.current_stock) }) }}
+                                </p>
+                            </div>
+                            <input
+                                v-model="ligne.quantity"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                :aria-label="declinaisons[i]?.designation"
+                                class="w-28 rounded-xl border-gray-300 text-right shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mt-2 flex justify-between text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">{{ t('stock.allocation_total') }}</span>
+                        <span class="font-semibold tabular-nums text-slate-900 dark:text-white">{{ formatQty(totalReparti) }}</span>
+                    </div>
+                    <InputError :message="entryForm.errors.quantity" class="mt-1" />
+                </div>
+
                 <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
+                    <div v-if="declinaisons.length === 0">
                         <InputLabel for="entry_quantity" :value="t('stock.quantity')" />
                         <input id="entry_quantity" v-model="entryForm.quantity" type="number" step="0.01" min="0.01"
                             class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
@@ -187,7 +239,10 @@ const submitInventory = () => {
 
                 <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                     <SecondaryButton @click="entryProduct = null">{{ t('cancel') }}</SecondaryButton>
-                    <PrimaryButton :disabled="entryForm.processing" @click="submitEntry">{{ t('stock.record_entry') }}</PrimaryButton>
+                    <PrimaryButton
+                        :disabled="entryForm.processing || (declinaisons.length > 0 && totalReparti <= 0)"
+                        @click="submitEntry"
+                    >{{ t('stock.record_entry') }}</PrimaryButton>
                 </div>
             </div>
         </Modal>

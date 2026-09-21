@@ -152,7 +152,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
                         </div>
                         <div v-if="p.reference || p.description" class="mt-0.5 truncate text-xs text-slate-400">
                             <span v-if="p.reference">{{ p.reference }}</span>
-                            <span v-if="p.reference && p.description"> — </span>
+                            <span v-if="p.reference && p.description"> - </span>
                             <span v-if="p.description">{{ p.description }}</span>
                         </div>
                     </button>

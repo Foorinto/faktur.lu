@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Services\Import\ProductImportService;
 use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -250,7 +251,7 @@ class ProductVariantTest extends TestCase
 
         $variante = $famille->fresh()->variants->first();
 
-        $this->assertSame('Extensions GL30 — nuance 12', $variante->displayName());
+        $this->assertSame('Extensions GL30 - nuance 12', $variante->displayName());
         $this->assertSame('Extensions GL30', $famille->displayName());
     }
 
@@ -290,7 +291,7 @@ class ProductVariantTest extends TestCase
         $trouve = collect($reponse->json('products'))->firstWhere('variant_label', 'nuance 12');
 
         $this->assertNotNull($trouve);
-        $this->assertSame('Extensions GL30 — nuance 12', $trouve['display_name']);
+        $this->assertSame('Extensions GL30 - nuance 12', $trouve['display_name']);
     }
 
     public function test_les_declinaisons_d_une_famille_se_listent_a_part(): void
@@ -303,7 +304,7 @@ class ProductVariantTest extends TestCase
         $reponse->assertOk();
         $this->assertSame('Nuance', $reponse->json('axis'));
         $this->assertCount(2, $reponse->json('variants'));
-        $this->assertSame('Extensions GL30 — n1', $reponse->json('variants.0.display_name'));
+        $this->assertSame('Extensions GL30 - n1', $reponse->json('variants.0.display_name'));
     }
 
     public function test_un_article_sans_variante_reste_directement_selectionnable(): void
@@ -359,7 +360,7 @@ class ProductVariantTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page->where(
                 'products',
-                fn ($lignes) => collect($lignes)->contains('designation', 'Extensions GL30 — nuance 12')
+                fn ($lignes) => collect($lignes)->contains('designation', 'Extensions GL30 - nuance 12')
             ));
     }
 
@@ -438,6 +439,132 @@ class ProductVariantTest extends TestCase
             ->where('products.0.family_total.count', 2)
             ->where('products.0.family_total.quantity', 6)
         );
+    }
+
+    // --- Répartir une entrée de stock ----------------------------------------
+
+    /** @return array{0: Product, 1: Collection} */
+    private function familleSuivie(): array
+    {
+        $famille = $this->famille(['track_stock' => true]);
+        $this->post(route('products.variants.store', $famille), ['labels' => "Blanc\nVert"]);
+
+        return [$famille->fresh(), $famille->fresh()->variants];
+    }
+
+    public function test_une_reception_se_repartit_entre_les_declinaisons(): void
+    {
+        // 500 souris reçues, 200 en blanc et 300 en vert : c'est le stock de
+        // chaque nuance qu'on vient chercher, pas un total aveugle.
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'date' => now()->toDateString(),
+            'unit_cost' => 4,
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 200],
+                ['product_id' => $variantes[1]->id, 'quantity' => 300],
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(200, $variantes[0]->fresh()->currentStock(), 0.001);
+        $this->assertEqualsWithDelta(300, $variantes[1]->fresh()->currentStock(), 0.001);
+        // La famille ne reçoit rien : sa quantité serait comptée deux fois.
+        $this->assertEqualsWithDelta(0, $famille->fresh()->currentStock(), 0.001);
+    }
+
+    public function test_une_declinaison_laissee_vide_ne_recoit_aucun_mouvement(): void
+    {
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 12],
+                ['product_id' => $variantes[1]->id, 'quantity' => null],
+            ],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(0, StockMovement::where('product_id', $variantes[1]->id)->count());
+    }
+
+    public function test_une_repartition_vide_est_refusee(): void
+    {
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 0],
+            ],
+        ])->assertSessionHasErrors('quantity');
+
+        $this->assertSame(0, StockMovement::count());
+    }
+
+    public function test_on_ne_repartit_pas_sur_la_declinaison_d_une_autre_famille(): void
+    {
+        [$famille] = $this->familleSuivie();
+
+        $autre = $this->famille(['designation' => 'Souris', 'reference' => 'SOU', 'track_stock' => true]);
+        $this->post(route('products.variants.store', $autre), ['labels' => 'Noire']);
+        $etrangere = $autre->fresh()->variants->first();
+
+        $this->post(route('stock.entry', $famille), [
+            'date' => now()->toDateString(),
+            'allocations' => [['product_id' => $etrangere->id, 'quantity' => 50]],
+        ])->assertNotFound();
+
+        $this->assertSame(0, StockMovement::count());
+    }
+
+    public function test_une_repartition_est_verifiee_avant_la_moindre_ecriture(): void
+    {
+        // La ligne fautive est la seconde : si le contrôle se faisait au fil de
+        // la boucle, la première serait déjà enregistrée. Une répartition à
+        // moitié posée laisserait un stock faux que rien ne signale.
+        [$famille, $variantes] = $this->familleSuivie();
+        $autre = $this->famille(['designation' => 'Souris', 'reference' => 'SOU', 'track_stock' => true]);
+        $this->post(route('products.variants.store', $autre), ['labels' => 'Noire']);
+
+        $this->post(route('stock.entry', $famille), [
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 200],
+                ['product_id' => $autre->fresh()->variants->first()->id, 'quantity' => 300],
+            ],
+        ])->assertNotFound();
+
+        $this->assertSame(0, StockMovement::count());
+    }
+
+    public function test_un_article_sans_declinaison_garde_l_entree_simple(): void
+    {
+        $article = $this->famille(['track_stock' => true]);
+
+        $this->post(route('stock.entry', $article), [
+            'quantity' => 40,
+            'date' => now()->toDateString(),
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(40, $article->fresh()->currentStock(), 0.001);
+    }
+
+    public function test_une_famille_non_suivie_repartit_quand_meme_sur_ses_declinaisons(): void
+    {
+        // Le cas normal : la famille est une étiquette, ce sont les nuances
+        // qu'on compte en rayon.
+        $famille = $this->famille(['track_stock' => false]);
+        $this->post(route('products.variants.store', $famille), ['labels' => 'Blanc']);
+        $variante = $famille->fresh()->variants->first();
+        $variante->update(['track_stock' => true]);
+
+        $this->post(route('stock.entry', $famille), [
+            'date' => now()->toDateString(),
+            'allocations' => [['product_id' => $variante->id, 'quantity' => 15]],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(15, $variante->fresh()->currentStock(), 0.001);
     }
 
     // --- Réordonner ----------------------------------------------------------
