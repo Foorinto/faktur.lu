@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Rules\SalesVatRateAllowed;
 use App\Services\PlanService;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -36,6 +37,9 @@ class ProductImportService extends SpreadsheetImportService
         'unit_price_ht' => ['label' => 'Prix HT', 'required' => true],
         'vat_rate' => ['label' => 'Taux de TVA', 'required' => false],
         'unit' => ['label' => 'Unité', 'required' => false],
+        // Variantes (FEAT-120) : une ligne dont cette colonne est remplie
+        // devient une déclinaison de l'article portant la même désignation.
+        'variant_label' => ['label' => 'Variante (nuance, taille, format…)', 'required' => false],
     ];
 
     /**
@@ -53,6 +57,7 @@ class ProductImportService extends SpreadsheetImportService
         'unit_price_ht' => ['prix', 'prix ht', 'prix_ht', 'prix unitaire', 'tarif', 'price', 'unit price', 'preis', 'montant'],
         'vat_rate' => ['tva', 'taux', 'taux tva', 'vat', 'vat rate', 'mwst', 'mehrwertsteuer'],
         'unit' => ['unite', 'unité', 'unit', 'einheit'],
+        'variant_label' => ['variante', 'variant', 'declinaison', 'déclinaison', 'nuance', 'taille', 'coloris', 'couleur', 'format', 'variante(s)', 'variation', 'groesse', 'größe', 'farbe'],
     ];
 
     /** Libellés d'unité acceptés à l'import, vers la clé interne. */
@@ -86,6 +91,42 @@ class ProductImportService extends SpreadsheetImportService
      * Même précaution que pour les clients : l'import ne doit pas être une
      * porte dérobée qui contourne le plafond du plan.
      */
+    /**
+     * Les déclinaisons sont réservées aux plans payants. Le contrôleur retire
+     * déjà la colonne de l'écran de correspondance, mais une correspondance
+     * enregistrée survit à un changement de plan : on revérifie ici.
+     */
+    /**
+     * Combien de familles l'import va créer en plus des lignes du fichier.
+     */
+    private function famillesACreer(ImportSession $session, array $validRows): int
+    {
+        if (! $this->variantesAutorisees($session)) {
+            return 0;
+        }
+
+        $existantes = Product::withoutUserScope()
+            ->where('user_id', $session->user_id)
+            ->whereNull('parent_id')
+            ->pluck('designation')
+            ->map(fn ($d) => mb_strtolower((string) $d))
+            ->all();
+
+        return collect($validRows)
+            ->filter(fn ($ligne) => ! empty($ligne['data']['variant_label']))
+            ->map(fn ($ligne) => mb_strtolower((string) $ligne['data']['designation']))
+            ->unique()
+            ->reject(fn ($designation) => in_array($designation, $existantes, true))
+            ->count();
+    }
+
+    private function variantesAutorisees(ImportSession $session): bool
+    {
+        $owner = User::find($session->user_id);
+
+        return $owner !== null && $this->planService->hasFeature($owner, 'product_variants');
+    }
+
     private function remainingProductSlots(ImportSession $session): ?int
     {
         $owner = User::find($session->user_id);
@@ -132,8 +173,13 @@ class ProductImportService extends SpreadsheetImportService
                 continue;
             }
 
+            // ⚠️ Une variante partage la désignation de sa famille : la
+            // comparer sur la désignation seule la ferait passer pour un
+            // doublon, et aucune nuance ne serait jamais importée.
+            $estUneVariante = ! empty($data['variant_label']);
+
             $isDuplicate = (! empty($data['reference']) && in_array(mb_strtolower($data['reference']), $existingReferences, true))
-                || in_array(mb_strtolower($data['designation']), $existingDesignations, true);
+                || (! $estUneVariante && in_array(mb_strtolower($data['designation']), $existingDesignations, true));
 
             if ($isDuplicate) {
                 $duplicateRows[] = ['row' => $rowIndex + 2, 'data' => $data];
@@ -147,6 +193,15 @@ class ProductImportService extends SpreadsheetImportService
         // on le dit.
         if ($vatCorrected > 0) {
             $notices[] = __('app.import_products_notice_vat_franchise', ['count' => $vatCorrected]);
+        }
+
+        // Un tableur de déclinaisons ne contient pas de ligne pour la famille :
+        // elle sera créée en plus. Sans ce mot, l'écran annonce 4 articles et
+        // le résultat en affiche 5.
+        $famillesACreer = $this->famillesACreer($session, $validRows);
+
+        if ($famillesACreer > 0) {
+            $notices[] = __('app.import_products_notice_families', ['count' => $famillesACreer]);
         }
 
         $session->update([
@@ -202,11 +257,22 @@ class ProductImportService extends SpreadsheetImportService
             // Calculé une fois : l'import est le seul écrivain pendant sa
             // propre exécution, recompter à chaque ligne serait sans effet.
             $remainingSlots = $this->remainingProductSlots($session);
+            $variantesAutorisees = $this->variantesAutorisees($session);
 
-            $existing = Product::withoutUserScope()
-                ->where('user_id', $session->user_id)
-                ->get()
-                ->keyBy(fn ($p) => mb_strtolower($p->reference ?: $p->designation));
+            // La clé distingue une variante de sa famille : elles partagent la
+            // désignation, seule la déclinaison les sépare.
+            $cle = fn ($reference, $designation, $variante) => mb_strtolower(
+                $reference ?: $designation.'|'.$variante
+            );
+
+            $tous = Product::withoutUserScope()->where('user_id', $session->user_id)->get();
+
+            $existing = $tous->keyBy(fn ($p) => $cle($p->reference, $p->designation, $p->variant_label));
+
+            // Les familles déjà en place, pour rattacher les déclinaisons sans
+            // requête par ligne.
+            $familles = $tous->whereNull('parent_id')
+                ->keyBy(fn ($p) => mb_strtolower($p->designation));
 
             foreach ($rows as $rowIndex => $row) {
                 try {
@@ -219,7 +285,45 @@ class ProductImportService extends SpreadsheetImportService
                         continue;
                     }
 
-                    $key = mb_strtolower(! empty($data['reference']) ? $data['reference'] : $data['designation']);
+                    $variante = $variantesAutorisees ? trim((string) ($data['variant_label'] ?? '')) : '';
+
+                    if ($variante === '') {
+                        unset($data['variant_label']);
+                    }
+
+                    // Une ligne avec une déclinaison rejoint la famille qui
+                    // porte la même désignation. Si elle n'existe pas encore,
+                    // la première ligne la crée : un tableur ne contient
+                    // souvent que les déclinaisons.
+                    if ($variante !== '') {
+                        $cleFamille = mb_strtolower($data['designation']);
+                        $famille = $familles->get($cleFamille);
+
+                        if (! $famille) {
+                            if ($remainingSlots !== null && $remainingSlots <= 0) {
+                                $quotaBlocked++;
+                                $skipped++;
+
+                                continue;
+                            }
+
+                            $famille = Product::create(array_merge(
+                                Arr::except($data, ['variant_label', 'reference']),
+                                ['user_id' => $session->user_id]
+                            ));
+                            $familles->put($cleFamille, $famille);
+                            $imported++;
+
+                            if ($remainingSlots !== null) {
+                                $remainingSlots--;
+                            }
+                        }
+
+                        $data['parent_id'] = $famille->id;
+                        $data['sort_order'] = (int) $famille->variants()->max('sort_order') + 1;
+                    }
+
+                    $key = $cle($data['reference'] ?? null, $data['designation'], $variante);
                     $match = $existing->get($key);
 
                     if ($match) {

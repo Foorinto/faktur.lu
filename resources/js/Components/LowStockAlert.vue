@@ -27,8 +27,8 @@ const formatQty = (v) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits:
                 <ul class="mt-2 space-y-1">
                     <li v-for="p in products" :key="p.id" class="text-sm text-amber-700 dark:text-amber-300">
                         <span class="font-medium">{{ p.designation }}</span>
-                        <span class="text-amber-600 dark:text-amber-400">
-                            — {{ t('stock.alert_line', { current: formatQty(p.current_stock), threshold: formatQty(p.threshold) }) }}
+                        <span class="ml-1 text-amber-600 dark:text-amber-400">
+                            {{ t('stock.alert_line', { current: formatQty(p.current_stock), threshold: formatQty(p.threshold) }) }}
                         </span>
                     </li>
                 </ul>

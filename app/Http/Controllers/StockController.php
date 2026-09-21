@@ -7,6 +7,8 @@ use App\Models\StockMovement;
 use App\Services\StockService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,24 +24,63 @@ class StockController extends Controller
 
     public function index(): Response
     {
+        // Les variantes suivent leur famille, et dans l'ordre voulu : un stock
+        // rangé par ordre alphabétique mélangerait les nuances d'une même
+        // famille avec le reste du catalogue.
         $products = Product::where('track_stock', true)
+            ->with('parent:id,designation,variant_axis_label')
             ->orderBy('designation')
+            ->orderBy('sort_order')
             ->get();
 
-        $rows = $products->map(fn (Product $p) => [
-            'id' => $p->id,
-            'designation' => $p->designation,
-            'reference' => $p->reference,
-            'unit' => $p->unit,
-            'current_stock' => $p->currentStock(),
-            'stock_value' => $p->stockValue(),
-            'threshold' => $p->stock_alert_threshold !== null ? (float) $p->stock_alert_threshold : null,
-            'is_low' => $p->isLowOnStock(),
-        ]);
+        // Le cumul des déclinaisons, calculé une fois pour toutes plutôt
+        // qu'article par article : la page liste tout le catalogue suivi.
+        $cumuls = $products->whereNotNull('parent_id')
+            ->groupBy('parent_id')
+            ->map(fn ($variantes) => [
+                'quantity' => round($variantes->sum(fn (Product $v) => $v->currentStock()), 4),
+                'value' => round($variantes->sum(fn (Product $v) => $v->stockValue()), 2),
+                'count' => $variantes->count(),
+            ]);
+
+        $rows = $products->map(function (Product $p) use ($cumuls) {
+            $propre = $p->currentStock();
+            $cumul = $cumuls->get($p->id);
+
+            // La colonne annonce tout ce que la famille couvre : « combien de
+            // souris ai-je » appelle 350, pas le reliquat qu'on a oublié de
+            // ventiler. Le reliquat se nomme à part, en dessous.
+            $affiche = $cumul ? round($propre + $cumul['quantity'], 4) : $propre;
+
+            return [
+                'id' => $p->id,
+                'parent_id' => $p->parent_id,
+                'variants_count' => $cumul['count'] ?? 0,
+                // Le stock propre de la famille, celui qui n'est rattaché à
+                // aucune déclinaison. Zéro la plupart du temps.
+                'unallocated_stock' => $cumul ? $propre : null,
+                // ⚠️ Le nom complet : savoir que « Clavier mécanique » est bas
+                // ne sert à rien, il faut savoir QUELLE déclinaison l'est.
+                'designation' => $p->displayName(),
+                'reference' => $p->reference,
+                'unit' => $p->unit,
+                'current_stock' => $affiche,
+                'stock_value' => $cumul ? round($p->stockValue() + $cumul['value'], 2) : $p->stockValue(),
+                'threshold' => $p->stock_alert_threshold !== null ? (float) $p->stock_alert_threshold : null,
+                'is_low' => $p->isLowOnStock(),
+                // ⚠️ Ce que vaut l'article lui-même : les totaux de la page se
+                // font là-dessus, jamais sur la colonne affichée, qui inclut
+                // déjà les déclinaisons.
+                'own_value' => $p->stockValue(),
+            ];
+        });
 
         return Inertia::render('Stock/Index', [
             'products' => $rows,
-            'total_value' => round($rows->sum('stock_value'), 2),
+            // ⚠️ Sur la valeur propre : sommer la colonne affichée compterait
+            // chaque déclinaison deux fois, une dans sa ligne et une dans celle
+            // de sa famille.
+            'total_value' => round($rows->sum('own_value'), 2),
             'low_count' => $rows->where('is_low', true)->count(),
         ]);
     }
@@ -49,24 +90,131 @@ class StockController extends Controller
      */
     public function storeEntry(Request $request, Product $product): RedirectResponse
     {
-        abort_unless($product->track_stock, 404);
+        // Une famille peut ne pas suivre son propre stock tout en portant des
+        // déclinaisons qui le suivent : c'est même le cas normal.
+        $aDesVariantesSuivies = $product->variants()->where('track_stock', true)->exists();
+
+        abort_unless($product->track_stock || $aDesVariantesSuivies, 404);
 
         $data = $request->validate([
             'quantity' => ['required', 'numeric', 'gt:0'],
             'unit_cost' => ['nullable', 'numeric', 'min:0'],
             'date' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'string', 'max:255'],
+            // Ventilation facultative : on saisit d'abord ce qu'on a reçu, on
+            // le répartit ensuite si on veut tenir le stock à la déclinaison.
+            'allocations' => ['nullable', 'array'],
+            'allocations.*.product_id' => ['required', 'integer'],
+            'allocations.*.quantity' => ['nullable', 'numeric', 'min:0'],
+            'allocations.*.unit_cost' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        $this->stock->recordEntry(
-            $product,
-            (float) $data['quantity'],
-            isset($data['unit_cost']) ? (float) $data['unit_cost'] : null,
-            $data['date'],
-            $data['note'] ?? null,
-        );
+        $total = (float) $data['quantity'];
 
-        return back()->with('success', __('app.stock.flash_entry_recorded'));
+        $repartition = collect($data['allocations'] ?? [])
+            ->filter(fn ($ligne) => (float) ($ligne['quantity'] ?? 0) > 0)
+            ->values();
+
+        if ($repartition->isEmpty()) {
+            // Rien de ventilé : tout reste sur l'article, comme avant. C'est le
+            // choix de qui ne veut pas tenir le détail par déclinaison.
+            abort_unless($product->track_stock, 404);
+
+            $this->stock->recordEntry(
+                $product,
+                $total,
+                isset($data['unit_cost']) ? (float) $data['unit_cost'] : null,
+                $data['date'],
+                $data['note'] ?? null,
+            );
+
+            return back()->with('success', __('app.stock.flash_entry_recorded'));
+        }
+
+        return $this->entreeRepartie($product, $repartition, $total, $data);
+    }
+
+    /**
+     * Une réception ventilée entre les déclinaisons d'une même famille.
+     *
+     * Le reliquat, s'il en reste, va sur la famille : on reçoit parfois un
+     * carton dont on ne connaît pas encore le détail. Il apparaît comme « non
+     * ventilé » et se répartira plus tard.
+     *
+     * Deux filets, et ils ne couvrent pas la même chose. La boucle de contrôle
+     * s'exécute d'abord : une ligne fautive arrête tout avant la moindre
+     * écriture, c'est ce que vérifie le test. La transaction couvre ce que le
+     * contrôle ne peut pas prévoir — une erreur de base au troisième
+     * mouvement, qui laisserait les deux premiers posés.
+     *
+     * @param  Collection<int, array<string, mixed>>  $repartition
+     */
+    private function entreeRepartie(Product $famille, $repartition, float $total, array $data): RedirectResponse
+    {
+        // Le scope global limite déjà au compte courant : une déclinaison d'un
+        // autre utilisateur est introuvable, donc absente de cette liste.
+        $variantes = $famille->variants()->where('track_stock', true)->get()->keyBy('id');
+
+        foreach ($repartition as $ligne) {
+            if (! $variantes->has((int) $ligne['product_id'])) {
+                abort(404);
+            }
+        }
+
+        $reparti = round($repartition->sum(fn ($l) => (float) $l['quantity']), 4);
+        $reliquat = round($total - $reparti, 4);
+
+        if ($reliquat < 0) {
+            return back()->withErrors([
+                'quantity' => __('app.stock.allocation_over', [
+                    'allocated' => $reparti,
+                    'total' => $total,
+                ]),
+            ]);
+        }
+
+        // Le reliquat n'a nulle part où aller si la famille ne suit pas son
+        // propre stock : mieux vaut le dire que de le perdre en silence.
+        if ($reliquat > 0 && ! $famille->track_stock) {
+            return back()->withErrors([
+                'quantity' => __('app.stock.allocation_incomplete', ['remainder' => $reliquat]),
+            ]);
+        }
+
+        $coutCommun = isset($data['unit_cost']) ? (float) $data['unit_cost'] : null;
+
+        DB::transaction(function () use ($repartition, $variantes, $data, $famille, $reliquat, $coutCommun) {
+            foreach ($repartition as $ligne) {
+                // Un coût propre à la déclinaison l'emporte : une taille XL ne
+                // s'achète pas au prix d'une S.
+                $cout = isset($ligne['unit_cost']) && $ligne['unit_cost'] !== null && $ligne['unit_cost'] !== ''
+                    ? (float) $ligne['unit_cost']
+                    : $coutCommun;
+
+                $this->stock->recordEntry(
+                    $variantes->get((int) $ligne['product_id']),
+                    (float) $ligne['quantity'],
+                    $cout,
+                    $data['date'],
+                    $data['note'] ?? null,
+                );
+            }
+
+            if ($reliquat > 0) {
+                $this->stock->recordEntry($famille, $reliquat, $coutCommun, $data['date'], $data['note'] ?? null);
+            }
+        });
+
+        return back()->with('success', $reliquat > 0
+            ? __('app.stock.flash_entry_allocated_partial', [
+                'count' => $repartition->count(),
+                'allocated' => $reparti,
+                'remainder' => $reliquat,
+            ])
+            : __('app.stock.flash_entry_allocated', [
+                'count' => $repartition->count(),
+                'total' => $reparti,
+            ]));
     }
 
     /**
@@ -98,17 +246,37 @@ class StockController extends Controller
     /**
      * Historique des mouvements d'un produit (pour la traçabilité).
      */
+    /**
+     * L'historique d'un article, déclinaisons comprises.
+     *
+     * Sur une famille, l'écran réunit ce qui est entré et sorti de toutes ses
+     * nuances : « combien de souris ai-je reçu ce mois-ci » ne se répond pas en
+     * ouvrant quatre pages. Chaque ligne nomme l'article concerné, et le
+     * tableau de tête donne le stock de chaque déclinaison.
+     */
     public function movements(Product $product): Response
     {
-        abort_unless($product->track_stock, 404);
+        $variantes = $product->variants()->where('track_stock', true)->get();
 
-        $movements = $product->stockMovements()
+        // Une famille peut ne pas suivre son propre stock tout en portant des
+        // déclinaisons qui le suivent.
+        abort_unless($product->track_stock || $variantes->isNotEmpty(), 404);
+
+        $concernes = $variantes->pluck('id')->push($product->id)->all();
+        $noms = $variantes->keyBy('id')->map(fn (Product $v) => $v->displayName());
+
+        $movements = StockMovement::query()
+            ->whereIn('product_id', $concernes)
             ->orderByDesc('date')
             ->orderByDesc('id')
             ->limit(200)
-            ->get(['id', 'quantity', 'type', 'source_type', 'date', 'unit_cost', 'note'])
+            ->get(['id', 'product_id', 'quantity', 'type', 'source_type', 'date', 'unit_cost', 'note'])
             ->map(fn ($m) => [
                 'id' => $m->id,
+                // Le mouvement porte son propre article : la suppression doit
+                // viser la déclinaison, pas la famille qu'on regarde.
+                'product_id' => (int) $m->product_id,
+                'product_name' => $noms->get((int) $m->product_id) ?? $product->displayName(),
                 'quantity' => $m->quantity,
                 'type' => $m->type,
                 'date' => $m->date?->toDateString(),
@@ -122,18 +290,23 @@ class StockController extends Controller
         return Inertia::render('Stock/Movements', [
             'product' => [
                 'id' => $product->id,
-                'designation' => $product->designation,
+                'designation' => $product->displayName(),
                 'current_stock' => $product->currentStock(),
+                'total_stock' => $product->stockDeLaFamille(),
+                'total_value' => $product->valeurDeLaFamille(),
             ],
+            'variants' => $variantes->map(fn (Product $v) => [
+                'id' => $v->id,
+                'designation' => $v->variant_label,
+                'reference' => $v->reference,
+                'current_stock' => $v->currentStock(),
+                'stock_value' => $v->stockValue(),
+                'is_low' => $v->isLowOnStock(),
+            ])->values(),
             'movements' => $movements,
         ]);
     }
 
-    /**
-     * Supprime un mouvement MANUEL saisi par erreur (entrée, ajustement,
-     * inventaire). Un mouvement issu d'une facture est immuable : sa correction
-     * passe par une note de crédit, jamais par une suppression rétroactive.
-     */
     public function destroyMovement(Product $product, StockMovement $movement): RedirectResponse
     {
         abort_unless((int) $movement->product_id === (int) $product->id, 404);

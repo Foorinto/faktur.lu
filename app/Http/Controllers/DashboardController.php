@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\User;
 use App\Services\CashflowForecastService;
 use App\Services\DashboardService;
 use App\Services\FranchiseAlertService;
 use App\Services\OnboardingService;
 use App\Services\PlanService;
+use App\Services\VentilationEncaissements;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -62,14 +65,18 @@ class DashboardController extends Controller
      */
     private function lowStockAlerts(): array
     {
-        return \App\Models\Product::where('track_stock', true)
+        return Product::where('track_stock', true)
             ->whereNotNull('stock_alert_threshold')
+            ->with('parent:id,designation,variant_axis_label')
             ->orderBy('designation')
+            ->orderBy('sort_order')
             ->get()
             ->filter->isLowOnStock()
             ->map(fn ($p) => [
                 'id' => $p->id,
-                'designation' => $p->designation,
+                // L'alerte nomme la déclinaison, pas la famille : être en
+                // rupture « sur les extensions » ne dit pas quoi commander.
+                'designation' => $p->displayName(),
                 'current_stock' => $p->currentStock(),
                 'threshold' => (float) $p->stock_alert_threshold,
             ])
@@ -95,7 +102,7 @@ class DashboardController extends Controller
      *
      * @return array{annee: int, verrouille: bool, total: float, lignes: array<int, mixed>}
      */
-    private function encaissementsParMoyen(\App\Models\User $user, int $year): array
+    private function encaissementsParMoyen(User $user, int $year): array
     {
         $historiqueComplet = $this->planService->hasFeature($user, 'accounting_exports');
 
@@ -103,7 +110,7 @@ class DashboardController extends Controller
             return ['annee' => $year, 'verrouille' => true, 'total' => 0.0, 'lignes' => []];
         }
 
-        $ventilation = app(\App\Services\VentilationEncaissements::class)
+        $ventilation = app(VentilationEncaissements::class)
             ->surPeriode($user->id, "{$year}-01-01", "{$year}-12-31");
 
         return ['annee' => $year, 'verrouille' => false, ...$ventilation];

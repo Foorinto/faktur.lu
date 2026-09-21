@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Import;
 use App\Http\Controllers\Controller;
 use App\Models\Import\ImportSession;
 use App\Services\Import\ProductImportService;
+use App\Services\PlanService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -31,7 +33,12 @@ class ProductImportController extends Controller
         }
 
         return Inertia::render('Products/Import/Index', [
-            'availableFields' => ProductImportService::AVAILABLE_FIELDS,
+            // La colonne « variante » n'est proposée qu'aux plans qui ont les
+            // déclinaisons : offrir un champ inopérant serait pire que de
+            // l'omettre.
+            'availableFields' => app(PlanService::class)->hasFeature($request->user(), 'product_variants')
+                ? ProductImportService::AVAILABLE_FIELDS
+                : Arr::except(ProductImportService::AVAILABLE_FIELDS, ['variant_label']),
             'session' => $session,
         ]);
     }

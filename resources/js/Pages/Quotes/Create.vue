@@ -145,7 +145,10 @@ const applyProduct = (index, product) => {
     const item = form.items[index];
     // La ligne devient celle de ce produit : le lien suivra jusqu'à la facture.
     item.product_id = product.id;
-    item.title = product.designation;
+    // ⚠️ `display_name` et non `designation` : une variante porte la
+    // désignation de sa famille, et « Clavier mécanique » sans sa déclinaison
+    // ne permet ni de livrer, ni d'échanger, ni de vérifier la commande.
+    item.title = product.display_name || product.designation;
     if (product.description) {
         item.description = product.description;
     }

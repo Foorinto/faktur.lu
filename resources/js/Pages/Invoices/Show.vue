@@ -813,7 +813,7 @@ const submitCreditNote = () => {
                 type="button"
                 disabled
                 class="inline-flex cursor-not-allowed items-center rounded-xl border border-gray-200 bg-gray-100 px-3 py-2 text-sm font-medium text-slate-400 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-500"
-                title="Transmission Peppol — bientôt disponible (l'export Peppol XML est déjà actif)"
+                title="Transmission Peppol, bientôt disponible (l'export Peppol XML est déjà actif)"
             >
                 <svg
                     class="-ml-0.5 mr-1.5 h-5 w-5"

@@ -94,6 +94,7 @@ class PlansSeeder extends Seeder
                     // Le client au forfait mensuel est le cas d'usage du
                     // freelance : la récurrence reste dans le plan freelance.
                     'recurring_invoices',
+                    'product_variants',
                 ],
                 'is_active' => true,
                 'sort_order' => 1,
@@ -152,6 +153,7 @@ class PlansSeeder extends Seeder
                     'facturx',
                     'advanced_reporting',
                     'recurring_invoices',
+                    'product_variants',
                 ],
                 'is_active' => true,
                 'sort_order' => 2,
