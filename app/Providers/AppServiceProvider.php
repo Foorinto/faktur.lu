@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Listeners\HandleTwoFactorEvents;
 use App\Listeners\LogAuthenticationEvents;
 use App\Models\AdminSession;
+use App\Models\BlogPost;
 use App\Models\HR\Employee;
 use App\Models\Import\ImportSession;
+use App\Observers\BlogPostObserver;
 use App\Observers\EmployeeObserver;
 use App\Policies\ImportSessionPolicy;
 use App\Services\Peppol\PeppolAccessPointInterface;
@@ -14,10 +17,12 @@ use App\Services\Peppol\StorecoveService;
 use App\Services\Peppol\SuperPdpService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
@@ -35,9 +40,9 @@ class AppServiceProvider extends ServiceProvider
         // Bind Peppol Access Point interface to implementation based on config
         $this->app->bind(PeppolAccessPointInterface::class, function ($app) {
             return match (config('peppol.provider')) {
-                'storecove' => new StorecoveService(),
-                'superpdp' => new SuperPdpService(),
-                default => new SimulationService(),
+                'storecove' => new StorecoveService,
+                'superpdp' => new SuperPdpService,
+                default => new SimulationService,
             };
         });
     }
@@ -66,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Register audit logging for authentication events
         Event::subscribe(LogAuthenticationEvents::class);
+        // Journal et alerte quand la 2FA bouge (FEAT-122).
+        Event::subscribe(HandleTwoFactorEvents::class);
 
         // Register morph map for polymorphic relations
         Relation::morphMap([
@@ -77,7 +84,7 @@ class AppServiceProvider extends ServiceProvider
 
         // FEAT-081: auto-remove terminated employees from all their active projects
         Employee::observe(EmployeeObserver::class);
-        \App\Models\BlogPost::observe(\App\Observers\BlogPostObserver::class);
+        BlogPost::observe(BlogPostObserver::class);
 
         // Configure rate limiters
         $this->configureRateLimiting();
@@ -217,7 +224,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Login - 5/minute par IP + email
         RateLimiter::for('login', function (Request $request) {
-            $key = $request->input('email', '') . '|' . $request->ip();
+            $key = $request->input('email', '').'|'.$request->ip();
+
             return Limit::perMinute(5)
                 ->by($key)
                 ->response(function (Request $request, array $headers) {
@@ -254,7 +262,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Portail comptable : connexion - 5/minute par IP + email.
         RateLimiter::for('accountant-login', function (Request $request) {
-            $key = $request->input('email', '') . '|' . $request->ip();
+            $key = $request->input('email', '').'|'.$request->ip();
+
             return Limit::perMinute(5)
                 ->by($key)
                 ->response(function (Request $request, array $headers) {
@@ -293,10 +302,10 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Generate a rate limit response.
      */
-    protected function rateLimitResponse(array $headers, ?string $message = null): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+    protected function rateLimitResponse(array $headers, ?string $message = null): Response|JsonResponse
     {
         $retryAfter = $headers['Retry-After'] ?? 60;
-        $message = $message ?? 'Trop de requêtes. Veuillez réessayer dans ' . $retryAfter . ' secondes.';
+        $message = $message ?? 'Trop de requêtes. Veuillez réessayer dans '.$retryAfter.' secondes.';
 
         if (request()->expectsJson() || request()->is('api/*')) {
             return response()->json([

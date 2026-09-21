@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Security\SecurityAlerter;
+use App\Services\DpaPdfService;
+use App\Support\DpaDocument;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,8 +33,8 @@ class ProfileController extends Controller
             // croire à un document non signé.
             'dpa' => [
                 'accepted_at' => $user->dpa_accepted_at?->toIso8601String(),
-                'version' => $user->dpa_version ?: \App\Support\DpaDocument::VERSION,
-                'current_version' => \App\Support\DpaDocument::VERSION,
+                'version' => $user->dpa_version ?: DpaDocument::VERSION,
+                'current_version' => DpaDocument::VERSION,
                 'method' => $user->dpa_acceptance_method,
             ],
         ]);
@@ -40,7 +43,7 @@ class ProfileController extends Controller
     /**
      * Exemplaire nominatif de l'accord de traitement des données.
      */
-    public function downloadDpa(Request $request, \App\Services\DpaPdfService $service)
+    public function downloadDpa(Request $request, DpaPdfService $service)
     {
         return $service->download($request->user());
     }
@@ -57,19 +60,25 @@ class ProfileController extends Controller
         $emailChange = $request->user()->isDirty('email');
         if ($emailChange) {
             $request->user()->email_verified_at = null;
+            // L'ancienne adresse reste prévenue des gestes sensibles pendant
+            // trente jours : si ce changement n'était pas du titulaire, c'est
+            // le seul canal qui lui reste (voir SecurityAlerter).
+            $request->user()->previous_email = $ancienEmail;
+            $request->user()->email_changed_at = now();
         }
 
         $request->user()->save();
 
-        // Prévenir l'ANCIENNE adresse : si le changement n'est pas de son fait,
-        // c'est le seul signal que le titulaire reçoit.
+        // Prévenir l'ANCIENNE adresse autant que la nouvelle, avec le lien de
+        // gel : si le changement n'est pas de son fait, c'est le seul signal
+        // que le titulaire reçoit, et le seul moyen qu'il a de réagir.
         if ($emailChange) {
-            \Illuminate\Support\Facades\Notification::route('mail', $ancienEmail)
-                ->notify(new \App\Notifications\EmailChangedNotification(
-                    $ancienEmail,
-                    $request->user()->email,
-                    $request->user()->locale ?? 'fr',
-                ));
+            app(SecurityAlerter::class)->alert(
+                $request->user(),
+                SecurityAlerter::EMAIL_CHANGED,
+                ['email_from' => $ancienEmail, 'email_to' => $request->user()->email],
+                alsoTo: [$ancienEmail],
+            );
         }
 
         return Redirect::route('profile.edit');

@@ -3,7 +3,7 @@
 namespace Tests\Feature\Security;
 
 use App\Models\User;
-use App\Notifications\EmailChangedNotification;
+use App\Notifications\SecurityAlertNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
@@ -96,9 +96,12 @@ class EmailChangeRequiresPasswordTest extends TestCase
 
         $this->assertSame('nouvelle@example.com', $user->fresh()->email);
 
+        // L'alerte de sécurité a remplacé la notification dédiée (FEAT-122) :
+        // l'ancienne adresse reste prévenue, avec le lien de gel en plus.
         Notification::assertSentOnDemand(
-            EmailChangedNotification::class,
+            SecurityAlertNotification::class,
             fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === 'titulaire@example.com'
+                && $notification->event === 'email_changed'
         );
     }
 

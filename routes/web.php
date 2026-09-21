@@ -7,6 +7,7 @@ use App\Http\Controllers\AlternativeController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\AuditExportController;
 use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\Auth\SecurityLockController;
 use App\Http\Controllers\BankBalanceController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusinessSettingsController;
@@ -561,6 +562,15 @@ Route::middleware(['auth', 'verified'])->prefix('fichiers')->name('files.')->gro
     Route::get('/justificatif-depense/{expense}', [PrivateFileController::class, 'expenseAttachment'])
         ->whereNumber('expense')->name('expense-attachment');
 });
+
+// Le lien « ce n'était pas moi » des alertes de sécurité (FEAT-122). Public :
+// le titulaire arrive depuis sa boîte mail, parfois depuis un compte dont il a
+// déjà perdu la main. La signature de l'URL est la seule preuve, elle suffit
+// parce que le gel ne fait que refuser. Le middleware `signed` rejette un lien
+// expiré ou altéré avant le contrôleur.
+Route::get('/securite/ce-n-etait-pas-moi/{user}', [SecurityLockController::class, 'lock'])
+    ->middleware(['signed', 'throttle:10,1'])
+    ->name('security.not-me');
 
 Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->group(function () {
     // Onboarding wizard
