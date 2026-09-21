@@ -284,7 +284,7 @@ const submitInventory = () => {
             <div class="p-6">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('stock.inventory_title') }}</h2>
                 <p v-if="inventoryProduct" class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    {{ inventoryProduct.designation }} — {{ t('stock.current') }} : {{ formatQty(inventoryProduct.current_stock) }}
+                    {{ inventoryProduct.designation }} ({{ t('stock.current') }} : {{ formatQty(inventoryProduct.current_stock) }})
                 </p>
 
                 <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">

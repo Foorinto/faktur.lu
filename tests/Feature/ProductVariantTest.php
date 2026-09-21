@@ -692,6 +692,84 @@ class ProductVariantTest extends TestCase
         $this->assertFalse($famille->fresh()->isLowOnStock());
     }
 
+    // --- L'historique d'une famille -----------------------------------------
+
+    public function test_l_historique_d_une_famille_reunit_les_mouvements_de_ses_declinaisons(): void
+    {
+        // « Combien de souris ai-je reçu ce mois-ci » ne se répond pas en
+        // ouvrant quatre pages.
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 100,
+            'date' => now()->toDateString(),
+            'allocations' => [
+                ['product_id' => $variantes[0]->id, 'quantity' => 60],
+                ['product_id' => $variantes[1]->id, 'quantity' => 30],
+            ],
+        ]);
+
+        $this->get(route('stock.movements', $famille))->assertInertia(fn ($page) => $page
+            // Deux mouvements de déclinaison et le reliquat de 10 sur la famille.
+            ->count('movements', 3)
+            ->count('variants', 2)
+            ->where('product.total_stock', 100)
+            ->where('product.current_stock', 10)
+        );
+    }
+
+    public function test_chaque_mouvement_nomme_sa_declinaison(): void
+    {
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 60,
+            'date' => now()->toDateString(),
+            'allocations' => [['product_id' => $variantes[0]->id, 'quantity' => 60]],
+        ]);
+
+        $this->get(route('stock.movements', $famille))->assertInertia(fn ($page) => $page
+            ->where('movements.0.product_name', $variantes[0]->displayName())
+            // Et l'identifiant suit, sinon la suppression viserait la famille.
+            ->where('movements.0.product_id', $variantes[0]->id)
+        );
+    }
+
+    public function test_l_historique_d_une_famille_non_suivie_reste_accessible(): void
+    {
+        $famille = $this->famille(['track_stock' => false]);
+        $this->post(route('products.variants.store', $famille), ['labels' => 'Blanc']);
+        $famille->fresh()->variants->first()->update(['track_stock' => true]);
+
+        $this->get(route('stock.movements', $famille))->assertOk();
+    }
+
+    public function test_un_article_sans_stock_ni_declinaison_n_a_pas_d_historique(): void
+    {
+        $article = $this->famille(['track_stock' => false]);
+
+        $this->get(route('stock.movements', $article))->assertNotFound();
+    }
+
+    public function test_supprimer_un_mouvement_de_declinaison_ne_touche_pas_la_famille(): void
+    {
+        [$famille, $variantes] = $this->familleSuivie();
+
+        $this->post(route('stock.entry', $famille), [
+            'quantity' => 60,
+            'date' => now()->toDateString(),
+            'allocations' => [['product_id' => $variantes[0]->id, 'quantity' => 60]],
+        ]);
+
+        $mouvement = StockMovement::where('product_id', $variantes[0]->id)->first();
+
+        // La route porte la déclinaison, pas la famille affichée.
+        $this->delete(route('stock.movements.destroy', [$variantes[0]->id, $mouvement->id]))
+            ->assertSessionHasNoErrors();
+
+        $this->assertEqualsWithDelta(0, $variantes[0]->fresh()->currentStock(), 0.001);
+    }
+
     // --- Réordonner ----------------------------------------------------------
 
     public function test_une_declinaison_remonte_d_un_rang(): void

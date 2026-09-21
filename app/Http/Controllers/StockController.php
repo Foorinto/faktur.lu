@@ -246,17 +246,37 @@ class StockController extends Controller
     /**
      * Historique des mouvements d'un produit (pour la traçabilité).
      */
+    /**
+     * L'historique d'un article, déclinaisons comprises.
+     *
+     * Sur une famille, l'écran réunit ce qui est entré et sorti de toutes ses
+     * nuances : « combien de souris ai-je reçu ce mois-ci » ne se répond pas en
+     * ouvrant quatre pages. Chaque ligne nomme l'article concerné, et le
+     * tableau de tête donne le stock de chaque déclinaison.
+     */
     public function movements(Product $product): Response
     {
-        abort_unless($product->track_stock, 404);
+        $variantes = $product->variants()->where('track_stock', true)->get();
 
-        $movements = $product->stockMovements()
+        // Une famille peut ne pas suivre son propre stock tout en portant des
+        // déclinaisons qui le suivent.
+        abort_unless($product->track_stock || $variantes->isNotEmpty(), 404);
+
+        $concernes = $variantes->pluck('id')->push($product->id)->all();
+        $noms = $variantes->keyBy('id')->map(fn (Product $v) => $v->displayName());
+
+        $movements = StockMovement::query()
+            ->whereIn('product_id', $concernes)
             ->orderByDesc('date')
             ->orderByDesc('id')
             ->limit(200)
-            ->get(['id', 'quantity', 'type', 'source_type', 'date', 'unit_cost', 'note'])
+            ->get(['id', 'product_id', 'quantity', 'type', 'source_type', 'date', 'unit_cost', 'note'])
             ->map(fn ($m) => [
                 'id' => $m->id,
+                // Le mouvement porte son propre article : la suppression doit
+                // viser la déclinaison, pas la famille qu'on regarde.
+                'product_id' => (int) $m->product_id,
+                'product_name' => $noms->get((int) $m->product_id) ?? $product->displayName(),
                 'quantity' => $m->quantity,
                 'type' => $m->type,
                 'date' => $m->date?->toDateString(),
@@ -270,18 +290,23 @@ class StockController extends Controller
         return Inertia::render('Stock/Movements', [
             'product' => [
                 'id' => $product->id,
-                'designation' => $product->designation,
+                'designation' => $product->displayName(),
                 'current_stock' => $product->currentStock(),
+                'total_stock' => $product->stockDeLaFamille(),
+                'total_value' => $product->valeurDeLaFamille(),
             ],
+            'variants' => $variantes->map(fn (Product $v) => [
+                'id' => $v->id,
+                'designation' => $v->variant_label,
+                'reference' => $v->reference,
+                'current_stock' => $v->currentStock(),
+                'stock_value' => $v->stockValue(),
+                'is_low' => $v->isLowOnStock(),
+            ])->values(),
             'movements' => $movements,
         ]);
     }
 
-    /**
-     * Supprime un mouvement MANUEL saisi par erreur (entrée, ajustement,
-     * inventaire). Un mouvement issu d'une facture est immuable : sa correction
-     * passe par une note de crédit, jamais par une suppression rétroactive.
-     */
     public function destroyMovement(Product $product, StockMovement $movement): RedirectResponse
     {
         abort_unless((int) $movement->product_id === (int) $product->id, 404);
