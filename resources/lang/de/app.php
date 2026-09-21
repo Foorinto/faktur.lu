@@ -5610,7 +5610,7 @@ return [
         'value' => 'Wert',
         'entry' => 'Zugang',
         'inventory' => 'Inventur',
-        'history' => 'Verlauf',
+        'record' => 'Bestandsblatt',
         'low_badge' => 'Unter der Warnschwelle',
         'empty' => 'Noch keine Artikel mit Bestandsverfolgung.',
         'empty_cta' => 'Verfolgung für einen Katalogartikel aktivieren',
@@ -5624,7 +5624,7 @@ return [
         'counted_quantity' => 'Gezählte Menge',
         'inventory_note_placeholder' => 'z. B. Jahresinventur',
         'record_inventory' => 'Inventur speichern',
-        'history_of' => 'Bewegungen - :name',
+        'record_of' => 'Bestandsblatt - :name',
         'movement_type' => 'Art',
         'no_movements' => 'Keine Bewegung erfasst.',
         'types' => [

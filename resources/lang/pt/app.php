@@ -5840,7 +5840,7 @@ return [
         'value' => 'Valor',
         'entry' => 'Entrada',
         'inventory' => 'Inventário',
-        'history' => 'Histórico',
+        'record' => 'Ficha de stock',
         'low_badge' => 'Abaixo do limiar de alerta',
         'empty' => 'Ainda não há artigos com stock acompanhado.',
         'empty_cta' => 'Ativar o acompanhamento num artigo do catálogo',
@@ -5854,7 +5854,7 @@ return [
         'counted_quantity' => 'Quantidade contada',
         'inventory_note_placeholder' => 'ex. recontagem anual',
         'record_inventory' => 'Registar inventário',
-        'history_of' => 'Movimentos - :name',
+        'record_of' => 'Ficha de stock - :name',
         'movement_type' => 'Tipo',
         'no_movements' => 'Nenhum movimento registado.',
         'types' => [

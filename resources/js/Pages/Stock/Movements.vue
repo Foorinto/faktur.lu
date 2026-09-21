@@ -51,7 +51,7 @@ const deleteMovement = (movement) => {
                 </svg>
             </Link>
             <h1 class="text-xl font-semibold text-slate-900 dark:text-white">
-                {{ t('stock.history_of', { name: product.designation }) }}
+                {{ t('stock.record_of', { name: product.designation }) }}
             </h1>
         </template>
 

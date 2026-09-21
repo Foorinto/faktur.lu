@@ -5626,7 +5626,7 @@ return [
         'value' => 'Value',
         'entry' => 'Entry',
         'inventory' => 'Inventory',
-        'history' => 'History',
+        'record' => 'Stock record',
         'low_badge' => 'Below alert threshold',
         'empty' => 'No stock-tracked items yet.',
         'empty_cta' => 'Enable tracking on a catalogue item',
@@ -5640,7 +5640,7 @@ return [
         'counted_quantity' => 'Counted quantity',
         'inventory_note_placeholder' => 'e.g. annual recount',
         'record_inventory' => 'Record inventory',
-        'history_of' => 'Movements - :name',
+        'record_of' => 'Stock record - :name',
         'movement_type' => 'Type',
         'no_movements' => 'No movement recorded.',
         'types' => [

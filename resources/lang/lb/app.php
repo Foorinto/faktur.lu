@@ -5611,7 +5611,7 @@ return [
         'value' => 'Wäert',
         'entry' => 'Zougang',
         'inventory' => 'Inventaire',
-        'history' => 'Historique',
+        'record' => 'Bestandsblat',
         'low_badge' => 'Ënner der Alarmschwell',
         'empty' => 'Nach keng Artikelen mat Stockverfollegung.',
         'empty_cta' => 'D\'Verfollegung fir en Artikel aktivéieren',
@@ -5625,7 +5625,7 @@ return [
         'counted_quantity' => 'Gezielte Quantitéit',
         'inventory_note_placeholder' => 'z. B. Joresinventaire',
         'record_inventory' => 'Inventaire späicheren',
-        'history_of' => 'Beweegungen - :name',
+        'record_of' => 'Bestandsblat - :name',
         'movement_type' => 'Typ',
         'no_movements' => 'Keng Beweegung erfaasst.',
         'types' => [

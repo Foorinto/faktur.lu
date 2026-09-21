@@ -6007,7 +6007,7 @@ return [
         'value' => 'Valeur',
         'entry' => 'Entrée',
         'inventory' => 'Inventaire',
-        'history' => 'Historique',
+        'record' => 'Fiche stock',
         'low_badge' => 'Sous le seuil d\'alerte',
         'empty' => 'Aucun article suivi en stock pour l\'instant.',
         'empty_cta' => 'Activer le suivi sur un article du catalogue',
@@ -6021,7 +6021,7 @@ return [
         'counted_quantity' => 'Quantité comptée',
         'inventory_note_placeholder' => 'ex. recomptage annuel',
         'record_inventory' => 'Enregistrer l\'inventaire',
-        'history_of' => 'Mouvements - :name',
+        'record_of' => 'Fiche stock - :name',
         'movement_type' => 'Type',
         'no_movements' => 'Aucun mouvement enregistré.',
         'types' => [

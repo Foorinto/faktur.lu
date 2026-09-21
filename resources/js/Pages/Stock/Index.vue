@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Modal from '@/Components/Modal.vue';
+import RowAction from '@/Components/RowAction.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -152,16 +153,10 @@ const submitInventory = () => {
                                 {{ formatCurrency(p.stock_value) }}
                             </td>
                             <td class="px-6 py-3 text-right text-sm">
-                                <div class="flex items-center justify-end gap-3">
-                                    <button type="button" class="font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400" @click="openEntry(p)">
-                                        {{ t('stock.entry') }}
-                                    </button>
-                                    <button type="button" class="font-medium text-slate-600 hover:text-slate-800 dark:text-slate-300" @click="openInventory(p)">
-                                        {{ t('stock.inventory') }}
-                                    </button>
-                                    <Link :href="route('stock.movements', p.id)" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                                        {{ t('stock.history') }}
-                                    </Link>
+                                <div class="flex items-center justify-end gap-1">
+                                    <RowAction icon="add" tone="primary" :label="t('stock.entry')" @click="openEntry(p)" />
+                                    <RowAction icon="inventory" :label="t('stock.inventory')" @click="openInventory(p)" />
+                                    <RowAction icon="view" :label="t('stock.record')" :href="route('stock.movements', p.id)" />
                                 </div>
                             </td>
                         </tr>
