@@ -37,6 +37,9 @@ class AccountingExportXlsxTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Réauthentification à l'acte : les exports exigent une confirmation
+        // récente du mot de passe, posée ici comme le ferait la page.
+        $this->withSession(['auth.password_confirmed_at' => time()]);
 
         // Les exports comptables sont réservés à Essentiel et Pro ; un compte en
         // période d'essai obtient les fonctionnalités Pro. Les plans doivent

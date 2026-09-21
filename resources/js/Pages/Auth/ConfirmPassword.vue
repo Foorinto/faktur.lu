@@ -9,8 +9,16 @@ import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
 
+// Le serveur dit si la 2FA est active : le champ du code n'apparaît que dans
+// ce cas, et le code lui-même est vérifié par le même Reauthenticator que les
+// formulaires en ligne (voir App\Auth\ConfirmPasswordWithTwoFactor).
+defineProps({
+    requiresTwoFactor: { type: Boolean, default: false },
+});
+
 const form = useForm({
     password: '',
+    two_factor_code: '',
 });
 
 const submit = () => {
@@ -41,6 +49,20 @@ const submit = () => {
                     autofocus
                 />
                 <InputError class="mt-2" :message="form.errors.password" />
+            </div>
+
+            <div v-if="requiresTwoFactor" class="mt-4">
+                <InputLabel for="two_factor_code" :value="t('authentication_code')" />
+                <TextInput
+                    id="two_factor_code"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    class="mt-1 block w-full font-mono"
+                    v-model="form.two_factor_code"
+                />
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('reauth_code_help') }}</p>
+                <InputError class="mt-2" :message="form.errors.two_factor_code" />
             </div>
 
             <div class="mt-4 flex justify-end">

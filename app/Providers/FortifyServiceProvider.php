@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Auth\ConfirmPasswordWithTwoFactor;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use Laravel\Fortify\Actions\ConfirmPassword;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -16,6 +18,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // ⚠️ Fortify résout l'action de confirmation du mot de passe par le
+        // conteneur : la remplacer ici impose le code 2FA sur sa route comme
+        // sur la nôtre. Voir App\Auth\ConfirmPasswordWithTwoFactor.
+        $this->app->bind(ConfirmPassword::class, ConfirmPasswordWithTwoFactor::class);
+
         //
     }
 

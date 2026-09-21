@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import Modal from '@/Components/Modal.vue';
 import TextInput from '@/Components/TextInput.vue';
+import ReauthFields from '@/Components/ReauthFields.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
@@ -29,6 +30,7 @@ const form = useForm({
     locale: user.locale ?? 'fr',
     business_sector: user.business_sector ?? '',
     current_password: '',
+    two_factor_code: '',
 });
 
 // Changer l'adresse e-mail exige le mot de passe courant (sécurité : une
@@ -59,8 +61,8 @@ const submitWithPassword = () => {
 
 const closeEmailModal = () => {
     confirmingEmailChange.value = false;
-    form.reset('current_password');
-    form.clearErrors('current_password');
+    form.reset('current_password', 'two_factor_code');
+    form.clearErrors('current_password', 'two_factor_code');
 };
 
 /**
@@ -207,20 +209,14 @@ const secteurs = ['construction', 'freelance', 'health', 'real_estate', 'retail'
                 </p>
 
                 <div class="mt-6">
-                    <InputLabel for="current_password_email" :value="t('current_password')" class="sr-only" />
-
-                    <TextInput
-                        id="current_password_email"
+                    <!-- Mot de passe, et code 2FA si elle est active : le même
+                         composant que pour l'IBAN et le QR de paiement. -->
+                    <ReauthFields
                         ref="passwordInput"
-                        v-model="form.current_password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        :placeholder="t('current_password')"
-                        autocomplete="current-password"
-                        @keyup.enter="submitWithPassword"
+                        :form="form"
+                        id-prefix="email_change"
+                        @submit="submitWithPassword"
                     />
-
-                    <InputError :message="form.errors.current_password" class="mt-2" />
                 </div>
 
                 <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

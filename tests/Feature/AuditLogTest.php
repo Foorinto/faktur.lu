@@ -18,6 +18,9 @@ class AuditLogTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Réauthentification à l'acte : les exports exigent une confirmation
+        // récente du mot de passe, posée ici comme le ferait la page.
+        $this->withSession(['auth.password_confirmed_at' => time()]);
         $this->user = User::factory()->create();
     }
 
@@ -198,8 +201,7 @@ class AuditLogTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertInertia(fn ($page) => $page
-            ->where('logs.data', fn ($logs) =>
-                collect($logs)->every(fn ($log) => str_starts_with($log['action'], 'auth.'))
+            ->where('logs.data', fn ($logs) => collect($logs)->every(fn ($log) => str_starts_with($log['action'], 'auth.'))
             )
         );
     }
@@ -233,8 +235,7 @@ class AuditLogTest extends TestCase
         $response = $this->get(route('audit-logs.index'));
 
         $response->assertInertia(fn ($page) => $page
-            ->where('logs.data', fn ($logs) =>
-                collect($logs)->every(fn ($log) => true) && count($logs) === 1
+            ->where('logs.data', fn ($logs) => collect($logs)->every(fn ($log) => true) && count($logs) === 1
             )
         );
     }

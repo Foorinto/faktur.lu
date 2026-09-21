@@ -9,10 +9,13 @@ import PaymentMethodsInput from '@/Components/PaymentMethodsInput.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import RichTextEditor from '@/Components/RichTextEditor.vue';
-import { computed, watch, ref, onMounted } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useTour } from '@/Composables/useTour';
 import UnsavedChangesBar from '@/Components/UnsavedChangesBar.vue';
+import Modal from '@/Components/Modal.vue';
+import ReauthFields from '@/Components/ReauthFields.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { useMarque } from "@/Composables/useMarque";
 
 const { nom: marqueNom } = useMarque();
@@ -103,6 +106,9 @@ const form = useForm({
     rcs_number: props.settings?.rcs_number ?? '',
     establishment_authorization: props.settings?.establishment_authorization ?? '',
     iban: props.settings?.iban ?? '',
+    // Réauthentification à l'acte, demandée seulement quand l'IBAN change.
+    current_password: '',
+    two_factor_code: '',
     bic: props.settings?.bic ?? '',
     bank_name: props.settings?.bank_name ?? '',
     vat_regime: props.settings?.vat_regime ?? 'franchise',
@@ -176,6 +182,8 @@ const logoPreview = ref(props.settings?.logo_url ?? null);
 
 const paymentQrcodeForm = useForm({
     payment_qrcode: null,
+    current_password: '',
+    two_factor_code: '',
 });
 
 const paymentQrcodeInput = ref(null);
@@ -287,14 +295,46 @@ const getCountryFlag = (code) => {
     return flags[code] || '🏳️';
 };
 
-const submit = () => {
+// L'IBAN tel qu'il est en base, pour savoir si la saisie le change. On
+// compare sans espaces ni casse, comme le serveur.
+const normaliserIban = (v) => String(v ?? '').replace(/\s+/g, '').toUpperCase();
+const ibanChange = computed(() => normaliserIban(form.iban) !== normaliserIban(props.settings?.iban));
+
+// Un IBAN qui change, c'est un paiement qui change de destination sur les
+// prochaines factures : on redemande le mot de passe, et le code 2FA si elle
+// est active, dans une modale. Le reste du formulaire n'en demande jamais.
+const confirmingIban = ref(false);
+const ibanReauth = ref(null);
+
+const envoyerReglages = () => {
     form.put(route('settings.business.update'), {
         preserveScroll: true,
         preserveState: true,
         // Le défilement vers le champ refusé est global (voir Support/formErrors) :
         // celui qui vivait ici cherchait `.text-red-600` quand InputError rend
         // `.text-rose-600`, et ne trouvait donc jamais rien.
+        onSuccess: () => fermerModaleIban(),
+        onError: (errors) => {
+            if (errors.current_password || errors.two_factor_code) {
+                confirmingIban.value = true;
+            }
+        },
     });
+};
+
+const submit = () => {
+    if (ibanChange.value) {
+        confirmingIban.value = true;
+        return;
+    }
+
+    envoyerReglages();
+};
+
+const fermerModaleIban = () => {
+    confirmingIban.value = false;
+    form.reset('current_password', 'two_factor_code');
+    form.clearErrors('current_password', 'two_factor_code');
 };
 
 const selectLogo = () => {
@@ -357,14 +397,29 @@ const handlePaymentQrcodeSelect = (event) => {
     }
 };
 
+// Le QR de paiement s'imprime sur les factures et encode un compte à
+// créditer : le remplacer, c'est changer l'IBAN par l'image. Même modale.
+const confirmingQrcode = ref(false);
+
 const uploadPaymentQrcode = () => {
+    confirmingQrcode.value = true;
+};
+
+const envoyerQrcode = () => {
     paymentQrcodeForm.post(route('settings.business.payment-qrcode.upload'), {
         preserveScroll: true,
         onSuccess: () => {
+            confirmingQrcode.value = false;
             paymentQrcodeForm.reset();
             paymentQrcodeInput.value.value = '';
         },
     });
+};
+
+const fermerModaleQrcode = () => {
+    confirmingQrcode.value = false;
+    paymentQrcodeForm.reset('current_password', 'two_factor_code');
+    paymentQrcodeForm.clearErrors('current_password', 'two_factor_code');
 };
 
 const deletePaymentQrcode = () => {
@@ -1319,5 +1374,49 @@ const cancelPaymentQrcodeUpload = () => {
 
             </form>
         </div>
+
+        <!-- Réauthentification à l'acte : l'IBAN change. -->
+        <Modal :show="confirmingIban" @close="fermerModaleIban">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">{{ t('reauth_title') }}</h2>
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{{ t('reauth_for_iban') }}</p>
+
+                <div class="mt-6">
+                    <ReauthFields ref="ibanReauth" :form="form" id-prefix="iban_change" autofocus @submit="envoyerReglages" />
+                </div>
+
+                <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                    <SecondaryButton class="w-full justify-center sm:w-auto" @click="fermerModaleIban">{{ t('cancel') }}</SecondaryButton>
+                    <PrimaryButton
+                        class="w-full justify-center sm:w-auto"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                        @click="envoyerReglages"
+                    >{{ t('save') }}</PrimaryButton>
+                </div>
+            </div>
+        </Modal>
+
+        <!-- Réauthentification à l'acte : le QR de paiement change. -->
+        <Modal :show="confirmingQrcode" @close="fermerModaleQrcode">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">{{ t('reauth_title') }}</h2>
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{{ t('reauth_for_qrcode') }}</p>
+
+                <div class="mt-6">
+                    <ReauthFields :form="paymentQrcodeForm" id-prefix="qrcode_change" autofocus @submit="envoyerQrcode" />
+                </div>
+
+                <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                    <SecondaryButton class="w-full justify-center sm:w-auto" @click="fermerModaleQrcode">{{ t('cancel') }}</SecondaryButton>
+                    <PrimaryButton
+                        class="w-full justify-center sm:w-auto"
+                        :class="{ 'opacity-25': paymentQrcodeForm.processing }"
+                        :disabled="paymentQrcodeForm.processing"
+                        @click="envoyerQrcode"
+                    >{{ t('save') }}</PrimaryButton>
+                </div>
+            </div>
+        </Modal>
     </AppLayout>
 </template>

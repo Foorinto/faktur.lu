@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Auth\Reauthenticator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,12 +15,22 @@ class PasswordController extends Controller
     /**
      * Update the user's password.
      */
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request, Reauthenticator $reauthenticator): RedirectResponse
     {
         $validated = $request->validate([
-            'current_password' => ['required', 'current_password'],
+            'current_password' => ['required'],
+            'two_factor_code' => ['nullable', 'string'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
+
+        // Le mot de passe courant, plus le code 2FA si elle est active : une
+        // session volée ne doit pas pouvoir en poser un nouveau et enfermer le
+        // titulaire dehors.
+        $reauthenticator->verify(
+            $request->user(),
+            $validated['current_password'],
+            $request->input('two_factor_code'),
+        );
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
