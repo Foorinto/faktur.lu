@@ -47,6 +47,9 @@ class LogoPathTraversalTest extends TestCase
 
         $this->put(route('settings.business.update'), $this->payloadValide([
             'logo_path' => '../../../.env',
+            // Réauthentification à l'acte : la charge utile pose un IBAN, le
+            // mot de passe est demandé.
+            'current_password' => 'password',
         ]))->assertSessionHasNoErrors();
 
         $this->assertNull(

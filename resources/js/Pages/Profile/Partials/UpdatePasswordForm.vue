@@ -3,8 +3,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
 
 const { t } = useTranslations();
@@ -14,9 +14,14 @@ const currentPasswordInput = ref(null);
 
 const form = useForm({
     current_password: '',
+    two_factor_code: '',
     password: '',
     password_confirmation: '',
 });
+
+// Le code 2FA n'est demandé que s'il est actif : même règle que pour l'IBAN
+// et l'email, vérifiée côté serveur par le Reauthenticator.
+const requiresCode = computed(() => Boolean(usePage().props.auth?.user?.two_factor_enabled));
 
 const updatePassword = () => {
     form.put(route('password.update'), {
@@ -30,6 +35,9 @@ const updatePassword = () => {
             if (form.errors.current_password) {
                 form.reset('current_password');
                 currentPasswordInput.value.focus();
+            }
+            if (form.errors.two_factor_code) {
+                form.reset('two_factor_code');
             }
         },
     });
@@ -65,6 +73,22 @@ const updatePassword = () => {
                     :message="form.errors.current_password"
                     class="mt-2"
                 />
+            </div>
+
+            <div v-if="requiresCode">
+                <InputLabel for="password_two_factor_code" :value="t('authentication_code')" />
+
+                <TextInput
+                    id="password_two_factor_code"
+                    v-model="form.two_factor_code"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    class="mt-1 block w-full font-mono"
+                />
+
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('reauth_code_help') }}</p>
+                <InputError :message="form.errors.two_factor_code" class="mt-2" />
             </div>
 
             <div>

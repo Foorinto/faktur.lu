@@ -1042,6 +1042,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::middleware('throttle:export')->group(function () {
         // FAIA export - all plans
         Route::post('/exports/audit', [AuditExportController::class, 'store'])
+            ->middleware('password.confirm')
             ->name('exports.audit.store');
 
         // PDF Archive - Pro only
@@ -1072,7 +1073,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
     // Audit log export - 10 requests/hour
     Route::middleware('throttle:audit-export')->group(function () {
-        Route::get('/audit-logs/export', [AuditLogController::class, 'export'])->name('audit-logs.export');
+        Route::get('/audit-logs/export', [AuditLogController::class, 'export'])->middleware('password.confirm')->name('audit-logs.export');
 
         // Reports comptables CSV — Essentiel ou Pro
         Route::middleware('plan.feature:accounting_exports')->group(function () {
@@ -1094,13 +1095,19 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::middleware('plan.feature:accounting_exports')->group(function () {
         Route::get('/reports/fiscal-summary', [FiscalSummaryController::class, 'index'])->name('reports.fiscal-summary');
     });
-    Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');
-    Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
-    Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
+    // ⚠️ Réauthentification à l'acte : ces exports emportent tout le dossier
+    // d'un compte. Une session volée ne doit pas pouvoir les tirer sans le
+    // mot de passe, ni sans le code 2FA quand elle est active. La fenêtre de
+    // confirmation est de dix minutes (config/auth.php).
+    Route::middleware('password.confirm')->group(function () {
+        Route::get('/exports/audit', [AuditExportController::class, 'index'])->name('exports.audit.index');
+        Route::get('/exports/audit/preview', [AuditExportController::class, 'preview'])->name('exports.audit.preview');
+        Route::get('/exports/audit/{export}/download', [AuditExportController::class, 'download'])->name('exports.audit.download');
+    });
     Route::delete('/exports/audit/{export}', [AuditExportController::class, 'destroy'])->name('exports.audit.destroy');
 
     // Accounting exports (Sage BOB, FID-Manager, CSV) — Essentiel ou Pro
-    Route::middleware('plan.feature:accounting_exports')->group(function () {
+    Route::middleware(['plan.feature:accounting_exports', 'password.confirm'])->group(function () {
         Route::get('/exports/accounting', [AccountingExportController::class, 'index'])->name('exports.accounting.index');
         Route::get('/exports/accounting/preview', [AccountingExportController::class, 'preview'])->name('exports.accounting.preview');
         Route::get('/exports/accounting/pdf-archive', [AccountingExportController::class, 'pdfArchive'])->name('exports.accounting.pdf-archive');

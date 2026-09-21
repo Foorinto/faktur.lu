@@ -58,6 +58,8 @@ class BusinessSettingsTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'New Company',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -86,6 +88,8 @@ class BusinessSettingsTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'Updated Company',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -111,6 +115,8 @@ class BusinessSettingsTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'Company',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -132,6 +138,8 @@ class BusinessSettingsTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'Company',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -154,6 +162,8 @@ class BusinessSettingsTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'Company',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -176,6 +186,8 @@ class BusinessSettingsTest extends TestCase
         $response = $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'Company',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -209,6 +221,8 @@ class BusinessSettingsTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'First Update',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',
@@ -225,6 +239,8 @@ class BusinessSettingsTest extends TestCase
         $this
             ->actingAs($this->user)
             ->put(route('settings.business.update'), [
+                // Réauthentification à l'acte : l'IBAN change, le mot de passe est demandé.
+                'current_password' => 'password',
                 'company_name' => 'Second Update',
                 'legal_name' => 'Legal Name',
                 'address' => '123 Street',

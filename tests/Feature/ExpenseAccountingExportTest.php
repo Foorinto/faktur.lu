@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\AccountingExport;
 use App\Models\AccountingSetting;
 use App\Models\BusinessSettings;
 use App\Models\Expense;
@@ -9,6 +10,7 @@ use App\Models\PurchaseCategory;
 use App\Models\User;
 use App\Services\Accounting\AccountingExportService;
 use Carbon\Carbon;
+use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -28,10 +30,13 @@ class ExpenseAccountingExportTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Réauthentification à l'acte : les exports exigent une confirmation
+        // récente du mot de passe, posée ici comme le ferait la page.
+        $this->withSession(['auth.password_confirmed_at' => time()]);
 
         // Les exports comptables sont réservés à Essentiel et Pro : un compte en
         // période d'essai obtient les fonctionnalités Pro.
-        $this->seed(\Database\Seeders\PlansSeeder::class);
+        $this->seed(PlansSeeder::class);
 
         $this->user = User::factory()->create([
             'email_verified_at' => now(),
@@ -335,7 +340,7 @@ class ExpenseAccountingExportTest extends TestCase
             $this->user,
             Carbon::parse('2026-03-01'),
             Carbon::parse('2026-03-31'),
-            \App\Models\AccountingExport::FORMAT_FEC,
+            AccountingExport::FORMAT_FEC,
             ['scope' => 'purchases']
         );
 
@@ -350,7 +355,7 @@ class ExpenseAccountingExportTest extends TestCase
             $this->user,
             Carbon::parse('2026-03-01'),
             Carbon::parse('2026-03-31'),
-            \App\Models\AccountingExport::FORMAT_FEC,
+            AccountingExport::FORMAT_FEC,
             ['scope' => 'purchases']
         );
 
@@ -430,7 +435,7 @@ class ExpenseAccountingExportTest extends TestCase
             $this->user,
             Carbon::parse('2026-03-01'),
             Carbon::parse('2026-03-31'),
-            \App\Models\AccountingExport::FORMAT_GENERIC,
+            AccountingExport::FORMAT_GENERIC,
             ['scope' => 'both']
         );
 
@@ -472,7 +477,7 @@ class ExpenseAccountingExportTest extends TestCase
             'scope' => 'both',
         ])->assertSessionHasNoErrors();
 
-        $export = \App\Models\AccountingExport::where('user_id', $this->user->id)->latest()->firstOrFail();
+        $export = AccountingExport::where('user_id', $this->user->id)->latest()->firstOrFail();
 
         $this->assertSame('both', $export->options['scope']);
     }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GenerateInvoiceNumberAction;
+use App\Actions\GenerateQuoteNumberAction;
+use App\Auth\Reauthenticator;
 use App\Http\Requests\Api\V1\UpdateBusinessSettingsRequest;
 use App\Models\BusinessSettings;
+use App\Services\DocumentNumberFormatter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +30,7 @@ class BusinessSettingsController extends Controller
         $vatRegimes = [
             [
                 'value' => 'franchise',
-                'label' => "Franchise (< " . number_format($franchiseThreshold, 0, ',', ' ') . " €/an)",
+                'label' => 'Franchise (< '.number_format($franchiseThreshold, 0, ',', ' ').' €/an)',
                 'description' => 'Exonéré de TVA',
             ],
             [
@@ -60,10 +64,10 @@ class BusinessSettingsController extends Controller
             ]) : [
                 'country_code' => 'LU',
                 'franchise_threshold' => 50000,
-                'number_format' => \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE,
-                'invoice_prefix' => \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_INVOICE,
-                'credit_note_prefix' => \App\Actions\GenerateInvoiceNumberAction::DEFAULT_PREFIX_CREDIT_NOTE,
-                'quote_prefix' => \App\Actions\GenerateQuoteNumberAction::DEFAULT_PREFIX,
+                'number_format' => DocumentNumberFormatter::DEFAULT_TEMPLATE,
+                'invoice_prefix' => GenerateInvoiceNumberAction::DEFAULT_PREFIX_INVOICE,
+                'credit_note_prefix' => GenerateInvoiceNumberAction::DEFAULT_PREFIX_CREDIT_NOTE,
+                'quote_prefix' => GenerateQuoteNumberAction::DEFAULT_PREFIX,
                 'number_padding' => 3,
             ],
             'countries' => BusinessSettings::getSupportedCountries(),
@@ -78,8 +82,8 @@ class BusinessSettingsController extends Controller
                 'editability' => $numberingEditability,
                 'finalized_counts' => $numberingFinalizedCounts,
                 'current_year' => $currentYear,
-                'placeholders' => \App\Services\DocumentNumberFormatter::PLACEHOLDERS,
-                'default_template' => \App\Services\DocumentNumberFormatter::DEFAULT_TEMPLATE,
+                'placeholders' => DocumentNumberFormatter::PLACEHOLDERS,
+                'default_template' => DocumentNumberFormatter::DEFAULT_TEMPLATE,
             ],
         ]);
     }
@@ -87,10 +91,22 @@ class BusinessSettingsController extends Controller
     /**
      * Update or create the business settings.
      */
-    public function update(UpdateBusinessSettingsRequest $request): RedirectResponse
+    public function update(UpdateBusinessSettingsRequest $request, Reauthenticator $reauthenticator): RedirectResponse
     {
         $validated = $request->validated();
         $settings = BusinessSettings::getInstance();
+
+        // L'IBAN est ce qu'un voleur de session vient changer : c'est lui qui
+        // détourne les paiements des factures à venir. On redemande le mot de
+        // passe, et le code 2FA si elle est active, seulement quand il change.
+        // Retoucher une couleur de PDF ne doit rien demander.
+        if ($this->ibanChange($settings, $validated['iban'] ?? null)) {
+            $reauthenticator->verify(
+                $request->user(),
+                $request->input('current_password'),
+                $request->input('two_factor_code'),
+            );
+        }
 
         if ($settings) {
             $settings->update($validated);
@@ -117,7 +133,7 @@ class BusinessSettingsController extends Controller
 
         $settings = BusinessSettings::getInstance();
 
-        if (!$settings) {
+        if (! $settings) {
             return back()->with('error', __('app.business_flash.error_settings_missing'));
         }
 
@@ -139,15 +155,23 @@ class BusinessSettingsController extends Controller
     /**
      * Upload a payment QR code image (Payconiq, PayPal, etc.).
      */
-    public function uploadPaymentQrcode(Request $request): RedirectResponse
+    public function uploadPaymentQrcode(Request $request, Reauthenticator $reauthenticator): RedirectResponse
     {
         $request->validate([
             'payment_qrcode' => ['required', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
         ]);
 
+        // Ce QR code s'imprime sur les factures et encode un compte à créditer :
+        // le remplacer revient à changer l'IBAN par l'image. Même règle.
+        $reauthenticator->verify(
+            $request->user(),
+            $request->input('current_password'),
+            $request->input('two_factor_code'),
+        );
+
         $settings = BusinessSettings::getInstance();
 
-        if (!$settings) {
+        if (! $settings) {
             return back()->with('error', __('app.business_flash.error_settings_missing'));
         }
 
@@ -170,7 +194,7 @@ class BusinessSettingsController extends Controller
     {
         $settings = BusinessSettings::getInstance();
 
-        if (!$settings || !$settings->payment_qrcode_path) {
+        if (! $settings || ! $settings->payment_qrcode_path) {
             return back()->with('error', __('app.business_flash.error_no_qrcode'));
         }
 
@@ -188,7 +212,7 @@ class BusinessSettingsController extends Controller
     {
         $settings = BusinessSettings::getInstance();
 
-        if (!$settings || !$settings->logo_path) {
+        if (! $settings || ! $settings->logo_path) {
             return back()->with('error', __('app.business_flash.error_no_logo'));
         }
 
@@ -199,5 +223,24 @@ class BusinessSettingsController extends Controller
         $settings->forceFill(['logo_path' => null])->save();
 
         return back()->with('success', __('app.business_flash.logo_deleted'));
+    }
+
+    /**
+     * L'IBAN soumis diffère-t-il de celui en place ? Le premier IBAN d'un
+     * compte compte aussi : un compte sans IBAN où l'on en pose un est
+     * exactement le cas d'un détournement sur des factures encore vierges.
+     */
+    private function ibanChange(?BusinessSettings $settings, ?string $soumis): bool
+    {
+        $normaliser = fn (?string $iban) => strtoupper((string) preg_replace('/\s+/', '', (string) $iban));
+
+        $actuel = $normaliser($settings?->iban);
+        $nouveau = $normaliser($soumis);
+
+        if ($nouveau === '') {
+            return false;
+        }
+
+        return $actuel !== $nouveau;
     }
 }
