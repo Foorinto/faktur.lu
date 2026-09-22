@@ -31,8 +31,14 @@ use Inertia\Response;
  */
 class SecurityLockController extends Controller
 {
-    public function lock(Request $request, User $user): Response
+    public function lock(Request $request, int $user): Response
     {
+        // ⚠️ L'identifiant n'est résolu qu'ici, après le contrôle de signature.
+        // Avec une liaison de modèle implicite, la résolution passait avant le
+        // middleware `signed` : un lien sans signature répondait 404 ou 403
+        // selon que le numéro existait, un oracle d'existence des comptes.
+        $user = User::findOrFail($user);
+
         $event = (string) $request->query('event', '');
         $dejaGele = $user->security_locked_at !== null;
 

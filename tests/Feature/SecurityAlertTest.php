@@ -271,6 +271,25 @@ class SecurityAlertTest extends TestCase
         $this->assertDatabaseHas('audit_logs', ['action' => 'account.locked_by_owner', 'user_id' => $this->user->id]);
     }
 
+    public function test_un_lien_sans_signature_ne_dit_pas_si_le_compte_existe(): void
+    {
+        // Sans signature, la réponse doit être la même que le numéro existe ou
+        // non : sinon l'adresse sert d'oracle pour énumérer les comptes.
+        Auth::logout();
+
+        $this->get(route('security.not-me', ['user' => $this->user->id]))->assertForbidden();
+        $this->get(route('security.not-me', ['user' => 999999]))->assertForbidden();
+    }
+
+    public function test_un_lien_signe_vers_un_compte_inconnu_repond_introuvable(): void
+    {
+        Auth::logout();
+
+        $lien = URL::temporarySignedRoute('security.not-me', now()->addDays(7), ['user' => 999999, 'event' => 'iban_changed']);
+
+        $this->get($lien)->assertNotFound();
+    }
+
     public function test_un_lien_altere_est_refuse(): void
     {
         Auth::logout();
@@ -300,6 +319,38 @@ class SecurityAlertTest extends TestCase
         $this->get($this->lienDeGel())->assertOk()->assertInertia(fn ($page) => $page->where('alreadyLocked', true));
 
         $this->assertEquals($premier, $this->user->fresh()->security_locked_at);
+    }
+
+    // --- Les sessions au changement de 2FA ------------------------------------
+
+    public function test_activer_puis_desactiver_la_2fa_ferme_les_autres_sessions(): void
+    {
+        // Comme un changement de mot de passe : un appareil resté ouvert
+        // ailleurs ne survit pas à un changement de 2FA. La session courante,
+        // celle qui fait le geste, reste.
+        config(['session.driver' => 'database']);
+
+        $autre = fn () => DB::table('sessions')->insert([
+            'id' => 'appareil-oublie-'.uniqid(),
+            'user_id' => $this->user->id,
+            'ip_address' => '203.0.113.7',
+            'user_agent' => 'test',
+            'payload' => base64_encode(serialize([])),
+            'last_activity' => time(),
+        ]);
+
+        $autre();
+        $this->post('/user/confirm-password', ['password' => 'password']);
+        $this->post('/user/two-factor-authentication');
+        $code = app(Google2FA::class)->getCurrentOtp(decrypt($this->user->fresh()->two_factor_secret));
+        $this->post('/user/confirmed-two-factor-authentication', ['code' => $code]);
+
+        $this->assertSame(0, DB::table('sessions')->where('user_id', $this->user->id)->where('id', 'like', 'appareil-oublie-%')->count());
+
+        $autre();
+        $this->delete('/user/two-factor-authentication');
+
+        $this->assertSame(0, DB::table('sessions')->where('user_id', $this->user->id)->where('id', 'like', 'appareil-oublie-%')->count());
     }
 
     // --- Un compte gelé --------------------------------------------------------
