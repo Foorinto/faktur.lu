@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\EmailOtpChallengeController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -35,6 +36,17 @@ Route::middleware('guest')->group(function () {
     // FortifyServiceProvider.
     Route::get('two-factor-challenge', [FortifyTwoFactorController::class, 'create'])
         ->name('two-factor.login');
+
+    // Le défi par e-mail (FEAT-124) : après le mot de passe, comme celui de
+    // Fortify, avec ses propres clés de session.
+    Route::get('two-factor-email', [EmailOtpChallengeController::class, 'show'])
+        ->name('two-factor.email');
+    Route::post('two-factor-email', [EmailOtpChallengeController::class, 'store'])
+        ->middleware('throttle:email-otp')
+        ->name('two-factor.email.store');
+    Route::post('two-factor-email/resend', [EmailOtpChallengeController::class, 'resend'])
+        ->middleware('throttle:email-otp')
+        ->name('two-factor.email.resend');
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');

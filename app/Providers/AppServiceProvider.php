@@ -233,6 +233,16 @@ class AppServiceProvider extends ServiceProvider
                 });
         });
 
+        // Défi et envoi de code par e-mail (FEAT-124) : par compte attendu,
+        // sinon par IP. Le service porte en plus ses propres délais d'envoi.
+        RateLimiter::for('email-otp', function (Request $request) {
+            $cle = $request->user()?->getKey()
+                ?? $request->session()->get('email_otp.user_id')
+                ?? $request->ip();
+
+            return Limit::perMinute(10)->by('email-otp:'.$cle);
+        });
+
         // Audit logs export - 10/heure
         RateLimiter::for('audit-export', function (Request $request) {
             return Limit::perHour(10)

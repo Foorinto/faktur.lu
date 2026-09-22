@@ -34,7 +34,10 @@ class Reauthenticator
 
     public const DECAY_SECONDS = 60;
 
-    public function __construct(private TwoFactorAuthenticationProvider $provider) {}
+    public function __construct(
+        private TwoFactorAuthenticationProvider $provider,
+        private EmailOtp $emailOtp,
+    ) {}
 
     /**
      * Vérifie, ou lève une ValidationException portée par le bon champ.
@@ -85,6 +88,24 @@ class Reauthenticator
 
                 throw ValidationException::withMessages([$codeField => __('app.reauth_code_invalid')]);
             }
+        } elseif ($user->usesEmailOtp()) {
+            // Le code par e-mail : même exigence, autre canal. Le code a été
+            // envoyé quand le formulaire s'est ouvert (security.email-code.send).
+            $code = $this->normaliser($code);
+
+            if ($code === '') {
+                RateLimiter::hit($cle, self::DECAY_SECONDS);
+                $this->journaliser($user, 'email_code_missing');
+
+                throw ValidationException::withMessages([$codeField => __('app.reauth_email_code_required')]);
+            }
+
+            if (! $this->emailOtp->verify($user, $code)) {
+                RateLimiter::hit($cle, self::DECAY_SECONDS);
+                $this->journaliser($user, 'email_code');
+
+                throw ValidationException::withMessages([$codeField => __('app.reauth_email_code_invalid')]);
+            }
         }
 
         RateLimiter::clear($cle);
@@ -99,7 +120,8 @@ class Reauthenticator
     {
         return [
             'password' => true,
-            'code' => $user->hasEnabledTwoFactorAuthentication(),
+            'code' => $user->secondFactor() !== null,
+            'method' => $user->secondFactor(),
         ];
     }
 

@@ -43,6 +43,20 @@ class Mask
     /**
      * La valeur masquée d'un attribut, selon son nom.
      */
+    /** « a***@exemple.lu » : on reconnaît son adresse, on ne la recopie pas. */
+    public static function email(?string $email): string
+    {
+        $email = trim((string) $email);
+
+        if (! str_contains($email, '@')) {
+            return '***';
+        }
+
+        [$local, $domaine] = explode('@', $email, 2);
+
+        return mb_substr($local, 0, 1).'***@'.$domaine;
+    }
+
     public static function value(string $key, mixed $value): mixed
     {
         if ($value === null || $value === '') {

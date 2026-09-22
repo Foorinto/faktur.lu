@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import DocumentsSection from './Partials/DocumentsSection.vue';
+import EmailSecondFactorForm from './Partials/EmailSecondFactorForm.vue';
 import TwoFactorAuthenticationForm from './Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
@@ -22,6 +23,8 @@ defineProps({
         type: Object,
         default: () => ({}),
     },
+    // Compte exposé (IBAN et factures émises) : au moins un second facteur.
+    secondFactorRequired: { type: Boolean, default: false },
     confirmsTwoFactorAuthentication: {
         type: Boolean,
         default: true,
@@ -88,11 +91,19 @@ onMounted(() => {
                 </div>
 
                 <div
+                    id="two-factor"
                     class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
                 >
                     <TwoFactorAuthenticationForm
                         :requires-confirmation="confirmsTwoFactorAuthentication"
+                        :required="secondFactorRequired"
                     />
+                </div>
+
+                <div
+                    class="bg-white p-4 shadow-xl shadow-gray-200/50 border border-gray-200 sm:rounded-2xl sm:p-8 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50"
+                >
+                    <EmailSecondFactorForm :required="secondFactorRequired" />
                 </div>
 
                 <div

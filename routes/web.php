@@ -38,6 +38,7 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\PrivateFileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EmailSecondFactorController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectMemberController;
 use App\Http\Controllers\PurchaseCategoryController;
@@ -591,6 +592,16 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::get('/profile/dpa', [ProfileController::class, 'downloadDpa'])->name('profile.dpa');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Le code par e-mail (FEAT-124) : l'activer et le désactiver depuis le
+    // profil, derrière la confirmation du mot de passe comme la 2FA de
+    // Fortify ; et demander un code pour une réauthentification à l'acte.
+    Route::post('/user/email-second-factor', [EmailSecondFactorController::class, 'enable'])
+        ->middleware('password.confirm')->name('email-second-factor.enable');
+    Route::delete('/user/email-second-factor', [EmailSecondFactorController::class, 'disable'])
+        ->middleware('password.confirm')->name('email-second-factor.disable');
+    Route::post('/security/email-code', [EmailSecondFactorController::class, 'sendCode'])
+        ->middleware('throttle:email-otp')->name('security.email-code.send');
 
     // CRUD operations - 120 requests/minute
     Route::middleware('throttle:crud')->group(function () {

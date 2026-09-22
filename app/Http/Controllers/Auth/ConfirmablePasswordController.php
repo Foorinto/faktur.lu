@@ -20,7 +20,9 @@ class ConfirmablePasswordController extends Controller
         return Inertia::render('Auth/ConfirmPassword', [
             // L'écran ne montre le champ du code que si la 2FA est active :
             // le demander à qui ne l'a pas serait une impasse.
-            'requiresTwoFactor' => $request->user()->hasEnabledTwoFactorAuthentication(),
+            'requiresTwoFactor' => $request->user()->secondFactor() !== null,
+            // 'app' ou 'email' : le code par e-mail est envoyé à l'ouverture.
+            'secondFactor' => $request->user()->secondFactor(),
         ]);
     }
 

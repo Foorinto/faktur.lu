@@ -12,6 +12,7 @@ import ToastNotification from '@/Components/ToastNotification.vue';
 import HelpTourButton from '@/Components/HelpTourButton.vue';
 import SupportButton from '@/Components/SupportButton.vue';
 import UpgradeBanner from '@/Components/UpgradeBanner.vue';
+import TwoFactorNoticeBanner from '@/Components/TwoFactorNoticeBanner.vue';
 import { useTranslations } from '@/Composables/useTranslations';
 import { useAvatarColor } from '@/Composables/useAvatarColor';
 import { useTour } from '@/Composables/useTour';
@@ -423,6 +424,9 @@ const routeExists = (routeName) => {
 
             <!-- Banner d'upgrade affiche apres clic sur une feature verrouillee -->
             <UpgradeBanner />
+
+            <!-- Compte exposé sans second facteur : l'échéance du code par e-mail -->
+            <TwoFactorNoticeBanner />
             <!-- Top bar -->
             <header :class="[page.props.auth?.user?.is_free ? 'top-[52px]' : 'top-0']" class="sticky z-30 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-surface-card/80 px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-wrap items-center">

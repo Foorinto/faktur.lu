@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Auth\Reauthenticator;
+use App\Auth\TrustedDevices;
 use App\Http\Controllers\Controller;
 use App\Security\SecurityAlerter;
 use Illuminate\Http\RedirectResponse;
@@ -47,6 +48,10 @@ class PasswordController extends Controller
                 ->where('id', '!=', $request->session()->getId())
                 ->delete();
         }
+
+        // Les appareils mémorisés pour le code par e-mail tombent avec : un
+        // mot de passe changé ne doit laisser aucun raccourci derrière lui.
+        app(TrustedDevices::class)->forgetAll($request->user());
 
         // Le titulaire est prévenu, avec le lien de gel : un mot de passe
         // changé par quelqu'un d'autre est le premier pas d'une prise de

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Auth\TrustedDevices;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\User;
@@ -56,6 +57,10 @@ class SecurityLockController extends Controller
                 ->where('user_id', $user->getKey())
                 ->delete();
         }
+
+        // Les appareils mémorisés pour le code par e-mail aussi : un compte
+        // gelé ne garde aucun raccourci.
+        app(TrustedDevices::class)->forgetAll($user);
 
         // Le journal est écrit directement : personne n'est connecté ici, et
         // le logger prendrait l'auteur dans la session.

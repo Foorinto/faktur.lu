@@ -46,6 +46,7 @@ class TenantScopeCoverageTest extends TestCase
         \App\Models\OrganizationMember::class => 'Même raison : le lien appartient à l\'organisation, pas à un utilisateur.',
         \App\Models\AccountantInvitation::class => "Portail comptable : lue hors session utilisateur, au moment où le comptable accepte l'invitation.",
         \App\Models\AccountantDownload::class => 'Portail comptable : écrite par le comptable, dans un contexte d\'authentification distinct.',
+        \App\Models\TrustedDevice::class => "Appareil mémorisé pour le code par e-mail : lu avant la connexion (défi), effacé hors session (gel, support). Toujours requêté par user_id et empreinte, jamais listé.",
     ];
 
     /**

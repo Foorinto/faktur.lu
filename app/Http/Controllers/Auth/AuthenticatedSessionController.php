@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Auth\EmailOtp;
+use App\Auth\LoginDestination;
+use App\Auth\TrustedDevices;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +30,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request, EmailOtp $emailOtp, TrustedDevices $trustedDevices): RedirectResponse
     {
         $request->authenticate();
 
@@ -56,29 +59,30 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('two-factor.login');
         }
 
+        // Le second facteur par e-mail : même mécanique, notre propre défi,
+        // sauf sur un appareil mémorisé (voir App\Auth\TrustedDevices).
+        $user = $request->user();
+
+        if ($user->usesEmailOtp() && ! $trustedDevices->isTrusted($user, $request)) {
+            $userId = $user->getKey();
+
+            Auth::guard('web')->logout();
+
+            $request->session()->put([
+                'email_otp.user_id' => $userId,
+                'email_otp.remember' => $request->boolean('remember'),
+            ]);
+
+            $emailOtp->send($user, 'email');
+
+            return redirect()->route('two-factor.email');
+        }
+
         $request->session()->regenerate();
 
-        // Org owner takes precedence (dual-role user keeps their own dashboard).
-        $user = $request->user();
-        if (!$user->isOrganizationOwner() && $user->isCollaborator()) {
-            return redirect()->route('collaborator.dashboard');
-        }
-
-        // Un administrateur va sur son panneau.
-        //
-        // Son URL est volontairement imprononçable, et depuis qu'elle ne figure
-        // plus dans la table des routes publiée, elle n'apparaît nulle part côté
-        // client : il faut donc l'y conduire, sans quoi il devrait la retenir par
-        // cœur. Le lien « Retour à l'application » du panneau fait le chemin
-        // inverse.
-        //
-        // L'usurpation fait exception : prendre l'identité d'un utilisateur puis
-        // se voir renvoyer au panneau annulerait l'intérêt de la manœuvre.
-        if ($user->is_admin && ! $request->session()->has('impersonator_id')) {
-            return redirect()->intended(route('admin.dashboard', absolute: false));
-        }
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        // La destination (collaborateur, administrateur, tableau de bord) est
+        // partagée avec la fin du défi par e-mail : voir App\Auth\LoginDestination.
+        return LoginDestination::redirect($user, $request);
     }
 
 
