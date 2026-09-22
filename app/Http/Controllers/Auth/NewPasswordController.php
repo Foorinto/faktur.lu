@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -30,7 +31,7 @@ class NewPasswordController extends Controller
     /**
      * Handle an incoming new password request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -49,7 +50,19 @@ class NewPasswordController extends Controller
                 $user->forceFill([
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),
+                    // La réinitialisation lève le gel posé par le lien « ce
+                    // n'était pas moi » : elle passe par la boîte mail, donc
+                    // par ce que l'attaquant n'a pas si le titulaire est là.
+                    'security_locked_at' => null,
                 ])->save();
+
+                // Les sessions ouvertes ailleurs tombent aussi : un mot de
+                // passe réinitialisé ne doit laisser aucune porte entrouverte.
+                if (config('session.driver') === 'database') {
+                    DB::table(config('session.table', 'sessions'))
+                        ->where('user_id', $user->getKey())
+                        ->delete();
+                }
 
                 event(new PasswordReset($user));
             }

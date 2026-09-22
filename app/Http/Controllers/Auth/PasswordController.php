@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Auth\Reauthenticator;
 use App\Http\Controllers\Controller;
+use App\Security\SecurityAlerter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class PasswordController extends Controller
     /**
      * Update the user's password.
      */
-    public function update(Request $request, Reauthenticator $reauthenticator): RedirectResponse
+    public function update(Request $request, Reauthenticator $reauthenticator, SecurityAlerter $alerter): RedirectResponse
     {
         $validated = $request->validate([
             'current_password' => ['required'],
@@ -46,6 +47,11 @@ class PasswordController extends Controller
                 ->where('id', '!=', $request->session()->getId())
                 ->delete();
         }
+
+        // Le titulaire est prévenu, avec le lien de gel : un mot de passe
+        // changé par quelqu'un d'autre est le premier pas d'une prise de
+        // contrôle, et l'alerte est sa seule chance de le voir.
+        $alerter->alert($request->user(), SecurityAlerter::PASSWORD_CHANGED);
 
         return back();
     }

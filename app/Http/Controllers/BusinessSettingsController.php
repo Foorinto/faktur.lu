@@ -7,6 +7,7 @@ use App\Actions\GenerateQuoteNumberAction;
 use App\Auth\Reauthenticator;
 use App\Http\Requests\Api\V1\UpdateBusinessSettingsRequest;
 use App\Models\BusinessSettings;
+use App\Security\SecurityAlerter;
 use App\Services\DocumentNumberFormatter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -91,7 +92,7 @@ class BusinessSettingsController extends Controller
     /**
      * Update or create the business settings.
      */
-    public function update(UpdateBusinessSettingsRequest $request, Reauthenticator $reauthenticator): RedirectResponse
+    public function update(UpdateBusinessSettingsRequest $request, Reauthenticator $reauthenticator, SecurityAlerter $alerter): RedirectResponse
     {
         $validated = $request->validated();
         $settings = BusinessSettings::getInstance();
@@ -100,7 +101,10 @@ class BusinessSettingsController extends Controller
         // détourne les paiements des factures à venir. On redemande le mot de
         // passe, et le code 2FA si elle est active, seulement quand il change.
         // Retoucher une couleur de PDF ne doit rien demander.
-        if ($this->ibanChange($settings, $validated['iban'] ?? null)) {
+        $ibanChange = $this->ibanChange($settings, $validated['iban'] ?? null);
+        $ancienIban = $settings?->iban;
+
+        if ($ibanChange) {
             $reauthenticator->verify(
                 $request->user(),
                 $request->input('current_password'),
@@ -111,7 +115,17 @@ class BusinessSettingsController extends Controller
         if ($settings) {
             $settings->update($validated);
         } else {
-            BusinessSettings::create($validated);
+            $settings = BusinessSettings::create($validated);
+        }
+
+        // Le titulaire est prévenu, avec le lien de gel : si ce n'était pas
+        // lui, c'est le moment de le dire. Les IBAN sont masqués, le mail
+        // traverse des boîtes qu'on ne contrôle pas.
+        if ($ibanChange) {
+            $alerter->alert($request->user(), SecurityAlerter::IBAN_CHANGED, [
+                'iban_from' => SecurityAlerter::maskIban($ancienIban),
+                'iban_to' => SecurityAlerter::maskIban($settings->iban),
+            ]);
         }
 
         return back()->with('success', __('app.business_flash.settings_saved'));
@@ -155,7 +169,7 @@ class BusinessSettingsController extends Controller
     /**
      * Upload a payment QR code image (Payconiq, PayPal, etc.).
      */
-    public function uploadPaymentQrcode(Request $request, Reauthenticator $reauthenticator): RedirectResponse
+    public function uploadPaymentQrcode(Request $request, Reauthenticator $reauthenticator, SecurityAlerter $alerter): RedirectResponse
     {
         $request->validate([
             'payment_qrcode' => ['required', 'image', 'mimes:png,jpg,jpeg,webp', 'max:1024'],
@@ -183,6 +197,8 @@ class BusinessSettingsController extends Controller
         $path = $request->file('payment_qrcode')->store('payment-qrcodes', 'public');
 
         $settings->forceFill(['payment_qrcode_path' => $path])->save();
+
+        $alerter->alert($request->user(), SecurityAlerter::PAYMENT_QRCODE_CHANGED);
 
         return back()->with('success', __('app.business_flash.qrcode_updated'));
     }

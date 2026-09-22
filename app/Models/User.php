@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\HR\Employee;
 use App\Notifications\VerifyEmailNotification;
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,8 +18,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, SoftDeletes, Billable;
+    /** @use HasFactory<UserFactory> */
+    use Billable, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
 
     /**
      * Send the email verification notification.
@@ -102,6 +104,16 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Check if the user has two-factor authentication enabled.
      */
+    /**
+     * Gelé par son titulaire depuis le lien « ce n'était pas moi » d'une
+     * alerte de sécurité (FEAT-122). Tant que c'est vrai, la connexion est
+     * refusée ; seule la réinitialisation du mot de passe l'efface.
+     */
+    public function isSecurityLocked(): bool
+    {
+        return $this->security_locked_at !== null;
+    }
+
     public function getTwoFactorEnabledAttribute(): bool
     {
         return $this->hasEnabledTwoFactorAuthentication();
@@ -115,6 +127,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
+            'security_locked_at' => 'datetime',
+            'email_changed_at' => 'datetime',
             'business_sector_set_at' => 'datetime',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
@@ -168,7 +182,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function products(): HasMany
     {
-        return $this->hasMany(\App\Models\Product::class);
+        return $this->hasMany(Product::class);
     }
 
     /**
@@ -217,7 +231,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isPro(): bool
     {
-        if (!$this->subscribed('default')) {
+        if (! $this->subscribed('default')) {
             return false;
         }
 
@@ -228,7 +242,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $proPlan = Plan::pro();
-        if (!$proPlan) {
+        if (! $proPlan) {
             return false;
         }
 
@@ -241,11 +255,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isFree(): bool
     {
-        return !$this->subscribed('default') && !$this->isOnGenericTrial();
+        return ! $this->subscribed('default') && ! $this->isOnGenericTrial();
     }
 
     /**
      * Check if user is on Starter/free plan.
+     *
      * @deprecated Use isFree() instead
      */
     public function isStarter(): bool
@@ -258,12 +273,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isEssentiel(): bool
     {
-        if (!$this->subscribed('default')) {
+        if (! $this->subscribed('default')) {
             return false;
         }
 
         $essentielPlan = Plan::essentiel();
-        if (!$essentielPlan) {
+        if (! $essentielPlan) {
             return false;
         }
 
@@ -278,7 +293,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->trial_ends_at
             && $this->trial_ends_at->isFuture()
-            && !$this->subscribed('default');
+            && ! $this->subscribed('default');
     }
 
     /**
@@ -302,7 +317,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function trialDaysRemaining(): int
     {
-        if (!$this->trial_ends_at) {
+        if (! $this->trial_ends_at) {
             return 0;
         }
 
@@ -316,7 +331,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->trial_ends_at
             && $this->trial_ends_at->isPast()
-            && !$this->subscribed('default');
+            && ! $this->subscribed('default');
     }
 
     /**
@@ -395,7 +410,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function linkedEmployee(): HasOne
     {
-        return $this->hasOne(\App\Models\HR\Employee::class, 'account_id')->withoutGlobalScope('user');
+        return $this->hasOne(Employee::class, 'account_id')->withoutGlobalScope('user');
     }
 
     public function isEmployee(): bool

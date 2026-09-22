@@ -223,7 +223,10 @@ class RevenueBookPaymentBreakdownTest extends TestCase
     public function test_le_detail_des_especes_ne_montre_que_ses_propres_encaissements(): void
     {
         $autre = User::factory()->create(['email_verified_at' => now()]);
-        $clientAutre = Client::factory()->create(['user_id' => $autre->id]);
+        // Un nom qu'aucun autre texte du PDF ne peut contenir par hasard : avec
+        // un nom tiré au sort, l'assertion d'absence échouait de temps en temps
+        // sur une coïncidence (un prénom qui figure ailleurs dans le document).
+        $clientAutre = Client::factory()->create(['user_id' => $autre->id, 'name' => 'Client Etranger Zqxv']);
         $factureAutre = Invoice::factory()->create([
             'user_id' => $autre->id,
             'client_id' => $clientAutre->id,
