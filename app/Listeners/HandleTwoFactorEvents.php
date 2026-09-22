@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Models\User;
 use App\Security\SecurityAlerter;
 use App\Services\AuditLogger;
+use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\Events\TwoFactorAuthenticationConfirmed;
 use Laravel\Fortify\Events\TwoFactorAuthenticationDisabled;
 
@@ -24,15 +25,35 @@ class HandleTwoFactorEvents
     public function onConfirmed(TwoFactorAuthenticationConfirmed $event): void
     {
         AuditLogger::log2FAEnabled();
+        $this->fermerLesAutresSessions($event->user);
     }
 
     public function onDisabled(TwoFactorAuthenticationDisabled $event): void
     {
         AuditLogger::log2FADisabled();
+        $this->fermerLesAutresSessions($event->user);
 
         if ($event->user instanceof User) {
             $this->alerter->alert($event->user, SecurityAlerter::TWO_FACTOR_DISABLED);
         }
+    }
+
+    /**
+     * Un changement de 2FA ferme les appareils restés ouverts ailleurs, comme
+     * le fait un changement de mot de passe. Activer la 2FA sur un poste sain
+     * ne doit pas laisser vivre une session volée avant ; la désactiver non
+     * plus. La session courante, celle qui vient de faire le geste, reste.
+     */
+    private function fermerLesAutresSessions(mixed $user): void
+    {
+        if (! $user instanceof User || config('session.driver') !== 'database') {
+            return;
+        }
+
+        DB::table(config('session.table', 'sessions'))
+            ->where('user_id', $user->getKey())
+            ->when(request()?->hasSession(), fn ($q) => $q->where('id', '!=', request()->session()->getId()))
+            ->delete();
     }
 
     /**

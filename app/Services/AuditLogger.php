@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AuditLog;
+use App\Security\Mask;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Request;
 
@@ -117,7 +118,7 @@ class AuditLogger
     public static function logModelCreated(Model $model): void
     {
         self::log(
-            class_basename($model) . '.created',
+            class_basename($model).'.created',
             $model,
             newValues: self::getAuditableAttributes($model)
         );
@@ -138,11 +139,20 @@ class AuditLogger
 
         $changedFields = array_intersect_key($oldValues, $changes);
 
+        // Les attributs chiffrés : `getChanges()` porte le texte chiffré,
+        // illisible et inutile ; on relit la valeur par le modèle, qui
+        // déchiffre, avant de masquer l'ancienne et la nouvelle.
+        foreach (self::encryptedKeys($model) as $key) {
+            if (array_key_exists($key, $changes)) {
+                $changes[$key] = $model->getAttribute($key);
+            }
+        }
+
         self::log(
-            class_basename($model) . '.updated',
+            class_basename($model).'.updated',
             $model,
-            oldValues: self::filterSensitiveData($changedFields),
-            newValues: self::filterSensitiveData($changes)
+            oldValues: self::maskEncrypted($model, self::filterSensitiveData($changedFields)),
+            newValues: self::maskEncrypted($model, self::filterSensitiveData($changes))
         );
     }
 
@@ -152,7 +162,7 @@ class AuditLogger
     public static function logModelDeleted(Model $model): void
     {
         self::log(
-            class_basename($model) . '.deleted',
+            class_basename($model).'.deleted',
             $model,
             oldValues: self::getAuditableAttributes($model)
         );
@@ -167,7 +177,7 @@ class AuditLogger
         ?array $metadata = null
     ): void {
         self::log(
-            class_basename($model) . '.' . $action,
+            class_basename($model).'.'.$action,
             $model,
             metadata: $metadata
         );
@@ -178,7 +188,7 @@ class AuditLogger
      */
     public static function logExport(string $type, ?array $metadata = null): void
     {
-        self::log('export.' . $type, metadata: $metadata);
+        self::log('export.'.$type, metadata: $metadata);
     }
 
     /**
@@ -187,6 +197,42 @@ class AuditLogger
     protected static function getAuditableAttributes(Model $model): array
     {
         $attributes = $model->toArray();
-        return self::filterSensitiveData($attributes);
+
+        return self::maskEncrypted($model, self::filterSensitiveData($attributes));
+    }
+
+    /**
+     * ⚠️ Ce que la base chiffre, le journal ne doit pas le garder en clair.
+     *
+     * `toArray()` et `getOriginal()` appliquent les casts, donc déchiffrent :
+     * sans ce masquage, chaque modification d'IBAN, chaque fiche de salarié
+     * créée déposait l'adresse, le téléphone ou la nationalité en clair dans
+     * une table qui, elle, n'est pas chiffrée. Le chiffrement au repos ne
+     * valait alors que jusqu'au premier changement. Constaté le 2026-09-22.
+     *
+     * Un IBAN garde son début et sa fin, le reste devient « *** » : on retient
+     * que la valeur a changé, pas ce qu'elle valait.
+     *
+     * @param  array<string, mixed>  $values  valeurs déjà déchiffrées
+     * @return array<string, mixed>
+     */
+    protected static function maskEncrypted(Model $model, array $values): array
+    {
+        foreach (self::encryptedKeys($model) as $key) {
+            if (array_key_exists($key, $values)) {
+                $values[$key] = Mask::value($key, $values[$key]);
+            }
+        }
+
+        return $values;
+    }
+
+    /** @return array<int, string> */
+    protected static function encryptedKeys(Model $model): array
+    {
+        return array_keys(array_filter(
+            $model->getCasts(),
+            fn ($cast) => is_string($cast) && str_starts_with($cast, 'encrypted'),
+        ));
     }
 }

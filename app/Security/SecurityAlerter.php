@@ -110,15 +110,7 @@ class SecurityAlerter
      */
     public static function maskIban(?string $iban): string
     {
-        $propre = strtoupper((string) preg_replace('/\s+/', '', (string) $iban));
-
-        if (strlen($propre) < 8) {
-            return $propre === '' ? '' : str_repeat('*', strlen($propre));
-        }
-
-        $masque = substr($propre, 0, 4).str_repeat('*', strlen($propre) - 8).substr($propre, -4);
-
-        return trim(chunk_split($masque, 4, ' '));
+        return Mask::iban($iban);
     }
 
     private function previousEmailStillRelevant(User $user): bool
