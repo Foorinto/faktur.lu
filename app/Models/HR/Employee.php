@@ -2,8 +2,14 @@
 
 namespace App\Models\HR;
 
+use App\Casts\EncryptedArray;
+use App\Casts\EncryptedIban;
+use App\Casts\EncryptedText;
+use App\Models\Project;
+use App\Models\User;
 use App\Traits\Auditable;
 use App\Traits\BelongsToUser;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,9 +21,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToUser, Auditable;
+    use Auditable, BelongsToUser, HasFactory, SoftDeletes;
 
     public const STATUSES = ['active', 'long_leave', 'terminated'];
+
     public const CONTRACT_TYPES = ['CDI', 'CDD', 'Stage', 'Freelance'];
 
     protected $fillable = [
@@ -74,15 +81,17 @@ class Employee extends Model
         // valeur donne deux chiffrés différents, donc plus de `where`, plus de
         // `like`, plus d'index, plus de tri en base. Filtrer dessus après
         // chargement, ou ne pas les chiffrer.
-        'bank_iban' => 'encrypted',
-        'nationality' => 'encrypted',
-        'phone_perso' => 'encrypted',
-        'email_perso' => 'encrypted',
-        'address' => 'encrypted',
-        'city' => 'encrypted',
-        'postal_code' => 'encrypted',
-        'benefits' => 'encrypted:array',
-        'emergency_contact' => 'encrypted:array',
+        // Casts maison : une ligne d'avant le chiffrement (vide ou en clair) ne
+        // casse pas la fiche (voir App\Casts\EncryptedText).
+        'bank_iban' => EncryptedIban::class,
+        'nationality' => EncryptedText::class,
+        'phone_perso' => EncryptedText::class,
+        'email_perso' => EncryptedText::class,
+        'address' => EncryptedText::class,
+        'city' => EncryptedText::class,
+        'postal_code' => EncryptedText::class,
+        'benefits' => EncryptedArray::class,
+        'emergency_contact' => EncryptedArray::class,
         'portal_activated_at' => 'datetime',
         'hide_leaves_from_team' => 'boolean',
     ];
@@ -95,7 +104,8 @@ class Employee extends Model
     public function setAttribute($key, $value)
     {
         if (in_array($key, self::DATE_ONLY_FIELDS) && $value !== null && $value !== '') {
-            $this->attributes[$key] = \Carbon\Carbon::parse($value)->format('Y-m-d');
+            $this->attributes[$key] = Carbon::parse($value)->format('Y-m-d');
+
             return $this;
         }
 
@@ -107,7 +117,7 @@ class Employee extends Model
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->first_name . ' ' . $this->last_name,
+            get: fn () => $this->first_name.' '.$this->last_name,
         );
     }
 
@@ -115,7 +125,7 @@ class Employee extends Model
 
     public function account(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'account_id');
+        return $this->belongsTo(User::class, 'account_id');
     }
 
     public function department(): BelongsTo
@@ -164,7 +174,7 @@ class Employee extends Model
      */
     public function projects(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Project::class, 'project_employees')
+        return $this->belongsToMany(Project::class, 'project_employees')
             ->withPivot('active', 'added_at')
             ->withTimestamps();
     }
@@ -187,9 +197,9 @@ class Employee extends Model
 
         return $query->where(function ($q) use ($search) {
             $q->where('first_name', 'like', "%{$search}%")
-              ->orWhere('last_name', 'like', "%{$search}%")
-              ->orWhere('email_pro', 'like', "%{$search}%")
-              ->orWhere('job_title', 'like', "%{$search}%");
+                ->orWhere('last_name', 'like', "%{$search}%")
+                ->orWhere('email_pro', 'like', "%{$search}%")
+                ->orWhere('job_title', 'like', "%{$search}%");
         });
     }
 

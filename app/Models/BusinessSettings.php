@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\EncryptedIban;
 use App\Traits\Auditable;
 use App\Traits\BelongsToUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BusinessSettings extends Model
 {
-    use HasFactory, BelongsToUser, Auditable;
+    use Auditable, BelongsToUser, HasFactory;
 
     protected $fillable = [
         'company_name',
@@ -66,7 +67,9 @@ class BusinessSettings extends Model
     ];
 
     public const NUMBERING_TYPE_INVOICE = 'invoice';
+
     public const NUMBERING_TYPE_CREDIT_NOTE = 'credit_note';
+
     public const NUMBERING_TYPE_QUOTE = 'quote';
 
     public const NUMBERING_TYPES = [
@@ -171,6 +174,7 @@ class BusinessSettings extends Model
 
     /**
      * Fallback VAT mentions (Luxembourg) for backwards compatibility.
+     *
      * @deprecated Use getVatMentions() instead
      */
     public const VAT_MENTIONS = [
@@ -185,7 +189,9 @@ class BusinessSettings extends Model
 
     protected $casts = [
         'vat_regime' => 'string',
-        'iban' => 'encrypted', // chiffré au repos (RGPD) ; déchiffrement transparent à la lecture
+        // Chiffré au repos (RGPD). Cast maison : une ligne d'avant le chiffrement,
+        // vide ou en clair, ne doit pas casser la page (voir App\Casts\EncryptedIban).
+        'iban' => EncryptedIban::class,
         'default_hourly_rate' => 'decimal:2',
         'show_email_on_invoice' => 'boolean',
         'show_phone_on_invoice' => 'boolean',
@@ -202,7 +208,7 @@ class BusinessSettings extends Model
      */
     public static function getInstance(): ?self
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return null;
         }
 
@@ -226,7 +232,7 @@ class BusinessSettings extends Model
      */
     public static function isConfigured(): bool
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return false;
         }
 
@@ -240,7 +246,7 @@ class BusinessSettings extends Model
     {
         $instance = static::getInstance();
 
-        if (!$instance) {
+        if (! $instance) {
             $instance = static::create([
                 'user_id' => auth()->id(),
             ]);
@@ -414,7 +420,7 @@ class BusinessSettings extends Model
      */
     public function hasPeppolEndpoint(): bool
     {
-        return !empty($this->peppol_endpoint_id) && !empty($this->peppol_endpoint_scheme);
+        return ! empty($this->peppol_endpoint_id) && ! empty($this->peppol_endpoint_scheme);
     }
 
     /**
@@ -452,6 +458,7 @@ class BusinessSettings extends Model
                 'label' => "{$code} - {$label}",
             ];
         }
+
         return $options;
     }
 
@@ -460,11 +467,11 @@ class BusinessSettings extends Model
      */
     public function getLogoFullPathAttribute(): ?string
     {
-        if (!$this->logo_path) {
+        if (! $this->logo_path) {
             return null;
         }
 
-        return storage_path('app/public/' . $this->logo_path);
+        return storage_path('app/public/'.$this->logo_path);
     }
 
     /**
@@ -472,11 +479,11 @@ class BusinessSettings extends Model
      */
     public function getPaymentQrcodeUrlAttribute(): ?string
     {
-        if (!$this->payment_qrcode_path) {
+        if (! $this->payment_qrcode_path) {
             return null;
         }
 
-        return asset('storage/' . $this->payment_qrcode_path);
+        return asset('storage/'.$this->payment_qrcode_path);
     }
 
     /**
@@ -484,11 +491,11 @@ class BusinessSettings extends Model
      */
     public function getLogoUrlAttribute(): ?string
     {
-        if (!$this->logo_path) {
+        if (! $this->logo_path) {
             return null;
         }
 
-        return asset('storage/' . $this->logo_path);
+        return asset('storage/'.$this->logo_path);
     }
 
     /**
@@ -524,7 +531,7 @@ class BusinessSettings extends Model
      */
     public function getDefaultVatMentionTextAttribute(): ?string
     {
-        if (!$this->default_vat_mention || $this->default_vat_mention === 'none') {
+        if (! $this->default_vat_mention || $this->default_vat_mention === 'none') {
             return null;
         }
 
@@ -534,6 +541,7 @@ class BusinessSettings extends Model
 
         // Use country-specific mention
         $mentions = $this->getVatMentions();
+
         return $mentions[$this->default_vat_mention] ?? null;
     }
 
@@ -584,6 +592,7 @@ class BusinessSettings extends Model
                 'label' => $label,
             ];
         }
+
         return $options;
     }
 
@@ -599,6 +608,7 @@ class BusinessSettings extends Model
                 'label' => $label,
             ];
         }
+
         return $presets;
     }
 
@@ -644,16 +654,16 @@ class BusinessSettings extends Model
      * (white, pale pastels) using perceived luminance, so vivid brand colors
      * already legible (e.g. the default purple) are left untouched.
      *
-     * @param  string  $hex      Color like "#rrggbb" (with or without '#').
-     * @param  float   $tooLight Perceived-luminance threshold above which a color is darkened (0..1).
-     * @param  float   $target   Perceived luminance to darken too-light colors down to (0..1).
+     * @param  string  $hex  Color like "#rrggbb" (with or without '#').
+     * @param  float  $tooLight  Perceived-luminance threshold above which a color is darkened (0..1).
+     * @param  float  $target  Perceived luminance to darken too-light colors down to (0..1).
      */
     public static function legibleColor(string $hex, float $tooLight = 0.6, float $target = 0.4): string
     {
         $clean = ltrim(trim($hex), '#');
 
         // Only handle #rrggbb; anything else is returned unchanged (defensive).
-        if (!preg_match('/^[0-9A-Fa-f]{6}$/', $clean)) {
+        if (! preg_match('/^[0-9A-Fa-f]{6}$/', $clean)) {
             return $hex;
         }
 
@@ -665,7 +675,7 @@ class BusinessSettings extends Model
         $lum = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
 
         if ($lum <= $tooLight) {
-            return '#' . strtolower($clean);
+            return '#'.strtolower($clean);
         }
 
         // Scale all channels toward black until the perceived luminance hits the

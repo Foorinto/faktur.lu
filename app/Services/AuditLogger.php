@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Casts\EncryptsAttribute;
 use App\Models\AuditLog;
 use App\Security\Mask;
 use Illuminate\Database\Eloquent\Model;
@@ -232,7 +233,8 @@ class AuditLogger
     {
         return array_keys(array_filter(
             $model->getCasts(),
-            fn ($cast) => is_string($cast) && str_starts_with($cast, 'encrypted'),
+            fn ($cast) => is_string($cast)
+                && (str_starts_with($cast, 'encrypted') || is_a($cast, EncryptsAttribute::class, true)),
         ));
     }
 }
