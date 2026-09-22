@@ -10,6 +10,7 @@ use App\Security\SecurityAlerter;
 use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -207,6 +208,28 @@ class SecurityAlertTest extends TestCase
 
         $this->alerteEnvoyeeA('titulaire@example.lu', 'two_factor_disabled');
         $this->assertDatabaseHas('audit_logs', ['action' => AuditLog::ACTION_2FA_DISABLED, 'user_id' => $this->user->id]);
+    }
+
+    public function test_une_panne_du_serveur_de_mail_ne_bloque_pas_le_geste(): void
+    {
+        // Le geste est déjà enregistré quand l'alerte part : une panne d'envoi
+        // se journalise, elle ne transforme pas un changement réussi en page
+        // d'erreur.
+        // Le faux poseur de notifications du setUp répond à tout : on remet le
+        // vrai, et on lui donne un transport qui n'existe pas.
+        Notification::swap(new ChannelManager(app()));
+        config(['mail.default' => 'transport-inexistant']);
+
+        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'iban' => 'LU280019400644750000']);
+
+        $this->put(route('settings.business.update'), $this->reglages())->assertSessionHasNoErrors();
+
+        $this->assertSame('LU120010001234567891', BusinessSettings::first()->iban);
+        $this->assertDatabaseHas('audit_logs', [
+            'action' => 'security.alert_sent',
+            'user_id' => $this->user->id,
+            'status' => AuditLog::STATUS_FAILED,
+        ]);
     }
 
     public function test_l_alerte_est_journalisee(): void

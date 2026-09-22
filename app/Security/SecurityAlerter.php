@@ -78,8 +78,19 @@ class SecurityAlerter
             request()?->ip(),
         );
 
+        // ⚠️ L'envoi est synchrone et le geste est déjà enregistré quand on
+        // arrive ici. Un serveur de mail en panne ne doit pas transformer un
+        // changement d'IBAN réussi en page d'erreur : l'échec est signalé
+        // dans les journaux et dans l'audit, jamais à la place du résultat.
+        $echecs = 0;
+
         foreach ($destinataires as $adresse) {
-            Notification::route('mail', $adresse)->notify($notification);
+            try {
+                Notification::route('mail', $adresse)->notify($notification);
+            } catch (\Throwable $e) {
+                $echecs++;
+                report($e);
+            }
         }
 
         AuditLogger::log(
@@ -87,8 +98,8 @@ class SecurityAlerter
             $user,
             null,
             null,
-            AuditLog::STATUS_SUCCESS,
-            ['event' => $event, 'recipients' => $destinataires->count()],
+            $echecs === 0 ? AuditLog::STATUS_SUCCESS : AuditLog::STATUS_FAILED,
+            ['event' => $event, 'recipients' => $destinataires->count(), 'failed' => $echecs],
         );
     }
 
