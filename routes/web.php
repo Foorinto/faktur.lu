@@ -569,6 +569,7 @@ Route::middleware(['auth', 'verified'])->prefix('fichiers')->name('files.')->gro
 // parce que le gel ne fait que refuser. Le middleware `signed` rejette un lien
 // expiré ou altéré avant le contrôleur.
 Route::get('/securite/ce-n-etait-pas-moi/{user}', [SecurityLockController::class, 'lock'])
+    ->whereNumber('user')
     ->middleware(['signed', 'throttle:10,1'])
     ->name('security.not-me');
 

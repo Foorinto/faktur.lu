@@ -281,6 +281,17 @@ class SecurityAlertTest extends TestCase
         $this->get(route('security.not-me', ['user' => 999999]))->assertForbidden();
     }
 
+    public function test_un_identifiant_non_numerique_repond_introuvable(): void
+    {
+        // La route n'accepte que des numéros : un identifiant fantaisiste
+        // signé ne doit pas finir en erreur de type dans le contrôleur.
+        Auth::logout();
+
+        $lien = URL::temporarySignedRoute('security.not-me', now()->addDays(7), ['user' => 'abc', 'event' => 'iban_changed']);
+
+        $this->get($lien)->assertNotFound();
+    }
+
     public function test_un_lien_signe_vers_un_compte_inconnu_repond_introuvable(): void
     {
         Auth::logout();
@@ -346,11 +357,17 @@ class SecurityAlertTest extends TestCase
         $this->post('/user/confirmed-two-factor-authentication', ['code' => $code]);
 
         $this->assertSame(0, DB::table('sessions')->where('user_id', $this->user->id)->where('id', 'like', 'appareil-oublie-%')->count());
+        // Celui qui vient d'activer la 2FA reste connecté : fermer sa propre
+        // session serait une déconnexion surprise au pire moment.
+        $this->assertAuthenticatedAs($this->user);
+        $this->get(route('profile.edit'))->assertOk();
 
         $autre();
         $this->delete('/user/two-factor-authentication');
 
         $this->assertSame(0, DB::table('sessions')->where('user_id', $this->user->id)->where('id', 'like', 'appareil-oublie-%')->count());
+        $this->assertAuthenticatedAs($this->user);
+        $this->get(route('profile.edit'))->assertOk();
     }
 
     // --- Un compte gelé --------------------------------------------------------
