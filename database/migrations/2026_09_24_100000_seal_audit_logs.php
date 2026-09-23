@@ -20,45 +20,68 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('audit_logs', function (Blueprint $table) {
-            $table->char('hash', 64)->nullable()->index();
-            $table->char('previous_hash', 64)->nullable();
-        });
+        // Chaque étape est gardée : si le déploiement s'interrompt au milieu du
+        // scellement, rejouer la migration reprend là où elle s'est arrêtée
+        // au lieu d'échouer sur une colonne déjà présente.
+        if (! Schema::hasColumn('audit_logs', 'hash')) {
+            Schema::table('audit_logs', function (Blueprint $table) {
+                $table->char('hash', 64)->nullable()->index();
+                $table->char('previous_hash', 64)->nullable();
+            });
+        }
 
         // ⚠️ La clé étrangère vers users mettait user_id à NULL à la suppression
         // définitive d'un compte : une entrée scellée changeait de contenu et
         // la chaîne cassait, à chaque compte supprimé. Une entrée du journal
         // doit garder qui a agi, même si le compte n'existe plus : la colonne
         // et son index restent, la contrainte part.
-        Schema::table('audit_logs', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
+        if ($this->contrainteUserId()) {
+            Schema::table('audit_logs', function (Blueprint $table) {
+                $table->dropForeign(['user_id']);
+            });
+        }
 
-        Schema::create('audit_chain_anchors', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('last_pruned_id');
-            $table->char('last_pruned_hash', 64);
-            $table->unsignedBigInteger('pruned_count');
-            $table->dateTime('pruned_at');
-        });
+        if (! Schema::hasTable('audit_chain_anchors')) {
+            Schema::create('audit_chain_anchors', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('last_pruned_id');
+                $table->char('last_pruned_hash', 64);
+                $table->unsignedBigInteger('pruned_count');
+                $table->dateTime('pruned_at');
+            });
+        }
 
-        Schema::create('audit_chain_exports', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('from_id');
-            $table->unsignedBigInteger('to_id');
-            $table->unsignedBigInteger('entries');
-            $table->char('head_hash', 64);
-            $table->string('file_name');
-            $table->char('file_sha256', 64);
-            $table->string('remote_path')->nullable();
-            $table->boolean('encrypted')->default(false);
-            $table->char('signature', 64);
-            $table->dateTime('exported_at');
-        });
+        if (! Schema::hasTable('audit_chain_exports')) {
+            Schema::create('audit_chain_exports', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('from_id');
+                $table->unsignedBigInteger('to_id');
+                $table->unsignedBigInteger('entries');
+                $table->char('head_hash', 64);
+                $table->string('file_name');
+                $table->char('file_sha256', 64);
+                $table->string('remote_path')->nullable();
+                $table->boolean('encrypted')->default(false);
+                $table->char('signature', 64);
+                $table->dateTime('exported_at');
+            });
+        }
 
         $scellees = app(AuditChain::class)->sealPending();
 
         Log::info('Journal d\'audit scellé', ['entrees' => $scellees]);
+    }
+
+    /** La contrainte est-elle encore là ? (absente après une reprise, ou déjà retirée) */
+    private function contrainteUserId(): bool
+    {
+        foreach (Schema::getForeignKeys('audit_logs') as $cle) {
+            if (($cle['columns'] ?? []) === ['user_id']) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function down(): void
