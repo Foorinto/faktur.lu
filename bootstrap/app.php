@@ -16,6 +16,25 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Journal d'audit démontrable (FEAT-125) : scellement chaque minute,
+        // export hors site après la sauvegarde, vérification, rétention.
+        $schedule->command('audit:seal')
+            ->everyMinute()
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command('audit:export --alert')
+            ->dailyAt('03:30')
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command('audit:verify --alert')
+            ->dailyAt('04:00')
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command('audit:prune')
+            ->weeklyOn(0, '04:30')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Comptes exposés (IBAN et facture émise) sans second facteur : préavis,
         // rappel, puis code par e-mail. Voir App\Security\TwoFactorPolicy.
         $schedule->command('security:enforce-two-factor')

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Invoice;
 use App\Models\RequestMetric;
 use App\Models\User;
+use App\Security\AuditChain;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,42 @@ class MonitoringService
             'database' => $this->getDatabaseStats($since),
             'system' => $this->getSystemStats(),
             'application' => $this->getApplicationStats(),
+            'audit' => $this->getAuditStats(),
             'alerts' => $this->checkAlerts($since),
+        ];
+    }
+
+    /**
+     * Le journal d'audit démontrable (FEAT-125) : tête scellée, attente de
+     * scellement, dernier export hors site, ancre de purge. « warning » si le
+     * scelleur ne tourne plus ou si l'export date de plus de deux jours.
+     */
+    protected function getAuditStats(): array
+    {
+        $chain = app(AuditChain::class);
+        $tete = $chain->head();
+        $attente = $chain->pending();
+        $export = DB::table('audit_chain_exports')->orderByDesc('id')->first();
+        $ancre = $chain->latestAnchor();
+
+        $scellementEnPanne = $attente['oldest_minutes'] > (int) config('audit.seal_max_age_minutes', 10);
+        $exportEnRetard = config('audit.export.enabled')
+            && ($export === null ? $tete !== null && Carbon::parse($tete->created_at)->lt(now()->subDays(2)) : Carbon::parse($export->exported_at)->lt(now()->subDays(2)));
+
+        return [
+            'status' => $scellementEnPanne || $exportEnRetard ? 'warning' : 'ok',
+            'entries' => (int) DB::table('audit_logs')->count(),
+            'head_id' => $tete?->id,
+            'head_at' => $tete?->created_at,
+            'pending' => $attente['count'],
+            'pending_oldest_minutes' => $attente['oldest_minutes'],
+            'seal_stalled' => $scellementEnPanne,
+            'last_export_at' => $export?->exported_at,
+            'last_export_to_id' => $export?->to_id,
+            'last_export_remote' => $export?->remote_path,
+            'export_late' => $exportEnRetard,
+            'anchor_after_id' => $ancre?->last_pruned_id,
+            'retention_days' => (int) config('audit.retention_days'),
         ];
     }
 

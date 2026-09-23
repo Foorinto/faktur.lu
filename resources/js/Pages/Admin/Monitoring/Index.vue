@@ -223,6 +223,46 @@ onUnmounted(() => {
                 </dl>
             </div>
 
+            <!-- Journal d'audit démontrable (FEAT-125) -->
+            <div class="rounded-xl bg-slate-800 p-6">
+                <div class="mb-4 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-white">Journal d'audit</h2>
+                    <span
+                        class="rounded-full px-2.5 py-0.5 text-xs font-semibold"
+                        :class="metrics.audit?.status === 'ok' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'"
+                    >
+                        {{ metrics.audit?.status === 'ok' ? 'Chaîne scellée' : 'À regarder' }}
+                    </span>
+                </div>
+                <dl class="space-y-3">
+                    <div class="flex justify-between">
+                        <dt class="text-slate-400">Entrées</dt>
+                        <dd class="text-white font-mono">{{ metrics.audit?.entries?.toLocaleString() }}</dd>
+                    </div>
+                    <div class="flex justify-between">
+                        <dt class="text-slate-400">Tête scellée</dt>
+                        <dd class="text-white font-mono">{{ metrics.audit?.head_id ? '#' + metrics.audit.head_id : '-' }}</dd>
+                    </div>
+                    <div class="flex justify-between">
+                        <dt class="text-slate-400">En attente de scellement</dt>
+                        <dd class="font-mono" :class="metrics.audit?.seal_stalled ? 'text-amber-400' : 'text-white'">
+                            {{ metrics.audit?.pending }}<span v-if="metrics.audit?.seal_stalled"> (depuis {{ metrics.audit.pending_oldest_minutes }} min)</span>
+                        </dd>
+                    </div>
+                    <div class="flex justify-between">
+                        <dt class="text-slate-400">Dernier export hors site</dt>
+                        <dd class="font-mono" :class="metrics.audit?.export_late ? 'text-amber-400' : 'text-white'">
+                            {{ metrics.audit?.last_export_at ? metrics.audit.last_export_at + ' (#' + metrics.audit.last_export_to_id + ')' : 'aucun' }}
+                        </dd>
+                    </div>
+                    <div class="flex justify-between">
+                        <dt class="text-slate-400">Rétention</dt>
+                        <dd class="text-white font-mono">{{ metrics.audit?.retention_days }} jours</dd>
+                    </div>
+                </dl>
+                <p class="mt-4 text-xs text-slate-500">Vérification complète : <code>php artisan audit:verify</code></p>
+            </div>
+
             <!-- Database Stats -->
             <div class="rounded-xl bg-slate-800 p-6">
                 <h2 class="mb-4 text-lg font-semibold text-white">Base de données</h2>
