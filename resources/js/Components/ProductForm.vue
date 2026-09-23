@@ -15,6 +15,9 @@ const props = defineProps({
     units: { type: Array, default: () => [] },
     vatRates: { type: Array, default: () => [] },
     submitLabel: { type: String, default: '' },
+    // Variantes de la famille en cours d'édition : le suivi de stock coché ici
+    // s'applique à elles aussi, on le dit.
+    variantsCount: { type: Number, default: 0 },
 });
 
 const emit = defineEmits(['submit']);
@@ -205,6 +208,9 @@ watch(vatMode, (mode) => {
                 <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('products.track_stock') }}</span>
             </label>
             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('products.track_stock_help') }}</p>
+            <p v-if="variantsCount > 0" class="mt-1 text-xs font-medium text-slate-600 dark:text-slate-300">
+                {{ t('products.track_stock_family_help', { count: variantsCount }) }}
+            </p>
 
             <div v-if="form.track_stock" class="mt-3">
                 <InputLabel for="stock_alert_threshold" :value="t('products.stock_alert_threshold')" />

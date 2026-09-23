@@ -6015,6 +6015,7 @@ return [
             'variants_show' => 'Mostrar variantes',
             'variants_hide' => 'Ocultar variantes',
             'track_stock_help' => 'O stock diminui ao emitir uma fatura e volta a subir numa nota de crédito.',
+            'track_stock_family_help' => 'Aplica-se também às suas :count variante(s): marcar ou desmarcar aqui abrange todas.',
             'track_stock_needs_type' => 'Escolha o tipo "Produto" acima para poder acompanhar o stock deste artigo.',
             'stock_alert_threshold' => 'Limiar de alerta',
             'stock_alert_threshold_placeholder' => 'ex. 5',

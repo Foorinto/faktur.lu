@@ -45,6 +45,7 @@ const submit = () => form.put(route('products.update', props.product.id));
                 :units="units"
                 :vat-rates="vatRates"
                 :submit-label="t('save')"
+                :variants-count="product.variants_count ?? 0"
                 @submit="submit"
             />
         </div>

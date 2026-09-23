@@ -5786,6 +5786,7 @@ return [
             'variants_show' => 'Varianten anzeigen',
             'variants_hide' => 'Varianten ausblenden',
             'track_stock_help' => 'Der Bestand sinkt bei Rechnungsstellung und steigt bei einer Gutschrift.',
+            'track_stock_family_help' => 'Gilt auch für seine :count Variante(n): Ankreuzen oder Abwählen hier gilt für alle.',
             'track_stock_needs_type' => 'Wählen Sie oben den Typ „Produkt“, um den Bestand dieses Artikels verfolgen zu können.',
             'stock_alert_threshold' => 'Warnschwelle',
             'stock_alert_threshold_placeholder' => 'z. B. 5',
