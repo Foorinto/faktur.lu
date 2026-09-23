@@ -56,7 +56,7 @@ class CheckPlanFeature
 
     private function getMinPlanFor(string $feature): string
     {
-        $proFeatures = ['pdf_archive', 'email_reminders', 'no_branding', 'organizations', 'hr_module', 'crm', 'peppol_transmission', 'facturx', 'advanced_reporting', 'priority_support'];
+        $proFeatures = ['email_reminders', 'no_branding', 'organizations', 'hr_module', 'crm', 'peppol_transmission', 'facturx', 'advanced_reporting', 'priority_support'];
 
         return in_array($feature, $proFeatures, true) ? 'Pro' : 'Essentiel';
     }

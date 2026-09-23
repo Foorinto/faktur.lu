@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Exceptions\ImmutableInvoiceException;
 use App\Models\BusinessSettings;
 use App\Models\Invoice;
+use App\Services\PdfArchiveService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -62,7 +63,7 @@ class FinalizeInvoiceAction
             ]);
         }
 
-        return DB::transaction(function () use ($invoice, $settings, $issuedAt) {
+        $invoice = DB::transaction(function () use ($invoice, $settings, $issuedAt) {
             // Recalculate totals one last time
             $this->calculateTotals->execute($invoice);
             $invoice->refresh();
@@ -129,5 +130,14 @@ class FinalizeInvoiceAction
 
             return $invoice->refresh();
         });
+
+        // Archivage (FEAT-126) : après la transaction, une fois la facture
+        // définitive et écrite. Le PDF/A part de ce qui vient d'être validé, et
+        // un échec ne bloque jamais l'émission : le rattrapage nocturne repasse.
+        if (config('archive.auto', true)) {
+            app(PdfArchiveService::class)->archiveQuietly($invoice);
+        }
+
+        return $invoice;
     }
 }

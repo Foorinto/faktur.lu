@@ -125,6 +125,11 @@ const progressWidth = computed(() => {
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Archivage automatique (FEAT-126) -->
+                <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-200">
+                    {{ t('archive_auto_notice') }}
+                </div>
+
                 <!-- Ghostscript warning -->
                 <div v-if="!ghostscriptAvailable" class="mb-6 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-4">
                     <div class="flex">

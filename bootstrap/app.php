@@ -16,6 +16,21 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Archivage PDF/A (FEAT-126) : rattrapage des factures sans archive,
+        // copie hors site chiffrée après la sauvegarde, intégrité chaque semaine.
+        $schedule->command('archive:catch-up --alert')
+            ->dailyAt('02:30')
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command('archive:export --alert')
+            ->dailyAt('03:45')
+            ->withoutOverlapping()
+            ->onOneServer();
+        $schedule->command('archive:verify --alert')
+            ->weeklyOn(0, '05:00')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Journal d'audit démontrable (FEAT-125) : scellement chaque minute,
         // export hors site après la sauvegarde, vérification, rétention.
         $schedule->command('audit:seal')

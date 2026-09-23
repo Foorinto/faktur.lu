@@ -466,6 +466,7 @@ return [
     // Page titles
     'running_timer' => 'Lafenden Timer',
     'pdf_a_archiving' => 'PDF/A-Archivéierung',
+    'archive_auto_notice' => 'Zënter dem 24. September 2026 gëtt all Rechnung an all Avoir automatesch beim Finaliséieren am Format PDF/A archivéiert, mat sengem Fangerofdrock am Audit-Journal, an all Nuecht extern kopéiert. Méi al Dokumenter ouni Archiv ginn all Nuecht nogeholl; Dir kënnt se hei ënnen och direkt archivéieren.',
     'faia_audit_export' => 'FAIA Audit Export',
     'expenses_summary' => 'Ausgabeniwwersiicht',
 

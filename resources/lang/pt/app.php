@@ -536,6 +536,7 @@ return [
     // Page titles
     'running_timer' => 'Cronómetro em curso',
     'pdf_a_archiving' => 'Arquivamento PDF/A',
+    'archive_auto_notice' => 'Desde 24 de setembro de 2026, cada fatura e cada nota de crédito é arquivada automaticamente na finalização, em formato PDF/A, com a sua impressão digital registada no registo de auditoria, e copiada todas as noites para fora do servidor. Os documentos mais antigos sem arquivo são recuperados todas as noites; também pode arquivá-los já abaixo.',
     'faia_audit_export' => 'Exportação de auditoria FAIA',
     'expenses_summary' => 'Resumo das despesas',
 

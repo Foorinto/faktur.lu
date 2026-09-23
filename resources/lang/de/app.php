@@ -466,6 +466,7 @@ return [
     // Page titles
     'running_timer' => 'Laufender Timer',
     'pdf_a_archiving' => 'PDF/A-Archivierung',
+    'archive_auto_notice' => 'Seit dem 24. September 2026 wird jede Rechnung und jede Gutschrift bei der Finalisierung automatisch im Format PDF/A archiviert, mit ihrem Fingerabdruck im Audit-Protokoll, und jede Nacht extern gesichert. Ältere Dokumente ohne Archiv werden jede Nacht nachgeholt; Sie können sie unten auch sofort archivieren.',
     'faia_audit_export' => 'FAIA Audit Export',
     'expenses_summary' => 'Ausgabenübersicht',
 

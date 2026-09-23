@@ -73,6 +73,7 @@ class AuditLog extends Model
         'Invoice.deleted' => 'Facture supprimée',
         'Invoice.finalized' => 'Facture finalisée',
         'Invoice.sent' => 'Facture envoyée',
+        'Invoice.archived' => 'Facture archivée',
         'Client.created' => 'Client créé',
         'Client.updated' => 'Client modifié',
         'Client.deleted' => 'Client supprimé',

@@ -593,7 +593,7 @@ class PlanService
             'max_accountants' => 1, // portail comptable : uniquement les comptes grandfathered
         ];
         // 'accounting_portal' réservé à Essentiel+ (grandfathering pour l'existant).
-        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export'];
+        $plan->features = ['invoices', 'quotes', 'clients', 'expenses', '2fa', 'faia_export', 'pdf_archive'];
 
         return $plan;
     }
@@ -620,7 +620,7 @@ class PlanService
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export', 'faia_export',
-            'recurring_invoices',
+            'recurring_invoices', 'pdf_archive',
         ];
 
         return $plan;
