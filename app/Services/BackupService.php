@@ -340,7 +340,7 @@ class BackupService
     /**
      * Encrypt a file with AES-256-CBC.
      */
-    protected function encrypt(string $filePath): string
+    public function encrypt(string $filePath): string
     {
         $key = config('backup.encryption_key');
         $outputPath = "{$filePath}.enc";
@@ -405,11 +405,15 @@ class BackupService
     /**
      * Upload a file to cloud storage via rclone.
      */
-    protected function uploadToCloud(string $filePath): void
+    /**
+     * Envoie un fichier sur le dépôt distant, à la racine des sauvegardes ou
+     * dans un sous-dossier (l'export du journal d'audit, FEAT-125).
+     */
+    public function uploadToCloud(string $filePath, string $subdir = ''): void
     {
         $remote = config('backup.cloud.remote');
-        $path = config('backup.cloud.path');
-        $destination = "{$remote}:{$path}";
+        $path = rtrim((string) config('backup.cloud.path'), '/');
+        $destination = "{$remote}:{$path}".($subdir !== '' ? '/'.trim($subdir, '/') : '');
 
         $process = Process::timeout(300)->run(
             sprintf(
