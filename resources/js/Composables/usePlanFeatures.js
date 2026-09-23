@@ -29,7 +29,8 @@ const FEATURE_TO_MIN_PLAN = {
     hr_module: 'pro',
     crm: 'pro',
     peppol_transmission: 'pro',
-    pdf_archive: 'pro',
+    // Obligation légale : à tous les plans depuis FEAT-126.
+    pdf_archive: 'free',
     email_reminders: 'pro',
     no_branding: 'pro',
     priority_support: 'pro',

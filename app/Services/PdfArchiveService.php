@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AuditLog;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -57,6 +58,24 @@ class PdfArchiveService
             'archive_checksum' => $checksum,
             'archive_path' => $archivePath,
             'archive_expires_at' => $expiresAt,
+            // Une nouvelle archive repart hors site.
+            'archive_uploaded_at' => null,
+            'archive_remote_path' => null,
+        ]);
+
+        // L'empreinte entre au journal d'audit, que la chaîne scelle (FEAT-125) :
+        // un fichier retouché sur le disque ne correspond plus à ce que le
+        // journal a enregistré. Auteur : le titulaire, même hors session
+        // (rattrapage nocturne).
+        AuditLog::create([
+            'user_id' => $invoice->user_id,
+            'action' => 'Invoice.archived',
+            'auditable_type' => $invoice->getMorphClass(),
+            'auditable_id' => $invoice->getKey(),
+            'ip_address' => request()?->ip(),
+            'user_agent' => request()?->userAgent(),
+            'status' => AuditLog::STATUS_SUCCESS,
+            'metadata' => ['format' => $actualFormat, 'checksum' => $checksum, 'path' => $archivePath],
         ]);
 
         return [
@@ -72,6 +91,25 @@ class PdfArchiveService
     /**
      * Archive multiple invoices.
      */
+    /**
+     * Archive sans jamais faire échouer l'appelant : à la finalisation, une
+     * conversion qui rate ne doit pas bloquer l'émission. L'échec est
+     * journalisé et le rattrapage nocturne repassera.
+     */
+    public function archiveQuietly(Invoice $invoice, ?string $format = null): bool
+    {
+        try {
+            $this->archive($invoice, $format ?? (string) config('archive.format', self::FORMAT_PDFA_1B));
+
+            return true;
+        } catch (\Throwable $e) {
+            Log::error('[Archive] Archivage impossible', ['invoice' => $invoice->id, 'error' => $e->getMessage()]);
+            report($e);
+
+            return false;
+        }
+    }
+
     public function archiveBatch(array $invoiceIds, string $format = self::FORMAT_PDFA_1B): array
     {
         $results = [
@@ -223,6 +261,16 @@ class PdfArchiveService
      */
     protected function convertToPdfA(string $pdfContent, string $format): array
     {
+        // « PDF standard » demandé : rien à convertir, Ghostscript n'a pas à
+        // tourner pour rien.
+        if ($format === self::FORMAT_PDF) {
+            return [
+                'content' => $pdfContent,
+                'format' => self::FORMAT_PDF,
+                'converted' => false,
+            ];
+        }
+
         // Check if Ghostscript is available
         if (!$this->isGhostscriptAvailable()) {
             Log::info('Ghostscript not available, storing as regular PDF');
@@ -310,7 +358,10 @@ class PdfArchiveService
         // Sanitize invoice number for filename
         $filename = preg_replace('/[^a-zA-Z0-9\-]/', '_', $invoice->number) . '.pdf';
 
-        return "archive/{$year}/{$month}/{$filename}";
+        // ⚠️ Le compte fait partie du chemin : deux comptes émettent le même
+        // numéro « F-2026-001 », et sans lui l'archive de l'un écrasait celle
+        // de l'autre. Les archives déjà faites gardent leur ancien chemin.
+        return "archive/{$invoice->user_id}/{$year}/{$month}/{$filename}";
     }
 
     /**

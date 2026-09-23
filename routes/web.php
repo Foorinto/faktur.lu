@@ -1067,12 +1067,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->middleware('password.confirm')
             ->name('exports.audit.store');
 
-        // PDF Archive - Pro only
+        // Archivage PDF/A : à tous les plans depuis FEAT-126 (obligation légale),
+        // automatique à la finalisation ; ces routes servent au rattrapage à la main.
         Route::post('/invoices/{invoice}/archive', [ArchiveController::class, 'archive'])
-            ->middleware('plan.feature:pdf_archive')
             ->name('invoices.archive');
         Route::post('/archive/batch', [ArchiveController::class, 'archiveBatch'])
-            ->middleware('plan.feature:pdf_archive')
             ->name('archive.batch');
 
         // Peppol export - available for all
@@ -1148,12 +1147,10 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::get('/settings/accounting', [AccountingSettingsController::class, 'edit'])->name('settings.accounting.edit');
     Route::put('/settings/accounting', [AccountingSettingsController::class, 'update'])->name('settings.accounting.update');
 
-    // Archive (PDF/A long term archiving) — Pro only
-    Route::middleware('plan.feature:pdf_archive')->group(function () {
-        Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
-        Route::get('/invoices/{invoice}/archive/verify', [ArchiveController::class, 'verify'])->name('invoices.archive.verify');
-        Route::get('/invoices/{invoice}/archive/info', [ArchiveController::class, 'info'])->name('invoices.archive.info');
-    });
+    // Archive (PDF/A long term archiving) : à tous les plans depuis FEAT-126.
+    Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');
+    Route::get('/invoices/{invoice}/archive/verify', [ArchiveController::class, 'verify'])->name('invoices.archive.verify');
+    Route::get('/invoices/{invoice}/archive/info', [ArchiveController::class, 'info'])->name('invoices.archive.info');
 
     // Company lookup API - 30 requests/minute
     Route::middleware('throttle:company-lookup')->group(function () {

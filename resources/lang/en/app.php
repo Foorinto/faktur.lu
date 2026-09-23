@@ -537,6 +537,7 @@ return [
     // Page titles
     'running_timer' => 'Running Timer',
     'pdf_a_archiving' => 'PDF/A Archiving',
+    'archive_auto_notice' => 'Since 24 September 2026, every invoice and credit note is archived automatically when it is finalised, in PDF/A format, with its fingerprint recorded in the audit log, then copied off-site every night. Older documents without an archive are caught up every night; you can also archive them right now below.',
     'faia_audit_export' => 'FAIA Audit Export',
     'expenses_summary' => 'Expenses Summary',
 
@@ -1960,7 +1961,7 @@ return [
                         'No :app branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned before 2028', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No ":app" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned before 2028', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No ":app" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [

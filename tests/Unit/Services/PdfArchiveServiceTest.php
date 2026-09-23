@@ -226,7 +226,9 @@ class PdfArchiveServiceTest extends TestCase
         $year = now()->year;
         $month = str_pad(now()->month, 2, '0', STR_PAD_LEFT);
 
-        $this->assertStringContainsString("archive/{$year}/{$month}/", $result['path']);
+        // Le compte fait partie du chemin (FEAT-126) : deux comptes émettent le
+        // même numéro, et sans lui l'archive de l'un écrasait celle de l'autre.
+        $this->assertStringContainsString("archive/{$this->invoice->user_id}/{$year}/{$month}/", $result['path']);
         $this->assertStringEndsWith('.pdf', $result['path']);
     }
 }

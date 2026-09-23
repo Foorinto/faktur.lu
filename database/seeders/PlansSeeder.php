@@ -46,6 +46,9 @@ class PlansSeeder extends Seeder
                     'expenses',
                     '2fa',
                     'faia_export',
+                    // L'archivage PDF/A est une obligation légale (10 ans) : à
+                    // tous les plans, automatique (FEAT-126).
+                    'pdf_archive',
                     // 'accounting_portal' réservé à Essentiel+ (les comptes existants
                     // gardent l'accès via le flag accounting_portal_grandfathered).
                 ],
@@ -95,6 +98,7 @@ class PlansSeeder extends Seeder
                     // freelance : la récurrence reste dans le plan freelance.
                     'recurring_invoices',
                     'product_variants',
+                    'pdf_archive',
                 ],
                 'is_active' => true,
                 'sort_order' => 1,

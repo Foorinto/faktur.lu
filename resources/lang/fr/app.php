@@ -537,6 +537,7 @@ return [
     // Page titles
     'running_timer' => 'Chronomètre en cours',
     'pdf_a_archiving' => 'Archivage PDF/A',
+    'archive_auto_notice' => 'Depuis le 24 septembre 2026, chaque facture et chaque avoir est archivé automatiquement à sa finalisation, au format PDF/A, avec son empreinte inscrite au journal d\'audit, puis copié chaque nuit hors site. Les documents plus anciens sans archive sont rattrapés chaque nuit ; vous pouvez aussi les archiver tout de suite ci-dessous.',
     'faia_audit_export' => 'Export audit FAIA',
     'expenses_summary' => 'Récapitulatif des dépenses',
 
@@ -1986,7 +1987,6 @@ return [
                         'Module RH complet (15 employés)',
                         'CRM avancé (interactions, rappels, tags)',
                         'Export FAIA (contrôle fiscal)',
-                        'Archivage PDF/A 10 ans',
                         'Factur-X / ZUGFeRD',
                         'Export Peppol B2G illimité (fichier XML)',
                         'Envoi et réception Peppol : 50 documents/mois (1 facture envoyée ou reçue = 1 document), prévu avant 2028',

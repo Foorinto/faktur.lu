@@ -63,6 +63,8 @@ class Invoice extends Model
         'archive_checksum',
         'archive_path',
         'archive_expires_at',
+        'archive_uploaded_at',
+        'archive_remote_path',
         'notes',
         'footer_message',
         'payment_methods',
@@ -79,8 +81,9 @@ class Invoice extends Model
     ];
 
     protected $casts = [
-        'seller_snapshot' => 'array',
-        'buyer_snapshot' => 'array',
+        // Tolère un JSON encodé en double (lignes anciennes) : voir App\Casts\JsonArray.
+        'seller_snapshot' => \App\Casts\JsonArray::class,
+        'buyer_snapshot' => \App\Casts\JsonArray::class,
         'payment_methods' => 'array',
         'issued_at' => 'date:Y-m-d',
         'due_at' => 'date:Y-m-d',
@@ -89,6 +92,7 @@ class Invoice extends Model
         'paid_at' => 'datetime',
         'archived_at' => 'datetime',
         'archive_expires_at' => 'datetime',
+        'archive_uploaded_at' => 'datetime',
         'total_ht' => 'decimal:4',
         'total_vat' => 'decimal:4',
         'total_ttc' => 'decimal:4',
@@ -137,6 +141,7 @@ class Invoice extends Model
                 $allowedChanges = [
                     'status', 'sent_at', 'paid_at', 'updated_at',
                     'archived_at', 'archive_format', 'archive_checksum', 'archive_path', 'archive_expires_at',
+                    'archive_uploaded_at', 'archive_remote_path',
                 ];
                 $disallowedChanges = array_diff(array_keys($changedAttributes), $allowedChanges);
 
