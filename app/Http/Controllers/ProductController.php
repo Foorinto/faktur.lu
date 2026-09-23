@@ -107,7 +107,9 @@ class ProductController extends Controller
     public function edit(Product $product): Response
     {
         return Inertia::render('Products/Edit', [
-            'product' => $product,
+            // Le nombre de variantes : le formulaire dit que le suivi de stock
+            // s'applique aussi à elles.
+            'product' => $product->loadCount('variants'),
             'units' => $this->getUnits(),
             'vatRates' => $this->getVatRates(),
         ]);
@@ -119,6 +121,15 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
         $product->update($request->validated());
+
+        // Le suivi de stock d'une famille vaut pour ses variantes (retour de
+        // terrain, 2026-09-23 : cocher la famille laissait chaque nuance non
+        // suivie, à cocher une par une). Seulement quand la case change : une
+        // variante décochée exprès reste tranquille tant que la famille ne
+        // bouge pas. À la création, les variantes héritent déjà du réglage.
+        if ($product->wasChanged('track_stock') && $product->isFamily()) {
+            $product->applyStockTrackingToVariants();
+        }
 
         return redirect()
             ->route('products.index')

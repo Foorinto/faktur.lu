@@ -15,6 +15,7 @@ use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 /**
@@ -1023,5 +1024,69 @@ class ProductVariantTest extends TestCase
             'duplicate_strategy' => 'skip',
             'status' => 'preview',
         ]);
+    }
+
+    // --- Le suivi de stock d'une famille vaut pour ses variantes (2026-09-23) -------
+
+    private function enregistrerLaFamille(Product $famille, array $surcharge = []): TestResponse
+    {
+        return $this->put(route('products.update', $famille), array_merge([
+            'designation' => $famille->designation,
+            'reference' => $famille->reference,
+            'type' => Product::TYPE_PRODUCT,
+            'unit_price_ht' => 6,
+            'vat_rate' => 17,
+            'track_stock' => $famille->track_stock ? 1 : 0,
+        ], $surcharge));
+    }
+
+    public function test_cocher_le_suivi_de_stock_d_une_famille_suit_toutes_ses_variantes(): void
+    {
+        // Retour de terrain : cocher la famille laissait chaque nuance non
+        // suivie, à cocher une par une.
+        $famille = $this->famille(['track_stock' => false]);
+        $this->post(route('products.variants.store', $famille), ['labels' => "Noir\nBlanc\nRouge"]);
+        $this->assertSame(0, $famille->variants()->where('track_stock', true)->count());
+
+        $this->enregistrerLaFamille($famille, ['track_stock' => 1])->assertSessionHasNoErrors();
+
+        $this->assertTrue($famille->fresh()->track_stock);
+        $this->assertSame(3, $famille->variants()->where('track_stock', true)->count());
+    }
+
+    public function test_decocher_le_suivi_d_une_famille_libere_ses_variantes_et_leurs_seuils(): void
+    {
+        $famille = $this->famille(['track_stock' => true, 'stock_alert_threshold' => 5]);
+        $this->post(route('products.variants.store', $famille), ['labels' => "Noir\nBlanc"]);
+        $famille->variants()->update(['stock_alert_threshold' => 2]);
+        $this->assertSame(2, $famille->variants()->where('track_stock', true)->count());
+
+        $this->enregistrerLaFamille($famille, ['track_stock' => 0])->assertSessionHasNoErrors();
+
+        $this->assertFalse($famille->fresh()->track_stock);
+        $this->assertSame(0, $famille->variants()->where('track_stock', true)->count());
+        $this->assertSame(0, $famille->variants()->whereNotNull('stock_alert_threshold')->count());
+    }
+
+    public function test_enregistrer_la_famille_sans_toucher_au_suivi_laisse_une_variante_decochee_tranquille(): void
+    {
+        $famille = $this->famille(['track_stock' => true]);
+        $this->post(route('products.variants.store', $famille), ['labels' => "Noir\nBlanc"]);
+        $arretee = $famille->variants()->first();
+        $arretee->update(['track_stock' => false]); // coloris arrêté, décoché exprès
+
+        $this->enregistrerLaFamille($famille, ['designation' => 'Extensions GL30 (2026)'])->assertSessionHasNoErrors();
+
+        $this->assertFalse($arretee->fresh()->track_stock);
+        $this->assertSame(1, $famille->variants()->where('track_stock', true)->count());
+    }
+
+    public function test_la_page_d_edition_d_une_famille_connait_ses_variantes(): void
+    {
+        $famille = $this->famille();
+        $this->post(route('products.variants.store', $famille), ['labels' => "Noir\nBlanc"]);
+
+        $this->get(route('products.edit', $famille))->assertOk()
+            ->assertInertia(fn ($page) => $page->where('product.variants_count', 2));
     }
 }

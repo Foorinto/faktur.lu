@@ -5787,6 +5787,7 @@ return [
             'variants_show' => 'Varianten weisen',
             'variants_hide' => 'Varianten verstoppen',
             'track_stock_help' => 'De Stock fällt bei der Emissioun vun enger Rechnung a klëmmt erëm bei enger Gutschrëft.',
+            'track_stock_family_help' => 'Gëllt och fir seng :count Variant(en): hei ukräizen oder ofwielen gëllt fir all.',
             'track_stock_needs_type' => 'Wielt uewen den Typ „Produkt“, fir de Stock vun dësem Artikel kënnen ze verfollegen.',
             'stock_alert_threshold' => 'Alarmschwell',
             'stock_alert_threshold_placeholder' => 'z. B. 5',

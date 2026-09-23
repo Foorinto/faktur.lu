@@ -136,6 +136,20 @@ class Product extends Model
      *
      * @return int le nombre de variantes touchées
      */
+    /**
+     * Le suivi de stock de la famille, appliqué à ses variantes. Décocher
+     * retire aussi leur seuil d'alerte, comme le formulaire le fait pour
+     * l'article lui-même.
+     */
+    public function applyStockTrackingToVariants(): int
+    {
+        return $this->variants()->update(
+            $this->track_stock
+                ? ['track_stock' => true]
+                : ['track_stock' => false, 'stock_alert_threshold' => null],
+        );
+    }
+
     public function propagateToVariants(): int
     {
         return $this->variants()->update([

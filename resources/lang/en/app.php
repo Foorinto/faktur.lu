@@ -5802,6 +5802,7 @@ return [
             'variants_show' => 'Show variants',
             'variants_hide' => 'Hide variants',
             'track_stock_help' => 'Stock decreases when an invoice is issued and rises back on a credit note.',
+            'track_stock_family_help' => 'Also applies to its :count variant(s): ticking or unticking here follows through to all of them.',
             'track_stock_needs_type' => 'Choose the "Product" type above to be able to track stock for this item.',
             'stock_alert_threshold' => 'Alert threshold',
             'stock_alert_threshold_placeholder' => 'e.g. 5',
