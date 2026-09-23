@@ -1961,7 +1961,7 @@ return [
                         'No :app branding',
                         'Custom numbering',
                     ],
-                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'PDF/A archiving 10 years', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned before 2028', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No ":app" branding', 'Priority support', 'Custom numbering'],
+                    'features' => ['Unlimited clients, invoices and quotes (PDF and email)', 'Full HR module (15 employees)', 'Advanced CRM (interactions, reminders, tags)', 'FAIA export (tax audit)', 'Factur-X / ZUGFeRD', 'Unlimited Peppol B2G export (XML file)', 'Peppol sending and receiving: 50 documents/month (1 invoice sent or received = 1 document), planned before 2028', 'Automatic payment reminders', 'Multi-user access, 3 accountants', 'No ":app" branding', 'Priority support', 'Custom numbering'],
                 ],
             ],
             'comparison' => [

@@ -1888,7 +1888,7 @@ return [
                         'Ouni :app-Branding',
                         'Personaliséierbar Nummeréierung',
                     ],
-                    'features' => ['Onlimitéiert Clienten, Rechnungen an Devis (PDF an E-Mail)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'PDF/A-Archivéierung 10 Joer', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-B2G-Export (XML-Datei)', 'Peppol schécken an empfänken: 50 Dokumenter/Mount (1 geschéckte oder kritt Rechnung = 1 Dokument), virgesinn virun 2028', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni ":app"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
+                    'features' => ['Onlimitéiert Clienten, Rechnungen an Devis (PDF an E-Mail)', 'Komplett RH-Modul (15 Mataarbechter)', 'Erweiderten CRM (Interaktiounen, Erënnerungen, Tags)', 'FAIA-Export (Steierprüfung)', 'Factur-X / ZUGFeRD', 'Onlimitéierten Peppol-B2G-Export (XML-Datei)', 'Peppol schécken an empfänken: 50 Dokumenter/Mount (1 geschéckte oder kritt Rechnung = 1 Dokument), virgesinn virun 2028', 'Automatesch Bezuelungserënnerungen', 'Zougang fir méi Benotzer, 3 Comptabelen', 'Ouni ":app"-Branding', 'Prioritéits-Support', 'Personaliséierbar Nummeréierung'],
                 ],
             ],
             'comparison' => [

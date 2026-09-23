@@ -1987,7 +1987,6 @@ return [
                         'Module RH complet (15 employés)',
                         'CRM avancé (interactions, rappels, tags)',
                         'Export FAIA (contrôle fiscal)',
-                        'Archivage PDF/A 10 ans',
                         'Factur-X / ZUGFeRD',
                         'Export Peppol B2G illimité (fichier XML)',
                         'Envoi et réception Peppol : 50 documents/mois (1 facture envoyée ou reçue = 1 document), prévu avant 2028',

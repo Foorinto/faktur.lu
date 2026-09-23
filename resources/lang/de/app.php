@@ -1888,7 +1888,7 @@ return [
                         'Ohne :app-Branding',
                         'Anpassbare Nummerierung',
                     ],
-                    'features' => ['Unbegrenzt Kunden, Rechnungen und Angebote (PDF und E-Mail)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'PDF/A-Archivierung 10 Jahre', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-B2G-Export (XML-Datei)', 'Peppol senden und empfangen: 50 Dokumente/Monat (1 gesendete oder empfangene Rechnung = 1 Dokument), geplant vor 2028', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne ":app"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
+                    'features' => ['Unbegrenzt Kunden, Rechnungen und Angebote (PDF und E-Mail)', 'Vollständiges HR-Modul (15 Mitarbeiter)', 'Erweitertes CRM (Interaktionen, Erinnerungen, Tags)', 'FAIA-Export (Steuerprüfung)', 'Factur-X / ZUGFeRD', 'Unbegrenzter Peppol-B2G-Export (XML-Datei)', 'Peppol senden und empfangen: 50 Dokumente/Monat (1 gesendete oder empfangene Rechnung = 1 Dokument), geplant vor 2028', 'Automatische Zahlungserinnerungen', 'Mehrbenutzerzugang, 3 Buchhalter', 'Ohne ":app"-Branding', 'Prioritäts-Support', 'Anpassbare Nummerierung'],
                 ],
             ],
             'comparison' => [
