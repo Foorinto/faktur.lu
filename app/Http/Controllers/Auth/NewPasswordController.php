@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Auth\TrustedDevices;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
@@ -63,6 +64,9 @@ class NewPasswordController extends Controller
                         ->where('user_id', $user->getKey())
                         ->delete();
                 }
+
+                // Et les appareils mémorisés pour le code par e-mail.
+                app(TrustedDevices::class)->forgetAll($user);
 
                 event(new PasswordReset($user));
             }

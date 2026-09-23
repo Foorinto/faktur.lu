@@ -41,6 +41,17 @@ class AuditLog extends Model
     public const ACTION_2FA_ENABLED = 'auth.2fa_enabled';
     public const ACTION_2FA_DISABLED = 'auth.2fa_disabled';
 
+    // Le second facteur par e-mail et son obligation (FEAT-124).
+    public const ACTION_EMAIL_OTP_ENABLED = 'auth.email_otp_enabled';
+    public const ACTION_EMAIL_OTP_DISABLED = 'auth.email_otp_disabled';
+    public const ACTION_EMAIL_OTP_AUTO_ENABLED = 'auth.email_otp_auto_enabled';
+    public const ACTION_EMAIL_OTP_FAILED = 'auth.email_otp_failed';
+    public const ACTION_TRUSTED_DEVICE_ADDED = 'auth.trusted_device_added';
+    public const ACTION_2FA_DEADLINE_SET = 'auth.2fa_deadline_set';
+    public const ACTION_2FA_REMINDER_SENT = 'auth.2fa_reminder_sent';
+    public const ACTION_2FA_RELEASED = 'auth.2fa_released';
+    public const ACTION_2FA_RESET_BY_SUPPORT = 'auth.2fa_reset_by_support';
+
     /**
      * Status constants.
      */

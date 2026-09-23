@@ -28,6 +28,9 @@ class ProfileController extends Controller
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
             'confirmsTwoFactorAuthentication' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),
+            // Un compte exposé (IBAN et facture émise) garde au moins un
+            // second facteur : le profil cache alors le dernier « Désactiver ».
+            'secondFactorRequired' => app(\App\Security\TwoFactorPolicy::class)->isExposed($user),
             // Les comptes créés avant la mise en place de la trace n'ont pas de
             // date d'acceptation : la section le dit plutôt que de laisser
             // croire à un document non signé.

@@ -15,6 +15,10 @@ const { t } = useTranslations();
 
 const props = defineProps({
     requiresConfirmation: Boolean,
+    // Compte exposé (IBAN et factures émises) : l'application ne se désactive
+    // que si le code par e-mail prend le relais. Le serveur refuse de toute
+    // façon (App\Auth\DisableTwoFactorUnlessRequired).
+    required: { type: Boolean, default: false },
 });
 
 const page = usePage();
@@ -32,6 +36,10 @@ const confirmationForm = useForm({
 const twoFactorEnabled = computed(
     () => !enabling.value && page.props.auth.user?.two_factor_enabled
 );
+
+const emailEnabled = computed(() => Boolean(page.props.auth.user?.email_otp_enabled_at));
+const canDisable = computed(() => !props.required || emailEnabled.value);
+const disableError = ref('');
 
 /**
  * Installation en cours OU double authentification active.
@@ -113,6 +121,7 @@ const regenerateRecoveryCodes = () => {
 
 const disableTwoFactorAuthentication = () => {
     disabling.value = true;
+    disableError.value = '';
 
     axios.delete(route('two-factor.disable'))
         .then(() => {
@@ -122,6 +131,11 @@ const disableTwoFactorAuthentication = () => {
                     onFinish: resolve,
                 });
             });
+        })
+        .catch((error) => {
+            // Le serveur refuse quand c'est le dernier facteur d'un compte
+            // exposé : on le dit, plutôt qu'un bouton qui ne fait rien.
+            disableError.value = error.response?.data?.errors?.two_factor?.[0] ?? '';
         })
         .finally(() => {
             disabling.value = false;
@@ -268,13 +282,17 @@ const disableTwoFactorAuthentication = () => {
 
                     <ConfirmsPassword @confirmed="disableTwoFactorAuthentication">
                         <DangerButton
-                            v-if="!confirming"
+                            v-if="!confirming && canDisable"
                             :class="{ 'opacity-25': disabling }"
                             :disabled="disabling"
                         >
                             {{ t('disable') }}
                         </DangerButton>
                     </ConfirmsPassword>
+                    <p v-if="!confirming && !canDisable" class="max-w-xl text-sm text-slate-600 dark:text-slate-400">
+                        {{ t('two_factor_notice.required') }}
+                    </p>
+                    <InputError :message="disableError" class="mt-2" />
                 </div>
             </div>
         </template>

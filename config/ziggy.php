@@ -64,8 +64,10 @@ return [
             'sanctum.*', 'sectors.*', 'sector-lead.*', 'sitemap.*', 'storage.*',
             'survey.*', 'tools.*',
             'translations.*', 'verification.*', 'why_faktur.*',
-            // Parcours d'authentification : mot de passe oublié, défi 2FA.
+            // Parcours d'authentification : mot de passe oublié, défi 2FA par
+            // application, défi par e-mail (FEAT-124 : saisie et renvoi du code).
             'password.*', 'two-factor.login', 'two-factor.login.*',
+            'two-factor.email', 'two-factor.email.*',
             // Le layout public lie le tableau de bord derrière un `v-if` sur
             // l'utilisateur connecté. Vue n'évalue donc pas l'expression pour un
             // anonyme — mais faire reposer la survie du site public sur ce

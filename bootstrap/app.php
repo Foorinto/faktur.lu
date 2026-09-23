@@ -16,6 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Comptes exposés (IBAN et facture émise) sans second facteur : préavis,
+        // rappel, puis code par e-mail. Voir App\Security\TwoFactorPolicy.
+        $schedule->command('security:enforce-two-factor')
+            ->dailyAt('08:30')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Send trial reminders daily at 8:00 AM
         $schedule->command('trial:send-reminders')
             ->dailyAt('08:00')

@@ -7,6 +7,8 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import EmailCodeStatus from '@/Components/EmailCodeStatus.vue';
+import { useEmailCode } from '@/Composables/useEmailCode';
 
 const emit = defineEmits(['confirmed']);
 
@@ -33,7 +35,12 @@ const confirmingPassword = ref(false);
 // règle que la page de confirmation, vérifiée par le même Reauthenticator.
 // Sans ce champ, un utilisateur avec 2FA ne pourrait plus la désactiver ni
 // régénérer ses codes depuis le profil.
-const requiresCode = computed(() => Boolean(usePage().props.auth?.user?.two_factor_enabled));
+// 'app', 'email' ou null (voir auth.user.second_factor). En mode e-mail, le
+// code part à l'ouverture de la modale et se renvoie depuis elle.
+const method = computed(() => usePage().props.auth?.user?.second_factor ?? null);
+const requiresCode = computed(() => method.value !== null);
+const emailMode = computed(() => method.value === 'email');
+const emailCode = useEmailCode();
 
 const form = reactive({
     password: '',
@@ -51,6 +58,7 @@ const startConfirmingPassword = () => {
             emit('confirmed');
         } else {
             confirmingPassword.value = true;
+            if (emailMode.value) emailCode.send();
 
             setTimeout(() => passwordInput.value.focus(), 250);
         }
@@ -82,6 +90,7 @@ const confirmPassword = () => {
 
 const closeModal = () => {
     confirmingPassword.value = false;
+    emailCode.reset();
     form.password = '';
     form.two_factor_code = '';
     form.error = '';
@@ -124,11 +133,20 @@ const closeModal = () => {
                         inputmode="numeric"
                         autocomplete="one-time-code"
                         class="mt-1 block w-3/4 font-mono"
-                        :placeholder="t('authentication_code')"
+                        :placeholder="emailMode ? t('email_otp.code') : t('authentication_code')"
                         @keyup.enter="confirmPassword"
                     />
 
-                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('reauth_code_help') }}</p>
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ emailMode ? t('reauth_email_code_help') : t('reauth_code_help') }}</p>
+                    <EmailCodeStatus
+                        v-if="emailMode"
+                        class="mt-2"
+                        :sending="emailCode.sending.value"
+                        :sent-to="emailCode.sentTo.value"
+                        :error="emailCode.error.value"
+                        :countdown="emailCode.countdown.value"
+                        @resend="emailCode.send"
+                    />
                     <InputError :message="form.codeError" class="mt-2" />
                 </div>
             </template>

@@ -147,8 +147,18 @@ class HandleInertiaRequests extends Middleware
                         'is_pro' => $request->user('web')->isPro(),
                         'is_essentiel' => $request->user('web')->isEssentiel(),
                         'is_free' => $request->user('web')->isFree(),
+                        // 'app', 'email' ou null : la méthode qui sert à la
+                        // connexion et à la réauthentification à l'acte.
+                        'second_factor' => $request->user('web')->secondFactor(),
                     ]
                 ) : null,
+            ],
+            // Le bandeau des comptes exposés sans second facteur (FEAT-124) :
+            // échéance et jours restants, ou null. Ne coûte rien aux autres.
+            'security' => [
+                'two_factor_notice' => fn () => $request->user('web')
+                    ? app(\App\Security\TwoFactorPolicy::class)->notice($request->user('web'))
+                    : null,
             ],
             'csrf_token' => csrf_token(),
             'impersonating' => $request->session()->get('impersonating'),
@@ -264,6 +274,9 @@ class HandleInertiaRequests extends Middleware
             // Utilisée par la page d'acceptation d'invitation d'un collaborateur,
             // qui affichait « Email » en dur faute de recevoir sa traduction.
             'email_label',
+            // Le code par e-mail (FEAT-124) : profil, défi de connexion, champs de
+            // réauthentification. Le préfixe est celui de la colonne, pas d'un mail.
+            'email_otp',
             'pdf_color', 'pdf_color_help', 'pdf_a_archiving',
             'pdf_text_size', 'pdf_text_size_normal', 'pdf_text_size_large',
             'pdf_text_size_xlarge', 'pdf_text_size_help',

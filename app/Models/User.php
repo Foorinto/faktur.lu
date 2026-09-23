@@ -90,6 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'two_factor_secret',
         'two_factor_recovery_codes',
+        'email_otp_code',
     ];
 
     /**
@@ -99,6 +100,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $appends = [
         'two_factor_enabled',
+        'second_factor',
     ];
 
     /**
@@ -119,6 +121,35 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasEnabledTwoFactorAuthentication();
     }
 
+    /** Le code par e-mail est activé (choisi, ou imposé à un compte exposé). */
+    public function usesEmailOtp(): bool
+    {
+        return $this->email_otp_enabled_at !== null;
+    }
+
+    /**
+     * La méthode qui sert : 'app' (application d'authentification, qui prend
+     * le dessus), 'email' (code par e-mail), ou null.
+     */
+    public function secondFactor(): ?string
+    {
+        if ($this->hasEnabledTwoFactorAuthentication()) {
+            return 'app';
+        }
+
+        return $this->usesEmailOtp() ? 'email' : null;
+    }
+
+    public function getSecondFactorAttribute(): ?string
+    {
+        return $this->secondFactor();
+    }
+
+    public function trustedDevices(): HasMany
+    {
+        return $this->hasMany(TrustedDevice::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -128,6 +159,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'security_locked_at' => 'datetime',
+            'email_otp_enabled_at' => 'datetime',
+            'email_otp_expires_at' => 'datetime',
+            'email_otp_sent_at' => 'datetime',
+            'two_factor_deadline_at' => 'datetime',
+            'two_factor_reminded_at' => 'datetime',
             'email_changed_at' => 'datetime',
             'business_sector_set_at' => 'datetime',
             'email_verified_at' => 'datetime',

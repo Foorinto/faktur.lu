@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Auth\ConfirmPasswordWithTwoFactor;
+use App\Auth\DisableTwoFactorUnlessRequired;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use Laravel\Fortify\Actions\ConfirmPassword;
+use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -22,6 +24,10 @@ class FortifyServiceProvider extends ServiceProvider
         // conteneur : la remplacer ici impose le code 2FA sur sa route comme
         // sur la nôtre. Voir App\Auth\ConfirmPasswordWithTwoFactor.
         $this->app->bind(ConfirmPassword::class, ConfirmPasswordWithTwoFactor::class);
+
+        // Même mécanique pour la désactivation : un compte exposé garde au
+        // moins un second facteur (FEAT-124).
+        $this->app->bind(DisableTwoFactorAuthentication::class, DisableTwoFactorUnlessRequired::class);
 
         //
     }

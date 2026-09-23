@@ -27,9 +27,19 @@ describe("ConfirmsPassword", () => {
         expect(SOURCE).toMatch(/two_factor_code:\s*form\.two_factor_code/);
     });
 
-    it("n'affiche le champ du code que si la 2FA est active", () => {
-        expect(SOURCE).toMatch(/two_factor_enabled/);
+    it("n'affiche le champ du code que s'il y a un second facteur", () => {
+        // 'app' ou 'email' : depuis FEAT-124 la modale lit la méthode, pas
+        // seulement l'état de l'application.
+        expect(SOURCE).toMatch(/second_factor/);
         expect(SOURCE).toMatch(/v-if="requiresCode"/);
+    });
+
+    it("envoie le code par e-mail à l'ouverture et permet de le renvoyer", () => {
+        expect(SOURCE).toMatch(/if \(emailMode\.value\) emailCode\.send\(\)/);
+        expect(SOURCE).toMatch(/<EmailCodeStatus/);
+        expect(SOURCE).toMatch(/@resend="emailCode\.send"/);
+        // Fermer la modale arrête le compte à rebours et oublie l'état.
+        expect(SOURCE).toMatch(/emailCode\.reset\(\)/);
     });
 
     it("lit l'erreur du code, pas seulement celle du mot de passe", () => {
