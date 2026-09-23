@@ -1,9 +1,14 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { useTranslations } from '@/Composables/useTranslations';
 import { computed, ref } from 'vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import Modal from '@/Components/Modal.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import RowAction from '@/Components/RowAction.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 
 const { t } = useTranslations();
 
@@ -11,7 +16,55 @@ const props = defineProps({
     product: { type: Object, required: true },
     variants: { type: Array, default: () => [] },
     movements: { type: Array, default: () => [] },
+    unvalued_count: { type: Number, default: 0 },
 });
+
+const today = new Date().toISOString().split('T')[0];
+const inputClass = 'mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white';
+
+// Corriger un mouvement saisi à la main (FEAT-128) : quantité, coût, date,
+// note. La quantité d'un ajustement vient d'un comptage : elle ne se retouche
+// pas ici, on refait un inventaire.
+const editing = ref(null);
+const editForm = useForm(() => ({ quantity: null, unit_cost: null, date: today, note: '' }));
+const editingIsEntry = computed(() => editing.value?.type === 'entree');
+
+const openEdit = (movement) => {
+    editing.value = movement;
+    editForm.clearErrors();
+    // Le serveur renvoie la quantité en décimal à quatre chiffres (« 5.0000 ») :
+    // on la remet en nombre pour que le champ affiche « 5 ».
+    editForm.quantity = Number(movement.quantity);
+    editForm.unit_cost = movement.unit_cost;
+    editForm.date = movement.date;
+    editForm.note = movement.note ?? '';
+};
+
+const submitEdit = () => {
+    editForm.put(route('stock.movements.update', [editing.value.product_id ?? props.product.id, editing.value.id]), {
+        preserveScroll: true,
+        onSuccess: () => { editing.value = null; },
+    });
+};
+
+// Valoriser d'un coup les entrées manuelles sans coût de cet article et de
+// ses déclinaisons.
+const valuing = ref(false);
+const valueForm = useForm(() => ({ product_ids: [], unit_cost: null }));
+
+const openValue = () => {
+    valueForm.clearErrors();
+    valueForm.unit_cost = null;
+    valueForm.product_ids = [props.product.id];
+    valuing.value = true;
+};
+
+const submitValue = () => {
+    valueForm.post(route('stock.value'), {
+        preserveScroll: true,
+        onSuccess: () => { valuing.value = false; },
+    });
+};
 
 // Sur une famille, on regarde souvent une seule nuance : le filtre évite de
 // remonter quarante-cinq historiques mêlés.
@@ -45,7 +98,15 @@ const deleteMovement = (movement) => {
 
     <AppLayout>
         <template #header>
-            <Link :href="route('stock.index')" class="text-slate-400 hover:text-slate-500 dark:text-slate-500">
+            <button
+            v-if="unvalued_count > 0"
+            type="button"
+            class="mr-3 rounded-xl border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-800 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-200"
+            @click="openValue"
+        >
+            {{ t('stock.value_entries') }} ({{ t('stock.unvalued_entries', { count: unvalued_count }) }})
+        </button>
+        <Link :href="route('stock.index')" class="text-slate-400 hover:text-slate-500 dark:text-slate-500">
                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
                 </svg>
@@ -137,6 +198,12 @@ const deleteMovement = (movement) => {
                         <td class="px-6 py-3 text-right">
                             <RowAction
                                 v-if="m.is_manual"
+                                icon="edit"
+                                :label="t('stock.edit_movement')"
+                                @click="openEdit(m)"
+                            />
+                            <RowAction
+                                v-if="m.is_manual"
                                 icon="delete"
                                 tone="danger"
                                 :label="t('stock.delete_movement')"
@@ -151,5 +218,61 @@ const deleteMovement = (movement) => {
                 {{ t('stock.no_movements') }}
             </div>
         </div>
+
+        <!-- Modale : corriger un mouvement (FEAT-128) -->
+        <Modal :show="editing !== null" @close="editing = null">
+            <div v-if="editing" class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('stock.edit_movement_title') }}</h2>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ editing.product_name }} · {{ typeLabel(editing.type) }}</p>
+
+                <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div v-if="editingIsEntry">
+                        <InputLabel for="edit_quantity" :value="t('stock.quantity')" />
+                        <input id="edit_quantity" v-model="editForm.quantity" type="number" step="0.01" min="0.01" :class="inputClass" />
+                        <InputError :message="editForm.errors.quantity" class="mt-1" />
+                    </div>
+                    <div v-if="editingIsEntry">
+                        <InputLabel for="edit_unit_cost" :value="t('stock.unit_cost')" />
+                        <input id="edit_unit_cost" v-model="editForm.unit_cost" type="number" step="0.01" min="0" :class="inputClass" />
+                        <InputError :message="editForm.errors.unit_cost" class="mt-1" />
+                    </div>
+                    <p v-else class="text-xs text-slate-500 dark:text-slate-400 sm:col-span-2">
+                        {{ t('stock.edit_adjustment_note') }}
+                    </p>
+                    <div>
+                        <InputLabel for="edit_date" :value="t('date')" />
+                        <input id="edit_date" v-model="editForm.date" type="date" :class="inputClass" />
+                        <InputError :message="editForm.errors.date" class="mt-1" />
+                    </div>
+                    <div>
+                        <InputLabel for="edit_note" :value="t('stock.note')" />
+                        <input id="edit_note" v-model="editForm.note" type="text" maxlength="255" :class="inputClass" />
+                        <InputError :message="editForm.errors.note" class="mt-1" />
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <SecondaryButton @click="editing = null">{{ t('cancel') }}</SecondaryButton>
+                    <PrimaryButton :disabled="editForm.processing" @click="submitEdit">{{ t('save') }}</PrimaryButton>
+                </div>
+            </div>
+        </Modal>
+
+        <!-- Modale : valoriser les entrées sans coût (FEAT-128) -->
+        <Modal :show="valuing" @close="valuing = false">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('stock.value_entries_title') }}</h2>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ t('stock.value_entries_help', { count: 1 }) }}</p>
+                <div class="mt-4">
+                    <InputLabel for="value_unit_cost" :value="t('stock.unit_cost')" />
+                    <input id="value_unit_cost" v-model="valueForm.unit_cost" type="number" step="0.01" min="0" :class="inputClass" />
+                    <InputError :message="valueForm.errors.unit_cost" class="mt-1" />
+                </div>
+                <div class="mt-6 flex justify-end gap-3">
+                    <SecondaryButton @click="valuing = false">{{ t('cancel') }}</SecondaryButton>
+                    <PrimaryButton :disabled="valueForm.processing" @click="submitValue">{{ t('stock.value_entries_submit') }}</PrimaryButton>
+                </div>
+            </div>
+        </Modal>
     </AppLayout>
 </template>

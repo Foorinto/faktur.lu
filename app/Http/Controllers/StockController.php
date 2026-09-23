@@ -39,7 +39,28 @@ class StockController extends Controller
         // dizaine par ligne, et la page grossissait avec le catalogue.
         $etat = new StockSnapshot($products);
 
-        $rows = $products->map(function (Product $p) use ($etat) {
+        // Le dernier coût saisi par article, proposé d'office à la prochaine
+        // entrée ; et les entrées manuelles restées sans coût, à valoriser.
+        $ids = $products->pluck('id')->all();
+        $derniersCouts = StockMovement::query()
+            ->whereIn('product_id', $ids)
+            ->where('type', StockMovement::TYPE_ENTREE)
+            ->whereNotNull('unit_cost')
+            ->orderByDesc('date')
+            ->orderByDesc('id')
+            ->get(['product_id', 'unit_cost'])
+            ->unique('product_id')
+            ->keyBy('product_id');
+        $sansCout = StockMovement::query()
+            ->whereIn('product_id', $ids)
+            ->where('type', StockMovement::TYPE_ENTREE)
+            ->whereNull('unit_cost')
+            ->whereNull('source_type')
+            ->selectRaw('product_id, count(*) as n')
+            ->groupBy('product_id')
+            ->pluck('n', 'product_id');
+
+        $rows = $products->map(function (Product $p) use ($etat, $derniersCouts, $sansCout) {
             $id = (int) $p->id;
             $estFamille = $etat->estUneFamille($id);
 
@@ -66,6 +87,8 @@ class StockController extends Controller
                 // font là-dessus, jamais sur la colonne affichée, qui inclut
                 // déjà les déclinaisons.
                 'own_value' => $etat->valeur($id),
+                'last_unit_cost' => $derniersCouts->has($id) ? (float) $derniersCouts->get($id)->unit_cost : null,
+                'unvalued_entries' => (int) ($sansCout[$id] ?? 0),
             ];
         });
 
@@ -295,7 +318,88 @@ class StockController extends Controller
                 'is_low' => $v->isLowOnStock(),
             ])->values(),
             'movements' => $movements,
+            // Entrées manuelles sans coût sur l'article et ses déclinaisons : le
+            // bouton « Valoriser » n'apparaît que s'il a quelque chose à faire.
+            'unvalued_count' => StockMovement::query()
+                ->whereIn('product_id', $concernes)
+                ->where('type', StockMovement::TYPE_ENTREE)
+                ->whereNull('unit_cost')
+                ->whereNull('source_type')
+                ->count(),
         ]);
+    }
+
+    /**
+     * Corriger un mouvement saisi à la main : quantité, coût, date, note.
+     *
+     * Retour de terrain (2026-09-23) : se tromper obligeait à effacer et
+     * ressaisir. Même règle que la suppression : un mouvement issu d'une
+     * facture ou d'une dépense reste immuable, comme sa source. La quantité
+     * d'un ajustement vient d'un comptage : on ne la retouche pas, on refait
+     * un inventaire, qui recalcule l'écart.
+     */
+    public function updateMovement(Request $request, Product $product, StockMovement $movement): RedirectResponse
+    {
+        abort_unless((int) $movement->product_id === (int) $product->id, 404);
+        abort_unless($movement->source_type === null, 403);
+
+        $estUneEntree = $movement->type === StockMovement::TYPE_ENTREE;
+
+        $data = $request->validate($estUneEntree ? [
+            'quantity' => ['required', 'numeric', 'gt:0'],
+            'unit_cost' => ['nullable', 'numeric', 'min:0'],
+            'date' => ['required', 'date', 'before_or_equal:today'],
+            'note' => ['nullable', 'string', 'max:255'],
+        ] : [
+            'date' => ['required', 'date', 'before_or_equal:today'],
+            'note' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $movement->update($estUneEntree ? [
+            'quantity' => abs((float) $data['quantity']),
+            'unit_cost' => isset($data['unit_cost']) && $data['unit_cost'] !== '' ? (float) $data['unit_cost'] : null,
+            'date' => $data['date'],
+            'note' => $data['note'] ?? null,
+        ] : [
+            'date' => $data['date'],
+            'note' => $data['note'] ?? null,
+        ]);
+
+        return back()->with('success', __('app.stock.flash_movement_updated'));
+    }
+
+    /**
+     * Donner un coût unitaire, d'un coup, aux entrées manuelles qui n'en ont
+     * pas, pour les articles choisis et leurs déclinaisons suivies. Les coûts
+     * déjà saisis ne bougent pas : pour eux, la correction ligne à ligne.
+     */
+    public function valueEntries(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'product_ids' => ['required', 'array', 'min:1'],
+            'product_ids.*' => ['integer'],
+            'unit_cost' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        // Le scope global limite au compte courant : un article d'un autre
+        // compte est simplement absent.
+        $articles = Product::whereIn('id', $data['product_ids'])->get(['id']);
+        abort_if($articles->isEmpty(), 404);
+
+        $ids = $articles->pluck('id');
+        $declinaisons = Product::whereIn('parent_id', $ids)->where('track_stock', true)->pluck('id');
+
+        $valorisees = StockMovement::query()
+            ->whereIn('product_id', $ids->merge($declinaisons)->unique()->all())
+            ->where('type', StockMovement::TYPE_ENTREE)
+            ->whereNull('unit_cost')
+            ->whereNull('source_type')
+            ->update(['unit_cost' => (float) $data['unit_cost']]);
+
+        return back()->with('success', __('app.stock.flash_entries_valued', [
+            'count' => $valorisees,
+            'cost' => number_format((float) $data['unit_cost'], 2, ',', ' ').' €',
+        ]));
     }
 
     public function destroyMovement(Product $product, StockMovement $movement): RedirectResponse

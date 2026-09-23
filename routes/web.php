@@ -644,6 +644,12 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->name('stock.entry');
         Route::post('/stock/{product}/inventory', [StockController::class, 'storeInventory'])
             ->name('stock.inventory');
+        // Corriger un mouvement saisi à la main et valoriser en lot les entrées
+        // sans coût (FEAT-128, retours de terrain).
+        Route::put('/stock/{product}/movements/{movement}', [StockController::class, 'updateMovement'])
+            ->name('stock.movements.update');
+        Route::post('/stock/value', [StockController::class, 'valueEntries'])
+            ->name('stock.value');
         Route::delete('/stock/{product}/movements/{movement}', [StockController::class, 'destroyMovement'])
             ->name('stock.movements.destroy');
 

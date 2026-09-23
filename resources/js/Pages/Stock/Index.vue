@@ -58,6 +58,9 @@ const openEntry = (product) => {
     entryProduct.value = product;
     entryForm.reset();
     entryForm.date = today;
+    // Le dernier coût saisi est proposé d'office (FEAT-128) : on l'oublie
+    // moins, et il reste modifiable.
+    entryForm.unit_cost = product.last_unit_cost ?? null;
     // Une réception de 500 souris se ventile entre le blanc et le vert : la
     // fenêtre propose une ligne par déclinaison plutôt qu'un total aveugle.
     coutParDeclinaison.value = false;
@@ -69,6 +72,29 @@ const submitEntry = () => {
     entryForm.post(route('stock.entry', entryProduct.value.id), {
         preserveScroll: true,
         onSuccess: () => { entryProduct.value = null; },
+    });
+};
+
+// Sélection d'articles pour valoriser d'un coup leurs entrées sans coût
+// (FEAT-128). Une famille cochée embarque ses déclinaisons côté serveur.
+const selected = ref([]);
+const selectable = computed(() => props.products.filter((p) => !p.parent_id));
+const allSelected = computed(() => selectable.value.length > 0 && selected.value.length === selectable.value.length);
+const toggleAll = () => {
+    selected.value = allSelected.value ? [] : selectable.value.map((p) => p.id);
+};
+const valuing = ref(false);
+const valueForm = useForm(() => ({ product_ids: [], unit_cost: null }));
+const openValue = () => {
+    valueForm.clearErrors();
+    valueForm.unit_cost = null;
+    valueForm.product_ids = [...selected.value];
+    valuing.value = true;
+};
+const submitValue = () => {
+    valueForm.post(route('stock.value'), {
+        preserveScroll: true,
+        onSuccess: () => { valuing.value = false; selected.value = []; },
     });
 };
 
@@ -116,10 +142,18 @@ const submitInventory = () => {
             </div>
 
             <!-- Liste -->
+            <div v-if="selected.length > 0" class="flex flex-col gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between dark:border-amber-800 dark:bg-amber-900/20">
+                <span class="text-amber-900 dark:text-amber-100">{{ t('stock.selected_articles', { count: selected.length }) }}</span>
+                <PrimaryButton type="button" @click="openValue">{{ t('stock.value_entries') }}</PrimaryButton>
+            </div>
+
             <div class="overflow-x-auto rounded-2xl bg-white shadow dark:bg-surface-card">
                 <table v-if="products.length > 0" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-slate-50 dark:bg-gray-800">
                         <tr>
+                            <th class="w-10 px-4 py-3">
+                                <input type="checkbox" :checked="allSelected" :aria-label="t('select_all')" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800" @change="toggleAll" />
+                            </th>
                             <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('stock.product') }}</th>
                             <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('stock.current') }}</th>
                             <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ t('stock.threshold') }}</th>
@@ -129,9 +163,13 @@ const submitInventory = () => {
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                         <tr v-for="p in products" :key="p.id" :class="p.parent_id ? 'bg-slate-50/60 dark:bg-gray-800/30' : ''">
+                            <td class="w-10 px-4 py-3">
+                                <input v-if="!p.parent_id" v-model="selected" type="checkbox" :value="p.id" :aria-label="p.designation" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800" />
+                            </td>
                             <td class="px-6 py-3" :class="p.parent_id ? 'pl-10' : ''">
                                 <div class="text-sm font-medium text-slate-900 dark:text-white">{{ p.designation }}</div>
                                 <div v-if="p.reference" class="text-xs text-slate-400">{{ p.reference }}</div>
+                                <div v-if="p.unvalued_entries > 0" class="mt-0.5 text-xs text-amber-700 dark:text-amber-300">{{ t('stock.unvalued_entries', { count: p.unvalued_entries }) }}</div>
                                 <!-- La colonne Stock annonce déjà tout ce que la
                                      famille couvre. Ici on dit combien de
                                      déclinaisons, et ce qui n'est rattaché à
@@ -190,6 +228,9 @@ const submitInventory = () => {
                         <input id="entry_unit_cost" v-model="entryForm.unit_cost" type="number" step="0.01" min="0"
                             class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
                         <p class="mt-1 text-xs text-slate-400">{{ t('stock.unit_cost_help') }}</p>
+                        <p v-if="entryProduct?.last_unit_cost !== null && entryProduct?.last_unit_cost !== undefined" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            {{ t('stock.last_cost_hint', { cost: formatCurrency(entryProduct.last_unit_cost) }) }}
+                        </p>
                         <InputError :message="entryForm.errors.unit_cost" class="mt-1" />
                     </div>
                     <div>
@@ -270,6 +311,25 @@ const submitInventory = () => {
                         :disabled="entryForm.processing || resteARepartir < 0"
                         @click="submitEntry"
                     >{{ t('stock.record_entry') }}</PrimaryButton>
+                </div>
+            </div>
+        </Modal>
+
+        <!-- Modale : valoriser les entrées sans coût des articles cochés (FEAT-128) -->
+        <Modal :show="valuing" @close="valuing = false">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('stock.value_entries_title') }}</h2>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ t('stock.value_entries_help', { count: valueForm.product_ids.length }) }}</p>
+                <div class="mt-4">
+                    <InputLabel for="bulk_unit_cost" :value="t('stock.unit_cost')" />
+                    <input id="bulk_unit_cost" v-model="valueForm.unit_cost" type="number" step="0.01" min="0"
+                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
+                    <InputError :message="valueForm.errors.unit_cost" class="mt-1" />
+                    <InputError :message="valueForm.errors.product_ids" class="mt-1" />
+                </div>
+                <div class="mt-6 flex justify-end gap-3">
+                    <SecondaryButton @click="valuing = false">{{ t('cancel') }}</SecondaryButton>
+                    <PrimaryButton :disabled="valueForm.processing" @click="submitValue">{{ t('stock.value_entries_submit') }}</PrimaryButton>
                 </div>
             </div>
         </Modal>
