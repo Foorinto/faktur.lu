@@ -49,15 +49,17 @@ class InvoiceEmailController extends Controller
             // Get the mailer for this user (uses their configured provider)
             $mailer = $this->emailProviderService->getMailerForUser($request->user());
 
-            // Send the email
-            $mail = new InvoiceMail($invoice, $customMessage);
-            $mail->subject($subject);
+            // Un objet mail neuf par envoi : un Mailable accumule ses destinataires
+            // et ré-attache le PDF à chaque envoi. Réutiliser le même pour la
+            // copie envoyait au client un second mail adressé à lui ET à
+            // l'utilisateur, avec le PDF en double (retour du 2026-09-24).
+            $composer = fn () => (new InvoiceMail($invoice, $customMessage))->subject($subject);
 
-            $mailer->to($recipientEmail)->send($mail);
+            $mailer->to($recipientEmail)->send($composer());
 
             // Send copy to self if requested
             if ($sendCopyToSelf) {
-                $mailer->to($request->user()->email)->send($mail);
+                $mailer->to($request->user()->email)->send($composer());
             }
 
             // Determine email type
