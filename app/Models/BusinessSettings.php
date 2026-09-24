@@ -776,15 +776,21 @@ class BusinessSettings extends Model
     }
 
     /**
-     * L'autorisation d'établissement est exigée d'une société ou d'un
-     * commerçant en nom propre, sauf déclaration que l'activité n'en relève
-     * pas (société civile de professionnels, holding...). Une profession
+     * L'autorisation d'établissement est exigée d'une société et d'un
+     * commerçant ou artisan en nom propre. Une société peut déclarer qu'elle
+     * n'en relève pas (société civile d'avocats ou de médecins, holding,
+     * société civile immobilière) ; un commerçant ou un artisan, jamais :
+     * commerce et artisanat y sont soumis par définition. Une profession
      * libérale ou une activité non commerciale la renseigne si elle en a
      * une, rien ne l'y oblige : beaucoup sont réglementées par ailleurs.
      */
-    public static function exerciseFormRequiresEstablishmentAuthorization(?string $form): bool
+    public static function exerciseFormRequiresEstablishmentAuthorization(?string $form, bool $declaredExempt = false): bool
     {
-        return in_array($form, [self::EXERCISE_FORM_COMPANY, self::EXERCISE_FORM_SOLE_TRADER], true);
+        return match ($form) {
+            self::EXERCISE_FORM_COMPANY => ! $declaredExempt,
+            self::EXERCISE_FORM_SOLE_TRADER => true,
+            default => false,
+        };
     }
 
     public function requiresEstablishmentAuthorization(): bool
@@ -792,8 +798,7 @@ class BusinessSettings extends Model
         $config = $this->getCountryConfig();
 
         return ($config['fiscal_identifiers']['has_establishment_authorization'] ?? false)
-            && self::exerciseFormRequiresEstablishmentAuthorization($this->exercise_form)
-            && ! $this->no_establishment_authorization;
+            && self::exerciseFormRequiresEstablishmentAuthorization($this->exercise_form, (bool) $this->no_establishment_authorization);
     }
 
     /**

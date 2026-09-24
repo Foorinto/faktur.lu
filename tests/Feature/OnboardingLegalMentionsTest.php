@@ -67,6 +67,12 @@ class OnboardingLegalMentionsTest extends TestCase
         $this->assertSame([], $reglages->missingLegalMentions());
     }
 
+    public function test_un_commercant_n_a_pas_d_exception_des_l_accueil(): void
+    {
+        $this->postJson(route('onboarding.company'), $this->etape(['exercise_form' => 'sole_trader', 'rcs_number' => 'A12345', 'establishment_authorization' => '', 'no_establishment_authorization' => true]))
+            ->assertStatus(422)->assertJsonValidationErrors('establishment_authorization');
+    }
+
     public function test_une_societe_dispensee_le_declare_d_une_case(): void
     {
         $this->postJson(route('onboarding.company'), $this->etape(['establishment_authorization' => '', 'no_establishment_authorization' => true]))

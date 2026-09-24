@@ -78,8 +78,7 @@ class UpdateBusinessSettingsRequest extends FormRequest
             // l'activité n'en relève pas.
             'establishment_authorization' => [
                 Rule::requiredIf(
-                    \App\Models\BusinessSettings::exerciseFormRequiresEstablishmentAuthorization($this->input('exercise_form'))
-                    && ! $this->boolean('no_establishment_authorization')
+                    \App\Models\BusinessSettings::exerciseFormRequiresEstablishmentAuthorization($this->input('exercise_form'), $this->boolean('no_establishment_authorization'))
                     && (config('countries.'.$this->input('country_code', 'LU').'.fiscal_identifiers.has_establishment_authorization') ?? false)
                 ),
                 'nullable', 'string', 'max:50',

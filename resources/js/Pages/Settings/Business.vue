@@ -298,10 +298,12 @@ const showEstablishmentAuthorization = computed(() => {
 // d'établissement est exigée sauf si l'activité n'en relève pas.
 const exerciseForms = ['company', 'sole_trader', 'liberal'];
 const rcsRequired = computed(() => ['company', 'sole_trader'].includes(form.exercise_form));
-// Société ou commerçant : autorisation exigée sauf case cochée. Profession
+// Société : autorisation exigée, sauf société sans activité commerciale
+// (case). Commerçant ou artisan : exigée, sans exception. Profession
 // libérale ou activité non commerciale : facultative, sans case.
 const authorizationApplies = computed(() => showEstablishmentAuthorization.value && ['company', 'sole_trader'].includes(form.exercise_form));
-const authorizationRequired = computed(() => authorizationApplies.value && !form.no_establishment_authorization);
+const exemptionPossible = computed(() => showEstablishmentAuthorization.value && form.exercise_form === 'company');
+const authorizationRequired = computed(() => authorizationApplies.value && !(exemptionPossible.value && form.no_establishment_authorization));
 const legalMentionLabel = (key) => t('legal_mention_' + key);
 
 // Get country flag
@@ -824,7 +826,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('establishment_authorization_help') }}
                                 </p>
-                                <label v-if="authorizationApplies" class="mt-2 flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <label v-if="exemptionPossible" class="mt-2 flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
                                     <input v-model="form.no_establishment_authorization" type="checkbox" class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
                                     <span>
                                         {{ t('no_establishment_authorization') }}

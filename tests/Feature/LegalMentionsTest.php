@@ -95,6 +95,14 @@ class LegalMentionsTest extends TestCase
             ->assertSessionHasNoErrors();
     }
 
+    public function test_un_commercant_n_a_pas_d_exception_a_l_autorisation(): void
+    {
+        // Commerce et artisanat y sont soumis par définition : la case ne
+        // vaut que pour une société sans activité commerciale.
+        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'sole_trader', 'rcs_number' => 'A12345', 'establishment_authorization' => '', 'no_establishment_authorization' => true]))
+            ->assertSessionHasErrors('establishment_authorization');
+    }
+
     public function test_la_forme_d_exercice_est_obligatoire_dans_le_formulaire(): void
     {
         $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => '']))
@@ -110,8 +118,8 @@ class LegalMentionsTest extends TestCase
         $sans_reponse = new BusinessSettings(['country_code' => 'LU', 'vat_regime' => 'assujetti', 'vat_number' => null]);
         $this->assertSame(['exercise_form', 'vat_number'], $sans_reponse->missingLegalMentions());
 
-        $commercant = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'sole_trader', 'vat_regime' => 'franchise', 'rcs_number' => 'A12345']);
-        $this->assertSame(['establishment_authorization'], $commercant->missingLegalMentions());
+        $commercant = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'sole_trader', 'vat_regime' => 'franchise', 'rcs_number' => 'A12345', 'no_establishment_authorization' => true]);
+        $this->assertSame(['establishment_authorization'], $commercant->missingLegalMentions(), 'la case ne dispense pas un commerçant');
 
         $societe = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'company', 'vat_regime' => 'franchise', 'no_establishment_authorization' => true]);
         $this->assertSame(['rcs_number'], $societe->missingLegalMentions());
