@@ -49,9 +49,7 @@ const props = defineProps({
         type: Object,
         default: null,
     },
-    // FEAT-133 : forme d'exercice probable (question préremplie) et mentions
-    // obligatoires qui manquent encore.
-    suggestedExerciseForm: { type: String, default: null },
+    // FEAT-133 : mentions obligatoires qui manquent encore.
     legalMentionsMissing: { type: Array, default: () => [] },
     countries: {
         type: Array,
@@ -109,7 +107,7 @@ const form = useForm({
     matricule: props.settings?.matricule ?? '',
     rcs_number: props.settings?.rcs_number ?? '',
     establishment_authorization: props.settings?.establishment_authorization ?? '',
-    exercise_form: props.settings?.exercise_form ?? props.suggestedExerciseForm ?? '',
+    exercise_form: props.settings?.exercise_form ?? '',
     no_establishment_authorization: !!props.settings?.no_establishment_authorization,
     iban: props.settings?.iban ?? '',
     // Réauthentification à l'acte, demandée seulement quand l'IBAN change.
@@ -300,7 +298,10 @@ const showEstablishmentAuthorization = computed(() => {
 // d'établissement est exigée sauf si l'activité n'en relève pas.
 const exerciseForms = ['company', 'sole_trader', 'liberal'];
 const rcsRequired = computed(() => ['company', 'sole_trader'].includes(form.exercise_form));
-const authorizationRequired = computed(() => showEstablishmentAuthorization.value && !form.no_establishment_authorization);
+// Société ou commerçant : autorisation exigée sauf case cochée. Profession
+// libérale ou activité non commerciale : facultative, sans case.
+const authorizationApplies = computed(() => showEstablishmentAuthorization.value && ['company', 'sole_trader'].includes(form.exercise_form));
+const authorizationRequired = computed(() => authorizationApplies.value && !form.no_establishment_authorization);
 const legalMentionLabel = (key) => t('legal_mention_' + key);
 
 // Get country flag
@@ -772,7 +773,6 @@ const cancelPaymentQrcodeUpload = () => {
                                     id="rcs_number"
                                     v-model="form.rcs_number"
                                     type="text"
-                                    :required="rcsRequired || fiscalIdentifiers.secondary.required"
                                     class="mt-1 block w-full font-mono uppercase"
                                     :maxlength="fiscalIdentifiers.secondary.maxlength"
                                     :placeholder="fiscalIdentifiers.secondary.placeholder"
@@ -817,7 +817,6 @@ const cancelPaymentQrcodeUpload = () => {
                                     id="establishment_authorization"
                                     v-model="form.establishment_authorization"
                                     type="text"
-                                    :required="authorizationRequired"
                                     class="mt-1 block w-full"
                                     maxlength="50"
                                     placeholder="N° d'autorisation"
@@ -825,7 +824,7 @@ const cancelPaymentQrcodeUpload = () => {
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('establishment_authorization_help') }}
                                 </p>
-                                <label class="mt-2 flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <label v-if="authorizationApplies" class="mt-2 flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
                                     <input v-model="form.no_establishment_authorization" type="checkbox" class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
                                     <span>
                                         {{ t('no_establishment_authorization') }}

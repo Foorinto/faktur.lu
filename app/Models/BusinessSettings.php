@@ -765,27 +765,6 @@ class BusinessSettings extends Model
         self::EXERCISE_FORM_LIBERAL,
     ];
 
-    /**
-     * Forme d'exercice probable, pour préremplir la question sur un compte
-     * qui n'y a pas encore répondu : un RCS en B ou une forme de société dans
-     * le nom désignent une société, un RCS en A un commerçant en nom propre.
-     */
-    public function suggestedExerciseForm(): ?string
-    {
-        $rcs = strtoupper(trim((string) $this->rcs_number));
-        if (str_starts_with($rcs, 'B')) {
-            return self::EXERCISE_FORM_COMPANY;
-        }
-        if (str_starts_with($rcs, 'A')) {
-            return self::EXERCISE_FORM_SOLE_TRADER;
-        }
-
-        $noms = trim(($this->company_name ?? '').' '.($this->legal_name ?? ''));
-        $formes = '/(^|[\s,(])(s\.?\s?[àa]\.?\s?r\.?\s?l\.?(-s)?|sarl(-s)?|s\.?a\.?|sas|sasu|scs|sca|snc|se|gmbh|ag|s\.?c\.?|société)([\s,).]|$)/iu';
-
-        return preg_match($formes, $noms) ? self::EXERCISE_FORM_COMPANY : null;
-    }
-
     public static function exerciseFormRequiresRcs(?string $form): bool
     {
         return in_array($form, [self::EXERCISE_FORM_COMPANY, self::EXERCISE_FORM_SOLE_TRADER], true);
@@ -797,16 +776,24 @@ class BusinessSettings extends Model
     }
 
     /**
-     * L'autorisation d'établissement est exigée dès que le pays la connaît,
-     * sauf si l'utilisateur a déclaré que son activité n'en relève pas
-     * (profession réglementée par ailleurs, agriculture, activité
-     * intellectuelle non commerciale).
+     * L'autorisation d'établissement est exigée d'une société ou d'un
+     * commerçant en nom propre, sauf déclaration que l'activité n'en relève
+     * pas (société civile de professionnels, holding...). Une profession
+     * libérale ou une activité non commerciale la renseigne si elle en a
+     * une, rien ne l'y oblige : beaucoup sont réglementées par ailleurs.
      */
+    public static function exerciseFormRequiresEstablishmentAuthorization(?string $form): bool
+    {
+        return in_array($form, [self::EXERCISE_FORM_COMPANY, self::EXERCISE_FORM_SOLE_TRADER], true);
+    }
+
     public function requiresEstablishmentAuthorization(): bool
     {
         $config = $this->getCountryConfig();
 
-        return ($config['fiscal_identifiers']['has_establishment_authorization'] ?? false) && ! $this->no_establishment_authorization;
+        return ($config['fiscal_identifiers']['has_establishment_authorization'] ?? false)
+            && self::exerciseFormRequiresEstablishmentAuthorization($this->exercise_form)
+            && ! $this->no_establishment_authorization;
     }
 
     /**

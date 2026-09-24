@@ -58,9 +58,9 @@ class BusinessSettingsController extends Controller
         ];
 
         return Inertia::render('Settings/Business', [
-            // FEAT-133 : question préremplie quand c'est évident, et rappel des
-            // mentions obligatoires qui manquent encore.
-            'suggestedExerciseForm' => $settings?->suggestedExerciseForm(),
+            // FEAT-133 : rappel des mentions obligatoires qui manquent encore. La
+            // question n'est jamais préremplie : c'est à l'utilisateur de dire ce
+            // qu'il est, pas à une devinette sur son nom ou son RCS.
             'legalMentionsMissing' => $settings ? $settings->missingLegalMentions() : [],
             'settings' => $settings ? array_merge($settings->toArray(), [
                 'logo_url' => $settings->logo_url,

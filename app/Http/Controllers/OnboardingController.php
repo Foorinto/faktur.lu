@@ -67,7 +67,8 @@ class OnboardingController extends Controller
         // que les réglages, posées dès l'accueil pour qu'un nouveau compte ne
         // parte pas sans son RCS ni son autorisation d'établissement.
         $formeExigeRcs = BusinessSettings::exerciseFormRequiresRcs($request->input('exercise_form'));
-        $autorisationExigee = ! $request->boolean('no_establishment_authorization')
+        $autorisationExigee = BusinessSettings::exerciseFormRequiresEstablishmentAuthorization($request->input('exercise_form'))
+            && ! $request->boolean('no_establishment_authorization')
             && (config('countries.'.$request->input('country_code', 'LU').'.fiscal_identifiers.has_establishment_authorization') ?? false);
 
         $data = $request->validate([

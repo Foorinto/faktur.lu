@@ -81,14 +81,17 @@ class LegalMentionsTest extends TestCase
             ->assertSessionDoesntHaveErrors('establishment_authorization');
     }
 
-    public function test_une_profession_liberale_n_a_pas_de_rcs_mais_doit_trancher_l_autorisation(): void
+    public function test_une_profession_liberale_n_a_ni_rcs_ni_autorisation_a_fournir(): void
     {
+        // Retour d'Alexandre : un libéral doit pouvoir enregistrer sans rien
+        // d'autre, l'autorisation reste facultative pour lui.
         $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'liberal', 'rcs_number' => '', 'establishment_authorization' => '']))
-            ->assertSessionDoesntHaveErrors('rcs_number')
-            ->assertSessionHasErrors('establishment_authorization');
+            ->assertSessionHasNoErrors();
+    }
 
-        // Case cochée : l'activité ne relève pas de l'autorisation.
-        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'liberal', 'rcs_number' => '', 'establishment_authorization' => '', 'no_establishment_authorization' => true]))
+    public function test_une_societe_dispensee_d_autorisation_le_declare_d_une_case(): void
+    {
+        $this->put(route('settings.business.update'), $this->formulaire(['establishment_authorization' => '', 'no_establishment_authorization' => true]))
             ->assertSessionHasNoErrors();
     }
 
@@ -103,39 +106,35 @@ class LegalMentionsTest extends TestCase
 
     public function test_les_mentions_manquantes_sont_calculees_selon_la_forme(): void
     {
+        // Sans réponse, on ne sait pas ce qui s'applique : on demande la réponse, rien d'autre.
         $sans_reponse = new BusinessSettings(['country_code' => 'LU', 'vat_regime' => 'assujetti', 'vat_number' => null]);
-        $this->assertSame(['exercise_form', 'establishment_authorization', 'vat_number'], $sans_reponse->missingLegalMentions());
+        $this->assertSame(['exercise_form', 'vat_number'], $sans_reponse->missingLegalMentions());
+
+        $commercant = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'sole_trader', 'vat_regime' => 'franchise', 'rcs_number' => 'A12345']);
+        $this->assertSame(['establishment_authorization'], $commercant->missingLegalMentions());
 
         $societe = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'company', 'vat_regime' => 'franchise', 'no_establishment_authorization' => true]);
         $this->assertSame(['rcs_number'], $societe->missingLegalMentions());
 
-        $liberal = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'liberal', 'vat_regime' => 'franchise', 'establishment_authorization' => '10012345']);
+        $liberal = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'liberal', 'vat_regime' => 'franchise']);
         $this->assertSame([], $liberal->missingLegalMentions());
     }
 
-    public function test_la_forme_probable_se_devine_au_rcs_ou_au_nom(): void
-    {
-        $this->assertSame('company', (new BusinessSettings(['rcs_number' => 'B98765']))->suggestedExerciseForm());
-        $this->assertSame('sole_trader', (new BusinessSettings(['rcs_number' => 'A12345']))->suggestedExerciseForm());
-        $this->assertSame('company', (new BusinessSettings(['company_name' => 'Muller Sàrl']))->suggestedExerciseForm());
-        $this->assertSame('company', (new BusinessSettings(['legal_name' => 'Muller S.A.']))->suggestedExerciseForm());
-        $this->assertNull((new BusinessSettings(['company_name' => 'Jean Muller, consultant']))->suggestedExerciseForm());
-    }
-
-    public function test_les_ecrans_recoivent_le_rappel_et_la_suggestion(): void
+    public function test_les_ecrans_recoivent_le_rappel_sans_rien_preremplir(): void
     {
         BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => null, 'no_establishment_authorization' => false, 'rcs_number' => 'B55555', 'vat_regime' => 'franchise']);
 
         $this->get(route('settings.business.edit'))->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Settings/Business')
-            ->where('suggestedExerciseForm', 'company')
-            ->where('legalMentionsMissing', ['exercise_form', 'establishment_authorization']));
+            ->missing('suggestedExerciseForm')
+            ->where('settings.exercise_form', null)
+            ->where('legalMentionsMissing', ['exercise_form']));
 
         $client = Client::factory()->create(['user_id' => $this->user->id]);
         $invoice = Invoice::factory()->create(['user_id' => $this->user->id, 'client_id' => $client->id]);
         $this->get(route('invoices.show', $invoice))->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Invoices/Show')
-            ->where('legalMentionsMissing', ['exercise_form', 'establishment_authorization']));
+            ->where('legalMentionsMissing', ['exercise_form']));
     }
 
     public function test_la_finalisation_est_refusee_tant_que_les_mentions_manquent(): void

@@ -138,7 +138,8 @@ const apiCall = async (url, body, isFormData = false) => {
 
 const exerciseForms = ['company', 'sole_trader', 'liberal'];
 const rcsRequired = computed(() => ['company', 'sole_trader'].includes(companyForm.value.exercise_form));
-const authorizationRequired = computed(() => !companyForm.value.no_establishment_authorization);
+const authorizationApplies = computed(() => ['company', 'sole_trader'].includes(companyForm.value.exercise_form));
+const authorizationRequired = computed(() => authorizationApplies.value && !companyForm.value.no_establishment_authorization);
 
 const submitCompany = async () => {
     const data = await apiCall(route('onboarding.company'), companyForm.value);
@@ -367,13 +368,13 @@ const goToInvoice = () => router.visit(route('invoices.edit', lastInvoiceId.valu
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{{ t('rcs_number_label') }} <span v-if="rcsRequired" class="text-pink-500">*</span><span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span></label>
-                                <input v-model="companyForm.rcs_number" type="text" :required="rcsRequired" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500 uppercase" placeholder="B123456" />
+                                <input v-model="companyForm.rcs_number" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500 uppercase" placeholder="B123456" />
                                 <p v-if="errors.rcs_number" class="text-xs text-red-600 mt-1">{{ errors.rcs_number[0] }}</p>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{{ t('establishment_authorization') }} <span v-if="authorizationRequired" class="text-pink-500">*</span><span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span></label>
-                                <input v-model="companyForm.establishment_authorization" type="text" :required="authorizationRequired" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="10012345" />
-                                <label class="mt-2 flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+                                <input v-model="companyForm.establishment_authorization" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="10012345" />
+                                <label v-if="authorizationApplies" class="mt-2 flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
                                     <input v-model="companyForm.no_establishment_authorization" type="checkbox" class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
                                     <span>{{ t('no_establishment_authorization') }}</span>
                                 </label>

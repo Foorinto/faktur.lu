@@ -57,16 +57,21 @@ class OnboardingLegalMentionsTest extends TestCase
         $this->assertSame([], $reglages->missingLegalMentions());
     }
 
-    public function test_une_profession_liberale_sans_autorisation_passe_avec_la_case(): void
+    public function test_une_profession_liberale_passe_sans_rcs_ni_autorisation(): void
     {
         $this->postJson(route('onboarding.company'), $this->etape(['exercise_form' => 'liberal', 'rcs_number' => '', 'establishment_authorization' => '']))
-            ->assertStatus(422)->assertJsonValidationErrors('establishment_authorization')->assertJsonMissingValidationErrors('rcs_number');
-
-        $this->postJson(route('onboarding.company'), $this->etape(['exercise_form' => 'liberal', 'rcs_number' => '', 'establishment_authorization' => '', 'no_establishment_authorization' => true]))
             ->assertOk();
 
         $reglages = BusinessSettings::withoutGlobalScopes()->where('user_id', $this->user->id)->first();
-        $this->assertTrue($reglages->no_establishment_authorization);
+        $this->assertSame('liberal', $reglages->exercise_form);
         $this->assertSame([], $reglages->missingLegalMentions());
+    }
+
+    public function test_une_societe_dispensee_le_declare_d_une_case(): void
+    {
+        $this->postJson(route('onboarding.company'), $this->etape(['establishment_authorization' => '', 'no_establishment_authorization' => true]))
+            ->assertOk();
+
+        $this->assertTrue(BusinessSettings::withoutGlobalScopes()->where('user_id', $this->user->id)->first()->no_establishment_authorization);
     }
 }
