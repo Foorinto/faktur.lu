@@ -5,6 +5,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { useTranslations } from "@/Composables/useTranslations";
+import { usePlanFeatures } from "@/Composables/usePlanFeatures";
 import { useMarque } from "@/Composables/useMarque";
 
 const { nom: marqueNom } = useMarque();
@@ -13,6 +14,7 @@ const { nom: marqueNom } = useMarque();
 const page = usePage();
 
 const { t } = useTranslations();
+const { isLocked, minPlanFor } = usePlanFeatures();
 
 const props = defineProps({
     plans: Array,
@@ -116,6 +118,18 @@ const getUsagePercentage = (used, limit) => {
                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-gray-300 dark:text-slate-400 dark:hover:text-slate-300"
                 >
                     Fournisseur Email
+                    <span
+                        v-if="isLocked('custom_email_provider')"
+                        :class="[
+                            'ml-1.5 inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold',
+                            minPlanFor('custom_email_provider') === 'Pro'
+                                ? 'bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300'
+                                : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+                        ]"
+                        :title="`Plan ${minPlanFor('custom_email_provider')} requis`"
+                    >
+                        🔒 {{ minPlanFor('custom_email_provider') }}
+                    </span>
                 </Link>
                 <Link
                     :href="route('settings.accountant')"

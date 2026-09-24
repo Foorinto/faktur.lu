@@ -1921,6 +1921,7 @@ return [
                     'credit_notes' => 'Avoiren / Gutschrëften',
                     'expense_tracking' => 'Ausgabenverfolgung',
                     'two_fa' => '2FA Authentifikatioun',
+                    'custom_email_provider' => 'Versand iwwer Ären eegenen E-Mail-Ubidder (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Personaliséierbar Nummeréierung',
                     'time_tracking' => 'Zäiterfassung',
                     'project_management' => 'Projetsverwaltung',

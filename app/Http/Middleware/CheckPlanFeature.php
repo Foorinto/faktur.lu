@@ -56,7 +56,7 @@ class CheckPlanFeature
 
     private function getMinPlanFor(string $feature): string
     {
-        $proFeatures = ['email_reminders', 'no_branding', 'organizations', 'hr_module', 'crm', 'peppol_transmission', 'facturx', 'advanced_reporting', 'priority_support'];
+        $proFeatures = ['email_reminders', 'no_branding', 'organizations', 'hr_module', 'crm', 'peppol_transmission', 'facturx', 'advanced_reporting', 'priority_support', 'custom_email_provider'];
 
         return in_array($feature, $proFeatures, true) ? 'Pro' : 'Essentiel';
     }
@@ -77,6 +77,7 @@ class CheckPlanFeature
             'accounting_portal' => __('Portail comptable / fiduciaire'),
             'accounting_exports' => __('Exports comptables (Sage BOB, FID-Manager)'),
             'recurring_invoices' => __('Facturation récurrente'),
+            'custom_email_provider' => __('Fournisseur d\'e-mail personnel'),
             default => __('Cette fonctionnalité'),
         };
     }

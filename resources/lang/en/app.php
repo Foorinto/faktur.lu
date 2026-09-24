@@ -1994,6 +1994,7 @@ return [
                     'credit_notes' => 'Credit notes',
                     'expense_tracking' => 'Expense tracking',
                     'two_fa' => '2FA authentication',
+                    'custom_email_provider' => 'Sending through your own email provider (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Custom numbering',
                     'time_tracking' => 'Time tracking',
                     'project_management' => 'Project management',

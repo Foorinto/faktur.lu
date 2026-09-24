@@ -1026,10 +1026,15 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     Route::put('/settings/email', [InvoiceEmailController::class, 'updateSettings'])->name('settings.email.update');
 
     // Email provider settings
-    Route::get('/settings/email/provider', [EmailProviderController::class, 'index'])->name('settings.email.provider');
-    Route::put('/settings/email/provider', [EmailProviderController::class, 'update'])->name('settings.email.provider.update');
-    Route::post('/settings/email/provider/test', [EmailProviderController::class, 'test'])->name('settings.email.provider.test');
-    Route::post('/settings/email/provider/validate-smtp', [EmailProviderController::class, 'validateSmtp'])->name('settings.email.provider.validate-smtp');
+    // Fournisseur d'e-mail personnel : réservé au plan Pro (FEAT-131).
+    // Un compte revenu en Gratuit est renvoyé vers l'abonnement, et ses envois
+    // repassent par la plateforme (EmailProviderService::getMailerForUser).
+    Route::middleware('plan.feature:custom_email_provider')->group(function () {
+        Route::get('/settings/email/provider', [EmailProviderController::class, 'index'])->name('settings.email.provider');
+        Route::put('/settings/email/provider', [EmailProviderController::class, 'update'])->name('settings.email.provider.update');
+        Route::post('/settings/email/provider/test', [EmailProviderController::class, 'test'])->name('settings.email.provider.test');
+        Route::post('/settings/email/provider/validate-smtp', [EmailProviderController::class, 'validateSmtp'])->name('settings.email.provider.validate-smtp');
+    });
 
     // Accountant settings (invite/manage accountants) — Essentiel ou Pro
     Route::middleware('plan.feature:accounting_portal')->group(function () {
