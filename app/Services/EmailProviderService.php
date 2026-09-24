@@ -6,7 +6,6 @@ use App\Models\EmailSettings;
 use App\Models\User;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Mail\Mailer;
-use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Mailer\Transport\Dsn;
@@ -26,7 +25,7 @@ class EmailProviderService
     {
         $settings = $user->emailSettings;
 
-        if (!$settings || $settings->provider === EmailSettings::PROVIDER_FAKTUR) {
+        if (! $settings || $settings->provider === EmailSettings::PROVIDER_FAKTUR) {
             return Mail::mailer();
         }
 
@@ -46,11 +45,11 @@ class EmailProviderService
     {
         $config = $settings->provider_config;
 
-        if (!$config) {
+        if (! $config) {
             return Mail::mailer();
         }
 
-        $mailerName = 'user_smtp_' . $settings->user_id;
+        $mailerName = 'user_smtp_'.$settings->user_id;
 
         Config::set("mail.mailers.{$mailerName}", [
             'transport' => 'smtp',
@@ -78,23 +77,38 @@ class EmailProviderService
     {
         $config = $settings->provider_config;
 
-        if (!$config || empty($config['api_key'])) {
+        if (! $config || empty($config['api_key'])) {
             return Mail::mailer();
         }
 
-        $mailerName = 'user_brevo_' . $settings->user_id;
+        return $this->relaySmtp($settings, 'brevo', 'smtp-relay.brevo.com', $config['username'] ?? '', $config['api_key']);
+    }
+
+    /**
+     * Mailer SMTP vers le relais d'un fournisseur (Brevo, Postmark, Resend).
+     *
+     * Les transports « postmark » et « resend » intégrés à Laravel exigent des
+     * bibliothèques absentes du dépôt : leur simple création levait une
+     * erreur PHP fatale (« Class "Resend" not found ») qui échappait au filet
+     * de l'envoi de test et laissait l'utilisateur avec un code de référence
+     * (retour du 2026-09-24). Chaque fournisseur expose un relais SMTP
+     * authentifié par sa clé : aucune dépendance, et le même chemin que
+     * Brevo, éprouvé en production.
+     */
+    protected function relaySmtp(EmailSettings $settings, string $name, string $host, string $username, string $password): Mailer
+    {
+        $mailerName = "user_{$name}_{$settings->user_id}";
 
         Config::set("mail.mailers.{$mailerName}", [
             'transport' => 'smtp',
-            'host' => 'smtp-relay.brevo.com',
+            'host' => $host,
             'port' => 587,
             'encryption' => 'tls',
-            'username' => $config['username'] ?? '',
-            'password' => $config['api_key'],
+            'username' => $username,
+            'password' => $password,
             'timeout' => 30,
         ]);
 
-        // Set the from address
         Config::set("mail.mailers.{$mailerName}.from", [
             'address' => $settings->getEffectiveFromAddress(),
             'name' => $settings->getEffectiveFromName(),
@@ -110,18 +124,12 @@ class EmailProviderService
     {
         $config = $settings->provider_config;
 
-        if (!$config || empty($config['token'])) {
+        if (! $config || empty($config['token'])) {
             return Mail::mailer();
         }
 
-        $mailerName = 'user_postmark_' . $settings->user_id;
-
-        Config::set("mail.mailers.{$mailerName}", [
-            'transport' => 'postmark',
-            'token' => $config['token'],
-        ]);
-
-        return Mail::mailer($mailerName);
+        // Postmark : le jeton de serveur sert d'identifiant et de mot de passe.
+        return $this->relaySmtp($settings, 'postmark', 'smtp.postmarkapp.com', $config['token'], $config['token']);
     }
 
     /**
@@ -131,18 +139,12 @@ class EmailProviderService
     {
         $config = $settings->provider_config;
 
-        if (!$config || empty($config['api_key'])) {
+        if (! $config || empty($config['api_key'])) {
             return Mail::mailer();
         }
 
-        $mailerName = 'user_resend_' . $settings->user_id;
-
-        Config::set("mail.mailers.{$mailerName}", [
-            'transport' => 'resend',
-            'key' => $config['api_key'],
-        ]);
-
-        return Mail::mailer($mailerName);
+        // Resend : identifiant fixe « resend », la clé API en mot de passe.
+        return $this->relaySmtp($settings, 'resend', 'smtp.resend.com', 'resend', $config['api_key']);
     }
 
     /**
@@ -164,9 +166,9 @@ class EmailProviderService
             $fromName = $settings->getEffectiveFromName();
 
             $mailer->raw(
-                "Ceci est un email de test envoyé depuis faktur.lu.\n\n" .
-                "Votre configuration email fonctionne correctement !\n\n" .
-                "Provider: {$settings->provider}\n" .
+                "Ceci est un email de test envoyé depuis faktur.lu.\n\n".
+                "Votre configuration email fonctionne correctement !\n\n".
+                "Provider: {$settings->provider}\n".
                 "From: {$fromName} <{$fromAddress}>",
                 function ($message) use ($testEmail, $fromAddress, $fromName) {
                     $message->to($testEmail)
@@ -185,7 +187,15 @@ class EmailProviderService
                 'success' => true,
                 'message' => "Email de test envoyé avec succès à {$testEmail}",
             ];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            // Throwable et non Exception : une erreur PHP (classe absente,
+            // type) doit elle aussi finir en message lisible, pas en code de
+            // référence. On la journalise, c'est un défaut du code, pas de
+            // la configuration de l'utilisateur.
+            if ($e instanceof \Error) {
+                report($e);
+            }
+
             // Update verified status
             $settings->update([
                 'provider_verified' => false,
@@ -194,7 +204,7 @@ class EmailProviderService
 
             return [
                 'success' => false,
-                'message' => 'Échec de l\'envoi : ' . $this->parseErrorMessage($e),
+                'message' => 'Échec de l\'envoi : '.$this->parseErrorMessage($e),
             ];
         }
     }
@@ -216,7 +226,7 @@ class EmailProviderService
                 (int) ($config['port'] ?? 587)
             );
 
-            $factory = new EsmtpTransportFactory();
+            $factory = new EsmtpTransportFactory;
             $transport = $factory->create($dsn);
 
             // Just creating the transport validates the DSN
@@ -229,7 +239,7 @@ class EmailProviderService
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Configuration invalide : ' . $this->parseErrorMessage($e),
+                'message' => 'Configuration invalide : '.$this->parseErrorMessage($e),
             ];
         }
     }
@@ -237,7 +247,7 @@ class EmailProviderService
     /**
      * Parse error message for user-friendly display.
      */
-    protected function parseErrorMessage(\Exception $e): string
+    protected function parseErrorMessage(\Throwable $e): string
     {
         $message = $e->getMessage();
 
@@ -246,7 +256,7 @@ class EmailProviderService
             return 'Connexion refusée. Vérifiez l\'hôte et le port.';
         }
 
-        if (str_contains($message, 'Authentication failed')) {
+        if (str_contains($message, 'Authentication failed') || str_contains($message, 'Failed to authenticate')) {
             return 'Authentification échouée. Vérifiez vos identifiants.';
         }
 
@@ -266,6 +276,12 @@ class EmailProviderService
         // Resend errors
         if (str_contains($message, 'API key')) {
             return 'Clé API Resend invalide.';
+        }
+
+        // Expéditeur inconnu du fournisseur : domaine non vérifié (Resend),
+        // signature d'expéditeur absente (Postmark), expéditeur non validé (Brevo).
+        if (str_contains($message, 'not verified') || str_contains($message, 'Sender Signature') || str_contains($message, 'unverified')) {
+            return 'Adresse d\'expédition inconnue de votre fournisseur : vérifiez-y le domaine ou l\'expéditeur, puis réessayez.';
         }
 
         // Return a truncated version of the original message

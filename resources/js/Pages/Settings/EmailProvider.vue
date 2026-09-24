@@ -71,10 +71,20 @@ const submit = () => {
     });
 };
 
+// Motif du dernier échec de l'envoi de test. Le serveur le renvoie comme
+// erreur de validation (« config ») ; comme le test part par `router.post`
+// et non par le formulaire, `form.errors` ne le voyait jamais et l'écran
+// restait muet sur la cause (retour du 2026-09-24).
+const testError = ref(null);
+
 const testConfiguration = () => {
     testing.value = true;
+    testError.value = null;
     router.post(route('settings.email.provider.test'), {}, {
         preserveScroll: true,
+        onError: (errors) => {
+            testError.value = errors.config ?? Object.values(errors)[0] ?? null;
+        },
         onFinish: () => {
             testing.value = false;
         },
@@ -306,6 +316,9 @@ const getInputType = (field, fieldConfig) => {
                                 </p>
                                 <p v-if="settings.last_test_at" class="text-sm text-slate-500 dark:text-slate-400">
                                     {{ t('last_test_label') }} {{ settings.last_test_at }}
+                                </p>
+                                <p v-if="testError" class="mt-1 text-sm text-pink-600 dark:text-pink-400">
+                                    {{ testError }}
                                 </p>
                             </div>
                         </div>
