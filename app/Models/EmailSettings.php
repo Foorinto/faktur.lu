@@ -10,12 +10,16 @@ use Illuminate\Support\Facades\Crypt;
 
 class EmailSettings extends Model
 {
-    use HasFactory, BelongsToUser;
+    use BelongsToUser, HasFactory;
 
     public const PROVIDER_FAKTUR = 'faktur';
+
     public const PROVIDER_SMTP = 'smtp';
+
     public const PROVIDER_BREVO = 'brevo';
+
     public const PROVIDER_POSTMARK = 'postmark';
+
     public const PROVIDER_RESEND = 'resend';
 
     public const PROVIDERS = [
@@ -91,6 +95,7 @@ class EmailSettings extends Model
     public function getReminderLevel(int $level): ?array
     {
         $levels = $this->reminder_levels ?? self::defaultReminderLevels();
+
         return $levels[$level] ?? null;
     }
 
@@ -115,6 +120,7 @@ class EmailSettings extends Model
     {
         if ($value === null) {
             $this->attributes['provider_config'] = null;
+
             return;
         }
 
@@ -144,6 +150,13 @@ class EmailSettings extends Model
     {
         if ($this->from_address) {
             return $this->from_address;
+        }
+
+        // Avec son propre fournisseur, on expédie depuis sa propre adresse :
+        // celle de la plateforme n'y est pas connue et serait refusée
+        // (domaine non vérifié chez Resend, signature absente chez Postmark).
+        if ($this->provider !== self::PROVIDER_FAKTUR && $this->user?->email) {
+            return $this->user->email;
         }
 
         return config('mail.from.address') ?: config('marque.email_expediteur');
@@ -203,7 +216,7 @@ class EmailSettings extends Model
     public static function getPostmarkConfigFields(): array
     {
         return [
-            'token' => ['label' => 'Server Token', 'type' => 'password', 'required' => true],
+            'token' => ['label' => 'Server Token', 'type' => 'password', 'required' => true, 'help' => 'Disponible dans Postmark → votre serveur → API Tokens. L\'adresse d\'expédition doit être une signature vérifiée dans Postmark.'],
         ];
     }
 
@@ -213,7 +226,7 @@ class EmailSettings extends Model
     public static function getResendConfigFields(): array
     {
         return [
-            'api_key' => ['label' => 'Clé API', 'type' => 'password', 'required' => true],
+            'api_key' => ['label' => 'Clé API', 'type' => 'password', 'required' => true, 'help' => 'Disponible dans Resend → API Keys. L\'adresse d\'expédition doit appartenir à un domaine vérifié dans Resend.'],
         ];
     }
 
