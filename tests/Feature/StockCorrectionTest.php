@@ -202,8 +202,10 @@ class StockCorrectionTest extends TestCase
         $autre = User::factory()->create(['email_verified_at' => now()]);
         $entreeDAutrui = $this->entry($this->trackedProduct([], $autre), 1, null);
 
+        // L'écran envoie la famille et la déclinaison cochées ; la déclinaison
+        // non suivie et l'article d'autrui ne sont pas cochés (ou pas à soi).
         $this->post(route('stock.value'), [
-            'product_ids' => [$famille->id, $entreeDAutrui->product_id],
+            'product_ids' => [$famille->id, $declinaison->id, $entreeDAutrui->product_id],
             'unit_cost' => 4,
         ])->assertRedirect()->assertSessionHas('success', __('app.stock.flash_entries_valued', [
             'count' => 2, 'cost' => '4,00 €',
@@ -217,6 +219,30 @@ class StockCorrectionTest extends TestCase
         $this->assertNull($entreeNonSuivie->refresh()->unit_cost);
         $this->assertNull($entreeAutreArticle->refresh()->unit_cost);
         $this->assertNull($entreeDAutrui->refresh()->unit_cost);
+    }
+
+    public function test_la_valorisation_ne_s_applique_qu_aux_articles_coches(): void
+    {
+        $famille = $this->trackedProduct();
+        $entreeFamille = $this->entry($famille, 10, null);
+        $rouge = $this->trackedProduct(['parent_id' => $famille->id, 'variant_label' => 'Rouge']);
+        $entreeRouge = $this->entry($rouge, 3, null);
+        $bleu = $this->trackedProduct(['parent_id' => $famille->id, 'variant_label' => 'Bleu']);
+        $entreeBleu = $this->entry($bleu, 2, null);
+
+        // La famille seule : ses déclinaisons ne bougent pas, rien n'est
+        // ajouté en coulisses. C'est l'écran qui coche les déclinaisons.
+        $this->post(route('stock.value'), ['product_ids' => [$famille->id], 'unit_cost' => 4])
+            ->assertSessionHas('success', __('app.stock.flash_entries_valued', ['count' => 1, 'cost' => '4,00 €']));
+        $this->assertSame(4.0, (float) $entreeFamille->refresh()->unit_cost);
+        $this->assertNull($entreeRouge->refresh()->unit_cost);
+        $this->assertNull($entreeBleu->refresh()->unit_cost);
+
+        // Une déclinaison seule, à son propre coût : sa sœur reste intacte.
+        $this->post(route('stock.value'), ['product_ids' => [$bleu->id], 'unit_cost' => 6.5])
+            ->assertSessionHas('success', __('app.stock.flash_entries_valued', ['count' => 1, 'cost' => '6,50 €']));
+        $this->assertSame(6.5, (float) $entreeBleu->refresh()->unit_cost);
+        $this->assertNull($entreeRouge->refresh()->unit_cost);
     }
 
     public function test_la_valorisation_exige_un_cout_et_des_articles_du_compte(): void

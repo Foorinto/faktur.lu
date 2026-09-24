@@ -9,6 +9,7 @@ import RowAction from '@/Components/RowAction.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import * as selection from '@/Support/stockSelection';
 
 const { t } = useTranslations();
 
@@ -76,13 +77,18 @@ const submitEntry = () => {
 };
 
 // Sélection d'articles pour valoriser d'un coup leurs entrées sans coût
-// (FEAT-128). Une famille cochée embarque ses déclinaisons côté serveur.
+// (FEAT-128, affinée en FEAT-129) : chaque article à valoriser a sa case,
+// cocher une famille coche ses déclinaisons sans coût. Règles dans
+// Support/stockSelection.js, testées à part.
 const selected = ref([]);
-const selectable = computed(() => props.products.filter((p) => !p.parent_id));
-const allSelected = computed(() => selectable.value.length > 0 && selected.value.length === selectable.value.length);
-const toggleAll = () => {
-    selected.value = allSelected.value ? [] : selectable.value.map((p) => p.id);
-};
+const canSelect = (p) => selection.canSelect(props.products, p);
+const isSelected = (p) => selection.isSelected(selected.value, p);
+// L'indication « cocher la famille coche ses déclinaisons » n'a de sens que si
+// la case en embarque vraiment d'autres.
+const selectsFamily = (p) => selection.familyOf(props.products, p).length > 1;
+const onToggle = (p, checked) => { selected.value = selection.toggle(props.products, selected.value, p, checked); };
+const allSelected = computed(() => selection.allSelected(props.products, selected.value));
+const toggleAll = () => { selected.value = selection.toggleAll(props.products, selected.value); };
 const valuing = ref(false);
 const valueForm = useForm(() => ({ product_ids: [], unit_cost: null }));
 const openValue = () => {
@@ -164,7 +170,15 @@ const submitInventory = () => {
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                         <tr v-for="p in products" :key="p.id" :class="p.parent_id ? 'bg-slate-50/60 dark:bg-gray-800/30' : ''">
                             <td class="w-10 px-4 py-3">
-                                <input v-if="!p.parent_id" v-model="selected" type="checkbox" :value="p.id" :aria-label="p.designation" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800" />
+                                <input
+                                    v-if="canSelect(p)"
+                                    type="checkbox"
+                                    :checked="isSelected(p)"
+                                    :aria-label="p.designation"
+                                    :title="selectsFamily(p) ? t('stock.select_family') : undefined"
+                                    class="rounded border-gray-300 text-primary-600 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
+                                    @change="onToggle(p, $event.target.checked)"
+                                />
                             </td>
                             <td class="px-6 py-3" :class="p.parent_id ? 'pl-10' : ''">
                                 <div class="text-sm font-medium text-slate-900 dark:text-white">{{ p.designation }}</div>
