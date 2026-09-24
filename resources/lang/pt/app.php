@@ -2026,6 +2026,7 @@ return [
                     'credit_notes' => 'Notas de crédito',
                     'expense_tracking' => 'Registo de despesas',
                     'two_fa' => 'Autenticação 2FA',
+                    'custom_email_provider' => 'Envio através do seu próprio fornecedor de e-mail (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Numeração personalizável',
                     'time_tracking' => 'Registo de tempo',
                     'project_management' => 'Gestão de projetos',

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\EmailSettings;
 use App\Models\User;
 use App\Services\EmailProviderService;
+use Database\Seeders\PlansSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -23,6 +24,14 @@ class EmailProviderRelayTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Sans le seeder, les plans viennent d'une migration ancienne qui ignore
+        // `custom_email_provider` : le repli de FEAT-131 s'appliquerait.
+        $this->seed(PlansSeeder::class);
+    }
+
     private function settingsFor(User $user, string $provider, array $config, ?string $from = null): EmailSettings
     {
         $this->actingAs($user);
@@ -37,7 +46,10 @@ class EmailProviderRelayTest extends TestCase
 
     private function user(): User
     {
-        return User::factory()->create(['email_verified_at' => now()]);
+        // En essai : le fournisseur personnel est réservé à Essentiel et Pro
+        // (FEAT-131), et l'essai donne les fonctionnalités Pro. Ici on teste la
+        // configuration des mailers, pas le plan (CustomEmailProviderPlanTest).
+        return User::factory()->create(['email_verified_at' => now(), 'trial_ends_at' => now()->addDays(10)]);
     }
 
     public function test_resend_passe_par_son_relais_smtp_avec_la_cle_api(): void

@@ -13,6 +13,20 @@ use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransportFactory;
 
 class EmailProviderService
 {
+    public const FEATURE = 'custom_email_provider';
+
+    public function __construct(protected PlanService $plans) {}
+
+    /**
+     * Le plan de l'utilisateur lui permet-il d'envoyer par son propre
+     * fournisseur ? Réservé au plan Pro (FEAT-131) ; l'essai donne les
+     * fonctionnalités Pro, donc oui pendant l'essai.
+     */
+    public function customProviderAllowed(User $user): bool
+    {
+        return $this->plans->hasFeature($user, self::FEATURE);
+    }
+
     /**
      * Get the mailer for a specific user.
      *
@@ -26,6 +40,13 @@ class EmailProviderService
         $settings = $user->emailSettings;
 
         if (! $settings || $settings->provider === EmailSettings::PROVIDER_FAKTUR) {
+            return Mail::mailer();
+        }
+
+        // Plan sans la fonctionnalité (compte revenu en Gratuit après l'essai) :
+        // la configuration est conservée, mais les envois repassent par la
+        // plateforme jusqu'à un plan qui l'inclut.
+        if (! $this->customProviderAllowed($user)) {
             return Mail::mailer();
         }
 

@@ -24,6 +24,8 @@ const FEATURE_TO_MIN_PLAN = {
     // verrouillée à un abonné Essentiel qui y a droit.
     recurring_invoices: 'essentiel',
     product_variants: 'essentiel',
+    // Envoi depuis son propre fournisseur d'e-mail, réservé à Pro (FEAT-131).
+    custom_email_provider: 'pro',
 
     // Pro
     hr_module: 'pro',

@@ -649,7 +649,7 @@ class PlanService
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export',
             'hr_module', 'crm', 'peppol_transmission', 'faia_export', 'pdf_archive',
             'email_reminders', 'no_branding', 'priority_support', 'organizations',
-            'facturx', 'advanced_reporting', 'recurring_invoices',
+            'facturx', 'advanced_reporting', 'recurring_invoices', 'custom_email_provider',
         ];
 
         return $plan;

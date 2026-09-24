@@ -1921,6 +1921,7 @@ return [
                     'credit_notes' => 'Gutschriften',
                     'expense_tracking' => 'Ausgabenverfolgung',
                     'two_fa' => '2FA-Authentifizierung',
+                    'custom_email_provider' => 'Versand über Ihren eigenen E-Mail-Anbieter (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Anpassbare Nummerierung',
                     'time_tracking' => 'Zeiterfassung',
                     'project_management' => 'Projektverwaltung',

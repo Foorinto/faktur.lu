@@ -157,6 +157,10 @@ class PlansSeeder extends Seeder
                     'facturx',
                     'advanced_reporting',
                     'recurring_invoices',
+                    // Envoyer depuis son propre fournisseur (SMTP, Brevo, Postmark,
+                    // Resend) : un besoin d'entreprise installée, et du support
+                    // (clés, domaines à vérifier) réservé au plan Pro (FEAT-131).
+                    'custom_email_provider',
                     'product_variants',
                 ],
                 'is_active' => true,
