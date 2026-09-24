@@ -55,7 +55,9 @@ const valueForm = useForm(() => ({ product_ids: [], unit_cost: null }));
 const openValue = () => {
     valueForm.clearErrors();
     valueForm.unit_cost = null;
-    valueForm.product_ids = [props.product.id];
+    // La fiche d'une famille couvre ses déclinaisons suivies ; celle d'une
+    // déclinaison ne couvre qu'elle. Le serveur n'ajoute rien.
+    valueForm.product_ids = [props.product.id, ...props.variants.map((v) => v.id)];
     valuing.value = true;
 };
 
@@ -262,7 +264,7 @@ const deleteMovement = (movement) => {
         <Modal :show="valuing" @close="valuing = false">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-slate-900 dark:text-white">{{ t('stock.value_entries_title') }}</h2>
-                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ t('stock.value_entries_help', { count: 1 }) }}</p>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ t('stock.value_entries_help', { count: 1 + variants.length }) }}</p>
                 <div class="mt-4">
                     <InputLabel for="value_unit_cost" :value="t('stock.unit_cost')" />
                     <input id="value_unit_cost" v-model="valueForm.unit_cost" type="number" step="0.01" min="0" :class="inputClass" />

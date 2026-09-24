@@ -401,8 +401,10 @@ class StockController extends Controller
 
     /**
      * Donner un coût unitaire, d'un coup, aux entrées manuelles qui n'en ont
-     * pas, pour les articles choisis et leurs déclinaisons suivies. Les coûts
-     * déjà saisis ne bougent pas : pour eux, la correction ligne à ligne.
+     * pas, pour exactement les articles cochés. C'est l'écran qui décide de la
+     * famille (cocher une famille coche ses déclinaisons sans coût, FEAT-129) :
+     * une déclinaison au coût différent se décoche et se valorise à part. Les
+     * coûts déjà saisis ne bougent pas : pour eux, la correction ligne à ligne.
      */
     public function valueEntries(Request $request): RedirectResponse
     {
@@ -417,11 +419,8 @@ class StockController extends Controller
         $articles = Product::whereIn('id', $data['product_ids'])->get(['id']);
         abort_if($articles->isEmpty(), 404);
 
-        $ids = $articles->pluck('id');
-        $declinaisons = Product::whereIn('parent_id', $ids)->where('track_stock', true)->pluck('id');
-
         $valorisees = StockMovement::query()
-            ->whereIn('product_id', $ids->merge($declinaisons)->unique()->all())
+            ->whereIn('product_id', $articles->pluck('id')->all())
             ->where('type', StockMovement::TYPE_ENTREE)
             ->whereNull('unit_cost')
             ->whereNull('source_type')
