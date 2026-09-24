@@ -63,6 +63,13 @@ class OnboardingController extends Controller
      */
     public function saveCompany(Request $request)
     {
+        // Mentions légales selon la forme d'exercice (FEAT-133) : mêmes règles
+        // que les réglages, posées dès l'accueil pour qu'un nouveau compte ne
+        // parte pas sans son RCS ni son autorisation d'établissement.
+        $formeExigeRcs = BusinessSettings::exerciseFormRequiresRcs($request->input('exercise_form'));
+        $autorisationExigee = ! $request->boolean('no_establishment_authorization')
+            && (config('countries.'.$request->input('country_code', 'LU').'.fiscal_identifiers.has_establishment_authorization') ?? false);
+
         $data = $request->validate([
             'company_name' => 'required|string|max:255',
             'vat_number' => 'nullable|string|max:50',
@@ -73,11 +80,21 @@ class OnboardingController extends Controller
             'postal_code' => 'nullable|string|max:20',
             'city' => 'nullable|string|max:100',
             'country_code' => 'nullable|string|size:2',
+            'exercise_form' => ['required', Rule::in(BusinessSettings::EXERCISE_FORMS)],
+            'no_establishment_authorization' => ['boolean'],
+            'rcs_number' => [Rule::requiredIf($formeExigeRcs), 'nullable', 'string', 'max:20', 'regex:/^[A-Z]\d+$/'],
+            'establishment_authorization' => [Rule::requiredIf($autorisationExigee), 'nullable', 'string', 'max:50'],
+        ], [
+            'exercise_form.required' => 'Indiquez votre forme d\'exercice : elle détermine les mentions obligatoires sur vos factures.',
+            'rcs_number.required' => 'Le numéro RCS est obligatoire pour une société ou un commerçant en nom propre : il doit figurer sur vos factures.',
+            'rcs_number.regex' => 'Le numéro RCS doit commencer par une lettre suivie de chiffres (ex: B123456).',
+            'establishment_authorization.required' => 'Indiquez votre numéro d\'autorisation d\'établissement, ou cochez la case si votre activité n\'en relève pas.',
         ]);
 
         BusinessSettings::updateOrCreate(
             ['user_id' => $request->user()->id],
             array_merge($data, [
+                'no_establishment_authorization' => $request->boolean('no_establishment_authorization'),
                 'country_code' => $data['country_code'] ?? 'LU',
                 'legal_name' => $data['company_name'],
                 'matricule' => $data['matricule'] ?? '',
