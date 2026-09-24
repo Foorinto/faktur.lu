@@ -70,6 +70,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'franchise',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -100,6 +102,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'franchise',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -127,6 +131,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'franchise',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -151,6 +157,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'assujetti',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -175,6 +183,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'assujetti',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -199,6 +209,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'franchise',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -233,6 +245,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'franchise',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 
@@ -251,6 +265,8 @@ class BusinessSettingsTest extends TestCase
                 'iban' => 'LU123456789012345678',
                 'bic' => 'BGLLLULL',
                 'vat_regime' => 'franchise',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
                 'email' => 'test@example.lu',
             ]);
 

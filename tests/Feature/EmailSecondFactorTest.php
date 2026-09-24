@@ -122,6 +122,8 @@ class EmailSecondFactorTest extends TestCase
             'iban' => 'LU280019400644750000',
             'bic' => 'BGLLLULL',
             'vat_regime' => 'franchise',
+            'exercise_form' => 'liberal',
+            'no_establishment_authorization' => true,
             'email' => 'contact@example.lu',
         ], $surcharge);
     }

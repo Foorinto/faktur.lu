@@ -29,6 +29,11 @@ const companyForm = ref({
     company_name: props.business?.company_name || '',
     vat_number: props.business?.vat_number || '',
     matricule: props.business?.matricule || '',
+    // Mentions légales selon la forme d'exercice (FEAT-133).
+    exercise_form: props.business?.exercise_form || '',
+    rcs_number: props.business?.rcs_number || '',
+    establishment_authorization: props.business?.establishment_authorization || '',
+    no_establishment_authorization: !!props.business?.no_establishment_authorization,
     iban: props.business?.iban || '',
     bic: props.business?.bic || '',
     address: props.business?.address || '',
@@ -130,6 +135,12 @@ const apiCall = async (url, body, isFormData = false) => {
         submitting.value = false;
     }
 };
+
+const exerciseForms = ['company', 'sole_trader', 'liberal'];
+const rcsRequired = computed(() => ['company', 'sole_trader'].includes(companyForm.value.exercise_form));
+const authorizationApplies = computed(() => ['company', 'sole_trader'].includes(companyForm.value.exercise_form));
+const exemptionPossible = computed(() => companyForm.value.exercise_form === 'company');
+const authorizationRequired = computed(() => authorizationApplies.value && !(exemptionPossible.value && companyForm.value.no_establishment_authorization));
 
 const submitCompany = async () => {
     const data = await apiCall(route('onboarding.company'), companyForm.value);
@@ -332,6 +343,44 @@ const goToInvoice = () => router.visit(route('invoices.edit', lastInvoiceId.valu
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{{ t('onboarding_wizard.company.company_name') }}</label>
                             <input v-model="companyForm.company_name" type="text" required class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" :placeholder="t('onboarding_wizard.company.company_name_placeholder')" />
                             <p v-if="errors.company_name" class="text-xs text-red-600 mt-1">{{ errors.company_name[0] }}</p>
+                        </div>
+
+                        <!-- Forme d'exercice (FEAT-133) -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{{ t('exercise_form') }} <span class="text-pink-500">*</span></label>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">{{ t('exercise_form_help') }}</p>
+                            <div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                                <label
+                                    v-for="formeExercice in exerciseForms"
+                                    :key="formeExercice"
+                                    class="flex items-start p-3 rounded-xl border cursor-pointer transition-colors"
+                                    :class="companyForm.exercise_form === formeExercice ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'"
+                                >
+                                    <input v-model="companyForm.exercise_form" type="radio" :value="formeExercice" name="exercise_form" required class="mt-1 text-primary-600 focus:ring-primary-500" />
+                                    <span class="ml-3">
+                                        <span class="block text-sm font-medium text-slate-900 dark:text-white">{{ t('exercise_form_' + formeExercice) }}</span>
+                                        <span class="block text-xs text-slate-500 dark:text-slate-400">{{ t('exercise_form_' + formeExercice + '_help') }}</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <p v-if="errors.exercise_form" class="text-xs text-red-600 mt-1">{{ errors.exercise_form[0] }}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{{ t('rcs_number_label') }} <span v-if="rcsRequired" class="text-pink-500">*</span><span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span></label>
+                                <input v-model="companyForm.rcs_number" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500 uppercase" placeholder="B123456" />
+                                <p v-if="errors.rcs_number" class="text-xs text-red-600 mt-1">{{ errors.rcs_number[0] }}</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">{{ t('establishment_authorization') }} <span v-if="authorizationRequired" class="text-pink-500">*</span><span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span></label>
+                                <input v-model="companyForm.establishment_authorization" type="text" class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-xl focus:ring-primary-500 focus:border-primary-500" placeholder="10012345" />
+                                <label v-if="exemptionPossible" class="mt-2 flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+                                    <input v-model="companyForm.no_establishment_authorization" type="checkbox" class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
+                                    <span>{{ t('no_establishment_authorization') }}</span>
+                                </label>
+                                <p v-if="errors.establishment_authorization" class="text-xs text-red-600 mt-1">{{ errors.establishment_authorization[0] }}</p>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">

@@ -32,6 +32,8 @@ class LogoPathTraversalTest extends TestCase
             'city' => 'Luxembourg',
             'country_code' => 'LU',
             'vat_regime' => 'franchise',
+            'exercise_form' => 'liberal',
+            'no_establishment_authorization' => true,
             'matricule' => '12345678901',
             'iban' => 'LU280019400644750000',
             'bic' => 'BCEELULL',

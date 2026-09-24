@@ -66,6 +66,8 @@ class SecurityAlertTest extends TestCase
             'iban' => 'LU120010001234567891',
             'bic' => 'BGLLLULL',
             'vat_regime' => 'franchise',
+            'exercise_form' => 'liberal',
+            'no_establishment_authorization' => true,
             'email' => 'contact@example.lu',
             'current_password' => 'password',
         ], $surcharge);

@@ -26,6 +26,8 @@ class BusinessSettings extends Model
         'matricule',
         'rcs_number',
         'establishment_authorization',
+        'exercise_form',
+        'no_establishment_authorization',
         'iban',
         'bic',
         'bank_name',
@@ -189,6 +191,7 @@ class BusinessSettings extends Model
 
     protected $casts = [
         'vat_regime' => 'string',
+        'no_establishment_authorization' => 'boolean',
         // Chiffré au repos (RGPD). Cast maison : une ligne d'avant le chiffrement,
         // vide ou en clair, ne doit pas casser la page (voir App\Casts\EncryptedIban).
         'iban' => EncryptedIban::class,
@@ -744,6 +747,87 @@ class BusinessSettings extends Model
     /**
      * Get the franchise legal mention for this business's country.
      */
+    /**
+     * Formes d'exercice (FEAT-133). Elles pilotent les mentions obligatoires :
+     * une société ou un commerçant en nom propre est immatriculé au RCS et
+     * doit l'imprimer ; une profession libérale ou une activité non
+     * commerciale n'a pas de RCS.
+     */
+    public const EXERCISE_FORM_COMPANY = 'company';
+
+    public const EXERCISE_FORM_SOLE_TRADER = 'sole_trader';
+
+    public const EXERCISE_FORM_LIBERAL = 'liberal';
+
+    public const EXERCISE_FORMS = [
+        self::EXERCISE_FORM_COMPANY,
+        self::EXERCISE_FORM_SOLE_TRADER,
+        self::EXERCISE_FORM_LIBERAL,
+    ];
+
+    public static function exerciseFormRequiresRcs(?string $form): bool
+    {
+        return in_array($form, [self::EXERCISE_FORM_COMPANY, self::EXERCISE_FORM_SOLE_TRADER], true);
+    }
+
+    public function requiresRcs(): bool
+    {
+        return self::exerciseFormRequiresRcs($this->exercise_form);
+    }
+
+    /**
+     * L'autorisation d'établissement est exigée d'une société et d'un
+     * commerçant ou artisan en nom propre. Une société peut déclarer qu'elle
+     * n'en relève pas (société civile d'avocats ou de médecins, holding,
+     * société civile immobilière) ; un commerçant ou un artisan, jamais :
+     * commerce et artisanat y sont soumis par définition. Une profession
+     * libérale ou une activité non commerciale la renseigne si elle en a
+     * une, rien ne l'y oblige : beaucoup sont réglementées par ailleurs.
+     */
+    public static function exerciseFormRequiresEstablishmentAuthorization(?string $form, bool $declaredExempt = false): bool
+    {
+        return match ($form) {
+            self::EXERCISE_FORM_COMPANY => ! $declaredExempt,
+            self::EXERCISE_FORM_SOLE_TRADER => true,
+            default => false,
+        };
+    }
+
+    public function requiresEstablishmentAuthorization(): bool
+    {
+        $config = $this->getCountryConfig();
+
+        return ($config['fiscal_identifiers']['has_establishment_authorization'] ?? false)
+            && self::exerciseFormRequiresEstablishmentAuthorization($this->exercise_form, (bool) $this->no_establishment_authorization);
+    }
+
+    /**
+     * Mentions obligatoires sur les factures qui manquent encore, pour le
+     * rappel dans les réglages et sur la page de la facture. Clés :
+     * exercise_form, rcs_number, establishment_authorization, vat_number.
+     *
+     * @return array<int, string>
+     */
+    public function missingLegalMentions(): array
+    {
+        $manque = [];
+
+        if (! in_array($this->exercise_form, self::EXERCISE_FORMS, true)) {
+            $manque[] = 'exercise_form';
+        }
+        if ($this->requiresRcs() && trim((string) $this->rcs_number) === '') {
+            $manque[] = 'rcs_number';
+        }
+        if ($this->requiresEstablishmentAuthorization() && trim((string) $this->establishment_authorization) === '') {
+            $manque[] = 'establishment_authorization';
+        }
+        if ($this->vat_regime === 'assujetti' && trim((string) $this->vat_number) === '') {
+            $manque[] = 'vat_number';
+        }
+
+        return $manque;
+    }
+
     public function getFranchiseMention(): string
     {
         $config = $this->getCountryConfig();

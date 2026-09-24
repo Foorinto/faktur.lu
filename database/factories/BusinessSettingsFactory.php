@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\BusinessSettings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,11 @@ class BusinessSettingsFactory extends Factory
             'country_code' => 'LU',
             'vat_number' => 'LU' . fake()->numerify('########'),
             'matricule' => fake()->numerify('###########'),
+            // Mentions légales complètes par défaut (FEAT-133) : une profession
+            // libérale sans autorisation n'a rien d'autre à fournir. Les tests
+            // qui veulent un compte incomplet le disent explicitement.
+            'exercise_form' => BusinessSettings::EXERCISE_FORM_LIBERAL,
+            'no_establishment_authorization' => true,
             'iban' => 'LU' . fake()->numerify('## #### #### #### ####'),
             'bic' => 'BGLL' . fake()->randomLetter() . fake()->randomLetter() . 'LL',
             // Défaut DÉTERMINISTE, volontairement.

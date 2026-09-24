@@ -49,6 +49,8 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    // FEAT-133 : mentions obligatoires qui manquent encore.
+    legalMentionsMissing: { type: Array, default: () => [] },
     countries: {
         type: Array,
         default: () => [],
@@ -105,6 +107,8 @@ const form = useForm({
     matricule: props.settings?.matricule ?? '',
     rcs_number: props.settings?.rcs_number ?? '',
     establishment_authorization: props.settings?.establishment_authorization ?? '',
+    exercise_form: props.settings?.exercise_form ?? '',
+    no_establishment_authorization: !!props.settings?.no_establishment_authorization,
     iban: props.settings?.iban ?? '',
     // Réauthentification à l'acte, demandée seulement quand l'IBAN change.
     current_password: '',
@@ -288,6 +292,19 @@ const fiscalIdentifiers = computed(() => {
 const showEstablishmentAuthorization = computed(() => {
     return fiscalIdentifiers.value.has_establishment_authorization === true;
 });
+
+// FEAT-133 : la forme d'exercice pilote les mentions obligatoires. Une
+// société ou un commerçant en nom propre doit imprimer son RCS ; l'autorisation
+// d'établissement est exigée sauf si l'activité n'en relève pas.
+const exerciseForms = ['company', 'sole_trader', 'liberal'];
+const rcsRequired = computed(() => ['company', 'sole_trader'].includes(form.exercise_form));
+// Société : autorisation exigée, sauf société sans activité commerciale
+// (case). Commerçant ou artisan : exigée, sans exception. Profession
+// libérale ou activité non commerciale : facultative, sans case.
+const authorizationApplies = computed(() => showEstablishmentAuthorization.value && ['company', 'sole_trader'].includes(form.exercise_form));
+const exemptionPossible = computed(() => showEstablishmentAuthorization.value && form.exercise_form === 'company');
+const authorizationRequired = computed(() => authorizationApplies.value && !(exemptionPossible.value && form.no_establishment_authorization));
+const legalMentionLabel = (key) => t('legal_mention_' + key);
 
 // Get country flag
 const getCountryFlag = (code) => {
@@ -564,6 +581,12 @@ const cancelPaymentQrcodeUpload = () => {
             </div>
 
             <form @submit.prevent="submit" class="space-y-8">
+                <!-- Mentions obligatoires manquantes (FEAT-133) -->
+                <div v-if="legalMentionsMissing.length > 0" class="rounded-2xl border border-amber-300 bg-amber-50 px-6 py-4 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-100">
+                    <p class="font-medium">{{ t('legal_mentions_missing') }}</p>
+                    <p class="mt-1">{{ t('legal_mentions_missing_help') }} {{ legalMentionsMissing.map(legalMentionLabel).join(', ') }}.</p>
+                </div>
+
                 <!-- Informations légales -->
                 <div id="company-section" data-tour="settings-company" class="overflow-x-auto rounded-2xl bg-white shadow-xl shadow-gray-200/50 border border-gray-200 dark:bg-surface-card dark:border-gray-700 dark:shadow-gray-900/50 scroll-mt-20">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -696,6 +719,34 @@ const cancelPaymentQrcodeUpload = () => {
                         </p>
                     </div>
                     <div class="px-6 py-4 space-y-4">
+                        <!-- Forme d'exercice (FEAT-133) -->
+                        <div>
+                            <InputLabel>
+                                {{ t('exercise_form') }}
+                                <span class="text-pink-500">*</span>
+                            </InputLabel>
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('exercise_form_help') }}</p>
+                            <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                                <label
+                                    v-for="formeExercice in exerciseForms"
+                                    :key="formeExercice"
+                                    class="flex items-start p-3 rounded-xl border cursor-pointer transition-colors"
+                                    :class="[
+                                        form.exercise_form === formeExercice
+                                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-slate-500'
+                                    ]"
+                                >
+                                    <input v-model="form.exercise_form" type="radio" :value="formeExercice" name="exercise_form" required class="mt-1 text-primary-600 focus:ring-primary-500" />
+                                    <span class="ml-3">
+                                        <span class="block text-sm font-medium text-slate-900 dark:text-white">{{ t('exercise_form_' + formeExercice) }}</span>
+                                        <span class="block text-xs text-slate-500 dark:text-slate-400">{{ t('exercise_form_' + formeExercice + '_help') }}</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <InputError :message="form.errors.exercise_form" class="mt-2" />
+                        </div>
+
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <InputLabel for="matricule" :value="fiscalIdentifiers.primary.label" />
@@ -717,7 +768,8 @@ const cancelPaymentQrcodeUpload = () => {
                             <div>
                                 <InputLabel for="rcs_number">
                                     {{ fiscalIdentifiers.secondary.label }}
-                                    <span v-if="!fiscalIdentifiers.secondary.required" class="text-slate-400 text-xs">({{ t('optional') }})</span>
+                                    <span v-if="rcsRequired || fiscalIdentifiers.secondary.required" class="text-pink-500">*</span>
+                                    <span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span>
                                 </InputLabel>
                                 <TextInput
                                     id="rcs_number"
@@ -760,7 +812,8 @@ const cancelPaymentQrcodeUpload = () => {
                             <div v-if="showEstablishmentAuthorization">
                                 <InputLabel for="establishment_authorization">
                                     {{ t('establishment_authorization') }}
-                                    <span class="text-slate-400 text-xs">({{ t('optional') }})</span>
+                                    <span v-if="authorizationRequired" class="text-pink-500">*</span>
+                                    <span v-else class="text-slate-400 text-xs">({{ t('optional') }})</span>
                                 </InputLabel>
                                 <TextInput
                                     id="establishment_authorization"
@@ -773,6 +826,13 @@ const cancelPaymentQrcodeUpload = () => {
                                 <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     {{ t('establishment_authorization_help') }}
                                 </p>
+                                <label v-if="exemptionPossible" class="mt-2 flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                    <input v-model="form.no_establishment_authorization" type="checkbox" class="mt-0.5 rounded border-gray-300 text-primary-600 focus:ring-primary-500" />
+                                    <span>
+                                        {{ t('no_establishment_authorization') }}
+                                        <span class="block text-xs text-slate-500 dark:text-slate-400">{{ t('no_establishment_authorization_help') }}</span>
+                                    </span>
+                                </label>
                                 <InputError :message="form.errors.establishment_authorization" class="mt-2" />
                             </div>
                         </div>
