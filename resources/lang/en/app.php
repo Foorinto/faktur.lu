@@ -1330,6 +1330,7 @@ return [
     'legal_mention_rcs_number' => 'the RCS number',
     'legal_mention_establishment_authorization' => 'the business permit',
     'legal_mention_vat_number' => 'the VAT number',
+    'finalize_legal_mentions_missing' => 'Before issuing this invoice, complete your legal details in the business settings: :items. These details must appear on your invoices, and we ask for them so that your documents are compliant. Invoices already finalised are not affected.',
     'vat_regime' => 'VAT regime',
     'bank_details' => 'Bank details',
     'bank_details_help' => 'For invoice payment.',

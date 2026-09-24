@@ -1330,6 +1330,7 @@ return [
     'legal_mention_rcs_number' => 'le numéro RCS',
     'legal_mention_establishment_authorization' => 'l\'autorisation d\'établissement',
     'legal_mention_vat_number' => 'le numéro de TVA',
+    'finalize_legal_mentions_missing' => 'Avant d\'émettre cette facture, complétez vos mentions légales dans les réglages de l\'entreprise : :items. Ces mentions doivent figurer sur vos factures, et c\'est pour que vos documents soient en règle que nous vous le demandons. Vos factures déjà finalisées ne sont pas concernées.',
     'vat_regime' => 'Régime TVA',
     'bank_details' => 'Coordonnées bancaires',
     'bank_details_help' => 'Pour le paiement des factures.',

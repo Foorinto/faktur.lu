@@ -1259,6 +1259,7 @@ return [
     'legal_mention_rcs_number' => 'd\'RCS-Nummer',
     'legal_mention_establishment_authorization' => 'd\'Etablissementsgenehmegung',
     'legal_mention_vat_number' => 'd\'TVA-Nummer',
+    'finalize_legal_mentions_missing' => 'Ier Dir dës Rechnung ausstellt, ergänzt Är obligatoresch Angaben an den Entreprise-Astellungen: :items. Dës Angabe musse op Äre Rechnunge stoen, a mir froen se of, fir datt Är Dokumenter an der Rei sinn. Scho finaliséiert Rechnunge sinn net betraff.',
     'vat_regime' => 'TVA Regime',
     'bank_details' => 'Bankverbindung',
     'bank_details_help' => 'Fir d\'Bezuele vun Äre Rechnungen.',

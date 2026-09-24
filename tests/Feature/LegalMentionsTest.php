@@ -2,11 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\Actions\FinalizeInvoiceAction;
+use App\Mail\InvoiceMail;
 use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -119,7 +124,7 @@ class LegalMentionsTest extends TestCase
 
     public function test_les_ecrans_recoivent_le_rappel_et_la_suggestion(): void
     {
-        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => null, 'rcs_number' => 'B55555', 'vat_regime' => 'franchise']);
+        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => null, 'no_establishment_authorization' => false, 'rcs_number' => 'B55555', 'vat_regime' => 'franchise']);
 
         $this->get(route('settings.business.edit'))->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Settings/Business')
@@ -131,6 +136,42 @@ class LegalMentionsTest extends TestCase
         $this->get(route('invoices.show', $invoice))->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Invoices/Show')
             ->where('legalMentionsMissing', ['exercise_form', 'establishment_authorization']));
+    }
+
+    public function test_la_finalisation_est_refusee_tant_que_les_mentions_manquent(): void
+    {
+        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => 'company', 'rcs_number' => null, 'establishment_authorization' => null, 'no_establishment_authorization' => false, 'vat_regime' => 'franchise']);
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $brouillon = Invoice::factory()->create(['user_id' => $this->user->id, 'client_id' => $client->id, 'status' => Invoice::STATUS_DRAFT]);
+        InvoiceItem::create(['invoice_id' => $brouillon->id, 'title' => 'Prestation', 'quantity' => 1, 'unit_price' => 100, 'vat_rate' => 17]);
+
+        try {
+            app(FinalizeInvoiceAction::class)->execute($brouillon);
+            $this->fail('La finalisation aurait dû être refusée.');
+        } catch (ValidationException $e) {
+            $message = collect($e->errors())->flatten()->first();
+            $this->assertStringContainsString('le numéro RCS', $message);
+            $this->assertStringContainsString('l\'autorisation d\'établissement', $message);
+            $this->assertStringContainsString('déjà finalisées ne sont pas concernées', $message);
+        }
+        $this->assertSame(Invoice::STATUS_DRAFT, $brouillon->fresh()->status);
+
+        // Mentions complétées : la même facture se finalise.
+        BusinessSettings::withoutGlobalScopes()->where('user_id', $this->user->id)->update(['rcs_number' => 'B123456', 'establishment_authorization' => '10012345']);
+        app(FinalizeInvoiceAction::class)->execute($brouillon->fresh());
+        $this->assertNotNull($brouillon->fresh()->finalized_at);
+    }
+
+    public function test_une_facture_deja_finalisee_s_envoie_meme_sans_mentions(): void
+    {
+        Mail::fake();
+        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => null, 'vat_regime' => 'franchise']);
+        $client = Client::factory()->create(['user_id' => $this->user->id, 'email' => 'client@exemple.lu']);
+        $finalisee = Invoice::factory()->create(['user_id' => $this->user->id, 'client_id' => $client->id, 'status' => Invoice::STATUS_FINALIZED, 'issued_at' => now()]);
+
+        $this->post(route('invoices.send-email', $finalisee), ['recipient_email' => 'client@exemple.lu', 'subject' => 'Facture'])
+            ->assertRedirect()->assertSessionHasNoErrors();
+        Mail::assertSent(InvoiceMail::class, 1);
     }
 
     public function test_un_compte_a_jour_ne_voit_aucun_rappel(): void

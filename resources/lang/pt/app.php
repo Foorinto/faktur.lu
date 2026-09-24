@@ -1329,6 +1329,7 @@ return [
     'legal_mention_rcs_number' => 'o número RCS',
     'legal_mention_establishment_authorization' => 'a autorização de estabelecimento',
     'legal_mention_vat_number' => 'o número de IVA',
+    'finalize_legal_mentions_missing' => 'Antes de emitir esta fatura, complete as suas menções legais nas definições da empresa: :items. Estas menções devem constar das suas faturas, e é para que os seus documentos estejam em ordem que as pedimos. As faturas já finalizadas não são afetadas.',
     'vat_regime' => 'Regime de IVA',
     'bank_details' => 'Coordenadas bancárias',
     'bank_details_help' => 'Para o pagamento das faturas.',

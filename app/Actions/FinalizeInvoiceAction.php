@@ -63,6 +63,21 @@ class FinalizeInvoiceAction
             ]);
         }
 
+        // Mentions légales obligatoires (FEAT-133) : forme d'exercice, RCS pour
+        // une société ou un commerçant, autorisation d'établissement sauf
+        // déclaration contraire. Une facture émise sans elles est incomplète
+        // au regard de la loi, et elle se conserve dix ans : on refuse avant,
+        // pas après. Seule l'émission est concernée : les brouillons se
+        // modifient, les factures déjà finalisées s'envoient.
+        $manque = $settings->missingLegalMentions();
+        if ($manque !== []) {
+            throw ValidationException::withMessages([
+                'settings' => __('app.finalize_legal_mentions_missing', [
+                    'items' => implode(', ', array_map(fn ($cle) => __('app.legal_mention_'.$cle), $manque)),
+                ]),
+            ]);
+        }
+
         $invoice = DB::transaction(function () use ($invoice, $settings, $issuedAt) {
             // Recalculate totals one last time
             $this->calculateTotals->execute($invoice);

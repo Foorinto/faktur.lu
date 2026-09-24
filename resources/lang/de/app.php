@@ -1259,6 +1259,7 @@ return [
     'legal_mention_rcs_number' => 'die RCS-Nummer',
     'legal_mention_establishment_authorization' => 'die Niederlassungsgenehmigung',
     'legal_mention_vat_number' => 'die MwSt.-Nummer',
+    'finalize_legal_mentions_missing' => 'Bevor Sie diese Rechnung ausstellen, ergänzen Sie Ihre Pflichtangaben in den Unternehmenseinstellungen: :items. Diese Angaben müssen auf Ihren Rechnungen stehen, und wir fragen sie ab, damit Ihre Dokumente rechtskonform sind. Bereits finalisierte Rechnungen sind nicht betroffen.',
     'vat_regime' => 'MwSt.-Regime',
     'bank_details' => 'Bankverbindung',
     'bank_details_help' => 'Für die Bezahlung Ihrer Rechnungen.',
