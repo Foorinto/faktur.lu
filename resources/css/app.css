@@ -15,11 +15,15 @@
         letter-spacing: -0.01em;
     }
 
-    /* Cases à cocher et boutons radio lisibles en mode sombre. Les composants
-       posent « dark:border-gray-700 dark:bg-gray-800 » : un bord sombre sur
-       un fond sombre, on ne voit plus la case. Le :not(:checked) donne à
-       cette règle le dessus sur ces utilitaires ; une case cochée garde sa
-       couleur primaire, qui se voit très bien. */
+    /* Cases à cocher et boutons radio qui se voient. Les composants posent
+       « border-gray-300 » en clair et « dark:border-gray-700 dark:bg-gray-800 »
+       en sombre : un bord presque de la couleur du fond, la case disparaît.
+       Le :not(:checked) donne à ces règles le dessus sur ces utilitaires ;
+       une case cochée garde sa couleur primaire, qui se voit très bien. */
+    [type='checkbox']:not(:checked),
+    [type='radio']:not(:checked) {
+        border-color: theme('colors.slate.500');
+    }
     .dark [type='checkbox']:not(:checked),
     .dark [type='radio']:not(:checked) {
         border-color: theme('colors.slate.400');
