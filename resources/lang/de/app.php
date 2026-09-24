@@ -5764,6 +5764,7 @@ return [
         'flash_entries_valued' => ':count Eingang/Eingänge mit :cost bewertet.',
         'selected_articles' => ':count Artikel ausgewählt',
         'last_cost_hint' => 'Zuletzt erfasste Kosten: :cost. Bei Bedarf ändern.',
+        'date_in_future' => 'Das Datum darf nicht in der Zukunft liegen.',
     ],
     'products' => [
             'track_stock' => 'Bestand dieses Artikels verfolgen',

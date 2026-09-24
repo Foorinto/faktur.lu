@@ -5765,6 +5765,7 @@ return [
         'flash_entries_valued' => ':count Entrée(ën) mat :cost bewäert.',
         'selected_articles' => ':count Artikel ausgewielt',
         'last_cost_hint' => 'Lescht erfaasst Käschten: :cost. Ännert wann néideg.',
+        'date_in_future' => 'Den Datum dierf net an der Zukunft leien.',
     ],
     'products' => [
             'track_stock' => 'De Stock vun dësem Artikel verfollegen',

@@ -102,6 +102,37 @@ class StockController extends Controller
         ]);
     }
 
+    /**
+     * Noms des champs dans les messages d'erreur : sans eux, Laravel écrit
+     * « Le champ unit cost est obligatoire ».
+     *
+     * @return array<string, string>
+     */
+    private function nomsDesChamps(): array
+    {
+        return [
+            'quantity' => __('app.stock.quantity'),
+            'counted_quantity' => __('app.stock.counted_quantity'),
+            'unit_cost' => __('app.stock.unit_cost'),
+            'date' => __('app.date'),
+            'note' => __('app.stock.note'),
+            'product_ids' => __('app.stock.product'),
+        ];
+    }
+
+    /**
+     * Messages qui, sans cela, laisseraient un mot technique à l'écran
+     * (« antérieure ou égale au today »).
+     *
+     * @return array<string, string>
+     */
+    private function messagesDeValidation(): array
+    {
+        return [
+            'date.before_or_equal' => __('app.stock.date_in_future'),
+        ];
+    }
+
     public function storeEntry(Request $request, Product $product): RedirectResponse
     {
         // Une famille peut ne pas suivre son propre stock tout en portant des
@@ -121,7 +152,7 @@ class StockController extends Controller
             'allocations.*.product_id' => ['required', 'integer'],
             'allocations.*.quantity' => ['nullable', 'numeric', 'min:0'],
             'allocations.*.unit_cost' => ['nullable', 'numeric', 'min:0'],
-        ]);
+        ], $this->messagesDeValidation(), $this->nomsDesChamps());
 
         $total = (float) $data['quantity'];
 
@@ -243,7 +274,7 @@ class StockController extends Controller
             'counted_quantity' => ['required', 'numeric', 'min:0'],
             'date' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'string', 'max:255'],
-        ]);
+        ], $this->messagesDeValidation(), $this->nomsDesChamps());
 
         $movement = $this->stock->recordInventory(
             $product,
@@ -353,7 +384,7 @@ class StockController extends Controller
         ] : [
             'date' => ['required', 'date', 'before_or_equal:today'],
             'note' => ['nullable', 'string', 'max:255'],
-        ]);
+        ], $this->messagesDeValidation(), $this->nomsDesChamps());
 
         $movement->update($estUneEntree ? [
             'quantity' => abs((float) $data['quantity']),
@@ -379,7 +410,7 @@ class StockController extends Controller
             'product_ids' => ['required', 'array', 'min:1'],
             'product_ids.*' => ['integer'],
             'unit_cost' => ['required', 'numeric', 'min:0'],
-        ]);
+        ], $this->messagesDeValidation(), $this->nomsDesChamps());
 
         // Le scope global limite au compte courant : un article d'un autre
         // compte est simplement absent.

@@ -102,7 +102,11 @@ class StockCorrectionTest extends TestCase
         $this->put(route('stock.movements.update', [$product->id, $entree->id]), [
             'quantity' => 0,
             'date' => now()->addDay()->toDateString(),
-        ])->assertSessionHasErrors(['quantity', 'date']);
+        ])->assertSessionHasErrors([
+            'quantity',
+            // Pas de « antérieure ou égale au today » à l'écran.
+            'date' => __('app.stock.date_in_future'),
+        ]);
 
         $this->assertSame(10.0, (float) $entree->refresh()->quantity);
     }
@@ -220,8 +224,9 @@ class StockCorrectionTest extends TestCase
         $product = $this->trackedProduct();
         $this->entry($product, 1, null);
 
+        // Le message nomme le champ comme à l'écran, pas « unit cost ».
         $this->post(route('stock.value'), ['product_ids' => [$product->id]])
-            ->assertSessionHasErrors('unit_cost');
+            ->assertSessionHasErrors(['unit_cost' => __('validation.required', ['attribute' => __('app.stock.unit_cost')])]);
         $this->post(route('stock.value'), ['product_ids' => [], 'unit_cost' => 2])
             ->assertSessionHasErrors('product_ids');
 

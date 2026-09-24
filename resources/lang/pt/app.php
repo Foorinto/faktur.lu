@@ -5993,6 +5993,7 @@ return [
         'flash_entries_valued' => ':count entrada(s) valorizada(s) a :cost.',
         'selected_articles' => ':count artigo(s) selecionado(s)',
         'last_cost_hint' => 'Último custo introduzido: :cost. Altere se necessário.',
+        'date_in_future' => 'A data não pode estar no futuro.',
     ],
     'products' => [
             'track_stock' => 'Acompanhar o stock deste artigo',

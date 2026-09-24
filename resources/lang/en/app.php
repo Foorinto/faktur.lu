@@ -5780,6 +5780,7 @@ return [
         'flash_entries_valued' => ':count entry(ies) valued at :cost.',
         'selected_articles' => ':count item(s) selected',
         'last_cost_hint' => 'Last cost entered: :cost. Change it if needed.',
+        'date_in_future' => 'The date cannot be in the future.',
     ],
     'products' => [
             'track_stock' => 'Track stock for this item',
