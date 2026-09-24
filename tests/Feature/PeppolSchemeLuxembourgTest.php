@@ -120,6 +120,8 @@ class PeppolSchemeLuxembourgTest extends TestCase
             [
                 'peppol_endpoint_scheme' => 9938,
                 'peppol_endpoint_id' => 'LU12345678',
+                'exercise_form' => 'liberal',
+                'no_establishment_authorization' => true,
             ]
         ))->assertSessionHasNoErrors();
 

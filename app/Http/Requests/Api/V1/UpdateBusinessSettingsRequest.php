@@ -59,10 +59,31 @@ class UpdateBusinessSettingsRequest extends FormRequest
                     });
                 }
             }],
-            // RCS number: Letter + digits (ex: A12345, B98765)
-            'rcs_number' => ['nullable', 'string', 'max:20', 'regex:/^[A-Z]\d+$/'],
-            // Establishment authorization from Ministry of Economy
-            'establishment_authorization' => ['nullable', 'string', 'max:50'],
+            // Forme d'exercice (FEAT-133) : exigée par le formulaire, pas par
+            // l'API, dont les clients existants ne la connaissent pas encore.
+            'exercise_form' => [
+                Rule::requiredIf(! $this->is('api/*')),
+                'nullable',
+                Rule::in(\App\Models\BusinessSettings::EXERCISE_FORMS),
+            ],
+            'no_establishment_authorization' => ['boolean'],
+            // RCS number: Letter + digits (ex: A12345, B98765). Obligatoire pour
+            // une société ou un commerçant en nom propre, qui doivent l'imprimer.
+            'rcs_number' => [
+                Rule::requiredIf(\App\Models\BusinessSettings::exerciseFormRequiresRcs($this->input('exercise_form'))),
+                'nullable', 'string', 'max:20', 'regex:/^[A-Z]\d+$/',
+            ],
+            // Establishment authorization from Ministry of Economy : obligatoire
+            // dès que la forme d'exercice est renseignée, sauf déclaration que
+            // l'activité n'en relève pas.
+            'establishment_authorization' => [
+                Rule::requiredIf(
+                    $this->filled('exercise_form')
+                    && ! $this->boolean('no_establishment_authorization')
+                    && (config('countries.'.$this->input('country_code', 'LU').'.fiscal_identifiers.has_establishment_authorization') ?? false)
+                ),
+                'nullable', 'string', 'max:50',
+            ],
             // IBAN: 2 letter country code + 2 check digits + up to 30 alphanumeric (allows spaces)
             'iban' => ['required', 'string', 'max:42', function ($attribute, $value, $fail) {
                 // Remove spaces for validation
@@ -234,6 +255,9 @@ class UpdateBusinessSettingsRequest extends FormRequest
         return [
             'matricule.regex' => 'Le matricule doit contenir entre 11 et 13 chiffres.',
             'vat_number.required' => 'Le numéro de TVA est obligatoire pour le régime assujetti.',
+            'exercise_form.required' => 'Indiquez votre forme d\'exercice : elle détermine les mentions obligatoires sur vos factures.',
+            'rcs_number.required' => 'Le numéro RCS est obligatoire pour une société ou un commerçant en nom propre : il doit figurer sur vos factures.',
+            'establishment_authorization.required' => 'Indiquez votre numéro d\'autorisation d\'établissement, ou cochez la case si votre activité n\'en relève pas.',
             'rcs_number.regex' => 'Le numéro RCS doit commencer par une lettre suivie de chiffres (ex: A12345).',
         ];
     }

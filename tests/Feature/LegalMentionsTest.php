@@ -1,0 +1,143 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\BusinessSettings;
+use App\Models\Client;
+use App\Models\Invoice;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia;
+use Tests\TestCase;
+
+/**
+ * Mentions légales obligatoires selon la forme d'exercice (FEAT-133).
+ *
+ * Une société ou un commerçant en nom propre doit imprimer son RCS ; toute
+ * activité soumise à l'autorisation d'établissement doit en imprimer le
+ * numéro. Une profession libérale n'a pas de RCS, et une activité qui ne
+ * relève pas de l'autorisation le déclare d'une case. Les comptes existants
+ * ne sont pas bloqués : ils voient un rappel.
+ */
+class LegalMentionsTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create(['email_verified_at' => now()]);
+        $this->actingAs($this->user);
+    }
+
+    private function formulaire(array $surcharge = []): array
+    {
+        return array_merge([
+            'company_name' => 'Peinture Muller',
+            'legal_name' => 'Peinture Muller SARL',
+            'address' => '1 rue du Test',
+            'postal_code' => 'L-1234',
+            'city' => 'Luxembourg',
+            'country_code' => 'LU',
+            'matricule' => '2020123456789',
+            'vat_regime' => 'franchise',
+            'iban' => 'LU280019400644750000',
+            'bic' => 'BCEELULL',
+            'email' => 'contact@muller.lu',
+            // L'IBAN passe de rien à une valeur : la réauthentification à l'acte
+            // demande le mot de passe (ReauthenticationTest).
+            'current_password' => 'password',
+            'exercise_form' => 'company',
+            'rcs_number' => 'B123456',
+            'establishment_authorization' => '10012345',
+            'no_establishment_authorization' => false,
+        ], $surcharge);
+    }
+
+    public function test_une_societe_doit_donner_son_rcs_et_son_autorisation(): void
+    {
+        $this->put(route('settings.business.update'), $this->formulaire(['rcs_number' => '', 'establishment_authorization' => '']))
+            ->assertSessionHasErrors(['rcs_number', 'establishment_authorization']);
+
+        $this->put(route('settings.business.update'), $this->formulaire())
+            ->assertSessionHasNoErrors();
+
+        $reglages = BusinessSettings::withoutGlobalScopes()->where('user_id', $this->user->id)->first();
+        $this->assertSame('company', $reglages->exercise_form);
+        $this->assertSame([], $reglages->missingLegalMentions());
+    }
+
+    public function test_un_commercant_en_nom_propre_doit_donner_son_rcs(): void
+    {
+        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'sole_trader', 'rcs_number' => '']))
+            ->assertSessionHasErrors('rcs_number')
+            ->assertSessionDoesntHaveErrors('establishment_authorization');
+    }
+
+    public function test_une_profession_liberale_n_a_pas_de_rcs_mais_doit_trancher_l_autorisation(): void
+    {
+        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'liberal', 'rcs_number' => '', 'establishment_authorization' => '']))
+            ->assertSessionDoesntHaveErrors('rcs_number')
+            ->assertSessionHasErrors('establishment_authorization');
+
+        // Case cochée : l'activité ne relève pas de l'autorisation.
+        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'liberal', 'rcs_number' => '', 'establishment_authorization' => '', 'no_establishment_authorization' => true]))
+            ->assertSessionHasNoErrors();
+    }
+
+    public function test_la_forme_d_exercice_est_obligatoire_dans_le_formulaire(): void
+    {
+        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => '']))
+            ->assertSessionHasErrors('exercise_form');
+
+        $this->put(route('settings.business.update'), $this->formulaire(['exercise_form' => 'autre']))
+            ->assertSessionHasErrors('exercise_form');
+    }
+
+    public function test_les_mentions_manquantes_sont_calculees_selon_la_forme(): void
+    {
+        $sans_reponse = new BusinessSettings(['country_code' => 'LU', 'vat_regime' => 'assujetti', 'vat_number' => null]);
+        $this->assertSame(['exercise_form', 'establishment_authorization', 'vat_number'], $sans_reponse->missingLegalMentions());
+
+        $societe = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'company', 'vat_regime' => 'franchise', 'no_establishment_authorization' => true]);
+        $this->assertSame(['rcs_number'], $societe->missingLegalMentions());
+
+        $liberal = new BusinessSettings(['country_code' => 'LU', 'exercise_form' => 'liberal', 'vat_regime' => 'franchise', 'establishment_authorization' => '10012345']);
+        $this->assertSame([], $liberal->missingLegalMentions());
+    }
+
+    public function test_la_forme_probable_se_devine_au_rcs_ou_au_nom(): void
+    {
+        $this->assertSame('company', (new BusinessSettings(['rcs_number' => 'B98765']))->suggestedExerciseForm());
+        $this->assertSame('sole_trader', (new BusinessSettings(['rcs_number' => 'A12345']))->suggestedExerciseForm());
+        $this->assertSame('company', (new BusinessSettings(['company_name' => 'Muller Sàrl']))->suggestedExerciseForm());
+        $this->assertSame('company', (new BusinessSettings(['legal_name' => 'Muller S.A.']))->suggestedExerciseForm());
+        $this->assertNull((new BusinessSettings(['company_name' => 'Jean Muller, consultant']))->suggestedExerciseForm());
+    }
+
+    public function test_les_ecrans_recoivent_le_rappel_et_la_suggestion(): void
+    {
+        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => null, 'rcs_number' => 'B55555', 'vat_regime' => 'franchise']);
+
+        $this->get(route('settings.business.edit'))->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Settings/Business')
+            ->where('suggestedExerciseForm', 'company')
+            ->where('legalMentionsMissing', ['exercise_form', 'establishment_authorization']));
+
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
+        $invoice = Invoice::factory()->create(['user_id' => $this->user->id, 'client_id' => $client->id]);
+        $this->get(route('invoices.show', $invoice))->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Invoices/Show')
+            ->where('legalMentionsMissing', ['exercise_form', 'establishment_authorization']));
+    }
+
+    public function test_un_compte_a_jour_ne_voit_aucun_rappel(): void
+    {
+        BusinessSettings::factory()->create(['user_id' => $this->user->id, 'exercise_form' => 'liberal', 'no_establishment_authorization' => true, 'vat_regime' => 'franchise']);
+
+        $this->get(route('settings.business.edit'))->assertInertia(fn (AssertableInertia $page) => $page
+            ->where('legalMentionsMissing', []));
+    }
+}

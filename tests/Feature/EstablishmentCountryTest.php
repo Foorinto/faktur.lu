@@ -50,6 +50,8 @@ class EstablishmentCountryTest extends TestCase
             'country_code' => 'FR',
             'matricule' => '123456789',
             'vat_regime' => 'franchise',
+            'exercise_form' => 'liberal',
+            'no_establishment_authorization' => true,
         ])->assertSessionHasErrors('country_code');
     }
 

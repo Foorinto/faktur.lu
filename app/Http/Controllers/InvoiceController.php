@@ -293,6 +293,9 @@ class InvoiceController extends Controller
 
         return Inertia::render('Invoices/Show', [
             'invoice' => $invoice,
+            // FEAT-133 : mentions obligatoires absentes des réglages, rappelées
+            // là où elles manquent, sur la facture.
+            'legalMentionsMissing' => request()->user()?->businessSettings?->missingLegalMentions() ?? [],
             'creditNoteReasons' => Invoice::CREDIT_NOTE_REASONS,
             'peppolEnabled' => config('peppol.enabled', false),
 

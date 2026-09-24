@@ -58,6 +58,10 @@ class BusinessSettingsController extends Controller
         ];
 
         return Inertia::render('Settings/Business', [
+            // FEAT-133 : question préremplie quand c'est évident, et rappel des
+            // mentions obligatoires qui manquent encore.
+            'suggestedExerciseForm' => $settings?->suggestedExerciseForm(),
+            'legalMentionsMissing' => $settings ? $settings->missingLegalMentions() : [],
             'settings' => $settings ? array_merge($settings->toArray(), [
                 'logo_url' => $settings->logo_url,
                 'payment_qrcode_url' => $settings->payment_qrcode_url,

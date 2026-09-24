@@ -14,6 +14,8 @@ const { hasFeature: hasPlanFeature } = usePlanFeatures();
 
 const props = defineProps({
     invoice: Object,
+    // FEAT-133 : mentions obligatoires absentes des réglages entreprise.
+    legalMentionsMissing: { type: Array, default: () => [] },
     peppolEnabled: {
         type: Boolean,
         default: false,
@@ -933,6 +935,15 @@ const submitCreditNote = () => {
                 {{ t("credit_note") }}
             </button>
         </template>
+
+        <!-- Mentions obligatoires manquantes dans les réglages (FEAT-133) -->
+        <div v-if="legalMentionsMissing.length > 0" class="mb-6 rounded-2xl border border-amber-300 bg-amber-50 px-6 py-4 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-100">
+            <p class="font-medium">{{ t('legal_mentions_missing') }}</p>
+            <p class="mt-1">
+                {{ t('legal_mentions_missing_invoice') }} {{ legalMentionsMissing.map((k) => t('legal_mention_' + k)).join(', ') }}.
+                <Link :href="route('settings.business.edit')" class="ml-1 font-medium underline">{{ t('complete_business_settings') }}</Link>
+            </p>
+        </div>
 
         <BillingNav class="mb-6" />
 
