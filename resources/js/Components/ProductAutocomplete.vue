@@ -41,6 +41,9 @@ const fetchResults = debounce(async (term) => {
 
 const onInput = (event) => {
     emit('update:modelValue', event.target.value);
+    // Reprendre la frappe, c'est chercher autre chose : on quitte la famille
+    // ouverte, sinon la liste garderait ses déclinaisons sous un autre terme.
+    famille.value = null;
     fetchResults(event.target.value);
 };
 
@@ -83,9 +86,16 @@ const choose = (product) => {
     famille.value = null;
 };
 
-// Close the inline dropdown when clicking anywhere outside the component.
+// Ferme la liste quand on clique n'importe où hors du composant.
+//
+// ⚠️ Le chemin de l'événement, pas `contains(event.target)`. Sur un vrai clic,
+// le navigateur laisse Vue redessiner entre le gestionnaire de la ligne et
+// celui-ci : cliquer une famille remplace la liste par ses déclinaisons, la
+// ligne cliquée n'est plus dans la page, `contains` répondait non et la liste
+// se fermait avant d'avoir montré une seule nuance (retour de Didier, 25/09).
+// `composedPath()` est figé au départ de l'événement et garde la ligne.
 const onOutsideClick = (event) => {
-    if (open.value && rootRef.value && !rootRef.value.contains(event.target)) {
+    if (open.value && rootRef.value && !event.composedPath().includes(rootRef.value)) {
         open.value = false;
         famille.value = null;
     }
