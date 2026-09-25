@@ -79,6 +79,8 @@ class CheckPlanFeature
             'recurring_invoices' => __('Facturation récurrente'),
             'stock' => __('Gestion de stock'),
             'recurring_expenses' => __('Dépenses récurrentes'),
+            'peppol_export' => __('Export Peppol B2G'),
+            'product_variants' => __('Déclinaisons d\'articles'),
             'custom_email_provider' => __('Fournisseur d\'e-mail personnel'),
             default => __('Cette fonctionnalité'),
         };
