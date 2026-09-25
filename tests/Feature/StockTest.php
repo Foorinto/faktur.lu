@@ -32,8 +32,12 @@ class StockTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Sans le seeder, les plans viennent d'une migration ancienne qui ignore
+        // les clés récentes (stock, dépenses récurrentes) : le repli s'appliquerait.
+        $this->seed(\Database\Seeders\PlansSeeder::class);
 
-        $this->user = User::factory()->create(['email_verified_at' => now()]);
+        // En essai : stock et dépenses récurrentes sont réservés à Essentiel et Pro (FEAT-136).
+        $this->user = User::factory()->create(['email_verified_at' => now(), 'trial_ends_at' => now()->addDays(14)]);
         $this->actingAs($this->user);
         BusinessSettings::factory()->create(['user_id' => $this->user->id]);
     }

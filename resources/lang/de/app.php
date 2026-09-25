@@ -1943,6 +1943,8 @@ return [
                     'custom_email_provider' => 'Versand über Ihren eigenen E-Mail-Anbieter (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Anpassbare Nummerierung',
                     'time_tracking' => 'Zeiterfassung',
+                    'recurring_documents' => 'Wiederkehrende Rechnungen und Ausgaben',
+                    'stock_management' => 'Lagerverwaltung (Eingänge, Inventur, Bewertung)',
                     'project_management' => 'Projektverwaltung',
                     'accountant_portal' => 'Buchhalterportal',
                     'accounting_exports' => 'Buchhaltungsexporte',

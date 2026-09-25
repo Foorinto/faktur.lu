@@ -50,7 +50,7 @@ const navigation = computed(() => {
         { name: t('dashboard'), href: 'dashboard', icon: 'chart-bar', tour: 'dashboard' },
         { name: t('clients'), href: 'clients.index', icon: 'users', tour: 'clients' },
         { name: t('products.nav'), href: 'products.index', icon: 'cube', routes: ['products'] },
-        { name: t('stock.nav'), href: 'stock.index', icon: 'stock', routes: ['stock'] },
+        { name: t('stock.nav'), href: 'stock.index', icon: 'stock', routes: ['stock'], requiresFeature: 'stock' },
         { name: t('billing'), href: 'invoices.index', icon: 'document-text', routes: ['quotes', 'invoices', 'recurring-invoices'], tour: 'billing' },
         { name: t('expenses'), href: 'expenses.index', icon: 'credit-card', routes: ['expenses', 'recurring-expenses'] },
         { name: t('productivity'), href: 'time-entries.index', icon: 'clock', routes: ['time-entries', 'projects'], requiresFeature: 'time_tracking' },

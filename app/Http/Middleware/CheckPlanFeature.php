@@ -77,6 +77,8 @@ class CheckPlanFeature
             'accounting_portal' => __('Portail comptable / fiduciaire'),
             'accounting_exports' => __('Exports comptables (Sage BOB, FID-Manager)'),
             'recurring_invoices' => __('Facturation récurrente'),
+            'stock' => __('Gestion de stock'),
+            'recurring_expenses' => __('Dépenses récurrentes'),
             'custom_email_provider' => __('Fournisseur d\'e-mail personnel'),
             default => __('Cette fonctionnalité'),
         };

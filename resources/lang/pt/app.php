@@ -2048,6 +2048,8 @@ return [
                     'custom_email_provider' => 'Envio através do seu próprio fornecedor de e-mail (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Numeração personalizável',
                     'time_tracking' => 'Registo de tempo',
+                    'recurring_documents' => 'Faturas e despesas recorrentes',
+                    'stock_management' => 'Gestão de stock (entradas, inventário, valorização)',
                     'project_management' => 'Gestão de projetos',
                     'accountant_portal' => 'Portal do contabilista',
                     'accounting_exports' => 'Exportações contabilísticas',

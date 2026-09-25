@@ -7,8 +7,10 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Link } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { usePlanFeatures } from '@/Composables/usePlanFeatures';
 
 const { t } = useTranslations();
+const { isLocked, minPlanFor } = usePlanFeatures();
 
 const props = defineProps({
     form: { type: Object, required: true },
@@ -199,13 +201,22 @@ watch(vatMode, (mode) => {
 
         <!-- Suivi de stock (FEAT-116) : réservé aux produits. -->
         <div v-if="form.type === 'product'" class="rounded-xl border border-gray-100 p-4 dark:border-gray-800">
-            <label class="flex items-center gap-3">
+            <!-- Le stock est réservé à Essentiel et Pro (FEAT-136) : la case le dit. -->
+            <label class="flex items-center gap-3" :class="isLocked('stock') ? 'opacity-70' : ''">
                 <input
                     type="checkbox"
                     v-model="form.track_stock"
-                    class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800"
+                    :disabled="isLocked('stock')"
+                    class="rounded border-gray-300 text-primary-600 shadow-sm focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 disabled:cursor-not-allowed"
                 />
                 <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ t('products.track_stock') }}</span>
+                <span
+                    v-if="isLocked('stock')"
+                    class="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300"
+                    :title="`Plan ${minPlanFor('stock')} requis`"
+                >
+                    🔒 {{ minPlanFor('stock') }}
+                </span>
             </label>
             <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ t('products.track_stock_help') }}</p>
             <p v-if="variantsCount > 0" class="mt-1 text-xs font-medium text-slate-600 dark:text-slate-300">

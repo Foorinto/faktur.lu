@@ -2050,6 +2050,8 @@ return [
                     'custom_email_provider' => 'Envoi depuis votre propre fournisseur d\'e-mail (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Numérotation personnalisable',
                     'time_tracking' => 'Suivi du temps',
+                    'recurring_documents' => 'Factures et dépenses récurrentes',
+                    'stock_management' => 'Gestion de stock (entrées, inventaire, valorisation)',
                     'project_management' => 'Gestion de projets',
                     'accountant_portal' => 'Portail comptable',
                     'accounting_exports' => 'Exports comptables',
