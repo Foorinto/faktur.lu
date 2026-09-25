@@ -27,8 +27,12 @@ class RecurringExpenseTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Plans semés : sans le seeder, une migration ancienne remplit les plans
+        // sans la clé des dépenses récurrentes (FEAT-136).
+        $this->seed(PlansSeeder::class);
 
-        $this->user = User::factory()->create();
+        // En essai : les dépenses récurrentes sont réservées à Essentiel et Pro (FEAT-136).
+        $this->user = User::factory()->create(['trial_ends_at' => now()->addDays(14)]);
     }
 
     private function charge(array $attributs = []): RecurringExpense

@@ -2016,6 +2016,8 @@ return [
                     'custom_email_provider' => 'Sending through your own email provider (SMTP, Brevo, Postmark, Resend)',
                     'custom_numbering' => 'Custom numbering',
                     'time_tracking' => 'Time tracking',
+                    'recurring_documents' => 'Recurring invoices and expenses',
+                    'stock_management' => 'Stock management (entries, inventory, valuation)',
                     'project_management' => 'Project management',
                     'accountant_portal' => 'Accountant portal',
                     'accounting_exports' => 'Accounting exports',

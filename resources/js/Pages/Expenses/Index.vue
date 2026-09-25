@@ -5,9 +5,11 @@ import RowAction from '@/Components/RowAction.vue';
 import { Head, Link, router } from "@inertiajs/vue3";
 import { computed, ref, watch, onMounted } from "vue";
 import { useTranslations } from "@/Composables/useTranslations";
+import { usePlanFeatures } from "@/Composables/usePlanFeatures";
 import { useTour } from "@/Composables/useTour";
 
 const { t } = useTranslations();
+const { isLocked, minPlanFor } = usePlanFeatures();
 const { startTour } = useTour();
 
 onMounted(() => setTimeout(() => startTour("expenses"), 600));
@@ -104,6 +106,13 @@ const deleteExpense = (expense) => {
                 class="mr-2 inline-flex items-center rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-slate-300 dark:hover:bg-gray-800"
             >
                 {{ t("recurring_expenses.title") }}
+                <span
+                    v-if="isLocked('recurring_expenses')"
+                    class="ml-2 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300"
+                    :title="`Plan ${minPlanFor('recurring_expenses')} requis`"
+                >
+                    🔒 {{ minPlanFor('recurring_expenses') }}
+                </span>
             </Link>
             <Link
                 :href="route('settings.purchase-categories')"

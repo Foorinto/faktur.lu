@@ -103,6 +103,10 @@ class PlansSeeder extends Seeder
                     // Gratuit ; la clé suit ce que fait le code (écart relevé le
                     // 2026-09-24).
                     'no_branding',
+                    // Stock et dépenses récurrentes vont avec les déclinaisons et
+                    // les factures récurrentes : Essentiel (FEAT-136).
+                    'stock',
+                    'recurring_expenses',
                 ],
                 'is_active' => true,
                 'sort_order' => 1,
@@ -164,6 +168,8 @@ class PlansSeeder extends Seeder
                     // Resend) : un besoin d'entreprise installée, et du support
                     // (clés, domaines à vérifier) réservé au plan Pro (FEAT-131).
                     'custom_email_provider',
+                    'stock',
+                    'recurring_expenses',
                     'product_variants',
                 ],
                 'is_active' => true,

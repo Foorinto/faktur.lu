@@ -635,7 +635,9 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
         Route::get('/products/search', [ProductController::class, 'search'])
             ->name('products.search');
 
-        // Gestion de stock (FEAT-116)
+        // Gestion de stock (FEAT-116), réservée à Essentiel et Pro (FEAT-136) :
+        // tenir un stock va avec les déclinaisons, déjà en Essentiel.
+        Route::middleware('plan.feature:stock')->group(function () {
         Route::get('/stock', [StockController::class, 'index'])
             ->name('stock.index');
         Route::get('/stock/{product}/movements', [StockController::class, 'movements'])
@@ -652,6 +654,7 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->name('stock.value');
         Route::delete('/stock/{product}/movements/{movement}', [StockController::class, 'destroyMovement'])
             ->name('stock.movements.destroy');
+        });
 
         // Actions groupées — déclarées AVANT la resource : « /products/bulk-… »
         // serait sinon capturé comme un identifiant d'article.
@@ -908,10 +911,17 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
 
         // Charges fixes récurrentes (FEAT-117). Aucun quota ici : la charge ne
         // crée rien par elle-même, c'est la dépense générée qui est comptée,
-        // et la génération consulte déjà le plan.
+        // et la génération consulte déjà le plan. Même partage que les
+        // factures récurrentes (FEAT-136) : la liste, la modification et
+        // l'arrêt restent ouverts à tous, pour reprendre la main sur une
+        // charge héritée d'un plan supérieur ; en créer une demande Essentiel.
         Route::resource('recurring-expenses', RecurringExpenseController::class)
-            ->except(['show'])
+            ->except(['show', 'create', 'store'])
             ->parameters(['recurring-expenses' => 'recurringExpense']);
+        Route::middleware('plan.feature:recurring_expenses')->group(function () {
+            Route::get('/recurring-expenses/create', [RecurringExpenseController::class, 'create'])->name('recurring-expenses.create');
+            Route::post('/recurring-expenses', [RecurringExpenseController::class, 'store'])->name('recurring-expenses.store');
+        });
         Route::post('/recurring-expenses/{recurringExpense}/toggle', [RecurringExpenseController::class, 'toggle'])
             ->name('recurring-expenses.toggle');
 

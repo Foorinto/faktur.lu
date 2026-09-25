@@ -2,15 +2,17 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useTranslations } from '@/Composables/useTranslations';
+import { usePlanFeatures } from '@/Composables/usePlanFeatures';
 
 const { t } = useTranslations();
+const { isLocked, minPlanFor } = usePlanFeatures();
 
 const currentRoute = computed(() => usePage().url);
 
 const links = [
     { label: () => t('quotes'), href: 'quotes.index', match: ['/quotes'] },
     { label: () => t('invoices'), href: 'invoices.index', match: ['/invoices'] },
-    { label: () => t('recurring_invoices'), href: 'recurring-invoices.index', match: ['/recurring-invoices'] },
+    { label: () => t('recurring_invoices'), href: 'recurring-invoices.index', match: ['/recurring-invoices'], requiresFeature: 'recurring_invoices' },
 ];
 
 const isActive = (match) => {
@@ -33,6 +35,13 @@ const isActive = (match) => {
             ]"
         >
             {{ link.label() }}
+            <span
+                v-if="link.requiresFeature && isLocked(link.requiresFeature)"
+                class="ml-1.5 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300"
+                :title="`Plan ${minPlanFor(link.requiresFeature)} requis`"
+            >
+                🔒 {{ minPlanFor(link.requiresFeature) }}
+            </span>
         </Link>
     </nav>
 </template>

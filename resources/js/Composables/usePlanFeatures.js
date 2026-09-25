@@ -24,6 +24,10 @@ const FEATURE_TO_MIN_PLAN = {
     // verrouillée à un abonné Essentiel qui y a droit.
     recurring_invoices: 'essentiel',
     product_variants: 'essentiel',
+    // Stock et dépenses récurrentes suivent les déclinaisons et les factures
+    // récurrentes (FEAT-136).
+    stock: 'essentiel',
+    recurring_expenses: 'essentiel',
     // Envoi depuis son propre fournisseur d'e-mail, réservé à Pro (FEAT-131).
     custom_email_provider: 'pro',
 
