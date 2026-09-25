@@ -72,7 +72,7 @@ describe('accès selon le plan', () => {
 
         expect(currentPlan()).toBe('pro');
         expect(hasFeature('hr_module')).toBe(true);
-        expect(hasFeature('advanced_reporting')).toBe(true);
+        expect(hasFeature('facturx')).toBe(true);
     });
 
     it('donne l’accès Pro pendant l’essai', () => {

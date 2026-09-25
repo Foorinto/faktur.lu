@@ -99,6 +99,10 @@ class PlansSeeder extends Seeder
                     'recurring_invoices',
                     'product_variants',
                     'pdf_archive',
+                    // Le code retirait déjà la mention faktur.lu dès qu'on quitte le
+                    // Gratuit ; la clé suit ce que fait le code (écart relevé le
+                    // 2026-09-24).
+                    'no_branding',
                 ],
                 'is_active' => true,
                 'sort_order' => 1,
@@ -155,7 +159,6 @@ class PlansSeeder extends Seeder
                     'priority_support',
                     'organizations',
                     'facturx',
-                    'advanced_reporting',
                     'recurring_invoices',
                     // Envoyer depuis son propre fournisseur (SMTP, Brevo, Postmark,
                     // Resend) : un besoin d'entreprise installée, et du support

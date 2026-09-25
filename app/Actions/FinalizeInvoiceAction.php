@@ -104,7 +104,11 @@ class FinalizeInvoiceAction
             // toSnapshot() et se pose ici, au seul moment qui compte : celui où
             // la facture devient définitive. Sans cela, un changement
             // d'abonnement réécrirait le pied de page de tout l'historique.
-            $sellerSnapshot['show_branding'] = $invoice->user?->isFree() ?? true;
+            // La mention suit la clé de plan `no_branding`, pas un test « gratuit
+            // ou pas » : une seule source de vérité avec le seeder et le tableau.
+            $sellerSnapshot['show_branding'] = $invoice->user
+                ? ! app(\App\Services\PlanService::class)->hasFeature($invoice->user, 'no_branding')
+                : true;
 
             $paymentDays = config('billing.default_payment_days', 30);
             $dueDate = $invoice->due_at ?? $issuedDate->copy()->addDays($paymentDays);

@@ -1004,8 +1004,10 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     // Email sending - 20 requests/hour
     Route::middleware(['throttle:email', 'plan.limit:emails'])->group(function () {
         Route::post('/invoices/{invoice}/send-email', [InvoiceEmailController::class, 'send'])->name('invoices.send-email');
+        // Relancer à la main est un geste de base, ouvert à tous dans le quota
+        // d'e-mails ; seules les relances automatiques (job) sont réservées à
+        // Pro (écart relevé le 2026-09-24).
         Route::post('/invoices/{invoice}/send-reminder', [InvoiceEmailController::class, 'sendReminder'])
-            ->middleware('plan.feature:email_reminders')
             ->name('invoices.send-reminder');
     });
 
@@ -1086,7 +1088,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
             ->name('archive.batch');
 
         // Peppol export - available for all
-        Route::get('/invoices/{invoice}/peppol', [PeppolExportController::class, 'export'])->name('invoices.peppol');
+        // Export B2G déclaré Essentiel par les plans et le tableau des tarifs :
+        // la garde manquait (écart relevé le 2026-09-24).
+        Route::get('/invoices/{invoice}/peppol', [PeppolExportController::class, 'export'])
+            ->middleware('plan.feature:peppol_export')
+            ->name('invoices.peppol');
 
         // Peppol transmission - send invoice via Peppol network (Pro only)
         Route::post('/invoices/{invoice}/send-peppol', [InvoiceController::class, 'sendViaPeppol'])
@@ -1155,8 +1161,11 @@ Route::middleware(['auth', 'verified', 'check.trial', 'redirect.employee'])->gro
     });
 
     // Accounting settings
-    Route::get('/settings/accounting', [AccountingSettingsController::class, 'edit'])->name('settings.accounting.edit');
-    Route::put('/settings/accounting', [AccountingSettingsController::class, 'update'])->name('settings.accounting.update');
+    // Le paramétrage des comptes ne sert qu'aux exports comptables : même garde.
+    Route::middleware('plan.feature:accounting_exports')->group(function () {
+        Route::get('/settings/accounting', [AccountingSettingsController::class, 'edit'])->name('settings.accounting.edit');
+        Route::put('/settings/accounting', [AccountingSettingsController::class, 'update'])->name('settings.accounting.update');
+    });
 
     // Archive (PDF/A long term archiving) : à tous les plans depuis FEAT-126.
     Route::get('/archive', [ArchiveController::class, 'index'])->name('archive.index');

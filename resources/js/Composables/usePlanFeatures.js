@@ -34,11 +34,11 @@ const FEATURE_TO_MIN_PLAN = {
     // Obligation légale : à tous les plans depuis FEAT-126.
     pdf_archive: 'free',
     email_reminders: 'pro',
-    no_branding: 'pro',
+    // Le PDF perd la mention faktur.lu dès Essentiel (le code le faisait déjà).
+    no_branding: 'essentiel',
     priority_support: 'pro',
     organizations: 'pro',
     facturx: 'pro',
-    advanced_reporting: 'pro',
 };
 
 const PLAN_DISPLAY_NAME = {
