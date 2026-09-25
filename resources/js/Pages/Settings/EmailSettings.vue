@@ -146,14 +146,24 @@ const reminderLevelNames = computed(() => ({
                                 {{ t('payment_reminders_description') }}
                             </p>
                         </div>
-                        <label class="flex items-center">
+                        <!-- Les relances automatiques sont une fonctionnalité Pro : le job
+                             les ignore pour les autres plans, l'interrupteur le dit. -->
+                        <label class="flex items-center" :class="isLocked('email_reminders') ? 'opacity-70' : ''">
                             <input
                                 type="checkbox"
                                 v-model="form.reminders_enabled"
-                                class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                                :disabled="isLocked('email_reminders')"
+                                class="h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 disabled:cursor-not-allowed"
                             />
                             <span class="ml-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                                 {{ t('reminders_enabled') }}
+                            </span>
+                            <span
+                                v-if="isLocked('email_reminders')"
+                                class="ml-2 inline-flex items-center gap-0.5 rounded-full bg-violet-100 px-1.5 py-0.5 text-[10px] font-bold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300"
+                                :title="`Plan ${minPlanFor('email_reminders')} requis`"
+                            >
+                                🔒 {{ minPlanFor('email_reminders') }}
                             </span>
                         </label>
                     </div>

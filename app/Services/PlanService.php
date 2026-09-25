@@ -620,7 +620,7 @@ class PlanService
         $plan->features = [
             'invoices', 'quotes', 'clients', 'expenses', 'time_tracking', '2fa',
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export', 'faia_export',
-            'recurring_invoices', 'pdf_archive',
+            'recurring_invoices', 'pdf_archive', 'no_branding',
         ];
 
         return $plan;
@@ -649,7 +649,7 @@ class PlanService
             'projects', 'accounting_portal', 'accounting_exports', 'peppol_export',
             'hr_module', 'crm', 'peppol_transmission', 'faia_export', 'pdf_archive',
             'email_reminders', 'no_branding', 'priority_support', 'organizations',
-            'facturx', 'advanced_reporting', 'recurring_invoices', 'custom_email_provider',
+            'facturx', 'recurring_invoices', 'custom_email_provider',
         ];
 
         return $plan;

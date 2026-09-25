@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceEmail;
 use App\Models\User;
 use App\Services\EmailProviderService;
+use App\Services\PlanService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,7 +24,7 @@ class SendPaymentReminders implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(EmailProviderService $emailProviderService): void
+    public function handle(EmailProviderService $emailProviderService, PlanService $plans): void
     {
         // Get all users with reminders enabled
         $users = User::whereHas('emailSettings', function ($query) {
@@ -31,6 +32,13 @@ class SendPaymentReminders implements ShouldQueue
         })->get();
 
         foreach ($users as $user) {
+            // Les relances automatiques sont une fonctionnalité Pro : le réglage
+            // « rappels activés » ne suffit pas, le plan doit la porter (écart
+            // relevé le 2026-09-24 : le job servait tout le monde).
+            if (! $plans->hasFeature($user, 'email_reminders')) {
+                continue;
+            }
+
             $this->processUserReminders($user, $emailProviderService);
         }
     }

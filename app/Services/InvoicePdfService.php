@@ -412,7 +412,9 @@ class InvoicePdfService
         // Un brouillon n'est pas figé : il doit montrer ce que donnera la
         // facture avec le plan d'aujourd'hui. Rien à lire dans un instantané
         // qui n'existe pas encore (FEAT-104).
-        $showBranding = $invoice->user ? $invoice->user->isFree() : true;
+        $showBranding = $invoice->user
+            ? ! app(\App\Services\PlanService::class)->hasFeature($invoice->user, 'no_branding')
+            : true;
 
         // Generate QR codes for draft preview
         $paymentQrCode = null;
