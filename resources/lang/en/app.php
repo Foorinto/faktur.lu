@@ -5688,6 +5688,7 @@ return [
     'business_settings_required_cta' => 'Complete my details',
     'validation_vat_rate_franchise' => 'You are under the VAT franchise scheme: the rate must be 0%.',
     'validation_disposable_email' => 'Please use a permanent email address.',
+    'validation_undeliverable_email' => 'This address cannot receive emails. Please use a real address.',
     'validation_brand_name' => 'This name cannot be used. If it really is your company\'s name, please contact support.',
     'trial_email_quota_reached' => 'During the trial, sending documents from our servers is limited to :limit per day. To keep sending right away, set up your own provider (Settings > Email provider) or choose a subscription.',
     'abuse_reason_brand_name' => 'Name close to a brand: :brand',

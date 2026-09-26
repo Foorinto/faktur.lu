@@ -32,6 +32,8 @@ class InvoiceEmailController extends Controller
             return null;
         }
 
+        $this->abuseProtection->record(\App\Models\AbuseEvent::TYPE_TRIAL_QUOTA_REACHED, null, $request->user());
+
         return back()->withErrors(['email' => __('app.trial_email_quota_reached', [
             'limit' => config('abuse.trial_daily_document_emails'),
         ])]);

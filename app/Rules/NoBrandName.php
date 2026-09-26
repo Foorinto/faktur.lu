@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\AbuseEvent;
 use App\Models\User;
 use App\Services\AbuseProtectionService;
 use Closure;
@@ -45,6 +46,8 @@ class NoBrandName implements ValidationRule
         if ($this->user) {
             $protection->flag($this->user, "company_name:{$marque}");
         }
+
+        $protection->record(AbuseEvent::TYPE_COMPANY_NAME_REFUSED, $marque, $this->user);
 
         $fail(__('app.validation_brand_name'));
     }

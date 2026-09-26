@@ -5673,6 +5673,7 @@ return [
     'business_settings_required_cta' => 'Meng Donnéeë complétéieren',
     'validation_vat_rate_franchise' => 'Dir sidd an der TVA-Franchise: de Saz muss 0 % sinn.',
     'validation_disposable_email' => 'Benotzt w.e.g. eng permanent E-Mail-Adress.',
+    'validation_undeliverable_email' => 'Dës Adress kann keng E-Maile kréien. Benotzt w.e.g. eng richteg Adress.',
     'validation_brand_name' => 'Dësen Numm kann net benotzt ginn. Wann et wierklech den Numm vun Ärer Firma ass, kontaktéiert de Support.',
     'trial_email_quota_reached' => 'Wärend der Testphas ass de Versand vun Dokumenter iwwer eis Serveren op :limit pro Dag limitéiert. Fir direkt weiderzeschécken, riicht Ären eegenen Ubidder an (Astellungen > E-Mail-Ubidder) oder wielt en Abonnement.',
     'abuse_reason_brand_name' => 'Numm no bei enger Mark: :brand',

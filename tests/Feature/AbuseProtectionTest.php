@@ -7,6 +7,7 @@ use App\Mail\FlaggedAccountFirstEmailNotification;
 use App\Mail\InvoiceMail;
 use App\Mail\NewUserRegisteredNotification;
 use App\Mail\ReminderMail;
+use App\Models\AbuseEvent;
 use App\Models\BusinessSettings;
 use App\Models\Client;
 use App\Models\EmailSettings;
@@ -19,10 +20,13 @@ use App\Services\AbuseProtectionService;
 use App\Services\EmailProviderService;
 use App\Services\PlanService;
 use Database\Seeders\PlansSeeder;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -142,6 +146,10 @@ class AbuseProtectionTest extends TestCase
 
         $this->assertGuest();
         $this->assertDatabaseMissing('users', ['email' => 'arnaque@mailinator.com']);
+
+        // Compté pour le tableau de bord, avec le domaine et jamais l'adresse.
+        $this->assertDatabaseHas('abuse_events', ['type' => AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'detail' => 'mailinator.com', 'user_id' => null]);
+        $this->assertDatabaseMissing('abuse_events', ['detail' => 'arnaque@mailinator.com']);
     }
 
     public function test_un_sous_domaine_d_un_domaine_jetable_est_refuse_aussi(): void
@@ -158,6 +166,40 @@ class AbuseProtectionTest extends TestCase
             ->assertSessionHasNoErrors();
 
         $this->assertAuthenticated();
+    }
+
+    /** @return array<string, array{string}> */
+    public static function domainesReserves(): array
+    {
+        return [
+            'extension .test' => ['jean@example.test'],
+            'domaine d exemple' => ['jean@example.com'],
+            'sous-domaine d exemple' => ['jean@mail.example.org'],
+            'extension .invalid' => ['jean@boite.invalid'],
+            'extension .localhost' => ['jean@machine.localhost'],
+        ];
+    }
+
+    #[DataProvider('domainesReserves')]
+    public function test_un_domaine_reserve_est_refuse_a_l_inscription(string $email): void
+    {
+        $this->post('/register', $this->inscription(['email' => $email]))
+            ->assertSessionHasErrors(['email' => __('app.validation_undeliverable_email')]);
+
+        $this->assertGuest();
+        $this->assertDatabaseHas('abuse_events', [
+            'type' => AbuseEvent::TYPE_RESERVED_DOMAIN,
+            'detail' => strtolower(substr($email, strpos($email, '@') + 1)),
+        ]);
+    }
+
+    public function test_un_domaine_proche_d_un_domaine_reserve_passe(): void
+    {
+        $protection = app(AbuseProtectionService::class);
+
+        $this->assertFalse($protection->isReservedDomain('a@examples.com'));
+        $this->assertFalse($protection->isReservedDomain('a@notexample.com'));
+        $this->assertFalse($protection->isReservedDomain('a@testing.lu'));
     }
 
     public function test_la_liste_telechargee_s_ajoute_au_socle(): void
@@ -186,6 +228,7 @@ class AbuseProtectionTest extends TestCase
         $this->assertTrue($user->flagged_for_review);
         $this->assertSame('brand_name:vinted', $user->flagged_reason);
         $this->assertNotNull($user->flagged_at);
+        $this->assertDatabaseHas('abuse_events', ['type' => AbuseEvent::TYPE_BRAND_NAME_FLAGGED, 'detail' => 'vinted', 'user_id' => $user->id]);
 
         // L'administrateur le voit dès l'objet, et dans le corps du mail.
         $avertissement = __('app.email_admin_new_user_flagged', ['reason' => AbuseProtectionService::describeReason('brand_name:vinted')]);
@@ -259,6 +302,7 @@ class AbuseProtectionTest extends TestCase
         $this->assertSame('Atelier Muller', BusinessSettings::withoutGlobalScopes()->where('user_id', $user->id)->value('company_name'));
         $this->assertTrue($user->fresh()->flagged_for_review);
         $this->assertSame('company_name:vinted', $user->fresh()->flagged_reason);
+        $this->assertDatabaseHas('abuse_events', ['type' => AbuseEvent::TYPE_COMPANY_NAME_REFUSED, 'detail' => 'vinted', 'user_id' => $user->id]);
     }
 
     public function test_la_raison_sociale_est_controlee_aussi(): void
@@ -343,6 +387,7 @@ class AbuseProtectionTest extends TestCase
         ]);
 
         Mail::assertSent(InvoiceMail::class, 5);
+        $this->assertSame(1, AbuseEvent::where('type', AbuseEvent::TYPE_TRIAL_QUOTA_REACHED)->where('user_id', $user->id)->count());
     }
 
     public function test_une_relance_a_la_main_compte_et_est_refusee_au_dela(): void
@@ -528,7 +573,71 @@ class AbuseProtectionTest extends TestCase
         ]);
     }
 
+    // --- Tableau de bord d'administration ----------------------------------------
+
+    private function evenement(string $type, ?string $detail, $quand): void
+    {
+        AbuseEvent::create(['type' => $type, 'detail' => $detail])->forceFill(['created_at' => $quand])->save();
+    }
+
+    public function test_le_tableau_de_bord_compte_les_evenements_par_periode(): void
+    {
+        $this->evenement(AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'yopmail.com', now()->subHours(2));
+        $this->evenement(AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'yopmail.com', now()->subDays(3));
+        $this->evenement(AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'mailinator.com', now()->subDays(20));
+        $this->evenement(AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'ancien.example', now()->subDays(45));
+        $this->evenement(AbuseEvent::TYPE_RESERVED_DOMAIN, 'example.test', now()->subHour());
+        $signale = $this->trialUser();
+        app(AbuseProtectionService::class)->flag($signale, 'brand_name:vinted');
+
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->get('/'.config('admin.url_prefix'))
+            ->assertOk()
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->component('Admin/Dashboard')
+                ->where('abuseStats.comptes_a_verifier', 1)
+                ->where('abuseStats.par_type.0', ['type' => AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'h24' => 1, 'j7' => 2, 'j30' => 3])
+                ->where('abuseStats.par_type.1', ['type' => AbuseEvent::TYPE_RESERVED_DOMAIN, 'h24' => 1, 'j7' => 1, 'j30' => 1])
+                ->where('abuseStats.par_type.4', ['type' => AbuseEvent::TYPE_TRIAL_QUOTA_REACHED, 'h24' => 0, 'j7' => 0, 'j30' => 0])
+                ->where('abuseStats.domaines.0', ['domaine' => 'yopmail.com', 'total' => 2])
+                ->has('abuseStats.domaines', 3)
+            );
+    }
+
+    public function test_le_nettoyage_quotidien_purge_les_evenements_de_plus_de_90_jours(): void
+    {
+        $this->evenement(AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'vieux.example', now()->subDays(91));
+        $this->evenement(AbuseEvent::TYPE_DISPOSABLE_EMAIL, 'recent.example', now()->subDays(89));
+
+        $this->artisan('monitoring:cleanup')->assertExitCode(0);
+
+        $this->assertDatabaseMissing('abuse_events', ['detail' => 'vieux.example']);
+        $this->assertDatabaseHas('abuse_events', ['detail' => 'recent.example']);
+    }
+
+    public function test_un_journal_indisponible_ne_bloque_pas_l_inscription(): void
+    {
+        Schema::drop('abuse_events');
+
+        $this->post('/register', $this->inscription(['email' => 'arnaque@mailinator.com']))
+            ->assertSessionHasErrors(['email' => __('app.validation_disposable_email')]);
+        $this->post('/register', $this->inscription())->assertSessionHasNoErrors();
+
+        $this->assertAuthenticated();
+    }
+
     // --- Liste téléchargée ------------------------------------------------------
+
+    public function test_la_liste_est_mise_a_jour_chaque_nuit(): void
+    {
+        $evenement = collect(app(Schedule::class)->events())
+            ->first(fn ($e) => str_contains((string) $e->command, 'abuse:update-disposable-list'));
+
+        $this->assertNotNull($evenement);
+        $this->assertSame('30 4 * * *', $evenement->expression);
+    }
 
     public function test_la_commande_enregistre_une_liste_valide(): void
     {

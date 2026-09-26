@@ -78,10 +78,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ->onOneServer();
 
         // Liste des domaines d'adresses jetables refusés à l'inscription
-        // (FEAT-138). Hebdomadaire : la liste communautaire bouge peu, et un
-        // échec garde la précédente.
+        // (FEAT-138). Chaque nuit : la liste communautaire s'enrichit presque
+        // tous les jours, et un échec garde la précédente.
         $schedule->command('abuse:update-disposable-list')
-            ->weeklyOn(1, '04:30')
+            ->dailyAt('04:30')
             ->withoutOverlapping()
             ->onOneServer();
 

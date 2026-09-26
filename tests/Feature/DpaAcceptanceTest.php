@@ -28,7 +28,7 @@ class DpaAcceptanceTest extends TestCase
     {
         return array_merge([
             'name' => 'Jean Test',
-            'email' => 'jean@example.test',
+            'email' => 'jean@exemple.lu',
             'password' => 'Correct-Horse-Battery-42!',
             'password_confirmation' => 'Correct-Horse-Battery-42!',
             'terms' => true,
@@ -49,7 +49,7 @@ class DpaAcceptanceTest extends TestCase
     {
         $this->post('/register', $this->inscription());
 
-        $user = User::firstWhere('email', 'jean@example.test');
+        $user = User::firstWhere('email', 'jean@exemple.lu');
         $user->forceFill(['email_verified_at' => now()])->save();
 
         return $user->fresh();
@@ -99,7 +99,7 @@ class DpaAcceptanceTest extends TestCase
     {
         $this->post('/register', $this->inscription())->assertSessionHasNoErrors();
 
-        $user = User::firstWhere('email', 'jean@example.test');
+        $user = User::firstWhere('email', 'jean@exemple.lu');
 
         $this->assertNotNull($user->dpa_accepted_at);
         $this->assertNotNull($user->terms_accepted_at, 'La case des CGU laissait jusqu\'ici la table intacte.');
@@ -117,12 +117,12 @@ class DpaAcceptanceTest extends TestCase
 
         // La colonne porte bien une valeur en base, pas seulement en mémoire.
         $this->assertDatabaseHas('users', [
-            'email' => 'jean@example.test',
+            'email' => 'jean@exemple.lu',
             'dpa_version' => DpaDocument::VERSION,
         ]);
         $this->assertNotNull(
             \Illuminate\Support\Facades\DB::table('users')
-                ->where('email', 'jean@example.test')
+                ->where('email', 'jean@exemple.lu')
                 ->value('dpa_accepted_at'),
             'La date doit être écrite en base, pas seulement portée par le modèle.'
         );

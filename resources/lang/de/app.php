@@ -5672,6 +5672,7 @@ return [
     'business_settings_required_cta' => 'Daten vervollständigen',
     'validation_vat_rate_franchise' => 'Sie unterliegen der Kleinunternehmerregelung: Der Satz muss 0 % betragen.',
     'validation_disposable_email' => 'Bitte verwenden Sie eine dauerhafte E-Mail-Adresse.',
+    'validation_undeliverable_email' => 'Diese Adresse kann keine E-Mails empfangen. Bitte verwenden Sie eine echte Adresse.',
     'validation_brand_name' => 'Dieser Name kann nicht verwendet werden. Wenn es wirklich der Name Ihres Unternehmens ist, wenden Sie sich an den Support.',
     'trial_email_quota_reached' => 'Während der Testphase ist der Versand von Dokumenten über unsere Server auf :limit pro Tag begrenzt. Um sofort weiter zu versenden, richten Sie Ihren eigenen Anbieter ein (Einstellungen > E-Mail-Anbieter) oder wählen Sie ein Abonnement.',
     'abuse_reason_brand_name' => 'Name ähnelt einer Marke: :brand',

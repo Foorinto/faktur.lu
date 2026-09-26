@@ -18,9 +18,11 @@ return [
 
     /*
     | Liste communautaire des domaines d'adresses jetables, une ligne par
-    | domaine (environ 9 000 en septembre 2026). Téléchargée chaque semaine par
-    | `abuse:update-disposable-list` dans storage/app/private/abuse/. Un
-    | téléchargement raté ou suspect garde la dernière liste connue.
+    | domaine (environ 9 000 en septembre 2026) : dépôt GitHub
+    | disposable-email-domains, domaine public (CC0), enrichi presque chaque
+    | jour. Téléchargée chaque nuit par `abuse:update-disposable-list` dans
+    | storage/app/private/abuse/. Un téléchargement raté ou suspect garde la
+    | dernière liste connue.
     */
     'disposable_list_url' => env(
         'ABUSE_DISPOSABLE_LIST_URL',
@@ -52,6 +54,27 @@ return [
         'trashmail.com', 'trashmail.de', 'yopmail.com', 'yopmail.fr',
         'yopmail.net',
     ],
+
+    /*
+    | Domaines qui ne peuvent recevoir aucun mail, par construction : les
+    | extensions réservées (RFC 2606, 6761, 6762) et les domaines d'exemple de
+    | l'IANA, qui publient un « null MX ». La liste communautaire ne les
+    | contient pas : elle ne recense que des services jetables. Un tel compte
+    | ne pourrait jamais valider son adresse ; le refuser évite des lignes
+    | mortes en base.
+    */
+    'reserved_tlds' => ['test', 'example', 'invalid', 'localhost', 'local'],
+    'reserved_domains' => ['example.com', 'example.net', 'example.org'],
+
+    /*
+    | Option envisagée, NON ACTIVÉE (décision du 2026-09-26) : refuser tout
+    | domaine sans serveur de mail (enregistrement MX), ce qui attraperait les
+    | fautes de frappe et les domaines inventés (« exemple.lu »). En attente
+    | d'une résolution DNS fiable sur l'hébergement mutualisé : une panne DNS
+    | refuserait de vrais clients. Si on l'active un jour, ne refuser que sur
+    | une réponse DNS claire (« aucun MX ni A »), jamais sur un échec de
+    | résolution, et enregistrer l'événement comme les autres.
+    */
 
     /*
     | Noms qu'un fraudeur emprunte pour rendre crédible une fausse facture :
@@ -90,5 +113,11 @@ return [
     | abonné, n'est pas concerné : c'est notre domaine qu'on protège.
     */
     'trial_daily_document_emails' => (int) env('ABUSE_TRIAL_DAILY_DOCUMENT_EMAILS', 5),
+
+    /*
+    | Conservation du journal des événements anti-abus (tableau de bord
+    | d'administration). Purgé par `monitoring:cleanup`, chaque nuit.
+    */
+    'events_retention_days' => 90,
 
 ];

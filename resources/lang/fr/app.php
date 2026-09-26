@@ -6068,6 +6068,7 @@ return [
     'business_settings_required_cta' => 'Compléter mes informations',
     'validation_vat_rate_franchise' => 'Vous êtes en franchise de TVA : le taux doit être de 0 %.',
     'validation_disposable_email' => 'Veuillez utiliser une adresse e-mail permanente.',
+    'validation_undeliverable_email' => 'Cette adresse ne peut pas recevoir d\'e-mails. Utilisez une adresse réelle.',
     'validation_brand_name' => 'Ce nom ne peut pas être utilisé. Si c\'est bien le nom de votre entreprise, contactez le support.',
     'trial_email_quota_reached' => 'Pendant l\'essai, l\'envoi de documents depuis nos serveurs est limité à :limit par jour. Pour continuer dès maintenant, configurez votre propre fournisseur (Paramètres > Fournisseur email) ou choisissez un abonnement.',
     'abuse_reason_brand_name' => 'Nom proche d\'une marque : :brand',

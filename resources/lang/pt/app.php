@@ -5901,6 +5901,7 @@ return [
     'business_settings_required_cta' => 'Completar os meus dados',
     'validation_vat_rate_franchise' => 'Está no regime de franquia de IVA: a taxa deve ser 0 %.',
     'validation_disposable_email' => 'Utilize um endereço de e-mail permanente.',
+    'validation_undeliverable_email' => 'Este endereço não pode receber e-mails. Utilize um endereço real.',
     'validation_brand_name' => 'Este nome não pode ser utilizado. Se for mesmo o nome da sua empresa, contacte o suporte.',
     'trial_email_quota_reached' => 'Durante o período experimental, o envio de documentos a partir dos nossos servidores está limitado a :limit por dia. Para continuar já, configure o seu próprio fornecedor (Definições > Fornecedor de email) ou escolha uma subscrição.',
     'abuse_reason_brand_name' => 'Nome próximo de uma marca: :brand',

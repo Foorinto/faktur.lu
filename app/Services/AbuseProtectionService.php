@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\FlaggedAccountFirstEmailNotification;
+use App\Models\AbuseEvent;
 use App\Models\Invoice;
 use App\Models\InvoiceEmail;
 use App\Models\User;
@@ -36,7 +37,53 @@ class AbuseProtectionService
 
     public function __construct(private readonly EmailProviderService $emailProviders) {}
 
-    // --- 1. Adresses jetables ---------------------------------------------
+    // --- 0. Journal pour le tableau de bord ---------------------------------
+
+    /**
+     * Enregistre un événement pour le tableau de bord d'administration. Ne
+     * fait jamais échouer ce qu'il observe : une table absente ou une base
+     * indisponible ne doit pas empêcher une inscription.
+     */
+    public function record(string $type, ?string $detail = null, ?User $user = null): void
+    {
+        try {
+            AbuseEvent::create([
+                'type' => $type,
+                'detail' => $detail !== null ? Str::limit($detail, 191, '') : null,
+                'user_id' => $user?->id,
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning('Événement anti-abus non enregistré.', ['type' => $type, 'erreur' => $e->getMessage()]);
+        }
+    }
+
+    // --- 1. Adresses jetables et domaines réservés --------------------------
+
+    /**
+     * Le domaine ne peut recevoir aucun mail : extension réservée (.test,
+     * .example, .invalid, .localhost, .local) ou domaine d'exemple de l'IANA.
+     */
+    public function isReservedDomain(string $email): bool
+    {
+        if (! str_contains($email, '@')) {
+            return false;
+        }
+
+        $domaine = strtolower(trim(Str::afterLast($email, '@'), " \t\n\r\0\x0B."));
+        $extension = str_contains($domaine, '.') ? Str::afterLast($domaine, '.') : $domaine;
+
+        if (in_array($extension, config('abuse.reserved_tlds', []), true)) {
+            return true;
+        }
+
+        foreach (config('abuse.reserved_domains', []) as $reserve) {
+            if ($domaine === $reserve || str_ends_with($domaine, '.'.$reserve)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Le domaine de l'adresse, ou l'un de ses parents, est-il jetable ?
@@ -154,6 +201,7 @@ class AbuseProtectionService
 
         if ($marque !== null) {
             $this->flag($user, 'brand_name:'.$marque);
+            $this->record(AbuseEvent::TYPE_BRAND_NAME_FLAGGED, $marque, $user);
         }
 
         return $marque;
