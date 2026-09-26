@@ -107,7 +107,14 @@ class GenerateRecurringInvoices extends Command
 
     protected function createInvoice(RecurringInvoice $recurring): Invoice
     {
-        $invoice = Invoice::create([
+        // ⚠️ Le propriétaire est posé AVANT la première écriture. En ligne de
+        // commande personne n'est connecté : BelongsToUser ne remplit pas
+        // user_id, et l'ancien « create puis forceFill » insérait une facture
+        // sans propriétaire. SQLite (tests) l'acceptait ; MySQL refuse une
+        // colonne obligatoire vide, l'erreur était avalée, et aucune facture
+        // récurrente n'a jamais été générée en production (constaté le
+        // 26/09/2026).
+        $invoice = new Invoice([
             'client_id' => $recurring->client_id,
             'title' => $recurring->title,
             'currency' => $recurring->currency,
@@ -119,8 +126,6 @@ class GenerateRecurringInvoices extends Command
             'footer_message' => $recurring->footer_message,
             'status' => Invoice::STATUS_DRAFT,
         ]);
-
-        // Ensure the invoice belongs to the correct user
         $invoice->forceFill(['user_id' => $recurring->user_id])->save();
 
         foreach ($recurring->items as $item) {

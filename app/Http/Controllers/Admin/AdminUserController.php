@@ -22,6 +22,7 @@ class AdminUserController extends Controller
         // BelongsToUser scope (auth()->id() = admin) filtre les compteurs.
         // Aliases 'invoices_count' / 'invoices_sum_total_ttc' attendus cote frontend.
         $query = User::query()
+            ->with(['businessSettings' => fn ($q) => $q->withoutGlobalScope('user')->select(['id', 'user_id', 'company_name'])])
             ->withCount([
                 'userInvoices as invoices_count' => fn ($q) => $q->withoutGlobalScope('user'),
                 'clients' => fn ($q) => $q->withoutGlobalScope('user'),
@@ -32,10 +33,15 @@ class AdminUserController extends Controller
 
         // Search
         if ($search = $request->get('search')) {
+            // Le nom d'entreprise vit dans les réglages de l'entreprise : la
+            // colonne users.company_name n'a jamais existé. SQLite, en test,
+            // la lisait comme du texte sans rien dire ; MySQL refusait la
+            // requête et la recherche tombait en production (26/09/2026).
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('company_name', 'like', "%{$search}%");
+                    ->orWhereHas('businessSettings', fn ($b) => $b->withoutGlobalScope('user')
+                        ->where('company_name', 'like', "%{$search}%"));
             });
         }
 
@@ -97,6 +103,14 @@ class AdminUserController extends Controller
         ];
 
         $recentInvoices = $invoicesQuery()->latest()->limit(10)->get();
+
+        // Société, TVA et téléphone sont dans les réglages de l'entreprise :
+        // la fiche lisait des colonnes absentes de users et affichait « - »
+        // pour tout le monde, y compris pour un compte à vérifier.
+        $reglages = $user->businessSettings()->withoutGlobalScope('user')->first();
+        $user->setAttribute('company_name', $reglages?->company_name);
+        $user->setAttribute('vat_number', $reglages?->vat_number);
+        $user->setAttribute('phone', $reglages?->phone);
 
         return Inertia::render('Admin/Users/Show', [
             'user' => $user,
