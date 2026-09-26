@@ -3,6 +3,12 @@
 
 {{ __('app.email_admin_new_user_intro', ['app' => config('app.name')]) }}
 
+@if($user->flagged_for_review)
+<x-mail::panel>
+{{ __('app.email_admin_new_user_flagged', ['reason' => \App\Services\AbuseProtectionService::describeReason($user->flagged_reason)]) }}
+</x-mail::panel>
+@endif
+
 **{{ __('app.email_admin_new_user_name') }}** {{ $user->name }}
 
 **{{ __('app.email_admin_new_user_email') }}** {{ $user->email }}

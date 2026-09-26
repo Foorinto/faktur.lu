@@ -58,6 +58,7 @@ Route::prefix(config('admin.url_prefix', 'admin'))
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
         Route::get('users/{user}', [AdminUserController::class, 'show'])->name('users.show');
         Route::post('users/{user}/toggle-active', [AdminUserController::class, 'toggleActive'])->name('users.toggle-active');
+        Route::post('users/{user}/clear-flag', [AdminUserController::class, 'clearFlag'])->name('users.clear-flag');
         Route::post('users/{user}/reset-password', [AdminUserController::class, 'resetPassword'])->name('users.reset-password');
         Route::post('users/{user}/reset-2fa', [AdminUserController::class, 'reset2fa'])->name('users.reset-2fa');
         Route::post('users/{user}/impersonate', [AdminUserController::class, 'impersonate'])->name('users.impersonate');

@@ -27,8 +27,11 @@ class NewUserRegisteredNotification extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         // Admin notification - keep app default locale (admins typically read in fr)
+        // Un compte signalé (FEAT-138) se voit dès l'objet, sans ouvrir le mail.
+        $cle = $this->user->flagged_for_review ? 'app.mail_subject_new_user_flagged' : 'app.mail_subject_new_user_registered';
+
         return new Envelope(
-            subject: __('app.mail_subject_new_user_registered', ['name' => $this->user->name]),
+            subject: __($cle, ['name' => $this->user->name]),
         );
     }
 

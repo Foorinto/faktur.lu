@@ -96,6 +96,7 @@ const getSortIcon = (field) => {
                         <option value="unverified">{{ t('admin_users_status_unverified') }}</option>
                         <option value="with_2fa">{{ t('admin_users_status_with_2fa') }}</option>
                         <option value="inactive">{{ t('admin_users_status_inactive') }}</option>
+                        <option value="flagged">{{ t('admin_users_status_flagged') }}</option>
                         <option value="deleted">{{ t('admin_users_status_deleted') }}</option>
                     </select>
                 </div>
@@ -188,6 +189,13 @@ const getSortIcon = (field) => {
                                         class="inline-flex rounded-full bg-red-500/20 px-2 py-1 text-xs font-medium text-red-400"
                                     >
                                         {{ t('admin_users_badge_inactive') }}
+                                    </span>
+                                    <span
+                                        v-if="user.flagged_for_review"
+                                        class="inline-flex rounded-full bg-orange-500/20 px-2 py-1 text-xs font-medium text-orange-300"
+                                        :title="user.flagged_reason"
+                                    >
+                                        {{ t('admin_users_badge_flagged') }}
                                     </span>
                                     <span
                                         v-if="user.deleted_at"

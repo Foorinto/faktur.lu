@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\V1;
 
 use App\Models\BusinessSettings;
+use App\Rules\NoBrandName;
 use App\Services\DocumentNumberFormatter;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -16,9 +17,13 @@ class UpdateBusinessSettingsRequest extends FormRequest
 
     public function rules(): array
     {
+        // Le nom qui figure sur le PDF et dans les mails : une marque imitée y
+        // est refusée (FEAT-138). Le nom déjà enregistré repasse tel quel.
+        $actuels = $this->user()?->businessSettings;
+
         return [
-            'company_name' => ['required', 'string', 'max:255'],
-            'legal_name' => ['required', 'string', 'max:255'],
+            'company_name' => ['required', 'string', 'max:255', new NoBrandName($actuels?->company_name, $this->user())],
+            'legal_name' => ['required', 'string', 'max:255', new NoBrandName($actuels?->legal_name, $this->user())],
             'address' => ['required', 'string', 'max:500'],
             'postal_code' => ['required', 'string', 'max:10'],
             'city' => ['required', 'string', 'max:255'],

@@ -75,6 +75,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * - is_active : un user ne doit pas pouvoir se reactiver apres desactivation
      * - account_status : statut (trial/paid/expired) controle par les flows
      * - trial_ends_at : extension du trial possible si fillable
+     * - flagged_for_review, flagged_reason, flagged_at : signalement anti-abus
+     *   (FEAT-138), posé par AbuseProtectionService, levé par l'administrateur
      *
      * Pour les modifier (admin/cron uniquement), utiliser forceFill() :
      *   $user->forceFill(['is_admin' => true])->save();
@@ -170,6 +172,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'is_active' => 'boolean',
             'is_admin' => 'boolean',
+            'flagged_for_review' => 'boolean',
+            'flagged_at' => 'datetime',
             'drip_unsubscribed' => 'boolean',
             'trial_ends_at' => 'datetime',
             'onboarding_completed_at' => 'datetime',

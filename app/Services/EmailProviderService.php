@@ -28,6 +28,45 @@ class EmailProviderService
     }
 
     /**
+     * Les envois de ce compte partent-ils de nos serveurs ?
+     *
+     * Seule source de vérité du choix : getMailerForUser() la consulte, et le
+     * plafond d'envois de l'essai (AbuseProtectionService, FEAT-138) aussi. Un
+     * compte qui a branché son propre fournisseur envoie sous sa réputation,
+     * pas sous la nôtre.
+     *
+     * ⚠️ Un nouveau fournisseur, ou une nouvelle condition de repli dans les
+     * create*Mailer(), s'ajoute ici : sinon le plafond ne verrait pas des
+     * envois qui passent pourtant par la plateforme.
+     */
+    public function usesPlatformMailer(User $user): bool
+    {
+        $settings = $user->emailSettings;
+
+        if (! $settings || $settings->provider === EmailSettings::PROVIDER_FAKTUR) {
+            return true;
+        }
+
+        // Plan sans la fonctionnalité (compte revenu en Gratuit après l'essai) :
+        // la configuration est conservée, mais les envois repassent par la
+        // plateforme jusqu'à un plan qui l'inclut.
+        if (! $this->customProviderAllowed($user)) {
+            return true;
+        }
+
+        // Configuration incomplète : les create*Mailer() se replient sur la
+        // plateforme, on le dit ici de la même façon.
+        $config = $settings->provider_config ?: [];
+
+        return match ($settings->provider) {
+            EmailSettings::PROVIDER_SMTP => empty($config),
+            EmailSettings::PROVIDER_BREVO, EmailSettings::PROVIDER_RESEND => empty($config['api_key']),
+            EmailSettings::PROVIDER_POSTMARK => empty($config['token']),
+            default => true,
+        };
+    }
+
+    /**
      * Get the mailer for a specific user.
      *
      * Type de retour volontairement le CONTRAT et non la classe concrète :
@@ -37,18 +76,11 @@ class EmailProviderService
      */
     public function getMailerForUser(User $user): MailerContract
     {
+        if ($this->usesPlatformMailer($user)) {
+            return Mail::mailer();
+        }
+
         $settings = $user->emailSettings;
-
-        if (! $settings || $settings->provider === EmailSettings::PROVIDER_FAKTUR) {
-            return Mail::mailer();
-        }
-
-        // Plan sans la fonctionnalité (compte revenu en Gratuit après l'essai) :
-        // la configuration est conservée, mais les envois repassent par la
-        // plateforme jusqu'à un plan qui l'inclut.
-        if (! $this->customProviderAllowed($user)) {
-            return Mail::mailer();
-        }
 
         return match ($settings->provider) {
             EmailSettings::PROVIDER_SMTP => $this->createSmtpMailer($settings),

@@ -77,6 +77,14 @@ return Application::configure(basePath: dirname(__DIR__))
             ->withoutOverlapping()
             ->onOneServer();
 
+        // Liste des domaines d'adresses jetables refusés à l'inscription
+        // (FEAT-138). Hebdomadaire : la liste communautaire bouge peu, et un
+        // échec garde la précédente.
+        $schedule->command('abuse:update-disposable-list')
+            ->weeklyOn(1, '04:30')
+            ->withoutOverlapping()
+            ->onOneServer();
+
         // Send drip campaign emails daily at 9:30 AM
         $schedule->command('drip:send')
             ->dailyAt('09:30')

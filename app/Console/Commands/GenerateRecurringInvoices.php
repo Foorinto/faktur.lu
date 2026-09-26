@@ -37,10 +37,24 @@ class GenerateRecurringInvoices extends Command
         $generated = 0;
         $errors = 0;
         $blocked = 0;
+        $inactive = 0;
 
         foreach ($recurringInvoices as $recurring) {
             try {
                 $owner = $recurring->user;
+
+                // Compte désactivé (fraude, FEAT-138) : rien n'est généré en son
+                // nom. En ligne de commande, le filtre par compte de
+                // BelongsToUser ne s'applique pas (pas de session) : la garde
+                // doit être explicite. La date n'avance pas, comme pour un
+                // report de quota : si le compte est réactivé, l'échéance reste.
+                if ($owner && $owner->is_active === false) {
+                    $inactive++;
+                    $this->line("Récurrence #{$recurring->id} ignorée : compte #{$owner->id} désactivé.");
+                    Log::info("Recurring invoice #{$recurring->id} skipped: owner #{$owner->id} is inactive");
+
+                    continue;
+                }
 
                 if ($owner && ! $plans->canCreateInvoice($owner)) {
                     $blocked++;
@@ -86,7 +100,7 @@ class GenerateRecurringInvoices extends Command
             }
         }
 
-        $this->info("Terminé : {$generated} factures générées, {$blocked} reportées (quota), {$errors} erreurs.");
+        $this->info("Terminé : {$generated} factures générées, {$blocked} reportées (quota), {$inactive} ignorées (compte désactivé), {$errors} erreurs.");
 
         return 0;
     }

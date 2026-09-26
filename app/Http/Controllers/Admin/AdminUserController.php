@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\AbuseProtectionService;
 use App\Services\AuditLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +46,8 @@ class AdminUserController extends Controller
                 'unverified' => $query->whereNull('email_verified_at'),
                 'with_2fa' => $query->whereNotNull('two_factor_confirmed_at'),
                 'inactive' => $query->where('is_active', false),
+                // Comptes signalés par les protections anti-abus (FEAT-138).
+                'flagged' => $query->where('flagged_for_review', true),
                 'deleted' => $query->onlyTrashed(),
                 default => null,
             };
@@ -99,7 +102,29 @@ class AdminUserController extends Controller
             'user' => $user,
             'stats' => $stats,
             'recentInvoices' => $recentInvoices,
+            'flagReason' => $user->flagged_for_review ? AbuseProtectionService::describeReason($user->flagged_reason) : null,
         ]);
+    }
+
+    /**
+     * Lève le signalement anti-abus (FEAT-138) d'un compte vérifié et
+     * légitime. La raison est effacée avec le drapeau ; la trace reste au
+     * journal d'audit.
+     */
+    public function clearFlag(User $user)
+    {
+        $raison = $user->flagged_reason;
+
+        // Champs hors $fillable -> forceFill obligatoire
+        $user->forceFill([
+            'flagged_for_review' => false,
+            'flagged_reason' => null,
+            'flagged_at' => null,
+        ])->save();
+
+        AuditLogger::log('admin.user.clear_flag', $user, ['flagged_reason' => $raison], ['flagged_for_review' => false]);
+
+        return back()->with('success', __('app.admin_users_flag_cleared'));
     }
 
     /**
