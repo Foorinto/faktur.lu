@@ -7,6 +7,7 @@ use App\Models\EmailSettings;
 use App\Models\Invoice;
 use App\Models\InvoiceEmail;
 use App\Models\User;
+use App\Services\AbuseProtectionService;
 use App\Services\EmailProviderService;
 use App\Services\PlanService;
 use Illuminate\Bus\Queueable;
@@ -27,9 +28,14 @@ class SendPaymentReminders implements ShouldQueue
     public function handle(EmailProviderService $emailProviderService, PlanService $plans): void
     {
         // Get all users with reminders enabled
+        //
+        // Un compte désactivé (fraude, FEAT-138) ne relance plus personne :
+        // la désactivation coupe la connexion, elle doit aussi couper les
+        // envois partis de nos serveurs en son nom.
         $users = User::whereHas('emailSettings', function ($query) {
             $query->where('reminders_enabled', true);
-        })->get();
+        })->where(fn ($query) => $query->where('is_active', true)->orWhereNull('is_active'))
+            ->get();
 
         foreach ($users as $user) {
             // Les relances automatiques sont une fonctionnalité Pro : le réglage
@@ -115,6 +121,15 @@ class SendPaymentReminders implements ShouldQueue
             ->exists();
 
         if ($alreadySent) {
+            return;
+        }
+
+        // Plafond d'envois de l'essai (FEAT-138) : une relance automatique est
+        // un document parti de nos serveurs, comme un envoi à la main. La
+        // relance n'est pas marquée envoyée : elle partira un autre jour.
+        if (! app(AbuseProtectionService::class)->canSendDocumentEmail($user)) {
+            Log::info("Relance de la facture {$invoice->id} reportée : plafond d'envois de l'essai atteint (compte #{$user->id}).");
+
             return;
         }
 

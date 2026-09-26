@@ -100,7 +100,7 @@ class EmailVerificationTest extends TestCase
 
         $response = $this->post('/register', [
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'test@exemple.lu',
             'password' => 'Fakt#2026!Secur',
             'password_confirmation' => 'Fakt#2026!Secur',
             'terms' => true,
@@ -109,7 +109,7 @@ class EmailVerificationTest extends TestCase
             'form_loaded_at' => now()->subSeconds(10)->timestamp,
         ]);
 
-        $user = User::where('email', 'test@example.com')->first();
+        $user = User::where('email', 'test@exemple.lu')->first();
 
         Notification::assertSentTo($user, VerifyEmailNotification::class);
     }

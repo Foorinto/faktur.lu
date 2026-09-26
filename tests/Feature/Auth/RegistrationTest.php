@@ -23,7 +23,7 @@ class RegistrationTest extends TestCase
     {
         return array_merge([
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'test@exemple.lu',
             'password' => self::PASSWORD,
             'password_confirmation' => self::PASSWORD,
             'terms' => true, // acceptation des CGU, obligatoire
@@ -46,7 +46,7 @@ class RegistrationTest extends TestCase
         // L'inscription passe par une page de remerciement, pas directement
         // par le tableau de bord.
         $response->assertRedirect(route('register.thank-you', absolute: false));
-        $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
+        $this->assertDatabaseHas('users', ['email' => 'test@exemple.lu']);
     }
 
     public function test_a_filled_honeypot_field_blocks_the_registration(): void
@@ -54,7 +54,7 @@ class RegistrationTest extends TestCase
         $this->post('/register', $this->payload(['homepage_url' => 'http://spam.example']));
 
         $this->assertGuest();
-        $this->assertDatabaseMissing('users', ['email' => 'test@example.com']);
+        $this->assertDatabaseMissing('users', ['email' => 'test@exemple.lu']);
     }
 
     public function test_an_instant_submission_blocks_the_registration(): void
@@ -63,7 +63,7 @@ class RegistrationTest extends TestCase
         $this->post('/register', $this->payload(['form_loaded_at' => now()->timestamp]));
 
         $this->assertGuest();
-        $this->assertDatabaseMissing('users', ['email' => 'test@example.com']);
+        $this->assertDatabaseMissing('users', ['email' => 'test@exemple.lu']);
     }
 
     public function test_a_weak_password_is_rejected(): void

@@ -27,6 +27,7 @@ class AdminDashboardController extends Controller
             'revenueChart' => $this->statsService->getRevenueChart(12),
             'recentUsers' => $this->statsService->getRecentUsers(5),
             'topUsers' => $this->statsService->getTopUsers(5),
+            'abuseStats' => $this->statsService->getAbuseStats(),
         ]);
     }
 }

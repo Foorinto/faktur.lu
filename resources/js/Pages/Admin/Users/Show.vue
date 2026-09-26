@@ -5,11 +5,16 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { useTranslations } from '@/Composables/useTranslations';
+
+const { t } = useTranslations();
 
 const props = defineProps({
     user: Object,
     stats: Object,
     recentInvoices: Array,
+    // Raison lisible du signalement anti-abus (FEAT-138), null si non signalé.
+    flagReason: { type: String, default: null },
 });
 
 const processing = ref(false);
@@ -158,11 +163,21 @@ const getStatusBadge = (status) => {
                             Compte désactivé
                         </span>
                         <span
+                            v-if="user.flagged_for_review"
+                            class="inline-flex rounded-full bg-orange-500/20 px-3 py-1 text-sm font-medium text-orange-300"
+                        >
+                            {{ t('admin_users_badge_flagged') }}
+                        </span>
+                        <span
                             v-if="user.deleted_at"
                             class="inline-flex rounded-full bg-slate-500/20 px-3 py-1 text-sm font-medium text-slate-400"
                         >
                             Supprimé le {{ formatDate(user.deleted_at) }}
                         </span>
+                    </div>
+                    <div v-if="user.flagged_for_review" class="mt-4 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3 text-sm text-orange-200">
+                        <p><span class="font-semibold">{{ t('admin_users_flag_reason') }} :</span> {{ flagReason }}</p>
+                        <p v-if="user.flagged_at" class="mt-1 text-orange-300/80">{{ formatDate(user.flagged_at) }}</p>
                     </div>
                 </div>
 
@@ -358,6 +373,16 @@ const getStatusBadge = (status) => {
                                     </SecondaryButton>
                                 </div>
                             </div>
+
+                            <!-- Signalement anti-abus (FEAT-138) -->
+                            <SecondaryButton
+                                v-if="user.flagged_for_review"
+                                class="w-full justify-center"
+                                :disabled="processing"
+                                @click="executeAction('clear-flag', 'admin.users.clear-flag')"
+                            >
+                                {{ t('admin_users_clear_flag') }}
+                            </SecondaryButton>
 
                             <!-- Toggle active -->
                             <DangerButton

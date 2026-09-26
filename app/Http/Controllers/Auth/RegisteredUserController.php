@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\NewUserRegisteredNotification;
 use App\Models\User;
+use App\Rules\NotDisposableEmail;
+use App\Services\AbuseProtectionService;
 use Illuminate\Auth\Events\Registered;
 use App\Support\UserError;
 use Illuminate\Http\RedirectResponse;
@@ -31,11 +33,13 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, AbuseProtectionService $protection): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            // Adresses jetables refusées (FEAT-138) : le honeypot et le
+            // throttle:register restent posés sur la route.
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class, new NotDisposableEmail],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'terms' => 'required|accepted',
             'dpa' => 'required|accepted',
@@ -69,6 +73,11 @@ class RegisteredUserController extends Controller
             'dpa_version' => \App\Support\DpaDocument::VERSION,
             'dpa_acceptance_method' => 'explicit',
         ])->save();
+
+        // Un nom qui imite une marque (« Vinted Support ») ne bloque pas
+        // l'inscription : le compte est signalé, et la notification ci-dessous
+        // le dit à l'administrateur (FEAT-138). Rien n'est dit au compte.
+        $protection->flagIfBrandName($user);
 
         /*
          * Un envoi qui échoue ne doit pas faire échouer l'inscription.

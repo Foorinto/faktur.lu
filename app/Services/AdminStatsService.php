@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AbuseEvent;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Client;
@@ -180,5 +181,53 @@ class AdminStatsService
             ->take($limit)
             ->get()
             ->toArray();
+    }
+
+    /**
+     * Protections anti-abus (FEAT-138) : tentatives et signalements sur 24
+     * heures, 7 et 30 jours, par type ; domaines refusés les plus tentés ;
+     * comptes en attente de vérification.
+     *
+     * Une seule requête groupée pour les compteurs : la table ne garde que
+     * 90 jours, elle reste petite.
+     */
+    public function getAbuseStats(): array
+    {
+        $maintenant = now();
+        $lignes = AbuseEvent::query()
+            ->where('created_at', '>=', $maintenant->copy()->subDays(30))
+            ->selectRaw(
+                'type, SUM(CASE WHEN created_at >= ? THEN 1 ELSE 0 END) as h24, SUM(CASE WHEN created_at >= ? THEN 1 ELSE 0 END) as j7, COUNT(*) as j30',
+                [$maintenant->copy()->subDay(), $maintenant->copy()->subDays(7)]
+            )
+            ->groupBy('type')
+            ->get()
+            ->keyBy('type');
+
+        $parType = array_map(fn (string $type) => [
+            'type' => $type,
+            'h24' => (int) ($lignes[$type]->h24 ?? 0),
+            'j7' => (int) ($lignes[$type]->j7 ?? 0),
+            'j30' => (int) ($lignes[$type]->j30 ?? 0),
+        ], AbuseEvent::TYPES);
+
+        $domaines = AbuseEvent::query()
+            ->whereIn('type', [AbuseEvent::TYPE_DISPOSABLE_EMAIL, AbuseEvent::TYPE_RESERVED_DOMAIN])
+            ->where('created_at', '>=', $maintenant->copy()->subDays(30))
+            ->whereNotNull('detail')
+            ->selectRaw('detail, COUNT(*) as total')
+            ->groupBy('detail')
+            ->orderByDesc('total')
+            ->orderBy('detail')
+            ->limit(5)
+            ->get()
+            ->map(fn ($ligne) => ['domaine' => $ligne->detail, 'total' => (int) $ligne->total])
+            ->all();
+
+        return [
+            'par_type' => $parType,
+            'domaines' => $domaines,
+            'comptes_a_verifier' => User::where('flagged_for_review', true)->count(),
+        ];
     }
 }

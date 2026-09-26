@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\User;
+use App\Rules\NoBrandName;
 use App\Rules\SalesVatRateAllowed;
 use App\Services\DocumentNumberFormatter;
 use Illuminate\Http\Request;
@@ -71,7 +72,9 @@ class OnboardingController extends Controller
             && (config('countries.'.$request->input('country_code', 'LU').'.fiscal_identifiers.has_establishment_authorization') ?? false);
 
         $data = $request->validate([
-            'company_name' => 'required|string|max:255',
+            // Premier endroit où le nom de l'entreprise est écrit : même
+            // refus des marques imitées que dans les réglages (FEAT-138).
+            'company_name' => ['required', 'string', 'max:255', new NoBrandName($request->user()->businessSettings?->company_name, $request->user())],
             'vat_number' => 'nullable|string|max:50',
             'matricule' => 'nullable|string|max:50',
             'iban' => 'nullable|string|max:50',

@@ -39,6 +39,7 @@ class TenantScopeCoverageTest extends TestCase
     private const EXCEPTIONS = [
         \App\Models\AuditLog::class => "Journal d'audit : l'administration doit pouvoir le lire pour tous les comptes, c'est sa raison d'être.",
         \App\Models\RequestMetric::class => 'Télémétrie technique, agrégée côté administration et jamais exposée à un utilisateur.',
+        \App\Models\AbuseEvent::class => 'Journal anti-abus (FEAT-138), compté par le tableau de bord d\'administration pour tous les comptes ; aucun écran utilisateur. Filtré par compte, il fausserait les compteurs.',
         \App\Models\SupportTicket::class => 'Le support doit lire les tickets de tous les comptes pour y répondre.',
         \App\Models\SatisfactionSurvey::class => 'Réponses agrégées côté administration ; aucun écran utilisateur ne les liste.',
         \App\Models\DripEmail::class => "Séquence d'emails pilotée par le système, hors session authentifiée.",

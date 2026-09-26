@@ -7,6 +7,7 @@ use App\Mail\ReminderMail;
 use App\Models\EmailSettings;
 use App\Models\Invoice;
 use App\Models\InvoiceEmail;
+use App\Services\AbuseProtectionService;
 use App\Services\EmailProviderService;
 use App\Traits\Auditable;
 use Illuminate\Http\Request;
@@ -16,8 +17,27 @@ use Inertia\Inertia;
 class InvoiceEmailController extends Controller
 {
     public function __construct(
-        protected EmailProviderService $emailProviderService
+        protected EmailProviderService $emailProviderService,
+        protected AbuseProtectionService $abuseProtection,
     ) {}
+
+    /**
+     * Plafond d'envois de l'essai par nos serveurs (FEAT-138). Le message part
+     * en erreur de formulaire, comme un échec d'envoi : la fenêtre reste
+     * ouverte avec ce qui a été saisi, et le message s'affiche en bandeau.
+     */
+    private function refusIfTrialQuotaReached(Request $request): ?\Illuminate\Http\RedirectResponse
+    {
+        if ($this->abuseProtection->canSendDocumentEmail($request->user())) {
+            return null;
+        }
+
+        $this->abuseProtection->record(\App\Models\AbuseEvent::TYPE_TRIAL_QUOTA_REACHED, null, $request->user());
+
+        return back()->withErrors(['email' => __('app.trial_email_quota_reached', [
+            'limit' => config('abuse.trial_daily_document_emails'),
+        ])]);
+    }
     /**
      * Send an invoice by email.
      */
@@ -39,6 +59,10 @@ class InvoiceEmailController extends Controller
             'message' => 'nullable|string|max:5000',
             'send_copy_to_self' => 'boolean',
         ]);
+
+        if ($refus = $this->refusIfTrialQuotaReached($request)) {
+            return $refus;
+        }
 
         $recipientEmail = $validated['recipient_email'];
         $subject = $validated['subject'];
@@ -94,6 +118,8 @@ class InvoiceEmailController extends Controller
                     'type' => $type,
                 ]);
             }
+
+            $this->abuseProtection->notifyFlaggedAccountFirstEmail($request->user(), $invoice, $recipientEmail);
 
             return back()->with('success', __('app.invoice_email_flash.sent'));
         } catch (\Exception $e) {
@@ -202,6 +228,10 @@ class InvoiceEmailController extends Controller
             'message' => 'required|string|max:5000',
         ]);
 
+        if ($refus = $this->refusIfTrialQuotaReached($request)) {
+            return $refus;
+        }
+
         $level = $validated['level'];
         $recipientEmail = $validated['recipient_email'];
         $subject = $validated['subject'];
@@ -243,6 +273,8 @@ class InvoiceEmailController extends Controller
                     'level' => $level,
                 ]);
             }
+
+            $this->abuseProtection->notifyFlaggedAccountFirstEmail($request->user(), $invoice, $recipientEmail);
 
             return back()->with('success', __('app.invoice_email_flash.reminder_sent'));
         } catch (\Exception $e) {

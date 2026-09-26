@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 
 const props = defineProps({
@@ -11,7 +11,18 @@ const props = defineProps({
     recentUsers: Array,
     sectorStats: Object,
     topUsers: Array,
+    // Protections anti-abus (FEAT-138).
+    abuseStats: Object,
 });
+
+// Libellés des événements anti-abus, dans l'ordre fourni par le serveur.
+const abuseLabels = {
+    disposable_email: 'Adresses jetables refusées',
+    reserved_domain: 'Domaines réservés refusés',
+    brand_name_flagged: 'Inscriptions signalées (nom de marque)',
+    company_name_refused: "Noms d'entreprise refusés",
+    trial_quota_reached: "Plafond d'envois de l'essai atteint",
+};
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -148,6 +159,55 @@ const formatDate = (date) => {
             <p v-else class="mt-4 text-sm text-slate-500">
                 Aucune réponse pour l'instant. Les comptes créés avant août 2026 n'ont jamais vu la question.
             </p>
+        </div>
+
+        <!-- Protections anti-abus (FEAT-138) : tentatives refusées et comptes
+             signalés, pour voir venir une vague d'inscriptions frauduleuses. -->
+        <div class="mb-6 rounded-2xl border border-gray-700 bg-gray-800 p-6">
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 class="text-lg font-semibold text-white">Protections anti-abus</h2>
+                <Link
+                    :href="route('admin.users.index', { status: 'flagged' })"
+                    class="text-sm font-medium text-orange-300 hover:text-orange-200"
+                >
+                    {{ abuseStats?.comptes_a_verifier ?? 0 }} compte(s) à vérifier
+                </Link>
+            </div>
+
+            <div class="mt-4 overflow-x-auto">
+                <table class="w-full min-w-[28rem] text-sm">
+                    <thead>
+                        <tr class="text-left text-xs uppercase tracking-wider text-slate-400">
+                            <th class="py-2 pr-4 font-medium">Événement</th>
+                            <th class="py-2 pl-4 text-right font-medium">24 h</th>
+                            <th class="py-2 pl-4 text-right font-medium">7 jours</th>
+                            <th class="py-2 pl-4 text-right font-medium">30 jours</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        <tr v-for="ligne in abuseStats?.par_type ?? []" :key="ligne.type">
+                            <td class="py-2 pr-4 text-slate-300">{{ abuseLabels[ligne.type] ?? ligne.type }}</td>
+                            <td class="py-2 pl-4 text-right font-medium tabular-nums" :class="ligne.h24 ? 'text-orange-300' : 'text-slate-500'">{{ ligne.h24 }}</td>
+                            <td class="py-2 pl-4 text-right tabular-nums text-white">{{ ligne.j7 }}</td>
+                            <td class="py-2 pl-4 text-right tabular-nums text-white">{{ ligne.j30 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <h3 class="text-sm font-medium text-slate-300">Domaines refusés les plus tentés (30 jours)</h3>
+                <ul v-if="abuseStats?.domaines?.length" class="mt-2 flex flex-wrap gap-2">
+                    <li
+                        v-for="ligne in abuseStats.domaines"
+                        :key="ligne.domaine"
+                        class="rounded-full bg-gray-700 px-3 py-1 text-xs text-slate-200"
+                    >
+                        {{ ligne.domaine }} <span class="tabular-nums text-slate-400">· {{ ligne.total }}</span>
+                    </li>
+                </ul>
+                <p v-else class="mt-2 text-sm text-slate-500">Aucune tentative refusée ces 30 derniers jours.</p>
+            </div>
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
