@@ -307,12 +307,12 @@ onUnmounted(() => {
                             metrics.alerts?.disk_usage === 'critical' ? 'text-red-400' :
                             metrics.alerts?.disk_usage === 'warning' ? 'text-yellow-400' : 'text-white'
                         ]">
-                            {{ metrics.system?.disk_used_percent }}%
+                            {{ metrics.system?.disk_used_percent ?? 'n/d' }}{{ metrics.system?.disk_used_percent != null ? '%' : '' }}
                         </dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-slate-400">Espace libre</dt>
-                        <dd class="text-white font-mono">{{ metrics.system?.disk_free_gb }} GB</dd>
+                        <dd class="text-white font-mono">{{ metrics.system?.disk_free_gb != null ? metrics.system.disk_free_gb + ' GB' : 'n/d' }}</dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-slate-400">Stockage app</dt>

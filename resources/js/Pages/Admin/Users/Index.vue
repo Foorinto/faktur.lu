@@ -156,8 +156,8 @@ const getSortIcon = (field) => {
                             <td class="whitespace-nowrap px-6 py-4">
                                 <div>
                                     <div class="font-medium text-white">{{ user.name }}</div>
-                                    <div v-if="user.company_name" class="text-sm text-slate-400">
-                                        {{ user.company_name }}
+                                    <div v-if="user.business_settings?.company_name" class="text-sm text-slate-400">
+                                        {{ user.business_settings.company_name }}
                                     </div>
                                 </div>
                             </td>

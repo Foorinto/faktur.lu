@@ -24,7 +24,6 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -619,7 +618,10 @@ class AbuseProtectionTest extends TestCase
 
     public function test_un_journal_indisponible_ne_bloque_pas_l_inscription(): void
     {
-        Schema::drop('abuse_events');
+        // Panne simulée sans toucher au schéma : supprimer la table validerait
+        // la transaction du test sous MySQL et laisserait des données aux
+        // tests suivants.
+        AbuseEvent::creating(fn () => throw new \RuntimeException('journal indisponible'));
 
         $this->post('/register', $this->inscription(['email' => 'arnaque@mailinator.com']))
             ->assertSessionHasErrors(['email' => __('app.validation_disposable_email')]);

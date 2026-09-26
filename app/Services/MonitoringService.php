@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AuditLog;
 use App\Models\Invoice;
 use App\Models\RequestMetric;
 use App\Models\User;
@@ -209,15 +210,59 @@ class MonitoringService
     {
         $storagePath = storage_path();
 
+        $disque = $this->diskSpace();
+
         return [
-            'disk_total_gb' => round(disk_total_space('/') / 1024 / 1024 / 1024, 2),
-            'disk_free_gb' => round(disk_free_space('/') / 1024 / 1024 / 1024, 2),
-            'disk_used_percent' => round((1 - disk_free_space('/') / disk_total_space('/')) * 100, 1),
+            'disk_total_gb' => $disque ? round($disque['total'] / 1024 / 1024 / 1024, 2) : null,
+            'disk_free_gb' => $disque ? round($disque['free'] / 1024 / 1024 / 1024, 2) : null,
+            'disk_used_percent' => $disque ? round($disque['used_percent'], 1) : null,
             'storage_size_mb' => round($this->getDirectorySize($storagePath) / 1024 / 1024, 2),
             'php_version' => PHP_VERSION,
             'php_memory_limit' => ini_get('memory_limit'),
             'laravel_version' => app()->version(),
         ];
+    }
+
+    /**
+     * Espace disque de la partition qui porte l'application, ou null s'il
+     * n'est pas lisible.
+     *
+     * ⚠️ Pas la racine « / » : sur l'hébergement mutualisé, open_basedir en
+     * interdit la lecture, l'avertissement devient une exception et la page
+     * entière tombe. Le dossier de l'application est toujours lisible.
+     *
+     * @return array{total: float, free: float, used_percent: float}|null
+     */
+    protected function diskSpace(): ?array
+    {
+        $total = @disk_total_space(base_path());
+        $libre = @disk_free_space(base_path());
+
+        if (! is_float($total) || ! is_float($libre) || $total <= 0) {
+            return null;
+        }
+
+        return ['total' => $total, 'free' => $libre, 'used_percent' => (1 - $libre / $total) * 100];
+    }
+
+    /**
+     * Comptes qui se sont connectés depuis une date, d'après le journal
+     * d'audit (une ligne `auth.login` par connexion).
+     *
+     * ⚠️ La table users n'a pas de colonne de dernière activité. La requête
+     * d'origine (FEAT-041) en lisait une qui n'a jamais existé : SQLite, en
+     * local et en test, prend un nom inconnu pour du texte et ne dit rien ;
+     * MySQL refuse la requête, et la page de monitoring tombait en
+     * production (26/09/2026).
+     */
+    protected function usersLoggedInSince(Carbon $depuis): int
+    {
+        return (int) DB::table('audit_logs')
+            ->where('action', AuditLog::ACTION_LOGIN)
+            ->where('created_at', '>=', $depuis)
+            ->whereNotNull('user_id')
+            ->distinct()
+            ->count('user_id');
     }
 
     protected function getDirectorySize(string $path): int
@@ -253,9 +298,9 @@ class MonitoringService
 
         return [
             'users_total' => User::count(),
-            'users_active_24h' => User::where('last_activity_at', '>=', now()->subDay())->count(),
-            'users_active_7d' => User::where('last_activity_at', '>=', now()->subWeek())->count(),
-            'users_active_30d' => User::where('last_activity_at', '>=', now()->subMonth())->count(),
+            'users_active_24h' => $this->usersLoggedInSince(now()->subDay()),
+            'users_active_7d' => $this->usersLoggedInSince(now()->subWeek()),
+            'users_active_30d' => $this->usersLoggedInSince(now()->subMonth()),
             'invoices_today' => Invoice::whereDate('created_at', today())->count(),
             'invoices_week' => Invoice::where('created_at', '>=', now()->subWeek())->count(),
             'invoices_month' => Invoice::where('created_at', '>=', now()->subMonth())->count(),
@@ -283,9 +328,12 @@ class MonitoringService
         $avgMemory = RequestMetric::since($since)->avg('memory_usage_mb') ?? 0;
         $alerts['memory'] = $this->getAlertLevel($avgMemory, $thresholds['memory']);
 
-        // Disk usage alert
-        $diskUsed = (1 - disk_free_space('/') / disk_total_space('/')) * 100;
-        $alerts['disk_usage'] = $this->getAlertLevel($diskUsed, $thresholds['disk_usage']);
+        // Disk usage alert (absente si l'espace disque n'est pas lisible)
+        $disque = $this->diskSpace();
+
+        if ($disque !== null) {
+            $alerts['disk_usage'] = $this->getAlertLevel($disque['used_percent'], $thresholds['disk_usage']);
+        }
 
         // Failed jobs alert
         try {
